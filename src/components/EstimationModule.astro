@@ -2344,6 +2344,7 @@
                     updateVal: (id: string, val: string) => void;
                     updateQty: (id: string, change: number) => void;
                     removeItem: (id: string) => void;
+                    renderSummaryPage: () => void;
                     updateRugCount: (id: string, val: string) => void;
                     updateRugDim: (
                         id: string,
@@ -5060,7 +5061,7 @@
                     renderDetails();
                 } else if (STATE.step === 2) {
                     STATE.step = 3;
-                    renderSummaryPage();
+                    window.renderSummaryPage();
                 } else if (STATE.step === 3) {
                     STATE.step = 4;
                 } else if (STATE.step === 4) {
@@ -5074,27 +5075,7 @@
                 updateUI("next");
             }
 
-            function renderSummaryPage() {
-                // Collect detailed items (Reuse logic from calculateTotal which pushes to cartItems, but we need granular list)
-                // Actually, let's call calculateTotal to refresh and populate cartItems,
-                // BUT verify calculateTotal logic populates a global or returned list we can use?
-                // calculateTotal calls renderSidebarCart.
-                // We can replicate the cart gathering logic here OR modify calculateTotal to return the list.
-                // For safety, let's re-gather here using the exact same logic but creating detail rows.
-
-                // BETTER: reuse the `cartItems` array that calculateTotal usually builds.
-                // But calculateTotal scope is local.
-                // I will Create a global STATE.cartItemsCache to store it in calculateTotal.
-                // See modification in calculateTotal below.
-
-                // Assume STATE.lastCartItems exists (I need to add it to AppState).
-                const container = document.getElementById("summary-container");
-                const mobileContainer = document.getElementById(
-                    "mobile-summary-container",
-                );
-
-                if (!container && !mobileContainer) return;
-
+            window.renderSummaryPage = function() {
                 // Re-run calc to ensure freshness
                 calculateTotal();
 
@@ -5116,7 +5097,7 @@
                 <div style="text-align:right; margin-right:15px;">
                      <div style="font-weight:bold;">${item.price.toFixed(2)}$</div>
                 </div>
-                <button onclick="removeItem('${item.rawId}'); renderSummaryPage();" 
+                <button onclick="removeItem('${item.rawId}'); window.renderSummaryPage();" 
                     style="color:red; border:1px solid #ffcdd2; background:white; border-radius:4px; padding:4px 8px; cursor:pointer;"
                     title="${t(CONFIG.text.buttons.remove)}">
                     ✕
@@ -5126,15 +5107,33 @@
                     })
                     .join("");
 
-                if (list.length === 0) {
-                    const emptyMsg = `<div style="text-align:center; padding:20px; color:#777;">${t(CONFIG.text.cartEmpty)}</div>`;
-                    if (container) container.innerHTML = emptyMsg;
-                    if (mobileContainer) mobileContainer.innerHTML = emptyMsg;
-                } else {
-                    if (container) container.innerHTML = html;
-                    if (mobileContainer) mobileContainer.innerHTML = html;
+                const container = document.getElementById("summary-container");
+                if (container) {
+                     if (list.length === 0) {
+                        container.innerHTML = `<div style="text-align:center; padding:20px; color:#777;">${t(CONFIG.text.cartEmpty)}</div>`;
+                     } else {
+                        container.innerHTML = html;
+                     }
                 }
-            }
+
+                const mobileContainer = document.getElementById("mobile-summary-container");
+                if (mobileContainer) {
+                    let mobileHtml = html;
+                    if (list.length === 0) {
+                        mobileHtml = `<div style="text-align:center; padding:20px; color:#777;">${t(CONFIG.text.cartEmpty)}</div>`;
+                    }
+                    
+                    // ADD BACK BUTTON FOR MOBILE
+                    mobileHtml += `
+                        <div style="margin-top:20px; text-align:center;">
+                            <button onclick="window.toggleMobileStep(2)" class="btn-mobile-secondary" style="width:100%; border:1px solid #ddd; background:#f5f5f5; color:#333;">
+                                &larr; ${t({fr: "Retour aux détails", en: "Back to Details"})}
+                            </button>
+                        </div>
+                    `;
+                    mobileContainer.innerHTML = mobileHtml;
+                }
+            };
 
             function prevStep() {
                 STATE.step--;
@@ -5393,7 +5392,7 @@
                     window.toggleMobileStep = function (targetStep: number) {
                         STATE.step = targetStep;
                         if (STATE.step === 2) renderMobileDetails();
-                        if (STATE.step === 3) renderSummaryPage();
+                        if (STATE.step === 3) window.renderSummaryPage();
                         updateUI("next");
                         
                         // CRITICAL: Hide footer on step 4 (Contact Form)
