@@ -5123,14 +5123,6 @@
                         mobileHtml = `<div style="text-align:center; padding:20px; color:#777;">${t(CONFIG.text.cartEmpty)}</div>`;
                     }
                     
-                    // ADD BACK BUTTON FOR MOBILE
-                    mobileHtml += `
-                        <div style="margin-top:20px; text-align:center;">
-                            <button onclick="window.toggleMobileStep(2)" class="btn-mobile-secondary" style="width:100%; border:1px solid #ddd; background:#f5f5f5; color:#333;">
-                                &larr; ${t({fr: "Retour aux détails", en: "Back to Details"})}
-                            </button>
-                        </div>
-                    `;
                     mobileContainer.innerHTML = mobileHtml;
                 }
             };
@@ -5423,6 +5415,21 @@
                             else if (STATE.step === 3)
                                 window.toggleMobileStep(4);
                         };
+                    }
+
+                    // Mobile Back Buttons Logic
+                    const btnBackDetails = document.getElementById("mobile-back-btn");
+                    const btnBackReview = document.getElementById("mobile-back-btn-review");
+                    const btnBackContact = document.getElementById("mobile-back-btn-contact");
+
+                    if (btnBackDetails) {
+                        btnBackDetails.onclick = () => window.toggleMobileStep(1);
+                    }
+                    if (btnBackReview) {
+                        btnBackReview.onclick = () => window.toggleMobileStep(2);
+                    }
+                    if (btnBackContact) {
+                        btnBackContact.onclick = () => window.toggleMobileStep(3);
                     }
 
                     // Mobile Delivery Toggle Logic
