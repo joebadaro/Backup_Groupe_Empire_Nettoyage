@@ -3242,23 +3242,41 @@
                 );
                 if (!container) return;
                 container.innerHTML = "";
+                
+                // GRID LAYOUT STYLE
+                container.style.display = "grid";
+                container.style.gridTemplateColumns = "1fr 1fr";
+                container.style.gap = "12px";
+                container.style.padding = "10px";
 
                 CONFIG.services.forEach((service) => {
                     const isSelected = STATE.selectedServices.has(service.id);
                     const item = document.createElement("div");
-                    item.className = `mobile-service-item ${isSelected ? "selected" : ""}`;
+                    
+                    // Compact Card Style
+                    item.style.display = "flex";
+                    item.style.flexDirection = "column";
+                    item.style.alignItems = "center";
+                    item.style.justifyContent = "center";
+                    item.style.padding = "15px 10px";
+                    item.style.borderRadius = "12px";
+                    item.style.cursor = "pointer";
+                    item.style.transition = "all 0.2s ease";
+                    item.style.border = isSelected ? "2px solid #007bff" : "1px solid #eee";
+                    item.style.backgroundColor = isSelected ? "#e3f2fd" : "white";
+                    item.style.boxShadow = isSelected ? "0 4px 12px rgba(0,123,255,0.2)" : "0 2px 5px rgba(0,0,0,0.05)";
+                    
                     item.onclick = () =>
                         toggleService(service.id, item as HTMLElement);
 
-                    const checkMark = isSelected ? "✓" : "";
-
+                    // Scale icon
+                    const iconStyle = "font-size: 2rem; margin-bottom: 8px;";
+                    // Ensure icon string has style, or we wrap it
+                    // Service.icon is a string like "🛋️" or "<svg...>"
+                    
                     item.innerHTML = `
-                <div class="mobile-service-icon">${service.icon}</div>
-                <div class="mobile-service-info">
-                    <div class="mobile-service-title">${t(service.label)}</div>
-                    <div class="mobile-service-desc">${t(service.note) || ""}</div>
-                </div>
-                <div class="mobile-check-indicator">${checkMark}</div>
+                <div style="${iconStyle}">${service.icon}</div>
+                <div style="font-weight:600; font-size:0.9rem; text-align:center; color:${isSelected ? '#0056b3' : '#333'}; line-height:1.2;">${t(service.label)}</div>
             `;
                     container.appendChild(item);
                 });
@@ -4917,15 +4935,15 @@
                         : null;
                     if (labelEl) {
                         if (isUnderMin && realTotal > 0) {
-                            labelEl.innerHTML = `TOTAL <span style="font-size:0.65rem; color:#b71c1c;">(MIN. COMMANDE)</span>`;
+                            labelEl.innerHTML = `TOTAL <span style="font-size:0.65rem; color:#b71c1c;">(${t({fr: "MIN. COMMANDE", en: "MIN. ORDER"})})</span>`;
                             // Show real subtotal below
                             mobileTotalEl.innerHTML += `<div style="font-size:0.75rem; color:#666; font-weight:normal; margin-top:2px;">Articles: ${realTotal.toFixed(2)}$</div>`;
                         } else if (isTileUnderMin && !isUnderMin) {
                             // Tile-specific minimum
-                            labelEl.textContent = "TOTAL ESTIMÉ";
+                            labelEl.textContent = t({ fr: "TOTAL ESTIMÉ", en: "ESTIMATED TOTAL" });
                             mobileTotalEl.innerHTML += `<div style="font-size:0.7rem; color:#b71c1c; font-weight:600; margin-top:4px; line-height:1.3;">${t({ fr: "Min. 150 pieds carrés ou 352$ pour ce service", en: "Min. 150 sqft or $352 for this service" })}</div>`;
                         } else {
-                            labelEl.textContent = "TOTAL ESTIMÉ";
+                            labelEl.textContent = t({ fr: "TOTAL ESTIMÉ", en: "ESTIMATED TOTAL" });
                         }
                     }
 
