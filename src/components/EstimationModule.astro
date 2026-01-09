@@ -3674,6 +3674,19 @@
                              </div>
                          `;
                                 card.appendChild(row);
+                            } else if (item.type === "input_number") {
+                                const row = document.createElement("div");
+                                row.className = "mobile-item-row";
+                                const val = STATE.quantities[item.id] || "";
+                                row.innerHTML = `
+                                    <div class="mobile-item-title">${t(item.label)}</div>
+                                    <div class="mobile-item-desc">${t(item.desc)}</div>
+                                    <div style="margin-top:10px;">
+                                        <input type="number" value="${val}" placeholder="0" onchange="updateVal('${item.id}', this.value)" 
+                                            class="mobile-input" style="width:100%; text-align:center; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:16px;">
+                                    </div>
+                                `;
+                                card.appendChild(row);
                             } else if (item.type === "sectional_variable") {
                                 // --- DROPDOWN FOR SECTIONALS (UNIFIED WITH DESKTOP LOGIC) ---
                                 const row = document.createElement("div");
@@ -4685,20 +4698,21 @@
                 }
 
                 // 6. Commercial Carpet (Quote Mode)
-                // Check for 'comm_sqft'
-                const commSqftQty =
-                    (STATE.quantities["comm_sqft"] as number) || 0;
-                if (commSqftQty > 0) {
-                    cartItems.push({
-                        rawId: "tapis_commercial",
-                        label: `${t({ fr: "Nettoyage Commercial", en: "Commercial Cleaning" })} (${commSqftQty} pi²)`,
-                        price: 0,
-                        isQuoteOnly: true,
-                        savings: 0,
-                    });
-                    // We do NOT add to subtotal.
-                    // We set a flag or just handle 'isQuoteOnly' in UI
-                }
+                const commIds = ["comm_sqft", "comm_rooms", "comm_stairs"];
+                commIds.forEach(id => {
+                    const val = (STATE.quantities[id] as number) || 0;
+                    if (val > 0) {
+                         const itemLabel = t(getItemLabel(id));
+                         cartItems.push({
+                            rawId: id,
+                            label: `${itemLabel}: ${val}`,
+                            price: 0,
+                            isQuoteOnly: true,
+                            savings: 0,
+                        });
+                    }
+                });
+                // Note: hasQuoteItem logic below needs to check these too.
 
                 // --- CONSOLIDATION LOGIC START ---
                 // Group items by rawId to "save space" as requested.
@@ -4825,7 +4839,9 @@
 
                 const realTotal = finalTotal;
                 const commSqft = (STATE.quantities["comm_sqft"] as number) || 0;
-                const hasQuoteItem = commSqft > 0;
+                const commRooms = (STATE.quantities["comm_rooms"] as number) || 0;
+                const commStairs = (STATE.quantities["comm_stairs"] as number) || 0;
+                const hasQuoteItem = commSqft > 0 || commRooms > 0 || commStairs > 0;
 
                 const isUnderMin =
                     !hasQuoteItem &&
