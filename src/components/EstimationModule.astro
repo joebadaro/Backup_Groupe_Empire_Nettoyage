@@ -3,6 +3,16 @@
 ---
 
 <!-- Main Container (Overlay) -->
+<!-- Mobile Bottom Bar (Sticky) - Moved to Root to avoid Transform issues -->
+<footer id="mobile-sticky-footer" class="mobile-app-footer-fixed mobile-footer-hidden">
+    <div class="mobile-footer-total">
+        <span id="mobile-total-label" class="label">Total Estimé</span>
+        <span id="mobile-live-total" class="value">0.00$</span>
+    </div>
+    <button id="mobile-next-btn" class="btn-mobile-primary">
+        Continuer
+    </button>
+</footer>
 <div id="estimation-widget" class="modal-overlay" style="display:none;">
     <div class="empire-modal">
         <!-- === LEFT: MAIN PROCESS === -->
@@ -608,16 +618,7 @@
             </div>
         </div>
 
-        <!-- Mobile Bottom Bar (Sticky) -->
-        <footer id="mobile-sticky-footer" class="mobile-app-footer-fixed">
-            <div class="mobile-footer-total">
-                <span id="mobile-total-label" class="label">Total Estimé</span>
-                <span id="mobile-live-total" class="value">0.00$</span>
-            </div>
-            <button id="mobile-next-btn" class="btn-mobile-primary">
-                Continuer
-            </button>
-        </footer>
+
 
         <style is:global>
             /* EMPIRE PREMIUM THEME - "ÉLÉGANCE & PUISSANCE" */
