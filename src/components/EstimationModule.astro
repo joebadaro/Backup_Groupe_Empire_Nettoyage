@@ -452,6 +452,7 @@
                                 <!-- Mobile Delivery Toggle -->
                                 <div style="margin-bottom:20px;">
                                     <label
+                                        id="mobile-lbl-delivery"
                                         style="display:block; font-weight:600; margin-bottom:10px; color:#333; font-size:0.95rem;"
                                         >Recevoir mon estimation par</label
                                     >
@@ -512,7 +513,7 @@
                                                         points="22,6 12,13 2,6"
                                                     ></polyline></svg
                                                 >
-                                                Courriel
+                                                <span id="mobile-txt-email-opt">Courriel</span>
                                             </span>
                                         </label>
                                     </div>
@@ -2732,22 +2733,50 @@
                         ? "Un membre de notre équipe vous contactera sous peu pour finaliser le rendez-vous."
                         : "A member of our team will contact you shortly to finalize the appointment.";
 
-                // Mobile
-                const mobInputAddress = document.getElementById(
-                    "mobile-input-address",
-                ) as HTMLInputElement;
-                if (mobInputAddress)
-                    mobInputAddress.placeholder = isFr
-                        ? "Adresse complète"
-                        : "Full Address";
+                // Mobile Translations
+                const mobElements = {
+                    "mobile-title": { fr: "ESTIMATION", en: "ESTIMATE" },
+                    "mobile-txt-choose": { fr: "Sélectionnez vos services", en: "Select your services" },
+                    "mobile-txt-touch": { fr: "Touchez pour ajouter à l'estimation.", en: "Tap to add to estimate." },
+                    "mobile-header-details": { fr: "Détails", en: "Details" },
+                    "mobile-header-summary": { fr: "Sommaire", en: "Summary" },
+                    "mobile-header-finalize": { fr: "Finaliser", en: "Finalize" },
+                    "mobile-txt-enter-info": { fr: "Entrez vos infos pour recevoir la soumission.", en: "Enter your details to receive the quote." },
+                    "mobile-lbl-delivery": { fr: "Recevoir mon estimation par", en: "Receive my estimate via" },
+                    "mobile-total-label": { fr: "Total Estimé", en: "Estimated Total" },
+                    "mobile-next-btn": { fr: "Continuer", en: "Continue" },
+                    "mobile-submit-btn": { fr: "Confirmer la demande", en: "Confirm Request" },
+                    "mobile-txt-email-opt": { fr: "Courriel", en: "Email" }
+                };
 
-                const mobInputNotes = document.getElementById(
-                    "mobile-input-notes",
-                ) as HTMLTextAreaElement;
-                if (mobInputNotes)
-                    mobInputNotes.placeholder = isFr
-                        ? "Notes (Code de porte, etc...)"
-                        : "Notes (Entry code, etc...)";
+                for (const [id, txt] of Object.entries(mobElements)) {
+                    const el = document.getElementById(id);
+                    if (el) el.innerText = t(txt); // Use innerText to preserve structure if simple
+                }
+
+                // Mobile Back Buttons
+                const backText = isFr ? "← Retour" : "← Back";
+                ["mobile-back-btn", "mobile-back-btn-review", "mobile-back-btn-contact"].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.innerText = backText;
+                });
+
+                // Mobile Inputs Placeholders
+                const mobInputs = {
+                    "mobile-input-name": { fr: "Nom complet *", en: "Full Name *" },
+                    "mobile-input-phone": { fr: "Téléphone (mobile pour SMS) *", en: "Phone (mobile for SMS) *" },
+                    "mobile-input-email": { fr: "Adresse courriel *", en: "Email Address *" },
+                    "mobile-input-street": { fr: "Adresse (Rue/No)", en: "Address (Street/No)" },
+                    "mobile-input-apt": { fr: "Apt", en: "Apt/Unit" },
+                    "mobile-input-city": { fr: "Ville *", en: "City *" },
+                    "mobile-input-postal": { fr: "Code Postal", en: "Postal Code" },
+                    "mobile-input-notes": { fr: "Notes (Code de porte, etc...)", en: "Notes (Entry code, etc...)" }
+                };
+
+                for (const [id, place] of Object.entries(mobInputs)) {
+                    const el = document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement;
+                    if (el) el.placeholder = t(place);
+                }
 
                 const mobDisclaimer = document.getElementById(
                     "mobile-contact-disclaimer-text",
