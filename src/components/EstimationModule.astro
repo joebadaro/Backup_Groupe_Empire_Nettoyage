@@ -609,16 +609,7 @@
             </div>
         </div>
 
-        <!-- Mobile Bottom Bar (Sticky) -->
-        <footer id="mobile-sticky-footer" class="mobile-app-footer-fixed mobile-footer-hidden">
-            <div class="mobile-footer-total">
-                <span id="mobile-total-label" class="label">Total Estimé</span>
-                <span id="mobile-live-total" class="value">0.00$</span>
-            </div>
-            <button id="mobile-next-btn" class="btn-mobile-primary">
-                Continuer
-            </button>
-        </footer>
+
 
 
 
@@ -5975,4 +5966,14 @@
             // Duplicate openEstimationWidget removed. Logic is now handled by the function added earlier.
         </script>
     </div>
+        <!-- Mobile Bottom Bar (Sticky) - Moved to Overlay Root for Stability -->
+    <footer id="mobile-sticky-footer" class="mobile-app-footer-fixed mobile-footer-hidden">
+        <div class="mobile-footer-total">
+            <span id="mobile-total-label" class="label">Total Estimé</span>
+            <span id="mobile-live-total" class="value">0.00$</span>
+        </div>
+        <button id="mobile-next-btn" class="btn-mobile-primary">
+            Continuer
+        </button>
+    </footer>
 </div>
