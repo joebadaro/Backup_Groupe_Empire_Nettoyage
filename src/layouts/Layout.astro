@@ -23,29 +23,15 @@ const {
 <html lang={Astro.url.pathname.startsWith("/en") ? "en" : "fr"}>
   <head>
     <SEO title={title} description={description} image={image} />
-
-    <!-- Critical LCP Optimization: Preload Mobile Hero Image (High Quality) -->
-    <link
-      rel="preload"
-      as="image"
-      href="/images/catalog/hero-slide-2.webp"
-      media="(max-width: 768px)"
-      fetchpriority="high"
-    />
-    <link
-      rel="preload"
-      as="image"
-      href="/images/catalog/hero-slide-2.webp"
-      media="(min-width: 769px)"
-    />
+    {image && <link rel="preload" as="image" href={image} />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
       rel="stylesheet"
     />
-    <script defer>
-      // Global Scroll Reveal - Deferred for performance
+    <script>
+      // Global Scroll Reveal
       document.addEventListener("DOMContentLoaded", () => {
         const observerOptions = {
           root: null,
@@ -75,35 +61,7 @@ const {
     </main>
     <Footer />
 
-    <!-- Global Estimation Module - Lazy Loaded -->
-    <div id="estimation-module-placeholder"></div>
-    <script defer>
-      // Lazy load EstimationModule only when needed
-      let estimationModuleLoaded = false;
-
-      window.openEstimationWidget = function () {
-        if (!estimationModuleLoaded) {
-          // Load the module dynamically
-          import("/src/components/EstimationModule.astro")
-            .then(() => {
-              estimationModuleLoaded = true;
-              const widget = document.getElementById("estimation-widget");
-              if (widget) {
-                widget.style.display = "flex";
-              }
-            })
-            .catch(() => {
-              // Fallback: If dynamic import fails, redirect to contact page
-              window.location.href = "/contact";
-            });
-        } else {
-          const widget = document.getElementById("estimation-widget");
-          if (widget) {
-            widget.style.display = "flex";
-          }
-        }
-      };
-    </script>
+    <!-- Global Estimation Module -->
     <EstimationModule />
 
     <!-- MOBILE STICKY CTA BAR (Phone Only) -->
