@@ -2821,6 +2821,14 @@
                         }
                         document.body.style.overflow = "hidden";
 
+                        // FIX: Force Footer Visible
+                        const foot = document.getElementById("mobile-sticky-footer");
+                        if(foot) {
+                            foot.style.display = "flex";
+                            foot.style.zIndex = "2147483647";
+                            foot.classList.remove('mobile-footer-hidden');
+                        }
+
                         // FIX: Initialize Mobile Step to 1 to show Footer/Buttons
                         if (typeof window.toggleMobileStep === "function") {
                             window.toggleMobileStep(1);
@@ -3214,6 +3222,24 @@
             `;
                     container.appendChild(item);
                 });
+
+                // --- BACKUP NEXT BUTTON (In case Sticky Footer is hidden) ---
+                const spacer = document.createElement("div");
+                spacer.style.height = "20px";
+                container.appendChild(spacer);
+
+                const nextBtn = document.createElement("button");
+                nextBtn.className = "btn-mobile-primary";
+                nextBtn.style.width = "100%";
+                nextBtn.style.padding = "15px";
+                nextBtn.style.marginBottom = "80px"; // ample space
+                nextBtn.style.backgroundColor = "#b71c1c"; // Ensure red
+                nextBtn.style.color = "white";
+                nextBtn.innerHTML = t({ fr: "Continuer", en: "Next" }) + " &rarr;";
+                nextBtn.onclick = () => {
+                     if (window.toggleMobileStep) window.toggleMobileStep(2);
+                };
+                container.appendChild(nextBtn);
             }
 
             // --- MOBILE INSTANT UI UPDATER ---
@@ -5366,6 +5392,9 @@
                             mobileFooter.classList.add('mobile-footer-hidden');
                         } else if (mobileFooter) {
                             mobileFooter.classList.remove('mobile-footer-hidden');
+                            // FORCE DISPLAY
+                            mobileFooter.style.display = 'flex';
+                            mobileFooter.style.zIndex = '2147483647';
                         }
                         
                         const mobView = document.getElementById(
