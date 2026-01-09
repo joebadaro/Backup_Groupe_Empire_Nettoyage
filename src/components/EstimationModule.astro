@@ -4698,21 +4698,20 @@
                 }
 
                 // 6. Commercial Carpet (Quote Mode)
-                const commSqftQty = (STATE.quantities["comm_sqft"] as number) || 0;
+                // Check for 'comm_sqft'
+                const commSqftQty =
+                    (STATE.quantities["comm_sqft"] as number) || 0;
                 if (commSqftQty > 0) {
-                     const label = t({
-                         fr: `Nettoyage commercial de tapis environ ${commSqftQty} pi²`,
-                         en: `Commercial carpet cleaning approx ${commSqftQty} sq ft`
-                     });
-                     cartItems.push({
-                        rawId: "comm_sqft",
-                        label: label,
+                    cartItems.push({
+                        rawId: "tapis_commercial",
+                        label: `${t({ fr: "Nettoyage Commercial", en: "Commercial Cleaning" })} (${commSqftQty} pi²)`,
                         price: 0,
                         isQuoteOnly: true,
                         savings: 0,
                     });
+                    // We do NOT add to show subtotal.
+                    // We set a flag or just handle 'isQuoteOnly' in UI
                 }
-                // Note: hasQuoteItem logic below needs to check this.
 
                 // --- CONSOLIDATION LOGIC START ---
                 // Group items by rawId to "save space" as requested.
