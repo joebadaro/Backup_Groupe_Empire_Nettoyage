@@ -4698,21 +4698,21 @@
                 }
 
                 // 6. Commercial Carpet (Quote Mode)
-                const commIds = ["comm_sqft", "comm_rooms", "comm_stairs"];
-                commIds.forEach(id => {
-                    const val = (STATE.quantities[id] as number) || 0;
-                    if (val > 0) {
-                         const itemLabel = t(getItemLabel(id));
-                         cartItems.push({
-                            rawId: id,
-                            label: `${itemLabel}: ${val}`,
-                            price: 0,
-                            isQuoteOnly: true,
-                            savings: 0,
-                        });
-                    }
-                });
-                // Note: hasQuoteItem logic below needs to check these too.
+                const commSqftQty = (STATE.quantities["comm_sqft"] as number) || 0;
+                if (commSqftQty > 0) {
+                     const label = t({
+                         fr: `Nettoyage commercial de tapis environ ${commSqftQty} pi²`,
+                         en: `Commercial carpet cleaning approx ${commSqftQty} sq ft`
+                     });
+                     cartItems.push({
+                        rawId: "comm_sqft",
+                        label: label,
+                        price: 0,
+                        isQuoteOnly: true,
+                        savings: 0,
+                    });
+                }
+                // Note: hasQuoteItem logic below needs to check this.
 
                 // --- CONSOLIDATION LOGIC START ---
                 // Group items by rawId to "save space" as requested.
@@ -4839,9 +4839,7 @@
 
                 const realTotal = finalTotal;
                 const commSqft = (STATE.quantities["comm_sqft"] as number) || 0;
-                const commRooms = (STATE.quantities["comm_rooms"] as number) || 0;
-                const commStairs = (STATE.quantities["comm_stairs"] as number) || 0;
-                const hasQuoteItem = commSqft > 0 || commRooms > 0 || commStairs > 0;
+                const hasQuoteItem = commSqft > 0;
 
                 const isUnderMin =
                     !hasQuoteItem &&

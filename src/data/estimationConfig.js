@@ -348,23 +348,9 @@ After discussing with you, we will be able to give you a more accurate estimate 
             items: [
                 {
                     id: "comm_sqft",
-                    label: { fr: "Surface Totale (pi²)", en: "Total Area (sq ft)" },
+                    label: { fr: "Surface du tapis (pieds carrés)", en: "Carpet Area (sq ft)" },
                     type: "input_number",
-                    desc: { fr: "Entrez la surface à nettoyer", en: "Enter area to clean" },
-                    price: 0
-                },
-                {
-                    id: "comm_rooms",
-                    label: { fr: "Nombre de pièces", en: "Number of Rooms" },
-                    type: "input_number",
-                    desc: { fr: "Bureaux, corridors, salles...", en: "Offices, hallways, rooms..." },
-                    price: 0
-                },
-                {
-                    id: "comm_stairs",
-                    label: { fr: "Cages d'escalier", en: "Staircases" },
-                    type: "input_number",
-                    desc: { fr: "Nombre de volées d'escaliers", en: "Number of flights of stairs" },
+                    desc: { fr: "Entrez la surface approximative", en: "Enter approximate area" },
                     price: 0
                 }
             ]
