@@ -2826,9 +2826,10 @@
                         }
                         document.body.style.overflow = "hidden";
 
-                        // FIX: Force Footer Visible
+                        // FIX: Force Footer Visible and Move to Body (Portal)
                         const foot = document.getElementById("mobile-sticky-footer");
                         if(foot) {
+                            document.body.appendChild(foot); // MOVE TO BODY prevents transform issues
                             foot.style.display = "flex";
                             foot.style.zIndex = "2147483647";
                             foot.classList.remove('mobile-footer-hidden');
@@ -5949,6 +5950,20 @@
                     errDiv.innerHTML =
                         "<h1>FATAL ERROR</h1><pre>" + err.stack + "</pre>";
                     document.body.appendChild(errDiv);
+                }
+                // Watch for Modal Close (Display None) to hide Portal Footer
+                const widgetObserver = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        // @ts-ignore
+                        if(mutation.target.style.display === 'none') {
+                             const foot = document.getElementById("mobile-sticky-footer");
+                             if(foot) foot.classList.add('mobile-footer-hidden');
+                        }
+                    });
+                });
+                const widgetEl = document.getElementById('estimation-widget');
+                if(widgetEl) {
+                    widgetObserver.observe(widgetEl, { attributes: true, attributeFilter: ['style'] });
                 }
             }
 
