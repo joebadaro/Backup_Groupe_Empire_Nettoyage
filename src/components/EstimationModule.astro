@@ -3254,6 +3254,7 @@
                     const item = document.createElement("div");
                     
                     // Compact Card Style
+                    item.setAttribute("data-service-id", service.id);
                     item.style.display = "flex";
                     item.style.flexDirection = "column";
                     item.style.alignItems = "center";
@@ -3903,7 +3904,27 @@
                         });
                     }
                 }
-                window.renderServices();
+                
+                // Update Desktop UI
+                const dCard = document.querySelector(`.service-card[data-service-id="${id}"]`);
+                if (dCard) {
+                    if (STATE.selectedServices.has(id)) dCard.classList.add('selected');
+                    else dCard.classList.remove('selected');
+                }
+
+                // Update Mobile UI
+                const mCard = document.querySelector(`#mobile-services-list div[data-service-id="${id}"]`) as HTMLElement;
+                if (mCard) {
+                    const isSel = STATE.selectedServices.has(id);
+                    // Inline style updates to match render logic
+                    mCard.style.border = isSel ? "2px solid #007bff" : "1px solid #eee";
+                    mCard.style.backgroundColor = isSel ? "#e3f2fd" : "white";
+                    mCard.style.boxShadow = isSel ? "0 4px 12px rgba(0,123,255,0.2)" : "0 2px 5px rgba(0,0,0,0.05)";
+                    
+                    const labelDiv = mCard.querySelector('div[style*="font-weight:600"]') as HTMLElement;
+                    if(labelDiv) labelDiv.style.color = isSel ? '#0056b3' : '#333';
+                }
+
                 calculateTotal();
             }
 
