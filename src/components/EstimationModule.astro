@@ -3280,24 +3280,6 @@
             `;
                     container.appendChild(item);
                 });
-
-                // --- BACKUP NEXT BUTTON (In case Sticky Footer is hidden) ---
-                const spacer = document.createElement("div");
-                spacer.style.height = "20px";
-                container.appendChild(spacer);
-
-                const nextBtn = document.createElement("button");
-                nextBtn.className = "btn-mobile-primary";
-                nextBtn.style.width = "100%";
-                nextBtn.style.padding = "15px";
-                nextBtn.style.marginBottom = "80px"; // ample space
-                nextBtn.style.backgroundColor = "#b71c1c"; // Ensure red
-                nextBtn.style.color = "white";
-                nextBtn.innerHTML = t({ fr: "Continuer", en: "Next" }) + " &rarr;";
-                nextBtn.onclick = () => {
-                     if (window.toggleMobileStep) window.toggleMobileStep(2);
-                };
-                container.appendChild(nextBtn);
             }
 
             // --- MOBILE INSTANT UI UPDATER ---
