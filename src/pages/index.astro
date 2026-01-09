@@ -19,7 +19,6 @@ import Layout from "../layouts/Layout.astro";
         class="hero-slide active"
         fetchpriority="high"
         loading="eager"
-        style="opacity: 1 !important; transition: none !important;"
         width="1920"
         height="1080"
       />
@@ -31,6 +30,7 @@ import Layout from "../layouts/Layout.astro";
         sizes="(max-width: 768px) 100vw, 100vw"
         alt="Nettoyage de tapis commercial et bureau - Service professionnel au Québec"
         class="hero-slide"
+        loading="lazy"
       />
     </div>
 
@@ -532,8 +532,8 @@ import Layout from "../layouts/Layout.astro";
       </div>
     </div>
 
-    <script>
-      // Simple Cross-Fade Slideshow (Standardized)
+    <script defer>
+      // Simple Cross-Fade Slideshow (Deferred for performance)
       const slides = document.querySelectorAll(".slide");
 
       if (slides.length > 0) {
@@ -602,7 +602,6 @@ import Layout from "../layouts/Layout.astro";
           transition:
             opacity 0.8s ease-out,
             transform 0.8s ease-out;
-          will-change: opacity, visibility;
         }
         .fade-in-section.is-visible {
           opacity: 1;

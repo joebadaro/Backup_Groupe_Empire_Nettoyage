@@ -27,11 +27,11 @@ const {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700;800&display=swap"
       rel="stylesheet"
     />
-    <script>
-      // Global Scroll Reveal
+    <script defer>
+      // Global Scroll Reveal - Deferred for performance
       document.addEventListener("DOMContentLoaded", () => {
         const observerOptions = {
           root: null,
@@ -61,7 +61,35 @@ const {
     </main>
     <Footer />
 
-    <!-- Global Estimation Module -->
+    <!-- Global Estimation Module - Lazy Loaded -->
+    <div id="estimation-module-placeholder"></div>
+    <script defer>
+      // Lazy load EstimationModule only when needed
+      let estimationModuleLoaded = false;
+
+      window.openEstimationWidget = function () {
+        if (!estimationModuleLoaded) {
+          // Load the module dynamically
+          import("/src/components/EstimationModule.astro")
+            .then(() => {
+              estimationModuleLoaded = true;
+              const widget = document.getElementById("estimation-widget");
+              if (widget) {
+                widget.style.display = "flex";
+              }
+            })
+            .catch(() => {
+              // Fallback: If dynamic import fails, redirect to contact page
+              window.location.href = "/contact";
+            });
+        } else {
+          const widget = document.getElementById("estimation-widget");
+          if (widget) {
+            widget.style.display = "flex";
+          }
+        }
+      };
+    </script>
     <EstimationModule />
 
     <!-- MOBILE STICKY CTA BAR (Phone Only) -->
