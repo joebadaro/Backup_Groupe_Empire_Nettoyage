@@ -151,7 +151,7 @@ export const CONFIG = {
                     type: "sectional_variable",
                     desc: { fr: "Sélectionnez le nombre de places assises total", en: "Select total number of seats" },
                     options: [
-                        { val: 3, label: { fr: "3 places allongée (équivalent 4 places) (209 $)", en: "3 seats w/ chaise (equiv 4 seats) ($209)" }, price: 209 },
+                        { val: 3, label: { fr: "3 pl. allongée (éq. 4 pl.) (209 $)", en: "3 seats w/ chaise (eq. 4) ($209)" }, price: 209 },
                         { val: 5, label: { fr: "5 places (249 $)", en: "5 seats ($249)" }, price: 249 },
                         { val: 6, label: { fr: "6 places (294 $)", en: "6 seats ($294)" }, price: 294 },
                         { val: 7, label: { fr: "7 places (339 $)", en: "7 seats ($339)" }, price: 339 }
@@ -189,7 +189,7 @@ export const CONFIG = {
                     type: "sectional_variable",
                     desc: { fr: "Sélectionnez le nombre de places assises total", en: "Select total number of seats" },
                     options: [
-                        { val: 3, label: { fr: "3 places allongée (équivalent 4 places) (259 $)", en: "3 seats w/ chaise (equiv 4 seats) ($259)" }, price: 259 },
+                        { val: 3, label: { fr: "3 pl. allongée (éq. 4 pl.) (259 $)", en: "3 seats w/ chaise (eq. 4) ($259)" }, price: 259 },
                         { val: 5, label: { fr: "5 places (319 $)", en: "5 seats ($319)" }, price: 319 },
                         { val: 6, label: { fr: "6 places (384 $)", en: "6 seats ($384)" }, price: 384 },
                         { val: 7, label: { fr: "7 places (449 $)", en: "7 seats ($449)" }, price: 449 }
