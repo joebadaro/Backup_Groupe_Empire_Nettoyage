@@ -113,16 +113,19 @@ ul {
 }
 
 /* Animations */
-.fade-in-section {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  will-change: opacity, visibility;
-}
+/* Optimization Mobile: Animation Desktop Only */
+@media (min-width: 768px) {
+  .fade-in-section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, visibility;
+  }
 
-.fade-in-section.is-visible {
-  opacity: 1;
-  transform: none;
+  .fade-in-section.is-visible {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Staggered delays for child elements if needed */
@@ -382,10 +385,13 @@ ul {
 }
 
 /* --- Animations --- */
-.fade-in-up {
-  animation: fadeInUp 0.8s ease-out forwards;
-  opacity: 0;
-  transform: translateY(20px);
+/* Optimization Mobile: Animation Desktop Only */
+@media (min-width: 768px) {
+  .fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
 }
 
 @keyframes fadeInUp {

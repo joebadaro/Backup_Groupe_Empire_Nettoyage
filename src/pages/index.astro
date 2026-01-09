@@ -594,23 +594,28 @@ import Layout from "../layouts/Layout.astro";
       }
 
       /* --- ANIMATIONS V3 (Staggered & Smooth) --- */
-      .fade-in-section {
-        opacity: 0;
-        transform: translateY(30px);
-        transition:
-          opacity 0.8s ease-out,
-          transform 0.8s ease-out;
-        will-change: opacity, visibility;
-      }
-      .fade-in-section.is-visible {
-        opacity: 1;
-        transform: none;
+      /* Optimization Mobile: Desktop Only */
+      @media (min-width: 768px) {
+        .fade-in-section {
+          opacity: 0;
+          transform: translateY(30px);
+          transition:
+            opacity 0.8s ease-out,
+            transform 0.8s ease-out;
+          will-change: opacity, visibility;
+        }
+        .fade-in-section.is-visible {
+          opacity: 1;
+          transform: none;
+        }
       }
 
       /* CSS-Only Animation for Hero LCP */
-      .animate-on-load {
-        opacity: 0;
-        animation: fadeInUp 0.8s ease-out forwards;
+      @media (min-width: 768px) {
+        .animate-on-load {
+          opacity: 0;
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
       }
       .delay-1 {
         animation-delay: 0.2s;
