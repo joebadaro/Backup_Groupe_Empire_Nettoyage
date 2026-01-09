@@ -1,0 +1,3 @@
+This is a test file to verify if GitHub Desktop is looking at this folder.
+If you see this file in GitHub Desktop, then you are in the right folder.
+We will delete this file after the test.
