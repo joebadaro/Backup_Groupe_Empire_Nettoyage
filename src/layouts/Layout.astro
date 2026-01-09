@@ -23,7 +23,21 @@ const {
 <html lang={Astro.url.pathname.startsWith("/en") ? "en" : "fr"}>
   <head>
     <SEO title={title} description={description} image={image} />
-    {image && <link rel="preload" as="image" href={image} />}
+
+    <!-- Critical LCP Optimization: Preload Mobile Hero Image (High Quality) -->
+    <link
+      rel="preload"
+      as="image"
+      href="/images/catalog/hero-slide-2.webp"
+      media="(max-width: 768px)"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/catalog/hero-slide-2.webp"
+      media="(min-width: 769px)"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
