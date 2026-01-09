@@ -1,0 +1,163 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Médias & Réseaux Sociaux | Groupe Nettoyage Empire">
+  <div class="page-header">
+    <div class="container text-center fade-in-section">
+      <span class="sub-title">Connectez-vous</span>
+      <h1 class="text-gradient">Espace Médias</h1>
+      <p class="lead-text">Suivez nos dernières interventions et conseils en vidéo.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      
+      <div class="media-grid">
+        
+        <!-- FACEBOOK CARD -->
+        <a href="https://facebook.com/groupenettoyageempire" target="_blank" rel="noopener" class="media-card fb-card fade-in-section">
+          <div class="card-icon">f</div>
+          <div class="card-content">
+            <h2>Facebook</h2>
+            <p>Rejoignez notre communauté. Photos avant/après quotidiennes, concours et avis clients.</p>
+            <span class="btn-link">Nous suivre &rarr;</span>
+          </div>
+        </a>
+
+        <!-- YOUTUBE CARD -->
+        <a href="https://youtube.com/c/groupenettoyageempire" target="_blank" rel="noopener" class="media-card yt-card fade-in-section delay-100">
+          <div class="card-icon">▶</div>
+          <div class="card-content">
+            <h2>YouTube</h2>
+            <p>Voyez le Camion-Usine en action. Démonstrations de puissance et conseils d'entretien.</p>
+            <span class="btn-link">S'abonner &rarr;</span>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- LATEST VIDEO SECTION -->
+      <div class="video-section fade-in-section delay-200">
+        <h2 class="section-title text-center">À la Une</h2>
+        <div class="video-wrapper">
+          <!-- Video Facade Pattern for Performance (Click to Load) -->
+          <div class="video-placeholder">
+            <div class="play-button">▶</div>
+            <p>Démonstration : Nettoyage Tapis Laine</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background: var(--color-bg-light-blue);
+    padding: 6rem 0 4rem 0;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .sub-title {
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+  
+  .lead-text { margin-top: 1rem; color: #666; font-size: 1.2rem; }
+
+  .media-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .media-card {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 3rem;
+    border-radius: var(--border-radius-md);
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .media-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  }
+
+  .card-icon {
+    font-size: 4rem;
+    font-weight: 900;
+    min-width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 50%;
+  }
+
+  .card-content h2 { margin-bottom: 0.5rem; font-size: 2rem; }
+  .card-content p { font-size: 1.1rem; margin-bottom: 1.5rem; opacity: 0.9; line-height: 1.6; }
+  .btn-link { font-weight: bold; background: white; padding: 10px 20px; border-radius: 30px; }
+
+  /* Branding Colors */
+  .fb-card { background: linear-gradient(135deg, #1877F2, #0d5cb9); color: white; }
+  .fb-card .card-icon { color: #1877F2; }
+  .fb-card .btn-link { color: #1877F2; }
+
+  .yt-card { background: linear-gradient(135deg, #FF0000, #cc0000); color: white; }
+  .yt-card .card-icon { color: #FF0000; }
+  .yt-card .btn-link { color: #FF0000; }
+
+  /* Video Section */
+  .video-section { margin-top: 4rem; text-align: center; }
+  .section-title { margin-bottom: 2rem; color: var(--color-primary); font-size: 2rem; }
+
+  .video-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    background: black;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-hover);
+  }
+
+  .video-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #222; /* Ideally a thumbnail image here */
+    color: white;
+    cursor: pointer;
+  }
+  
+  .play-button {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+    transition: 0.2s;
+  }
+  
+  .video-placeholder:hover .play-button { transform: scale(1.1); opacity: 1; color: var(--color-accent); }
+
+  @media (max-width: 768px) {
+    .media-grid { grid-template-columns: 1fr; }
+    .media-card { flex-direction: column; text-align: center; padding: 2rem; }
+  }
+</style>

@@ -1,0 +1,597 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import FAQSchema from "../../../components/FAQSchema.astro";
+---
+
+<Layout
+  title="Commercial Carpet Cleaning"
+  description="Professional commercial carpet cleaning service for offices and businesses. Competitive rates, flexible hours, and superior results. Free estimate."
+>
+  <!-- SPLIT SCREEN HERO -->
+  <div class="split-hero-container">
+    <div class="container full-width-split">
+      <div class="split-layout">
+        <!-- LEFT COLUMN: CONTENT (Hook) -->
+        <div class="split-content fade-in-section">
+          <span class="service-cat-badge">COMMERCIAL</span>
+          <h1 class="split-title fade-in-up text-gradient-empire">
+            Commercial Carpet Cleaning
+          </h1>
+
+          <div class="problem-statement fade-in-up delay-100">
+            <h3 class="problem-title">The Problem:</h3>
+            <p class="problem-text">
+              Your company's image starts with cleanliness. Stained or dusty
+              carpets harm your reputation and the air quality in your offices.
+            </p>
+          </div>
+
+          <p class="lead-text fade-in-up delay-200">
+            A professional maintenance service designed for your business
+            spaces. Flexible plans, quick drying, and impeccable results for
+            offices and businesses.
+          </p>
+
+          <div class="cta-group fade-in-up delay-300">
+            <a href="tel:5148939939" class="btn btn-gradient-green pulse-btn">
+              <span class="icon">📞</span> (514) 893-9939 (Free Estimate)
+            </a>
+            <button
+              onclick="window.openEstimationWidget()"
+              class="btn btn-gradient-green"
+            >
+              <span class="icon">⚡</span> Online Quote
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: IMAGE (Visual / Slideshow) -->
+        <div class="split-image-wrapper fade-in-section delay-200">
+          <div class="slideshow-container">
+            <img
+              src="/images/catalog/photo-14.webp"
+              alt="Commercial carpet cleaning Montreal office - Empire Cleaning Group"
+              class="slide active"
+              width="1200"
+              height="800"
+              fetchpriority="high"
+              loading="eager"
+            />
+            <img
+              src="/images/catalog/photo-18.webp"
+              alt="Commercial building corridor carpet maintenance Laval"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            <img
+              src="/images/catalog/photo-19.webp"
+              alt="Conference room carpet cleaning South Shore"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            <img
+              src="/images/catalog/photo-30.webp"
+              alt="Fast-drying commercial carpet truck-mount Longueuil"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            <img
+              src="/images/catalog/photo-31.webp"
+              alt="Impeccable store entrance carpet Montreal - Professional result"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+          </div>
+          <div class="image-overlay-gradient"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="service-layout">
+        <!-- MAIN CONTENT -->
+        <div class="service-main">
+          <!-- BENEFIT LIST & SEO CONTENT -->
+          <div class="fade-in-section delay-100">
+            <h2 class="section-title text-gradient-empire">
+              Solutions for Offices and Businesses
+            </h2>
+
+            <p>Maximize the life of your investments:</p>
+
+            <ul class="benefit-list">
+              <li>
+                <strong>Building entrances and corridors:</strong> High-performance
+                cleaning for high-traffic areas.
+              </li>
+              <li>
+                <strong>Reception areas and offices:</strong> Careful maintenance
+                for carpets, chairs, and cubicles.
+              </li>
+              <li>
+                <strong>Building passages and stairs:</strong> Complete solutions
+                for all your common areas.
+              </li>
+            </ul>
+
+            <div style="margin-top: 2rem;">
+              <button id="toggle-seo-btn" class="btn-text-reveal">
+                Learn more about commercial carpet cleaning ▼
+              </button>
+            </div>
+
+            <div id="seo-content" class="seo-content-hidden">
+              <hr class="separator" />
+              <h3>Commercial Expertise and Large Spaces</h3>
+              <p>
+                At <strong>Empire Cleaning Group</strong>, we understand that
+                the cleanliness of your professional premises—from <strong
+                  >building entrances</strong
+                > to <strong>reception areas</strong>—reflects your company's
+                image. We offer specialized service for all types of flooring
+                (commercial carpet, tiles) in <strong
+                  >offices, businesses, and common areas</strong
+                > in Montreal.
+              </p>
+              <p>
+                Our professional equipment (Truck-mount or Portable) allows us
+                to effectively treat <strong>building passages</strong>, <strong
+                  >stairway steps</strong
+                >, and large open spaces. We eliminate salt, calcium, and
+                ingrained dirt to restore your carpets to their original shine.
+              </p>
+
+              <h3>Our adapted solutions:</h3>
+              <ul>
+                <li>
+                  <strong>Common area maintenance:</strong> Impeccable passages, corridors,
+                  and entrance halls.
+                </li>
+                <li>
+                  <strong>Complete cleaning:</strong> Carpets, chairs, cubicles, and
+                  waiting room sofas.
+                </li>
+                <li>
+                  <strong>Quick drying:</strong> Ecological products and powerful
+                  suction for quick reuse of premises.
+                </li>
+              </ul>
+
+              <p>
+                Whether for a one-time <strong
+                  >commercial carpet cleaning</strong
+                > or recurring maintenance of your <strong
+                  >building entrances</strong
+                >, our team guarantees professional results. Contact us for a
+                free per-square-foot estimate.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEW SECTIONS: BENEFITS & FAQ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="service-layout" style="display: block;">
+        <!-- Full width for these bottom sections -->
+        <div class="service-main" style="max-width: 800px; margin: 0 auto;">
+          <!-- BENEFITS -->
+          <div class="fade-in-section delay-200" style="margin-top: 3rem;">
+            <h2 class="section-title text-gradient-empire">Why choose us?</h2>
+            <div class="benefits-grid">
+              <div class="benefit-item">
+                <div class="check-circle">✓</div>
+                <span>Service adapted to your needs</span>
+              </div>
+              <div class="benefit-item">
+                <div class="check-circle">✓</div>
+                <span>Free on-site estimate</span>
+              </div>
+              <div class="benefit-item">
+                <div class="check-circle">✓</div>
+                <span>Insured and professional team</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ with Schema Component -->
+          <FAQSchema
+            title="Frequently Asked Questions"
+            faqs={[
+              {
+                question:
+                  "What is the best cleaning method for commercial carpets in high-traffic areas?",
+                answer:
+                  "Hot water extraction steam cleaning is the most effective method for commercial carpets, particularly in high-traffic areas like building entrances and corridors. This technique deeply eliminates salt, calcium, and ingrained dirt that accumulates during winter. Unlike encapsulation or bonnet cleaning (buffing), our extraction method does not prematurely wear down fibers with aggressive mechanical action. It significantly extends the life of your commercial carpets while offering the best visual results. For businesses, this means fewer costly replacements and a consistently professional appearance.",
+              },
+              {
+                question:
+                  "How long do I need to close my offices after commercial carpet cleaning?",
+                answer:
+                  "No, you don't need to close your offices. We work flexibly to minimize business interruptions. Thanks to our high-suction equipment (truck-mount or professional portable), carpets dry in 3 to 6 hours. We recommend scheduling cleaning at the end of the day or during weekends for offices. By the next morning, carpets are completely dry and ready for regular traffic. For commercial spaces like stores, we can secure treated areas to allow continuity of operations in other sectors.",
+              },
+              {
+                question:
+                  "Do I need to move office furniture before commercial carpet cleaning?",
+                answer:
+                  "No, we handle everything. We simply ask that you remove small mobile items like chairs, trash cans, and plants. Our team professionally cleans around heavy furniture (desks, filing cabinets, photocopiers, cabinets) without moving them to avoid any risk of damage to equipment or cables. We also protect metal furniture bases to prevent rust. For commercial spaces with merchandise shelving, we coordinate with you to determine the best approach according to your inventory and operations.",
+              },
+            ]}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Simple Cross-Fade Slideshow
+  const slides = document.querySelectorAll(".slide");
+
+  if (slides.length > 0) {
+    let currentSlide = 0;
+    const intervalTime = 4000; // 4 seconds
+
+    setInterval(() => {
+      slides[currentSlide].classList.remove("active");
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add("active");
+    }, intervalTime);
+  }
+
+  // Toggle SEO Content
+  const toggleBtn = document.getElementById("toggle-seo-btn");
+  const seoContent = document.getElementById("seo-content");
+
+  if (toggleBtn && seoContent) {
+    toggleBtn.addEventListener("click", () => {
+      seoContent.classList.toggle("visible");
+      if (seoContent.classList.contains("visible")) {
+        toggleBtn.textContent = "Show less ▲";
+      } else {
+        toggleBtn.textContent = "Learn more about commercial carpet cleaning ▼";
+      }
+    });
+  }
+</script>
+
+<style>
+  /* HERO */
+  /* SPLIT SCREEN HERO (Sky Blue Theme) */
+  .split-hero-container {
+    background-color: #fff; /* Reset container to white */
+    padding-top: 0; /* Remove container padding so image hits top */
+    padding-bottom: 0;
+    overflow: hidden;
+    width: 100vw;
+  }
+
+  .full-width-split {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .split-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    align-items: stretch;
+    min-height: 80vh; /* Consistent viewport height */
+  }
+
+  /* LEFT TEXT COLUMN */
+  .split-content {
+    background-color: #ffffff;
+    padding: 100px 4rem 4rem 10%; /* Add header offset internal padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .service-cat-badge {
+    text-transform: uppercase;
+    color: var(--color-accent);
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .split-title {
+    font-size: clamp(2.5rem, 3.5vw, 4rem);
+    color: var(--color-primary); /* Dark Blue text */
+    margin-bottom: 2rem;
+    line-height: 1.1;
+  }
+
+  .problem-statement {
+    background: #ffffff; /* White box */
+    border-left: 4px solid #ff4444; /* Red border returns for alertness */
+    padding: 1.5rem;
+    border-radius: 0;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(174, 206, 235, 0.3); /* Soft blue shadow */
+  }
+
+  .problem-title {
+    font-size: 1rem;
+    color: #cc0000;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .problem-text {
+    font-size: 1.05rem;
+    color: var(--color-text-main);
+    font-style: italic;
+  }
+
+  .lead-text {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--color-text-main); /* Dark grey text */
+    margin-bottom: 2.5rem;
+    max-width: 650px;
+  }
+
+  .cta-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 900px) {
+    .cta-group {
+      display: none !important;
+    }
+  }
+
+  /* Reset Secondary Button for Light Mode */
+  .split-content .btn-secondary-outline {
+    border-color: #ddd;
+    color: #666;
+  }
+  .split-content .btn-secondary-outline:hover {
+    background: white;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  /* RIGHT IMAGE COLUMN */
+  .split-image-wrapper {
+    position: relative;
+    height: 100%;
+    min-height: 500px;
+    width: 100%;
+    border-radius: 0;
+    transform: none;
+    box-shadow: none;
+    margin: 0;
+    background-color: #fff; /* Ensure white background if image loads late */
+  }
+
+  /* Slideshow Styles reused but adapted for full height */
+  .slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+  }
+
+  .slide.active {
+    opacity: 1;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .split-layout {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .split-content {
+      padding: 3rem 1.5rem;
+      order: 1; /* Content first */
+    }
+
+    .split-image-wrapper {
+      order: 2; /* Image second */
+      height: 400px;
+      min-height: 0;
+    }
+
+    .lead-text {
+      max-width: 100%;
+    }
+  }
+
+  /* LAYOUT */
+  .service-layout {
+    display: grid;
+    grid-template-columns: 1fr; /* Full width for content now since we have a different layout */
+    gap: 5rem;
+  }
+
+  /* TYPOGRAPHY */
+  .section-title {
+    font-size: 1.8rem;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+  }
+
+  /* SEO Content & Toggle Styles */
+  .btn-text-reveal {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    padding: 0;
+    margin-bottom: 1rem;
+    transition: color 0.3s;
+  }
+
+  .btn-text-reveal:hover {
+    color: var(--color-accent);
+  }
+
+  .seo-content-hidden {
+    display: none;
+    margin-top: 1rem;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  .seo-content-hidden.visible {
+    display: block;
+  }
+
+  .separator {
+    border: 0;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.1);
+    margin: 1.5rem 0;
+  }
+
+  /* Additional text styling for SEO section */
+  .seo-content-hidden p {
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    color: var(--color-text-main);
+  }
+
+  .seo-content-hidden strong {
+    color: var(--color-empire-red);
+  }
+
+  .seo-content-hidden ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .seo-content-hidden li {
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+
+  /* Benefit List Styles from original */
+  .benefit-list {
+    margin: 2rem 0;
+    list-style: none; /* Ensure no default bullets */
+    padding: 0;
+  }
+
+  .benefit-list li {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+    font-size: 1.05rem;
+  }
+
+  .benefit-list li::before {
+    content: "✓";
+    color: #d32f2f; /* Empire Red or Gold */
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+  }
+
+  /* NEW SECTIONS CSS */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+  }
+
+  .check-circle {
+    width: 25px;
+    height: 25px;
+    background: #e6f7e6;
+    color: #2e7d32;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .faq-list {
+    margin-top: 1.5rem;
+  }
+
+  .faq-item {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border-left: 3px solid var(--color-primary);
+  }
+
+  .question {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .answer {
+    color: var(--color-text-main);
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  @media (min-width: 768px) {
+    .benefits-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

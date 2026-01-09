@@ -1,0 +1,361 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+
+export function getStaticPaths() {
+  const posts = [
+    {
+      slug: "erreurs-taches-tapis",
+      title: "3 Erreurs Fatales à Éviter sur une Tache de Tapis",
+      excerpt:
+        "Frotter une tache est la pire chose à faire. Découvrez pourquoi et comment réagir pour sauver votre tapis.",
+      date: "17 Décembre 2024",
+      category: "Entretien",
+      image: "🛑",
+      content: `
+        <p>C'est un classique : un verre de vin tombe, une tasse de café se renverse, et la panique s'installe. Dans l'urgence, on attrape le premier linge venu et on frotte énergiquement. <strong>Arrêtez tout de suite !</strong></p>
+        
+        <h3>Erreur #1 : Frotter la tache</h3>
+        <p>Lorsque vous frottez une tache sur un tapis ou un tissu, vous ne l'enlevez pas : vous l'étalez et, pire encore, vous faites pénétrer le pigment au cœur de la fibre. De plus, la friction peut briser la fibre et créer une zone floue permanente (le "fuzzing").</p>
+        <p><strong>La solution :</strong> Épongez doucement avec un linge blanc propre et sec. Pressez pour absorber, ne frottez jamais.</p>
+
+        <h3>Erreur #2 : Utiliser n'importe quel produit ménager</h3>
+        <p>Le savon à vaisselle, le vinaigre ou les produits "miracles" du commerce laissent souvent des résidus. Ces résidus savonneux deviennent collants en séchant et attirent la saleté deux fois plus vite par la suite. De plus, certains produits peuvent fixer la tache chimiquement.</p>
+        <p><strong>La solution :</strong> Utilisez un peu d'eau tiède (pas chaude) si nécessaire, ou appelez un professionnel pour connaître le bon produit.</p>
+        
+        <h3>Erreur #3 : Attendre trop longtemps</h3>
+        <p>Une tache fraîche a 90% de chances de partir. Une tache qui a séché ou qui a été lavée à la machine est souvent fixée à jamais. Le temps est votre ennemi.</p>
+
+        <div class="alert-box">
+          <strong>Le Conseil de l'Expert :</strong> Si vous avez une tache précieuse (tapis oriental, sofa dispendieux), ne prenez aucun risque. Épongez l'excédent et appelez-nous. Nous avons les produits spécifiques pour neutraliser la tache sans abîmer la fibre.
+        </div>
+      `,
+    },
+    {
+      slug: "nettoyage-vapeur-vs-location",
+      title: "Machine de Location vs Camion-Usine : Le Comparatif",
+      excerpt:
+        "Pensez-vous économiser en louant une machine ? Voici pourquoi le résultat n'a rien à voir avec un nettoyage professionnel.",
+      date: "15 Décembre 2024",
+      category: "Comparatif",
+      image: "🚛",
+      content: `
+        <p>On voit souvent ces machines rouges à louer dans les épiceries. Elles semblent pratiques et économiques. Mais si vous cherchez un résultat hygiénique et durable, elles ne font malheureusement pas le poids face à un camion-usine professionnel.</p>
+
+        <h3>1. La Puissance d'Aspiration (Le Facteur X)</h3>
+        <p>C'est la différence majeure. Une machine de location a un petit moteur électrique (similaire à un aspirateur de maison). Notre camion-usine possède un moteur industriel de plusieurs chevaux-vapeur.</p>
+        <p><strong>Pourquoi c'est important ?</strong> La machine de location n'a pas la force de récupérer toute l'eau qu'elle injecte. Résultat : vos tapis restent trempés pendant des jours, ce qui risque de moisir et d'abîmer le sous-tapis.</p>
+
+        <h3>2. La Température de l'Eau</h3>
+        <p>Pour casser le gras et tuer les bactéries, il faut de la chaleur. Nos camions chauffent l'eau à plus de 200°F (proche de la vapeur). Une machine de location utilise l'eau du robinet qui refroidit dès qu'elle touche le réservoir.</p>
+
+        <h3>3. Les Produits de Nettoyage</h3>
+        <p>Les savons vendus avec les machines de location sont très moussants et difficiles à rincer. Ils laissent un film résiduel sur le tapis qui attire la poussière rapidement (le phénomène de "resalissure rapide").</p>
+
+        <div class="alert-box">
+          <strong>Conclusion :</strong> La location est correcte pour un petit dégât superficiel, mais pour un nettoyage hygiénique en profondeur, seul le camion-usine peut extraire les allergènes et laisser le tapis sec et sain.
+        </div>
+      `,
+    },
+    {
+      slug: "frequence-nettoyage-tapis",
+      title: "À quelle fréquence devez-vous nettoyer vos tapis ?",
+      excerpt:
+        "Attendez-vous que le tapis soit sale visuellement ? C'est souvent trop tard. Voici les recommandations pour une maison saine.",
+      date: "10 Décembre 2024",
+      category: "Santé",
+      image: "📅",
+      content: `
+        <p>Beaucoup de gens attendent que leur tapis soit grisâtre ou taché avant d'appeler un nettoyeur. C'est une erreur ! Un tapis agit comme un filtre à air géant pour votre maison : il piège la poussière, le pollen, les peaux mortes et les polluants.</p>
+        <p>Une fois que le filtre est plein, il ne retient plus rien, et vous respirez ces particules.</p>
+
+        <h3>Les Recommandations Standards</h3>
+        <ul>
+          <li><strong>Maison standard (2 adultes) :</strong> Tous les 12 à 18 mois.</li>
+          <li><strong>Famille avec enfants :</strong> Tous les 6 à 12 mois.</li>
+          <li><strong>Avec animaux de compagnie :</strong> Tous les 6 mois recommandé.</li>
+          <li><strong>Allergies / Asthme :</strong> Tous les 4 à 6 mois pour réduire les symptômes.</li>
+        </ul>
+
+        <h3>L'avantage santé</h3>
+        <p>Au-delà de l'apparence, le nettoyage à la vapeur (extraction à l'eau chaude) tue les acariens et élimine les bactéries incrustées. C'est un geste santé essentiel, surtout en hiver où nous passons plus de temps à l'intérieur.</p>
+        
+        <p>N'attendez pas que le tapis "ait l'air sale". Un entretien régulier prolonge aussi la durée de vie de vos tapis et préserve la garantie du fabricant.</p>
+      `,
+    },
+    {
+      slug: "urine-animaux-tapis",
+      title: "Animaux : Pourquoi l'odeur d'urine revient toujours ?",
+      excerpt:
+        "Vous avez nettoyé, mais l'odeur persiste lors des journées humides ? Comprenez la science derrière les taches d'urine.",
+      date: "14 Décembre 2024",
+      category: "Animaux",
+      image: "🐶",
+      content: `
+        <p>C'est un mystère frustrant : vous avez lavé la tache, vous avez mis du parfum, mais dès qu'il pleut ou qu'il fait humide, l'odeur d'urine revient en force.</p>
+        
+        <h3>Le coupable : Les cristaux d'acide urique</h3>
+        <p>L'urine contient de l'acide urique. Lorsque l'eau de l'urine s'évapore, cet acide se cristallise au cœur de la fibre et du sous-coussin. Ces cristaux sont insolubles à l'eau simple.</p>
+        <p>Tant qu'il sont secs, ils sont inodores. Mais dès qu'ils captent l'humidité (vapeur d'eau dans l'air), ils relâchent de l'ammoniaque gazeux. C'est pour cela que l'odeur "revient".</p>
+
+        <h3>Pourquoi les produits d'épicerie échouent ?</h3>
+        <p>Les sprays désodorisants ne font que masquer l'odeur temporairement. Ils ne détruisent pas les cristaux.</p>
+
+        <h3>La seule solution : Les Enzymes</h3>
+        <p>Pour éliminer le problème définitivement, nous utilisons des produits professionnels à base d'enzymes actives. Ces "bonnes bactéries" mangent littéralement les cristaux d'acide urique. Combiné à notre extraction par camion-usine, c'est la seule façon de "resetter" votre tapis.</p>
+      `,
+    },
+    {
+      slug: "preparer-visite-nettoyage",
+      title: "5 minutes pour préparer votre visite de nettoyage",
+      excerpt:
+        "Faut-il passer l'aspirateur ? Bouger les gros meubles ? Voici notre check-list simple pour un service efficace.",
+      date: "12 Décembre 2024",
+      category: "Guide",
+      image: "📋",
+      content: `
+        <p>Vous avez pris rendez-vous ? Excellent ! Voici comment nous aider à vous offrir le meilleur service possible en quelques gestes simples.</p>
+
+        <h3>1. Dégagez les zones de passage</h3>
+        <p>Retirez les petits objets, jouets, lampes fragiles et plantes posées au sol dans les zones à nettoyer. Nous avons besoin d'espace pour manœuvrer nos tuyaux.</p>
+
+        <h3>2. Les Meubles : On s'occupe du lourd (raisonnablement)</h3>
+        <p><strong>Ce que nous déplaçons :</strong> Sofas, tables basses, chaises. Nous plaçons des petits blocs de styromousse sous les pattes après le nettoyage.</p>
+        <p><strong>Ce que vous devez laisser :</strong> Bibliothèques remplies, pianos, meubles télé avec électronique complexe, lits waterbed. Pour ces items, nous nettoyons tout autour minutieusement.</p>
+
+        <h3>3. L'aspirateur ?</h3>
+        <p>Idéalement, un petit coup d'aspirateur rapide est apprécié pour enlever les gros moutons de poussière, mais nos équipements feront le gros du travail d'extraction de toute façon.</p>
+
+        <h3>4. Stationnement</h3>
+        <p>Notre camion-usine a besoin d'être stationné le plus près possible de votre porte pour garder la chaleur de l'eau. Si vous pouvez libérer l'entrée de garage, c'est l'idéal !</p>
+      `,
+    },
+    {
+      slug: "entretien-cuir-erreurs",
+      title: "Cuir : Arrêtez d'utiliser des lingettes pour bébé !",
+      excerpt:
+        "Les produits hydratants de pharmacie encrassent les pores du cuir. Apprenez la vraie méthode d'entretien.",
+      date: "08 Décembre 2024",
+      category: "Entretien",
+      image: "🛋️",
+      content: `
+        <p>Le cuir est une peau. Comme la vôtre, il a besoin de respirer et d'être hydraté. Mais attention aux fausses bonnes idées qui circulent sur internet.</p>
+
+        <h3>L'erreur des lingettes humides</h3>
+        <p>Les lingettes pour bébé contiennent souvent des huiles ou des lotions alcalines qui peuvent, à long terme, détériorer le fini protecteur du cuir (le "top coat").</p>
+
+        <h3>L'huile d'olive ou Lait démaquillant ? Non !</h3>
+        <p>Ces corps gras ne pénètrent pas correctement. Ils restent en surface, deviennent rances (mauvaise odeur) et attirent la poussière qui va agir comme du papier sablé sur votre cuir.</p>
+
+        <h3>La bonne méthode</h3>
+        <ol>
+            <li><strong>Dépoussiérer :</strong> Chiffon doux sec chaque semaine.</li>
+            <li><strong>Nettoyer :</strong> Un linge humide (eau seulement) pour les petits dégâts.</li>
+            <li><strong>Hydrater (1x par an) :</strong> C'est là que nous intervenons. Un cuir doit être nettoyé en profondeur pour ouvrir les pores AVANT d'appliquer une crème hydratante professionnelle. Appliquer de la crème sur un cuir sale ne fait qu'emprisonner la saleté.</li>
+        </ol>
+      `,
+    },
+  ];
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<Layout title={`${post.title} | Conseils Nettoyage Empire`}>
+  <div class="article-header">
+    <div class="container text-center fade-in-section">
+      <span class="category-tag">{post.category}</span>
+      <h1 class="text-gradient">{post.title}</h1>
+      <p class="meta-date">Publié le {post.date}</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="article-layout">
+        <!-- ARTICLE CONTENT -->
+        <article class="article-content fade-in-section delay-100">
+          <div class="content-body" set:html={post.content} />
+
+          <div class="share-box">
+            <p>Vous avez aimé ce conseil ?</p>
+            <a href="/conseils" class="back-link">&larr; Retour aux conseils</a>
+          </div>
+        </article>
+
+        <!-- SIDEBAR -->
+        <aside class="article-sidebar">
+          <div class="sticky-card fade-in-section">
+            <h3 class="card-title text-gradient-gold">Besoin d'un Pro ?</h3>
+            <p class="card-desc">
+              Ne prenez pas de risque avec vos tapis et meubles.
+            </p>
+
+            <a
+              href="tel:5148939939"
+              class="btn btn-primary full-width pulse-phone"
+            >
+              <span class="icon">📞</span> (514) 893-9939
+            </a>
+
+            <div class="service-links" style="margin-top: 2rem;">
+              <strong>Nos expertises :</strong>
+              <ul>
+                <li>
+                  <a href="/services/tapis-residentiel">Nettoyage de Tapis</a>
+                </li>
+                <li>
+                  <a href="/services/meubles-tissu">Nettoyage de Meubles</a>
+                </li>
+                <li>
+                  <a href="/services/nettoyage-desinfection-matelas"
+                    >Matelas & Allergies</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .article-header {
+    background: var(--color-bg-light-blue);
+    padding: 6rem 0 4rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .category-tag {
+    background: white;
+    color: var(--color-accent);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 1rem;
+    border: 1px solid var(--color-accent);
+  }
+
+  .meta-date {
+    color: #888;
+    margin-top: 1rem;
+    font-style: italic;
+  }
+
+  .article-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+  }
+
+  /* Content Styling */
+  .article-content {
+    background: white;
+    padding: 0;
+  }
+
+  .content-body {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #444;
+  }
+
+  /* Global styles for injected HTML content */
+  :global(.content-body h3) {
+    color: var(--color-primary);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+
+  :global(.content-body p) {
+    margin-bottom: 1.5rem;
+  }
+
+  :global(.content-body ul),
+  :global(.content-body ol) {
+    padding-left: 20px;
+    margin-bottom: 1.5rem;
+  }
+
+  :global(.content-body li) {
+    margin-bottom: 10px;
+  }
+
+  :global(.content-body strong) {
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  :global(.alert-box) {
+    background: #fdfae9;
+    border-left: 4px solid var(--color-accent);
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .share-box {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+    text-align: center;
+  }
+
+  .back-link {
+    color: var(--color-primary);
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .back-link:hover {
+    color: var(--color-accent);
+  }
+
+  /* Sidebar */
+  .sticky-card {
+    position: sticky;
+    top: 120px;
+    background: #fbfbfb;
+    padding: 2rem;
+    border-radius: var(--border-radius-md);
+    border: 1px solid #eee;
+  }
+
+  .service-links ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+  }
+
+  .service-links li {
+    margin-bottom: 8px;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 8px;
+  }
+
+  .service-links a {
+    color: #666;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .service-links a:hover {
+    color: var(--color-accent);
+    padding-left: 5px;
+  }
+
+  @media (max-width: 900px) {
+    .article-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

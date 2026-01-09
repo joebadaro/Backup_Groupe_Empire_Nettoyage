@@ -1,0 +1,158 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="À Propos - Notre Histoire & Expertise | Groupe Nettoyage Empire">
+  
+  <div class="page-header">
+    <div class="container text-center fade-in-section">
+      <span class="sub-title">Une Tradition d'Excellence</span>
+      <h1 class="text-gradient">Notre Histoire</h1>
+      <p class="lead-text">30 ans d'expérience au service de la propreté au Québec.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      
+      <div class="history-layout">
+        
+        <!-- Text Content (Based on User's Example) -->
+        <div class="history-content fade-in-section">
+          
+          <p class="intro-large">Groupe Nettoyage Empire est une entreprise spécialisée dans le nettoyage résidentiel et commercial, offrant des services professionnels de nettoyage de tapis, canapés, chaises, cuir, matelas et tuiles de céramique.</p>
+
+          <div class="text-block">
+            <h3>Un héritage de qualité</h3>
+            <p>Forte de plus de <strong>30 ans d’expérience</strong>, notre entreprise s’est développée autour d’une équipe dévouée et expérimentée, avec une approche axée sur la qualité du travail, la rigueur et la satisfaction de la clientèle.</p>
+          </div>
+
+          <div class="text-block">
+            <h3>La continuité de l'expertise (Ex-Sears)</h3>
+            <p>Nous avons évolué dans le domaine du nettoyage professionnel en <strong>conservant les standards élevés, les méthodes et l’expertise</strong> acquises au fil des années, notamment lors de notre affiliation passée avec Nettoyage Sears. Aujourd'hui, nous poursuivons cette tradition d'excellence avec le même professionnalisme, mais avec des technologies encore plus modernes.</p>
+          </div>
+
+          <div class="text-block">
+            <h3>Technologie et Écologie</h3>
+            <p>Nous utilisons des produits respectueux de l’environnement ainsi que des techniques de nettoyage avancées (Camions-usines & Portables haute performance), afin d’assurer un nettoyage efficace, sécuritaire et adapté à chaque type de surface.</p>
+            <p>Chaque intervention est réalisée avec soin, dans le respect de votre espace, pour laisser un environnement propre, frais et impeccable.</p>
+          </div>
+
+          <p class="closing">Que ce soit pour un nettoyage en profondeur ponctuel ou pour un entretien régulier, notre équipe est là pour vous accompagner et vous offrir des solutions adaptées à vos besoins.</p>
+
+          <div class="cta-history">
+             <a href="/equipe" class="btn btn-secondary">Rencontrez notre équipe</a>
+             <a href="/contact" class="btn btn-primary">Demandez une estimation</a>
+          </div>
+
+        </div>
+
+        <!-- Sidebar / Visuals -->
+        <div class="history-visuals fade-in-section delay-100">
+           <div class="stat-card">
+             <span class="number">30+</span>
+             <span class="label">Années d'expérience</span>
+           </div>
+           
+           <div class="stat-card">
+             <span class="number">100%</span>
+             <span class="label">Québécois</span>
+           </div>
+
+           <!-- Placeholder for visual -->
+           <div class="history-img" style="margin-top:2rem; overflow:hidden; border-radius:8px; box-shadow: var(--shadow-subtle);">
+             <img src="/images/services/services-1.webp" alt="Expertise Groupe Nettoyage Empire" style="width:100%; height:auto; display:block;" />
+           </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .page-header {
+    background: var(--color-bg-light-blue);
+    padding: 6rem 0 4rem 0;
+    margin-bottom: 2rem;
+  }
+  
+  .sub-title {
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    color: var(--color-accent);
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+  
+  .lead-text { font-size: 1.2rem; color: var(--color-text-light); }
+
+  .history-layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 5rem;
+  }
+
+  .intro-large {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: var(--color-primary);
+    margin-bottom: 2.5rem;
+    font-weight: 500;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 2rem;
+  }
+
+  .text-block {
+    margin-bottom: 2rem;
+  }
+  
+  .text-block h3 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+  }
+  
+  .text-block p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+
+  .closing {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #444;
+    margin: 2rem 0;
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--color-accent);
+  }
+
+  .cta-history {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .stat-card {
+    background: var(--color-primary);
+    color: white;
+    padding: 2rem;
+    border-radius: var(--border-radius-md);
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .stat-card .number { font-size: 3rem; font-weight: 800; display: block; color: var(--color-accent); line-height: 1; }
+  .stat-card .label { text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; margin-top: 5px; display: block; }
+
+  @media (max-width: 900px) {
+    .history-layout { grid-template-columns: 1fr; gap: 3rem; }
+  }
+</style>

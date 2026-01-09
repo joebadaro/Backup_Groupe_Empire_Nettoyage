@@ -1,0 +1,510 @@
+:root {
+  /* --- Palette Premium --- */
+  /* Bleu "Empire" Profond - Confiance et Autorité */
+  --color-primary: #0A2342;
+  --color-primary-light: #1C3A63;
+
+  /* Or Subtil -> Remplacé par Rouge/Argent */
+  /* Global Branding - Restored to Blue */
+  --empire-gradient: linear-gradient(135deg, #002855 0%, #004a9f 100%);
+  /* Blue Gradient by default */
+  --color-primary: #004a9f;
+  /* Empire Blue */
+  --color-secondary: #1a1a1a;
+  --color-accent: #D32F2F;
+  /* Red Accent remains for buttons/highlights */
+  --color-dark: #111111;
+  --color-light: #f4f4f4;
+
+  --empire-gold: #D4AF37;
+  --color-text-main: #2D3142;
+  --color-text-light: #596173;
+  --color-bg-white: #FFFFFF;
+  --color-bg-off-white: #F8F9FA;
+  --color-bg-light-blue: #E3F2FD;
+
+  /* Nouvelles Couleurs */
+  --color-eco: #2E7D32;
+  --color-eco-light: #E8F5E9;
+  --color-silver: #E0E0E0;
+  /* For Premium text */
+
+  /* --- Typography --- */
+  /* Premium modern stack: Outfit (Headings) + Inter (Body) */
+  --font-heading: 'Outfit', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  --h1-size: clamp(2rem, 5vw, 4rem);
+  --h2-size: clamp(2rem, 4vw, 3rem);
+  --h3-size: 1.5rem;
+
+  /* --- Spacing & Layout --- */
+  --container-width: 1280px;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 4rem;
+  --spacing-xl: 6rem;
+
+  --border-radius-sm: 4px;
+  --border-radius-md: 12px;
+  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+  --transition-fast: 0.2s ease;
+  --transition-smooth: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Reset de base amélioré */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-text-main);
+  background: var(--color-bg-white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  color: var(--color-primary);
+  line-height: 1.2;
+  margin-top: 0;
+}
+
+h1 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-fast);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Animations */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, visibility;
+}
+
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Staggered delays for child elements if needed */
+.delay-100 {
+  transition-delay: 100ms;
+}
+
+.delay-200 {
+  transition-delay: 200ms;
+}
+
+.delay-300 {
+  transition-delay: 300ms;
+}
+
+/* --- Utility Classes --- */
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-accent {
+  color: var(--color-accent);
+  scroll-behavior: smooth;
+}
+
+/* Premium Text Effects */
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-silver {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Premium Background Gradient for Services */
+.bg-gradient-premium {
+  background: linear-gradient(135deg, #ffffff 0%, #E3F2FD 100%) !important;
+}
+
+/* Premium Button Glow */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(197, 160, 101, 0.4);
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.btn-primary:hover::after {
+  left: 100%;
+}
+
+.text-white {
+  color: white;
+}
+
+/* --- Sophisticated Global Buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 36px;
+  /* Slightly larger for presence */
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+  border: none;
+  gap: 10px;
+  z-index: 1;
+}
+
+/* 1. Primary "Empire" Button (Rich Red Gradient) */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-accent) 0%, #B71C1C 100%);
+  color: white;
+  box-shadow: 0 10px 25px rgba(211, 47, 47, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(211, 47, 47, 0.4);
+  background: linear-gradient(135deg, #E53935 0%, #C62828 100%);
+  /* Slightly lighter on hover */
+}
+
+/* Custom Green-Black Gradient (Service Page Buttons) */
+.btn-gradient-green {
+  background: linear-gradient(135deg, #2E7D32 0%, #000000 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 28px;
+  font-size: 0.95rem;
+}
+
+.btn-gradient-green:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(46, 125, 50, 0.6);
+  background: linear-gradient(135deg, #43A047 0%, #1a1a1a 100%);
+}
+
+/* Blue to Green Gradient (Matching Logo Water Droplet) */
+.btn-gradient-blue-green {
+  background: linear-gradient(135deg, #004a9f 0%, #2E7D32 100%);
+  color: white;
+  box-shadow: 0 10px 25px rgba(0, 74, 159, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-gradient-blue-green:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(0, 74, 159, 0.4);
+  background: linear-gradient(135deg, #0066cc 0%, #43A047 100%);
+}
+
+/* Blue to Green Gradient Outline */
+.btn-gradient-blue-green-outline {
+  background: transparent;
+  border: 2px solid #2E7D32;
+  color: #2E7D32;
+  font-weight: 700;
+  transition: 0.3s;
+}
+
+.btn-gradient-blue-green-outline:hover {
+  background: linear-gradient(135deg, #004a9f 0%, #2E7D32 100%);
+  color: white;
+  box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+  border-color: transparent;
+}
+
+/* 2. State-of-the-Art "Glass" Button (Hero) */
+.btn-glass {
+  background: rgba(255, 255, 255, 0.1);
+  /* Ultra subtle base */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  /* Inner rim */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 15px 40px 0 rgba(0, 0, 0, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.3),
+    0 0 20px rgba(255, 255, 255, 0.2);
+  /* Outer glow */
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* 3. Glass Outline (Secondary Hero) */
+.btn-glass-outline {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  color: white;
+  backdrop-filter: blur(4px);
+}
+
+.btn-glass-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 4. Secondary / Outline Dark (For light backgrounds) */
+.btn-secondary-dark {
+  color: var(--color-primary);
+  font-weight: 800;
+  border-bottom: 2px solid var(--color-primary);
+  padding: 4px 0;
+  background: none;
+  border-radius: 0;
+}
+
+.btn-secondary-dark:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: none;
+  transform: translateX(5px);
+  /* Slide effect instead of lift */
+}
+
+.section {
+  padding: var(--spacing-xl) 0;
+}
+
+.section-gray {
+  background-color: var(--color-bg-light-blue);
+}
+
+.btn-outline-red {
+  border: 2px solid var(--color-brand-red);
+  color: var(--color-brand-red);
+  background: transparent;
+  font-weight: 700;
+  transition: 0.3s;
+}
+
+.btn-outline-red:hover {
+  background: var(--color-brand-red);
+  color: white;
+  box-shadow: 0 5px 15px rgba(211, 47, 47, 0.2);
+}
+
+/* --- Animations --- */
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pulse Wave Animation (Global) */
+.pulse-btn {
+  animation: pulse-wave 2.5s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+@keyframes pulse-wave {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6);
+  }
+
+  40% {
+    box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+.text-gradient-empire {
+  background: linear-gradient(90deg, #000000 0%, #a31616 85%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  display: inline-block;
+}
+
+.text-gradient-eco {
+  background: linear-gradient(90deg, #000000 0%, #2E7D32 85%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  display: inline-block;
+}
+
+/* --- Social Media Branding (Moved from Footer) --- */
+.video-cta-text {
+  font-size: 1.1rem;
+  color: #fff;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  /* Animation removed - static text */
+}
+
+
+.social-links {
+  display: flex;
+  gap: 25px;
+  /* Increased gap */
+  margin-bottom: 2.5rem;
+  align-items: center;
+}
+
+.social-btn {
+  width: 65px;
+  /* Increased from 45px */
+  height: 65px;
+  /* Increased from 45px */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: rgba(255, 255, 255, 0.15);
+  /* Slightly brighter bg */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  /* Default shadow */
+}
+
+.social-btn svg {
+  width: 32px;
+  /* Explicit icon size increase */
+  height: 32px;
+}
+
+/* Icons Pop Effect */
+.social-btn:hover {
+  transform: translateY(-8px) scale(1.15);
+  /* Stronger pop */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Brand Colors on Hover or Active */
+.social-btn.fb {
+  background: #1877F2;
+  border-color: #1877F2;
+}
+
+.social-btn.fb:hover {
+  box-shadow: 0 0 25px rgba(24, 119, 242, 0.8);
+}
+
+.social-btn.ig {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  border-color: #dc2743;
+}
+
+.social-btn.ig:hover {
+  box-shadow: 0 0 25px rgba(220, 39, 67, 0.8);
+}
+
+.social-btn.yt {
+  background: #FF0000;
+  border-color: #FF0000;
+}
+
+.social-btn.yt:hover {
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
+}

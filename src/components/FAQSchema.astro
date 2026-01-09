@@ -1,0 +1,124 @@
+---
+interface FAQ {
+    question: string;
+    answer: string;
+}
+
+interface Props {
+    faqs: FAQ[];
+    title?: string;
+}
+
+const { faqs, title = "Questions Fréquentes" } = Astro.props;
+
+// Generate FAQPage JSON-LD Schema
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+        },
+    })),
+};
+---
+
+<!-- FAQ Section with Semantic HTML -->
+<div class="faq-section fade-in-section delay-300">
+    <h2 class="section-title text-gradient-empire">{title}</h2>
+    <div class="faq-list">
+        {
+            faqs.map((faq) => (
+                <div
+                    class="faq-item"
+                    itemscope
+                    itemtype="https://schema.org/Question"
+                >
+                    <p class="question" itemprop="name">
+                        <strong>{faq.question}</strong>
+                    </p>
+                    <div
+                        itemscope
+                        itemprop="acceptedAnswer"
+                        itemtype="https://schema.org/Answer"
+                    >
+                        <p class="answer" itemprop="text">
+                            {faq.answer}
+                        </p>
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</div>
+
+<!-- FAQPage JSON-LD Schema -->
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+<style>
+    .faq-section {
+        margin-top: 3rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        color: var(--color-primary);
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 0.5rem;
+        display: inline-block;
+    }
+
+    .faq-list {
+        margin-top: 1.5rem;
+    }
+
+    .faq-item {
+        background: #f9f9f9;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        border-left: 3px solid var(--color-primary);
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .faq-item:hover {
+        transform: translateX(4px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .question {
+        color: var(--color-primary);
+        margin-bottom: 0.75rem;
+        font-size: 1.05rem;
+        font-weight: 700;
+        line-height: 1.5;
+    }
+
+    .answer {
+        color: var(--color-text-main);
+        line-height: 1.7;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .faq-item {
+            padding: 1.25rem;
+        }
+
+        .question {
+            font-size: 1rem;
+        }
+
+        .answer {
+            font-size: 0.9rem;
+        }
+    }
+</style>

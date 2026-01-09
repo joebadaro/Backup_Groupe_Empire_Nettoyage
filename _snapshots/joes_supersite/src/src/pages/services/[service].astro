@@ -1,0 +1,982 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+export function getStaticPaths() {
+  const services = [
+    {
+      slug: "tapis-residentiel",
+      title: "Nettoyage de tapis résidentiel",
+      seoTitle: "Expert Nettoyage Tapis Tésidentiel à Domicile",
+      category: "Tapis",
+      icon: "🏠",
+      image: "/images/catalog/photo-tapis-clean.webp",
+      imagePosition: "center top", // Anchor to top
+      heroHeight: "70vh", // Taller to maximize image size in contain mode
+      heroFit: "contain", // Force image to fit fully without cropping
+      intro:
+        "Vos tapis sont le filtre à air de votre maison. Avec le temps, ils accumulent poussière, acariens et allergènes. Notre nettoyage à domicile protège vos planchers tout en assainissant votre air.",
+      problem:
+        "Taches tenaces, trafic intense ou besoin d'un rafraîchissement hygiénique ? Les méthodes grand public laissent souvent des résidus savonneux.",
+      process: [
+        {
+          title: "Pré-inspection & Protection",
+          desc: "Le technicien protège vos planchers de bois avant tout. Il analyse les fibres et sélectionne parmi nos 40+ produits écologiques ceux adaptés à vos taches.",
+        },
+        {
+          title: "Traitement & Désinfection",
+          desc: "Application des solutions choisies (enzymes, oxygène...) selon vos besoins/budget. Nous vous expliquons chaque option.",
+        },
+        {
+          title: "Extraction Puissante",
+          desc: "Nous utilisons l'équipement le plus puissant possible (Camion-Usine ou Portable Pro pour les accès difficiles) pour laisser vos tapis presque secs.",
+        },
+      ],
+      benefits: [
+        "Protection systématique des planchers",
+        "40+ produits pour toutes taches",
+        "Camion-Usine ou Portable Pro",
+      ],
+      faq: [
+        {
+          q: "Est-ce dangereux pour mon plancher de bois ?",
+          a: "Aucunement. Nous installons des protections et l'eau ne traverse jamais le tapis grâce à notre puissance d'aspiration.",
+        },
+        {
+          q: "Utilisez-vous des produits forts ?",
+          a: "Non, tous nos produits sont écologiques et sans danger pour les enfants et animaux.",
+        },
+      ],
+    },
+    {
+      slug: "tapis-commercial",
+      title: "Nettoyage de tapis commercial",
+      seoTitle: "Service Nettoyage Tapis Commercial Bureaux",
+      category: "Commercial",
+      icon: "🏢",
+      image: "/images/catalog/photo-18.webp",
+      heroFit: "contain",
+      heroHeight: "70vh",
+      intro:
+        "L’image de votre entreprise commence par la propreté. Nous offrons des solutions flexibles directement dans vos bureaux pour un résultat impeccable sans logistique lourde.",
+      problem:
+        "Le trafic intense, le sel et le café créent des taches que l'entretien ménager régulier ne peut pas retirer.",
+      process: [
+        {
+          title: "Inspection & Devis",
+          desc: "Évaluation des zones à traiter (corridors, bureaux) et choix des produits selon le type de fibre commerciale.",
+        },
+        {
+          title: "Nettoyage Sur Mesure",
+          desc: "Utilisation de produits spécifiques pour le trafic lourd ou les taches alimentaires.",
+        },
+        {
+          title: "Séchage Rapide",
+          desc: "Extraction maximale pour permettre une réutilisation des locaux le plus tôt possible.",
+        },
+      ],
+      benefits: [
+        "Horaires flexibles (Soir/Weekend)",
+        "Estimation gratuite",
+        "Equipe assurée et professionnelle",
+      ],
+      faq: [
+        {
+          q: "Combien de temps ça prend ?",
+          a: "Nous travaillons rapidement grâce à nos équipements performants pour ne pas gêner vos opérations.",
+        },
+      ],
+    },
+    {
+      slug: "tapis-synthetique",
+      title: "Nettoyage de tapis synthétique à domicile",
+      seoTitle: "Nettoyage Tapis Synthétique à Domicile",
+      category: "Tapis",
+      icon: "🧶",
+      image: "/images/catalog/photo-27-fixed.webp",
+      heroFit: "contain",
+      heroHeight: "70vh",
+      intro:
+        "Les fibres synthétiques piègent les huiles et le gras. Nous intervenons directement chez vous avec des produits dégraissants spécialisés.",
+      problem:
+        "Vos tapis semblent ternes ou collants ? C’est souvent dû à des résidus gras ou de savon.",
+      process: [
+        {
+          title: "Analyse des Taches",
+          desc: "Le technicien vérifie l'état du tapis et vous propose les traitements optionnels si nécessaire (ex: détachant spécifique).",
+        },
+        {
+          title: "Injection / Extraction",
+          desc: "Lavage avec une solution adaptée qui décolle le gras sans abîmer la fibre.",
+        },
+        {
+          title: "Rinçage Neutralisant",
+          desc: "Élimination de tous les résidus pour un tapis doux et sain.",
+        },
+      ],
+      benefits: [
+        "Dégraissage en profondeur",
+        "Redonne l'éclat aux couleurs",
+        "Laisse le tapis légèrement humide (séchage naturel)",
+      ],
+      faq: [
+        {
+          q: "Allez-vous partir avec le tapis ?",
+          a: "Non, tout est fait sur place devant vous. C'est plus rapide et vous voyez le résultat immédiatement.",
+        },
+      ],
+    },
+    {
+      slug: "tapis-laine",
+      title: "Nettoyage de tapis en laine à domicile",
+      seoTitle: "Expert Nettoyage Tapis Laine à Domicile",
+      category: "Tapis",
+      icon: "🐑",
+      image: "/images/catalog/photo-39-fixed.webp",
+      heroFit: "contain",
+      heroHeight: "70vh",
+      intro:
+        "La laine demande une expertise précise. Nous la nettoyons sur place avec des produits pH neutre certifiés pour la laine, en toute sécurité pour vos planchers.",
+      problem:
+        "La laine est sensible à la chaleur et aux produits chimiques agressifs. Un mauvais nettoyage peut la faire brunir.",
+      process: [
+        {
+          title: "Protection & Inspection",
+          desc: "Mise en place des protections au sol. Test de la fibre pour confirmer qu'il s'agit de laine.",
+        },
+        {
+          title: "Nettoyage Doux",
+          desc: "Utilisation de produits Wool-Safe spécifiques. Pas de chaleur excessive.",
+        },
+        {
+          title: "Extraction Contrôlée",
+          desc: "Aspiration précise pour ne pas détremper la fibre, permettant un séchage naturel rapide.",
+        },
+      ],
+      benefits: [
+        "Produits pH Neutre (Wool-Safe)",
+        "Aucun risque pour le plancher bois",
+        "Technique sur place éprouvée",
+      ],
+      faq: [
+        {
+          q: "Est-ce que ça sentira le mouton mouillé ?",
+          a: "Une légère odeur naturelle est normale temporairement, mais disparaît vite car nous n'imbibons pas le tapis.",
+        },
+      ],
+    },
+    {
+      slug: "tapis-orientaux",
+      title: "Nettoyage de tapis orientaux à domicile",
+      seoTitle: "Nettoyage Tapis Orientaux Persans à Domicile",
+      category: "Tapis",
+      icon: "🕌",
+      image: "/images/catalog/photo-oriental-custom.webp",
+      heroFit: "contain",
+      heroHeight: "70vh",
+      intro:
+        "Vos tapis précieux sont nettoyés directement chez vous, sous vos yeux. Nous maîtrisons les teintures végétales et les fibres délicates.",
+      problem:
+        "Déplacer un grand tapis oriental est complexe et risqué. Vous préférez voir comment il est traité.",
+      process: [
+        {
+          title: "Test de Solidité",
+          desc: "Vérification méticuleuse des couleurs avant toute intervention pour éviter le dégorgement.",
+        },
+        {
+          title: "Traitement Manuel",
+          desc: "Application de produits stabilisateurs. Nous adaptons la pression pour respecter le tissage.",
+        },
+        {
+          title: "Finition Soignée",
+          desc: "Le tapis reste à sa place, propre et ravivé. Nos protections garantissent la sécurité de votre plancher.",
+        },
+      ],
+      benefits: [
+        "Service 100% à domicile",
+        "Respect des fibres anciennes",
+        "Protection des sols incluse",
+      ],
+      faq: [
+        {
+          q: "Nettoyez-vous les franges ?",
+          a: "Nous nous concentrons sur le nettoyage sécuritaire et efficace du tapis lui-même pour un résultat global harmonieux.",
+        },
+      ],
+    },
+    {
+      slug: "matelas",
+      title: "Nettoyage et désinfection de matelas",
+      seoTitle: "Nettoyage Matelas Anti-Acariens à Domicile",
+      category: "Meubles",
+      icon: "🛏️",
+      image: "/images/catalog/photo-matelas-custom.webp",
+      heroFit: "contain",
+      heroHeight: "70vh",
+      intro:
+        "Éliminez acariens, peaux mortes et bactéries directement dans votre chambre. Une hygiène essentielle pour un sommeil sain.",
+      problem:
+        "Vous souffrez d'allergies ou votre matelas a des cernes ? L'aspirateur seul ne sert à rien contre les acariens incrustés.",
+      process: [
+        {
+          title: "Inspection Hygiène",
+          desc: "Le technicien évalue les taches (sang, urine, transpiration) et vous conseille sur les résultats possibles.",
+        },
+        {
+          title: "Traitement Anti-Allergène",
+          desc: "Application de produits désinfectants écologiques qui neutralisent les allergènes.",
+        },
+        {
+          title: "Extraction Vapeur",
+          desc: "Aspiration puissante des contaminants. Le matelas sèche en quelques heures.",
+        },
+      ],
+      benefits: [
+        "Réduction des allergies",
+        "Désodorisation complète",
+        "Produits sécuritaires pour la peau",
+      ],
+      faq: [
+        {
+          q: "Puis-je dormir dessus ce soir ?",
+          a: "Oui, le matelas reste légèrement humide mais sèche rapidement à l'air libre.",
+        },
+      ],
+    },
+    {
+      slug: "meubles-tissu",
+      title: "Nettoyage de meubles en tissu",
+      seoTitle: "Nettoyage Sofa et Meubles Tissu à Domicile",
+      category: "Meubles",
+      icon: "🛋️",
+      image: "/images/catalog/photo-82.webp",
+      heroFit: "contain",
+      heroHeight: "70vh",
+      intro:
+        "Redonnez vie à votre salon. Nous nettoyons sofas et fauteuils sur place, en éliminant taches et sébum accumulé.",
+      problem:
+        "Les zones de contact (tête, bras) noircissent avec le temps. Les taches alimentaires s'incrustent.",
+      process: [
+        {
+          title: "Analyse du Tissu",
+          desc: "Identification de la fibre (synthétique, coton, microfibre) pour choisir le bon détachant parmi nos 40+ produits.",
+        },
+        {
+          title: "Détachage Ciblé",
+          desc: "Traitement des taches spécifiques (vin, graisse, encre) selon vos besoins.",
+        },
+        {
+          title: "Extraction",
+          desc: "Rinçage en profondeur qui emporte la saleté vers notre camion. Le tissu reste frais et propre.",
+        },
+      ],
+      benefits: [
+        "Détachage spécialisé",
+        "Ravive les couleurs",
+        "Séchage rapide à l'air ambiant",
+      ],
+      faq: [
+        {
+          q: "Traitez-vous tous les tissus ?",
+          a: "Oui, nous avons des produits adaptés même pour les tissus les plus délicats.",
+        },
+      ],
+    },
+    {
+      slug: "meubles-cuir",
+      title: "Nettoyage de meubles en cuir",
+      seoTitle: "Nettoyage et Hydratation Cuir à Domicile",
+      category: "Meubles",
+      icon: "🛋️",
+      image: "/images/catalog/photo-leather-final.webp",
+      heroFit: "contain",
+      heroHeight: "70vh",
+      intro:
+        "Le cuir doit être nettoyé ET nourri. Notre traitement manuel sur place prévient le dessèchement et les craquelures.",
+      problem:
+        "Utiliser de l'eau ou des produits ménagers sur le cuir est une erreur qui l'abîme à long terme.",
+      process: [
+        {
+          title: "Inspection du Grain",
+          desc: "Vérification du type de cuir et de son usure.",
+        },
+        {
+          title: "Nettoyage Manuel",
+          desc: "Application d'une crème nettoyante qui déloge la saleté des pores sans agresser.",
+        },
+        {
+          title: "Hydratation",
+          desc: "Application d'un soin hydratant qui redonne souplesse et éclat.",
+        },
+      ],
+      benefits: [
+        "Prolonge la vie du cuir",
+        "Finition non grasse",
+        "Empêche le craquèlement",
+      ],
+      faq: [
+        {
+          q: "Est-ce que ça enlève les griffures ?",
+          a: "Non, mais l'hydratation peut atténuer leur apparence visuelle.",
+        },
+      ],
+    },
+    {
+      slug: "ceramique",
+      title: "Nettoyage de tuiles de céramique",
+      seoTitle: "Nettoyage Joints Céramique Plancher",
+      category: "Surfaces",
+      icon: "✨",
+      image: "/images/catalog/photo-ceramique-detail.jpg",
+      intro:
+        "Vos joints sont noirs de crasse ? Notre équipement haute pression redonne l'aspect du neuf à vos planchers.",
+      problem:
+        "La moppe ne fait que pousser la saleté dans les joints poreux. Impossible à nettoyer manuellement.",
+      process: [
+        {
+          title: "Vaporisation",
+          desc: "Produit dégraissant professionnel appliqué sur toute la surface.",
+        },
+        {
+          title: "Turbo-Lavage",
+          desc: "Outil rotatif fermé qui projette l'eau et l'aspire instantanément. Aucune éclaboussure.",
+        },
+        {
+          title: "Résultat Immédiat",
+          desc: "La saleté est évacuée vers le camion. Le plancher est propre et presque sec.",
+        },
+      ],
+      benefits: [
+        "Joints comme neufs",
+        "Élimine les bactéries",
+        "Aucun dégât d'eau",
+      ],
+      faq: [
+        {
+          q: "Est-ce salissant pour les murs ?",
+          a: "Non, notre outil est totalement fermé et aspire l'eau à la source.",
+        },
+      ],
+    },
+    {
+      slug: "protecteur",
+      title: "Application de protecteurs antitâches",
+      seoTitle: "Protecteur Antitache Scotchgard Teflon Carbon",
+      category: "Protection",
+      icon: "🛡️",
+      image: "/images/catalog/photo-20.webp",
+      intro:
+        "Prolongez la durée de vie de vos investissements. Nous utilisons uniquement des protecteurs professionnels non dilués pour une efficacité maximale.",
+      problem:
+        "Sans protection, les fibres absorbent les dégâts instantanément. Un bon protecteur vous donne le temps de réagir.",
+      process: [
+        {
+          title: "Consultation & Choix",
+          desc: "Le technicien identifie votre matériau et vous présente les options : Scotchgard (3M), Teflon (Dupont) ou protecteurs au Carbone.",
+        },
+        {
+          title: "Recommandation",
+          desc: "Nous vous expliquons les différences et vous conseillons le produit le plus durable pour votre usage spécifique.",
+        },
+        {
+          title: "Application Pro",
+          desc: "Vaporisation de la quantité exacte recommandée par le manufacturier (sans dilution) pour une protection optimale.",
+        },
+      ],
+      benefits: [
+        "Marques reconnues",
+        "Produits PURS (Non dilués)",
+        "Adapté au Tissu, Cuir, Tapis",
+      ],
+      faq: [
+        {
+          q: "Est-ce que l'eau va perler ?",
+          a: "Cela dépend du tissu et du produit choisi. Le but principal est d'empêcher la tache de se fixer, vous donnant le temps d'éponger.",
+        },
+        {
+          q: "Est-ce nécessaire ?",
+          a: "C'est une option fortement recommandée pour protéger votre investissement à long terme, mais le choix final vous appartient.",
+        },
+      ],
+    },
+  ];
+
+  return services.map((service) => ({
+    params: { service: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+---
+
+<Layout
+  title={`${service.seoTitle} | Groupe Nettoyage Empire`}
+  description={service.intro}
+  image={service.image}
+>
+  <style define:vars={{ heroHeight: service.heroHeight || "auto" }}>
+    .service-hero {
+      min-height: var(--heroHeight);
+      display: flex;
+      align-items: center;
+    }
+  </style>
+
+  <!-- SPLIT SCREEN HERO -->
+  <div class="split-hero-container">
+    <div class="container full-width-split">
+      <div class="split-layout">
+        <!-- LEFT COLUMN: CONTENT (Hook) -->
+        <div class="split-content fade-in-section">
+          <span class="service-cat-badge">{service.category}</span>
+          <h1 class="split-title fade-in-up text-gradient-empire">
+            {service.title}
+          </h1>
+
+          <div class="problem-statement fade-in-up delay-100">
+            <h3 class="problem-title">Le Problème :</h3>
+            <p class="problem-text">{service.problem}</p>
+          </div>
+
+          <p class="lead-text fade-in-up delay-200">{service.intro}</p>
+
+          <div class="cta-group fade-in-up delay-300">
+            <a href="tel:5148939939" class="btn btn-primary pulse-btn">
+              <span class="icon">📞</span> (514) 893-9939 (Estimation Gratuite)
+            </a>
+            <a href="/contact" class="btn btn-secondary-outline">
+              <span class="icon">✉️</span> Soumission en ligne
+            </a>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: IMAGE (Visual) -->
+        <div class="split-image-wrapper fade-in-section delay-200">
+          <img
+            src={service.image}
+            alt={service.title}
+            class="split-image"
+            draggable="false"
+          />
+          <div class="image-overlay-gradient"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="service-layout">
+        <!-- MAIN CONTENT -->
+        <div class="service-main">
+          <!-- PROCESS -->
+          <div class="fade-in-section delay-100" style="margin-top: 0;">
+            <h2 class="section-title text-gradient-empire">
+              Notre Approche (Sur Place)
+            </h2>
+            <div class="process-timeline">
+              {
+                service.process.map((step, index) => (
+                  <div class="process-step">
+                    <div class="step-marker">{index + 1}</div>
+                    <div class="step-content">
+                      <h3>{step.title}</h3>
+                      <p>{step.desc}</p>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+
+            <!-- EQUIPMENT NOTE FOR PORTABLE -->
+            <div
+              class="equipment-note fade-in-section delay-100"
+              style="margin-top: 2rem; background: #f9f9f9; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-accent);"
+            >
+              <h4 style="margin-bottom: 0.5rem; color: var(--color-primary);">
+                Équipement Adapté (Camion ou Portable)
+              </h4>
+              <p style="font-size: 0.95rem;">
+                Nous utilisons prioritairement nos <strong
+                  >camions-usines</strong
+                > pour une puissance maximale. Toutefois, pour les condos en hauteur
+                ou les accès limités, nous sommes équipés de <strong
+                  >machines portatives professionnelles haute-performance</strong
+                >. Ces unités n'ont rien à voir avec les machines de location :
+                elles garantissent un résultat expert, peu importe votre étage.
+              </p>
+            </div>
+          </div>
+
+          <!-- BENEFITS -->
+          <div class="fade-in-section delay-200" style="margin-top: 3rem;">
+            <h2 class="section-title text-gradient-empire">
+              Pourquoi nous choisir ?
+            </h2>
+            <div class="benefits-grid">
+              {
+                service.benefits.map((benefit) => (
+                  <div class="benefit-item">
+                    <div class="check-circle">✓</div>
+                    <span>{benefit}</span>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
+          <!-- FAQ (Schema Friendly structure) -->
+          {
+            service.faq && (
+              <div class="fade-in-section delay-300" style="margin-top: 3rem;">
+                <h2 class="section-title text-gradient-empire">
+                  Questions Fréquentes
+                </h2>
+                <div class="faq-list">
+                  {service.faq.map((item) => (
+                    <div class="faq-item">
+                      <p class="question">
+                        <strong>Q : {item.q}</strong>
+                      </p>
+                      <p class="answer">{item.a}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+        </div>
+
+        <!-- SIDEBAR CTA (Sticky) -->
+        <aside class="service-sidebar">
+          <div class="sticky-card fade-in-section">
+            <h3 class="card-title text-gradient-gold">Estimation Gratuite</h3>
+            <p class="card-desc">Appelez-nous pour une réponse immédiate.</p>
+
+            <a
+              href="tel:5148939939"
+              class="btn btn-primary full-width pop-effect pulse-phone"
+            >
+              <span class="icon">📞</span> (514) 893-9939 (Estimation Gratuite)
+            </a>
+
+            <p
+              class="text-center"
+              style="margin: 1rem 0; font-size: 0.9rem; color: #888;"
+            >
+              ou
+            </p>
+
+            <a href="/contact" class="btn-secondary-outline full-width">
+              Soumission en ligne
+            </a>
+
+            <div class="guarantee-badge">
+              <span>🌿 Produits 100% Écologiques</span>
+              <div style="margin-top: 5px; color: #ffbf00; font-weight: bold;">
+                ★★★★★
+              </div>
+              <span style="font-size: 0.8rem; color: #666;"
+                >Clients Satisfaits</span
+              >
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* HERO */
+  /* SPLIT SCREEN HERO (Sky Blue Theme) */
+  .split-hero-container {
+    background-color: #fff; /* Reset container to white */
+    padding-top: 0; /* Remove container padding so image hits top */
+    padding-bottom: 0;
+    overflow: hidden;
+    width: 100vw;
+  }
+
+  .full-width-split {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .split-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    align-items: stretch;
+    min-height: 100vh; /* Full viewport height */
+  }
+
+  /* LEFT TEXT COLUMN */
+  .split-content {
+    background-color: #ecf6ff; /* Blue visible ONLY here */
+    padding: 150px 4rem 4rem 10%; /* Add header offset internal padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Remove dark texture, add subtle light shine */
+  .split-content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      circle at top left,
+      #ffffff 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .service-cat-badge {
+    text-transform: uppercase;
+    color: var(--color-accent);
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .split-title {
+    font-size: clamp(2.5rem, 3.5vw, 4rem);
+    color: var(--color-primary); /* Dark Blue text */
+    margin-bottom: 2rem;
+    line-height: 1.1;
+  }
+
+  .problem-statement {
+    background: #ffffff; /* White box */
+    border-left: 4px solid #ff4444; /* Red border returns for alertness */
+    padding: 1.5rem;
+    border-radius: 0;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(174, 206, 235, 0.3); /* Soft blue shadow */
+  }
+
+  .problem-title {
+    font-size: 1rem;
+    color: #cc0000;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .problem-text {
+    font-size: 1.05rem;
+    color: var(--color-text-main);
+    font-style: italic;
+  }
+
+  .lead-text {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--color-text-main); /* Dark grey text */
+    margin-bottom: 2.5rem;
+    max-width: 650px;
+  }
+
+  .cta-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* Reset Secondary Button for Light Mode */
+  .split-content .btn-secondary-outline {
+    border-color: #ddd;
+    color: #666;
+  }
+  .split-content .btn-secondary-outline:hover {
+    background: white;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  /* RIGHT IMAGE COLUMN */
+  .split-image-wrapper {
+    position: relative;
+    height: 100%;
+    min-height: 500px;
+    width: 100%;
+    border-radius: 0;
+    transform: none;
+    box-shadow: none;
+    margin: 0;
+    background-color: #fff; /* Ensure white background if image loads late */
+  }
+
+  .image-overlay-gradient {
+    display: none; /* Remove overlay causing potential confusion */
+  }
+
+  .image-overlay-gradient {
+    /* Optional: Slight gradient to ensure edge definition if image is white on white, but usually not needed for full bleed */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 90%,
+      rgba(0, 0, 0, 0.05) 100%
+    );
+    pointer-events: none;
+  }
+
+  .split-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .split-layout {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .split-content {
+      padding: 3rem 1.5rem;
+      order: 1; /* Content first */
+    }
+
+    .split-image-wrapper {
+      order: 2; /* Image second */
+      height: 400px;
+      min-height: 0;
+    }
+
+    .lead-text {
+      max-width: 100%;
+    }
+  }
+
+  /* LAYOUT */
+  .service-layout {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
+    gap: 5rem;
+  }
+
+  /* TYPOGRAPHY */
+  .section-title {
+    font-size: 1.8rem;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+  }
+
+  /* PROCESS TIMELINE */
+  .process-timeline {
+    position: relative;
+    padding-left: 20px;
+  }
+
+  .process-timeline::before {
+    content: "";
+    position: absolute;
+    left: 14px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: #eee;
+  }
+
+  .process-step {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .step-marker {
+    min-width: 30px;
+    height: 30px;
+    background: var(--color-accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    z-index: 2;
+    margin-top: 3px;
+  }
+
+  .step-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-primary);
+  }
+  .step-content p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-text-light);
+  }
+
+  /* BENEFITS */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-subtle);
+    border: 1px solid #eee;
+  }
+
+  .check-circle {
+    width: 25px;
+    height: 25px;
+    background: #e6f7e6;
+    color: #2e7d32;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+
+  /* FAQ */
+  .faq-item {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  .question {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+  }
+  .answer {
+    color: var(--color-text-light);
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  /* SIDEBAR */
+  .sticky-card {
+    position: sticky;
+    top: 120px;
+    background: white;
+    padding: 2.5rem;
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Stronger shadow */
+    border: 1px solid rgba(0, 0, 0, 0.02);
+  }
+
+  .card-title {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+  }
+  .card-desc {
+    margin-bottom: 2rem;
+    color: var(--color-text-light);
+  }
+
+  .full-width {
+    width: 100%;
+    display: block;
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .pop-effect:hover {
+    transform: scale(1.02);
+  }
+
+  .guarantee-badge {
+    text-align: center;
+    margin: 1.5rem 0;
+    padding: 10px;
+    background: #fbfbfb;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  .contact-direct {
+    text-align: center;
+    border-top: 1px solid #eee;
+    padding-top: 1.5rem;
+  }
+  .phone-num {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    margin-top: 5px;
+  }
+
+  .pulse-phone {
+    animation: pulse-gold 2s infinite;
+  }
+
+  @keyframes pulse-gold {
+    0% {
+      box-shadow: 0 0 0 0 rgba(197, 160, 101, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(197, 160, 101, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(197, 160, 101, 0);
+    }
+  }
+
+  .btn-secondary-outline {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #666;
+    transition: 0.2s;
+  }
+  .btn-secondary-outline:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 900px) {
+    .service-layout {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .sticky-card {
+      position: static;
+      margin-top: 2rem;
+    }
+  }
+</style>

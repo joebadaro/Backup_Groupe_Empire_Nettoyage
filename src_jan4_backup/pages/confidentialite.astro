@@ -1,0 +1,73 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Politique de Confidentialité | Groupe Nettoyage Empire">
+    <section class="section">
+        <div class="container">
+            <h1>Politique de Confidentialité</h1>
+            <p>
+                Dernière mise à jour : {new Date().toLocaleDateString("fr-CA")}
+            </p>
+
+            <div class="content">
+                <p>
+                    Le Groupe Nettoyage Empire s'engage à protéger votre vie
+                    privée. Cette politique explique comment nous recueillons et
+                    utilisons vos informations.
+                </p>
+
+                <h2>1. Collecte d'informations</h2>
+                <p>
+                    Nous recueillons les informations que vous nous fournissez
+                    volontairement via nos formulaires de contact (nom,
+                    téléphone, adresse, courriel) dans le seul but de répondre à
+                    vos demandes de soumission.
+                </p>
+
+                <h2>2. Utilisation des données</h2>
+                <p>Vos données servent uniquement à :</p>
+                <ul>
+                    <li>Vous contacter pour une estimation.</li>
+                    <li>Planifier un rendez-vous de nettoyage.</li>
+                </ul>
+                <p>
+                    Nous ne vendons ni ne partageons vos données avec des tiers.
+                </p>
+
+                <h2>3. Cookies</h2>
+                <p>
+                    Ce site peut utiliser des cookies pour améliorer votre
+                    expérience de navigation.
+                </p>
+
+                <h2>4. Contact</h2>
+                <p>
+                    Pour toute question, contactez-nous à :
+                    info@groupenettoyageempire.com
+                </p>
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .section {
+        padding: 8rem 0;
+    }
+    h1 {
+        color: var(--color-primary);
+        margin-bottom: 2rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: var(--color-primary);
+    }
+    .content {
+        max-width: 800px;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+</style>

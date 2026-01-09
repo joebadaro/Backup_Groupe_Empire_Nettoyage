@@ -1,0 +1,1413 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Groupe Nettoyage Empire - L'Excellence du Nettoyage au Québec">
+  <!-- 1. HERO SECTION: IMPACT VISUEL FORT (Bleu Foncé & Or) -->
+  <!-- 1. HERO SECTION: IMPACT VISUEL FORT (Bleu Foncé & Or) -->
+  <section class="hero-section">
+    <!-- SLIDESHOW BACKGROUND -->
+    <div class="hero-slideshow">
+      <!-- Slide 1: Artistic Living Room -->
+      <img
+        src="/images/catalog/hero-slide-2.webp"
+        srcset="/images/catalog/hero-slide-2-mobile.webp 800w, /images/catalog/hero-slide-2.webp 1920w"
+        sizes="(max-width: 768px) 100vw, 100vw"
+        alt="Espace de vie lumineux et propre"
+        class="hero-slide active"
+        fetchpriority="high"
+        loading="eager"
+        style="opacity: 1 !important; transition: none !important;"
+        width="1920"
+        height="1080"
+      />
+
+      <!-- Slide 3: New Office Carpet -->
+      <img
+        src="/images/catalog/hero-slide-office.webp"
+        srcset="/images/catalog/hero-slide-office-mobile.webp 800w, /images/catalog/hero-slide-office.webp 1920w"
+        sizes="(max-width: 768px) 100vw, 100vw"
+        alt="Nettoyage de tapis bureau et commercial"
+        class="hero-slide"
+      />
+    </div>
+
+    <div class="hero-overlay"></div>
+    <div
+      class="container hero-content text-center"
+      style="position: relative; z-index: 10;"
+    >
+      <div class="hero-badge animate-on-load">
+        <span class="badge-main">
+          <img
+            src="/images/choix-quebec-optimized.webp"
+            alt="Choix du Consommateur Québec"
+            class="badge-icon-img"
+            width="40"
+            height="40"
+          />
+          Le Choix Numéro 1
+        </span>
+        <span class="badge-sub">des consommateurs au Québec</span>
+      </div>
+
+      <h1 class="hero-title animate-on-load delay-1">
+        L'Art du Nettoyage <br />
+        <span class="text-gradient-tricolor">Haut de Gamme</span>
+      </h1>
+      <p class="hero-subtitle animate-on-load delay-2">
+        Tapis, Meubles et Matelas. Une propreté éclatante grâce à notre
+        technologie de camion-usine exclusive et nos produits écologiques.
+      </p>
+      <div class="hero-actions animate-on-load delay-3">
+        <a href="tel:5148939939" class="btn btn-glass pulse-btn">
+          <span class="icon">📞</span> Estimation par téléphone - Parler à un Expert
+        </a>
+        <button
+          onclick="if(window.openEstimationWidget) window.openEstimationWidget()"
+          class="btn btn-glass-outline"
+        >
+          <span class="icon">⚡</span> Estimation Instantanée en Ligne
+        </button>
+      </div>
+    </div>
+
+    <!-- Wave Separator Bottom -->
+    <div class="wave-bottom">
+      <svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+        <path
+          fill="#ffffff"
+          fill-opacity="1"
+          d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+        ></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 2. TRUST INSIGNIA (Confiance Immédiate) -->
+  <section class="trust-container">
+    <div class="brand-watermark watermark-trust"></div>
+    <div class="container trust-grid">
+      <div class="trust-pill badge-google">
+        <img
+          src="/images/google-reviews-badge.png"
+          alt="Google 5 Stars Review"
+          width="110"
+          height="auto"
+          loading="eager"
+        />
+      </div>
+      <div class="trust-pill badge-exp">
+        <span class="icon">💎</span> 30+ ans d'expérience
+      </div>
+      <div class="trust-pill badge-eco">
+        <span class="icon">🌿</span> 100% Écologique
+      </div>
+      <div class="trust-pill badge-local">
+        <span class="icon">⚜️</span> Entreprise Québécoise
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SERVICES (Fond Bleu Pâle - Contraste Doux) -->
+  <section class="section section-services">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="tag-blue">Expertise Complète</span>
+        <h2 class="title-dark-blue text-gradient-empire">
+          Nos Solutions de Nettoyage
+        </h2>
+        <p class="lead-text">
+          Une intervention ciblée pour chaque surface de votre intérieur.
+        </p>
+      </div>
+
+      <div class="services-grid-modern">
+        <!-- 1. Meubles & Divans -->
+        <a
+          href="/services/meubles-tissu"
+          class="service-card-modern fade-in-section delay-100"
+        >
+          <img
+            src="/images/services/services-4.webp"
+            alt="Nettoyage de sofa, divan, fauteuil, chaise et meubles en tissu"
+            class="card-img"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <div class="card-icon icon-blue">🛋️</div>
+            <h3>Sofa, divan, fauteuil, chaise, meubles en tissu</h3>
+            <p>
+              Nettoyage en profondeur des tissus d'ameublement. Stop aux taches
+              et odeurs.
+            </p>
+            <span class="link-text">Voir détails &rarr;</span>
+          </div>
+        </a>
+
+        <!-- 2. Meubles en Cuir -->
+        <a
+          href="/services/meubles-cuir"
+          class="service-card-modern fade-in-section delay-200"
+        >
+          <img
+            src="/images/catalog/photo-leather-final.webp"
+            alt="Nettoyage de meubles en cuir"
+            class="card-img"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <div class="card-icon icon-blue">🛡️</div>
+            <h3>Meubles en Cuir</h3>
+            <p>
+              Nettoyage et hydratation pour protéger votre cuir contre le
+              dessèchement.
+            </p>
+            <span class="link-text">Voir détails &rarr;</span>
+          </div>
+        </a>
+
+        <!-- 3. Tapis Résidentiel -->
+        <a
+          href="/services/nettoyage-tapis-residentiel"
+          class="service-card-modern fade-in-section delay-300"
+        >
+          <img
+            src="/images/catalog/photo-tapis-clean.webp"
+            alt="Nettoyage de tapis résidentiel"
+            class="card-img"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <div class="card-icon icon-blue">🏠</div>
+            <h3>Tapis Résidentiel</h3>
+            <p>
+              Redonnez couleur et hygiène à vos tapis en laine, synthétique ou
+              orientaux.
+            </p>
+            <span class="link-text">Voir détails &rarr;</span>
+          </div>
+        </a>
+
+        <!-- 4. Tapis Synthétique -->
+        <a
+          href="/services/tapis-synthetique"
+          class="service-card-modern fade-in-section delay-100"
+        >
+          <img
+            src="/images/catalog/photo-47.webp"
+            alt="Nettoyage de tapis synthétique"
+            class="card-img"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <div class="card-icon icon-blue">🧹</div>
+            <h3>Nettoyage de tapis synthétique à domicile</h3>
+            <p>Technique adaptée aux fibres modernes et résistantes.</p>
+            <span class="link-text">Voir détails &rarr;</span>
+          </div>
+        </a>
+
+        <!-- 5. Tapis en Laine -->
+        <a
+          href="/services/tapis-laine"
+          class="service-card-modern fade-in-section delay-200"
+        >
+          <img
+            src="/images/catalog/photo-22.webp"
+            alt="Nettoyage de tapis en laine"
+            class="card-img"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <div class="card-icon icon-blue">🧶</div>
+            <h3>Tapis en Laine</h3>
+            <p>
+              Traitement délicat et spécialisé pour vos tapis en laine et fibres
+              naturelles.
+            </p>
+            <span class="link-text">Voir détails &rarr;</span>
+          </div>
+        </a>
+
+        <!-- 6. Tapis Orientaux -->
+        <a
+          href="/services/tapis-orientaux"
+          class="service-card-modern fade-in-section delay-300"
+        >
+          <img
+            src="/images/catalog/photo-oriental-custom.webp"
+            alt="Nettoyage de tapis orientaux"
+            class="card-img"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <div class="card-icon icon-blue">🏺</div>
+            <h3>Nettoyage de tapis orientaux à domicile</h3>
+            <p>Restauration experte pour tapis persans et orientaux.</p>
+            <span class="link-text">Voir détails &rarr;</span>
+          </div>
+        </a>
+
+        <!-- 7. Tapis Commercial -->
+        <a
+          href="/services/nettoyage-tapis-commercial"
+          class="service-card-modern fade-in-section delay-100"
+        >
+          <img
+            src="/images/catalog/tapis-commercial-combo.webp"
+            alt="Nettoyage de tapis commercial"
+            class="card-img"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <div class="card-icon icon-blue">🏢</div>
+            <h3>Nettoyage de tapis commercial</h3>
+            <p>Solutions pour bureaux et grands espaces.</p>
+            <span class="link-text">Voir détails &rarr;</span>
+          </div>
+        </a>
+
+        <!-- 8. Matelas -->
+        <a
+          href="/services/nettoyage-desinfection-matelas"
+          class="service-card-modern fade-in-section delay-200"
+        >
+          <img
+            src="/images/catalog/photo-matelas-custom.webp"
+            alt="Nettoyage de matelas"
+            class="card-img"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <div class="card-icon icon-red">🛏️</div>
+            <h3>Nettoyage de Matelas et Désinfection</h3>
+            <p>
+              Élimination certifiée des acariens et bactéries pour un sommeil
+              sain.
+            </p>
+            <span class="link-text">Voir détails &rarr;</span>
+          </div>
+        </a>
+
+        <!-- 9. Céramique -->
+        <a
+          href="/services/nettoyage-tuiles-ceramique"
+          class="service-card-modern fade-in-section delay-300"
+        >
+          <img
+            src="/images/catalog/photo-78.webp"
+            alt="Nettoyage de tuiles et céramique"
+            class="card-img"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <div class="card-icon icon-blue">✨</div>
+            <h3>Tuiles & Céramique</h3>
+            <p>
+              Restaurer l'éclat de vos planchers et joints avec notre nettoyage
+              haute pression.
+            </p>
+            <span class="link-text">Voir détails &rarr;</span>
+          </div>
+        </a>
+
+        <!-- 10. Protecteur -->
+        <a
+          href="/services/protecteur"
+          class="service-card-modern fade-in-section delay-100"
+        >
+          <img
+            src="/images/catalog/photo-20.webp"
+            alt="Protecteur anti-taches"
+            class="card-img"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <div class="card-icon icon-blue">☔</div>
+            <h3>Application de protecteurs antitâches</h3>
+            <p>Protection Teflon/Scotchgard pour tissus, cuirs et tapis.</p>
+            <span class="link-text">Voir détails &rarr;</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.5 QUALITY DETAILS STRIP (Refined) -->
+  <section class="section-quality-strip-refined">
+    <div class="quality-image-wrapper">
+      <img
+        src="/images/catalog/souci-detail-team.webp"
+        alt="L'équipe Groupe Nettoyage Empire"
+        class="quality-img-full"
+      />
+    </div>
+    <div class="quality-content-refined text-center">
+      <h3 class="text-gradient-eco">Une Équipe Dévouée</h3>
+      <p>Experts certifiés et produits 100% écologiques.</p>
+    </div>
+    <div class="quality-image-wrapper">
+      <img
+        src="/images/catalog/team-van-back.webp"
+        alt="L'équipe Groupe Empire avec le camion-usine"
+        class="quality-img-full"
+      />
+    </div>
+  </section>
+
+  <!-- 4. SECTION ÉCOLOGIQUE (Vert - Nature - Confiance) -->
+  <section class="section section-eco">
+    <div class="brand-watermark watermark-eco"></div>
+    <div class="container split-eco">
+      <div class="eco-content fade-in-section">
+        <span class="tag-green">Engagement Vert</span>
+        <h2 class="text-gradient-empire">Sécuritaire pour vos enfants</h2>
+        <p class="eco-lead">
+          Nous utilisons exclusivement des produits <strong
+            >biodégradables et non-toxiques</strong
+          >.
+        </p>
+
+        <ul class="eco-list">
+          <li>
+            <img
+              src="/images/catalog/photo-8.webp"
+              alt="Certification"
+              class="icon-cert"
+              style="width: 50px; height: auto;"
+            />
+            <div>
+              <strong>Certifié Écologique</strong><br />Produits approuvés et
+              sécuritaires.
+            </div>
+          </li>
+          <li>
+            <span class="check-green">👶</span>
+            <div>
+              <strong>Hypoallergénique</strong><br />Idéal pour les personnes
+              asthmatiques.
+            </div>
+          </li>
+          <li>
+            <span class="check-green">🐾</span>
+            <div>
+              <strong>Pet Friendly</strong><br />Vos animaux peuvent circuler
+              librement.
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="eco-image-wrapper fade-in-section delay-100">
+        <div class="eco-circle-bg"></div>
+        <img
+          src="/images/catalog/photo-76.webp"
+          alt="Produits écologiques nettoyage"
+          class="eco-img floating"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. LA PUISSANCE (Fond Bleu Foncé - Tech - Sérieux) -->
+  <section class="section section-dark-blue text-white">
+    <div class="container">
+      <div class="split-layout reverse-mobile">
+        <div class="tech-image-wrapper">
+          <div class="tech-gallery">
+            <img
+              src="/images/catalog/photo-10.webp"
+              alt="Technologie Camion Usine"
+              class="tech-img"
+              loading="lazy"
+            />
+            <img
+              src="/images/catalog/photo-5.webp"
+              alt="Équipement spécialisé"
+              class="tech-img"
+              loading="lazy"
+            />
+            <img
+              src="/images/catalog/photo-56-rotated.webp"
+              alt="Intervention professionnelle"
+              class="tech-img"
+              loading="lazy"
+            />
+          </div>
+
+          <h2>La Puissance du Camion-Usine</h2>
+          <p class="description-text">
+            Nos résultats sont supérieurs car nous ne faisons aucun compromis
+            sur l'équipement. Contrairement aux machines portatives, notre unité
+            mobile déploie une puissance d'aspiration et de chaleur inégalée.
+          </p>
+
+          <ul class="power-list">
+            <li>
+              <span class="check-icon">✓</span>
+              <strong>20x plus puissant</strong> que l'équipement standard
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <strong>Extraction de 98%</strong> de l'humidité pour un séchage rapide
+            </li>
+          </ul>
+
+          <a href="tel:5148939939" class="btn btn-primary mt-4">
+            📞 Appelez pour une estimation : (514) 893-9939
+          </a>
+
+          <div style="margin-top: 2rem;">
+            <p class="video-cta-text">
+              Découvrez notre savoir-faire en action :
+            </p>
+            <div class="social-links">
+              <a
+                href="https://www.facebook.com/NettoyageEmpire"
+                target="_blank"
+                rel="noopener"
+                aria-label="Facebook"
+                class="social-btn fb"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  width="20"
+                  height="20"
+                >
+                  <path
+                    d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"
+                  ></path>
+                </svg>
+              </a>
+              <a
+                href="https://instagram.com/groupenettoyageempire"
+                target="_blank"
+                rel="noopener"
+                aria-label="Instagram"
+                class="social-btn ig"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  width="20"
+                  height="20"
+                >
+                  <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.948-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                  ></path>
+                </svg>
+              </a>
+              <a
+                href="http://www.youtube.com/@NettoyageEmpire"
+                target="_blank"
+                rel="noopener"
+                aria-label="YouTube"
+                class="social-btn yt"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  width="20"
+                  height="20"
+                >
+                  <path
+                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. CONCLUSION CTA (Rouge/Action) -->
+  <section class="cta-final">
+    <div class="container text-center">
+      <h2 class="cta-title text-gradient-empire">
+        Ne laissez pas la saleté s'incruster
+      </h2>
+      <p>Obtenez votre estimation gratuite en moins de 2 minutes.</p>
+      <div class="cta-buttons">
+        <a href="tel:5148939939" class="btn btn-primary">
+          📞 Appeler pour une estimation (514) 893-9939
+        </a>
+        <button
+          onclick="if(window.openEstimationWidget) window.openEstimationWidget()"
+          class="btn btn-primary"
+        >
+          ✉️ Estimation Instantanée en Ligne
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Global Estimation Module in Layout -->
+
+  <script>
+    // Simple Cross-Fade Slideshow (Standardized)
+    const slides = document.querySelectorAll(".slide");
+
+    if (slides.length > 0) {
+      let currentSlide = 0;
+      const intervalTime = 4000; // 4 seconds
+
+      setInterval(() => {
+        slides[currentSlide].classList.remove("active");
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add("active");
+      }, intervalTime);
+    }
+
+    // Hero Slideshow
+    const heroSlides = document.querySelectorAll(".hero-slide");
+    if (heroSlides.length > 0) {
+      let currentHeroSlide = 0;
+      const heroIntervalTime = 6000; // 6 seconds (Slower for hero)
+
+      setInterval(() => {
+        heroSlides[currentHeroSlide].classList.remove("active");
+        currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
+        heroSlides[currentHeroSlide].classList.add("active");
+      }, heroIntervalTime);
+    }
+  </script>
+
+  <style>
+    /* Power List Styling */
+    .power-list {
+      list-style: none;
+      padding: 0;
+      margin: 2rem 0;
+    }
+
+    .power-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .check-icon {
+      color: #ffd700; /* Gold for premium feel */
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .description-text {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      color: #ffffff; /* FORCE WHITE for visibility */
+      opacity: 1;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    /* --- ANIMATIONS V3 (Staggered & Smooth) --- */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(30px);
+      transition:
+        opacity 0.8s ease-out,
+        transform 0.8s ease-out;
+      will-change: opacity, visibility;
+    }
+    .fade-in-section.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* CSS-Only Animation for Hero LCP */
+    .animate-on-load {
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    .delay-1 {
+      animation-delay: 0.2s;
+    }
+    .delay-2 {
+      animation-delay: 0.4s;
+    }
+    .delay-3 {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .delay-100 {
+      transition-delay: 100ms;
+    }
+    .delay-200 {
+      transition-delay: 200ms;
+    }
+    .delay-300 {
+      transition-delay: 300ms;
+    }
+
+    .text-gradient-tricolor {
+      background: linear-gradient(90deg, #a2c2e1 0%, #ffffff 50%, #d32f2f 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+    }
+
+    /* --- NEW HERO --- */
+    .hero-section {
+      position: relative;
+      /* Rich "Living Room" Background with Overlay */
+      /* Rich "Living Room" Background with Overlay -> REPLACED BY SLIDESHOW */
+      background: linear-gradient(rgba(10, 35, 66, 0.5), rgba(10, 35, 66, 0.5));
+      /* Fallback color if images fail */
+      background-color: #0a2342;
+      color: white;
+      padding: 12rem 0 14rem 0; /* More expansive padding */
+      overflow: hidden;
+    }
+
+    /* Mobile Padding Adjustment */
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 8rem 0 10rem 0; /* Reduced padding on mobile */
+      }
+    }
+
+    /* --- SLIDESHOW CONTAINER --- */
+    .hero-slideshow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0; /* Behind content (which is z-index 10) */
+    }
+
+    .hero-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 2s ease-in-out; /* Smooth 2s transition */
+      z-index: 1;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+      z-index: 2;
+      animation: kenBurns 15s ease-out forwards;
+    }
+
+    @keyframes kenBurns {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.15);
+      }
+    }
+
+    .hero-overlay {
+      /* Ensure overlay is ABOVE slides but BELOW content */
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /* Gradient: Transparent top to Dark Blue bottom for text readability */
+      background: linear-gradient(
+        to bottom,
+        rgba(10, 35, 66, 0.1) 0%,
+        rgba(10, 35, 66, 0.4) 50%,
+        rgba(10, 35, 66, 0.9) 100%
+      );
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      /* Much lighter, glass-like interaction */
+      background: rgba(255, 255, 255, 0.08); /* Slightly more transparent */
+      border: 1px solid rgba(255, 255, 255, 0.15); /* More subtle border */
+      padding: 12px 30px;
+      border-radius: 16px;
+      margin-bottom: 2.5rem;
+      backdrop-filter: blur(10px); /* Increased blur */
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .hero-badge:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .badge-main {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      line-height: 1.1;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-icon-img {
+      width: 50px; /* Slightly larger for visibility */
+      height: auto;
+      filter: drop-shadow(
+        0 2px 5px rgba(0, 0, 0, 0.3)
+      ); /* Good shadow for depth */
+    }
+
+    .badge-sub {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .hero-title {
+      color: #ffffff !important; /* Force white for legibility */
+      font-size: clamp(3.5rem, 7vw, 6rem); /* Bigger, Bolder */
+      margin-bottom: 2rem;
+      line-height: 1; /* Tigher line height for punchier look */
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Deep Shadow */
+    }
+
+    .hero-subtitle {
+      font-size: 1.3rem;
+      color: #cbd5e1;
+      max-width: 700px;
+      margin: 0 auto 3rem auto;
+    }
+
+    /* Wave Separator */
+    .wave-bottom {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      line-height: 0;
+    }
+
+    @media (max-width: 768px) {
+      .hero-actions {
+        display: none !important;
+      }
+    }
+    .wave-bottom svg {
+      position: relative;
+      display: block;
+      width: calc(100% + 1.3px);
+      height: 120px; /* Thicker wave */
+      filter: drop-shadow(
+        0 -5px 10px rgba(0, 0, 0, 0.1)
+      ); /* Shadow under wave for depth */
+    }
+
+    /* --- TRUST INSIGNIA --- */
+    .trust-container {
+      margin-top: -70px; /* Increased overlap for tighter integration */
+      position: relative;
+      z-index: 10;
+      padding-bottom: 4rem; /* More breathing room below */
+      pointer-events: none;
+    }
+    .trust-grid {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      pointer-events: auto;
+    }
+    .trust-pill {
+      background: white;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08); /* Softer, spread shadow */
+      padding: 1.2rem 2.5rem;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--color-primary);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .trust-pill:hover {
+      transform: translateY(-5px) scale(1.05);
+    }
+    .trust-pill .icon {
+      font-size: 1.4rem;
+    }
+
+    /* --- SERVICES MODERN --- */
+    .section-services {
+      background-color: var(--color-bg-light-blue);
+      padding: 8rem 0; /* More breathing room */
+      position: relative;
+    }
+    /* Decorative background element */
+    .section-services::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(#e1e8ed 1px, transparent 1px);
+      background-size: 30px 30px;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .tag-blue {
+      color: var(--color-primary-light);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .title-dark-blue {
+      color: var(--color-primary);
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 800;
+    }
+
+    .services-grid-modern {
+      display: grid;
+      /* Slightly reduced min-width to allow 3 columns on standard laptops */
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2.5rem;
+      margin-top: 4rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* MOBILE HORIZONTAL SWIPE (App-Like Feel) */
+    @media (max-width: 768px) {
+      .services-grid-modern {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 1.5rem;
+        padding-bottom: 2rem; /* Space for scrollbar/shadow */
+        padding-left: 1rem; /* Peek effect */
+        padding-right: 1rem;
+        -webkit-overflow-scrolling: touch; /* Smooth scroll iOS */
+        margin-top: 2rem;
+      }
+
+      .service-card-modern {
+        min-width: 85%; /* Show part of next card */
+        scroll-snap-align: center;
+        margin-bottom: 0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Lighter shadow for perf */
+      }
+    }
+
+    .service-card-modern {
+      background: white;
+      border-radius: 20px; /* Slightly refined radius */
+      overflow: hidden;
+      /* Premium Shadow: Softer and more spread out */
+      box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.03),
+        0 5px 15px rgba(0, 0, 0, 0.02);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      height: 100%;
+      border: 1px solid rgba(0, 0, 0, 0.03); /* Subtle border for definition */
+    }
+
+    .service-card-modern:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px rgba(10, 35, 66, 0.12);
+      border-color: rgba(212, 175, 55, 0.3); /* Subtle Gold Hint on Hover */
+    }
+
+    .card-img {
+      height: 240px;
+      width: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease-out; /* Slower, smoother zoom */
+    }
+    .service-card-modern:hover .card-img {
+      transform: scale(1.03); /* Less aggressive zoom */
+    }
+
+    .card-content {
+      padding: 2.5rem;
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-icon {
+      position: absolute;
+      top: -35px;
+      right: 25px;
+      width: 70px;
+      height: 70px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      border: 4px solid var(--color-bg-light-blue);
+    }
+
+    .service-card-modern h3 {
+      font-size: 1.5rem;
+      color: var(--color-primary);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .service-card-modern p {
+      color: var(--color-text-light);
+      font-size: 1.05rem;
+      flex: 1;
+      line-height: 1.6;
+    }
+    .link-text {
+      color: var(--color-accent);
+      font-weight: 800;
+      margin-top: 1.5rem;
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    .btn-secondary-dark {
+      display: inline-block;
+      margin-top: 4rem;
+      color: var(--color-primary);
+      font-weight: 800;
+      border-bottom: 2px solid var(--color-primary);
+      padding-bottom: 4px;
+      font-size: 1.1rem;
+      transition: 0.3s;
+    }
+    .btn-secondary-dark:hover {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    /* --- ECO SECTION --- */
+    .section-eco {
+      background: white;
+      padding: 8rem 0;
+      overflow: hidden;
+    }
+    .split-eco {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .tag-green {
+      color: var(--color-eco);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .eco-lead {
+      font-size: 1.3rem;
+      color: #444;
+      margin-bottom: 2.5rem;
+      line-height: 1.5;
+    }
+
+    .eco-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .eco-list li {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+    .check-green {
+      color: var(--color-eco);
+      font-size: 1.6rem;
+      background: var(--color-eco-light);
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      box-shadow: 0 5px 15px rgba(46, 125, 50, 0.2);
+      flex-shrink: 0;
+    }
+
+    .eco-image-wrapper {
+      position: relative;
+    }
+    .eco-circle-bg {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(
+        circle,
+        var(--color-eco-light) 0%,
+        transparent 70%
+      );
+      border-radius: 50%;
+      z-index: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.8;
+    }
+    .eco-img {
+      position: relative;
+      z-index: 1;
+      border-radius: 30px;
+      box-shadow: 0 30px 80px rgba(46, 125, 50, 0.2);
+      transform: rotate(-2deg);
+      transition: 0.5s;
+      width: 100%;
+    }
+    .eco-img:hover {
+      transform: rotate(0deg) scale(1.02);
+    }
+    .floating {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px) rotate(-2deg);
+      }
+      50% {
+        transform: translateY(-15px) rotate(-1deg);
+      }
+      100% {
+        transform: translateY(0px) rotate(-2deg);
+      }
+    }
+
+    /* --- DARK TECH SECTION --- */
+    .section-dark-blue {
+      /* Elegant Gradient: Vibrant Blue to Deep Black (More Noticeable) */
+      background: linear-gradient(135deg, #2c6bb3 0%, #020b16 100%);
+      padding: 8rem 0;
+      color: #ffffff !important;
+      position: relative;
+    }
+
+    .section-dark-blue h2 {
+      color: #ffffff !important;
+      text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* Strong shadow for lift */
+      font-weight: 900; /* Extra bold */
+      letter-spacing: -1px;
+    }
+    .tag-red {
+      color: var(--color-brand-red);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      background: white;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin: 3rem 0;
+    }
+    .stat-val {
+      display: block;
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+    .stat-desc {
+      font-size: 1rem;
+      opacity: 0.8;
+      font-weight: 500;
+    }
+
+    .tech-image-wrapper {
+      position: relative;
+    }
+
+    .tech-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .tech-img {
+      border-radius: 20px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      width: 100%;
+      height: 100%; /* Fill the grid cell */
+      min-height: 400px; /* Ensure good height */
+      object-fit: cover; /* Crop nicely */
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      transition: transform 0.4s ease;
+    }
+
+    .tech-img:hover {
+      transform: scale(1.03);
+      z-index: 2;
+    }
+    .tech-badge {
+      position: absolute;
+      bottom: -30px;
+      right: -30px;
+      background: var(--color-brand-red);
+      color: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    .big-num {
+      font-size: 3rem;
+      font-weight: 800;
+      display: block;
+      line-height: 1;
+    }
+    .tech-label {
+      font-size: 1rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    /* --- CTA FINAL --- */
+    .cta-final {
+      background: linear-gradient(135deg, #f0f4f8, #ffffff);
+      padding: 8rem 0;
+    }
+    .cta-title {
+      color: var(--color-primary);
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+    .btn-white-red {
+      background: var(--color-brand-red);
+      color: white;
+      padding: 18px 40px;
+      border-radius: 50px;
+      font-weight: 700;
+      transition: 0.3s;
+      font-size: 1.1rem;
+      box-shadow: 0 10px 25px rgba(211, 47, 47, 0.3);
+    }
+    .btn-white-red:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 35px rgba(211, 47, 47, 0.5);
+    }
+
+    /* --- WATERMARK LOGO BRANDING --- */
+    .brand-watermark {
+      position: absolute;
+      z-index: 0;
+      opacity: 0.12; /* Increased to 12% to be definitely visible */
+      pointer-events: none;
+      background-image: url("/images/water-logo.webp");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      mix-blend-mode: multiply;
+    }
+
+    .watermark-trust {
+      top: -50px;
+      left: -100px;
+      width: 500px;
+      height: 500px;
+      transform: rotate(-15deg);
+    }
+
+    .watermark-eco {
+      bottom: -100px;
+      right: -100px;
+      width: 600px;
+      height: 600px;
+      opacity: 0.15;
+      transform: rotate(10deg);
+    }
+
+    /* Ensure sections are relative to contain watermark */
+    .trust-container,
+    .section-eco {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* --- QUALITY STRIP (REFINED) --- */
+    .section-quality-strip-refined {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: center;
+      background: #f8fbff; /* Very subtle Ice Blue tint for premium separation */
+      border-top: 1px solid rgba(0, 0, 0, 0.03);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .quality-image-wrapper {
+      width: 100%;
+      height: 100%;
+      padding: 2rem; /* Give images some breathing room */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .quality-img-full {
+      width: 100%;
+      height: auto;
+      max-height: 450px;
+      object-fit: cover; /* Changed from contain to cover to fill shape better */
+      display: block;
+      border-radius: 24px; /* Slightly more rounded */
+      box-shadow: 0 25px 50px rgba(0, 50, 100, 0.15); /* Stronger, more elegant shadow */
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Elegant lift on hover */
+    .quality-image-wrapper:hover .quality-img-full {
+      transform: translateY(-10px);
+      box-shadow: 0 30px 60px rgba(0, 50, 100, 0.12);
+    }
+
+    .quality-content-refined {
+      padding: 3rem 2rem;
+      color: var(--color-primary);
+    }
+
+    .quality-content-refined h3 {
+      font-size: 2.2rem; /* Slightly larger */
+      color: var(--color-primary);
+      margin-bottom: 1rem;
+      font-weight: 800;
+    }
+    .quality-content-refined p {
+      font-size: 1.2rem;
+      color: var(--color-text-light);
+      line-height: 1.6;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .hero-section {
+        padding: 8rem 0 6rem 0; /* Reduced padding significantly */
+        min-height: 65vh; /* Force a shorter height */
+        display: flex;
+        align-items: center; /* Center content vertically if height is fixed */
+      }
+
+      .section-quality-strip-refined {
+        grid-template-columns: 1fr;
+      }
+      .quality-img-full {
+        max-height: 300px;
+      }
+      .tech-gallery {
+        grid-template-columns: 1fr;
+      }
+      .split-eco,
+      .split-layout {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 4rem;
+      }
+      .eco-list {
+        text-align: left;
+      }
+      .eco-circle-bg {
+        width: 300px;
+        height: 300px;
+      }
+      .reverse-mobile {
+        display: flex;
+        flex-direction: column-reverse;
+      }
+      .tech-image-wrapper {
+        margin-bottom: 4rem;
+      }
+      .hero-title {
+        font-size: 2.8rem; /* Slightly smaller for better fit */
+        margin-bottom: 1.5rem;
+      }
+      .hero-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+      }
+      .hero-badge {
+        margin-bottom: 1.5rem;
+        padding: 8px 20px; /* Smaller padding */
+        background: rgba(255, 255, 255, 0.05); /* Very subtle */
+        border: 1px solid rgba(255, 255, 255, 0.1); /* Very thin border */
+        backdrop-filter: none; /* Remove heavy blur on mobile for clarity */
+      }
+      .watermark-trust,
+      .watermark-eco {
+        width: 200px;
+        height: 200px;
+        opacity: 0.1;
+      }
+    }
+  </style>
+</Layout>

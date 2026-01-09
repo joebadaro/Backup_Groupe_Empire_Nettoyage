@@ -1,0 +1,744 @@
+---
+const currentPath = Astro.url.pathname;
+const isEn = currentPath.startsWith("/en");
+const targetPath = isEn
+  ? currentPath.replace(/^\/en/, "") || "/"
+  : "/en" + (currentPath === "/" ? "" : currentPath);
+const label = isEn ? "FR" : "EN";
+---
+
+<header class="site-header">
+  <!-- Top Bar for Trust Signals & Quick Contact -->
+  <div class="header-top">
+    <div class="container top-bar-content">
+      <div class="trust-signal">
+        <span class="icon">🏆</span>
+        {
+          isEn
+            ? "30+ years of excellence in Quebec"
+            : "30+ ans d'excellence au Québec"
+        }
+      </div>
+      <div class="contact-quick">
+        <a href="tel:5148939939" class="phone-link"
+          ><span class="icon">📞</span> (514) 893-9939</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <div class="header-main">
+    <div class="container header-content">
+      <div class="logo">
+        <a href={isEn ? "/en" : "/"} class="logo-link">
+          <img
+            src="/images/logo-empire.webp"
+            alt={isEn ? "Empire Cleaning Group" : "Groupe Nettoyage Empire"}
+            class="logo-img"
+          />
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li>
+            <a href={isEn ? "/en" : "/"} class="nav-item"
+              >{isEn ? "Home" : "Accueil"}</a
+            >
+          </li>
+
+          <!-- Services Dropdown (Click Trigger) -->
+          <li class="dropdown-wrapper">
+            <button id="services-btn" class="nav-item dropbtn">
+              {isEn ? "Our Services" : "Nos Services"} ▾
+            </button>
+            <div id="services-menu" class="dropdown-menu">
+              <div class="dropdown-column">
+                <span class="column-title">{isEn ? "Carpet" : "Tapis"}</span>
+                <a
+                  href={isEn
+                    ? "/en/services/nettoyage-tapis-residentiel"
+                    : "/services/nettoyage-tapis-residentiel"}
+                  >{
+                    isEn
+                      ? "Residential Carpet Cleaning"
+                      : "Nettoyage de tapis résidentiel"
+                  }</a
+                >
+                <a
+                  href={isEn
+                    ? "/en/services/nettoyage-tapis-commercial"
+                    : "/services/nettoyage-tapis-commercial"}
+                  >{
+                    isEn
+                      ? "Commercial Carpet Cleaning"
+                      : "Nettoyage de tapis commercial"
+                  }</a
+                >
+                <a
+                  href={isEn
+                    ? "/en/services/tapis-synthetique"
+                    : "/services/tapis-synthetique"}
+                  >{
+                    isEn
+                      ? "Synthetic Carpet Cleaning"
+                      : "Nettoyage de tapis synthétique à domicile"
+                  }</a
+                >
+                <a
+                  href={isEn
+                    ? "/en/services/tapis-laine"
+                    : "/services/tapis-laine"}
+                  >{
+                    isEn
+                      ? "Wool Carpet Cleaning"
+                      : "Nettoyage de tapis en laine à domicile"
+                  }</a
+                >
+                <a
+                  href={isEn
+                    ? "/en/services/tapis-orientaux"
+                    : "/services/tapis-orientaux"}
+                  >{
+                    isEn
+                      ? "Oriental Rug Cleaning"
+                      : "Nettoyage de tapis orientaux à domicile"
+                  }</a
+                >
+              </div>
+              <div class="dropdown-column">
+                <span class="column-title"
+                  >{isEn ? "Furniture & Surfaces" : "Meubles & Surfaces"}</span
+                >
+                <a
+                  href={isEn
+                    ? "/en/services/meubles-tissu"
+                    : "/services/meubles-tissu"}
+                  >{
+                    isEn
+                      ? "Fabric Furniture Cleaning"
+                      : "Nettoyage de meubles en tissu"
+                  }</a
+                >
+                <a
+                  href={isEn
+                    ? "/en/services/meubles-cuir"
+                    : "/services/meubles-cuir"}
+                  >{
+                    isEn
+                      ? "Leather Furniture Cleaning"
+                      : "Nettoyage de meubles en cuir"
+                  }</a
+                >
+                <a
+                  href={isEn
+                    ? "/en/services/nettoyage-desinfection-matelas"
+                    : "/services/nettoyage-desinfection-matelas"}
+                  >{
+                    isEn
+                      ? "Mattress Cleaning & Disinfection"
+                      : "Nettoyage et désinfection de matelas"
+                  }</a
+                >
+                <a
+                  href={isEn
+                    ? "/en/services/nettoyage-tuiles-ceramique"
+                    : "/services/nettoyage-tuiles-ceramique"}
+                  >{
+                    isEn
+                      ? "Tile & Grout Cleaning"
+                      : "Nettoyage de tuiles de céramique"
+                  }</a
+                >
+                <a
+                  href={isEn
+                    ? "/en/services/protecteur"
+                    : "/services/protecteur"}
+                  class="new-service"
+                  >{
+                    isEn
+                      ? "Stain Protector Application"
+                      : "Application de protecteurs antitâches"
+                  }</a
+                >
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <a href={isEn ? "/en/equipements" : "/equipements"} class="nav-item"
+              >{isEn ? "Our Equipment" : "Nos Équipements"}</a
+            >
+          </li>
+          <li>
+            <a
+              href={isEn ? "/en/realisations" : "/realisations"}
+              class="nav-item">{isEn ? "Our Work" : "Réalisations"}</a
+            >
+          </li>
+          <li>
+            <a href={isEn ? "/en/equipe" : "/equipe"} class="nav-item"
+              >{isEn ? "Team" : "Équipe"}</a
+            >
+          </li>
+          <li>
+            <a href={isEn ? "/en/about" : "/about"} class="nav-item"
+              >{isEn ? "About" : "À Propos"}</a
+            >
+          </li>
+          <!-- <li><a href={isEn ? "/en/medias" : "/medias"} class="nav-item">{isEn ? "Media" : "Médias"}</a></li> -->
+          <!-- <li><a href={isEn ? "/en/conseils" : "/conseils"} class="nav-item">{isEn ? "Tips" : "Conseils"}</a></li> -->
+          <li>
+            <a href={isEn ? "/en/contact" : "/contact"} class="nav-item"
+              >Contact</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <div class="cta-header">
+        <button
+          id="btn-open-estimation"
+          onclick="if(window.openEstimationWidget) window.openEstimationWidget()"
+          class="btn btn-primary btn-sm"
+        >
+          {isEn ? "Free Estimate" : "Estimation Gratuite"}
+        </button>
+        <a href={targetPath} class="lang-switch" aria-label="Changer de langue">
+          {label}
+        </a>
+      </div>
+
+      <button class="mobile-toggle" aria-label="Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <!-- Mobile Language Switcher (Header placement) -->
+      <a
+        href={targetPath}
+        class="mobile-lang-header"
+        aria-label="Changer de langue"
+      >
+        {label === "FR" ? "FR" : "EN"}
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Logic for Persistent Dropdown (Click to Open/Close)
+  const servicesBtn = document.getElementById("services-btn");
+  const servicesMenu = document.getElementById("services-menu");
+
+  if (servicesBtn && servicesMenu) {
+    // Toggle menu on click
+    servicesBtn.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevent click from closing immediately due to document listener
+      const isExpanded = servicesBtn.getAttribute("aria-expanded") === "true";
+      toggleMenu(!isExpanded);
+    });
+
+    // Close when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!servicesMenu || !servicesBtn) return;
+      const target = e.target as Node | null;
+      if (
+        target &&
+        !servicesMenu.contains(target) &&
+        !servicesBtn.contains(target)
+      ) {
+        toggleMenu(false);
+      }
+    });
+
+    // Close when clicking a link inside
+    servicesMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        toggleMenu(false);
+      });
+    });
+  }
+
+  function toggleMenu(show: boolean) {
+    if (!servicesBtn || !servicesMenu) return;
+
+    servicesBtn.setAttribute("aria-expanded", show.toString());
+    if (show) {
+      servicesMenu.classList.add("visible");
+    } else {
+      servicesMenu.classList.remove("visible");
+    }
+  }
+
+  // --- MOBILE MENU LOGIC ---
+  const mobileToggle = document.querySelector(".mobile-toggle");
+  const mainNav = document.querySelector(".main-nav");
+
+  if (mobileToggle && mainNav) {
+    mobileToggle.addEventListener("click", () => {
+      // Toggle Menu Visibility
+      mainNav.classList.toggle("is-open");
+      mobileToggle.classList.toggle("is-active");
+
+      // Accessibility Update
+      const isExpanded = mobileToggle.getAttribute("aria-expanded") === "true";
+      mobileToggle.setAttribute("aria-expanded", String(!isExpanded));
+    });
+
+    // Close menu when clicking a link (optional, good UX)
+    mainNav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        mainNav.classList.remove("is-open");
+        mobileToggle.classList.remove("is-active");
+        mobileToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+
+  // Open Estimation Modal
+  const openEstBtn = document.getElementById("btn-open-estimation");
+  if (openEstBtn) {
+    openEstBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      // Check if the global function exists, then call it.
+      // This replaces the inline onclick attribute.
+      if (window.openEstimationWidget) {
+        window.openEstimationWidget();
+      } else {
+        // Fallback to direct widget display if the global function isn't available
+        const widget = document.getElementById("estimation-widget");
+        if (widget) {
+          widget.style.display = "flex";
+        }
+      }
+    });
+  }
+</script>
+
+<style>
+  /* Sticky & Layering */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-subtle);
+  }
+
+  /* Top Bar */
+  .header-top {
+    background-color: var(--color-primary);
+    color: white;
+    font-size: 0.85rem;
+    padding: 8px 0;
+  }
+
+  .top-bar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .trust-signal {
+    font-weight: 500;
+    opacity: 0.9;
+  }
+
+  .contact-quick {
+    display: flex;
+    gap: 20px;
+  }
+
+  .phone-link {
+    font-weight: 700;
+  }
+
+  .quote-link {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  /* Main Header */
+  .header-main {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Logo */
+  .logo-link {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-img {
+    height: 85px; /* Balanced size */
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+
+  .logo-img:hover {
+    transform: scale(1.02);
+  }
+
+  /* Navigation */
+  .nav-list {
+    display: flex;
+    gap: 1.2rem; /* Optimized gap for more items */
+    align-items: center;
+  }
+
+  .nav-item {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    position: relative;
+    padding: 10px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  a.nav-item::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--color-accent);
+    transition: width 0.3s;
+  }
+
+  a.nav-item:hover::after {
+    width: 100%;
+  }
+
+  /* Dropdown Wrapper */
+  .dropdown-wrapper {
+    position: relative;
+  }
+
+  /* The Menu Itself */
+  .dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: white;
+    min-width: 600px; /* Slightly wider for longer names */
+    box-shadow: var(--shadow-hover);
+    border-radius: var(--border-radius-md);
+    padding: 1.5rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 10px;
+    border-top: 4px solid var(--color-primary);
+    opacity: 0;
+    transition:
+      opacity 0.2s,
+      transform 0.2s;
+  }
+
+  /* Visible State (Toggled by JS) */
+  .dropdown-menu.visible {
+    display: grid;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .column-title {
+    display: block;
+    color: var(--color-accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+  }
+
+  .dropdown-column a {
+    display: block;
+    padding: 6px 0;
+    color: var(--color-text-main);
+    transition: 0.2s;
+    font-size: 0.9rem;
+  }
+
+  .dropdown-column a:hover {
+    color: var(--color-primary);
+    transform: translateX(5px);
+    font-weight: 600;
+  }
+
+  .new-service {
+    color: var(--color-primary) !important;
+    font-weight: bold;
+    border-top: 1px dashed #eee;
+    margin-top: 5px;
+    padding-top: 10px !important;
+  }
+
+  /* CTA Header Group */
+  .cta-header {
+    display: flex;
+    align-items: center;
+    gap: 50px; /* Increased to 50px for maximum separation */
+    margin-left: 30px;
+  }
+
+  /* Language Switcher (Desktop) */
+  .lang-switch {
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    text-decoration: none;
+    border: 2px solid #e0e0e0;
+    padding: 8px 16px; /* Slightly larger padding */
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+  }
+
+  .lang-switch:hover {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Mobile Only Language Item */
+  .mobile-only-lang {
+    display: none;
+  }
+
+  /* Button Small */
+  .btn-sm {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+
+  /* Mobile Toggle */
+  .mobile-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* Mobile Lang Header (Hidden on Laptop+) */
+  .mobile-lang-header {
+    display: none;
+    font-weight: 800;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 5px 10px;
+    border: 2px solid var(--color-primary);
+    border-radius: 6px;
+    margin-right: 15px; /* Spacing from hamburger */
+  }
+
+  .bar {
+    width: 25px;
+    height: 3px;
+    background-color: var(--color-primary);
+    transition: 0.3s;
+  }
+
+  @media (max-width: 1200px) {
+    .nav-list {
+      font-size: 0.85rem;
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    /* --- PREMIUM MOBILE MENU REDESIGN --- */
+    .main-nav {
+      display: block; /* Always present for transition */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      padding: 6rem 2rem 2rem 2rem;
+      padding: 6rem 2rem 2rem 2rem;
+      z-index: 1001; /* Covered page content, below toggle */
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-20px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+    }
+
+    .main-nav.is-open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .nav-list {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      min-height: 60%;
+    }
+
+    .nav-item {
+      font-size: 1.8rem;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      color: var(--color-primary);
+      width: auto;
+      text-align: center;
+      border: none;
+    }
+
+    /* Animations */
+    .main-nav.is-open .nav-item {
+      animation: fadeInUp 0.5s ease forwards;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    .main-nav.is-open li:nth-child(1) .nav-item {
+      animation-delay: 0.1s;
+    }
+    .main-nav.is-open li:nth-child(2) .nav-item {
+      animation-delay: 0.15s;
+    }
+    .main-nav.is-open li:nth-child(3) .nav-item {
+      animation-delay: 0.2s;
+    }
+    .main-nav.is-open li:nth-child(4) .nav-item {
+      animation-delay: 0.25s;
+    }
+    .main-nav.is-open li:nth-child(5) .nav-item {
+      animation-delay: 0.3s;
+    }
+
+    /* Reduce Header Size on Mobile */
+    .logo-img {
+      height: 60px; /* Reduced from default */
+    }
+
+    .site-header {
+      padding: 0;
+    }
+
+    .header-main {
+      padding: 0.5rem 0;
+    }
+
+    /* Dropdown in Mobile */
+    .dropdown-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .mobile-only-lang {
+      display: block; /* Show on mobile */
+      margin-top: 20px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      width: 100%;
+      text-align: center;
+      padding-top: 20px;
+    }
+
+    .lang-link {
+      font-size: 1.5rem !important;
+      color: var(--color-accent) !important;
+    }
+
+    .dropdown-menu {
+      position: static;
+      transform: none;
+      box-shadow: none;
+      border: none;
+      padding: 1rem;
+      min-width: 100%;
+      display: none;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: 12px;
+
+      /* Safety overrides */
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    .dropdown-menu.visible {
+      display: grid;
+      animation: fadeIn 0.3s ease;
+      transform: none !important;
+    }
+
+    .dropdown-column a {
+      text-align: center;
+      font-size: 1.1rem;
+      padding: 12px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .cta-header,
+    .trust-signal {
+      display: none;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .mobile-toggle {
+      display: flex;
+      z-index: 1002;
+    }
+
+    .mobile-lang-header {
+      display: block; /* Visible on Mobile */
+      z-index: 1002; /* Ensure clickable */
+    }
+
+    .header-top {
+      justify-content: center;
+    }
+    .contact-quick {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

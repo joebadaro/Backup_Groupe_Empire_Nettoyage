@@ -1,0 +1,116 @@
+---
+import Layout from "../../layouts/Layout.astro";
+const images = import.meta.glob("/public/images/catalog/*.webp");
+const imagePaths = Object.keys(images).map((path) =>
+    path.replace("/public", ""),
+);
+// Sort by number
+imagePaths.sort((a, b) => {
+    const numA = parseInt(a.match(/photo-(\d+)/)?.[1] || "0");
+    const numB = parseInt(b.match(/photo-(\d+)/)?.[1] || "0");
+    return numA - numB;
+});
+---
+
+<Layout title="Catalogue Sélection | Groupe Nettoyage Empire">
+    <div class="container" style="padding: 2rem 1rem;">
+        <div class="header text-center">
+            <h1>Catalogue Photos ({imagePaths.length})</h1>
+            <p>Notez les numéros pour votre sélection d'album.</p>
+        </div>
+
+        <div class="masonry-dense">
+            {
+                imagePaths.map((src) => (
+                    <div class="photo-card">
+                        <div class="img-container">
+                            <img src={src} loading="lazy" alt="Catalog Photo" />
+                        </div>
+                        <div class="filename">
+                            {src
+                                .split("/")
+                                .pop()
+                                .replace("photo-", "")
+                                .replace(".webp", "")}
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</Layout>
+
+<style>
+    .header {
+        margin-bottom: 2rem;
+    }
+    .header h1 {
+        font-size: 1.8rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+    .header p {
+        color: #666;
+    }
+
+    .masonry-dense {
+        column-count: 5; /* Very dense as requested */
+        column-gap: 1rem;
+    }
+
+    .photo-card {
+        break-inside: avoid;
+        margin-bottom: 1rem;
+        position: relative;
+        border-radius: 6px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: transform 0.1s;
+    }
+
+    .photo-card:hover {
+        z-index: 10;
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .img-container {
+        width: 100%;
+        display: block;
+    }
+    .img-container img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .filename {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        font-family: sans-serif;
+    }
+
+    @media (max-width: 1400px) {
+        .masonry-dense {
+            column-count: 4;
+        }
+    }
+    @media (max-width: 1000px) {
+        .masonry-dense {
+            column-count: 3;
+        }
+    }
+    @media (max-width: 600px) {
+        .masonry-dense {
+            column-count: 2;
+        }
+    }
+</style>

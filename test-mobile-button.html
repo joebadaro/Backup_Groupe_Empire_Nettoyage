@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Button Test</title>
+    <style>
+        body { margin: 0; padding: 20px; font-family: sans-serif; }
+        
+        .mobile-sticky-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+            display: flex;
+            padding: 10px 15px;
+            gap: 15px;
+        }
+        
+        .sticky-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-quote {
+            background: linear-gradient(135deg, #d32f2f 0%, #d63031 100%);
+            color: white;
+            pointer-events: auto;
+        }
+        
+        #estimation-widget {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mobile Button Test</h1>
+    <p>Scroll down and click the red button at the bottom</p>
+    <div style="height: 2000px;"></div>
+    
+    <div id="estimation-widget">
+        <div>WIDGET IS OPEN!</div>
+    </div>
+    
+    <div class="mobile-sticky-bar">
+        <button 
+            onclick="console.log('Button clicked!'); var w=document.getElementById('estimation-widget'); console.log('Widget element:', w); if(w){console.log('Opening widget...'); w.style.display='flex'; w.style.position='fixed'; w.style.top='0'; w.style.left='0'; w.style.width='100vw'; w.style.height='100vh'; w.style.zIndex='99999'; w.style.backgroundColor='rgba(0,0,0,0.8)'; document.body.style.overflow='hidden'; var s=document.querySelector('.mobile-sticky-bar'); if(s)s.style.display='none'; console.log('Widget opened successfully');} else { console.error('Widget not found'); alert('Le module n' + String.fromCharCode(39) + 'est pas encore prêt. Veuillez recharger la page.'); }"
+            class="sticky-btn btn-quote"
+        >
+            📝 TEST BUTTON
+        </button>
+    </div>
+    
+    <script>
+        console.log('Page loaded');
+        console.log('Widget exists:', document.getElementById('estimation-widget'));
+    </script>
+</body>
+</html>

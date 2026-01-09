@@ -1,0 +1,470 @@
+---
+import "../styles/global.css";
+
+interface Props {
+    title: string;
+    description?: string;
+}
+
+const {
+    title,
+    description = "Garage Auto-Tech S M - Votre expert automobile à Longueuil. Mécanique générale, pneus et entretien.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content={description} />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@400;700;900&display=swap"
+            rel="stylesheet"
+        />
+        <title>{title}</title>
+    </head>
+    <body>
+        <header class="site-header">
+            <div class="container header-container">
+                <a href="/" class="logo-text">
+                    <span class="logo-top">Garage</span>
+                    <span class="logo-main">
+                        <span class="text-gold">Auto-Tech</span>
+                        <span class="text-white">S.M.</span>
+                    </span>
+                </a>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="/">Accueil</a></li>
+                        <li><a href="/services">Services</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                        <li>
+                            <a href="/contact" class="btn btn-sm"
+                                >Contactez-nous</a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Hamburger Button -->
+                <button class="hamburger" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Overlay -->
+            <div class="mobile-menu">
+                <ul>
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="/services">Services</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li>
+                        <a href="/contact" class="btn btn-sm"
+                            >Estimation Gratuite</a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <slot />
+
+        <footer class="site-footer" id="contact">
+            <div class="container footer-grid">
+                <div class="footer-info">
+                    <h3>Garage Auto-Tech S M</h3>
+                    <p>
+                        Service professionnel et courtois pour tous vos besoins
+                        automobiles.
+                    </p>
+                </div>
+                <div class="footer-contact">
+                    <h4>Coordonnées</h4>
+                    <p>📍 765, rue Verchères, Longueuil QC J4K 2Y8</p>
+                    <p>📞 <a href="tel:450-646-0664">450-646-0664</a></p>
+                    <!-- Need to fill phone if available -->
+                </div>
+                <div class="footer-hours">
+                    <h4>Heures d'ouverture</h4>
+                    <p>Lundi - Vendredi: 8h00 - 17h00</p>
+                    <p>Samedi - Dimanche: Fermé</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>
+                    &copy; {new Date().getFullYear()} Garage Auto-Tech S M. Tous droits
+                    réservés.
+                </p>
+            </div>
+        </footer>
+    </body>
+</html>
+
+<style>
+    .site-header {
+        background-color: rgba(
+            10,
+            15,
+            28,
+            0.85
+        ); /* var(--color-dark) with opacity */
+        padding: 1rem 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .site-header.scrolled {
+        padding: 0.6rem 0;
+        background-color: rgba(5, 8, 15, 0.95);
+        border-bottom-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
+
+    .logo-text {
+        font-family: var(--font-heading);
+        text-decoration: none;
+        display: flex;
+        flex-direction: column; /* Stacked layout */
+        align-items: flex-start; /* Left align */
+        justify-content: center;
+        transition: var(--transition);
+        z-index: 1002;
+        line-height: 1;
+    }
+
+    .logo-top {
+        font-size: 0.75rem; /* Small and elegant */
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px; /* Wide tracking */
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 2px;
+        margin-left: 1px;
+    }
+
+    .logo-main {
+        font-size: 1.1rem; /* Balanced base size */
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    @media (min-width: 768px) {
+        .logo-top {
+            font-size: 0.85rem;
+        }
+        .logo-main {
+            font-size: 1.4rem;
+        }
+    }
+
+    .logo-text:hover {
+        transform: scale(1.02);
+    }
+
+    .text-white {
+        color: white;
+    }
+
+    .text-gold {
+        background: linear-gradient(135deg, #ffd700, #ffb700, #ffe066, #ffd700);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 200% auto;
+        animation: shine 4s linear infinite;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        font-weight: 900;
+    }
+
+    @keyframes shine {
+        to {
+            background-position: 200% center;
+        }
+    }
+
+    /* Desktop Nav */
+    .main-nav {
+        display: none;
+    }
+
+    .main-nav ul {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    @media (min-width: 900px) {
+        .main-nav {
+            display: block;
+        }
+    }
+
+    .main-nav a {
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: var(--color-text);
+        opacity: 0.8;
+        transition: var(--transition);
+        position: relative;
+    }
+
+    .main-nav a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--color-primary);
+        transition: width 0.3s ease;
+    }
+
+    .main-nav a:hover {
+        color: white;
+        opacity: 1;
+    }
+
+    .main-nav a:hover::after {
+        width: 100%;
+    }
+
+    .btn-sm {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.9rem;
+        background: var(--color-primary);
+        color: white;
+        border-radius: var(--border-radius);
+    }
+
+    .btn-sm:hover {
+        background: var(--color-primary-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
+    }
+
+    /* Mobile Hamburger */
+    .hamburger {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 30px;
+        height: 24px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 1002;
+    }
+
+    @media (min-width: 900px) {
+        .hamburger {
+            display: none;
+        }
+    }
+
+    .hamburger span {
+        width: 30px;
+        height: 3px;
+        background: white;
+        border-radius: 2px;
+        transition: all 0.3s linear;
+        position: relative;
+        transform-origin: 1px;
+    }
+
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg);
+    }
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg);
+    }
+
+    /* Mobile Menu Overlay */
+    .mobile-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100vh;
+        background: rgba(5, 8, 15, 0.98);
+        backdrop-filter: blur(15px);
+        z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .mobile-menu.active {
+        right: 0;
+    }
+
+    .mobile-menu ul {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3rem;
+    }
+
+    .mobile-menu a {
+        font-family: var(--font-heading);
+        font-size: 2rem;
+        font-weight: 700;
+        color: white;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .mobile-menu a:hover {
+        color: var(--color-primary);
+        letter-spacing: 2px;
+    }
+
+    .site-footer {
+        background-color: var(--color-darker);
+        padding: 4rem 0 2rem;
+        margin-top: 6rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        position: relative;
+    }
+
+    .site-footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent
+        );
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 3rem;
+        margin-bottom: 3rem;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        color: var(--color-text-muted);
+        font-size: 0.9rem;
+    }
+
+    h3,
+    h4 {
+        margin-bottom: 1.2rem;
+        color: var(--color-text);
+        font-family: var(--font-heading);
+    }
+
+    .footer-contact p,
+    .footer-hours p,
+    .footer-info p {
+        color: var(--color-text-muted);
+        margin-bottom: 0.8rem;
+        font-size: 0.95rem;
+    }
+
+    .footer-contact a {
+        color: var(--color-text);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .footer-contact a:hover {
+        color: var(--color-primary);
+        border-color: var(--color-primary);
+    }
+</style>
+
+<script>
+    // Mobile Menu Toggle
+    const hamburger = document.querySelector(".hamburger");
+    const mobileMenu = document.querySelector(".mobile-menu");
+    const menuLinks = document.querySelectorAll(".mobile-menu a");
+
+    if (hamburger && mobileMenu) {
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            mobileMenu.classList.toggle("active");
+            document.body.style.overflow = mobileMenu.classList.contains(
+                "active",
+            )
+                ? "hidden"
+                : "";
+        });
+
+        // Close menu when link is clicked
+        menuLinks.forEach((link) => {
+            link.addEventListener("click", () => {
+                hamburger.classList.remove("active");
+                mobileMenu.classList.remove("active");
+                document.body.style.overflow = "";
+            });
+        });
+    }
+
+    // Header Scroll Effect
+    const header = document.querySelector(".site-header");
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+            header?.classList.add("scrolled");
+        } else {
+            header?.classList.remove("scrolled");
+        }
+    });
+
+    // Intersection Observer for Animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target); // Only animate once
+            }
+        });
+    }, observerOptions);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const animatedElements = document.querySelectorAll(".fade-up");
+        animatedElements.forEach((el) => observer.observe(el));
+    });
+</script>

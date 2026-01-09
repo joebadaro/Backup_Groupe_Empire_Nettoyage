@@ -1,0 +1,328 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Our Team - Certified Technicians Without Subcontracting">
+  <div class="page-header">
+    <div class="container text-center fade-in-section">
+      <span class="sub-title text-accent">Trust & Safety</span>
+      <h1 class="text-white flex-center-gap">
+        Our Certified Technicians
+        <img
+          src="/images/catalog/photo-8.webp"
+          alt="Certification"
+          class="header-icon"
+        />
+      </h1>
+      <p class="lead-text">
+        No subcontractors. A dedicated in-house team committed to your
+        satisfaction.
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="team-layout">
+        <!-- Main Content -->
+        <div class="team-content fade-in-section">
+          <div class="highlight-box">
+            <h2>An in-house team, exclusively.</h2>
+            <p>
+              At Empire Cleaning Group, the work is performed exclusively by our
+              own certified technicians. <strong
+                >We do not entrust our services to subcontractors.</strong
+              >
+            </p>
+            <p>
+              You know exactly who is entering your home, and you benefit from
+              consistent quality at each visit.
+            </p>
+          </div>
+
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="icon">👨‍🔧</div>
+              <h3>Certified Technicians</h3>
+              <p>
+                Each member of our team has undergone rigorous training. They
+                master the art of recognizing fibers, choosing the right
+                product, and operating our truck-mount units with precision.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="icon">🔍</div>
+              <h3>Proven Expertise</h3>
+              <p>
+                We come from the high-level cleaning industry (former major
+                banner) and have retained the best talent. Our team has decades
+                of field experience on all types of surfaces: carpets,
+                furniture, leather, and mattresses.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="icon">🤝</div>
+              <h3>Respect & Courtesy</h3>
+              <p>
+                Our technicians are known for their meticulousness and respect
+                for the premises. Before each intervention, a complete
+                inspection is performed to explain the method and ensure your
+                complete satisfaction.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="icon">🛡️</div>
+              <h3>Peace of Mind</h3>
+              <p>
+                Many clients fear unknown subcontractors. With us, it's the
+                opposite: it's always a real Empire team, uniformed, insured,
+                and professional, that shows up at your door.
+              </p>
+            </div>
+          </div>
+
+          <div class="call-action fade-in-section delay-100">
+            <h3>Ready to welcome an expert?</h3>
+            <p>Contact us for a free estimate.</p>
+            <a href="tel:5148939939" class="btn btn-primary pulse-btn"
+              >📞 (514) 893-9939</a
+            >
+          </div>
+        </div>
+
+        <!-- Sidebar Visual -->
+        <div class="team-visual fade-in-section delay-100">
+          <!-- Decorative Water Drop Background -->
+          <div class="bg-watermark">
+            <img
+              src="/images/catalog/photo-72.webp"
+              alt=""
+              role="presentation"
+            />
+          </div>
+
+          <div class="visual-box floating">
+            <img
+              src="/images/catalog/equipe-interne-optimized.webp"
+              alt="Empire Cleaning Group In-House Team"
+              class="team-img shadow-premium"
+            />
+          </div>
+
+          <div class="trust-badge">
+            <span class="stars">⚜️</span>
+            <p>"A local pride: our family at your service."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background-color: var(--color-primary);
+    background-image: linear-gradient(
+      135deg,
+      var(--color-primary) 0%,
+      #0f243a 100%
+    );
+    color: white;
+    padding: 6rem 0 4rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .text-white {
+    color: white;
+  }
+  .text-accent {
+    color: var(--color-accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .lead-text {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-top: 1rem;
+  }
+
+  .flex-center-gap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap; /* Handle mobile gracefully */
+  }
+
+  .header-icon {
+    height: 1.2em; /* Scales with text size */
+    width: auto;
+    vertical-align: middle;
+  }
+
+  .team-layout {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
+    gap: 4rem;
+  }
+
+  .highlight-box {
+    border-left: 5px solid var(--color-accent);
+    padding-left: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .highlight-box h2 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+  }
+  .highlight-box p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .feature-card {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-subtle);
+    border: 1px solid #eee;
+    transition: 0.2s;
+  }
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .feature-card h3 {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+  }
+  .feature-card p {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  .call-action {
+    background: #f9f9f9;
+    padding: 2rem;
+    border-radius: var(--border-radius-md);
+    text-align: center;
+  }
+  .call-action h3 {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+  .call-action p {
+    margin-bottom: 1.5rem;
+    color: #666;
+  }
+
+  .visual-box {
+    /* Removed fixed height to adapt to landscape image */
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .team-img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .trust-badge {
+    text-align: center;
+    padding: 1.5rem;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    box-shadow: var(--shadow-subtle);
+    max-width: 80%;
+    margin: 0 auto; /* Center the badge */
+  }
+  .stars {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .trust-badge p {
+    font-style: italic;
+    margin: 0;
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+
+  /* Floating Animation */
+  .floating {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-10px) rotate(0.5deg);
+    }
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .team-layout {
+      grid-template-columns: 1fr;
+    }
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+    .team-visual {
+      order: -1;
+      margin-bottom: 3rem;
+    }
+  }
+
+  /* Decorative Background */
+  .team-visual {
+    position: relative;
+    z-index: 1;
+  }
+
+  .bg-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%; /* Slightly larger than container */
+    max-width: 500px;
+    z-index: -1;
+    opacity: 0.35;
+    pointer-events: none;
+    /* filter: blur(40px); Removing blur to verify visibility */
+  }
+
+  /* Optional: Pulse animation for the water drop too? 
+     Let's keep it static but blurry for elegance first. 
+     If user wants floating, we can add it. 
+  */
+</style>

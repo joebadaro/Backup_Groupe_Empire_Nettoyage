@@ -1,0 +1,159 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import EstimationModule from "../components/EstimationModule.astro";
+
+import SEO from "../components/SEO.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title,
+  description = "Groupe Nettoyage Empire - Spécialistes du nettoyage de tapis, divans et carpettes.",
+  image,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={Astro.url.pathname.startsWith("/en") ? "en" : "fr"}>
+  <head>
+    <SEO title={title} description={description} image={image} />
+    {image && <link rel="preload" as="image" href={image} />}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // Global Scroll Reveal
+      document.addEventListener("DOMContentLoaded", () => {
+        const observerOptions = {
+          root: null,
+          rootMargin: "0px",
+          threshold: 0.1,
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, observerOptions);
+
+        document.querySelectorAll(".fade-in-section").forEach((section) => {
+          observer.observe(section);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Global Estimation Module -->
+    <EstimationModule />
+
+    <!-- MOBILE STICKY CTA BAR (Phone Only) -->
+    <div class="mobile-sticky-bar">
+      <a href="tel:5148939939" class="sticky-btn btn-call">
+        <span class="icon">📞</span>
+        {
+          Astro.url.pathname.startsWith("/en")
+            ? "Call for Estimate"
+            : "Appeler pour une estimation"
+        }
+      </a>
+      <button
+        onclick="window.openEstimationWidget()"
+        class="sticky-btn btn-quote"
+        style="border:none; cursor:pointer;"
+      >
+        <span class="icon">📝</span>
+        {
+          Astro.url.pathname.startsWith("/en")
+            ? "Instant Estimate"
+            : "Estimation Instantanée"
+        }
+      </button>
+    </div>
+
+    <style>
+      /* MOBILE STICKY BAR */
+      .mobile-sticky-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+        z-index: 9999;
+        display: flex;
+        padding: 10px 15px;
+        gap: 15px;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        transform: translateY(100%);
+        animation: slideUp 0.5s 1s forwards; /* Delay appearance slightly */
+      }
+
+      .sticky-btn {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px;
+        border-radius: 50px;
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: transform 0.2s;
+      }
+      .sticky-btn:active {
+        transform: scale(0.96);
+      }
+
+      .btn-call {
+        background-color: var(--color-primary); /* Dark Blue */
+        color: white;
+        box-shadow: 0 4px 12px rgba(10, 35, 66, 0.3);
+      }
+
+      .btn-quote {
+        background: #d32f2f; /* Hardcoded Red */
+        background: linear-gradient(135deg, #d32f2f 0%, #d63031 100%);
+      }
+
+      @keyframes slideUp {
+        to {
+          transform: translateY(0);
+        }
+      }
+
+      /* HIDE MOBILE BAR ON DESKTOP */
+      @media (min-width: 768px) {
+        .mobile-sticky-bar {
+          display: none !important;
+        }
+      }
+
+      /* Adjust footer so it doesn't get covered */
+      @media (max-width: 767px) {
+        footer {
+          padding-bottom: 80px;
+        }
+      }
+    </style>
+  </body>
+</html>

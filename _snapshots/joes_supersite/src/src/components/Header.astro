@@ -1,0 +1,373 @@
+---
+
+---
+
+<header class="site-header">
+  <!-- Top Bar for Trust Signals & Quick Contact -->
+  <div class="header-top">
+    <div class="container top-bar-content">
+      <div class="trust-signal">
+        <span class="icon">🏆</span> 30+ ans d'excellence au Québec
+      </div>
+      <div class="contact-quick">
+        <a href="tel:5148939939" class="phone-link"
+          ><span class="icon">📞</span> (514) 893-9939</a
+        >
+        <a href="/contact" class="quote-link">Soumission en ligne</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <div class="header-main">
+    <div class="container header-content">
+      <div class="logo">
+        <a href="/" class="logo-link">
+          <img
+            src="/images/logo-empire.webp"
+            alt="Groupe Nettoyage Empire"
+            class="logo-img"
+          />
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="nav-item">Accueil</a></li>
+
+          <!-- Services Dropdown (Click Trigger) -->
+          <li class="dropdown-wrapper">
+            <button id="services-btn" class="nav-item dropbtn">
+              Nos Services ▾
+            </button>
+            <div id="services-menu" class="dropdown-menu">
+              <div class="dropdown-column">
+                <span class="column-title">Tapis</span>
+                <a href="/services/tapis-residentiel"
+                  >Nettoyage de tapis résidentiel</a
+                >
+                <a href="/services/tapis-commercial"
+                  >Nettoyage de tapis commercial</a
+                >
+                <a href="/services/tapis-synthetique"
+                  >Nettoyage de tapis synthétique à domicile</a
+                >
+                <a href="/services/tapis-laine"
+                  >Nettoyage de tapis en laine à domicile</a
+                >
+                <a href="/services/tapis-orientaux"
+                  >Nettoyage de tapis orientaux à domicile</a
+                >
+              </div>
+              <div class="dropdown-column">
+                <span class="column-title">Meubles & Surfaces</span>
+                <a href="/services/meubles-tissu"
+                  >Nettoyage de meubles en tissu</a
+                >
+                <a href="/services/meubles-cuir">Nettoyage de meubles en cuir</a
+                >
+                <a href="/services/matelas"
+                  >Nettoyage et désinfection de matelas</a
+                >
+                <a href="/services/ceramique"
+                  >Nettoyage de tuiles de céramique</a
+                >
+                <a href="/services/protecteur" class="new-service"
+                  >Application de protecteurs antitâches</a
+                >
+              </div>
+            </div>
+          </li>
+
+          <li><a href="/realisations" class="nav-item">Réalisations</a></li>
+          <li><a href="/equipe" class="nav-item">Équipe</a></li>
+          <li><a href="/about" class="nav-item">À Propos</a></li>
+          <li><a href="/medias" class="nav-item">Médias</a></li>
+          <li><a href="/conseils" class="nav-item">Conseils</a></li>
+          <li><a href="/contact" class="nav-item">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="cta-header">
+        <a href="/contact" class="btn btn-primary btn-sm">Devis</a>
+      </div>
+
+      <button class="mobile-toggle" aria-label="Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Logic for Persistent Dropdown (Click to Open/Close)
+  const servicesBtn = document.getElementById("services-btn");
+  const servicesMenu = document.getElementById("services-menu");
+
+  if (servicesBtn && servicesMenu) {
+    // Toggle menu on click
+    servicesBtn.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevent click from closing immediately due to document listener
+      const isExpanded = servicesBtn.getAttribute("aria-expanded") === "true";
+      toggleMenu(!isExpanded);
+    });
+
+    // Close when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!servicesMenu || !servicesBtn) return;
+      const target = e.target as Node | null;
+      if (
+        target &&
+        !servicesMenu.contains(target) &&
+        !servicesBtn.contains(target)
+      ) {
+        toggleMenu(false);
+      }
+    });
+
+    // Close when clicking a link inside
+    servicesMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        toggleMenu(false);
+      });
+    });
+  }
+
+  function toggleMenu(show: boolean) {
+    if (!servicesBtn || !servicesMenu) return;
+
+    servicesBtn.setAttribute("aria-expanded", show.toString());
+    if (show) {
+      servicesMenu.classList.add("visible");
+    } else {
+      servicesMenu.classList.remove("visible");
+    }
+  }
+</script>
+
+<style>
+  /* Sticky & Layering */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-subtle);
+  }
+
+  /* Top Bar */
+  .header-top {
+    background-color: var(--color-primary);
+    color: white;
+    font-size: 0.85rem;
+    padding: 8px 0;
+  }
+
+  .top-bar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .trust-signal {
+    font-weight: 500;
+    opacity: 0.9;
+  }
+
+  .contact-quick {
+    display: flex;
+    gap: 20px;
+  }
+
+  .phone-link {
+    font-weight: 700;
+  }
+
+  .quote-link {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  /* Main Header */
+  .header-main {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Logo */
+  .logo-link {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-img {
+    height: 70px; /* Optimal height for navigation bar */
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+
+  .logo-img:hover {
+    transform: scale(1.02);
+  }
+
+  /* Navigation */
+  .nav-list {
+    display: flex;
+    gap: 1.2rem; /* Optimized gap for more items */
+    align-items: center;
+  }
+
+  .nav-item {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    position: relative;
+    padding: 10px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  a.nav-item::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--color-accent);
+    transition: width 0.3s;
+  }
+
+  a.nav-item:hover::after {
+    width: 100%;
+  }
+
+  /* Dropdown Wrapper */
+  .dropdown-wrapper {
+    position: relative;
+  }
+
+  /* The Menu Itself */
+  .dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: white;
+    min-width: 600px; /* Slightly wider for longer names */
+    box-shadow: var(--shadow-hover);
+    border-radius: var(--border-radius-md);
+    padding: 1.5rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 10px;
+    border-top: 4px solid var(--color-primary);
+    opacity: 0;
+    transition:
+      opacity 0.2s,
+      transform 0.2s;
+  }
+
+  /* Visible State (Toggled by JS) */
+  .dropdown-menu.visible {
+    display: grid;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .column-title {
+    display: block;
+    color: var(--color-accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+  }
+
+  .dropdown-column a {
+    display: block;
+    padding: 6px 0;
+    color: var(--color-text-main);
+    transition: 0.2s;
+    font-size: 0.9rem;
+  }
+
+  .dropdown-column a:hover {
+    color: var(--color-primary);
+    transform: translateX(5px);
+    font-weight: 600;
+  }
+
+  .new-service {
+    color: var(--color-primary) !important;
+    font-weight: bold;
+    border-top: 1px dashed #eee;
+    margin-top: 5px;
+    padding-top: 10px !important;
+  }
+
+  /* Button Small */
+  .btn-sm {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+
+  /* Mobile Toggle */
+  .mobile-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .bar {
+    width: 25px;
+    height: 3px;
+    background-color: var(--color-primary);
+    transition: 0.3s;
+  }
+
+  @media (max-width: 1200px) {
+    .nav-list {
+      font-size: 0.85rem;
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .main-nav,
+    .cta-header,
+    .trust-signal {
+      display: none;
+    }
+    .mobile-toggle {
+      display: flex;
+    }
+    .header-top {
+      justify-content: center;
+    }
+    .contact-quick {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

@@ -1,0 +1,373 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Contact Us | Empire Cleaning Group">
+  <div class="page-header">
+    <div class="container text-center fade-in-section">
+      <h1 class="text-gradient">Request your free estimate</h1>
+      <div
+        class="trust-pill badge-google"
+        style="display:inline-block; margin: 0.5rem 0; width: auto; padding: 4px 15px;"
+      >
+        <img
+          src="/images/google-reviews-badge.png"
+          alt="Google 5 Stars"
+          width="100"
+          height="auto"
+          style="display: block;"
+        />
+      </div>
+      <p class="lead-text">Call us for an immediate response.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-layout">
+        <!-- FORMULAIRE -->
+        <div class="contact-form-wrapper fade-in-section">
+          <h2>Request Form</h2>
+          <p class="form-intro">
+            Prefer a quick response? <a
+              href="tel:5148939939"
+              style="color: var(--color-primary); font-weight: bold;"
+              >Call us at (514) 893-9939</a
+            >.
+          </p>
+
+          <form
+            class="contact-form"
+            name="contact"
+            method="POST"
+            action="https://formsubmit.co/info@groupenettoyageempire.com"
+          >
+            <!-- FormSubmit Config -->
+            <input
+              type="hidden"
+              name="_subject"
+              value="New Quote Request - English Website"
+            />
+            <input
+              type="hidden"
+              name="_next"
+              value="https://groupenettoyageempire.com/en/merci"
+            />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  placeholder="Your name"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="city">City *</label>
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  required
+                  placeholder="Your city"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  required
+                  placeholder="(514) 000-0000"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email (Optional)</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="To receive the quote in writing"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Full Address (Optional)</label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                placeholder="Number, street, apartment"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="service">Desired Service(s) *</label>
+              <select id="service" name="service" required>
+                <option value="" disabled selected>Choose a service...</option>
+                <option value="Residential Carpet"
+                  >Residential Carpet Cleaning</option
+                >
+                <option value="Commercial Carpet"
+                  >Commercial Carpet Cleaning</option
+                >
+                <option value="Synthetic Carpet"
+                  >In-Home Synthetic Carpet Cleaning</option
+                >
+                <option value="Wool Carpet">In-Home Wool Carpet Cleaning</option
+                >
+                <option value="Oriental Rugs"
+                  >In-Home Oriental Rug Cleaning</option
+                >
+                <option value="Fabric Furniture"
+                  >Fabric Furniture Cleaning</option
+                >
+                <option value="Leather Furniture"
+                  >Leather Furniture Cleaning</option
+                >
+                <option value="Mattress"
+                  >Mattress Cleaning & Disinfection</option
+                >
+                <option value="Ceramic">Tile & Grout Cleaning</option>
+                <option value="Protector">Stain Protector Application</option>
+                <option value="Other">Other Request</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Details or questions</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                placeholder="Ex: Room sizes, type of stains, access code..."
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary full-width"
+              >Send Request</button
+            >
+          </form>
+        </div>
+
+        <!-- INFO SIDEBAR -->
+        <div class="contact-info fade-in-section delay-100">
+          <div class="info-card">
+            <h3>Quick Contact</h3>
+            <div
+              class="info-item"
+              style="background: #fdfdfd; padding: 15px; border-left: 4px solid var(--color-primary);"
+            >
+              <span class="icon">📞</span>
+              <div>
+                <strong>By Phone (Priority)</strong>
+                <a href="tel:5148939939" class="phone-big"
+                  >(514) 893-9939 (Free Estimate)</a
+                >
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="icon">✉️</span>
+              <div>
+                <strong>Email</strong>
+                <a href="mailto:Info@groupenettoyageempire.com"
+                  >Info@groupenettoyageempire.com</a
+                >
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <div>
+                <strong>Areas Served</strong>
+                <p>Greater Montreal, North Shore, South Shore.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="trust-box">
+            <h3>Expert Advice</h3>
+            <ul class="check-list">
+              <li>
+                🔍 <strong>Complete Inspection:</strong> Before starting cleaning,
+                our technician always performs a complete inspection of carpets, fabrics,
+                or surfaces.
+              </li>
+              <li>
+                💬 <strong>Transparency:</strong> If adjustments or treatments are
+                recommended, you are informed with all available options.
+              </li>
+              <li>
+                ✅ <strong>Your Decision:</strong> No additional intervention is performed
+                without your agreement. Cleaning is always done according to your
+                needs.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Map Placeholder -->
+          <!-- Google Map -->
+          <div class="map-container fade-in-section delay-200">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d44795.56877994073!2d-73.450!3d45.535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc91b931934989d%3A0xe247c724771775!2sLongueuil%2C%20QC%20J3Y!5e0!3m2!1sen!2sca!4v1703000000000!5m2!1sen!2sca"
+              width="100%"
+              height="100%"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Service Area: Longueuil and surroundings"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background: var(--color-bg-light-blue);
+    padding: 4rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .lead-text {
+    font-size: 1.2rem;
+    color: var(--color-text-light);
+  }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 4rem;
+  }
+
+  .contact-form-wrapper {
+    background: white;
+    padding: 2.5rem;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-subtle);
+    border: 1px solid #eee;
+  }
+
+  .form-intro {
+    margin-bottom: 2rem;
+    color: #666;
+    font-style: italic;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 0.95rem;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: 0.3s;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--color-accent);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(197, 160, 101, 0.1);
+  }
+
+  .full-width {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  /* Info Sidebar */
+  .info-card {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius-md);
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-subtle);
+  }
+
+  .info-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+  }
+
+  .icon {
+    font-size: 1.5rem;
+  }
+
+  .phone-big {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--color-accent);
+  }
+
+  .trust-box {
+    background: var(--color-primary);
+    color: white;
+    padding: 2rem;
+    border-radius: var(--border-radius-md);
+    margin-bottom: 2rem;
+  }
+
+  .trust-box h3 {
+    color: white;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .check-list li {
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    font-size: 0.95rem;
+  }
+
+  .map-container {
+    height: 300px;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-subtle);
+    border: 1px solid #eee;
+  }
+
+  @media (max-width: 800px) {
+    .contact-layout {
+      grid-template-columns: 1fr;
+    }
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,237 @@
+---
+interface Props {
+    title: string;
+    description: string;
+    image?: string;
+    article?: boolean;
+    serviceType?: string;
+    serviceArea?: string[];
+}
+
+const {
+    title,
+    description,
+    image = "/images/catalog/photo-tapis-clean.webp", // Keeping the fixed image as it is better
+    article = false,
+} = Astro.props;
+
+const siteUrl = "https://groupenettoyageempire.com";
+
+// Hreflang Logic
+const { pathname } = Astro.url;
+const isEn = pathname.startsWith("/en");
+const cleanPath = pathname.replace(/\/$/, "") || "/";
+
+let frPath = isEn ? cleanPath.replace("/en", "") || "/" : cleanPath;
+let enPath = isEn ? cleanPath : "/en" + (cleanPath === "/" ? "" : cleanPath);
+
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const frURL = new URL(frPath, siteUrl);
+const enURL = new URL(enPath, siteUrl);
+const socialImageURL = new URL(image, siteUrl);
+
+const jsonLD = {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "ProfessionalService"],
+    "@id": `${siteUrl}/#organization`,
+    name: "Groupe Nettoyage Empire",
+    alternateName: "Nettoyage Empire",
+    slogan: "L'Excellence du Nettoyage au Québec",
+    description:
+        "Service professionnel de nettoyage de tapis, meubles et matelas à Montréal, Laval et Rive-Sud. Technologie de camion-usine, produits écologiques et expertise de 30+ ans.",
+    image: [socialImageURL, `${siteUrl}/images/catalog/team-van-back.webp`],
+    logo: `${siteUrl}/images/logo-empire.png`,
+    telephone: "(514) 893-9939",
+    email: "info@groupenettoyageempire.com",
+    address: {
+        "@type": "PostalAddress",
+        streetAddress: "",
+        addressLocality: "Longueuil",
+        addressRegion: "QC",
+        postalCode: "J3Y",
+        addressCountry: "CA",
+    },
+    geo: {
+        "@type": "GeoCoordinates",
+        latitude: 45.5369,
+        longitude: -73.4983,
+    },
+    areaServed: [
+        {
+            "@type": "City",
+            name: "Montréal",
+            "@id": "https://www.wikidata.org/wiki/Q340",
+        },
+        {
+            "@type": "City",
+            name: "Longueuil",
+        },
+        {
+            "@type": "City",
+            name: "Brossard",
+        },
+        {
+            "@type": "City",
+            name: "Boucherville",
+        },
+        {
+            "@type": "City",
+            name: "Laval",
+        },
+        {
+            "@type": "Place",
+            name: "Rive-Sud de Montréal",
+        },
+        {
+            "@type": "Place",
+            name: "Rive-Nord de Montréal",
+        },
+    ],
+    url: siteUrl,
+    priceRange: "$$",
+    paymentAccepted: ["Cash", "Credit Card", "Debit Card", "Interac"],
+    currenciesAccepted: "CAD",
+    openingHoursSpecification: [
+        {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+            ],
+            opens: "08:00",
+            closes: "20:00",
+        },
+    ],
+    sameAs: [
+        "https://www.facebook.com/NettoyageEmpire/",
+        "https://www.youtube.com/@NettoyageEmpire",
+        "https://instagram.com/groupenettoyageempire",
+    ],
+    aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "5",
+        reviewCount: "150",
+        bestRating: "5",
+    },
+    foundingDate: "1990",
+    numberOfEmployees: {
+        "@type": "QuantitativeValue",
+        value: 15,
+    },
+    knowsAbout: [
+        "Nettoyage de tapis",
+        "Nettoyage de meubles",
+        "Nettoyage de matelas",
+        "Désinfection",
+        "Extraction à la vapeur",
+        "Produits écologiques",
+        "Nettoyage commercial",
+        "Nettoyage résidentiel",
+    ],
+    hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Services de Nettoyage",
+        itemListElement: [
+            {
+                "@type": "Offer",
+                itemOffered: {
+                    "@type": "Service",
+                    serviceType: "Nettoyage de tapis résidentiel",
+                    name: "Nettoyage de Tapis Résidentiel",
+                    description:
+                        "Nettoyage professionnel de tapis à domicile avec camion-usine. Élimination des taches, allergènes et odeurs.",
+                    provider: {
+                        "@id": `${siteUrl}/#organization`,
+                    },
+                    areaServed: "Montréal, Laval, Rive-Sud",
+                },
+            },
+            {
+                "@type": "Offer",
+                itemOffered: {
+                    "@type": "Service",
+                    serviceType: "Nettoyage de meubles",
+                    name: "Nettoyage de Meubles et Divans",
+                    description:
+                        "Nettoyage de sofas, divans et fauteuils en tissu ou cuir. Traitement anti-taches et désodorisation.",
+                    provider: {
+                        "@id": `${siteUrl}/#organization`,
+                    },
+                    areaServed: "Montréal, Laval, Rive-Sud",
+                },
+            },
+            {
+                "@type": "Offer",
+                itemOffered: {
+                    "@type": "Service",
+                    serviceType: "Nettoyage et désinfection de matelas",
+                    name: "Nettoyage et Désinfection de Matelas",
+                    description:
+                        "Élimination certifiée des acariens, bactéries et allergènes pour un sommeil sain.",
+                    provider: {
+                        "@id": `${siteUrl}/#organization`,
+                    },
+                    areaServed: "Montréal, Laval, Rive-Sud",
+                },
+            },
+            {
+                "@type": "Offer",
+                itemOffered: {
+                    "@type": "Service",
+                    serviceType: "Nettoyage de tapis commercial",
+                    name: "Nettoyage de Tapis Commercial",
+                    description:
+                        "Solutions professionnelles pour bureaux et espaces commerciaux. Service hors heures disponible.",
+                    provider: {
+                        "@id": `${siteUrl}/#organization`,
+                    },
+                    areaServed: "Montréal, Laval, Rive-Sud",
+                },
+            },
+        ],
+    },
+};
+---
+
+<!-- Essential Meta Tags -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="generator" content={Astro.generator} />
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta
+    name="robots"
+    content="index, follow, max-image-preview:large, max-snippet:-1"
+/>
+<link rel="canonical" href={canonicalURL} />
+<link rel="alternate" hreflang="fr" href={frURL} />
+<link rel="alternate" hreflang="en" href={enURL} />
+<link rel="alternate" hreflang="x-default" href={frURL} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={article ? "article" : "website"} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={socialImageURL} />
+<meta property="og:site_name" content="Groupe Nettoyage Empire" />
+<meta property="og:locale" content="fr_CA" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={socialImageURL} />
+
+<!-- Schema.org JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify(jsonLD)} />

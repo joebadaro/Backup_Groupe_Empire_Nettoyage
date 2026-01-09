@@ -1,0 +1,27 @@
+{
+  "name": "emerald-quasar",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "host": "astro dev --host",
+    "share": "npx localtunnel --port 4321",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/netlify": "^6.6.3",
+    "@astrojs/sitemap": "^3.6.0",
+    "@supabase/supabase-js": "^2.89.0",
+    "@types/nodemailer": "^7.0.4",
+    "astro": "^5.16.6",
+    "dotenv": "^17.2.3",
+    "jspdf": "^3.0.4",
+    "jspdf-autotable": "^5.0.2",
+    "nodemailer": "^7.0.12",
+    "resend": "^6.6.0",
+    "sharp": "^0.34.5",
+    "twilio": "^5.11.1"
+  }
+}

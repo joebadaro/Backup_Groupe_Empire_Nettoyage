@@ -1,0 +1,459 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout
+  title="Nettoyage de Tapis Commercial"
+  description="Service de nettoyage de tapis commercial pour bureaux et commerces. Tarifs compétitifs, horaires flexibles et résultats supérieurs. Estimation gratuite."
+>
+  <!-- SPLIT SCREEN HERO -->
+  <div class="split-hero-container">
+    <div class="container full-width-split">
+      <div class="split-layout">
+        <!-- LEFT COLUMN: CONTENT (Hook) -->
+        <div class="split-content fade-in-section">
+          <span class="service-cat-badge">COMMERCIAL</span>
+          <h1 class="split-title fade-in-up text-gradient-empire">
+            Nettoyage de Tapis Commercial
+          </h1>
+
+          <div class="problem-statement fade-in-up delay-100">
+            <h3 class="problem-title">Le Problème :</h3>
+            <p class="problem-text">
+              L'image de votre entreprise commence par la propreté. Des tapis
+              tachés ou poussiéreux nuisent à votre réputation et à la qualité
+              de l'air de vos bureaux.
+            </p>
+          </div>
+
+          <p class="lead-text fade-in-up delay-200">
+            Un service d'entretien professionnel conçu pour vos espaces
+            d'affaires. Plans flexibles, séchage rapide et résultats impeccables
+            pour bureaux et commerces.
+          </p>
+
+          <div class="cta-group fade-in-up delay-300">
+            <a href="tel:5148939939" class="btn btn-primary pulse-btn">
+              <span class="icon">📞</span> (514) 893-9939 (Parler à un Expert)
+            </a>
+            <button
+              onclick="document.getElementById('estimation-widget').style.display='flex'"
+              class="btn btn-primary"
+            >
+              <span class="icon">⚡</span> Estimation Instantanée en Ligne
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: IMAGE (Visual / Slideshow) -->
+        <div class="split-image-wrapper fade-in-section delay-200">
+          <div class="slideshow-container">
+            <img
+              src="/images/catalog/photo-14.webp"
+              alt="Nettoyage tapis commercial"
+              class="slide active"
+            />
+            <img
+              src="/images/catalog/photo-18.webp"
+              alt="Bureau propre"
+              class="slide"
+            />
+            <img
+              src="/images/catalog/photo-19.webp"
+              alt="Entretien professionnel"
+              class="slide"
+            />
+            <img
+              src="/images/catalog/photo-30.webp"
+              alt="Séchage rapide"
+              class="slide"
+            />
+            <img
+              src="/images/catalog/photo-31.webp"
+              alt="Résultat impeccable"
+              class="slide"
+            />
+          </div>
+          <div class="image-overlay-gradient"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="service-layout">
+        <!-- MAIN CONTENT -->
+        <div class="service-main">
+          <!-- BENEFIT LIST & SEO CONTENT -->
+          <div class="fade-in-section delay-100">
+            <h2 class="section-title text-gradient-empire">
+              Solutions pour Bureaux et Commerces
+            </h2>
+
+            <p>Maximisez la durée de vie de vos investissements:</p>
+
+            <ul class="benefit-list">
+              <li>
+                <strong>Entrées d'édifices et corridors :</strong> Nettoyage haute
+                performance pour les zones à fort trafic.
+              </li>
+              <li>
+                <strong>Salles de réception et bureaux :</strong> Entretien soigné
+                pour tapis, chaises et cubicules.
+              </li>
+              <li>
+                <strong>Passages d'immeubles et marches :</strong> Solutions complètes
+                pour toutes vos aires communes.
+              </li>
+            </ul>
+
+            <div style="margin-top: 2rem;">
+              <button id="toggle-seo-btn" class="btn-text-reveal">
+                En savoir plus sur le nettoyage de tapis commercial ▼
+              </button>
+            </div>
+
+            <div id="seo-content" class="seo-content-hidden">
+              <hr class="separator" />
+              <h3>Expertise Commerciale et Grands Espaces</h3>
+              <p>
+                Chez <strong>Groupe Nettoyage Empire</strong>, nous comprenons
+                que la propreté de vos locaux professionnels—des <strong
+                  >entrées d'édifices</strong
+                > aux <strong>salles de réception</strong>—reflète l’image de
+                votre entreprise. Nous offrons un service spécialisé pour tout
+                type de revêtement (tapis commercial, tuiles) dans les <strong
+                  >bureaux, commerces et espaces communs</strong
+                > à Montréal.
+              </p>
+              <p>
+                Notre équipement professionnel (Camion-Usine ou Portable) nous
+                permet de traiter efficacement les <strong
+                  >passages d'immeubles</strong
+                >, les <strong>marches d'escaliers</strong> et les grands espaces
+                ouverts. Nous éliminons le sel, le calcium et la saleté incrustée
+                pour redonner à vos tapis leur éclat d'origine.
+              </p>
+
+              <h3>Nos solutions adaptées :</h3>
+              <ul>
+                <li>
+                  <strong>Entretien des aires communes :</strong> Passages, corridors
+                  et halls d'entrée impeccables.
+                </li>
+                <li>
+                  <strong>Nettoyage complet :</strong> Tapis, chaises, cubicules et
+                  divans de salle d'attente.
+                </li>
+                <li>
+                  <strong>Séchage rapide :</strong> Produits écologiques et succion
+                  puissante pour une réutilisation rapide des lieux.
+                </li>
+              </ul>
+
+              <p>
+                Que ce soit pour un <strong
+                  >nettoyage de tapis commercial</strong
+                > ponctuel ou un entretien récurrent de vos <strong
+                  >entrées d'édifices</strong
+                >, notre équipe garantit un résultat professionnel.
+                Contactez-nous pour une estimation gratuite au pied carré.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Simple Cross-Fade Slideshow
+  const slides = document.querySelectorAll(".slide");
+
+  if (slides.length > 0) {
+    let currentSlide = 0;
+    const intervalTime = 4000; // 4 seconds
+
+    setInterval(() => {
+      slides[currentSlide].classList.remove("active");
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add("active");
+    }, intervalTime);
+  }
+
+  // Toggle SEO Content
+  const toggleBtn = document.getElementById("toggle-seo-btn");
+  const seoContent = document.getElementById("seo-content");
+
+  if (toggleBtn && seoContent) {
+    toggleBtn.addEventListener("click", () => {
+      seoContent.classList.toggle("visible");
+      if (seoContent.classList.contains("visible")) {
+        toggleBtn.textContent = "Réduire le contenu ▲";
+      } else {
+        toggleBtn.textContent =
+          "En savoir plus sur le nettoyage de tapis commercial ▼";
+      }
+    });
+  }
+</script>
+
+<style>
+  /* HERO */
+  /* SPLIT SCREEN HERO (Sky Blue Theme) */
+  .split-hero-container {
+    background-color: #fff; /* Reset container to white */
+    padding-top: 0; /* Remove container padding so image hits top */
+    padding-bottom: 0;
+    overflow: hidden;
+    width: 100vw;
+  }
+
+  .full-width-split {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .split-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    align-items: stretch;
+    min-height: 80vh; /* Consistent viewport height */
+  }
+
+  /* LEFT TEXT COLUMN */
+  .split-content {
+    background-color: #ffffff;
+    padding: 100px 4rem 4rem 10%; /* Add header offset internal padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .service-cat-badge {
+    text-transform: uppercase;
+    color: var(--color-accent);
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .split-title {
+    font-size: clamp(2.5rem, 3.5vw, 4rem);
+    color: var(--color-primary); /* Dark Blue text */
+    margin-bottom: 2rem;
+    line-height: 1.1;
+  }
+
+  .problem-statement {
+    background: #ffffff; /* White box */
+    border-left: 4px solid #ff4444; /* Red border returns for alertness */
+    padding: 1.5rem;
+    border-radius: 0;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(174, 206, 235, 0.3); /* Soft blue shadow */
+  }
+
+  .problem-title {
+    font-size: 1rem;
+    color: #cc0000;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .problem-text {
+    font-size: 1.05rem;
+    color: var(--color-text-main);
+    font-style: italic;
+  }
+
+  .lead-text {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--color-text-main); /* Dark grey text */
+    margin-bottom: 2.5rem;
+    max-width: 650px;
+  }
+
+  .cta-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* Reset Secondary Button for Light Mode */
+  .split-content .btn-secondary-outline {
+    border-color: #ddd;
+    color: #666;
+  }
+  .split-content .btn-secondary-outline:hover {
+    background: white;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  /* RIGHT IMAGE COLUMN */
+  .split-image-wrapper {
+    position: relative;
+    height: 100%;
+    min-height: 500px;
+    width: 100%;
+    border-radius: 0;
+    transform: none;
+    box-shadow: none;
+    margin: 0;
+    background-color: #fff; /* Ensure white background if image loads late */
+  }
+
+  /* Slideshow Styles reused but adapted for full height */
+  .slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+  }
+
+  .slide.active {
+    opacity: 1;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .split-layout {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .split-content {
+      padding: 3rem 1.5rem;
+      order: 1; /* Content first */
+    }
+
+    .split-image-wrapper {
+      order: 2; /* Image second */
+      height: 400px;
+      min-height: 0;
+    }
+
+    .lead-text {
+      max-width: 100%;
+    }
+  }
+
+  /* LAYOUT */
+  .service-layout {
+    display: grid;
+    grid-template-columns: 1fr; /* Full width for content now since we have a different layout */
+    gap: 5rem;
+  }
+
+  /* TYPOGRAPHY */
+  .section-title {
+    font-size: 1.8rem;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+  }
+
+  /* SEO Content & Toggle Styles */
+  .btn-text-reveal {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    padding: 0;
+    margin-bottom: 1rem;
+    transition: color 0.3s;
+  }
+
+  .btn-text-reveal:hover {
+    color: var(--color-accent);
+  }
+
+  .seo-content-hidden {
+    display: none;
+    margin-top: 1rem;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  .seo-content-hidden.visible {
+    display: block;
+  }
+
+  .separator {
+    border: 0;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.1);
+    margin: 1.5rem 0;
+  }
+
+  /* Additional text styling for SEO section */
+  .seo-content-hidden p {
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    color: var(--color-text-main);
+  }
+
+  .seo-content-hidden strong {
+    color: var(--color-empire-red);
+  }
+
+  .seo-content-hidden ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .seo-content-hidden li {
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+
+  /* Benefit List Styles from original */
+  .benefit-list {
+    margin: 2rem 0;
+    list-style: none; /* Ensure no default bullets */
+    padding: 0;
+  }
+
+  .benefit-list li {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+    font-size: 1.05rem;
+  }
+
+  .benefit-list li::before {
+    content: "✓";
+    color: #d32f2f; /* Empire Red or Gold */
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+  }
+</style>

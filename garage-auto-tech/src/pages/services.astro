@@ -1,0 +1,308 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Nos Services | Garage Auto-Tech S M">
+    <main class="page-content">
+        <section class="page-header">
+            <div class="container animate-fade-in">
+                <h1>Nos Services</h1>
+                <p>Expertise complète pour votre véhicule</p>
+            </div>
+        </section>
+
+        <section class="section-padding">
+            <div class="container">
+                <div class="services-grid">
+                    <!-- Service 1: Mécanique Générale -->
+                    <div class="service-card fade-up stagger-1">
+                        <div class="card-image">
+                            <img
+                                src="/images/services/mechanic-general.jpg"
+                                alt="Mécanique Générale"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="service-icon">🔧</div>
+                            <h3>Mécanique Générale</h3>
+                            <p>
+                                Du simple entretien aux réparations complexes,
+                                notre équipe gère tout. Moteur, transmission,
+                                direction, et échappement.
+                            </p>
+                            <ul>
+                                <li>Diagnostic moteur</li>
+                                <li>Réparation de transmission</li>
+                                <li>Système d'échappement</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Service 2: Freins et Sécurité -->
+                    <div class="service-card fade-up stagger-2">
+                        <div class="card-image">
+                            <img
+                                src="/images/services/brakes-suspension.png"
+                                alt="Freins et Sécurité"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="service-icon">🛑</div>
+                            <h3>Freins et Sécurité</h3>
+                            <p>
+                                Ne négligez pas votre sécurité. Nous inspectons
+                                et remplaçons vos freins pour une conduite sans
+                                souci.
+                            </p>
+                            <ul>
+                                <li>Remplacement des plaquettes</li>
+                                <li>Disques et étriers</li>
+                                <li>Inspection ABS</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Service 3: Entretien Préventif -->
+                    <div class="service-card fade-up stagger-3">
+                        <div class="card-image">
+                            <img
+                                src="/images/services/oil-change.png"
+                                alt="Entretien Préventif"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="service-icon">🚗</div>
+                            <h3>Entretien Préventif</h3>
+                            <p>
+                                L'entretien régulier est la clé de la longévité
+                                de votre auto. Suivi du plan d'entretien du
+                                manufacturier.
+                            </p>
+                            <ul>
+                                <li>Changement d'huile</li>
+                                <li>Liquides et filtres</li>
+                                <li>Mise au point</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Service 4: Pneus et Roues -->
+                    <div class="service-card fade-up stagger-1">
+                        <div class="card-image">
+                            <img
+                                src="/images/services/tires-wheels.png"
+                                alt="Pneus et Roues"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="service-icon">❄️</div>
+                            <h3>Pneus et Roues</h3>
+                            <p>
+                                Vente et installation de pneus de toutes
+                                marques. Nous assurons une conduite stable et
+                                confortable.
+                            </p>
+                            <ul>
+                                <li>Pose et balancement</li>
+                                <li>Vente de pneus neufs</li>
+                                <li>Réparation de crevaisons</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Service 5: Électricité et Diagnostic -->
+                    <div class="service-card fade-up stagger-2">
+                        <div class="card-image">
+                            <img
+                                src="/images/services/electronic-diagnostic.png"
+                                alt="Électricité et Diagnostic"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="service-icon">⚡</div>
+                            <h3>Électricité et Diagnostic</h3>
+                            <p>
+                                Problèmes de démarrage ? Voyant Check Engine
+                                allumé ? Nous avons les outils pour trouver la
+                                source du problème.
+                            </p>
+                            <ul>
+                                <li>Batterie et alternateur</li>
+                                <li>Systèmes électroniques</li>
+                                <li>Programmation</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Service 6: Climatisation -->
+                    <div class="service-card fade-up stagger-3">
+                        <div class="card-image">
+                            <img
+                                src="/images/services/ac-service.png"
+                                alt="Climatisation"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="service-icon">🌡️</div>
+                            <h3>Climatisation</h3>
+                            <p>
+                                Restez au frais l'été. Entretien, recharge et
+                                réparation de votre système d'air climatisé.
+                            </p>
+                            <ul>
+                                <li>Recharge de fréon</li>
+                                <li>Détection de fuites</li>
+                                <li>Compresseur</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section text-center section-padding">
+            <div class="container fade-up">
+                <h2>Prenez rendez-vous dès aujourd'hui</h2>
+                <p class="mb-lg">Nos experts sont prêts à vous servir.</p>
+                <a href="/contact" class="btn">Nous Contacter</a>
+            </div>
+        </section>
+    </main>
+</Layout>
+
+<style>
+    .page-header {
+        background-color: var(--color-darker);
+        padding: 8rem 0 4rem;
+        text-align: center;
+        background-image:
+            linear-gradient(rgba(15, 28, 46, 0.9), rgba(15, 28, 46, 0.8)),
+            url("https://images.unsplash.com/photo-1487754180451-c456f719a1fc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80");
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
+
+    .page-header h1 {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        color: white;
+    }
+
+    .page-header p {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        padding: 1rem 0;
+    }
+
+    .service-card {
+        background: var(--color-card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        backdrop-filter: blur(10px);
+    }
+
+    .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .card-image {
+        height: 220px; /* Fixed height for consistency */
+        overflow: hidden;
+        position: relative;
+    }
+
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .service-card:hover .card-image img {
+        transform: scale(1.08); /* Subtle zoom on hover */
+    }
+
+    .card-content {
+        padding: 2rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .service-icon {
+        font-size: 2rem;
+        background: rgba(255, 255, 255, 0.05);
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .service-card:hover .service-icon {
+        background: var(--color-primary);
+        color: white;
+        border-color: var(--color-primary);
+    }
+
+    .card-content h3 {
+        color: white;
+        margin-bottom: 0.8rem;
+        font-size: 1.5rem;
+    }
+
+    .card-content p {
+        color: var(--color-text-muted);
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .card-content ul {
+        margin-top: auto; /* Push to bottom */
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        list-style: none;
+    }
+
+    .card-content li {
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .card-content li::before {
+        content: "✓";
+        color: var(--color-primary);
+        font-weight: bold;
+    }
+
+    .cta-section {
+        background: linear-gradient(to top, var(--color-darker), transparent);
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .cta-section h2 {
+        color: white;
+    }
+</style>

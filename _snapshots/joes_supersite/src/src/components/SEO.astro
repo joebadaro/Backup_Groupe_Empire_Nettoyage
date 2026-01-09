@@ -1,0 +1,85 @@
+---
+interface Props {
+    title: string;
+    description: string;
+    image?: string;
+    article?: boolean;
+}
+
+const {
+    title,
+    description,
+    image = "/images/catalog/photo-82.webp", // Default to hero image
+    article = false,
+} = Astro.props;
+
+const siteUrl = "https://groupenettoyageempire.com";
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const socialImageURL = new URL(image, siteUrl);
+
+const jsonLD = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "Groupe Nettoyage Empire",
+    image: socialImageURL,
+    telephone: "(514) 893-9939",
+    email: "info@groupenettoyageempire.com",
+    address: {
+        "@type": "PostalAddress",
+        addressLocality: "Longueuil",
+        addressRegion: "QC",
+        postalCode: "J3Y",
+        addressCountry: "CA",
+    },
+    url: siteUrl,
+    priceRange: "$$",
+    openingHoursSpecification: [
+        {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+            ],
+            opens: "08:00",
+            closes: "20:00",
+        },
+    ],
+    sameAs: [
+        "https://www.facebook.com/NettoyageEmpire/",
+        "https://www.youtube.com/@NettoyageEmpire",
+    ],
+};
+---
+
+<!-- Essential Meta Tags -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={article ? "article" : "website"} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={socialImageURL} />
+<meta property="og:site_name" content="Groupe Nettoyage Empire" />
+<meta property="og:locale" content="fr_CA" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={socialImageURL} />
+
+<!-- Schema.org JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify(jsonLD)} />

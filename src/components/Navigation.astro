@@ -1,0 +1,146 @@
+---
+
+---
+
+<nav class="navbar">
+  <div class="container navbar-content">
+    <a href="/" class="logo">
+      <span class="logo-text">GROUPE <span class="text-gold">EMPIRE</span></span
+      >
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="/">Accueil</a></li>
+      <li class="dropdown">
+        <a href="/services" class="dropdown-trigger">Nos Services ▾</a>
+        <ul class="dropdown-menu">
+          <li>
+            <li>
+              <a href="/services/nettoyage-tapis-residentiel"
+                >Tapis Résidentiel</a>
+            </li>
+            >Tapis Résidentiel
+          </li>
+        </ul>
+        <li>
+          <a href="/services/nettoyage-tapis-commercial">Tapis Commercial</a>
+        </li>
+        <li><a href="/services/nettoyage-sofa-cuir">Sofa & Cuir</a></li>
+        <li>
+          <a href="/services/nettoyage-desinfection-matelas">Matelas</a>
+        </li>
+        <li><a href="/services/nettoyage-tuiles-ceramique">Céramique</a></li>
+        <li><a href="/services/surfaces">Autres Surfaces</a></li>
+      </li>
+    </ul>
+    <li><a href="/realisations">Réalisations</a></li>
+    <li><a href="/conseils">Conseils</a></li>
+    <li><a href="/equipe">Équipe</a></li>
+    <li><a href="/a-propos">À Propos</a></li>
+    <li><a href="/contact" class="btn btn-primary small-btn">Contact</a></li>
+  </div>
+
+  <button class="mobile-menu-btn" aria-label="Menu">☰</button>
+</nav>
+
+<style>
+  .navbar {
+    background-color: var(--color-empire-blue);
+    color: var(--color-white);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow-premium);
+  }
+
+  .navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo-text {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .nav-links a {
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .nav-links a:hover {
+    color: var(--color-gold);
+  }
+
+  /* Dropdown Styles */
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--color-white);
+    min-width: 220px;
+    box-shadow: var(--shadow-card);
+    border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .dropdown-menu li a {
+    display: block;
+    color: var(--color-text-main);
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .dropdown-menu li a:hover {
+    background-color: #f0f0f0;
+    color: var(--color-empire-blue);
+  }
+
+  .small-btn {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--color-white);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+    }
+    .mobile-menu-btn {
+      display: block;
+    }
+  }
+</style>

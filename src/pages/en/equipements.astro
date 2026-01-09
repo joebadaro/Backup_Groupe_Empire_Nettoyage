@@ -1,0 +1,389 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout
+    title="Our Equipment - State-of-the-Art Technology | Empire Cleaning Group"
+    description="Discover our high-performance truck-mount units for impeccable carpet and furniture cleaning. Thermal power and 100% ecological products."
+>
+    <div class="page-header">
+        <div class="container text-center fade-in-section">
+            <span class="sub-title text-accent">Performance & Innovation</span>
+            <h1 class="text-white">Our State-of-the-Art Equipment</h1>
+            <p class="lead-text">Superior technology for impeccable results.</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <!-- Top Section: Text Left, Slideshow Right -->
+            <div class="equip-intro-layout">
+                <div class="intro-text fade-in-section">
+                    <div class="highlight-box">
+                        <h2 class="gradient-text-red">
+                            The Power of the Truck-Mount Unit
+                        </h2>
+                        <p>
+                            To guarantee unequal deep cleaning, we use
+                            state-of-the-art truck-mount units. These mobile
+                            units generate suction power and heat far superior
+                            to standard portable equipment.
+                        </p>
+                        <p>
+                            The result? Faster drying, maximum dirt extraction,
+                            and a carpet that stays clean longer.
+                        </p>
+                    </div>
+                    <div class="trust-badge-mobile">
+                        <!-- Only visible on mobile/small screens if needed -->
+                    </div>
+                </div>
+
+                <div class="equip-visual fade-in-section delay-100">
+                    <div class="visual-box">
+                        <div class="slideshow-container">
+                            <!-- Newest Images (Slides 1-5) -->
+                            <img
+                                src="/images/catalog/equipment-slide-1.webp"
+                                alt="PEAK 500 Cleaning Machine"
+                                class="slide active"
+                                loading="eager"
+                            />
+                            <img
+                                src="/images/catalog/equipment-slide-2.webp"
+                                alt="Steam Cleaning - Truck"
+                                class="slide"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/equipment-slide-3.webp"
+                                alt="Truck Interior - Equipment"
+                                class="slide"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/equipment-slide-4.webp"
+                                alt="Truck and equipment in action"
+                                class="slide"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/equipment-slide-5.webp"
+                                alt="Professional cleaning tools"
+                                class="slide"
+                                loading="lazy"
+                            />
+                            <!-- Previous Images -->
+                            <img
+                                src="/images/catalog/equipment-slide-6.webp"
+                                alt="Truck and complete equipment"
+                                class="slide"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/equipment-slide-7.webp"
+                                alt="Empire Technical Team"
+                                class="slide"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/equipment-slide-8.webp"
+                                alt="Truck Mount - Side View"
+                                class="slide"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/equipment-slide-9.webp"
+                                alt="High performance equipment"
+                                class="slide"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/equipment-slide-10.webp"
+                                alt="Empire Cleaning Group Truck Mount"
+                                class="slide"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/equipment-slide-11.webp"
+                                alt="Powerful cleaning equipment"
+                                class="slide"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/equipment-slide-12.webp"
+                                alt="Cleaning truck interior"
+                                class="slide"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/equipment-slide-13.webp"
+                                alt="Empire Group in action"
+                                class="slide"
+                                loading="lazy"
+                            />
+                        </div>
+                    </div>
+                    <div class="trust-badge">
+                        <span class="stars">★★★★★</span>
+                        <p>
+                            "The best equipment on the market for a guaranteed
+                            result."
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Grid below the main visual -->
+            <div class="features-grid fade-in-section">
+                <div class="feature-card">
+                    <div class="icon">🚛</div>
+                    <h3>Thermal Truck-Mount Unit</h3>
+                    <p>
+                        Our units generate constant heat over 200°F, allowing
+                        grease to dissolve and bacteria to be eliminated without
+                        harsh chemicals.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon">🌿</div>
+                    <h3>Ecological Products</h3>
+                    <p>
+                        We use 100% biodegradable cleaning solutions, safe for
+                        your children and pets.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon">⚡</div>
+                    <h3>Powerful Suction</h3>
+                    <p>
+                        Our industrial suction system extracts up to 95% of
+                        moisture, significantly reducing drying time.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon">🔧</div>
+                    <h3>Precision Tools</h3>
+                    <p>
+                        From rotary brushes to delicate tools for fragile
+                        fabrics, we have the right equipment for every
+                        situation.
+                    </p>
+                </div>
+            </div>
+
+            <div class="call-action fade-in-section delay-100">
+                <h3 class="gradient-text-green">See the difference yourself</h3>
+                <p>Request a free quote today.</p>
+                <a href="tel:5148939939" class="btn btn-primary pulse-btn"
+                    >📞 (514) 893-9939</a
+                >
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<script>
+    // Slideshow Logic
+    const slides = document.querySelectorAll(".slide");
+    if (slides.length > 0) {
+        let currentSlide = 0;
+        const intervalTime = 4000;
+        setInterval(() => {
+            slides[currentSlide].classList.remove("active");
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add("active");
+        }, intervalTime);
+    }
+</script>
+
+<style>
+    /* New Layout Structure */
+    .equip-intro-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        margin-bottom: 4rem;
+        align-items: center;
+    }
+
+    /* Responsive Grid for Tablets and up */
+    @media (min-width: 768px) {
+        .equip-intro-layout {
+            grid-template-columns: 1fr 1fr; /* Side by Side */
+            gap: 4rem;
+        }
+        /* Make Visual Box taller on desktop relative to text */
+        .visual-box {
+            height: 500px;
+        }
+    }
+
+    .visual-box {
+        position: relative;
+        width: 100%;
+        height: 350px; /* Mobile height */
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at center, #2a2a2a 0%, #1a1a1a 100%);
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Gradients for Text as requested */
+    .gradient-text-red {
+        background: -webkit-linear-gradient(45deg, #000 0%, #d80000 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
+    .gradient-text-green {
+        background: -webkit-linear-gradient(45deg, #000 0%, #2ecc71 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
+
+    /* Existing Styles Refined */
+    .page-header {
+        background-color: var(--color-primary);
+        background-image: linear-gradient(
+            135deg,
+            var(--color-primary) 0%,
+            #0f243a 100%
+        );
+        color: white;
+        padding: 6rem 0 4rem 0;
+        margin-bottom: 4rem;
+    }
+    .text-white {
+        color: white;
+    }
+    .text-accent {
+        color: var(--color-accent);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+    .lead-text {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-top: 1rem;
+    }
+
+    .highlight-box {
+        /* No left border to be cleaner next to image, or keep specific user wish? 
+           User wants elegant. Let's keep it clean. */
+        padding-right: 1rem;
+    }
+    .highlight-box h2 {
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+    .highlight-box p {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: #444;
+        margin-bottom: 1.5rem;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-bottom: 4rem;
+    }
+    @media (min-width: 600px) {
+        .features-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    @media (min-width: 1000px) {
+        .features-grid {
+            grid-template-columns: 1fr 1fr 1fr 1fr; /* 4 in a row */
+        }
+    }
+
+    .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-subtle);
+        border: 1px solid #f0f0f0;
+        transition: 0.3s ease;
+        text-align: center;
+    }
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--color-accent);
+    }
+    .icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        display: inline-block;
+    }
+    .feature-card h3 {
+        color: var(--color-primary);
+        margin-bottom: 0.8rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .slideshow-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+    .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        opacity: 0;
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .slide.active {
+        opacity: 1;
+    }
+
+    .trust-badge {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+    .stars {
+        color: #f1c40f;
+        font-size: 1.2rem;
+        letter-spacing: 3px;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    .trust-badge p {
+        font-style: italic;
+        color: #666;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .call-action {
+        background: linear-gradient(135deg, #f9f9f9 0%, #fff 100%);
+        padding: 3rem;
+        border-radius: var(--border-radius-md);
+        text-align: center;
+        box-shadow: var(--shadow-subtle);
+        border: 1px solid #eee;
+    }
+    .call-action h3 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+</style>

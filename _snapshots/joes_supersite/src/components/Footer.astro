@@ -1,0 +1,251 @@
+---
+
+---
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="container footer-grid">
+      <!-- Brand & Mission -->
+      <div class="footer-col brand-col">
+        <div class="logo-text">
+          <span class="logo-pre">Groupe</span>
+          <span class="logo-main">Nettoyage Empire</span>
+        </div>
+        <p class="mission-text">
+          Le spécialiste #1 au Québec pour le nettoyage de tapis, meubles et
+          matelas. Technologie camion-usine exclusive et produits écologiques.
+        </p>
+        <div class="social-links">
+          <a
+            href="https://facebook.com/groupenettoyageempire"
+            target="_blank"
+            rel="noopener"
+            aria-label="Facebook">FB</a
+          >
+          <a
+            href="https://instagram.com/groupenettoyageempire"
+            target="_blank"
+            rel="noopener"
+            aria-label="Instagram">IG</a
+          >
+        </div>
+        <div style="margin-top: 1.5rem;">
+          <div
+            class="trust-pill badge-google"
+            style="border: 1px solid #333; background: rgba(255,255,255,0.05);"
+          >
+            <img
+              src="/images/google-reviews-badge.png"
+              alt="Google 5 Stars"
+              width="100"
+              height="auto"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-col">
+        <h4>Liens Rapides</h4>
+        <ul class="footer-links">
+          <li><a href="/">Accueil</a></li>
+          <li><a href="/about">À Propos (Histoire)</a></li>
+          <li><a href="/equipe">Notre Équipe</a></li>
+          <li><a href="/conseils">Conseils & Blog</a></li>
+          <li><a href="/contact">Contact / Soumission</a></li>
+        </ul>
+      </div>
+
+      <!-- Services -->
+      <div class="footer-col">
+        <h4>Nos Services</h4>
+        <ul class="footer-links">
+          <li><a href="/services/tapis-residentiel">Nettoyage de Tapis</a></li>
+          <li><a href="/services/meubles-tissu">Meubles en Tissu</a></li>
+          <li><a href="/services/meubles-cuir">Meubles en Cuir</a></li>
+          <li><a href="/services/matelas">Matelas & Désinfection</a></li>
+          <li><a href="/services/ceramique">Tuiles & Céramique</a></li>
+          <li><a href="/services/protecteur">Protecteur Antitâches</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="footer-col contact-col">
+        <h4>Contactez-nous</h4>
+        <div class="contact-item">
+          <span class="icon">📞</span>
+          <a href="tel:5148939939" class="phone-text">(514) 893-9939</a>
+        </div>
+        <div class="contact-item">
+          <span class="icon">✉️</span>
+          <a href="mailto:Info@groupenettoyageempire.com"
+            >Info@groupenettoyageempire.com</a
+          >
+        </div>
+        <div class="contact-item">
+          <span class="icon">📍</span>
+          <span>Grand Montréal, Rive-Nord, Rive-Sud</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container bottom-flex">
+      <p>
+        &copy; {new Date().getFullYear()} Groupe Nettoyage Empire. Tous droits réservés.
+      </p>
+      <div class="legal-links">
+        <a href="/confidentialite">Politique de confidentialité</a>
+        <a href="/sitemap-index.xml">Plan du site</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: #111;
+    color: #ccc;
+    font-size: 0.95rem;
+  }
+
+  .footer-top {
+    padding: 4rem 0;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+    gap: 3rem;
+  }
+
+  h4 {
+    color: white;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Brand Col */
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+  .logo-pre {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .logo-main {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  .mission-text {
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 10px;
+  }
+  .social-links a {
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .social-links a:hover {
+    background: var(--color-accent);
+  }
+
+  /* Links */
+  .footer-links {
+    list-style: none;
+    padding: 0;
+  }
+  .footer-links li {
+    margin-bottom: 10px;
+  }
+  .footer-links a {
+    color: #ccc;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .footer-links a:hover {
+    color: var(--color-accent);
+    padding-left: 5px;
+  }
+
+  /* Contact */
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  .phone-text {
+    color: var(--color-accent);
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  .contact-item a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Bottom */
+  .footer-bottom {
+    background: #000;
+    padding: 1.5rem 0;
+    font-size: 0.85rem;
+    border-top: 1px solid #222;
+  }
+
+  .bottom-flex {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .legal-links a {
+    color: #888;
+    margin-left: 20px;
+    text-decoration: none;
+  }
+  .legal-links a:hover {
+    color: white;
+  }
+
+  @media (max-width: 900px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 600px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+    .bottom-flex {
+      flex-direction: column;
+      text-align: center;
+    }
+    .legal-links a {
+      margin: 0 10px;
+    }
+  }
+</style>

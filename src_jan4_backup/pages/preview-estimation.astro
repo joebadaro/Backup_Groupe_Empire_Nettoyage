@@ -1,0 +1,30 @@
+---
+import Layout from "../layouts/Layout.astro";
+import EstimationModule from "../components/EstimationModule.astro";
+---
+
+<Layout title="Estimation Preview">
+    <div style="padding: 100px 0; background: #f0f0f0; min-height: 100vh;">
+        <h1 style="text-align: center; margin-bottom: 20px;">
+            Preview: Estimation Module
+        </h1>
+        <button
+            id="open-modal"
+            style="display: block; margin: 0 auto; padding: 15px 30px; font-size: 1.2rem; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;"
+        >
+            Open Modal
+        </button>
+
+        <EstimationModule />
+    </div>
+</Layout>
+
+<script>
+    const btn = document.getElementById("open-modal");
+    const modal = document.getElementById("estimation-widget");
+    if (btn && modal) {
+        btn.addEventListener("click", () => {
+            modal.style.display = "flex";
+        });
+    }
+</script>

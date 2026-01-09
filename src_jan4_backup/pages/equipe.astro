@@ -1,0 +1,328 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Notre Équipe - Techniciens Certifiés Sans Sous-Traitance">
+  <div class="page-header">
+    <div class="container text-center fade-in-section">
+      <span class="sub-title text-accent">Confiance & Sécurité</span>
+      <h1 class="text-white flex-center-gap">
+        Nos Techniciens Certifiés
+        <img
+          src="/images/catalog/photo-8.webp"
+          alt="Certification"
+          class="header-icon"
+        />
+      </h1>
+      <p class="lead-text">
+        Aucun sous-traitant. Une équipe interne dévouée à votre satisfaction.
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="team-layout">
+        <!-- Main Content -->
+        <div class="team-content fade-in-section">
+          <div class="highlight-box">
+            <h2>Une équipe interne, exclusivement.</h2>
+            <p>
+              Chez Groupe Nettoyage Empire, le travail est réalisé exclusivement
+              par nos propres techniciens certifiés. <strong
+                >Nous ne confions pas nos services à des sous-contractants.</strong
+              >
+            </p>
+            <p>
+              Vous savez exactement qui entre chez vous et vous bénéficiez d’une
+              qualité constante à chaque visite.
+            </p>
+          </div>
+
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="icon">👨‍🔧</div>
+              <h3>Techniciens Certifiés</h3>
+              <p>
+                Chaque membre de notre équipe a suivi une formation rigoureuse.
+                Ils maîtrisent l'art de reconnaître les fibres, de choisir le
+                bon produit et d'opérer nos camions-usines avec précision.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="icon">🔍</div>
+              <h3>Expertise Éprouvée</h3>
+              <p>
+                Nous provenons du milieu du nettoyage de haut niveau
+                (ex-bannière majeure) et avons conservé les meilleurs talents.
+                Notre équipe cumule des décennies d'expérience terrain sur tous
+                types de surfaces : tapis, meubles, cuir et matelas.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="icon">🤝</div>
+              <h3>Respect & Courtoisie</h3>
+              <p>
+                Nos techniciens sont reconnus pour leur minutie et leur respect
+                des lieux. Avant chaque intervention, une inspection complète
+                est effectuée pour vous expliquer la méthode et s'assurer de
+                votre entière satisfaction.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="icon">🛡️</div>
+              <h3>Tranquillité d'Esprit</h3>
+              <p>
+                Plusieurs clients craignent les sous-contractants inconnus. Avec
+                nous, c'est l'inverse : c'est toujours une vraie équipe Empire,
+                en uniforme, assurée et professionnelle, qui se présente à votre
+                porte.
+              </p>
+            </div>
+          </div>
+
+          <div class="call-action fade-in-section delay-100">
+            <h3>Prêt à accueillir un expert ?</h3>
+            <p>Contactez-nous pour une estimation gratuite.</p>
+            <a href="tel:5148939939" class="btn btn-primary pulse-btn"
+              >📞 (514) 893-9939</a
+            >
+          </div>
+        </div>
+
+        <!-- Sidebar Visual -->
+        <div class="team-visual fade-in-section delay-100">
+          <!-- Decorative Water Drop Background -->
+          <div class="bg-watermark">
+            <img
+              src="/images/catalog/photo-72.webp"
+              alt=""
+              role="presentation"
+            />
+          </div>
+
+          <div class="visual-box floating">
+            <img
+              src="/images/catalog/equipe-interne-optimized.webp"
+              alt="Équipe interne Groupe Nettoyage Empire"
+              class="team-img shadow-premium"
+            />
+          </div>
+
+          <div class="trust-badge">
+            <span class="stars">⚜️</span>
+            <p>"Une fierté locale : notre famille à votre service."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background-color: var(--color-primary);
+    background-image: linear-gradient(
+      135deg,
+      var(--color-primary) 0%,
+      #0f243a 100%
+    );
+    color: white;
+    padding: 6rem 0 4rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .text-white {
+    color: white;
+  }
+  .text-accent {
+    color: var(--color-accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .lead-text {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-top: 1rem;
+  }
+
+  .flex-center-gap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap; /* Handle mobile gracefully */
+  }
+
+  .header-icon {
+    height: 1.2em; /* Scales with text size */
+    width: auto;
+    vertical-align: middle;
+  }
+
+  .team-layout {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
+    gap: 4rem;
+  }
+
+  .highlight-box {
+    border-left: 5px solid var(--color-accent);
+    padding-left: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .highlight-box h2 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+  }
+  .highlight-box p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .feature-card {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-subtle);
+    border: 1px solid #eee;
+    transition: 0.2s;
+  }
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .feature-card h3 {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+  }
+  .feature-card p {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  .call-action {
+    background: #f9f9f9;
+    padding: 2rem;
+    border-radius: var(--border-radius-md);
+    text-align: center;
+  }
+  .call-action h3 {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+  .call-action p {
+    margin-bottom: 1.5rem;
+    color: #666;
+  }
+
+  .visual-box {
+    /* Removed fixed height to adapt to landscape image */
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .team-img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .trust-badge {
+    text-align: center;
+    padding: 1.5rem;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    box-shadow: var(--shadow-subtle);
+    max-width: 80%;
+    margin: 0 auto; /* Center the badge */
+  }
+  .stars {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .trust-badge p {
+    font-style: italic;
+    margin: 0;
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+
+  /* Floating Animation */
+  .floating {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-10px) rotate(0.5deg);
+    }
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .team-layout {
+      grid-template-columns: 1fr;
+    }
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+    .team-visual {
+      order: -1;
+      margin-bottom: 3rem;
+    }
+  }
+
+  /* Decorative Background */
+  .team-visual {
+    position: relative;
+    z-index: 1;
+  }
+
+  .bg-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%; /* Slightly larger than container */
+    max-width: 500px;
+    z-index: -1;
+    opacity: 0.35;
+    pointer-events: none;
+    /* filter: blur(40px); Removing blur to verify visibility */
+  }
+
+  /* Optional: Pulse animation for the water drop too? 
+     Let's keep it static but blurry for elegance first. 
+     If user wants floating, we can add it. 
+  */
+</style>

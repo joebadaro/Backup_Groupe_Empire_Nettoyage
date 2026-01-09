@@ -1,0 +1,244 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+
+const services = [
+  {
+    slug: "meubles-tissu",
+    title: "Sofa, Couch, Armchair, Fabric Upholstery",
+    desc: "Deep cleaning for sofas, couches, and fabric armchairs.",
+    img: "/images/services/services-4.webp",
+  },
+  {
+    slug: "meubles-cuir",
+    title: "Leather Furniture Cleaning",
+    desc: "Specialized moisturizing and cleaning care for all your leather.",
+    img: "/images/catalog/photo-leather-final.webp",
+  },
+  {
+    slug: "nettoyage-desinfection-matelas",
+    title: "Mattress Cleaning & Disinfection",
+    desc: "Elimination of dust mites and allergens for a healthy sleep.",
+    img: "/images/catalog/photo-matelas-custom.webp",
+  },
+
+  {
+    slug: "nettoyage-tapis-residentiel",
+    title: "Residential Carpet Cleaning",
+    desc: "Wall-to-wall carpets and area rugs for your home.",
+    img: "/images/catalog/photo-tapis-clean.webp",
+  },
+  {
+    slug: "nettoyage-tapis-commercial",
+    title: "Commercial Carpet Cleaning",
+    desc: "Solutions for offices and large commercial spaces.",
+    img: "/images/catalog/tapis-commercial-combo.webp",
+  },
+  {
+    slug: "tapis-synthetique",
+    title: "In-Home Synthetic Carpet Cleaning",
+    desc: "Technique adapted for modern and resistant fibers.",
+    img: "/images/catalog/photo-47.webp",
+  },
+
+  {
+    slug: "tapis-laine",
+    title: "In-Home Wool Carpet Cleaning",
+    desc: "Delicate pH-neutral treatment for natural wool.",
+    img: "/images/catalog/photo-22.webp",
+  },
+  {
+    slug: "tapis-orientaux",
+    title: "In-Home Oriental Rug Cleaning",
+    desc: "Expert restoration for Persian and Oriental rugs.",
+    img: "/images/catalog/photo-oriental-custom.webp",
+  },
+  {
+    slug: "nettoyage-tuiles-ceramique",
+    title: "Tile & Grout Cleaning",
+    desc: "Stripping and high-pressure cleaning of tiles and grout.",
+    img: "/images/catalog/photo-78.webp",
+  },
+
+  {
+    slug: "protecteur",
+    title: "Stain Protector Application",
+    desc: "Teflon/Scotchgard protection for fabrics, leathers, and carpets.",
+    img: "/images/catalog/photo-20.webp",
+  },
+];
+---
+
+<Layout title="Our Services | Empire Cleaning Group">
+  <div class="page-header">
+    <div class="container fade-in-section">
+      <h1 class="text-gradient">Our Services</h1>
+      <p class="intro">
+        Discover our complete range of professional cleaning services.
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="services-grid fade-in-section delay-100">
+        {
+          services.map((service) => (
+            <a
+              href={`/en/services/${service.slug}`}
+              class="service-card"
+              style={`--card-bg: url('${service.img}');`}
+            >
+              <div class="card-overlay" />
+              <div class="card-content">
+                <h3>{service.title}</h3>
+                <p>{service.desc}</p>
+                <span class="more">Learn More &rarr;</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background-color: var(--color-primary);
+    background-image: linear-gradient(135deg, #0a2342 0%, #121212 100%);
+    padding: 6rem 0 4rem 0; /* More balanced padding */
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Optional decorative accent */
+  .page-header::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+  }
+
+  .section {
+    padding: 4rem 0;
+  }
+
+  .intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 1.5rem auto 0 auto;
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.85); /* Proper contrast text */
+    font-weight: 300;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .service-card {
+    background-color: white;
+    padding: 0;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-subtle);
+    transition: transform 0.2s;
+    border: 1px solid #eee;
+    display: block;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    min-height: 250px;
+    z-index: 0; /* Create stacking context */
+  }
+
+  /* Layer 1: Blurred Background (Fills the card) */
+  .service-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--card-bg);
+    background-size: cover;
+    background-position: center;
+    filter: blur(15px);
+    transform: scale(1.2); /* Prevent blur edges from showing */
+    opacity: 0.6;
+    z-index: 1;
+  }
+
+  /* Layer 2: Sharp Image (Contained and centered) */
+  .service-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--card-bg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 2;
+  }
+
+  /* Layer 3: White overlay for readability */
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.75); /* Slightly stronger base opacity */
+    z-index: 3;
+    transition: background 0.3s;
+  }
+
+  .service-card:hover .card-overlay {
+    background: rgba(255, 255, 255, 0.6); /* Reveal more image on hover */
+  }
+
+  .card-content {
+    position: relative;
+    z-index: 4;
+    padding: 2rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .service-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .service-card h3 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+  }
+
+  .service-card p {
+    flex-grow: 1;
+    color: #444;
+    font-weight: 500;
+  }
+
+  .more {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--color-accent);
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+</style>

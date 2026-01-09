@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<Layout title={title}>
+  <div class="article-container">
+    <div class="container small-container">
+      <a href="/conseils" class="back-link">← Retour aux conseils</a>
+      <h1>{title}</h1>
+      <div class="article-content">
+        <slot />
+      </div>
+      
+      <div class="cta-box">
+        <h3>Besoin d'aide avec ceci ?</h3>
+        <a href="/contact" class="btn btn-primary">Contacter un expert</a>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .article-container { padding: 4rem 0; }
+  .small-container { max-width: 800px; margin: 0 auto; }
+  .back-link { display: block; margin-bottom: 2rem; color: #666; }
+  h1 { font-size: 2.5rem; margin-bottom: 2rem; color: var(--color-empire-blue); }
+  
+  .article-content { font-size: 1.1rem; line-height: 1.8; color: var(--color-text-main); }
+  /* Make simple standard markdown-like content look good globally in articles */
+  :global(.article-content h2) { margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem; }
+  :global(.article-content ul) { margin-bottom: 1.5rem; padding-left: 1.5rem; list-style: disc; }
+  :global(.article-content p) { margin-bottom: 1.5rem; }
+
+  .cta-box {
+    margin-top: 4rem;
+    padding: 3rem;
+    background: #f4f4f4;
+    border-radius: 8px;
+    text-align: center;
+  }
+</style>

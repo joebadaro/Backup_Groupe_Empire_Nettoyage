@@ -1,0 +1,105 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout
+  title="Nettoyage de Tapis"
+  description="Expert en nettoyage de tapis résidentiel et commercial. Technologie vapeur industrielle pour des résultats supérieurs. Élimination des taches et allergènes."
+>
+  <header class="page-header">
+    <div class="container">
+      <h1>Nettoyage de Tapis</h1>
+      <p>
+        Redonnez l'éclat du neuf à vos tapis grâce à notre technologie à vapeur.
+      </p>
+    </div>
+  </header>
+
+  <section class="section-padding">
+    <div class="container">
+      <div class="content-grid">
+        <div class="text-content">
+          <h2>Pourquoi choisir notre nettoyage de tapis ?</h2>
+          <p>
+            Vos tapis agissent comme des filtres à air, emprisonnant poussière,
+            allergènes et bactéries. Un simple aspirateur ne suffit pas.
+          </p>
+
+          <ul class="benefit-list">
+            <li>
+              <strong>Élimination des allergènes :</strong> Nous retirons jusqu'à
+              99% des acariens et bactéries.
+            </li>
+            <li>
+              <strong>Séchage rapide :</strong> Grâce à notre succion puissante, vos
+              tapis sont secs en quelques heures.
+            </li>
+            <li>
+              <strong>Produits écologiques :</strong> Sécuritaires pour vos enfants
+              et animaux de compagnie.
+            </li>
+          </ul>
+
+          <button
+            onclick="document.getElementById('estimation-widget').style.display='flex'"
+            class="btn btn-primary"
+          >
+            Estimation Instantanée en Ligne
+          </button>
+        </div>
+        <div class="image-content">
+          <img
+            src="/images/service-tapis-optimized.webp"
+            alt="Nettoyage de tapis professionnel"
+            class="rounded-img shadow-premium"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background-color: var(--color-empire-blue);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .benefit-list {
+    margin: 2rem 0;
+  }
+
+  .benefit-list li {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .benefit-list li::before {
+    content: "✓";
+    color: var(--color-gold);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+  }
+
+  .rounded-img {
+    border-radius: 8px;
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

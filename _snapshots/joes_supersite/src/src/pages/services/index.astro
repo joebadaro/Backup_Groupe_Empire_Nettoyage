@@ -1,0 +1,199 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const services = [
+  {
+    slug: "meubles-tissu",
+    title: "Nettoyage de meubles en tissu",
+    desc: "Nettoyage en profondeur pour sofas, divans et fauteuils en tissu.",
+    img: "/images/services/services-4.webp",
+  },
+  {
+    slug: "meubles-cuir",
+    title: "Nettoyage de meubles en cuir",
+    desc: "Soin hydratant et nettoyant spécialisé pour tous vos cuirs.",
+    img: "/images/catalog/photo-leather-final.webp",
+  },
+  {
+    slug: "matelas",
+    title: "Nettoyage et désinfection de matelas",
+    desc: "Élimination des acariens et allergènes pour un sommeil sain.",
+    img: "/images/catalog/photo-matelas-custom.webp",
+  },
+
+  {
+    slug: "tapis-residentiel",
+    title: "Nettoyage de tapis résidentiel",
+    desc: "Tapis mur-à-mur et carpettes pour la maison.",
+    img: "/images/catalog/photo-tapis-clean.webp",
+  },
+  {
+    slug: "tapis-commercial",
+    title: "Nettoyage de tapis commercial",
+    desc: "Solutions pour bureaux et grands espaces.",
+    img: "/images/catalog/photo-82.webp",
+  },
+  {
+    slug: "tapis-synthetique",
+    title: "Nettoyage de tapis synthétique à domicile",
+    desc: "Technique adaptée aux fibres modernes et résistantes.",
+    img: "/images/catalog/photo-27-fixed.webp",
+  },
+
+  {
+    slug: "tapis-laine",
+    title: "Nettoyage de tapis en laine à domicile",
+    desc: "Traitement délicat pH neutre pour la laine naturelle.",
+    img: "/images/catalog/photo-40-rotated.webp",
+  },
+  {
+    slug: "tapis-orientaux",
+    title: "Nettoyage de tapis orientaux à domicile",
+    desc: "Restauration experte pour tapis persans et orientaux.",
+    img: "/images/catalog/photo-oriental-custom.webp",
+  },
+  {
+    slug: "ceramique",
+    title: "Nettoyage de tuiles de céramique",
+    desc: "Décapage et nettoyage haute pression des joints et tuiles.",
+    img: "/images/catalog/photo-78.webp",
+  },
+
+  {
+    slug: "protecteur",
+    title: "Application de protecteurs antitâches",
+    desc: "Protection Teflon/Scotchgard pour tissus, cuirs et tapis.",
+    img: "/images/services/services-2.webp",
+  },
+];
+---
+
+<Layout title="Nos Services | Groupe Nettoyage Empire">
+  <div class="page-header">
+    <div class="container fade-in-section">
+      <h1 class="text-gradient">Nos Services</h1>
+      <p class="intro">
+        Découvrez notre gamme complète de services de nettoyage professionnel.
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="services-grid fade-in-section delay-100">
+        {
+          services.map((service) => (
+            <a
+              href={`/services/${service.slug}`}
+              class="service-card"
+              style={`background-image: url('${service.img}');`}
+            >
+              <div class="card-overlay" />
+              <div class="card-content">
+                <h3>{service.title}</h3>
+                <p>{service.desc}</p>
+                <span class="more">En savoir plus &rarr;</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background-color: var(--color-bg-light-blue);
+    padding: 4rem 0;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+
+  .section {
+    padding: 4rem 0;
+  }
+
+  .intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 1rem auto 0 auto;
+    font-size: 1.2rem;
+    color: var(--color-text-light);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  .service-card {
+    background-color: white;
+    background-size: contain; /* Full image visible */
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 0;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-subtle);
+    transition: transform 0.2s;
+    border: 1px solid #eee;
+    display: block;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    min-height: 250px;
+  }
+
+  /* White overlay for readability */
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.7); /* 70% opacity */
+    z-index: 1;
+    transition: background 0.3s;
+  }
+
+  .service-card:hover .card-overlay {
+    background: rgba(255, 255, 255, 0.7); /* Slightly reveal image on hover */
+  }
+
+  .card-content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .service-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .service-card h3 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+  }
+
+  .service-card p {
+    flex-grow: 1;
+    color: #444;
+    font-weight: 500;
+  }
+
+  .more {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--color-accent);
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+</style>
