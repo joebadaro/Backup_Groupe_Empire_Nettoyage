@@ -79,17 +79,21 @@
 
                 <!-- STEP 4: CONTACT FORM (Previously Step 3) -->
                 <div id="step-contact" class="step">
-                    <h3 class="text-center" style="margin-bottom:10px;">
-                        Recevoir votre estimation
-                    </h3>
-                    <p
-                        class="text-center"
-                        style="color:#666; font-size:0.95rem; margin-bottom:25px;"
-                    >
-                        Choisissez comment recevoir votre <strong
-                            >estimation gratuite</strong
+                    <div id="desktop-contact-intro">
+                        <h3 class="text-center" style="margin-bottom:10px;">
+                            Recevoir votre estimation
+                        </h3>
+                        <p
+                            class="text-center"
+                            style="color:#666; font-size:0.95rem; margin-bottom:25px;"
                         >
-                    </p>
+                            Choisissez comment recevoir votre <strong
+                                >estimation gratuite</strong
+                            >
+                        </p>
+                    </div>
+
+                    <div id="quote-message-container" style="display:none; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); padding:15px; border-radius:8px; margin-bottom:20px; color:#1b5e20; font-size:0.95rem; line-height:1.5; border-left:5px solid #43a047;"></div>
 
                     <form
                         id="contact-form"
@@ -99,6 +103,7 @@
                         <div style="margin-bottom:25px;">
                             <label
                                 style="display:block; font-weight:600; margin-bottom:12px; color:#333;"
+                                id="lbl-delivery-method"
                                 >Recevoir mon estimation par</label
                             >
                             <div
@@ -115,26 +120,7 @@
                                         checked
                                         style="display:none;"
                                     />
-                                    <svg
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        style="vertical-align:middle; margin-right:6px;"
-                                    >
-                                        <rect
-                                            x="5"
-                                            y="2"
-                                            width="14"
-                                            height="20"
-                                            rx="2"
-                                            ry="2"></rect>
-                                        <line x1="12" y1="18" x2="12.01" y2="18"
-                                        ></line>
-                                    </svg>
-                                    Texto (SMS)
+                                    <i class="fas fa-sms" style="margin-right:6px;"></i> Texto
                                 </label>
                                 <label
                                     style="flex:1; text-align:center; padding:12px; border-radius:8px; cursor:pointer; transition:all 0.3s; background:transparent; font-weight:500; color:#666;"
@@ -146,38 +132,42 @@
                                         value="email"
                                         style="display:none;"
                                     />
-                                    <svg
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        style="vertical-align:middle; margin-right:6px;"
-                                    >
-                                        <path
-                                            d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                                        ></path>
-                                        <polyline points="22,6 12,13 2,6"
-                                        ></polyline>
-                                    </svg>
-                                    Courriel
+                                    <i class="fas fa-envelope" style="margin-right:6px;"></i> Courriel
                                 </label>
+                                <!-- Phone Option Removed -->
                             </div>
+                            <p id="quote-delivery-info" style="display:none; margin-top:8px; font-size:0.85rem; color:#666; font-style:italic;">
+                                Un membre de notre équipe vous contactera s'il a besoin de plus d'information.
+                            </p>
                         </div>
 
                         <!-- Form Fields -->
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px 16px;">
                             <div style="grid-column: 1 / -1;">
                                 <label
+                                    style="display:none; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
+                                    id="label-company"
+                                    >Nom de l'entreprise *</label
+                                >
+                                <input
+                                    type="text"
+                                    id="input-company"
+                                    placeholder="Nom de votre entreprise"
+                                    style="display:none; width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px; font-size:0.95rem; transition:all 0.3s; margin-bottom:15px;"
+                                    onfocus="this.style.borderColor='#3949ab'; this.style.boxShadow='0 0 0 3px rgba(57,73,171,0.1)'"
+                                    onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'"
+                                />
+
+                                <label
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
-                                    >Nom complet *</label
+                                    id="label-name-text"
+                                    >Nom complet / Compagnie *</label
                                 >
                                 <input
                                     type="text"
                                     id="input-name"
                                     required
-                                    placeholder="Jean Dupont"
+                                    placeholder="Votre nom ou entreprise"
                                     style="width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px; font-size:0.95rem; transition:all 0.3s;"
                                     onfocus="this.style.borderColor='#3949ab'; this.style.boxShadow='0 0 0 3px rgba(57,73,171,0.1)'"
                                     onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'"
@@ -219,22 +209,6 @@
                             <div>
                                 <label
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
-                                    >Ville *</label
-                                >
-                                <input
-                                    type="text"
-                                    id="input-city"
-                                    required
-                                    placeholder="Montréal"
-                                    style="width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px; font-size:0.95rem; transition:all 0.3s;"
-                                    onfocus="this.style.borderColor='#3949ab'; this.style.boxShadow='0 0 0 3px rgba(57,73,171,0.1)'"
-                                    onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'"
-                                />
-                            </div>
-
-                            <div>
-                                <label
-                                    style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
                                     >Adresse (Rue & Numéro)</label
                                 >
                                 <input
@@ -259,6 +233,21 @@
                             <div>
                                 <label
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
+                                    >Ville *</label
+                                >
+                                <input
+                                    type="text"
+                                    id="input-city"
+                                    required
+                                    placeholder="Montréal"
+                                    style="width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px; font-size:0.95rem; transition:all 0.3s;"
+                                    onfocus="this.style.borderColor='#3949ab'; this.style.boxShadow='0 0 0 3px rgba(57,73,171,0.1)'"
+                                    onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'"
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
                                     >Code Postal</label
                                 >
                                 <input
@@ -272,16 +261,17 @@
                             <div style="grid-column: 1 / -1;">
                                 <label
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
-                                    >Notes ou demandes spéciales</label
+                                    >Notes (Escaliers, chaises, accès, horaire...)</label
                                 >
                                 <textarea
                                     id="input-notes"
                                     rows="2"
-                                    placeholder="Ex: Code de porte, chien..."
+                                    placeholder="Précisez ici si vous avez des escaliers, chaises, meubles à déplacer ou des contraintes d'horaire."
                                     style="width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px; font-size:0.95rem; transition:all 0.3s; resize:vertical; font-family:inherit;"
                                     onfocus="this.style.borderColor='#3949ab'; this.style.boxShadow='0 0 0 3px rgba(57,73,171,0.1)'"
                                     onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'"
                                 ></textarea>
+                                <p id="quote-notes-instruction" style="display:none; font-size:0.85rem; color:#555; margin-top:5px; line-height:1.4; background:#f9f9f9; padding:8px; border-radius:6px; border-left:3px solid #1a237e;"></p>
                             </div>
                         </div>
                     </form>
@@ -303,9 +293,9 @@
                 >
                 <button
                     id="btn-add-more"
-                    class="btn btn-secondary hidden"
-                    style="color: #007bff; border-color: #007bff;"
-                    >Ajouter d'autres articles à nettoyer</button
+                    class="btn hidden"
+                    style="background: linear-gradient(90deg, #1a1a1a 0%, #0d47a1 100%); color: white; border: none; box-shadow: 0 4px 15px rgba(13, 71, 161, 0.3);"
+                    >← Retour</button
                 >
                 <button
                     id="btn-next"
@@ -399,7 +389,7 @@
                 >
             </header>
 
-            <div class="mobile-app-content">
+            <div id="mobile-scroll-container" class="mobile-app-content">
                 <!-- Step 1: Mobile Services List -->
                 <div id="mobile-step-services" class="mobile-step active">
                     <div class="mobile-welcome">
@@ -446,13 +436,17 @@
                         <p id="mobile-txt-enter-info" style="margin-bottom:20px; color:#666;">
                             Entrez vos infos pour recevoir la soumission.
                         </p>
+                        
+                        <!-- Mobile Quote Message -->
+                        <div id="mobile-quote-message-container" style="display:none; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); padding:12px; border-radius:10px; margin-bottom:20px; color:#1b5e20; font-size:0.9rem; line-height:1.4; border-left:4px solid #43a047;"></div>
+
                         <!-- Mobile Form Container -->
                         <div id="mobile-contact-form-container">
                             <div class="mobile-form-wrapper">
                                 <!-- Mobile Delivery Toggle -->
                                 <div style="margin-bottom:20px;">
                                     <label
-                                        id="mobile-lbl-delivery"
+                                        id="mobile-lbl-delivery-method"
                                         style="display:block; font-weight:600; margin-bottom:10px; color:#333; font-size:0.95rem;"
                                         >Recevoir mon estimation par</label
                                     >
@@ -470,22 +464,7 @@
                                                 checked
                                                 style="display:none;"
                                             />
-                                            <span
-                                                style="display:flex; align-items:center; justify-content:center; gap:6px;"
-                                            >
-                                                <svg
-                                                    width="18"
-                                                    height="18"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    ><path
-                                                        d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-                                                    ></path></svg
-                                                >
-                                                SMS
-                                            </span>
+                                            <span>SMS</span>
                                         </label>
                                         <label
                                             style="flex:1; text-align:center; padding:12px; border-radius:10px; transition:all 0.3s; background:transparent; font-weight:500; color:#666;"
@@ -497,29 +476,24 @@
                                                 value="email"
                                                 style="display:none;"
                                             />
-                                            <span
-                                                style="display:flex; align-items:center; justify-content:center; gap:6px;"
-                                            >
-                                                <svg
-                                                    width="18"
-                                                    height="18"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    ><path
-                                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                                                    ></path><polyline
-                                                        points="22,6 12,13 2,6"
-                                                    ></polyline></svg
-                                                >
-                                                <span id="mobile-txt-email-opt">Courriel</span>
-                                            </span>
+                                            <span>Courriel</span>
                                         </label>
+                                        <!-- Phone Option Removed -->
                                     </div>
+                                    <p id="mobile-quote-delivery-info" style="display:none; margin-top:8px; font-size:0.85rem; color:#666; font-style:italic;">
+                                        Un membre de notre équipe vous contactera s'il a besoin de plus d'information.
+                                    </p>
                                 </div>
 
                                 <div style="display:grid; gap:12px;">
+                                    <input
+                                        type="text"
+                                        id="mobile-input-company"
+                                        placeholder="Nom de l'entreprise *"
+                                        class="mobile-input"
+                                        style="display:none; width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem;"
+                                    />
+
                                     <input
                                         type="text"
                                         id="mobile-input-name"
@@ -571,18 +545,18 @@
                                     </div>
                                     <input
                                         type="text"
+                                        id="mobile-input-city"
+                                        placeholder="Ville *"
+                                        class="mobile-input"
+                                        style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem; margin-bottom:12px;"
+                                    />
+                                    
+                                    <input
+                                        type="text"
                                         id="mobile-input-postal"
                                         placeholder="Code Postal"
                                         class="mobile-input"
                                         style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem; margin-bottom:12px;"
-                                    />
-
-                                    <input
-                                        type="text"
-                                        id="mobile-input-city"
-                                        placeholder="Ville *"
-                                        class="mobile-input"
-                                        style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem;"
                                     />
 
                                     <textarea
@@ -592,6 +566,7 @@
                                         class="mobile-input"
                                         style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem; resize:none; font-family:inherit;"
                                     ></textarea>
+                                    <p id="mobile-quote-notes-instruction" style="display:none; font-size:0.9rem; color:#555; margin-top:8px; line-height:1.4; background:#f9f9f9; padding:10px; border-radius:8px; border-left:3px solid #1a237e;"></p>
                                 </div>
                             </div>
                         </div>
@@ -809,6 +784,20 @@
                     font-weight: bold;
                     box-shadow: 0 4px 10px rgba(118, 255, 3, 0.3);
                     border: 1px solid rgba(255, 255, 255, 0.2);
+                    transition: all 0.3s ease;
+                }
+
+                .details-total-bar.commercial-mode,
+                .total-service-box.commercial-mode {
+                     background: linear-gradient(
+                        135deg,
+                        #1b5e20 0%,
+                        #f5f5f5 100%
+                    ) !important;
+                    color: #333 !important;
+                    text-shadow: none !important;
+                    border: 1px solid #ddd !important;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
                 }
                 --empire-gradient: linear-gradient(
                     135deg,
@@ -1304,7 +1293,7 @@
 
             .cart-total-block {
                 margin-top: auto;
-                background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+                background: linear-gradient(90deg, #1a1a1a 0%, #43a047 100%);
                 /* Elegant Dark Blue Gradient */
                 color: white;
                 border-radius: 12px;
@@ -1313,7 +1302,10 @@
                 text-align: center;
                 position: relative;
                 overflow: hidden;
+                transition: background 0.3s ease;
             }
+
+
 
             /* Subtle gradient sheen on total block */
             .cart-total-block::before {
@@ -1384,10 +1376,10 @@
 
             .empire-modal .btn-primary {
                 background: linear-gradient(
-                    135deg,
-                    #2e7d32 0%,
-                    #1b5e20 100%
-                ); /* Green Gradient */
+                    90deg,
+                    #1a1a1a 0%,
+                    #43a047 100%
+                ); /* Green Gradient Black->Green */
                 color: white;
                 border: none;
                 padding: 12px 30px;
@@ -1403,7 +1395,7 @@
             .empire-modal .btn-primary:hover {
                 transform: translateY(-2px);
                 box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
-                background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+                background: linear-gradient(90deg, #43a047 0%, #1a1a1a 100%);
             }
 
             .empire-modal .btn-secondary {
@@ -2190,7 +2182,7 @@
                 }
 
                 .btn-mobile-primary {
-                    background: linear-gradient(135deg, #b71c1c 0%, #1a1a1a 100%);
+                    background: linear-gradient(90deg, #1a1a1a 0%, #43a047 100%);
                     color: white;
                     border: none;
                     padding: 12px 30px;
@@ -2200,6 +2192,8 @@
                     box-shadow: 0 4px 12px rgba(183, 28, 28, 0.4);
                     cursor: pointer;
                 }
+
+
 
                 @media (max-width: 850px) {
                     .mobile-app-footer-fixed {
@@ -2824,11 +2818,37 @@
                 }
             }; // Closing bracket for window.addCustomSectional
 
-            window.removeCustomSectional = function (idx: number) {
-                STATE.customSectionals.splice(idx, 1);
+            window.removeItem = function (id: string) {
+                if (id === "carpet_combined") {
+                    // Special case for aggregated carpet items
+                    STATE.quantities["package_3rooms"] = 0;
+                    STATE.quantities["room_individual"] = 0;
+                } else if (id.startsWith("rug_synth_") || id.startsWith("rug_wool_")) {
+                    // Handle individual rugs
+                    const parts = id.split("_");
+                    const idx = parseInt(parts.pop() || "0");
+                    const type = parts.join("_"); // "rug_synth" or "rug_wool"
+                    
+                    if (STATE.rugs[type]) {
+                        STATE.rugs[type].splice(idx, 1);
+                        if (STATE.quantities[type] && (STATE.quantities[type] as number) > 0) {
+                            STATE.quantities[type] = (STATE.quantities[type] as number) - 1;
+                        }
+                    }
+                } else {
+                    // Default removal
+                    delete STATE.quantities[id];
+                }
+                
+                // Recalculate
                 calculateTotal();
                 renderDetails();
-                renderMobileDetails();
+                updateUI();
+                
+                // If on summary page, re-render it
+                if (STATE.step === 3 && window.renderSummaryPage) {
+                    window.renderSummaryPage();
+                }
             };
 
             window.openEstimationWidget = function () {
@@ -3718,7 +3738,7 @@
                                             <span style="font-weight:500; font-size:0.8rem; line-height:1.2; flex:1; padding-right:8px;">${t(sect.label)} ${savingsDisplay}</span>
                                             <div style="display:flex; align-items:center; gap:10px;">
                                                 <span style="font-weight:bold; color:#2e7d32;">${sect.price}$</span>
-                                                <button onclick="removeCustomSectional(${gIndex})" style="color:#d32f2f; background:white; border:1px solid #ffcdd2; border-radius:4px; width:24px; height:24px; display:flex; align-items:center; justify-content:center; cursor:pointer;">✕</button>
+                                                <button onclick="removeItem('${sect.tempId}')" style="color:#d32f2f; background:white; border:1px solid #ffcdd2; border-radius:4px; width:24px; height:24px; display:flex; align-items:center; justify-content:center; cursor:pointer;">✕</button>
                                             </div>
                                         </div>
                                     `;
@@ -4270,7 +4290,7 @@
                                         <span style="font-weight:500; font-size:0.8rem; line-height:1.2; flex:1; padding-right:8px;">${t(sect.label)} ${savingsDisplay}</span>
                                         <div style="display:flex; align-items:center; gap:10px;">
                                             <span style="font-weight:bold;">${sect.price}$</span>
-                                            <button onclick="removeCustomSectional(${gIndex})" style="color:red; background:none; border:none; cursor:pointer; font-weight:bold;">X</button>
+                                            <button onclick="removeItem('${sect.tempId}')" style="color:red; background:none; border:none; cursor:pointer; font-weight:bold;">X</button>
                                         </div>
                                     </div>
                                 `;
@@ -4368,6 +4388,7 @@
                 let totalDiscount = 0;
                 STATE.savingsPerItem = {}; // Reset savings tracking
                 let cartItems: any[] = [];
+                let hasQuoteItem = false;
                 let fabricItemsParams: {
                     price: number;
                     label: string;
@@ -4859,7 +4880,7 @@
 
                 const realTotal = finalTotal;
                 const commSqft = (STATE.quantities["comm_sqft"] as number) || 0;
-                const hasQuoteItem = commSqft > 0;
+                hasQuoteItem = isQuoteOnlyMode();
 
                 const isUnderMin =
                     !hasQuoteItem &&
@@ -5010,6 +5031,25 @@
                  `;
                         els.minMsgSidebar.style.display = "block";
                     }
+                } else {
+                    // Standard Message
+                    // ONLY show if realTotal < 179 (and > 0)
+                    if (els.minMsgSidebar) {
+                        if (realTotal > 0 && realTotal < 179) {
+                            els.minMsgSidebar.innerHTML = `
+                            <div style="background:#e8f5e9; color:#1b5e20; padding:10px; border-radius:8px; margin-top:10px; font-size:0.85rem; line-height:1.4;">
+                                <i class="fas fa-check-circle" style="margin-right:4px;"></i> 
+                                ${t({
+                                    fr: "Comme vous payez déjà l’achat minimal, vous pouvez ajouter d’autres articles au besoin, souvent à prix réduit, puisque nous sommes déjà sur place.",
+                                    en: "Since you are already paying the minimum charge, you can add other items as needed, often at a reduced price, since we are already on site."
+                                })}
+                            </div>
+                            `;
+                            els.minMsgSidebar.style.display = "block";
+                        } else {
+                            els.minMsgSidebar.style.display = "none";
+                        }
+                    }
                 }
 
                 if (els.liveTotal && els.liveTotal.previousElementSibling) {
@@ -5028,6 +5068,16 @@
             `;
                 }
                 if (els.promoArea) els.promoArea.innerHTML = promoMsg;
+
+                 // Toggle Commercial Gradient
+                 const totalBoxes = document.querySelectorAll('.total-service-box, .details-total-bar, .cart-total-block');
+                 totalBoxes.forEach(box => {
+                     if (hasQuoteItem) {
+                         box.classList.add('commercial-mode');
+                     } else {
+                         box.classList.remove('commercial-mode');
+                     }
+                 });
 
                 // CRITICAL: Assign EFFECTIVE total (with min order) to STATE
                 STATE.total = effectiveTotal;
@@ -5094,6 +5144,14 @@
                 return p;
             }
 
+            function isQuoteOnlyMode(): boolean {
+                const services = Array.from(STATE.selectedServices);
+                return services.some((id) => {
+                    const s = CONFIG.services.find((svc) => svc.id === id);
+                    return s && s.isQuoteOnly;
+                });
+            }
+
             function getItemLabel(id: string): string | TranslationObj {
                 let l: string | TranslationObj = id;
                 CONFIG.services.forEach((s) => {
@@ -5119,12 +5177,23 @@
             }
 
             function nextStep() {
+                const isQuote = isQuoteOnlyMode();
+
                 if (STATE.step === 1) {
-                    STATE.step = 2;
-                    renderDetails();
+                    if (isQuote) {
+                        STATE.step = 4;
+                        // Skip Details render
+                    } else {
+                        STATE.step = 2;
+                        renderDetails();
+                    }
                 } else if (STATE.step === 2) {
-                    STATE.step = 3;
-                    window.renderSummaryPage();
+                    if (isQuote) {
+                        STATE.step = 4;
+                    } else {
+                        STATE.step = 3;
+                        window.renderSummaryPage();
+                    }
                 } else if (STATE.step === 3) {
                     STATE.step = 4;
                 } else if (STATE.step === 4) {
@@ -5191,7 +5260,12 @@
             };
 
             function prevStep() {
-                STATE.step--;
+                const isQuote = isQuoteOnlyMode();
+                if (isQuote && STATE.step === 4) {
+                    STATE.step = 1;
+                } else {
+                    STATE.step--;
+                }
                 updateUI("back");
             }
 
@@ -5258,10 +5332,17 @@
                     if (STATE.step === 1) {
                         els.btnNext.textContent = t(CONFIG.text.buttons.next);
                     } else if (STATE.step === 2) {
-                        els.btnNext.textContent = t({
-                            fr: "Voir les articles sélectionnés, les prix et vos rabais",
-                            en: "View Selected Items, Prices & Discounts",
-                        });
+                        if (isQuoteOnlyMode()) {
+                             els.btnNext.textContent = t({
+                                fr: "Finaliser la demande de soumission",
+                                en: "Finalize Quote Request"
+                            });
+                        } else {
+                            els.btnNext.textContent = t({
+                                fr: "Voir les articles sélectionnés, les prix et vos rabais",
+                                en: "View Selected Items, Prices & Discounts",
+                            });
+                        }
                     } else if (STATE.step === 3) {
                         // Step 3 (Review) -> Step 4 (Form)
                         els.btnNext.textContent = t({
@@ -5335,8 +5416,205 @@
                     if (els.btnNext) {
                         els.btnNext.style.display = "inline-block";
                         els.btnNext.classList.remove("hidden");
-                        // Update Text
-                        els.btnNext.innerHTML = `<i class="fas fa-paper-plane" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.finaliser)}`; // "Finaliser la demande" or "Envoyer"
+                        
+                        // COMMERCIAL QUOTE BUTTON STYLE & TEXT
+                        if (isQuoteOnlyMode()) {
+                             els.btnNext.innerHTML = `<i class="fas fa-paper-plane" style="margin-right:8px;"></i> ${t({fr: "ENVOYER", en: "SEND"})}`;
+                             els.btnNext.style.background = "linear-gradient(135deg, #43a047 0%, #1a1a1a 100%)";
+                             els.btnNext.style.borderColor = "transparent";
+                        } else {
+                             // Standard
+                             els.btnNext.innerHTML = `<i class="fas fa-paper-plane" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.finaliser)}`; 
+                             els.btnNext.style.background = ""; // Reset to CSS default
+                             els.btnNext.style.borderColor = "";
+                        }
+                    }
+
+                    // SYNC MOBILE SUBMIT BUTTON (The one inside the form)
+                    const mobSubmitBtn = document.getElementById("mobile-submit-btn");
+                    if (mobSubmitBtn) {
+                        if (isQuoteOnlyMode()) {
+                             mobSubmitBtn.innerHTML = `<i class="fas fa-paper-plane" style="margin-right:8px;"></i> ${t({fr: "ENVOYER", en: "SEND"})}`;
+                             mobSubmitBtn.style.background = "linear-gradient(135deg, #43a047 0%, #1a1a1a 100%)";
+                             mobSubmitBtn.style.boxShadow = "0 4px 15px rgba(67, 160, 71, 0.4)";
+                        } else {
+                             // Reset Standard (Red)
+                             mobSubmitBtn.innerText = t({fr: "Confirmer la demande", en: "Confirm Request"});
+                             mobSubmitBtn.style.background = ""; // Reverts to CSS class .btn-mobile-primary (Red Gradient)
+                             mobSubmitBtn.style.boxShadow = "";
+                        }
+                    }
+
+                    // SCROLL FIX FOR STEP 4
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+
+                    // UPDATE TITLE FOR STEP 4
+                    const step4Title = document.querySelector("#step-contact h2");
+                    if (step4Title) {
+                         if (isQuoteOnlyMode()) {
+                             step4Title.textContent = t({fr: "Coordonnées de l'entreprise", en: "Company Details"});
+                         } else {
+                             step4Title.textContent = t({fr: "Finaliser la demande", en: "Finalize Request"});
+                         }
+                    }
+
+                    // QUOTE MODE MESSAGE LOGIC
+                    const msgContainer = document.getElementById("quote-message-container");
+                    const labelCompany = document.getElementById("label-company");
+                    const inputCompany = document.getElementById("input-company") as HTMLInputElement;
+                    const labelName = document.getElementById("label-name-text");
+                    const inputName = document.getElementById("input-name") as HTMLInputElement;
+                    const inputNotes = document.getElementById("input-notes") as HTMLInputElement;
+
+                    // Mobile Elements
+                    const mobMsgContainer = document.getElementById("mobile-quote-message-container");
+                    const mobInputCompany = document.getElementById("mobile-input-company") as HTMLInputElement;
+                    const mobInputName = document.getElementById("mobile-input-name") as HTMLInputElement;
+                    const mobInputNotes = document.getElementById("mobile-input-notes") as HTMLInputElement;
+                    const mobNextBtn = document.getElementById("mobile-next-btn");
+
+                    if (isQuoteOnlyMode()) {
+                        const services = Array.from(STATE.selectedServices);
+                        const quoteSvc = services.map(id => CONFIG.services.find(s => s.id === id)).find(s => s && s.isQuoteOnly);
+                        
+                        // Show Message (Desktop)
+                        if (msgContainer && quoteSvc && quoteSvc.longDescription) {
+                            msgContainer.innerHTML = t(quoteSvc.longDescription);
+                            msgContainer.style.display = "block";
+                        }
+                        
+                        // Show Message (Mobile)
+                        if (mobMsgContainer && quoteSvc && quoteSvc.longDescription) {
+                            mobMsgContainer.innerHTML = t(quoteSvc.longDescription);
+                            mobMsgContainer.style.display = "block";
+                        }
+                        
+                        // Show Company Field
+                        if (labelCompany) labelCompany.style.display = "block";
+                        if (inputCompany) {
+                            inputCompany.style.display = "block";
+                            inputCompany.required = true;
+                        }
+                        if (mobInputCompany) {
+                            mobInputCompany.style.display = "block";
+                            // For mobile manual validation might be needed if form not standard submit
+                        }
+
+                        // Update Delivery Label & Info Text
+                        const lblDelivery = document.getElementById("lbl-delivery-method");
+                        const deskIntro = document.getElementById("desktop-contact-intro"); // NEW
+                        const mobLblDelivery = document.getElementById("mobile-lbl-delivery-method");
+                        const infoDelivery = document.getElementById("quote-delivery-info");
+                        const mobInfoDelivery = document.getElementById("mobile-quote-delivery-info");
+
+                        const quoteLabelText = t({fr: "Recevoir ma demande d'estimation par", en: "Receive my quote request by"});
+                        
+                        // Hide Desktop Intro Text
+                        if (deskIntro) deskIntro.style.display = "none";
+                        
+                        if (lblDelivery) lblDelivery.innerText = quoteLabelText;
+                        if (mobLblDelivery) mobLblDelivery.innerText = quoteLabelText;
+
+                        if (infoDelivery) infoDelivery.style.display = "block";
+                        if (mobInfoDelivery) mobInfoDelivery.style.display = "block";
+                        
+                        // Update Name Label/Placeholder
+                        if (labelName) labelName.textContent = t({fr: "Nom de la personne ressource *", en: "Contact Person Name *"});
+                        if (inputName) inputName.placeholder = t({fr: "Votre nom", en: "Your Name"});
+                        if (mobInputName) mobInputName.placeholder = t({fr: "Nom de la personne ressource *", en: "Contact Person Name *"});
+
+                        // Update Notes Text & Placeholder
+                        const instructionText = t({
+                            fr: "Veuillez indiquer la superficie des tapis à nettoyer, incluant les dimensions des pièces et des corridors. Si des marches et paliers sont à nettoyer, merci d'en préciser le nombre. Tout autre article ou détail peut être ajouté ici.",
+                            en: "Please specify the area of carpets to be cleaned, including room and hallway dimensions. If cleaning stairs and landings, please specify the quantity. Any other items or details can be added here."
+                        });
+
+                        const instructionEl = document.getElementById("quote-notes-instruction");
+                        const mobInstructionEl = document.getElementById("mobile-quote-notes-instruction");
+
+                        if (instructionEl) {
+                            instructionEl.textContent = instructionText;
+                            instructionEl.style.display = "block";
+                        }
+                        if (mobInstructionEl) {
+                            mobInstructionEl.textContent = instructionText;
+                            mobInstructionEl.style.display = "block";
+                        }
+
+                        if (inputNotes) inputNotes.placeholder = "";
+                        if (mobInputNotes) mobInputNotes.placeholder = "";
+
+                        // HIDE Phone Delivery Option (Only SMS/Email Allowed)
+                        // HIDE Phone Delivery Option (Only SMS/Email Allowed)
+                        // labelPhone & mobLabelPhone removed from DOM
+
+                        // Reset Desktop Phone selection
+                        const radioPhone = document.querySelector('input[name="delivery"][value="phone"]') as HTMLInputElement;
+                        if (radioPhone && radioPhone.checked) {
+                            const radioEmail = document.querySelector('input[name="delivery"][value="email"]') as HTMLInputElement;
+                            if (radioEmail) radioEmail.click();
+                        }
+                        // Reset Mobile Phone selection
+                        const mobRadioPhone = document.querySelector('input[name="mobile-delivery"][value="phone"]') as HTMLInputElement;
+                        if (mobRadioPhone && mobRadioPhone.checked) {
+                             const mobRadioEmail = document.querySelector('input[name="mobile-delivery"][value="email"]') as HTMLInputElement;
+                             if (mobRadioEmail) mobRadioEmail.click(); 
+                        }
+
+                        // Update Mobile Next Button Text (Step 2)
+                        if (STATE.step === 2 && mobNextBtn) {
+                            // "Finaliser la demande" instead of "Suivant"
+                            mobNextBtn.innerText = t({fr: "Finaliser", en: "Finalize"});
+                        }
+
+                    } else {
+                        // Reset Standard Mode
+                        if (msgContainer) msgContainer.style.display = "none";
+                        if (mobMsgContainer) mobMsgContainer.style.display = "none";
+
+                        if (labelCompany) labelCompany.style.display = "none";
+                        if (inputCompany) {
+                            inputCompany.style.display = "none";
+                            inputCompany.required = false;
+                        }
+                        if (mobInputCompany) mobInputCompany.style.display = "none";
+
+                        // Reset Delivery Label & Info Text
+                        const lblDelivery = document.getElementById("lbl-delivery-method");
+                        const deskIntro = document.getElementById("desktop-contact-intro"); // NEW
+                        const mobLblDelivery = document.getElementById("mobile-lbl-delivery-method");
+                        const infoDelivery = document.getElementById("quote-delivery-info");
+                        const mobInfoDelivery = document.getElementById("mobile-quote-delivery-info");
+
+                        const stdLabelText = t({fr: "Recevoir mon estimation par", en: "Receive my estimate by"});
+                        
+                        // Show Desktop Intro Text
+                        if (deskIntro) deskIntro.style.display = "block";
+                        
+                        if (lblDelivery) lblDelivery.innerText = stdLabelText;
+                        if (mobLblDelivery) mobLblDelivery.innerText = stdLabelText;
+
+                        if (infoDelivery) infoDelivery.style.display = "none";
+                        if (mobInfoDelivery) mobInfoDelivery.style.display = "none";
+
+                        if (labelName) labelName.textContent = t({fr: "Nom complet *", en: "Full Name *"}); 
+                        if (inputName) inputName.placeholder = "Jean Dupont";
+                        if (mobInputName) mobInputName.placeholder = t({fr: "Nom complet *", en: "Full Name *"});
+
+                        if (inputNotes) inputNotes.placeholder = "Ex: Code de porte, chien...";
+                        if (mobInputNotes) mobInputNotes.placeholder = "Ex: Code de porte, chien...";
+
+                        // Hide Instructions in Standard Mode
+                        const instructionEl = document.getElementById("quote-notes-instruction");
+                        const mobInstructionEl = document.getElementById("mobile-quote-notes-instruction");
+                        if (instructionEl) instructionEl.style.display = "none";
+                        if (mobInstructionEl) mobInstructionEl.style.display = "none";
+
+                        // Phone display logic removed
+                        
+                         if (STATE.step === 2 && mobNextBtn) {
+                            mobNextBtn.innerText = t(CONFIG.text.buttons.next);
+                        }
                     }
                 }
 
@@ -5445,6 +5723,14 @@
 
                     // Expose toggleMobileStep for Mobile Buttons
                     window.toggleMobileStep = function (targetStep: number) {
+                        const isQuote = isQuoteOnlyMode();
+                        
+                        // If trying to go to Step 3 (Summary) but in Quote Mode, skip to Step 4
+                        // Also skip Step 2 (Details) if in Quote Mode
+                        if (isQuote) {
+                            if(targetStep === 2 || targetStep === 3) targetStep = 4;
+                        }
+
                         STATE.step = targetStep;
                         if (STATE.step === 2) renderMobileDetails();
                         if (STATE.step === 3) window.renderSummaryPage();
@@ -5461,11 +5747,53 @@
                             mobileFooter.style.zIndex = '2147483647';
                         }
                         
-                        const mobView = document.getElementById(
-                            "mobile-estimation-view",
+                        const mobScroll = document.getElementById(
+                            "mobile-scroll-container",
                         );
-                        if (mobView)
-                            mobView.scrollTo({ top: 0, behavior: "smooth" });
+                        if (mobScroll)
+                            mobScroll.scrollTo({ top: 0, behavior: "smooth" });
+
+                        // MOBILE TITLE UPDATE
+                        const mobTitle = document.getElementById("mobile-title");
+                        if (mobTitle) {
+                            if (STATE.step === 1) mobTitle.innerText = t({fr: "SERVICES", en: "SERVICES"});
+                            else if (STATE.step === 2) mobTitle.innerText = t({fr: "DÉTAILS", en: "DETAILS"});
+                            else if (STATE.step === 3) mobTitle.innerText = t({fr: "SOMMAIRE", en: "SUMMARY"});
+                            else if (STATE.step === 4) {
+                                if (isQuote) mobTitle.innerText = t({fr: "COORDONNÉES", en: "DETAILS"});
+                                else mobTitle.innerText = t(CONFIG.text.buttons.finaliser); // "Finaliser"
+                            }
+                        }
+
+                        // MOBILE BUTTON TEXT UPDATE
+                        const mobNextBtn = document.getElementById("mobile-next-btn");
+                        if (mobNextBtn) {
+                            if (STATE.step === 4) {
+                                if (isQuoteOnlyMode()) {
+                                    mobNextBtn.innerHTML = `<i class="fas fa-paper-plane" style="margin-right:8px;"></i> ${t({fr: "ENVOYER", en: "SEND"})}`;
+                                    mobNextBtn.style.background = "linear-gradient(135deg, #43a047 0%, #1a1a1a 100%)";
+                                    mobNextBtn.style.boxShadow = "0 4px 15px rgba(67, 160, 71, 0.4)";
+                                } else {
+                                     mobNextBtn.innerHTML = `<i class="fas fa-check" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.finaliser)}`;
+                                     mobNextBtn.style.background = ""; // Reset
+                                     mobNextBtn.style.boxShadow = "";
+                                }
+                            } else {
+                                 mobNextBtn.innerHTML = `<i class="fas fa-arrow-right" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.next)}`;
+                                 mobNextBtn.style.background = ""; // Reset
+                                 mobNextBtn.style.boxShadow = "";
+                            }
+                        }
+
+                        // NEW: Hide "Finaliser" Sub-header in Commercial Mode
+                        const mobHeaderFinalize = document.getElementById("mobile-header-finalize");
+                        if (mobHeaderFinalize) {
+                            if (STATE.step === 4 && isQuote) { // Fixed: isQuote is boolean
+                                mobHeaderFinalize.style.display = "none";
+                            } else {
+                                mobHeaderFinalize.style.display = "block";
+                            }
+                        }
                     };
 
                     const mobileViewNextBtn =
@@ -5474,7 +5802,7 @@
                         mobileViewNextBtn.onclick = () => {
                             if (STATE.step === 1) window.toggleMobileStep(2);
                             else if (STATE.step === 2)
-                                window.toggleMobileStep(3);
+                                window.toggleMobileStep(3); // Logic inside toggle will handle skip
                             else if (STATE.step === 3)
                                 window.toggleMobileStep(4);
                         };
@@ -5492,7 +5820,13 @@
                         btnBackReview.onclick = () => window.toggleMobileStep(2);
                     }
                     if (btnBackContact) {
-                        btnBackContact.onclick = () => window.toggleMobileStep(3);
+                        btnBackContact.onclick = () => {
+                            if (isQuoteOnlyMode()) {
+                                window.toggleMobileStep(1); // Skip back to Services
+                            } else {
+                                window.toggleMobileStep(3);
+                            }
+                        };
                     }
 
                     // Mobile Delivery Toggle Logic
@@ -5503,6 +5837,8 @@
                         document.getElementById("mobile-label-sms");
                     const mobLabelEmail =
                         document.getElementById("mobile-label-email");
+                    const mobLabelPhone = 
+                        document.getElementById("mobile-label-phone");
                     const mobFieldEmail =
                         document.getElementById("mobile-field-email");
                     const mobFieldPhone =
@@ -5519,42 +5855,30 @@
                             radio.addEventListener("change", (e) => {
                                 const target = e.target as HTMLInputElement;
                                 if (target.value === "sms") {
-                                    // Active SMS
+                                    // SMS Active
                                     mobLabelSMS.style.background = "white";
                                     mobLabelSMS.style.color = "#1a237e";
-                                    mobLabelSMS.style.boxShadow =
-                                        "0 2px 5px rgba(0,0,0,0.05)";
+                                    mobLabelSMS.style.boxShadow = "0 2px 5px rgba(0,0,0,0.05)";
 
-                                    // Inactive Email
-                                    mobLabelEmail.style.background =
-                                        "transparent";
+                                    mobLabelEmail.style.background = "transparent";
                                     mobLabelEmail.style.color = "#666";
                                     mobLabelEmail.style.boxShadow = "none";
-
-                                    // Fields
+                                    
                                     mobFieldEmail.style.display = "none";
-                                    if (mobInputPhone)
-                                        mobInputPhone.placeholder =
-                                            "Téléphone (mobile pour SMS) *";
+                                    if (mobInputPhone) mobInputPhone.placeholder = "Téléphone (mobile pour SMS) *";
                                     mobInputEmail.required = false;
                                 } else {
-                                    // Active Email
+                                    // Email Active
                                     mobLabelEmail.style.background = "white";
                                     mobLabelEmail.style.color = "#1a237e";
-                                    mobLabelEmail.style.boxShadow =
-                                        "0 2px 5px rgba(0,0,0,0.05)";
+                                    mobLabelEmail.style.boxShadow = "0 2px 5px rgba(0,0,0,0.05)";
 
-                                    // Inactive SMS
-                                    mobLabelSMS.style.background =
-                                        "transparent";
+                                    mobLabelSMS.style.background = "transparent";
                                     mobLabelSMS.style.color = "#666";
                                     mobLabelSMS.style.boxShadow = "none";
-
-                                    // Fields
+                                    
                                     mobFieldEmail.style.display = "block";
-                                    if (mobInputPhone)
-                                        mobInputPhone.placeholder =
-                                            "Téléphone *";
+                                    if (mobInputPhone) mobInputPhone.placeholder = "Téléphone *";
                                     mobInputEmail.required = true;
                                 }
                             });
@@ -5564,6 +5888,7 @@
                     // Delivery Method Toggle Logic
                     const labelSMS = document.getElementById("label-sms");
                     const labelEmail = document.getElementById("label-email");
+                    const labelPhone = document.getElementById("label-phone");
                     const fieldPhone = document.getElementById("field-phone");
                     const fieldEmail = document.getElementById("field-email");
                     const inputEmail = document.getElementById(
@@ -5613,8 +5938,7 @@
                                     labelEmail.style.background = "white";
                                     labelEmail.style.fontWeight = "600";
                                     labelEmail.style.color = "#1a237e";
-                                    labelEmail.style.boxShadow =
-                                        "0 2px 8px rgba(0,0,0,0.1)";
+                                    labelEmail.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
 
                                     labelSMS.style.background = "transparent";
                                     labelSMS.style.fontWeight = "500";
@@ -5628,13 +5952,8 @@
                                     inputPhone.required = true; // Always require Phone
 
                                     // Update label text for Email (Remove "mobile pour SMS")
-                                    const phoneLabelText =
-                                        document.getElementById(
-                                            "label-phone-text",
-                                        );
-                                    if (phoneLabelText)
-                                        phoneLabelText.innerText =
-                                            "Téléphone *";
+                                    const phoneLabelText = document.getElementById("label-phone-text");
+                                    if (phoneLabelText) phoneLabelText.innerText = "Téléphone *";
                                 }
                             });
                         });
@@ -5643,6 +5962,39 @@
                     // Reset Logic consolidated at line 2838
                     (window as any).renderCart = function() { /* no-op */ };
                     (window as any).updateTotals = function() { calculateTotal(); };
+
+                    (window as any).removeItem = function (id: string) {
+                        if (id === "carpet_combined") {
+                            STATE.quantities["package_3rooms"] = 0;
+                            STATE.quantities["room_individual"] = 0;
+                        } else if (id.startsWith("rug_synth_") || id.startsWith("rug_wool_")) {
+                            const parts = id.split("_");
+                            const idx = parseInt(parts.pop() || "0");
+                            const type = parts.join("_");
+                            if (STATE.rugs[type]) {
+                                STATE.rugs[type].splice(idx, 1);
+                                if (STATE.quantities[type] && (STATE.quantities[type] as number) > 0) {
+                                    STATE.quantities[type] = (STATE.quantities[type] as number) - 1;
+                                }
+                            }
+                        } else {
+                            // Check customSectionals first
+                            const sectIdx = STATE.customSectionals.findIndex((s) => s.tempId === id);
+                            if (sectIdx !== -1) {
+                                STATE.customSectionals.splice(sectIdx, 1);
+                            } else {
+                                // Default removal
+                                delete STATE.quantities[id];
+                            }
+                        }
+                        calculateTotal();
+                        renderDetails();
+                        renderMobileDetails(); // Ensure Mobile UI updates
+                        updateUI();
+                        if (STATE.step === 3 && window.renderSummaryPage) {
+                            window.renderSummaryPage();
+                        }
+                    };
 
                     async function submitEstimationForm(data: {
                         name: string;
@@ -5673,8 +6025,22 @@
                             summary,
                         } = data;
 
+                        const isQuote = isQuoteOnlyMode();
+                        let finalName = name;
+                        
+                        const inputCompany = document.getElementById("input-company") as HTMLInputElement;
+                        const mobInputCompany = document.getElementById("mobile-input-company") as HTMLInputElement;
+                        
+                        let companyVal = "";
+                        if (inputCompany && inputCompany.offsetParent !== null && inputCompany.value) companyVal = inputCompany.value;
+                        else if (mobInputCompany && mobInputCompany.offsetParent !== null && mobInputCompany.value) companyVal = mobInputCompany.value;
+
+                        if (isQuote && companyVal) {
+                             finalName = `${companyVal} - ${name}`;
+                        }
+
                         // deliveryMethod validation is assumed done by caller or here
-                        if (!name || !deliveryMethod) {
+                        if (!finalName || !deliveryMethod) {
                             alert(
                                 STATE.lang === "fr"
                                     ? "Veuillez remplir les champs obligatoires."
@@ -5905,6 +6271,18 @@
                             )?.value;
 
                             // Validation
+                            const isQuote = isQuoteOnlyMode();
+                            const mobCompanyInput = document.getElementById("mobile-input-company") as HTMLInputElement;
+
+                            if (isQuote && mobCompanyInput && !mobCompanyInput.value) {
+                                alert(
+                                    STATE.lang === "fr"
+                                        ? "Veuillez entrer le nom de l'entreprise."
+                                        : "Please enter the company name.",
+                                );
+                                return;
+                            }
+
                             if (!nameInput || !nameInput.value) {
                                 alert(
                                     STATE.lang === "fr"

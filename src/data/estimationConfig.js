@@ -332,18 +332,12 @@ export const CONFIG = {
             icon: `<img src="/images/service-tapis-commercial-custom.jpg" alt="Nettoyage Commercial" style="object-fit:cover;" loading="lazy" />`,
             isQuoteOnly: true, // Special flag for Quote Mode
             longDescription: {
-                fr: `<strong>Soumission commerciale – fonctionnement</strong><br><br>
-Pour une demande d’estimation commerciale, nous calculons selon la superficie totale à nettoyer, en pieds carrés.<br>
-Si vous avez des marches, des meubles, des chaises ou d’autres éléments à ajouter, vous pouvez simplement les mentionner dans la section « Notes ».<br><br>
-Un agent communiquera ensuite avec vous — par téléphone ou par courriel, selon votre préférence — afin de finaliser votre demande.<br><br>
-Comme il existe de nombreuses variables en milieu commercial (type de nettoyage, produits utilisés, équipements, horaire, distance, etc.), ce module ne peut pas fournir un prix exact immédiatement. Indiquez-nous simplement la grandeur de l’espace et ce qu’il y a à nettoyer.<br>
-Après avoir échangé avec vous, nous pourrons vous donner une estimation plus précise et adaptée à votre situation.`,
-                en: `<strong>Commercial Quote – How it works</strong><br><br>
-For a commercial estimate request, we calculate based on the total area to be cleaned, in square feet.<br>
-If you have stairs, furniture, chairs, or other items to add, simply mention them in the 'Notes' section.<br><br>
-An agent will then contact you — by phone or email, depending on your preference — to finalize your request.<br><br>
-Since there are many variables in a commercial setting (type of cleaning, products used, equipment, schedule, distance, etc.), this module cannot provide an exact price immediately. Simply indicate the size of the space and what needs cleaning.<br>
-After discussing with you, we will be able to give you a more accurate estimate tailored to your situation.`
+                fr: `<strong>Demande de soumission commerciale</strong><br><br>
+Ce système recueille votre superficie et vos détails afin que notre équipe puisse préparer une soumission précise pour votre espace.<br><br>
+Après l'envoi, un de nos agents communiquera avec vous pour finaliser votre estimation ou organiser une évaluation sur place si nécessaire.`,
+                en: `<strong>Commercial Quote Request</strong><br><br>
+This system collects your square footage and details so our team can prepare a precise quote for your space.<br><br>
+After submission, one of our agents will contact you to finalize your estimate or arrange an on site evaluation if required.`
             },
             items: [
                 {
