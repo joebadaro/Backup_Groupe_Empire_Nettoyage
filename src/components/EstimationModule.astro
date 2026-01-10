@@ -2935,11 +2935,17 @@
 
                     console.log("Clearing UI inputs...");
                     // 2. Clear UI Inputs
-                     const inputs = document.querySelectorAll('input[type="checkbox"], input[type="number"]');
+                    // 2. Clear UI Inputs
+                     const inputs = document.querySelectorAll('input, textarea');
                      inputs.forEach((el) => {
                           const input = el as HTMLInputElement;
-                          if(input.type === 'checkbox') input.checked = false;
-                          if(input.type === 'number') input.value = '';
+                          if(input.type === 'checkbox' || input.type === 'radio') {
+                              if(input.name !== 'delivery' && input.name !== 'mobile-delivery') input.checked = false; // Don't reset delivery preference? Or should we? Let's reset everything except maybe hidden ones.
+                              // Actually, unchecking radios might be weird. Let's just reset checkboxes and text.
+                              if(input.type === 'checkbox') input.checked = false;
+                          } else if (input.type !== 'button' && input.type !== 'submit') {
+                              input.value = '';
+                          }
                      });
 
                     // 3. Clear Inline Elements
@@ -6111,6 +6117,7 @@
                         if (inputCompany && inputCompany.offsetParent !== null && inputCompany.value) companyVal = inputCompany.value;
                         else if (mobInputCompany && mobInputCompany.offsetParent !== null && mobInputCompany.value) companyVal = mobInputCompany.value;
 
+                        // For API/Email Subject: Combined Name
                         if (isQuote && companyVal) {
                              finalName = `${companyVal} - ${name}`;
                         }
@@ -6136,7 +6143,8 @@
                         const address = `${street}, ${apt ? "Apt " + apt + ", " : ""}${city}, ${postal}`;
 
                         const pdfData: EstimationData = {
-                            clientName: name,
+                            clientName: name, // Keep just the person name for the PDF "Contact" line
+                            businessName: companyVal, // Pass business name explicitly for PDF Title
                             clientEmail: email,
                             clientPhone: phone,
                             clientCity: city,
@@ -6169,18 +6177,22 @@
                         formData.append(
                             "pdf",
                             pdfBlob,
-                            `Estimation_${name.replace(/\s+/g, "_")}.pdf`,
+                            `Estimation_${finalName.replace(/\s+/g, "_")}.pdf`, // Use Final Name for filename
                         );
-                        formData.append("clientName", name);
+                        formData.append("clientName", finalName); // Use Final Name (Company - Name) for Email Subject
                         formData.append("clientEmail", email);
                         formData.append("clientPhone", phone);
                         formData.append("clientCity", city);
-                        formData.append("clientAddress", address);
+                        formData.append("clientAddress", address); // Full address
+                        formData.append("clientStreet", street);
+                        formData.append("clientApt", apt);
+                        formData.append("clientPostal", postal);
                         formData.append("clientNotes", notes);
                         formData.append("deliveryMethod", deliveryMethod);
                         formData.append("total", total.toFixed(2));
                         formData.append("summary", summary);
                         formData.append("lang", STATE.lang);
+                        formData.append("isCommercial", isQuote ? "true" : "false"); // Pass flag
 
                         try {
                             // Disable button to prevent double clicks
@@ -6229,6 +6241,9 @@
                                     ".mobile-sticky-bar",
                                 ) as HTMLElement;
                                 if (sticky) sticky.style.display = "flex";
+
+                                // RESET APP
+                                if(window.resetEstimation) window.resetEstimation();
                             } else {
                                 const errText = await response.text();
                                 console.error("API Error:", errText);

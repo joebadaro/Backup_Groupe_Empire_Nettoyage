@@ -40,6 +40,7 @@ export const POST: APIRoute = async ({ request }) => {
         const summary = formData.get('summary') as string; // Text summary of items
         const deliveryMethod = formData.get('deliveryMethod') as string;
         const lang = formData.get('lang') as string || 'fr';
+        const isCommercial = formData.get('isCommercial') as string; // Check flag
         const adminEmail = 'info@groupenettoyageempire.com';
 
         console.log('Received Estimate Request:', {
@@ -47,9 +48,8 @@ export const POST: APIRoute = async ({ request }) => {
             clientEmail,
             deliveryMethod,
             pdfSize: pdfBlob ? pdfBlob.size : 0,
-            _timestamp: 'DEBUG_CHECK_2026_01_05_TIMESTAMP'
+            isCommercial
         });
-        console.log('!!! EXECUTING NEW SEND-ESTIMATE CODE - VERSION 2026-01-05 !!!');
 
         if (!pdfBlob) {
             console.error('Error: No PDF file attached');
@@ -73,6 +73,7 @@ export const POST: APIRoute = async ({ request }) => {
             <p><strong>Email:</strong> ${clientEmail || 'Non fourni'}</p>
             <p><strong>Téléphone:</strong> ${clientPhone || 'Non fourni'}</p>
             <p><strong>Ville:</strong> ${clientCity || 'Non fourni'}</p>
+            <p><strong>Type:</strong> ${isCommercial === 'true' ? 'COMMERCIAL' : 'Résidentiel'}</p>
             <p><strong>Méthode de livraison:</strong> ${deliveryMethod === 'sms' ? 'SMS' : 'Email'}</p>
             ${clientNotes ? `<p><strong>Notes:</strong><br>${clientNotes}</p>` : ''}
             <hr>
@@ -89,7 +90,7 @@ export const POST: APIRoute = async ({ request }) => {
             console.log('Admin email sent:', adminInfo.messageId);
         } catch (adminErr) {
             console.error('Failed to send admin email:', adminErr);
-            throw adminErr; // Re-throw to trigger catch block
+            throw adminErr;
         }
 
         // 2. Send Email to Client (if email is provided)
@@ -122,8 +123,6 @@ export const POST: APIRoute = async ({ request }) => {
                 console.log('Client email sent:', clientInfo.messageId);
             } catch (clientErr) {
                 console.error('Failed to send client email:', clientErr);
-                // Don't fail the whole request if client email fails, just log it? 
-                // Or maybe we should warn logic? For now let's just log.
             }
         } else {
             console.log('No client email provided (likely SMS selected). Skipping client email.');
@@ -133,7 +132,7 @@ export const POST: APIRoute = async ({ request }) => {
         if (deliveryMethod === 'sms' && clientPhone) {
             console.log(`Attempting to send SMS to Client (${clientPhone})...`);
 
-            const missingCreds = [];
+            const missingCreds: string[] = [];
             if (!accountSid) missingCreds.push('TWILIO_ACCOUNT_SID');
             if (!authToken) missingCreds.push('TWILIO_AUTH_TOKEN');
             if (!twilioPhoneNumber) missingCreds.push('TWILIO_PHONE_NUMBER');
@@ -142,14 +141,15 @@ export const POST: APIRoute = async ({ request }) => {
 
             if (missingCreds.length === 0) {
                 try {
-                    // Initialize Supabase
+
+                    // Initialize Twilio
+                    const client = twilio(accountSid, authToken);
+
+                    // Initialize Supabase and Upload PDF for ALL SMS (Commercial & Residential)
                     const supabase = createClient(supabaseUrl, supabaseKey);
-
-                    // Upload PDF to Supabase Storage
-                    // Filename includes client name for better identification
                     const filename = `Estimation_${clientName.replace(/\s+/g, '_')}_${Date.now()}.pdf`;
-                    console.log(`Uploading PDF to Supabase: ${filename}...`);
 
+                    console.log(`Uploading PDF to Supabase: ${filename}...`);
                     const { data: uploadData, error: uploadError } = await supabase
                         .storage
                         .from('estimates')
@@ -160,10 +160,10 @@ export const POST: APIRoute = async ({ request }) => {
                         });
 
                     if (uploadError) {
+                        console.error("Supabase Upload Error:", uploadError);
                         throw new Error(`Supabase Upload Error: ${uploadError.message}`);
                     }
 
-                    // Get Public URL
                     const { data: { publicUrl } } = supabase
                         .storage
                         .from('estimates')
@@ -171,25 +171,35 @@ export const POST: APIRoute = async ({ request }) => {
 
                     console.log(`PDF Hosted at: ${publicUrl}`);
 
-                    // Initialize Twilio
-                    const client = twilio(accountSid, authToken);
+                    // Message body differs based on Commercial vs Residential
+                    let messageBody = '';
 
-                    // Single SMS with PDF + Call to Action
-                    let messageBody = `Merci d'avoir contacté Groupe Nettoyage Empire.\n\n📄 Votre fichier: Estimation (${clientName})\n\nSi vous désirez un rendez-vous, répondez simplement par OUI pour qu'un membre de notre équipe vous contacte sous peu, ou appelez-nous directement au 514-893-9939.`;
+                    if (isCommercial === 'true') {
+                        // --- COMMERCIAL SMS (with PDF) ---
+                        if (lang === 'en') {
+                            messageBody = "Thank you for contacting Groupe Nettoyage Empire. Our team will analyze your request. Your estimate will follow shortly. If additional information is required, a team member will contact you.";
+                        } else {
+                            messageBody = "Merci d'avoir contacté Groupe Nettoyage Empire. Notre équipe analysera votre demande. Votre estimation suivra sous peu. Si des informations supplémentaires sont requises, un membre de notre équipe communiquera avec vous.";
+                        }
+                    } else {
+                        // --- RESIDENTIAL SMS (with PDF) ---
+                        messageBody = `Merci d'avoir contacté Groupe Nettoyage Empire. Si vous souhaitez fixer un rendez-vous, répondez simplement « oui » et un membre de notre équipe vous contactera sous peu. Vous pouvez aussi nous joindre directement au 514-893-9939.`;
 
-                    if (lang === 'en') {
-                        messageBody = `Thank you for contacting Groupe Nettoyage Empire.\n\n📄 Your file: Estimate (${clientName})\n\nIf you would like an appointment, simply reply YES so a team member can contact you shortly, or call us directly at 514-893-9939.`;
+                        if (lang === 'en') {
+                            messageBody = `Thank you for contacting Groupe Nettoyage Empire. If you would like to schedule an appointment, simply reply "YES" and a team member will contact you shortly. You can also reach us directly at 514-893-9939.`;
+                        }
                     }
+
                     console.log('DEBUG MSG BODY:', messageBody);
 
                     const message = await client.messages.create({
                         body: messageBody,
                         from: twilioPhoneNumber,
                         to: clientPhone,
-                        mediaUrl: [publicUrl]
+                        mediaUrl: [publicUrl] // PDF included for both Commercial & Residential
                     });
 
-                    console.log('✅ SMS (MMS) sent successfully (LIVE). SID:', message.sid);
+                    console.log('✅ SMS sent successfully (LIVE). SID:', message.sid);
 
                     // --- ADMIN COPY ---
                     // Send DETAILED message (with PDF) to the admin/owner

@@ -4,6 +4,7 @@ import type { jsPDF } from 'jspdf';
 
 export interface EstimationData {
     clientName: string;
+    businessName?: string;
     clientEmail: string;
     clientPhone: string;
     clientCity: string;
@@ -73,6 +74,20 @@ export const generateEstimationPDF = async (data: EstimationData) => {
     });
     const isFr = data.lang === 'fr';
 
+    // Check if Commercial (based on businessName presence)
+    const isCommercial = !!data.businessName;
+
+    const docTitle = isCommercial
+        ? (isFr ? "ESTIMATION COMMERCIALE" : "COMMERCIAL ESTIMATE")
+        : `Estimation (${data.clientName})`;
+
+    doc.setProperties({
+        title: docTitle,
+        subject: isFr ? "Votre Estimation" : "Your Estimate",
+        author: "Groupe Nettoyage Empire",
+        creator: "Groupe Nettoyage Empire"
+    });
+
     // --- COLORS & FONTS ---
     const colorPrimary = [60, 60, 60] as [number, number, number]; // Elegant Dark Grey
     const colorAccent = [50, 80, 160] as [number, number, number]; // Deep Blue for subtle accents
@@ -132,8 +147,8 @@ export const generateEstimationPDF = async (data: EstimationData) => {
 
     // Logo
     if (logoSuccess && logoData) {
-        doc.addImage(logoData, 'JPEG', 15, leftY, 55, 18);
-        leftY += 20;
+        doc.addImage(logoData, 'JPEG', 15, leftY, 70, 23);
+        leftY += 25;
     } else {
         doc.setFontSize(20);
         doc.setFont("times", "bold");
@@ -142,12 +157,8 @@ export const generateEstimationPDF = async (data: EstimationData) => {
         leftY += 15;
     }
 
-    // URL
-    doc.setFontSize(9);
-    doc.setFont("times", "italic");
-    doc.setTextColor(100, 100, 100);
     // URL & Phone
-    doc.setFontSize(9);
+    doc.setFontSize(10);
     doc.setFont("times", "italic");
     doc.setTextColor(100, 100, 100);
     doc.text("www.groupenettoyageempire.com", 15, leftY);
@@ -165,19 +176,18 @@ export const generateEstimationPDF = async (data: EstimationData) => {
     }
 
 
-    // 2. RIGHT COLUMN: Date, Est#, Client
-    // Align everything to the Right Margin (195)
     // 2. RIGHT COLUMN: Elegant Box for Client Info
-    // Box dimensions
+    // Box dimensions - dynamically sized for commercial
     const boxWidth = 85;
-    const boxX = 115; // Right aligned with some margin
+    const boxHeight = isCommercial ? 50 : 65; // Smaller for commercial
+    const boxX = 115;
     let boxY = 15;
     const padding = 5;
 
     // Background Box (Rounded)
     doc.setDrawColor(220, 220, 220);
-    doc.setFillColor(252, 252, 253); // Very subtle off-white/blue
-    doc.roundedRect(boxX, boxY, boxWidth, 65, 3, 3, 'FD');
+    doc.setFillColor(isCommercial ? 245 : 252, isCommercial ? 250 : 252, isCommercial ? 245 : 253);
+    doc.roundedRect(boxX, boxY, boxWidth, boxHeight, 3, 3, 'FD');
 
     let textX = boxX + padding + 2;
     let textY = boxY + 8;
@@ -191,8 +201,7 @@ export const generateEstimationPDF = async (data: EstimationData) => {
     doc.setTextColor(100, 100, 100);
     doc.text(`${isFr ? 'Date' : 'Date'}: ${dateStr}`, textX, textY);
 
-    // Align #EST to right of box? Or just below date.
-    // Let's put it on same line, right aligned within box
+    // Align #EST (or quote ref)
     doc.text(`# ${estNum}`, boxX + boxWidth - padding - 2, textY, { align: 'right' });
 
     textY += 8;
@@ -200,16 +209,43 @@ export const generateEstimationPDF = async (data: EstimationData) => {
     // Client Header
     doc.setFontSize(10);
     doc.setFont("times", "bold");
-    doc.setTextColor(colorAccent[0], colorAccent[1], colorAccent[2]);
-    doc.text(isFr ? "CLIENT" : "CLIENT", textX, textY);
-    textY += 5;
+
+    // Commercial Title Logic
+    if (isCommercial) {
+        doc.setTextColor(50, 100, 50); // Dark Green for Commercial
+        doc.text(isFr ? "ESTIMATION COMMERCIALE" : "COMMERCIAL QUOTE", textX, textY);
+        textY += 6;
+
+        // Business Name prominently
+        doc.setFontSize(11);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(20, 20, 20);
+        doc.text(data.businessName || "", textX, textY);
+        textY += 5;
+
+        // Reset for contact name
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(60, 60, 60);
+        // "Contact:" prefix optional? User just said "Name of client".
+        // Let's just put the name below.
+    } else {
+        doc.setTextColor(colorAccent[0], colorAccent[1], colorAccent[2]);
+        doc.text(isFr ? "CLIENT" : "CLIENT", textX, textY);
+        textY += 5;
+    }
 
     // Client Details
-    doc.setFontSize(10);
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(40, 40, 40);
-    doc.text(data.clientName, textX, textY);
-    textY += 5;
+    if (!isCommercial || data.clientName) {
+        doc.setFontSize(isCommercial ? 9 : 10);
+        doc.setFont("helvetica", isCommercial ? "normal" : "bold");
+        doc.setTextColor(40, 40, 40);
+        let nameDisplay = data.clientName;
+        if (isCommercial) nameDisplay = (isFr ? "Contact: " : "Contact: ") + nameDisplay;
+
+        doc.text(nameDisplay, textX, textY);
+        textY += 5;
+    }
 
     doc.setFontSize(9);
     doc.setTextColor(60, 60, 60);
@@ -242,157 +278,196 @@ export const generateEstimationPDF = async (data: EstimationData) => {
     }
 
 
-    // --- TABLE GENERATION ---
-    // Start table below the lowest column (Left or Right)
-    // --- TABLE GENERATION ---
-    // Start table below the lowest column (Left or Right)
-    const tableStartY = Math.max(leftY, textY) + 10;
+    // --- CONDITIONAL CONTENT: Table & Totals (Skip for Commercial) ---
+    let notesY = Math.max(leftY, textY) + 10;
 
-    // Headers: Merge first two columns for the "Item" label
-    const tableHeaders = isFr
-        ? [[{ content: 'Article / Service', colSpan: 2 }, 'Prix']]
-        : [[{ content: 'Item / Service', colSpan: 2 }, 'Price']];
+    if (!isCommercial) {
+        // --- TABLE GENERATION (Residential Only) ---
+        const tableStartY = notesY;
 
-    // Generate Table Data with 3 columns: [Service Label, Discount Info, Price]
-    const tableData: any[] = [];
+        // Headers: Merge first two columns for the "Item" label
+        const tableHeaders = isFr
+            ? [[{ content: 'Article / Service', colSpan: 2 }, 'Prix']]
+            : [[{ content: 'Item / Service', colSpan: 2 }, 'Price']];
 
-    data.items.forEach(item => {
-        let label = item.label;
-        if (item.details) label += `\n${item.details}`;
+        // Generate Table Data with 3 columns: [Service Label, Discount Info, Price]
+        const tableData: any[] = [];
 
-        let discountText = '';
-        if (item.savings && item.savings > 0) {
-            const finalPrice = item.price;
-            const savings = item.savings;
-            const originalPrice = finalPrice + savings;
-            const percent = Math.round((savings / originalPrice) * 100);
+        data.items.forEach(item => {
+            let label = item.label;
+            if (item.details) label += `\n${item.details}`;
 
-            // Condensed Discount Text
-            discountText = isFr
-                ? `Rabais ${percent}% (-${savings.toFixed(2)}$)`
-                : `Discount ${percent}% (-${savings.toFixed(2)}$)`;
+            let discountText = '';
+            if (item.savings && item.savings > 0) {
+                const finalPrice = item.price;
+                const savings = item.savings;
+                const originalPrice = finalPrice + savings;
+                const percent = Math.round((savings / originalPrice) * 100);
 
-            // Optional: Add Reg/Adj if desired, but user asked for "Condensed". 
-            // Let's keep it minimal as per "à côté du service" and "plus petit".
+                discountText = isFr
+                    ? `Rabais ${percent}% (-${savings.toFixed(2)}$)`
+                    : `Discount ${percent}% (-${savings.toFixed(2)}$)`;
+            }
+
+            tableData.push([label, discountText, item.price.toFixed(2) + ' $']);
+        });
+
+        autoTable(doc, {
+            startY: tableStartY,
+            head: tableHeaders,
+            body: tableData,
+            theme: 'plain',
+            headStyles: {
+                fillColor: colorHeaderFill,
+                textColor: colorHeaderTx,
+                fontStyle: 'bold',
+                lineColor: 220,
+                lineWidth: 0.1,
+                valign: 'middle',
+                font: 'times',
+                fontSize: 11
+            },
+            styles: {
+                font: 'helvetica',
+                fontSize: 10,
+                cellPadding: 5,
+                lineColor: 230,
+                lineWidth: 0.1,
+                valign: 'middle',
+                textColor: [50, 50, 50],
+                overflow: 'linebreak'
+            },
+            columnStyles: {
+                0: { cellWidth: 'auto' },
+                1: {
+                    cellWidth: 'auto',
+                    textColor: [220, 50, 50],
+                    fontStyle: 'bold',
+                    fontSize: 8
+                },
+                2: { cellWidth: 35, halign: 'right', fontStyle: 'bold' }
+            },
+            tableLineColor: 220,
+            tableLineWidth: 0.1,
+            margin: { left: 15, right: 15 },
+        });
+
+
+        // --- FOOTER & TOTALS (Residential Only) ---
+        const finalTotal = data.total;
+        const rightMargin = 195;
+        let finalY = (doc as any).lastAutoTable?.finalY + 8 || textY + 8;
+
+        // Compact layout check
+        if (finalY + 60 > 280) {
+            doc.addPage();
+            finalY = 20;
         }
 
-        tableData.push([label, discountText, item.price.toFixed(2) + ' $']);
-    });
+        // Total Section - Right Aligned
+        doc.setFontSize(14);
+        doc.setFont("times", "bold");
+        doc.setTextColor(colorPrimary[0], colorPrimary[1], colorPrimary[2]);
+        doc.text(`${isFr ? 'TOTAL' : 'TOTAL'}`, 140, finalY + 5);
+        doc.text(`${finalTotal.toFixed(2)} $`, rightMargin, finalY + 5, { align: 'right' });
 
-    autoTable(doc, {
-        startY: tableStartY,
-        head: tableHeaders,
-        body: tableData,
-        theme: 'plain',
-        headStyles: {
-            fillColor: colorHeaderFill,
-            textColor: colorHeaderTx,
-            fontStyle: 'bold',
-            lineColor: 220,
-            lineWidth: 0.1,
-            valign: 'middle',
-            font: 'times',
-            fontSize: 11
-        },
-        styles: {
-            font: 'helvetica',
-            fontSize: 10,
-            cellPadding: 5,
-            lineColor: 230,
-            lineWidth: 0.1,
-            valign: 'middle', // Middle alignment looks better for side-by-side
-            textColor: [50, 50, 50],
-            overflow: 'linebreak'
-        },
-        columnStyles: {
-            0: { cellWidth: 'auto' }, // Service Name - takes available space
-            1: {
-                cellWidth: 'auto', // Adjusts to text
-                textColor: [220, 50, 50], // Red
-                fontStyle: 'bold',
-                fontSize: 8 // Smaller font
-            },
-            2: { cellWidth: 35, halign: 'right', fontStyle: 'bold' } // Price
-        },
-        tableLineColor: 220,
-        tableLineWidth: 0.1,
-        margin: { left: 15, right: 15 },
-        // Remove the didParseCell hook for coloring since we handle it via columnStyles now
-    });
+        doc.setFontSize(8);
+        doc.setFont("helvetica", "italic");
+        doc.setTextColor(120, 120, 120);
+        doc.text(isFr ? "(taxes en sus)" : "(plus taxes)", rightMargin, finalY + 10, { align: 'right' });
 
-
-    // --- FOOTER & TOTALS ---
-    const finalTotal = data.total;
-    const rightMargin = 195;
-    let finalY = (doc as any).lastAutoTable.finalY + 8;
-
-    // Compact layout check
-    if (finalY + 60 > 280) {
-        doc.addPage();
-        finalY = 20;
+        notesY = finalY + 20;
+    } else {
+        // For commercial, set notes position right after client info box
+        notesY = 85;
     }
 
-    // Total Section - Right Aligned
-    doc.setFontSize(14);
-    doc.setFont("times", "bold");
-    doc.setTextColor(colorPrimary[0], colorPrimary[1], colorPrimary[2]);
-    doc.text(`${isFr ? 'TOTAL' : 'TOTAL'}`, 140, finalY + 5);
-    doc.text(`${finalTotal.toFixed(2)} $`, rightMargin, finalY + 5, { align: 'right' });
-
-    doc.setFontSize(8);
-    doc.setFont("helvetica", "italic");
-    doc.setTextColor(120, 120, 120);
-    doc.text(isFr ? "(taxes en sus)" : "(plus taxes)", rightMargin, finalY + 10, { align: 'right' });
-
-
-    // --- NOTES (Simplified) ---
-    // Move notes to left side to balance the Total on right?
-    // Or full width box below.
-
-    let notesY = finalY + 20;
-
+    // --- NOTES SECTION (Both Commercial & Residential) ---
     if (data.clientNotes) {
-        // If we are close to bottom, break
-        if (notesY + 40 > 285) {
-            doc.addPage();
-            notesY = 20;
+        // If we are close to bottom, break (Residential only)
+        if (!isCommercial) {
+            if (notesY + 40 > 285) {
+                doc.addPage();
+                notesY = 20;
+            }
         }
 
-        doc.setFontSize(9);
+        doc.setFontSize(10);
         doc.setFont("helvetica", "bold");
         doc.setTextColor(80, 80, 80);
-        doc.text(isFr ? "NOTES:" : "NOTES:", 15, notesY);
+        doc.text(isFr ? "INFORMATIONS FOURNIES:" : "PROVIDED INFORMATION:", 15, notesY);
 
         doc.setFont("helvetica", "normal");
         doc.setTextColor(60, 60, 60);
         const splitNotes = doc.splitTextToSize(data.clientNotes, 170);
-        doc.text(splitNotes, 15, notesY + 5);
+        doc.text(splitNotes, 15, notesY + 6);
 
         const noteHeight = splitNotes.length * 4;
-        notesY += (noteHeight + 15);
+        notesY += (noteHeight + 18);
     } else {
         notesY += 10;
     }
 
+    // --- COMMERCIAL: Professional Follow-up Message ---
+    if (isCommercial) {
+        // Fixed position optimized for single page layout
+        const messageBoxY = 210; // Positioned higher to ensure everything fits on one page
+        const messageBoxX = 15;
+        const messageBoxWidth = 180;
+        const messageBoxPadding = 8;
 
-    // --- DISCLAIMER (Small footer) ---
-    // Check space
-    if (notesY + 30 > 285) {
-        doc.addPage();
-        notesY = 20;
+        // Draw background box with border
+        doc.setFillColor(245, 250, 255); // Light blue tint
+        doc.setDrawColor(100, 150, 200); // Darker blue border
+        doc.setLineWidth(0.5);
+        doc.roundedRect(messageBoxX, messageBoxY, messageBoxWidth, 35, 2, 2, 'FD'); // F=fill, D=draw border
+
+        // Message title
+        doc.setFontSize(9);
+        doc.setFont("times", "bold");
+        doc.setTextColor(50, 100, 150); // Professional blue
+        doc.text(
+            isFr ? "MESSAGE DE GROUPE NETTOYAGE EMPIRE" : "MESSAGE FROM GROUPE NETTOYAGE EMPIRE",
+            messageBoxX + messageBoxPadding,
+            messageBoxY + 6
+        );
+
+        // Message body
+        doc.setFontSize(8.5);
+        doc.setFont("times", "normal");
+        doc.setTextColor(60, 60, 60);
+
+        const followUpMessage = isFr
+            ? "Nous analysons actuellement votre demande de soumission en fonction des informations et des superficies que vous nous avez fournies. Notre équipe vous transmettra votre estimation détaillée sous peu. Si des précisions supplémentaires sont nécessaires, un membre de notre équipe communiquera avec vous."
+            : "We are currently analyzing your quote request based on the information and surface areas you have provided. Our team will send you your detailed estimate shortly. If additional clarification is needed, a team member will contact you.";
+
+        const splitMessage = doc.splitTextToSize(followUpMessage, messageBoxWidth - (messageBoxPadding * 2));
+        doc.text(splitMessage, messageBoxX + messageBoxPadding, messageBoxY + 14);
     }
 
-    doc.setFontSize(7);
-    doc.setTextColor(100, 100, 100); // Slightly darker for readability
 
-    // New Professional Disclaimer from User
-    const disclaimer = isFr
-        ? "Les prix incluent le nettoyage à la vapeur avec shampoing et le déplacement.\n\nAvant de commencer, le technicien fera une post-inspection, vérifiera votre devis et inspectera les articles. Si un produit spécialisé est nécessaire, il vous en avisera avant le début."
-        : "Prices include steam cleaning with shampoo and travel.\n\nBefore starting, the technician will perform a post-inspection, verify your quote, and inspect the items. If a specialized product is necessary, they will advise you before starting.";
+    // --- DISCLAIMER (Residential Only) ---
+    if (!isCommercial) {
+        // Check space
+        if (notesY + 30 > 285) {
+            doc.addPage();
+            notesY = 20;
+        }
+    }
 
-    const splitDisclaimer = doc.splitTextToSize(disclaimer, 180);
-    doc.text(splitDisclaimer, 15, notesY);
+    // Only show detailed pricing disclaimer if NOT commercial
+    if (!isCommercial) {
+        doc.setFontSize(7);
+        doc.setTextColor(100, 100, 100); // Slightly darker for readability
 
+        // New Professional Disclaimer from User
+        const disclaimer = isFr
+            ? "Les prix incluent le nettoyage à la vapeur avec shampoing et le déplacement.\n\nAvant de commencer, le technicien fera une post-inspection, vérifiera votre devis et inspectera les articles. Si un produit spécialisé est nécessaire, il vous en avisera avant le début."
+            : "Prices include steam cleaning with shampoo and travel.\n\nBefore starting, the technician will perform a post-inspection, verify your quote, and inspect the items. If a specialized product is necessary, they will advise you before starting.";
+
+        const splitDisclaimer = doc.splitTextToSize(disclaimer, 180);
+        doc.text(splitDisclaimer, 15, notesY);
+    }
 
     // --- GENERATE BLOB FOR API ---
     // PDF is NOT saved locally - only sent via email/SMS by backend
