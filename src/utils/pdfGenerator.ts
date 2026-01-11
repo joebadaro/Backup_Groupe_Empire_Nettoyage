@@ -462,7 +462,7 @@ export const generateEstimationPDF = async (data: EstimationData) => {
 
         // New Professional Disclaimer from User
         const disclaimer = isFr
-            ? "Les prix incluent le nettoyage à la vapeur avec shampoing et le déplacement.\n\nAvant de commencer, le technicien fera une post-inspection, vérifiera votre devis et inspectera les articles. Si un produit spécialisé est nécessaire, il vous en avisera avant le début."
+            ? "Les prix indiqués incluent le nettoyage à la vapeur avec shampoing ainsi que le déplacement.\n\nAvant de commencer le service, le technicien procédera à une inspection du matériel à nettoyer afin de s’assurer que la méthode et les produits utilisés sont bien adaptés. Si, selon le type de tissu ou l’état des surfaces, des produits ou traitements spécialisés sont nécessaires ou recommandés, le technicien vous en informera avant le début des travaux et vous déciderez avec lui sur place de la meilleure approche à adopter."
             : "Prices include steam cleaning with shampoo and travel.\n\nBefore starting, the technician will perform a post-inspection, verify your quote, and inspect the items. If a specialized product is necessary, they will advise you before starting.";
 
         const splitDisclaimer = doc.splitTextToSize(disclaimer, 180);

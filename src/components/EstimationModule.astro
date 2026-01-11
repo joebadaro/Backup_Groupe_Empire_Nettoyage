@@ -261,18 +261,34 @@
                             <div style="grid-column: 1 / -1;">
                                 <label
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
-                                    >Notes (Escaliers, chaises, accès, horaire...)</label
+                                    >Notes (Code de porte, accès, demande spéciale, horaire...)</label
                                 >
                                 <textarea
                                     id="input-notes"
                                     rows="2"
-                                    placeholder="Précisez ici si vous avez des escaliers, chaises, meubles à déplacer ou des contraintes d'horaire."
+                                    placeholder="Précisez ici si vous avez un code de porte, une demande spéciale ou des contraintes d'horaire."
                                     style="width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px; font-size:0.95rem; transition:all 0.3s; resize:vertical; font-family:inherit;"
                                     onfocus="this.style.borderColor='#3949ab'; this.style.boxShadow='0 0 0 3px rgba(57,73,171,0.1)'"
                                     onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'"
                                 ></textarea>
                                 <p id="quote-notes-instruction" style="display:none; font-size:0.85rem; color:#555; margin-top:5px; line-height:1.4; background:#f9f9f9; padding:8px; border-radius:6px; border-left:3px solid #1a237e;"></p>
                             </div>
+                            
+                            <div style="grid-column: 1 / -1; margin-top:5px;">
+                                <label style="display:block; font-weight:600; margin-bottom:8px; color:#333; font-size:0.9rem;">
+                                    Souhaitez-vous que nous vous rappelions pour planifier un rendez-vous ? *
+                                </label>
+                                <div style="display:flex; gap:20px; align-items:center;">
+                                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                                        <input type="radio" name="callback-request" value="yes" required style="width:18px; height:18px; cursor:pointer;">
+                                        <span style="font-size:0.95rem;">Oui</span>
+                                    </label>
+                                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                                        <input type="radio" name="callback-request" value="no" required style="width:18px; height:18px; cursor:pointer;">
+                                        <span style="font-size:0.95rem;">Non</span>
+                                    </label>
+                                </div>
+                        </div>
                         </div>
                     </form>
                 </div>
@@ -562,11 +578,27 @@
                                     <textarea
                                         id="mobile-input-notes"
                                         rows="3"
-                                        placeholder="Notes (Code de porte, etc...)"
+                                        placeholder="Notes (Code de porte, demande spéciale...)"
                                         class="mobile-input"
                                         style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem; resize:none; font-family:inherit;"
                                     ></textarea>
                                     <p id="mobile-quote-notes-instruction" style="display:none; font-size:0.9rem; color:#555; margin-top:8px; line-height:1.4; background:#f9f9f9; padding:10px; border-radius:8px; border-left:3px solid #1a237e;"></p>
+                                    
+                                    <div style="margin-top:15px; margin-bottom: 20px;">
+                                        <label style="display:block; font-weight:600; margin-bottom:10px; color:#333; font-size:0.95rem;">
+                                            Souhaitez-vous que nous vous rappelions pour planifier un rendez-vous ? *
+                                        </label>
+                                        <div style="display:flex; gap:12px;">
+                                            <label style="display:flex; align-items:center; gap:8px; cursor:pointer; padding:12px; background:#f5f5f5; border-radius:8px; flex:1; justify-content:center; border:1px solid #ddd;">
+                                                <input type="radio" name="mobile-callback-request" value="yes" required style="width:18px; height:18px;">
+                                                <span style="font-weight:600; color:#333;">Oui</span>
+                                            </label>
+                                            <label style="display:flex; align-items:center; gap:8px; cursor:pointer; padding:12px; background:#f5f5f5; border-radius:8px; flex:1; justify-content:center; border:1px solid #ddd;">
+                                                <input type="radio" name="mobile-callback-request" value="no" required style="width:18px; height:18px;">
+                                                <span style="font-weight:600; color:#333;">Non</span>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2369,245 +2401,9 @@
                 }
             }
 
-            // --- GLOBAL SUBMIT LOGIC ---
-            async function globalSubmitEstimationForm(data: {
-                name: string;
-                email: string;
-                phone: string;
-                city: string;
-                street: string;
-                apt: string;
-                postal: string;
-                notes: string;
-                deliveryMethod: string;
-                items: any[];
-                total: number;
-                summary: string;
-            }, btn?: HTMLButtonElement) {
-                const {
-                    name,
-                    email,
-                    phone,
-                    city,
-                    street,
-                    apt,
-                    postal,
-                    notes,
-                    deliveryMethod,
-                    items,
-                    total,
-                    summary,
-                } = data;
 
-                // deliveryMethod validation is assumed done by caller or here
-                if (!name || !deliveryMethod) {
-                    alert(
-                        STATE.lang === "fr"
-                            ? "Veuillez remplir tous les champs obligatoires."
-                            : "Please fill in all required fields.",
-                    );
-                    if (btn) btn.disabled = false;
-                    return;
-                }
 
-                // Initial Button State
-                let originalText = "";
-                if (btn) {
-                    originalText = btn.innerHTML;
-                    btn.disabled = true;
-                    if(!btn.classList.contains("btn-explode-js-v5")) {
-                         btn.innerHTML = STATE.lang === "fr" ? "Envoi..." : "Sending...";
-                    }
-                }
 
-                try {
-                     // Generate PDF
-                    const uniqueImages = new Set<string>();
-                    // Helper to find image for an item (Simplified lookup)
-                    const getItemImage = (rawId: string): string | null => {
-                         const found = CONFIG.services.find(s => s.items.find(i => i.id === rawId));
-                         if(found) {
-                             const item = found.items.find(i => i.id === rawId);
-                             if(item && item.icon) return item.icon;
-                         }
-                         return null;
-                    };
-
-                    (items || []).forEach((item) => {
-                        const img = getItemImage(item.rawId);
-                        if (img) uniqueImages.add(img);
-                    });
-
-                    const address = `${street}, ${apt ? "Apt " + apt + ", " : ""}${city}, ${postal}`;
-
-                    const pdfData: EstimationData = {
-                        clientName: name,
-                        clientEmail: email,
-                        clientPhone: phone,
-                        clientCity: city,
-                        clientAddress: address,
-                        clientStreet: street,
-                        clientApt: apt,
-                        clientPostal: postal,
-                        clientNotes: notes,
-                        items: items || [],
-                        total: total,
-                        lang: STATE.lang,
-                        serviceImages: Array.from(uniqueImages),
-                    };
-
-                    const pdfBlob = await generateEstimationPDF(pdfData);
-                    const pdfBuffer = await pdfBlob.arrayBuffer();
-                    const pdfBase64 = Buffer.from(pdfBuffer).toString("base64");
-
-                    // Send to API
-                    const response = await fetch("/api/incoming-sms", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            to: phone, // Always use phone for SMS
-                            messageBody: `Nouvelle demande d'estimation de ${name}.`,
-                            pdfBase64,
-                            customerName: name,
-                            deliveryMethod,
-                            email: email,
-                        }),
-                    });
-
-                    const result = await response.json();
-
-                    if (result.success) {
-                        if (btn) {
-                             if(btn.classList.contains("btn-explode-js-v5")) {
-                                 // Let it explode...
-                             } else {
-                                 btn.innerHTML = "Success!";
-                             }
-                        }
-                        
-                        setTimeout(() => {
-                            if (STATE.lang === "fr") {
-                                alert("Votre estimation a été envoyée avec succès!");
-                            } else {
-                                alert("Your estimate has been sent successfully!");
-                            }
-                            window.location.reload(); 
-                        }, 2000);
-                        
-                    } else {
-                        throw new Error(result.error || "Unknown error");
-                    }
-
-                } catch (error) {
-                    console.error("Submission Error:", error);
-                    alert(
-                        STATE.lang === "fr"
-                            ? "Erreur lors de l'envoi. Veuillez réessayer."
-                            : "Error sending estimate. Please try again.",
-                    );
-                    if (btn) {
-                        btn.disabled = false;
-                        btn.innerHTML = originalText || (STATE.lang === "fr" ? "Confirmer la demande" : "Confirm Request");
-                        btn.classList.remove("btn-explode-js-v5"); 
-                    }
-                }
-            }
-
-            // --- GLOBAL SUBMIT HANDLER FOR MOBILE ---
-            window.handleMobileSubmit = async (e: Event) => {
-                if (e) e.preventDefault();
-                console.log("MOBILE SUBMIT TRIGGERED VIA GLOBAL HANDLER");
-
-                const mobSubmit = document.getElementById("mobile-submit-btn") as HTMLButtonElement;
-                if (!mobSubmit) return;
-
-                const nameInput = document.getElementById("mobile-input-name") as HTMLInputElement;
-                const cityInput = document.getElementById("mobile-input-city") as HTMLInputElement;
-                const notesInput = document.getElementById("mobile-input-notes") as HTMLTextAreaElement;
-                const phoneInput = document.getElementById("mobile-input-phone") as HTMLInputElement;
-                const emailInput = document.getElementById("mobile-input-email") as HTMLInputElement;
-                const streetInput = document.getElementById("mobile-input-street") as HTMLInputElement;
-                const aptInput = document.getElementById("mobile-input-apt") as HTMLInputElement;
-                const postalInput = document.getElementById("mobile-input-postal") as HTMLInputElement;
-
-                const deliveryMethod = (
-                    document.querySelector('input[name="mobile-delivery"]:checked') as HTMLInputElement
-                )?.value;
-
-                // Validation
-                if (!nameInput || !nameInput.value) {
-                    alert(STATE.lang === "fr" ? "Veuillez entrer votre nom." : "Please enter your name.");
-                    return;
-                }
-                if (!deliveryMethod) return;
-
-                if (deliveryMethod === "sms" && !phoneInput.value) {
-                    alert(STATE.lang === "fr" ? "Veuillez entrer votre numéro de téléphone." : "Please enter your phone number.");
-                    return;
-                }
-                if (deliveryMethod === "email") {
-                    if (!emailInput.value) {
-                        alert(STATE.lang === "fr" ? "Veuillez entrer votre courriel." : "Please enter your email.");
-                        return;
-                    }
-                    if (!phoneInput.value) {
-                        alert(STATE.lang === "fr" ? "Veuillez entrer votre numéro de téléphone." : "Please enter your phone number.");
-                        return;
-                    }
-                }
-
-                // ➤ TRIGGER EXPLOSION ANIMATION (JS INJECTION V5)
-                const styleId = "mobile-submit-anim-style-v5";
-                if (!document.getElementById(styleId)) {
-                    const style = document.createElement("style");
-                    style.id = styleId;
-                    style.innerHTML = `
-                        @keyframes btnExplodeJSv5 {
-                            0% { transform: scale(1); opacity: 1; background: #b71c1c; }
-                            30% { transform: scale(3); background: #43a047; box-shadow: 0 0 30px rgba(67, 160, 71, 0.6); } 
-                            45% { transform: scale(2.6); } 
-                            60% { transform: scale(3.2); } 
-                            100% { transform: scale(10); opacity: 0; filter: blur(20px); background: #43a047; } 
-                        }
-                        .btn-explode-js-v5 {
-                            animation: btnExplodeJSv5 2s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
-                            pointer-events: none !important;
-                            background: #43a047 !important;
-                            background-image: none !important;
-                            border-color: transparent !important;
-                            color: white !important;
-                            z-index: 999999 !important;
-                            position: relative !important;
-                            text-shadow: 0 0 10px rgba(255,255,255,0.8) !important;
-                            box-shadow: none !important;
-                            transform-origin: center center !important;
-                        }
-                    `;
-                    document.head.appendChild(style);
-                }
-
-                mobSubmit.className = "btn-mobile-primary btn-explode-js-v5"; 
-                mobSubmit.disabled = true; 
-                mobSubmit.innerHTML = "🚀"; 
-
-                const summary = STATE.lastCartItems?.map(item => `${item.label}: ${item.price.toFixed(2)}$`).join("\n") || "";
-
-                // Call the NEW global function
-                await globalSubmitEstimationForm({
-                    name: nameInput.value,
-                    city: cityInput?.value || "",
-                    street: streetInput?.value || "",
-                    apt: aptInput?.value || "",
-                    postal: postalInput?.value || "",
-                    notes: notesInput?.value || "",
-                    phone: phoneInput?.value || "",
-                    email: emailInput?.value || "",
-                    deliveryMethod,
-                    items: STATE.lastCartItems || [],
-                    total: STATE.total || 0,
-                    summary,
-                }, mobSubmit); 
-            };
 
             // LOGIQUE AVANCÉE
             const STATE: AppState = {
@@ -6091,6 +5887,7 @@
                         items: any[];
                         total: number;
                         summary: string;
+                        callBackRequested: string;
                     }) {
                         const {
                             name,
@@ -6105,6 +5902,7 @@
                             items,
                             total,
                             summary,
+                            callBackRequested,
                         } = data;
 
                         const isQuote = isQuoteOnlyMode();
@@ -6193,6 +5991,7 @@
                         formData.append("summary", summary);
                         formData.append("lang", STATE.lang);
                         formData.append("isCommercial", isQuote ? "true" : "false"); // Pass flag
+                        formData.append("callBackRequested", callBackRequested);
 
                         try {
                             // Disable button to prevent double clicks
@@ -6294,6 +6093,10 @@
                                 ) as HTMLInputElement
                             )?.value;
 
+                            const callBackRequested = (
+                                document.querySelector('input[name="callback-request"]:checked') as HTMLInputElement
+                            )?.value || "no";
+
                             if (!inputName || !deliveryMethod) return;
 
                             const summary =
@@ -6317,6 +6120,7 @@
                                 items: STATE.lastCartItems || [],
                                 total: STATE.total || 0,
                                 summary,
+                                callBackRequested,
                             });
                         };
                     }
@@ -6360,6 +6164,10 @@
                                     'input[name="mobile-delivery"]:checked',
                                 ) as HTMLInputElement
                             )?.value;
+
+                            const callBackRequested = (
+                                document.querySelector('input[name="mobile-callback-request"]:checked') as HTMLInputElement
+                            )?.value || "no";
 
                             // Validation
                             const isQuote = isQuoteOnlyMode();
@@ -6470,6 +6278,7 @@
                                 items: STATE.lastCartItems || [],
                                 total: STATE.total || 0,
                                 summary,
+                                callBackRequested,
                             });
                         };
                     }

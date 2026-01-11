@@ -41,6 +41,7 @@ export const POST: APIRoute = async ({ request }) => {
         const deliveryMethod = formData.get('deliveryMethod') as string;
         const lang = formData.get('lang') as string || 'fr';
         const isCommercial = formData.get('isCommercial') as string; // Check flag
+        const callBackRequested = formData.get('callBackRequested') as string || 'no';
         const adminEmail = 'info@groupenettoyageempire.com';
 
         console.log('Received Estimate Request:', {
@@ -70,13 +71,15 @@ export const POST: APIRoute = async ({ request }) => {
                 html: `
             <h1>Nouvelle demande d'estimation</h1>
             <p><strong>Client:</strong> ${clientName}</p>
-            <p><strong>Email:</strong> ${clientEmail || 'Non fourni'}</p>
             <p><strong>Téléphone:</strong> ${clientPhone || 'Non fourni'}</p>
-            <p><strong>Ville:</strong> ${clientCity || 'Non fourni'}</p>
+            <p><strong>Adresse:</strong> ${clientStreet || ''} ${clientApt ? '#' + clientApt : ''}, ${clientCity || ''} ${clientPostal || ''}</p>
+            ${clientNotes ? `<p><strong>Notes:</strong><br>${clientNotes}</p>` : ''}
+            <p><strong>Demande de rendez-vous :</strong> ${callBackRequested === 'yes' ? 'Oui' : 'Non'}</p>
+            <hr>
+            <p><strong>Détails Techniques:</strong></p>
+            <p><strong>Email:</strong> ${clientEmail || 'Non fourni'}</p>
             <p><strong>Type:</strong> ${isCommercial === 'true' ? 'COMMERCIAL' : 'Résidentiel'}</p>
             <p><strong>Méthode de livraison:</strong> ${deliveryMethod === 'sms' ? 'SMS' : 'Email'}</p>
-            ${clientNotes ? `<p><strong>Notes:</strong><br>${clientNotes}</p>` : ''}
-            <hr>
             <p>Veuillez trouver l'estimation PDF ci-jointe.</p>
           `,
                 attachments: [
@@ -106,12 +109,18 @@ export const POST: APIRoute = async ({ request }) => {
               <p>Here is the estimate you requested.</p>
               <p>Our team will contact you shortly to confirm the details.</p>
               <p>Best regards,<br>The Groupe Nettoyage Empire Team</p>
+            ` : (callBackRequested === 'yes' ? `
+              <h1>Bonjour ${clientName}</h1>
+              <p>Voici l’estimation que vous avez demandée.</p>
+              <p>Un membre de notre équipe vous contactera sous peu afin de planifier votre rendez vous.</p>
+              <p>Vous pouvez également nous joindre directement par téléphone au 514-893-9939.</p>
+              <p>L’équipe Groupe Nettoyage Empire</p>
             ` : `
-              <h1>Merci pour votre demande, ${clientName}!</h1>
-              <p>Voici l'estimation que vous avez demandée.</p>
-              <p>Notre équipe vous contactera sous peu pour confirmer les détails.</p>
-              <p>Cordialement,<br>L'équipe Groupe Nettoyage Empire</p>
-            `,
+              <h1>Bonjour ${clientName}</h1>
+              <p>Voici l’estimation que vous avez demandée.</p>
+              <p>Si vous souhaitez planifier un rendez-vous ou obtenir des informations supplémentaires, vous pouvez nous joindre directement par téléphone au 514-893-9939 ou simplement répondre à ce courriel.</p>
+              <p>Cordialement,<br>L’équipe Groupe Nettoyage Empire</p>
+            `),
                     attachments: [
                         {
                             filename: `Estimation_GroupeEmpire.pdf`,
@@ -183,10 +192,17 @@ export const POST: APIRoute = async ({ request }) => {
                         }
                     } else {
                         // --- RESIDENTIAL SMS (with PDF) ---
-                        messageBody = `Merci d'avoir contacté Groupe Nettoyage Empire. Si vous souhaitez fixer un rendez-vous, répondez simplement « oui » et un membre de notre équipe vous contactera sous peu. Vous pouvez aussi nous joindre directement au 514-893-9939.`;
-
-                        if (lang === 'en') {
-                            messageBody = `Thank you for contacting Groupe Nettoyage Empire. If you would like to schedule an appointment, simply reply "YES" and a team member will contact you shortly. You can also reach us directly at 514-893-9939.`;
+                        // --- RESIDENTIAL SMS (with PDF) ---
+                        if (callBackRequested === 'yes') {
+                            messageBody = `Bonjour ${clientName}, voici l’estimation que vous avez demandée. Un membre de notre équipe vous contactera sous peu afin de planifier votre rendez vous. 514-893-9939 - Groupe Nettoyage Empire`;
+                            if (lang === 'en') {
+                                messageBody = `Hello ${clientName}, here is the estimate you requested. A member of our team will contact you shortly to schedule your appointment. 514-893-9939 - Groupe Nettoyage Empire`;
+                            }
+                        } else {
+                            messageBody = `Merci d’avoir contacté Groupe Nettoyage Empire, voici votre estimé.\nSi vous souhaitez planifier un rendez-vous ou obtenir plus d’informations, vous pouvez nous joindre au 514-893-9939 par téléphone ou par message texte, selon votre préférence.\nMerci et à bientôt.`;
+                            if (lang === 'en') {
+                                messageBody = `Thank you for contacting Groupe Nettoyage Empire. If you would like to schedule an appointment, simply reply "YES" and a team member will contact you shortly. You can also reach us directly at 514-893-9939.`;
+                            }
                         }
                     }
 
@@ -207,7 +223,7 @@ export const POST: APIRoute = async ({ request }) => {
                     try {
                         const fullAddress = `${clientStreet || ''} ${clientApt ? '#' + clientApt : ''}, ${clientCity || ''} ${clientPostal || ''}`.trim();
 
-                        const adminBody = `[NOUVELLE ESTIMATION]\nClient: ${clientName}\nTel: ${clientPhone}\nAdresse: ${fullAddress}\nNotes: ${clientNotes || 'Aucune'}`;
+                        const adminBody = `[NOUVELLE ESTIMATION]\nClient: ${clientName}\nTel: ${clientPhone}\nAdresse: ${fullAddress}\nNotes: ${clientNotes || 'Aucune'}\nDemande de rendez-vous : ${callBackRequested === 'yes' ? 'Oui' : 'Non'}`;
 
                         const adminMsg = await client.messages.create({
                             body: adminBody,
