@@ -506,6 +506,7 @@
                                         type="text"
                                         id="mobile-input-company"
                                         placeholder="Nom de l'entreprise *"
+                                        aria-label="Nom de l'entreprise *"
                                         class="mobile-input"
                                         style="display:none; width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem;"
                                     />
@@ -514,6 +515,7 @@
                                         type="text"
                                         id="mobile-input-name"
                                         placeholder="Nom complet *"
+                                        aria-label="Nom complet *"
                                         class="mobile-input"
                                         style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem;"
                                     />
@@ -523,6 +525,7 @@
                                             type="tel"
                                             id="mobile-input-phone"
                                             placeholder="Téléphone (mobile pour SMS) *"
+                                            aria-label="Téléphone (mobile pour SMS) *"
                                             class="mobile-input"
                                             style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem;"
                                         />
@@ -536,6 +539,7 @@
                                             type="email"
                                             id="mobile-input-email"
                                             placeholder="Adresse courriel *"
+                                            aria-label="Adresse courriel *"
                                             class="mobile-input"
                                             style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem;"
                                         />
@@ -548,6 +552,7 @@
                                             type="text"
                                             id="mobile-input-street"
                                             placeholder="Adresse (Rue/No)"
+                                            aria-label="Adresse (Rue/No)"
                                             class="mobile-input"
                                             style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem;"
                                         />
@@ -555,6 +560,7 @@
                                             type="text"
                                             id="mobile-input-apt"
                                             placeholder="Apt"
+                                            aria-label="Apt"
                                             class="mobile-input"
                                             style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem;"
                                         />
@@ -563,6 +569,7 @@
                                         type="text"
                                         id="mobile-input-city"
                                         placeholder="Ville *"
+                                        aria-label="Ville *"
                                         class="mobile-input"
                                         style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem; margin-bottom:12px;"
                                     />
@@ -571,6 +578,7 @@
                                         type="text"
                                         id="mobile-input-postal"
                                         placeholder="Code Postal"
+                                        aria-label="Code Postal"
                                         class="mobile-input"
                                         style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem; margin-bottom:12px;"
                                     />
@@ -579,6 +587,7 @@
                                         id="mobile-input-notes"
                                         rows="3"
                                         placeholder="Notes (Code de porte, demande spéciale...)"
+                                        aria-label="Notes (Code de porte, demande spéciale...)"
                                         class="mobile-input"
                                         style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem; resize:none; font-family:inherit;"
                                     ></textarea>
@@ -2565,7 +2574,11 @@
 
                 for (const [id, place] of Object.entries(mobInputs)) {
                     const el = document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement;
-                    if (el) el.placeholder = t(place);
+                    if (el) {
+                        const val = t(place);
+                        el.placeholder = val;
+                        el.setAttribute('aria-label', val);
+                    }
                 }
 
                 const mobDisclaimer = document.getElementById(
