@@ -275,7 +275,7 @@
                                 <p id="quote-notes-instruction" style="display:none; font-size:0.85rem; color:#555; margin-top:5px; line-height:1.4; background:#f9f9f9; padding:8px; border-radius:6px; border-left:3px solid #1a237e;"></p>
                             </div>
                             
-                            <div style="grid-column: 1 / -1; margin-top:5px;">
+                            <div id="desktop-callback-request" style="grid-column: 1 / -1; margin-top:5px;">
                                 <label style="display:block; font-weight:600; margin-bottom:8px; color:#333; font-size:0.9rem;">
                                     Souhaitez-vous que nous vous rappelions pour planifier un rendez-vous ? *
                                 </label>
@@ -595,7 +595,7 @@
                                     ></textarea>
                                     <p id="mobile-quote-notes-instruction" style="display:none; font-size:0.9rem; color:#555; margin-top:8px; line-height:1.4; background:#f9f9f9; padding:10px; border-radius:8px; border-left:3px solid #1a237e;"></p>
                                     
-                                    <div style="margin-top:15px; margin-bottom: 20px;">
+                                    <div id="mobile-callback-request" style="margin-top:15px; margin-bottom: 20px;">
                                         <label style="display:block; font-weight:600; margin-bottom:10px; color:#333; font-size:0.95rem;">
                                             Souhaitez-vous que nous vous rappelions pour planifier un rendez-vous ? *
                                         </label>
@@ -5460,6 +5460,22 @@
                             mobNextBtn.innerText = t({fr: "Finaliser", en: "Finalize"});
                         }
 
+                        // Hide Callback Request for Quote
+                        const deskCallback = document.getElementById("desktop-callback-request");
+                        const mobCallback = document.getElementById("mobile-callback-request");
+                        
+                        if (deskCallback) {
+                            deskCallback.style.display = "none";
+                            // Remove required to avoid validation blocker
+                            const inputs = deskCallback.querySelectorAll("input");
+                            inputs.forEach(i => i.required = false);
+                        }
+                        if (mobCallback) {
+                            mobCallback.style.display = "none";
+                            const inputs = mobCallback.querySelectorAll("input");
+                            inputs.forEach(i => i.required = false);
+                        }
+
                     } else {
                         // Reset Standard Mode
                         if (msgContainer) msgContainer.style.display = "none";
@@ -5505,8 +5521,24 @@
 
                         // Phone display logic removed
                         
-                         if (STATE.step === 2 && mobNextBtn) {
+                        if (STATE.step === 2 && mobNextBtn) {
                             mobNextBtn.innerText = t(CONFIG.text.buttons.next);
+                        }
+
+                        // Show Callback Request for Standard
+                        const deskCallback = document.getElementById("desktop-callback-request");
+                        const mobCallback = document.getElementById("mobile-callback-request");
+                        
+                        if (deskCallback) {
+                            deskCallback.style.display = "block"; // Or flex/grid? Block is fine for wrapping div
+                            // Add required back
+                            const inputs = deskCallback.querySelectorAll("input");
+                            inputs.forEach(i => i.required = true);
+                        }
+                        if (mobCallback) {
+                            mobCallback.style.display = "block";
+                            const inputs = mobCallback.querySelectorAll("input");
+                            inputs.forEach(i => i.required = true);
                         }
                     }
                 }
