@@ -5366,21 +5366,36 @@
                     const mobInputNotes = document.getElementById("mobile-input-notes") as HTMLInputElement;
                     const mobNextBtn = document.getElementById("mobile-next-btn");
 
-                    if (isQuoteOnlyMode()) {
-                        const services = Array.from(STATE.selectedServices);
-                        const quoteSvc = services.map(id => CONFIG.services.find(s => s.id === id)).find(s => s && s.isQuoteOnly);
-                        
-                        // Show Message (Desktop)
-                        if (msgContainer && quoteSvc && quoteSvc.longDescription) {
-                            msgContainer.innerHTML = t(quoteSvc.longDescription);
-                            msgContainer.style.display = "block";
-                        }
-                        
-                        // Show Message (Mobile)
-                        if (mobMsgContainer && quoteSvc && quoteSvc.longDescription) {
-                            mobMsgContainer.innerHTML = t(quoteSvc.longDescription);
-                            mobMsgContainer.style.display = "block";
-                        }
+                        const sidebarTotalBlock = document.querySelector('.cart-total-block') as HTMLElement;
+                        const mobileFooter = document.getElementById('mobile-sticky-footer');
+
+                        if (isQuoteOnlyMode()) {
+                            // HIDE TOTALS
+                            if (sidebarTotalBlock) sidebarTotalBlock.style.opacity = '0'; // Use opacity to keep layout or display none? Display none might jump.
+                            // Actually, display none is better to remove the "$0.00" confusion.
+                            if (sidebarTotalBlock) sidebarTotalBlock.style.display = 'none';
+                            if (mobileFooter) mobileFooter.classList.add('mobile-footer-hidden');
+
+                            const services = Array.from(STATE.selectedServices);
+                            const quoteSvc = services.map(id => CONFIG.services.find(s => s.id === id)).find(s => s && s.isQuoteOnly);
+                            
+                            // OVERRIDE MESSAGE TEXT
+                            const commercialMsg = t({
+                                fr: "Suite à la réception de votre demande d'estimation commerciale, nous vous enverrons une estimation pour les travaux à faire. Si jamais nous avons des questions à vous poser, un membre de notre équipe vous contactera pour finaliser l'estimation. Nous vous l'enverrons sous peu. Merci pour votre demande.",
+                                en: "Following receipt of your commercial estimate request, we will send you an estimate for the work to be done. If we have any questions, a team member will contact you to finalize the estimate. We will send it shortly. Thank you for your request."
+                            });
+
+                            // Show Message (Desktop)
+                            if (msgContainer) {
+                                msgContainer.innerHTML = commercialMsg;
+                                msgContainer.style.display = "block";
+                            }
+                            
+                            // Show Message (Mobile)
+                            if (mobMsgContainer) {
+                                mobMsgContainer.innerHTML = commercialMsg;
+                                mobMsgContainer.style.display = "block";
+                            }
                         
                         // Show Company Field
                         if (labelCompany) labelCompany.style.display = "block";
@@ -5477,6 +5492,12 @@
                         }
 
                     } else {
+                        // SHOW TOTALS (Standard Mode)
+                        if (sidebarTotalBlock) sidebarTotalBlock.style.display = "block";
+                        // Mobile footer visibility is handled by step logic, but ensure we don't force hide it unless step 4
+                        if (mobileFooter && STATE.step !== 4) mobileFooter.classList.remove('mobile-footer-hidden');
+
+
                         // Reset Standard Mode
                         if (msgContainer) msgContainer.style.display = "none";
                         if (mobMsgContainer) mobMsgContainer.style.display = "none";
