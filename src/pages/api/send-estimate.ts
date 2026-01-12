@@ -104,23 +104,37 @@ export const POST: APIRoute = async ({ request }) => {
                     from: `"Groupe Nettoyage Empire" <info@groupenettoyageempire.com>`,
                     to: clientEmail,
                     subject: lang === 'en' ? 'Your Estimate - Groupe Nettoyage Empire' : 'Votre Estimation - Groupe Nettoyage Empire',
-                    html: lang === 'en' ? `
-              <h1>Thank you for your request, ${clientName}!</h1>
-              <p>Here is the estimate you requested.</p>
-              <p>Our team will contact you shortly to confirm the details.</p>
-              <p>Best regards,<br>The Groupe Nettoyage Empire Team</p>
-            ` : (callBackRequested === 'yes' ? `
-              <h1>Bonjour ${clientName}</h1>
-              <p>Voici l’estimation que vous avez demandée.</p>
-              <p>Un membre de notre équipe vous contactera sous peu afin de planifier votre rendez vous.</p>
-              <p>Vous pouvez également nous joindre directement par téléphone au 514-893-9939.</p>
-              <p>L’équipe Groupe Nettoyage Empire</p>
-            ` : `
-              <h1>Bonjour ${clientName}</h1>
-              <p>Voici l’estimation que vous avez demandée.</p>
-              <p>Si vous souhaitez planifier un rendez-vous ou obtenir des informations supplémentaires, vous pouvez nous joindre directement par téléphone au 514-893-9939 ou simplement répondre à ce courriel.</p>
-              <p>Cordialement,<br>L’équipe Groupe Nettoyage Empire</p>
-            `),
+                    html: isCommercial === 'true' ? (
+                        lang === 'en' ? `
+                          <h1>Thank you for your request, ${clientName}!</h1>
+                          <p>Your request will be analyzed and your estimate will be sent to you shortly.</p>
+                          <p>If clarifications are needed, we will contact you.</p>
+                          <p>Groupe Nettoyage Empire</p>
+                        ` : `
+                          <h1>Bonjour ${clientName}</h1>
+                          <p>Votre demande sera analysée et votre estimation vous sera envoyée sous peu.</p>
+                          <p>Si des précisions sont nécessaires, nous communiquerons avec vous.</p>
+                          <p>Groupe Nettoyage Empire</p>
+                        `
+                    ) : (
+                        lang === 'en' ? `
+                          <h1>Thank you for your request, ${clientName}!</h1>
+                          <p>Here is the estimate you requested.</p>
+                          <p>Our team will contact you shortly to confirm the details.</p>
+                          <p>Best regards,<br>The Groupe Nettoyage Empire Team</p>
+                        ` : (callBackRequested === 'yes' ? `
+                          <h1>Bonjour ${clientName}</h1>
+                          <p>Voici l’estimation que vous avez demandée.</p>
+                          <p>Un membre de notre équipe vous contactera sous peu afin de planifier votre rendez vous.</p>
+                          <p>Vous pouvez également nous joindre directement par téléphone au 514-893-9939.</p>
+                          <p>L’équipe Groupe Nettoyage Empire</p>
+                        ` : `
+                          <h1>Bonjour ${clientName}</h1>
+                          <p>Voici l’estimation que vous avez demandée.</p>
+                          <p>Si vous souhaitez planifier un rendez-vous ou obtenir des informations supplémentaires, vous pouvez nous joindre directement par téléphone au 514-893-9939 ou simplement répondre à ce courriel.</p>
+                          <p>Cordialement,<br>L’équipe Groupe Nettoyage Empire</p>
+                        `)
+                    ),
                     attachments: [
                         {
                             filename: `Estimation_GroupeEmpire.pdf`,
@@ -186,9 +200,9 @@ export const POST: APIRoute = async ({ request }) => {
                     if (isCommercial === 'true') {
                         // --- COMMERCIAL SMS (with PDF) ---
                         if (lang === 'en') {
-                            messageBody = "Thank you for contacting Groupe Nettoyage Empire. Our team will analyze your request. Your estimate will follow shortly. If additional information is required, a team member will contact you.";
+                            messageBody = "Your request will be analyzed and your estimate will be sent to you shortly. If clarifications are needed, we will contact you. Groupe Nettoyage Empire";
                         } else {
-                            messageBody = "Merci d'avoir contacté Groupe Nettoyage Empire. Notre équipe analysera votre demande. Votre estimation suivra sous peu. Si des informations supplémentaires sont requises, un membre de notre équipe communiquera avec vous.";
+                            messageBody = "Votre demande sera analysée et votre estimation vous sera envoyée sous peu. Si des précisions sont nécessaires, nous communiquerons avec vous. Groupe Nettoyage Empire";
                         }
                     } else {
                         // --- RESIDENTIAL SMS (with PDF) ---

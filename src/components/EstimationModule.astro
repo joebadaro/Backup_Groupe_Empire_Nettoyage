@@ -408,6 +408,17 @@
             </header>
 
             <div id="mobile-scroll-container" class="mobile-app-content">
+                <!-- Persistent Commercial Message (Mobile) -->
+                <div id="mobile-persistent-commercial-msg" style="display:none; background: linear-gradient(180deg, #dcedc8 0%, #ffffff 100%); padding:20px; border-radius:12px; margin: 15px 15px 25px 15px; border:1px solid #c5e1a5; box-shadow:0 4px 10px rgba(0,0,0,0.05); text-align:center;">
+                    <div style="color:#2e7d32; font-weight:700; font-size:1rem; margin-bottom:10px;">
+                        <i class="fas fa-check-circle" style="font-size:1.5rem; margin-bottom:8px; display:block;"></i>
+                        <span class="msg-title"></span>
+                    </div>
+                    <div class="msg-desc" style="font-size:0.9rem; color:#558b2f; line-height:1.5;"></div>
+                    <div style="margin-top:15px; font-weight:800; color:#1b5e20; font-family:var(--font-heading); text-transform:uppercase;">
+                        Groupe Nettoyage Empire
+                    </div>
+                </div>
                 <!-- Step 1: Mobile Services List -->
                 <div id="mobile-step-services" class="mobile-step active">
                     <div class="mobile-welcome">
@@ -4801,11 +4812,36 @@
                     if (els.minMsgSidebar) {
                         // Check if tile-specific minimum should be shown instead
                         if (isTileUnderMin && !isUnderMin) {
+                             // ... existing logic ...
                             els.minMsgSidebar.innerHTML = `
                     <div class="min-order-warning">
                         ${t({ fr: "Minimum 150 pieds carrés ou 352$ achat minimum pour ce service", en: "Minimum 150 square feet or $352 minimum purchase for this service" })}
                     </div>
                     `;
+                             els.minMsgSidebar.style.display = "block";
+                        } else if (hasQuoteItem) {
+                             // COMMERCIAL MESSAGE (Desktop) - REVERTED TO IMMEDIATE
+                             els.minMsgSidebar.innerHTML = `
+                            <div style="background: linear-gradient(180deg, #dcedc8 0%, #ffffff 100%); padding:20px; border-radius:12px; margin-top:15px; border:1px solid #c5e1a5; box-shadow:0 4px 10px rgba(0,0,0,0.05); text-align:center;">
+                                <div style="color:#2e7d32; font-weight:700; font-size:1rem; margin-bottom:10px;">
+                                    <i class="fas fa-check-circle" style="font-size:1.5rem; margin-bottom:8px; display:block;"></i>
+                                    ${t({
+                                        fr: "Votre demande sera analysée et votre estimation vous sera envoyée sous peu.",
+                                        en: "Your request will be analyzed and your estimate will be sent to you shortly."
+                                    })}
+                                </div>
+                                <div style="font-size:0.9rem; color:#558b2f; line-height:1.5;">
+                                    ${t({
+                                        fr: "Si des précisions sont nécessaires, nous communiquerons avec vous.",
+                                        en: "If clarifications are needed, we will contact you."
+                                    })}
+                                </div>
+                                <div style="margin-top:15px; font-weight:800; color:#1b5e20; font-family:var(--font-heading); text-transform:uppercase;">
+                                    Groupe Nettoyage Empire
+                                </div>
+                            </div>
+                            `;
+                            els.minMsgSidebar.style.display = "block";
                         } else {
                             els.minMsgSidebar.innerHTML = `
                     <div class="min-order-warning">
@@ -4815,8 +4851,8 @@
                             </div>
                         </div>
                     `;
-                        }
                         els.minMsgSidebar.style.display = "block";
+                        }
                     }
                 } else {
                     if (els.liveSubtotal) {
@@ -4844,9 +4880,9 @@
                     }
                 }
 
-                // --- MOBILE TOTAL UPDATE ---
                 const mobileTotalEl =
                     document.getElementById("mobile-live-total");
+                const mobileMsgEl = document.getElementById("mobile-persistent-commercial-msg");
                 if (mobileTotalEl) {
                     const val = isUnderMin
                         ? CONFIG.pricing.minimumOrder
@@ -4863,7 +4899,43 @@
                     const labelEl = mobileTotalEl.parentElement
                         ? mobileTotalEl.parentElement.querySelector(".label")
                         : null;
-                    if (labelEl) {
+                        
+                    if (hasQuoteItem) {
+                         // COMMERCIAL MODE: Hide price/label in footer
+                         console.log("DEBUG: Commercial Mode Detected. Step:", STATE.step);
+                         mobileTotalEl.style.display = 'none';
+                         if (labelEl) (labelEl as HTMLElement).style.display = 'none';
+                         
+                         // Show Persistent Message if Step >= 1 (MATCH MOBILE REVERT)
+                         if (mobileMsgEl) {
+                             console.log("DEBUG: Checking Mobile Message Step >= 1");
+                             if (STATE.step >= 1) {
+                                 mobileMsgEl.style.display = 'block';
+                                 mobileMsgEl.style.zIndex = '100'; // Ensure visibility
+                                 
+                                 const tTitle = mobileMsgEl.querySelector('.msg-title');
+                                 const tDesc = mobileMsgEl.querySelector('.msg-desc');
+                                 if(tTitle) tTitle.innerHTML = t({
+                                    fr: "Votre demande sera analysée et votre estimation vous sera envoyée sous peu.",
+                                    en: "Your request will be analyzed and your estimate will be sent to you shortly."
+                                 });
+                                 if(tDesc) tDesc.innerHTML = t({
+                                    fr: "Si des précisions sont nécessaires, nous communiquerons avec vous.",
+                                    en: "If clarifications are needed, we will contact you."
+                                 });
+                             } else {
+                                 mobileMsgEl.style.display = 'none';
+                             }
+                         } else {
+                            console.error("DEBUG: mobileMsgEl NOT FOUND");
+                         }
+                    } else {
+                        // RESIDENTIAL MODE: Restore
+                        mobileTotalEl.style.display = 'block';
+                        if (labelEl) (labelEl as HTMLElement).style.display = 'block';
+                        if (mobileMsgEl) mobileMsgEl.style.display = 'none';
+
+                        if (labelEl) {
                         if (isUnderMin && realTotal > 0) {
                             labelEl.innerHTML = `TOTAL <span style="font-size:0.65rem; color:#b71c1c;">(${t({fr: "MIN. COMMANDE", en: "MIN. ORDER"})})</span>`;
                             // Show real subtotal below
@@ -4875,6 +4947,7 @@
                         } else {
                             labelEl.textContent = t({ fr: "TOTAL ESTIMÉ", en: "ESTIMATED TOTAL" });
                         }
+                    }
                     }
 
                     // Update button text?
@@ -4911,15 +4984,26 @@
                 }
 
                 if (hasQuoteItem) {
-                    // Override or Append message for Quote
+                    // Message requested by user: Green gradient to white background
                     if (els.minMsgSidebar) {
                         els.minMsgSidebar.innerHTML = `
-                    <div style="background:#e3f2fd; color:#0d47a1; padding:10px; border-radius:8px; margin-top:10px; font-size:0.9rem;">
-                        <i class="fas fa-info-circle"></i> 
-                        ${t({
-                            fr: "Pour le service commercial, un agent vous contactera par courriel ou téléphone pour confirmer la soumission.",
-                            en: "For commercial service, an agent will contact you by email or phone to confirm the quote.",
-                        })}
+                    <div style="background: linear-gradient(180deg, #dcedc8 0%, #ffffff 100%); padding:20px; border-radius:12px; margin-top:15px; border:1px solid #c5e1a5; box-shadow:0 4px 10px rgba(0,0,0,0.05); text-align:center;">
+                        <div style="color:#2e7d32; font-weight:700; font-size:1rem; margin-bottom:10px;">
+                            <i class="fas fa-check-circle" style="font-size:1.5rem; margin-bottom:8px; display:block;"></i>
+                            ${t({
+                                fr: "Votre demande sera analysée et votre estimation vous sera envoyée sous peu.",
+                                en: "Your request will be analyzed and your estimate will be sent to you shortly."
+                            })}
+                        </div>
+                        <div style="font-size:0.9rem; color:#558b2f; line-height:1.5;">
+                            ${t({
+                                fr: "Si des précisions sont nécessaires, nous communiquerons avec vous.",
+                                en: "If clarifications are needed, we will contact you."
+                            })}
+                        </div>
+                        <div style="margin-top:15px; font-weight:800; color:#1b5e20; font-family:var(--font-heading); text-transform:uppercase;">
+                            Groupe Nettoyage Empire
+                        </div>
                     </div>
                  `;
                         els.minMsgSidebar.style.display = "block";
@@ -4966,11 +5050,30 @@
                  const totalBoxes = document.querySelectorAll('.total-service-box, .details-total-bar, .cart-total-block');
                  totalBoxes.forEach(box => {
                      if (hasQuoteItem) {
+                         // box.style.display = 'none'; // Reverted: Keep box visible for the message
+                         box.style.display = 'block'; 
                          box.classList.add('commercial-mode');
                      } else {
+                         box.style.display = 'block';
                          box.classList.remove('commercial-mode');
                      }
                  });
+
+                 // HIDE PRICE TEXT/LABEL ONLY (Keep container for message)
+                 if (els.liveTotal) {
+                     const labelEl = els.liveTotal.previousElementSibling;
+                     if (hasQuoteItem) {
+                         els.liveTotal.style.display = 'none';
+                         if (labelEl) (labelEl as HTMLElement).style.display = 'none';
+                         if (els.liveSubtotal && els.liveSubtotal.parentElement) {
+                             els.liveSubtotal.parentElement.style.display = 'none';
+                         }
+                     } else {
+                         els.liveTotal.style.display = 'block';
+                         if (labelEl) (labelEl as HTMLElement).style.display = 'block';
+                         // Subtotal visibility is handled by its own logic above
+                     }
+                 }
 
                 // CRITICAL: Assign EFFECTIVE total (with min order) to STATE
                 STATE.total = effectiveTotal;
@@ -5346,6 +5449,9 @@
                     if (step4Title) {
                          if (isQuoteOnlyMode()) {
                              step4Title.textContent = t({fr: "Coordonnées de l'entreprise", en: "Company Details"});
+                             // Hide OLD mobile quote message container
+                             const oldMobMsg = document.getElementById("mobile-quote-message-container");
+                             if(oldMobMsg) oldMobMsg.style.display = 'none';
                          } else {
                              step4Title.textContent = t({fr: "Finaliser la demande", en: "Finalize Request"});
                          }
@@ -5371,31 +5477,17 @@
 
                         if (isQuoteOnlyMode()) {
                             // HIDE TOTALS
-                            if (sidebarTotalBlock) sidebarTotalBlock.style.opacity = '0'; // Use opacity to keep layout or display none? Display none might jump.
-                            // Actually, display none is better to remove the "$0.00" confusion.
-                            if (sidebarTotalBlock) sidebarTotalBlock.style.display = 'none';
+                            // HIDE PRICE CONTENT BUT KEEP BOX VISIBLE (Modified)
+                            if (sidebarTotalBlock) sidebarTotalBlock.style.opacity = '1'; 
+                            if (sidebarTotalBlock) sidebarTotalBlock.style.display = 'block';
                             if (mobileFooter) mobileFooter.classList.add('mobile-footer-hidden');
 
                             const services = Array.from(STATE.selectedServices);
                             const quoteSvc = services.map(id => CONFIG.services.find(s => s.id === id)).find(s => s && s.isQuoteOnly);
                             
-                            // OVERRIDE MESSAGE TEXT
-                            const commercialMsg = t({
-                                fr: "Suite à la réception de votre demande d'estimation commerciale, nous vous enverrons une estimation pour les travaux à faire. Si jamais nous avons des questions à vous poser, un membre de notre équipe vous contactera pour finaliser l'estimation. Nous vous l'enverrons sous peu. Merci pour votre demande.",
-                                en: "Following receipt of your commercial estimate request, we will send you an estimate for the work to be done. If we have any questions, a team member will contact you to finalize the estimate. We will send it shortly. Thank you for your request."
-                            });
-
-                            // Show Message (Desktop)
-                            if (msgContainer) {
-                                msgContainer.innerHTML = commercialMsg;
-                                msgContainer.style.display = "block";
-                            }
-                            
-                            // Show Message (Mobile)
-                            if (mobMsgContainer) {
-                                mobMsgContainer.innerHTML = commercialMsg;
-                                mobMsgContainer.style.display = "block";
-                            }
+                            // Message removed as per user request
+                            if (msgContainer) msgContainer.style.display = "none";
+                            if (mobMsgContainer) mobMsgContainer.style.display = "none";
                         
                         // Show Company Field
                         if (labelCompany) labelCompany.style.display = "block";
