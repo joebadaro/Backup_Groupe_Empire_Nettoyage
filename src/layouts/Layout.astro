@@ -59,6 +59,14 @@ const {
         document.querySelectorAll(".fade-in-section").forEach((section) => {
           observer.observe(section);
         });
+
+        // Track Visit (SMS Notification)
+        const sessionKey = "visit_tracked_sms";
+        if (!sessionStorage.getItem(sessionKey)) {
+          fetch("/.netlify/functions/track-visit", { method: "POST" })
+            .then(() => sessionStorage.setItem(sessionKey, "true"))
+            .catch((err) => console.error("Tracking error:", err));
+        }
       });
     </script>
   </head>
