@@ -61,12 +61,14 @@ const {
         });
 
         // Track Visit (SMS Notification)
-        const sessionKey = "visit_tracked_sms";
-        if (!sessionStorage.getItem(sessionKey)) {
-          fetch("/.netlify/functions/track-visit", { method: "POST" })
-            .then(() => sessionStorage.setItem(sessionKey, "true"))
-            .catch((err) => console.error("Tracking error:", err));
-        }
+        // const sessionKey = "visit_tracked_sms";
+        // if (!sessionStorage.getItem(sessionKey)) {
+        fetch("/.netlify/functions/track-visit", { method: "POST" })
+          .then((res) => {
+            if (!res.ok) console.error("TRACKING FAILED:", res.status);
+          })
+          .catch((err) => console.error("Tracking error:", err));
+        // }
       });
     </script>
   </head>
