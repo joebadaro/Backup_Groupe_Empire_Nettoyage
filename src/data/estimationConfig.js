@@ -270,7 +270,7 @@ export const CONFIG = {
                 },
                 {
                     id: "rug_wool",
-                    label: { fr: "Tapis et carpettes en laine", en: "Wool Area Rugs" },
+                    label: { fr: "Tapis en Laine à domicile", en: "Wool Area Rugs" },
                     type: "multi_rug_calculator",
                     pricePerSqFt: 2.25,
                     desc: { fr: "2,25$ / pi²", en: "$2.25 / sqft" },
