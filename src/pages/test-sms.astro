@@ -1,0 +1,51 @@
+---
+
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Test SMS</title>
+    </head>
+    <body>
+        <h1>SMS Diagnostic Tool</h1>
+        <button id="sendBtn" style="padding: 20px; font-size: 20px;"
+            >Envoyer SMS Test</button
+        >
+        <pre
+            id="output"
+            style="background: #f0f0f0; padding: 20px; margin-top: 20px; white-space: pre-wrap;">En attente...</pre>
+
+        <script>
+            document
+                .getElementById("sendBtn")
+                .addEventListener("click", async () => {
+                    const out = document.getElementById("output");
+                    out.textContent = "Envoi en cours...";
+
+                    try {
+                        const res = await fetch(
+                            "/.netlify/functions/track-visit",
+                            { method: "POST" },
+                        );
+                        const text = await res.text();
+
+                        try {
+                            const json = JSON.parse(text);
+                            out.textContent =
+                                "Réponse Serveur:\n" +
+                                JSON.stringify(json, null, 2);
+                        } catch (e) {
+                            out.textContent =
+                                "Erreur lecture JSON (peut-être une erreur HTML brut):\n" +
+                                text;
+                        }
+                    } catch (err) {
+                        out.textContent = "Erreur Réseau : " + err.message;
+                    }
+                });
+        </script>
+    </body>
+</html>
