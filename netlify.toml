@@ -61,3 +61,7 @@
   for = "/*.json"
   [headers.values]
     Cache-Control = "public, max-age=86400"
+
+# Scheduled Function: Keep Supabase Alive (Every Monday at 8:00 AM)
+[functions.keep-supabase-alive]
+  schedule = "0 8 * * 1"
