@@ -1,4 +1,5 @@
 // @ts-check
+// v2.0.3 - synchronization confirmation
 import { defineConfig } from 'astro/config'; // v2.0.2 - manual push required
 
 import sitemap from '@astrojs/sitemap';
