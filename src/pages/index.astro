@@ -1,5 +1,6 @@
-﻿---
+---
 import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
 ---
 
 <Layout
@@ -11,17 +12,15 @@ import Layout from "../layouts/Layout.astro";
     <!-- SLIDESHOW BACKGROUND -->
     <div class="hero-slideshow">
       <!-- Slide 1: Artistic Living Room -->
-      <img
+      <Image
         src="/images/catalog/hero-slide-2.webp"
-        srcset="/images/catalog/hero-slide-2-mobile.webp 800w, /images/catalog/hero-slide-2.webp 1920w"
-        sizes="(max-width: 768px) 100vw, 100vw"
         alt="Nettoyage professionnel de tapis et divans à Montréal - Groupe Empire"
         class="hero-slide active"
-        fetchpriority="high"
         loading="eager"
-        style="opacity: 1 !important; transition: none !important;"
-        width="1920"
-        height="1080"
+        width={1200}
+        height={675}
+        decoding="async"
+        fetchpriority="high"
       />
 
       <!-- Slide 3: New Office Carpet -->
@@ -89,9 +88,10 @@ import Layout from "../layouts/Layout.astro";
       <div class="trust-pill badge-google">
         <img
           src="/images/google-reviews-badge.png"
-          alt="Avis Google 5 Étoiles"
-          width="110"
-          height="50"
+          alt="Google Reviews"
+          class="google-badge"
+          width="302"
+          height="167"
           loading="eager"
         />
       </div>
@@ -197,12 +197,12 @@ import Layout from "../layouts/Layout.astro";
           href="/services/tapis-synthetique"
           class="service-card-modern fade-in-section delay-100"
         >
-          <img
+          <Image
             src="/images/catalog/photo-47.webp"
             alt="Nettoyage de tapis synthétique"
             class="card-img"
-            width="400"
-            height="240"
+            width={600}
+            height={338}
             loading="lazy"
           />
           <div class="card-content">
@@ -218,12 +218,12 @@ import Layout from "../layouts/Layout.astro";
           href="/services/tapis-laine"
           class="service-card-modern fade-in-section delay-200"
         >
-          <img
+          <Image
             src="/images/catalog/photo-22.webp"
             alt="Nettoyage de tapis en laine"
             class="card-img"
-            width="400"
-            height="240"
+            width={600}
+            height={450}
             loading="lazy"
           />
           <div class="card-content">
@@ -247,7 +247,7 @@ import Layout from "../layouts/Layout.astro";
             alt="Nettoyage de tapis orientaux"
             class="card-img"
             width="400"
-            height="240"
+            height="300"
             loading="lazy"
           />
           <div class="card-content">
@@ -358,6 +358,9 @@ import Layout from "../layouts/Layout.astro";
         src="/images/catalog/souci-detail-team.webp"
         alt="L'équipe Groupe Nettoyage Empire"
         class="quality-img-full"
+        width="800"
+        height="533"
+        loading="lazy"
       />
     </div>
     <div class="quality-content-refined text-center">
@@ -369,6 +372,9 @@ import Layout from "../layouts/Layout.astro";
         src="/images/catalog/team-van-back.webp"
         alt="L'équipe Groupe Empire avec le camion-usine"
         class="quality-img-full"
+        width="800"
+        height="800"
+        loading="lazy"
       />
     </div>
   </section>
@@ -393,6 +399,8 @@ import Layout from "../layouts/Layout.astro";
               alt="Certification"
               class="icon-cert"
               style="width: 50px; height: auto;"
+              width="533"
+              height="224"
             />
             <div>
               <strong>Certifié Écologique</strong><br />Produits approuvés et
@@ -421,6 +429,9 @@ import Layout from "../layouts/Layout.astro";
           src="/images/catalog/photo-76.webp"
           alt="Produits écologiques nettoyage"
           class="eco-img floating"
+          width="1200"
+          height="1100"
+          loading="lazy"
         />
       </div>
     </div>

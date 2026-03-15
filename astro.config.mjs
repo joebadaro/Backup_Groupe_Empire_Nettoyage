@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from 'astro/config'; // v2.0.2 - manual push required
 
 import sitemap from '@astrojs/sitemap';
 
@@ -12,6 +12,9 @@ export default defineConfig({
   output: 'server',
   adapter: netlify(),
   integrations: [sitemap()],
+  build: {
+    inlineStylesheets: 'always'
+  },
   redirects: {
     '/services/tapis-residentiel': '/services/nettoyage-tapis-residentiel'
   },

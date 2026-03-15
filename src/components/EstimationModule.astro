@@ -1970,6 +1970,7 @@
 
             /* --- DEDICATED MOBILE APP VIEW --- */
             @media (max-width: 850px) {
+
                 /* HIDE DESKTOP WIDGET */
                 #estimation-widget {
                     display: none !important;
@@ -2185,90 +2186,60 @@
                     width: 60px;
                     text-align: center;
                 }
+            }
 
-                /* FOOTER */
-
-                @media (max-width: 850px) {
-                    .mobile-app-footer-fixed {
-                        background: white;
-                        padding: 15px 20px;
-                        border-top: 1px solid #eee;
-                        position: fixed;
-                        bottom: 0;
-                        left: 0;
-                        right: 0;
-                        width: 100%;
-                        height: auto;
-                        display: flex !important; /* Force flex */
-                        align-items: center;
-                        justify-content: space-between;
-                        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
-                        z-index: 2147483647 !important; /* Max Z-Index */
-                        padding-bottom: calc(15px + env(safe-area-inset-bottom));
-                        transform: translate3d(0,0,0);
-                        -webkit-transform: translate3d(0,0,0);
-                        will-change: transform;
-                    }
-
-                    /* Prevent iOS Zoom on Inputs */
-                    input, select, textarea {
-                        font-size: 16px !important;
-                    }
-
-                    /* Ensure content clears the footer */
-                    #mobile-services-list, .mobile-services-list, .mobile-step-content {
-                        padding-bottom: 150px !important; 
-                    }
-                }
-                .mobile-footer-total {
-                    display: flex;
-                    flex-direction: column;
-                }
-                .mobile-footer-total .label {
-                    font-size: 0.75rem;
-                    color: #666;
-                    text-transform: uppercase;
-                }
-                .mobile-footer-total .value {
-                    font-size: 1.4rem;
-                    font-weight: 800;
-                    color: #2e7d32;
+            /* FOOTER */
+            @media (max-width: 850px) {
+                .mobile-app-footer-fixed {
+                    background: white;
+                    padding: 15px 20px;
+                    border-top: 1px solid #eee;
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    width: 100%;
+                    height: auto;
+                    display: flex !important; /* Force flex */
+                    align-items: center;
+                    justify-content: space-between;
+                    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+                    z-index: 2147483647 !important; /* Max Z-Index */
+                    padding-bottom: calc(15px + env(safe-area-inset-bottom));
+                    transform: translate3d(0,0,0);
+                    -webkit-transform: translate3d(0,0,0);
+                    will-change: transform;
                 }
 
-                .btn-mobile-primary {
-                    background: linear-gradient(90deg, #1a1a1a 0%, #43a047 100%);
-                    color: white;
-                    border: none;
-                    padding: 12px 30px;
-                    border-radius: 50px;
-                    font-weight: 600;
-                    font-size: 1rem;
-                    box-shadow: 0 4px 12px rgba(183, 28, 28, 0.4);
-                    cursor: pointer;
+                /* Prevent iOS Zoom on Inputs */
+                input, select, textarea {
+                    font-size: 16px !important;
                 }
 
-
-
-                @media (max-width: 850px) {
-                    .mobile-app-footer-fixed {
-                        display: flex !important;
-                    }
-
-                    /* Stack footer buttons on mobile so "Next" is top and full width */
-                    .modal-footer {
-                        flex-direction: column-reverse;
-                        gap: 12px;
-                        height: auto !important;
-                        padding: 15px !important;
-                    }
-                    .modal-footer button {
-                        width: 100% !important;
-                        margin: 0 !important;
-                    }
-                    .modal-footer #btn-next {
-                        margin-bottom: 5px !important;
-                    }
+                /* Ensure content clears the footer */
+                #mobile-services-list, .mobile-services-list, .mobile-step-content {
+                    padding-bottom: 150px !important; 
                 }
+
+                .mobile-app-footer-fixed {
+                    display: flex !important;
+                }
+
+                /* Stack footer buttons on mobile so "Next" is top and full width */
+                .modal-footer {
+                    flex-direction: column-reverse;
+                    gap: 12px;
+                    height: auto !important;
+                    padding: 15px !important;
+                }
+                .modal-footer button {
+                    width: 100% !important;
+                    margin: 0 !important;
+                }
+                .modal-footer #btn-next {
+                    margin-bottom: 5px !important;
+                }
+            }
         </style>
 
         <script>

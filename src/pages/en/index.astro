@@ -1,5 +1,6 @@
-﻿---
+---
 import Layout from "../../layouts/Layout.astro";
+import { Image } from "astro:assets";
 ---
 
 <Layout
@@ -12,17 +13,15 @@ import Layout from "../../layouts/Layout.astro";
     <!-- SLIDESHOW BACKGROUND -->
     <div class="hero-slideshow">
       <!-- Slide 1: Artistic Living Room -->
-      <img
+      <Image
         src="/images/catalog/hero-slide-2.webp"
-        srcset="/images/catalog/hero-slide-2-mobile.webp 800w, /images/catalog/hero-slide-2.webp 1920w"
-        sizes="(max-width: 768px) 100vw, 100vw"
-        alt="Professional carpet and sofa cleaning in Montreal - Empire Cleaning Group"
+        alt="Professional carpet and sofa cleaning in Montreal - Empire Group"
         class="hero-slide active"
-        fetchpriority="high"
         loading="eager"
-        style="opacity: 1 !important; transition: none !important;"
-        width="1920"
-        height="1080"
+        width={1200}
+        height={675}
+        decoding="async"
+        fetchpriority="high"
       />
 
       <!-- Slide 3: New Office Carpet -->
@@ -91,9 +90,10 @@ import Layout from "../../layouts/Layout.astro";
       <div class="trust-pill badge-google">
         <img
           src="/images/google-reviews-badge.png"
-          alt="Google 5 Stars Review"
-          width="110"
-          height="auto"
+          alt="Google Reviews"
+          class="google-badge"
+          width="302"
+          height="167"
           loading="eager"
         />
       </div>
@@ -132,6 +132,8 @@ import Layout from "../../layouts/Layout.astro";
             src="/images/services/services-4.webp"
             alt="Upholstery cleaning"
             class="card-img"
+            width="400"
+            height="240"
             loading="lazy"
           />
           <div class="card-content">
@@ -151,6 +153,8 @@ import Layout from "../../layouts/Layout.astro";
             src="/images/catalog/photo-leather-final.webp"
             alt="Leather furniture cleaning"
             class="card-img"
+            width="400"
+            height="240"
             loading="lazy"
           />
           <div class="card-content">
@@ -173,6 +177,8 @@ import Layout from "../../layouts/Layout.astro";
             src="/images/catalog/photo-tapis-clean.webp"
             alt="Residential carpet cleaning"
             class="card-img"
+            width="400"
+            height="240"
             loading="lazy"
           />
           <div class="card-content">
@@ -191,10 +197,12 @@ import Layout from "../../layouts/Layout.astro";
           href="/en/services/tapis-synthetique"
           class="service-card-modern fade-in-section delay-100"
         >
-          <img
+          <Image
             src="/images/catalog/photo-47.webp"
             alt="Synthetic carpet cleaning"
             class="card-img"
+            width={600}
+            height={338}
             loading="lazy"
           />
           <div class="card-content">
@@ -210,10 +218,12 @@ import Layout from "../../layouts/Layout.astro";
           href="/en/services/tapis-laine"
           class="service-card-modern fade-in-section delay-200"
         >
-          <img
+          <Image
             src="/images/catalog/photo-22.webp"
             alt="Wool carpet cleaning"
             class="card-img"
+            width={600}
+            height={450}
             loading="lazy"
           />
           <div class="card-content">
@@ -236,6 +246,8 @@ import Layout from "../../layouts/Layout.astro";
             src="/images/catalog/photo-oriental-custom.webp"
             alt="Oriental carpet cleaning"
             class="card-img"
+            width="400"
+            height="300"
             loading="lazy"
           />
           <div class="card-content">
@@ -255,6 +267,8 @@ import Layout from "../../layouts/Layout.astro";
             src="/images/catalog/tapis-commercial-combo.webp"
             alt="Commercial carpet cleaning"
             class="card-img"
+            width="400"
+            height="240"
             loading="lazy"
           />
           <div class="card-content">
@@ -274,6 +288,8 @@ import Layout from "../../layouts/Layout.astro";
             src="/images/catalog/photo-matelas-custom.webp"
             alt="Mattress cleaning"
             class="card-img"
+            width="400"
+            height="240"
             loading="lazy"
           />
           <div class="card-content">
@@ -296,6 +312,8 @@ import Layout from "../../layouts/Layout.astro";
             src="/images/catalog/photo-78.webp"
             alt="Tile and grout cleaning"
             class="card-img"
+            width="400"
+            height="240"
             loading="lazy"
           />
           <div class="card-content">
@@ -318,6 +336,8 @@ import Layout from "../../layouts/Layout.astro";
             src="/images/catalog/photo-20.webp"
             alt="Stain protector"
             class="card-img"
+            width="400"
+            height="240"
             loading="lazy"
           />
           <div class="card-content">
@@ -340,6 +360,9 @@ import Layout from "../../layouts/Layout.astro";
         src="/images/catalog/souci-detail-team.webp"
         alt="L'équipe Groupe Nettoyage Empire"
         class="quality-img-full"
+        width="800"
+        height="533"
+        loading="lazy"
       />
     </div>
     <div class="quality-content-refined text-center">
@@ -351,6 +374,9 @@ import Layout from "../../layouts/Layout.astro";
         src="/images/catalog/team-van-back.webp"
         alt="L'équipe Groupe Empire avec le camion-usine"
         class="quality-img-full"
+        width="800"
+        height="800"
+        loading="lazy"
       />
     </div>
   </section>
@@ -375,6 +401,8 @@ import Layout from "../../layouts/Layout.astro";
               alt="Certification"
               class="icon-cert"
               style="width: 50px; height: auto;"
+              width="533"
+              height="224"
             />
             <div>
               <strong>Certified Ecological</strong><br />Approved and safe
@@ -401,6 +429,9 @@ import Layout from "../../layouts/Layout.astro";
           src="/images/catalog/photo-76.webp"
           alt="Produits écologiques nettoyage"
           class="eco-img floating"
+          width="1200"
+          height="1100"
+          loading="lazy"
         />
       </div>
     </div>
