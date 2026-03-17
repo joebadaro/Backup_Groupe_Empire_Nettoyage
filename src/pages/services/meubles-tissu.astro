@@ -1,10 +1,11 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import FAQSchema from "../../components/FAQSchema.astro";
 ---
 
 <Layout
-  title="Nettoyage sofa, divan, fauteuil et meubles | Montréal, Laval, Rive-Sud"
-  description="Nettoyage professionnel de sofas, divans et meubles en tissu à domicile. Élimination des taches et odeurs. Montréal, Laval et Rive-Sud."
+  title="Nettoyage de Sofa et Meubles en Tissu à la Vapeur | Montréal, Laval, Rive-Sud"
+  description="Nettoyage professionnel de sofas, divans et meubles en tissu à la vapeur (injection-extraction) à domicile. Élimination des taches, odeurs et allergènes. Montréal, Laval et Rive-Sud. Estimation gratuite."
 >
   <section class="service-hero">
     <div class="container">
@@ -20,7 +21,7 @@ import Layout from "../../layouts/Layout.astro";
           </div>
 
           <p class="intro-text">
-            Redonnez vie à votre mobilier avec notre service d'extraction vapeur. Nous nettoyons en profondeur sofas, divans et fauteuils en tissu directement chez vous.
+            Redonnez vie à votre mobilier avec notre <strong>nettoyage à la vapeur</strong> par injection-extraction. Nous nettoyons sofas, divans et fauteuils en tissu directement chez vous — en profondeur, sans déménager vos meubles.
           </p>
 
           <div class="cta-buttons">
@@ -215,8 +216,8 @@ import Layout from "../../layouts/Layout.astro";
             <div class="step">
               <div class="step-num">3</div>
               <div class="step-text">
-                <h3>Injection-Extraction</h3>
-                <p>Lavage à la vapeur haute température pour déloger la saleté incrustée et les allergènes.</p>
+                <h3>Nettoyage à la Vapeur (Injection-Extraction)</h3>
+                <p>Lavage vapeur haute température qui décompose les graisses, tue les bactéries et extrait la saleté incrustée en profondeur.</p>
               </div>
             </div>
             <div class="step">
@@ -236,14 +237,23 @@ import Layout from "../../layouts/Layout.astro";
           </div>
         </div>
 
-        <!-- EN SAVOIR PLUS TOGGLE -->
+        <!-- CONTENU ÉDUCATIF VISIBLE -->
         <div style="margin-top: 3rem;">
-          <button id="toggle-seo-btn" class="btn-reveal">En savoir plus sur l'entretien des meubles ▼</button>
-          <div id="seo-content" class="seo-content hidden">
-            <h3>Prolongez la durée de vie de votre salon</h3>
-            <p>Le sébum corporel et la transpiration sont les ennemis #1 de vos sofas. À Montréal, nos techniciens constatent souvent que les zones où l'on pose la tête et les bras sont les premières à se dégrader. Notre nettoyage professionnel par extraction retire ces huiles corrosives, préservant ainsi l'intégrité de la fibre.</p>
-            <p style="margin-top: 1rem;">Nous recommandons également l'application d'un protecteur antitache (téflon ou similaire) après le nettoyage. Cette barrière invisible empêche les liquides de pénétrer instantanément, vous donnant le temps d'éponger avant qu'une tache ne se forme.</p>
-          </div>
+          <h3 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">Prolongez la durée de vie de votre salon</h3>
+          <p style="line-height: 1.7; color: #444; margin-bottom: 1rem;">Le sébum corporel et la transpiration sont les ennemis #1 de vos sofas. À Montréal, nos techniciens constatent souvent que les zones où l'on pose la tête et les bras sont les premières à se dégrader. Notre <strong>nettoyage à la vapeur</strong> par extraction retire ces huiles corrosives, préservant ainsi l'intégrité de la fibre et prolongeant la vie de votre meuble de plusieurs années.</p>
+          <p style="line-height: 1.7; color: #444;">Nous recommandons également l'application d'un protecteur antitache (téflon ou similaire) après le nettoyage. Cette barrière invisible empêche les liquides de pénétrer instantanément, vous donnant le temps d'éponger avant qu'une tache ne se forme.</p>
+        </div>
+
+        <!-- SIGNES QUE VOTRE SOFA A BESOIN D'ÊTRE NETTOYÉ -->
+        <div style="margin-top: 3rem; background: #f8fbff; padding: 2rem; border-radius: 12px; border: 1px solid #dce8f5;">
+          <h3 style="color: var(--color-primary); margin-bottom: 1.2rem; font-size: 1.4rem;">🛋️ 5 signes que votre sofa a besoin d'un nettoyage à la vapeur</h3>
+          <ul class="check-list">
+            <li><strong>Odeurs persistantes</strong> — Une odeur de renfermé ou de transpiration même après aération indique que les bactéries sont incrustées dans le rembourrage.</li>
+            <li><strong>Zones grises ou jaunies</strong> — Les bras, les têtières et les assises changent de couleur avec l'accumulation de sébum et de saleté corporelle.</li>
+            <li><strong>Taches qui résistent</strong> — Si l'essuyage à l'eau ne suffit plus, la tache a pénétré les fibres et nécessite un traitement professionnel à la vapeur.</li>
+            <li><strong>Allergies dans le salon</strong> — Éternuements fréquents, yeux qui piquent ou congestion nasale sur le canapé indiquent une accumulation d'acariens et d'allergènes.</li>
+            <li><strong>Tissu qui ternit ou pellicule</strong> — Le peluchage excessif ou la perte de lustre sont souvent causés par des résidus de saleté qui usent les fibres de l'intérieur.</li>
+          </ul>
         </div>
 
         <!-- TARIFS -->
@@ -272,30 +282,44 @@ import Layout from "../../layouts/Layout.astro";
               <p>Profitez de rabais multi-services si vous faites nettoyer plusieurs meubles.</p>
             </div>
           </div>
-          <p class="price-note">Pour un prix fixe, appelez-nous au <strong>(514) 893-9939</strong>.</p>
+
         </div>
 
-        <!-- FAQ -->
+        <!-- FAQ avec Schema structuré (rich snippets Google) -->
         <div class="faq-section" style="margin-top: 4rem;">
-          <h2 class="text-gradient-empire">Questions Fréquentes — Nettoyage de Meubles</h2>
-          <div class="faq-list">
-            <div class="faq-item">
-              <p class="question">Q : Combien de temps faut-il pour que le sofa sèche ?</p>
-              <p class="answer">En moyenne, le séchage prend entre 4 et 8 heures après notre passage. Cela dépend de l'humidité dans votre maison et du type de tissu.</p>
-            </div>
-            <div class="faq-item">
-              <p class="question">Q : Nettoyez-vous aussi les meubles en cuir ?</p>
-              <p class="answer">Oui, mais c'est un service complètement différent qui nécessite un nettoyage manuel suivi d'une hydratation spécifique. Consultez notre page dédiée au cuir pour plus de détails.</p>
-            </div>
-            <div class="faq-item">
-              <p class="question">Q : Pouvez-vous enlever les odeurs d'urine ?</p>
-              <p class="answer">Absolument. Nous utilisons des solutions enzymatiques professionnelles qui décomposent les molécules d'odeur à la source au lieu de simplement les camoufler.</p>
-            </div>
-            <div class="faq-item">
-              <p class="question">Q : Est-ce sécuritaire pour mes enfants et animaux ?</p>
-              <p class="answer">Oui, nous utilisons exclusivement des produits certifiés écologiques et biodégradables. Aucun résidu chimique nocif ne reste dans votre tissu.</p>
-            </div>
-          </div>
+          <h2 class="text-gradient-empire">Questions Fréquentes — Nettoyage de Meubles en Tissu</h2>
+          <FAQSchema
+            faqs={[
+              {
+                question: "Le nettoyage de sofa à la vapeur est-il efficace ?",
+                answer: "Oui, le nettoyage à la vapeur par injection-extraction est la méthode la plus efficace pour les meubles en tissu. La vapeur haute température décompose les graisses corporelles, tue les bactéries et les acariens, et l'extraction aspire immédiatement l'eau chargée de saleté. Le résultat est incomparable avec un nettoyant ménager ordinaire ou un nettoyeur vapeur grand public dont la succion est insuffisante pour extraire la saleté profonde.",
+              },
+              {
+                question: "Combien de temps faut-il pour que le sofa sèche après le nettoyage à la vapeur ?",
+                answer: "En moyenne, le séchage prend entre 4 et 8 heures après notre intervention. Cela dépend de l'humidité dans votre maison, du type de tissu et de la ventilation. Ouvrir les fenêtres ou utiliser un ventilateur réduit ce délai. Notre extraction haute puissance retire jusqu'à 95% de l'humidité immédiatement, laissant le sofa légèrement humide plutôt que trempé.",
+              },
+              {
+                question: "À quelle fréquence devrait-on faire nettoyer son sofa professionnellement ?",
+                answer: "Pour un ménage de 2 à 4 personnes sans animaux, un nettoyage annuel est recommandé. Avec des enfants en bas âge, des animaux de compagnie ou des personnes allergiques, nous recommandons tous les 6 à 9 mois. En pratique, nos techniciens observent que la plupart des clients attendent trop longtemps : au-delà de 2 ans sans nettoyage, les salissures sont plus difficiles à traiter et les fibres peuvent être endommagées de façon permanente.",
+              },
+              {
+                question: "Que signifient les codes W, S et W-S sur l'étiquette de mon sofa ?",
+                answer: "Ces codes indiqués sur l'étiquette de votre sofa précisent la méthode de nettoyage recommandée par le fabricant : W = nettoyage à l'eau uniquement, S = solvant seulement (pas d'eau), W-S = les deux méthodes sont acceptables, X = aspirateur seulement. Lors de notre inspection, notre technicien vérifie toujours ce code pour choisir le bon produit et éviter tout dommage au tissu.",
+              },
+              {
+                question: "Faut-il enlever les coussins avant l'arrivée du technicien ?",
+                answer: "Non, ce n'est pas nécessaire. Notre technicien retire et repositionne les coussins lui-même dans le cadre du service. Cela nous permet d'inspecter et de nettoyer également les crevasses et les zones cachées sous les coussins, souvent les plus encrassées du sofa.",
+              },
+              {
+                question: "Pouvez-vous éliminer les odeurs d'urine (enfants ou animaux) sur un sofa en tissu ?",
+                answer: "Absolument. Nous utilisons des solutions enzymatiques professionnelles qui décomposent les molécules d'acide urique à la source, plutôt que de simplement les masquer avec un parfum. Pour les cas où l'urine a pénétré jusqu'au rembourrage, nous appliquons un traitement en profondeur avec temps de pause enzymatique. Dans plus de 90% des cas, l'odeur est entièrement éliminée en une seule intervention.",
+              },
+              {
+                question: "Est-ce sécuritaire pour mes enfants et animaux de compagnie ?",
+                answer: "Oui, nous utilisons exclusivement des produits certifiés écologiques et biodégradables, sans résidus chimiques nocifs. Une fois le sofa sec (4 à 8 heures), il est parfaitement sécuritaire pour toute la famille, incluant bébés et animaux de compagnie. Nos produits sont également sans parfum agressif et respectueux de l'environnement.",
+              },
+            ]}
+          />
         </div>
 
       </div>
@@ -304,7 +328,7 @@ import Layout from "../../layouts/Layout.astro";
       <aside class="service-sidebar">
         <div class="sticky-cta">
           <h3>Estimation Gratuite</h3>
-          <p>Obtenez un prix juste et sans surprise pour votre nettoyage de sofa.</p>
+
           <a href="tel:5148939939" class="btn btn-primary full-width">(514) 893-9939</a>
           <button onclick="window.openEstimationWidget()" class="btn btn-outline full-width">Estimation en ligne</button>
           <div class="guarantee">⭐ Satisfaction Garantie 100%</div>
@@ -412,16 +436,5 @@ import Layout from "../../layouts/Layout.astro";
     setInterval(nextSlide, 4000);
   }
 
-  // Toggle Logic
-  const toggleBtn = document.getElementById("toggle-seo-btn");
-  const seoContent = document.getElementById("seo-content");
 
-  if (toggleBtn && seoContent) {
-    toggleBtn.addEventListener("click", () => {
-      seoContent.classList.toggle("hidden");
-      toggleBtn.textContent = seoContent.classList.contains("hidden") 
-        ? "En savoir plus sur l'entretien des meubles ▼" 
-        : "Réduire ▲";
-    });
-  }
 </script>

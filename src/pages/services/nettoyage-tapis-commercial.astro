@@ -125,13 +125,7 @@ import FAQSchema from "../../components/FAQSchema.astro";
               </li>
             </ul>
 
-            <div style="margin-top: 2rem;">
-              <button id="toggle-seo-btn" class="btn-text-reveal">
-                En savoir plus sur le nettoyage de tapis commercial ▼
-              </button>
-            </div>
-
-            <div id="seo-content" class="seo-content-hidden">
+            <div style="margin-top: 3rem;">
               <hr class="separator" />
               <h3>Expertise Commerciale et Grands Espaces</h3>
               <p>
@@ -255,21 +249,7 @@ import FAQSchema from "../../components/FAQSchema.astro";
     }, intervalTime);
   }
 
-  // Toggle SEO Content
-  const toggleBtn = document.getElementById("toggle-seo-btn");
-  const seoContent = document.getElementById("seo-content");
 
-  if (toggleBtn && seoContent) {
-    toggleBtn.addEventListener("click", () => {
-      seoContent.classList.toggle("visible");
-      if (seoContent.classList.contains("visible")) {
-        toggleBtn.textContent = "Réduire le contenu ▲";
-      } else {
-        toggleBtn.textContent =
-          "En savoir plus sur le nettoyage de tapis commercial ▼";
-      }
-    });
-  }
 </script>
 
 <style>
