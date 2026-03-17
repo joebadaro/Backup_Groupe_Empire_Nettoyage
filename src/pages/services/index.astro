@@ -80,7 +80,16 @@ const services = [
 
   <section class="section">
     <div class="container">
-      <div class="services-grid fade-in-section delay-100">
+      
+      <!-- SEO INTRO -->
+      <div class="seo-intro-block fade-in-section">
+        <h2 class="text-gradient-empire" style="margin-bottom: 1rem; font-size: 1.8rem;">Experts en Assainissement de Fibres</h2>
+        <p>
+          Depuis plus de trois décennies, <strong>Groupe Nettoyage Empire</strong> se positionne comme le chef de file du nettoyage professionnel à l'extraction à l'eau chaude (vapeur) dans la grande région de Montréal. De la restauration minutieuse de tapis d'orient tissés à la main au grand nettoyage commercial de vos immeubles à bureaux, nos techniciens certifiés déploient un arsenal de plus de 40 solutions nettoyantes écologiques et d'équipements haute performance (camions-usines) pour garantir un résultat dépassant systématiquement les standards de l'industrie.
+        </p>
+      </div>
+
+      <div class="services-grid fade-in-section delay-100" style="margin-top: 3rem;">
         {
           services.map((service) => (
             <a
@@ -97,6 +106,23 @@ const services = [
             </a>
           ))
         }
+      </div>
+
+      <!-- SEO CONCLUSION -->
+      <div class="seo-text-block fade-in-section delay-200" style="margin-top: 5rem;">
+        <h2 class="text-gradient-empire" style="margin-bottom: 1rem; font-size: 1.8rem;">Des Solutions Adaptées à Chaque Défi</h2>
+        <p style="margin-bottom: 1rem;">
+          L'entretien de vos revêtements textiles n'est pas qu'une question d'esthétique : c'est une question de santé respiratoire. Un nettoyage résidentiel ou commercial exécuté dans les règles de l'art par des <strong>nettoyeurs certifiés</strong> permet d'extraire les acariens, les peaux mortes, le pollen et les bactéries incrustées profondément dans l'assise de vos sofas en tissu, de vos matelas et de vos carpettes. 
+        </p>
+        <p style="margin-bottom: 1rem;">
+          Contrairement aux méthodes grand public ou à la location de machines de supermarché qui laissent vos fibres détrempées et gorgées de résidus savonneux toxiques, notre procédé d'injection-extraction garantit un rinçage parfait et un <strong>séchage rapide</strong> en quelques heures seulement.
+        </p>
+        <div class="areas-served-inline" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--color-primary); margin-top: 2rem;">
+          <h3 style="color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.5rem;">Déploiement sur le Grand Montréal</h3>
+          <p style="font-size: 0.95rem; color: var(--color-text-main); margin: 0;">
+            Nos unités mobiles de nettoyage desservent avec fierté toute l'<strong>Île de Montréal</strong> (Centre-ville, Ahuntsic, Lasalle, Westmount), <strong>Laval</strong> (Chomedey, Sainte-Rose) ainsi que la <strong>Rive-Sud</strong> (Longueuil, Brossard, Boucherville, Saint-Lambert). Consultez les pages individuelles ci-dessus pour obtenir votre estimation gratuite et sur mesure.
+          </p>
+        </div>
       </div>
     </div>
   </section>
