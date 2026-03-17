@@ -50,8 +50,8 @@ import FAQSchema from "../../components/FAQSchema.astro";
         <div class="split-image-wrapper fade-in-section delay-200">
           <div class="slideshow-container">
             <img
-              src="/images/catalog/tuile-slide-new-1.webp"
-              alt="Avant-après nettoyage tuiles céramique Montréal - Résultat professionnel"
+              src="/images/catalog/tuile-optimized.webp"
+              alt="Nettoyage professionnel de tuiles et joints de céramique - Résultat impeccable"
               class="slide active"
               width="1200"
               height="800"
@@ -69,6 +69,30 @@ import FAQSchema from "../../components/FAQSchema.astro";
             <img
               src="/images/catalog/tuile-slide-new-3.webp"
               alt="Cuisine céramique impeccable Rive-Sud - Nettoyage joints profond"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            <img
+              src="/images/catalog/tuile2-optimized.webp"
+              alt="Plancher de céramique nettoyé et restauré par des professionnels - Montréal"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            <img
+              src="/images/catalog/tuile3-v3.webp"
+              alt="Nettoyage haute pression de tuiles et joints - Résultat impeccable"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            <img
+              src="/images/catalog/tuile-before-after-v3.webp"
+              alt="Avant et après nettoyage de joints de céramique très encrassés"
               class="slide"
               width="1200"
               height="800"
@@ -547,6 +571,12 @@ import FAQSchema from "../../components/FAQSchema.astro";
       .service-layout {
         grid-template-columns: 1fr;
       }
+    }
+    
+    /* Utility class to prevent aggressive zooming on specific images */
+    .img-contain {
+      object-fit: contain !important;
+      background-color: transparent !important;
     }
   </style>
 </Layout>

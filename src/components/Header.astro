@@ -33,11 +33,13 @@ const label = isEn ? "FR" : "EN";
       <div class="logo">
         <a href={isEn ? "/en" : "/"} class="logo-link">
           <img
-            src="/images/logo-empire.webp"
+            src="/images/logo-officiel-optimized.webp"
             alt={isEn ? "Empire Cleaning Group" : "Groupe Nettoyage Empire"}
             class="logo-img"
-            width="656"
-            height="188"
+            width="600"
+            height="246"
+            fetchpriority="high"
+            loading="eager"
           />
         </a>
       </div>
