@@ -1,55 +1,50 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
+import FAQSchema from "../../../components/FAQSchema.astro";
 ---
 
 <Layout
-  title="Tile & Grout Cleaning at Home | Empire Cleaning"
-  description="Expert tile, ceramic, and grout cleaning service (Montreal, Laval, South Shore). Eliminate embedded dirt and restore the shine of your floors."
+  title="Tile & Grout Cleaning | Montreal, Laval, South Shore"
+  description="Professional high-pressure tile and grout cleaning. We restore your joints' original color and apply a protective sealant. Montreal, Laval & South Shore. Free quote."
 >
-  <!-- SPLIT SCREEN HERO: BLOCK 1 -->
+  <!-- SPLIT SCREEN HERO (Standardized) -->
   <div class="split-hero-container">
     <div class="container full-width-split">
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT -->
-        <div class="split-content fade-in-section bg-gradient-premium">
-          <span class="service-cat-badge">SURFACES</span>
+        <div class="split-content fade-in-section">
+          <span class="service-cat-badge">HARD SURFACES</span>
           <h1 class="split-title fade-in-up text-gradient-empire">
             Tile & Grout Cleaning
           </h1>
 
-          <!-- BLOCK 1: INTRO (VISIBLE) -->
           <div class="problem-statement fade-in-up delay-100">
             <h3 class="problem-title">The Problem:</h3>
             <p class="problem-text">
-              Are your grout lines blackened and your tiles lost their shine?
-              Embedded dirt and soap residue resist traditional mopping.
+              Grout lines are porous. Over the years, they absorb dirty mop water, grease in the kitchen, and soap scum in the bathroom. Your light grout turns black, and no amount of scrubbing seems to work anymore.
             </p>
           </div>
 
           <p class="lead-text fade-in-up delay-200">
-            Revitalize your floors with our professional service. We deep clean
-            tiles and grout for hygienic surfaces that look like new.
+            Stop exhausting yourself scrubbing on your knees! Our mobile <strong>high-pressure truck-mount unit</strong> (up to 1200 PSI) combined with specialized alkaline solutions literally extracts embedded dirt, bringing your joints back to their original color.
           </p>
 
           <div class="cta-group fade-in-up delay-300">
-            <a href="tel:5148939939" class="btn btn-gradient-green pulse-btn">
+            <a href="tel:5148939939" class="btn btn-primary pulse-btn">
               <span class="icon">📞</span> (514) 893-9939
             </a>
-            <button
-              onclick="window.openEstimationWidget()"
-              class="btn btn-gradient-green"
-            >
-              <span class="icon">⚡</span> Online Quote
+            <button onclick="window.openEstimationWidget()" class="btn btn-outline-reveal">
+              <span class="icon">⚡</span> Instant Free Quote
             </button>
           </div>
         </div>
 
-        <!-- RIGHT COLUMN: IMAGE -->
+        <!-- RIGHT COLUMN: IMAGE (Carousel) -->
         <div class="split-image-wrapper fade-in-section delay-200">
           <div class="slideshow-container">
             <img
-              src="/images/catalog/tuile-slide-new-1.webp"
-              alt="Before-after tile grout cleaning Montreal - Professional result"
+              src="/images/catalog/tuiles.webp"
+              alt="High pressure ceramic tile cleaning Montreal - Empire Group"
               class="slide active"
               width="1200"
               height="800"
@@ -57,56 +52,32 @@ import Layout from "../../../layouts/Layout.astro";
               loading="eager"
             />
             <img
-              src="/images/catalog/tuile-slide-new-2.webp"
-              alt="Professional ceramic floor cleaning Laval - Empire Cleaning Group"
+              src="/images/catalog/photo-41.webp"
+              alt="Grout restoration before after - Laval"
               class="slide"
               width="1200"
               height="800"
               loading="lazy"
             />
             <img
-              src="/images/catalog/tuile-slide-new-3.webp"
-              alt="Impeccable kitchen ceramic South Shore - Deep grout cleaning"
+              src="/images/catalog/tuile-cleaner-optimized.webp"
+              alt="Professional tile cleaning equipment"
               class="slide"
               width="1200"
               height="800"
               loading="lazy"
             />
             <img
-              src="/images/catalog/tuile-slide-new-4.webp"
-              alt="Sparkling ceramic floor Longueuil - Like-new result"
+              src="/images/catalog/tuile-card-optimized.webp"
+              alt="Grout deep cleaning South Shore"
               class="slide"
               width="1200"
               height="800"
               loading="lazy"
             />
             <img
-              src="/images/catalog/tuile-slide-new-5.webp"
-              alt="Before-after ceramic cleaning comparison Montreal"
-              class="slide"
-              width="1200"
-              height="800"
-              loading="lazy"
-            />
-            <img
-              src="/images/catalog/tuile-slide-new-6.webp"
-              alt="High pressure tile cleaning Laval - Professional technique"
-              class="slide"
-              width="1200"
-              height="800"
-              loading="lazy"
-            />
-            <img
-              src="/images/catalog/tuile-slide-new-7.webp"
-              alt="High pressure cleaning machine ceramic South Shore"
-              class="slide"
-              width="1200"
-              height="800"
-              loading="lazy"
-            />
-            <img
-              src="/images/catalog/tuile-slide-new-8.webp"
-              alt="Impeccable ceramic cleaning result Montreal - Empire Cleaning"
+              src="/images/catalog/tuile-main.webp"
+              alt="Ceramic floor cleaning expert Montreal"
               class="slide"
               width="1200"
               height="800"
@@ -119,460 +90,284 @@ import Layout from "../../../layouts/Layout.astro";
     </div>
   </div>
 
-  <section class="section">
-    <div class="container">
-      <div class="service-layout">
-        <!-- MAIN CONTENT -->
-        <div class="service-main">
-          <div class="fade-in-section delay-100">
-            <!-- TOGGLE BUTTON (INITIAL VIEW) -->
-            <div style="margin-top: 1rem;">
-              <button id="toggle-seo-btn" class="btn-outline-reveal">
-                Learn more about ceramic cleaning ▼
-              </button>
-            </div>
+  <section class="content-section">
+    <div class="container alternate-layout">
+      <div class="service-main-content">
+        
+        <div class="info-block">
+          <h2 class="text-gradient-empire">Why traditional mopping doesn't work</h2>
+          <p>When you wash your floor with a standard mop, the water quickly becomes dirty. Because the grout lines are slightly lower than the tile surface, the dirty water pools in these crevices. As the water evaporates, the dirt and soap residue remain trapped in the porous grout.</p>
+          <p>This is exactly why your grout lines darken over time, especially in high-traffic areas like the kitchen and main hallway. Only <strong>industrial pressurized extraction</strong> can flush out this accumulated dirt.</p>
+        </div>
 
-            <!-- HIDDEN CONTENT -->
-            <div id="seo-content" class="seo-content-hidden">
-              <hr class="separator" />
-
-              <h3 style="color: var(--color-primary);">
-                Restore the like-new shine to your floors
-              </h3>
-              <p>
-                <strong>Ceramic</strong> is a durable and aesthetic covering, present
-                in many homes and commercial spaces in <strong>Montreal</strong
-                >, <strong>Laval</strong>, and on the <strong
-                  >South Shore</strong
-                >. Whether it's ceramic floors in your kitchen, bathroom,
-                office, or commercial space, it requires regular maintenance to
-                maintain its beauty and durability.
-              </p>
-
-              <p style="margin-top: 1rem;">
-                At <strong>Empire Cleaning</strong>, we offer a professional <strong
-                  >ceramic cleaning</strong
-                > service, adapted to all types of floors. Our cleaning process uses
-                <strong>specialized and ecological products</strong>, capable of
-                effectively eliminating embedded dirt, soap residue, lime
-                traces, stains, grease, and bacteria, without damaging the
-                surface.
-              </p>
-
-              <p style="margin-top: 1rem;">
-                Thanks to our professional controlled high-pressure techniques, <strong
-                  >grout is also deep cleaned</strong
-                >, preventing mold accumulation and stubborn residues.
-              </p>
-
-              <br />
-
-              <h3
-                class="section-title text-gradient-empire"
-                style="font-size: 1.5rem; margin-bottom: 1rem;"
-              >
-                The benefits of our service:
-              </h3>
-
-              <ul class="benefit-list">
-                <li>
-                  <strong>Restores shine and cleanliness</strong> to tiles and grout
-                </li>
-                <li>
-                  <strong>Eliminates stains, residue</strong>, grease, and
-                  bacteria
-                </li>
-                <li>
-                  <strong>Preserves durability</strong> and appearance of your surfaces
-                </li>
-                <li>
-                  <strong>Produces a quick</strong> and hygienic result
-                </li>
-              </ul>
-
-              <!-- BLOCK: CUSTOMIZATION -->
-              <div class="info-box">
-                <h3 style="color: var(--color-primary); margin-bottom: 10px;">
-                  Adapted and Hygienic Service
-                </h3>
-                <p>
-                  Our qualified team adapts each intervention according to the
-                  ceramic type and dirt level. We intervene in both <strong
-                    >residences</strong
-                  > and <strong>commercial premises</strong>, guaranteeing
-                  effective, durable, and respectful cleaning of your surfaces.
-                </p>
+        <!-- PROCESSUS -->
+        <div class="process-section" style="margin-top: 4rem;">
+          <h2 class="text-gradient-empire">Our 5-Step Deep Cleaning Process</h2>
+          <div class="process-steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-text">
+                <h3>Thorough Inspection</h3>
+                <p>We analyze the type of tile (ceramic, porcelain, natural stone) and the condition of the grout to determine the appropriate chemical solution and pressure level.</p>
               </div>
-
-              <br />
-              <!-- CLOSING -->
-              <p>
-                Choosing <strong>Empire Cleaning</strong> for cleaning your ceramic
-                means opting for a professional, efficient, and ecological service
-                that ensures the beauty and longevity of your floors daily.
-              </p>
-              <p style="margin-top: 0.5rem;">
-                Contact us today for a <strong>free estimate</strong>.
-              </p>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-text">
+                <h3>Alkaline Solution Application</h3>
+                <p>We spray a professional-grade, eco-friendly alkaline cleaner that breaks down grease, oil, and deeply embedded dirt (Dwell time: 10 to 15 minutes).</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-text">
+                <h3>High-Pressure Wash & Extraction</h3>
+                <p>Using our truck-mounted system and a specialized floor tool, we blast hot water (up to 1200 PSI) while simultaneously extracting the water and dirt. The enclosed tool prevents splattering on your walls and cabinets.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-text">
+                <h3>Detail Scrubbing (If Necessary)</h3>
+                <p>For particularly stubborn areas, corners, and baseboards, we perform targeted manual scrubbing with specialized grout brushes.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-text">
+                <h3>Protective Sealant (Optional)</h3>
+                <p>Once the grout is perfectly clean and dry, we highly recommend applying a transparent sealant. This creates a waterproof barrier, preventing future spills from penetrating the porous grout lines.</p>
+              </div>
             </div>
           </div>
         </div>
+        
+        <!-- VISIBLE EDUCATIONAL CONTENT -->
+        <div style="margin-top: 3rem;">
+          <h3 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">The Importance of Grout Sealer</h3>
+          <p style="line-height: 1.7; color: #444; margin-bottom: 1rem;">Unsealed grout is like a sponge. If you spill coffee, red wine, or cooking oil, it will immediately soak in and cause a permanent stain. After our deep cleaning, your grout is clean but vulnerable.</p>
+          <p style="line-height: 1.7; color: #444;">We offer a <strong>professional clear sealer application</strong>. This invisible barrier fills the microscopic pores of the grout. The next time you drop liquid, it will bead on the surface instead of penetrating, giving you ample time to wipe it up without leaving a trace.</p>
+        </div>
 
-        <!-- SIDEBAR CTA (Sticky) -->
-        <aside class="service-sidebar">
-          <div class="sticky-card fade-in-section">
-            <h3 class="card-title text-gradient-gold">Free Estimate</h3>
-            <p class="card-desc">Call us for an immediate response.</p>
+        <!-- PLACES WE CLEAN -->
+        <div style="margin-top: 3rem; background: #f8fbff; padding: 2rem; border-radius: 12px; border: 1px solid #dce8f5;">
+          <h3 style="color: var(--color-primary); margin-bottom: 1.2rem; font-size: 1.4rem;">✨ Common areas we restore</h3>
+          <ul class="check-list">
+            <li><strong>Kitchens:</strong> Eliminates cooking grease buildup and embedded food spills.</li>
+            <li><strong>Bathrooms:</strong> Removes soap scum, hard water deposits, and mildew from shower walls and floors.</li>
+            <li><strong>Entryways & Hallways:</strong> Extracts winter salt, mud, and heavy foot-traffic dirt.</li>
+            <li><strong>Commercial Spaces:</strong> Restaurants, offices, and retail stores requiring high hygiene standards.</li>
+          </ul>
+        </div>
+        
+        <!-- SERVICED ZONES -->
+        <div class="zones-section" style="margin-top: 4rem;">
+          <h3 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">Service Areas — Tile Cleaning</h3>
+          <p>We travel anywhere in the Greater Montreal Area with our high-pressure mobile units.</p>
 
-            <a
-              href="tel:5148939939"
-              class="btn btn-gradient-green full-width pop-effect pulse-phone"
-            >
-              <span class="icon">📞</span> (514) 893-9939 (Free Estimate)
-            </a>
-
-            <p
-              class="text-center"
-              style="margin: 1rem 0; font-size: 0.9rem; color: #888;"
-            >
-              or
-            </p>
-
-            <button
-              onclick="window.openEstimationWidget()"
-              class="btn btn-gradient-green full-width"
-            >
-              Online Quote
-            </button>
-
-            <div class="guarantee-badge">
-              <span>🌿 100% Ecological Products</span>
-              <div style="margin-top: 5px; color: #ffbf00; font-weight: bold;">
-                ★★★★★
-              </div>
-              <span style="font-size: 0.8rem; color: #666;"
-                >Satisfied Clients</span
-              >
+          <div class="city-group">
+            <p class="city-lead">🏙️ Montreal (East & West)</p>
+            <div class="badges-container">
+              <span class="badge badge-blue">📍 Montreal (all boroughs)</span>
+              <span class="badge badge-blue">📍 Westmount</span>
+              <span class="badge badge-blue">📍 Mount Royal</span>
+              <span class="badge badge-blue">📍 Outremont</span>
+              <span class="badge badge-blue">📍 LaSalle</span>
+              <span class="badge badge-blue">📍 And much more...</span>
             </div>
           </div>
-        </aside>
+
+          <div class="city-group">
+            <p class="city-lead">🏘️ Laval</p>
+            <div class="badges-container">
+              <span class="badge badge-blue">📍 Laval (entire city)</span>
+              <span class="badge badge-blue">📍 Chomedey</span>
+              <span class="badge badge-blue">📍 Sainte-Rose</span>
+              <span class="badge badge-blue">📍 Vimont</span>
+            </div>
+          </div>
+
+          <div class="city-group">
+            <p class="city-lead">🌿 Montreal South Shore</p>
+            <div class="badges-container">
+              <span class="badge badge-green">📍 Longueuil</span>
+              <span class="badge badge-green">📍 Brossard</span>
+              <span class="badge badge-green">📍 Saint-Lambert</span>
+              <span class="badge badge-green">📍 Saint-Hubert</span>
+              <span class="badge badge-green">📍 Greenfield Park</span>
+              <span class="badge badge-green">📍 Saint-Bruno</span>
+              <span class="badge badge-green">📍 Boucherville</span>
+              <span class="badge badge-green">📍 And much more...</span>
+            </div>
+          </div>
+          
+          <p class="contact-footer">Need a quick appointment? Call us at <strong>(514) 893-9939</strong>.</p>
+        </div>
+
+        <!-- FAQ with Schema Component -->
+          <FAQSchema
+            title="Frequently Asked Questions — Tile & Grout Cleaning"
+            faqs={[
+              {
+                question: "Do you use harsh chemicals (like bleach or acid) to clean grout?",
+                answer: "No. We primarily use professional alkaline-based eco-friendly solutions to break down grease and dirt. We avoid harsh acids that can degrade the structural integrity of your grout over time, and we never use bleach, which only hides dirt by bleaching it rather than removing it.",
+              },
+              {
+                question: "Will the high pressure damage my tiles or blow out the grout lines?",
+                answer: "No, our technicians are highly trained to adjust the water pressure (PSI) according to the condition of your floor. While our truck-mount can reach very high pressures, we often clean at lower, safe pressures (around 800 - 1000 PSI) which is more than enough to blast dirt out of pores without causing any damage to sound grout.",
+              },
+              {
+                question: "Can you change the color of my grout?",
+                answer: "Our standard cleaning restores the grout to its original color by removing the dirt on top. If your grout was originally dark grey, it will remain dark grey. We do not currently offer 'color sealing' (painting the grout lines a new color).",
+              },
+              {
+                question: "How often should I have my ceramic floors professionally cleaned?",
+                answer: "For a typical household, every 12 to 18 months is recommended to maintain the brightness of the grout and extend its lifespan. For commercial spaces or homes with many pets, every 6 months might be necessary.",
+              },
+              {
+                question: "Do I need to stay off the floor after you apply the sealer?",
+                answer: "We recommend staying off the sealed floor for at least 2 to 4 hours to allow the sealer to dry properly. It fully cures in about 24 hours, during which time you should avoid spilling any liquids on the floor.",
+              },
+              {
+                question: "Is there a lot of water splashing during the process?",
+                answer: "None at all. We use a specialized enclosed rotary tool (often called a 'spinner' or 'sx-15'). The high-pressure jets are completely encased under a dome, and the water is extracted immediately in the same motion. Your baseboards and cabinets are completely safe from splashing.",
+              },
+            ]}
+          />
+        </div>
+
       </div>
+
+      <!-- SIDEBAR -->
+      <aside class="service-sidebar">
+        <div class="sticky-cta">
+          <h3>Free Estimate</h3>
+          <a href="tel:5148939939" class="btn btn-primary full-width">(514) 893-9939</a>
+          <button onclick="window.openEstimationWidget()" class="btn btn-outline full-width">Online Estimate</button>
+          <div class="guarantee">⭐ High-Pressure Technology</div>
+        </div>
+      </aside>
     </div>
   </section>
 </Layout>
 
-<script>
-  // Simple Cross-Fade Slideshow (Standardized)
-  const slides = document.querySelectorAll(".slide");
-
-  if (slides.length > 0) {
-    let currentSlide = 0;
-    const intervalTime = 4000; // 4 seconds
-
-    setInterval(() => {
-      slides[currentSlide].classList.remove("active");
-      currentSlide = (currentSlide + 1) % slides.length;
-      slides[currentSlide].classList.add("active");
-    }, intervalTime);
-  }
-
-  // Toggle SEO Content
-  const toggleBtn = document.getElementById("toggle-seo-btn");
-  const seoContent = document.getElementById("seo-content");
-
-  if (toggleBtn && seoContent) {
-    toggleBtn.addEventListener("click", () => {
-      seoContent.classList.toggle("visible");
-      if (seoContent.classList.contains("visible")) {
-        toggleBtn.textContent = "Show less ▲";
-      } else {
-        toggleBtn.textContent = "Learn more about ceramic cleaning ▼";
-      }
-    });
-  }
-</script>
-
 <style>
-  /* HERO */
-  /* SPLIT SCREEN HERO (Sky Blue Theme) */
+  /* HERO SPLIT LAYOUT (Standardized) */
   .split-hero-container {
-    background-color: #fff; /* Reset container to white */
-    padding-top: 0; /* Remove container padding so image hits top */
+    background-color: #fff;
+    padding-top: 0;
     padding-bottom: 0;
-    overflow: hidden; /* CRITICAL: Prevent slides from spilling out */
+    overflow: hidden;
     width: 100vw;
   }
-
-  .full-width-split {
-    width: 100%;
-    max-width: none;
-    padding: 0;
-    margin: 0;
-  }
-
+  .full-width-split { width: 100%; max-width: none; padding: 0; margin: 0; }
   .split-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0;
     align-items: stretch;
-    min-height: 80vh; /* Consistent viewport height */
+    min-height: 80vh;
   }
-
-  /* LEFT TEXT COLUMN */
   .split-content {
-    /* Background handled by utility class */
-    padding: 100px 4rem 4rem 10%; /* Add header offset internal padding */
+    background-color: #ffffff;
+    padding: 100px 4rem 4rem 10%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: relative;
     z-index: 2;
   }
-
-  /* ... skipping ... */
-
-  /* RIGHT IMAGE COLUMN */
-  .split-image-wrapper {
-    position: relative;
-    height: 100%;
-    min-height: 500px;
-    width: 100%;
-    margin: 0;
-    background-color: #f0f0f0; /* Slight gray background while loading */
-    overflow: hidden; /* Ensure blur doesn't bleed */
+  .service-cat-badge {
+    text-transform: uppercase;
+    color: var(--color-accent);
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    display: block;
+    margin-bottom: 1rem;
   }
-
-  /* Slideshow Styles */
-  .slideshow-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* CRITICAL: Prevent slides from spilling out */
-  }
-
-  .slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* RESTORED TO COVER AS REQUESTED */
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out;
-    z-index: 1;
-  }
-
-  .slide.active {
-    opacity: 1;
-    z-index: 2;
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 1024px) {
-    .split-layout {
-      grid-template-columns: 1fr;
-      min-height: auto;
-    }
-
-    .split-content {
-      padding: 3rem 1.5rem;
-      order: 1; /* Content first */
-    }
-
-    .split-image-wrapper {
-      order: 2; /* Image second */
-      height: 400px;
-      min-height: 0;
-    }
-
-    .lead-text {
-      max-width: 100%;
-    }
-  }
-
-  /* LAYOUT */
-  .service-layout {
-    display: grid;
-    grid-template-columns: 1.8fr 1fr;
-    gap: 5rem;
-  }
-
-  /* TYPOGRAPHY */
   .split-title {
-    font-size: clamp(2.5rem, 3.5vw, 4rem);
-    color: var(--color-primary); /* Dark Blue text */
+    font-size: clamp(2.2rem, 3.5vw, 3.8rem);
+    color: var(--color-primary);
     margin-bottom: 2rem;
     line-height: 1.1;
   }
-
   .problem-statement {
     background: #ffffff;
     border-left: 4px solid #ff4444;
     padding: 1.5rem;
-    border-radius: 4px; /* Slight radius */
     margin-bottom: 2rem;
     box-shadow: 0 4px 15px rgba(174, 206, 235, 0.3);
   }
+  .problem-title { font-size: 1rem; color: #cc0000; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 700; }
+  .problem-text { font-size: 1.05rem; color: var(--color-text-main); font-style: italic; }
+  .lead-text { font-size: 1.1rem; line-height: 1.7; color: var(--color-text-main); margin-bottom: 2.5rem; max-width: 650px; }
+  .cta-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .split-image-wrapper { position: relative; height: 100%; min-height: 500px; width: 100%; overflow: hidden; }
+  .slideshow-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
+  .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out; }
+  .slide.active { opacity: 1; }
+  .image-overlay-gradient { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.2), transparent); pointer-events: none; z-index: 2; }
 
-  .problem-title {
-    color: #cc0000;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem; /* Adjusted for visibility */
-    display: block;
-  }
-  .section-title {
-    font-size: 1.8rem;
-    color: var(--color-primary);
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 0.5rem;
-    display: inline-block;
-  }
-
-  /* Benefit List Styles from original */
-  .benefit-list {
-    margin: 2rem 0;
-    list-style: none; /* Ensure no default bullets */
-    padding: 0;
-  }
-
-  .benefit-list li {
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
-    position: relative;
-    font-size: 1.05rem;
-  }
-
-  .benefit-list li::before {
-    content: "✓";
-    color: #d32f2f; /* Empire Red or Gold */
-    position: absolute;
-    left: 0;
-    font-weight: bold;
-  }
-
-  .info-box {
-    background-color: #f8f9fa;
-    border-left: 4px solid var(--color-accent);
-    padding: 1.5rem;
-    margin: 2rem 0;
-    border-radius: 4px;
-  }
-
-  /* NEW BUTTON STYLE */
+  /* BUTTON STYLES (Standardized) */
   .btn-outline-reveal {
-    background: transparent;
-    border: 2px solid var(--color-primary);
-    color: var(--color-primary);
-    padding: 0.75rem 1.5rem; /* Nice padding */
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 4px; /* Rounded corners */
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    background: transparent; border: 2px solid var(--color-primary); color: var(--color-primary);
+    padding: 0.75rem 1.5rem; font-weight: 700; font-size: 1rem; cursor: pointer;
+    border-radius: 4px; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem;
+    text-transform: uppercase; letter-spacing: 0.5px;
   }
+  .btn-outline-reveal:hover { background: var(--color-primary); color: white; transform: translateY(-2px); }
 
-  .btn-outline-reveal:hover {
-    background: var(--color-primary);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
+  .content-section { padding: 5rem 0; }
+  .alternate-layout { display: grid; grid-template-columns: 1fr 350px; gap: 4rem; }
+  .info-block h2 { font-size: 2.2rem; margin-bottom: 1.5rem; }
+  .info-block p { line-height: 1.7; color: #444; margin-bottom: 1rem; font-size: 1.1rem; }
+  .check-list { list-style: none; padding: 0; }
+  .check-list li { padding: 0.5rem 0 0.5rem 1.75rem; position: relative; border-bottom: 1px solid #f0f0f0; }
+  .check-list li::before { content: "✓"; position: absolute; left: 0; color: #2e7d32; font-weight: bold; }
 
-  .cta-group {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
+  /* ZONES */
+  .city-group { margin-bottom: 1.5rem; }
+  .city-lead { font-weight: 700; color: var(--color-primary); margin-bottom: 0.6rem; }
+  .badges-container { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .badge { padding: 0.4rem 0.9rem; border-radius: 20px; font-size: 0.9rem; border: 1px solid transparent; }
+  .badge-blue { background: #e8f4fd; border-color: #c5dff0; }
+  .badge-green { background: #f0faf0; border-color: #b8ddb8; }
+  .contact-footer { margin-top: 1.5rem; font-style: italic; color: #666; }
 
-  @media (max-width: 900px) {
-    .cta-group {
-      display: none !important;
-    }
-  }
-  .seo-content-hidden {
-    display: none;
-    margin-top: 2rem;
-    padding-top: 1rem;
-    animation: fadeIn 0.5s ease-in-out;
-  }
-
-  .seo-content-hidden.visible {
-    display: block;
-  }
-
-  /* Animation */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .separator {
-    border: 0;
-    height: 1px;
-    background: rgba(0, 0, 0, 0.1);
-    margin: 1.5rem 0;
-  }
+  /* PROCESS */
+  .process-steps { margin-top: 2rem; }
+  .step { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .step-num { min-width: 32px; height: 32px; background: var(--color-primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; margin-top: 5px; }
+  .step-text h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+  .step-text p { color: #555; line-height: 1.5; }
 
   /* SIDEBAR */
-  .service-sidebar {
-    position: relative;
-  }
+  .sticky-cta { position: sticky; top: 100px; background: white; border: 1px solid #eee; padding: 2rem; border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.05); text-align: center; }
+  .sticky-cta h3 { margin-bottom: 1rem; color: var(--color-primary); }
+  .sticky-cta p { font-size: 0.95rem; color: #666; margin-bottom: 2rem; }
+  .guarantee { margin-top: 1.5rem; font-size: 0.9rem; font-weight: bold; color: #2e7d32; }
 
-  .sticky-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    position: sticky;
-    top: 2rem;
-    border: 1px solid #eee;
-  }
-
-  .card-title {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    font-weight: 800;
-  }
-
-  .card-desc {
-    color: #666;
-    margin-bottom: 1.5rem;
-    font-size: 0.95rem;
-  }
-
-  .full-width {
-    width: 100%;
-    margin-bottom: 0.5rem;
-    justify-content: center;
-  }
-
-  .guarantee-badge {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px dashed #eee;
-    text-align: center;
-    font-size: 0.9rem;
-    color: var(--color-accent);
-    font-weight: 600;
-  }
-
-  @media (max-width: 900px) {
-    .service-layout {
-      grid-template-columns: 1fr;
-    }
+  @media (max-width: 992px) {
+    .split-layout { grid-template-columns: 1fr; }
+    .alternate-layout { grid-template-columns: 1fr; }
+    .split-title { font-size: 2.2rem; }
+    .split-image-wrapper { height: 400px; min-height: 0; }
   }
 </style>
+
+<script>
+  // Slideshow Logic
+  const slides = document.querySelectorAll(".slide");
+  let currentSlide = 0;
+
+  function nextSlide() {
+    slides[currentSlide].classList.remove("active");
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add("active");
+  }
+
+  if (slides.length > 1) {
+    setInterval(nextSlide, 4000); // 4 seconds
+  }
+</script>

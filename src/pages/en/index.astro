@@ -54,8 +54,8 @@ import { Image } from "astro:assets";
       </div>
 
       <h1 class="hero-title animate-on-load delay-1">
-        The Art of Cleaning <br />
-        <span class="text-gradient-tricolor">Premium</span>
+        The Art of <br />
+        <span class="text-gradient-tricolor">Premium Cleaning</span>
       </h1>
       <p class="hero-subtitle animate-on-load delay-2">
         Carpets, Furniture and Mattresses. Sparkling cleanliness thanks to our
@@ -144,14 +144,38 @@ import { Image } from "astro:assets";
           </div>
         </a>
 
-        <!-- 2. Meubles en Cuir -->
+        <!-- 2. Matelas -->
         <a
-          href="/en/services/meubles-cuir"
+          href="/en/services/nettoyage-desinfection-matelas"
           class="service-card-modern fade-in-section delay-200"
         >
           <img
+            src="/images/catalog/photo-matelas-custom.webp"
+            alt="Mattress Cleaning"
+            class="card-img"
+            width="400"
+            height="240"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <div class="card-icon icon-red">🛏️</div>
+            <h3>Mattress Cleaning & Disinfection</h3>
+            <p>
+              Certified elimination of dust mites and bacteria for healthy
+              sleep.
+            </p>
+            <span class="link-text">See details &rarr;</span>
+          </div>
+        </a>
+
+        <!-- 3. Meubles en Cuir -->
+        <a
+          href="/en/services/meubles-cuir"
+          class="service-card-modern fade-in-section delay-300"
+        >
+          <img
             src="/images/catalog/photo-leather-final.webp"
-            alt="Leather furniture cleaning"
+            alt="Leather Furniture Cleaning"
             class="card-img"
             width="400"
             height="240"
@@ -168,10 +192,10 @@ import { Image } from "astro:assets";
           </div>
         </a>
 
-        <!-- 3. Tapis Résidentiel -->
+        <!-- 4. Tapis Résidentiel -->
         <a
           href="/en/services/nettoyage-tapis-residentiel"
-          class="service-card-modern fade-in-section delay-300"
+          class="service-card-modern fade-in-section delay-100"
         >
           <img
             src="/images/catalog/photo-tapis-clean.webp"
@@ -192,14 +216,14 @@ import { Image } from "astro:assets";
           </div>
         </a>
 
-        <!-- 4. Tapis Synthétique -->
+        <!-- 5. Tapis Synthétique -->
         <a
           href="/en/services/tapis-synthetique"
-          class="service-card-modern fade-in-section delay-100"
+          class="service-card-modern fade-in-section delay-200"
         >
           <Image
             src="/images/catalog/photo-47.webp"
-            alt="Synthetic carpet cleaning"
+            alt="Synthetic Carpet cleaning at home"
             class="card-img"
             width={600}
             height={338}
@@ -213,14 +237,14 @@ import { Image } from "astro:assets";
           </div>
         </a>
 
-        <!-- 5. Tapis en Laine -->
+        <!-- 6. Tapis en Laine -->
         <a
           href="/en/services/tapis-laine"
-          class="service-card-modern fade-in-section delay-200"
+          class="service-card-modern fade-in-section delay-300"
         >
           <Image
             src="/images/catalog/photo-22.webp"
-            alt="Wool carpet cleaning"
+            alt="Wool Carpet cleaning at home"
             class="card-img"
             width={600}
             height={450}
@@ -237,14 +261,14 @@ import { Image } from "astro:assets";
           </div>
         </a>
 
-        <!-- 6. Tapis Orientaux -->
+        <!-- 7. Tapis Orientaux -->
         <a
           href="/en/services/tapis-orientaux"
-          class="service-card-modern fade-in-section delay-300"
+          class="service-card-modern fade-in-section delay-100"
         >
           <img
             src="/images/catalog/photo-oriental-custom.webp"
-            alt="Oriental carpet cleaning"
+            alt="Oriental Carpet cleaning"
             class="card-img"
             width="400"
             height="300"
@@ -258,10 +282,10 @@ import { Image } from "astro:assets";
           </div>
         </a>
 
-        <!-- 7. Tapis Commercial -->
+        <!-- 8. Tapis Commercial -->
         <a
           href="/en/services/nettoyage-tapis-commercial"
-          class="service-card-modern fade-in-section delay-100"
+          class="service-card-modern fade-in-section delay-200"
         >
           <img
             src="/images/catalog/tapis-commercial-combo.webp"
@@ -279,38 +303,14 @@ import { Image } from "astro:assets";
           </div>
         </a>
 
-        <!-- 8. Matelas -->
-        <a
-          href="/en/services/nettoyage-desinfection-matelas"
-          class="service-card-modern fade-in-section delay-200"
-        >
-          <img
-            src="/images/catalog/photo-matelas-custom.webp"
-            alt="Mattress cleaning"
-            class="card-img"
-            width="400"
-            height="240"
-            loading="lazy"
-          />
-          <div class="card-content">
-            <div class="card-icon icon-red">🛏️</div>
-            <h3>Mattress Cleaning & Disinfection</h3>
-            <p>
-              Certified elimination of dust mites and bacteria for healthy
-              sleep.
-            </p>
-            <span class="link-text">See details &rarr;</span>
-          </div>
-        </a>
-
         <!-- 9. Céramique -->
         <a
           href="/en/services/nettoyage-tuiles-ceramique"
           class="service-card-modern fade-in-section delay-300"
         >
           <img
-            src="/images/catalog/photo-78.webp"
-            alt="Tile and grout cleaning"
+            src="/images/catalog/tuile-card-optimized.webp"
+            alt="Tile and Grout Cleaning"
             class="card-img"
             width="400"
             height="240"
@@ -334,7 +334,7 @@ import { Image } from "astro:assets";
         >
           <img
             src="/images/catalog/photo-20.webp"
-            alt="Stain protector"
+            alt="Stain Protector Application"
             class="card-img"
             width="400"
             height="240"
@@ -343,9 +343,7 @@ import { Image } from "astro:assets";
           <div class="card-content">
             <div class="card-icon icon-blue">☔</div>
             <h3>Stain Protector Application</h3>
-            <p>
-              Teflon/Scotchgard protection for fabrics, leather, and carpets.
-            </p>
+            <p>Teflon/Scotchgard protection for fabrics, leather, and carpets.</p>
             <span class="link-text">See details &rarr;</span>
           </div>
         </a>

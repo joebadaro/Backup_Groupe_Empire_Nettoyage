@@ -9,7 +9,7 @@ interface Props {
     title?: string;
 }
 
-const { faqs, title = "Questions Fréquentes" } = Astro.props;
+const { faqs, title } = Astro.props;
 
 // Generate FAQPage JSON-LD Schema
 const faqSchema = {
@@ -28,7 +28,7 @@ const faqSchema = {
 
 <!-- FAQ Section with Semantic HTML -->
 <div class="faq-section fade-in-section delay-300">
-    <h2 class="section-title text-gradient-empire">{title}</h2>
+    {title && <h2 class="section-title text-gradient-empire">{title}</h2>}
     <div class="faq-list">
         {
             faqs.map((faq) => (

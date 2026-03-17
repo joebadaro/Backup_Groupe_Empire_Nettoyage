@@ -3,14 +3,14 @@ import Layout from "../../../layouts/Layout.astro";
 ---
 
 <Layout
-  title="Nettoyage de Tapis"
-  description="Expert en nettoyage de tapis résidentiel et commercial. Technologie vapeur industrielle pour des résultats supérieurs. Élimination des taches et allergènes."
+  title="Carpet Cleaning"
+  description="Expert in residential and commercial carpet cleaning. Industrial steam technology for superior results. Elimination of stains and allergens."
 >
   <header class="page-header">
     <div class="container">
-      <h1>Nettoyage de Tapis</h1>
+      <h1>Carpet Cleaning</h1>
       <p>
-        Redonnez l'éclat du neuf à vos tapis grâce à notre technologie à vapeur.
+        Restore the original brilliance of your carpets with our steam technology.
       </p>
     </div>
   </header>
@@ -19,33 +19,38 @@ import Layout from "../../../layouts/Layout.astro";
     <div class="container">
       <div class="content-grid">
         <div class="text-content">
-          <h2>Pourquoi choisir notre nettoyage de tapis ?</h2>
+          <h2>Why choose our carpet cleaning?</h2>
           <p>
-            Vos tapis agissent comme des filtres à air, emprisonnant poussière,
-            allergènes et bactéries. Un simple aspirateur ne suffit pas.
+            Your carpets act as air filters, trapping dust,
+            allergens, and bacteria. A simple vacuuming is not enough.
           </p>
 
           <ul class="benefit-list">
             <li>
-              <strong>Élimination des allergènes :</strong> Nous retirons jusqu'à
-              99% des acariens et bactéries.
+              <strong>Allergen elimination:</strong> We remove up to
+              99% of dust mites and bacteria.
             </li>
             <li>
-              <strong>Séchage rapide :</strong> Grâce à notre succion puissante, vos
-              tapis sont secs en quelques heures.
+              <strong>Quick drying:</strong> Thanks to our powerful suction, your
+              carpets are dry in a few hours.
             </li>
             <li>
-              <strong>Produits écologiques :</strong> Sécuritaires pour vos enfants
-              et animaux de compagnie.
+              <strong>Eco-friendly products:</strong> Safe for your children
+              and pets.
             </li>
           </ul>
 
-          <a href="/en/contact" class="btn btn-primary">Soumission en ligne</a>
+          <button
+            onclick="window.openEstimationWidget()"
+            class="btn btn-primary"
+          >
+            Instant Online Estimate
+          </button>
         </div>
         <div class="image-content">
           <img
             src="/images/service-tapis-optimized.webp"
-            alt="Nettoyage de tapis professionnel"
+            alt="Professional carpet cleaning"
             class="rounded-img shadow-premium"
           />
         </div>

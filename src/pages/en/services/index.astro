@@ -1,61 +1,61 @@
 ---
-import Layout from "../../../layouts/Layout.astro";
+import Layout from "../../layouts/Layout.astro";
 
 const services = [
   {
     slug: "meubles-tissu",
-    title: "Sofa, Couch, Armchair, Fabric Upholstery",
-    desc: "Deep cleaning for sofas, couches, and fabric armchairs.",
+    title: "Sofa, Couch, Armchair, Chair, Fabric Furniture",
+    desc: "Deep cleaning for fabric sofas, couches, and armchairs.",
     img: "/images/services/services-4.webp",
   },
   {
     slug: "meubles-cuir",
     title: "Leather Furniture Cleaning",
-    desc: "Specialized moisturizing and cleaning care for all your leather.",
+    desc: "Specialized moisturizing and cleaning care for all your leathers.",
     img: "/images/catalog/photo-leather-final.webp",
   },
   {
     slug: "nettoyage-desinfection-matelas",
     title: "Mattress Cleaning & Disinfection",
-    desc: "Elimination of dust mites and allergens for a healthy sleep.",
+    desc: "Elimination of dust mites and allergens for healthy sleep.",
     img: "/images/catalog/photo-matelas-custom.webp",
   },
 
   {
     slug: "nettoyage-tapis-residentiel",
     title: "Residential Carpet Cleaning",
-    desc: "Wall-to-wall carpets and area rugs for your home.",
+    desc: "Wall-to-wall carpets and area rugs for the home.",
     img: "/images/catalog/photo-tapis-clean.webp",
   },
   {
     slug: "nettoyage-tapis-commercial",
     title: "Commercial Carpet Cleaning",
-    desc: "Solutions for offices and large commercial spaces.",
+    desc: "Solutions for offices and large spaces.",
     img: "/images/catalog/tapis-commercial-combo.webp",
   },
   {
     slug: "tapis-synthetique",
-    title: "In-Home Synthetic Carpet Cleaning",
-    desc: "Technique adapted for modern and resistant fibers.",
+    title: "Synthetic Carpet Cleaning (In-Home)",
+    desc: "Technique adapted to modern and resistant fibers.",
     img: "/images/catalog/photo-47.webp",
   },
 
   {
     slug: "tapis-laine",
-    title: "In-Home Wool Carpet Cleaning",
+    title: "Wool Carpet Cleaning (In-Home)",
     desc: "Delicate pH-neutral treatment for natural wool.",
     img: "/images/catalog/photo-22.webp",
   },
   {
     slug: "tapis-orientaux",
-    title: "In-Home Oriental Rug Cleaning",
+    title: "Oriental Rug Cleaning (In-Home)",
     desc: "Expert restoration for Persian and Oriental rugs.",
     img: "/images/catalog/photo-oriental-custom.webp",
   },
   {
     slug: "nettoyage-tuiles-ceramique",
     title: "Tile & Grout Cleaning",
-    desc: "Stripping and high-pressure cleaning of tiles and grout.",
+    desc: "Stripping and high-pressure cleaning for grout and tiles.",
     img: "/images/catalog/photo-78.webp",
   },
 
@@ -73,14 +73,23 @@ const services = [
     <div class="container fade-in-section">
       <h1 class="text-gradient">Our Services</h1>
       <p class="intro">
-        Discover our complete range of professional cleaning services.
+        Explore our complete range of professional cleaning services.
       </p>
     </div>
   </div>
 
   <section class="section">
     <div class="container">
-      <div class="services-grid fade-in-section delay-100">
+      
+      <!-- SEO INTRO -->
+      <div class="seo-intro-block fade-in-section">
+        <h2 class="text-gradient-empire" style="margin-bottom: 1rem; font-size: 1.8rem;">Experts in Fiber Sanitization</h2>
+        <p>
+          For over three decades, <strong>Empire Cleaning Group</strong> has positioned itself as the leader in professional hot water extraction (steam) cleaning in the Greater Montreal area. From the meticulous restoration of hand-woven oriental rugs to large-scale commercial cleaning of your office buildings, our certified technicians deploy an arsenal of over 40 eco-friendly cleaning solutions and high-performance equipment (truck-mounts) to guarantee results that consistently exceed industry standards.
+        </p>
+      </div>
+
+      <div class="services-grid fade-in-section delay-100" style="margin-top: 3rem;">
         {
           services.map((service) => (
             <a
@@ -92,11 +101,28 @@ const services = [
               <div class="card-content">
                 <h3>{service.title}</h3>
                 <p>{service.desc}</p>
-                <span class="more">Learn More &rarr;</span>
+                <span class="more">Learn more &rarr;</span>
               </div>
             </a>
           ))
         }
+      </div>
+
+      <!-- SEO CONCLUSION -->
+      <div class="seo-text-block fade-in-section delay-200" style="margin-top: 5rem;">
+        <h2 class="text-gradient-empire" style="margin-bottom: 1rem; font-size: 1.8rem;">Solutions Adapted to Every Challenge</h2>
+        <p style="margin-bottom: 1rem;">
+          Maintaining your textile coverings isn't just about aesthetics: it's a question of respiratory health. Residential or commercial cleaning executed according to established standards by <strong>certified cleaners</strong> allows for the extraction of dust mites, dead skin, pollen, and bacteria embedded deep within the base of your fabric sofas, mattresses, and area rugs. 
+        </p>
+        <p style="margin-bottom: 1rem;">
+          Unlike consumer methods or supermarket machine rentals that leave your fibers soaking wet and gorged with toxic soapy residue, our injection-extraction process guarantees a perfect rinse and <strong>quick drying</strong> in just a few hours.
+        </p>
+        <div class="areas-served-inline" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--color-primary); margin-top: 2rem;">
+          <h3 style="color: var(--color-primary); font-size: 1.1rem; margin-bottom: 0.5rem;">Deployment across Greater Montreal</h3>
+          <p style="font-size: 0.95rem; color: var(--color-text-main); margin: 0;">
+            Our mobile cleaning units proudly serve the entire <strong>Island of Montreal</strong> (Downtown, Ahuntsic, Lasalle, Westmount), <strong>Laval</strong> (Chomedey, Sainte-Rose), as well as the <strong>South Shore</strong> (Longueuil, Brossard, Boucherville, Saint-Lambert). Consult the individual pages above to obtain your free and tailored estimate.
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -106,7 +132,7 @@ const services = [
   .page-header {
     background-color: var(--color-primary);
     background-image: linear-gradient(135deg, #0a2342 0%, #121212 100%);
-    padding: 6rem 0 4rem 0; /* More balanced padding */
+    padding: 6rem 0 4rem 0;
     text-align: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     color: white;
@@ -114,7 +140,6 @@ const services = [
     overflow: hidden;
   }
 
-  /* Optional decorative accent */
   .page-header::after {
     content: "";
     position: absolute;
@@ -139,7 +164,7 @@ const services = [
     max-width: 700px;
     margin: 1.5rem auto 0 auto;
     font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.85); /* Proper contrast text */
+    color: rgba(255, 255, 255, 0.85);
     font-weight: 300;
   }
 
@@ -162,10 +187,9 @@ const services = [
     overflow: hidden;
     height: 100%;
     min-height: 250px;
-    z-index: 0; /* Create stacking context */
+    z-index: 0;
   }
 
-  /* Layer 1: Blurred Background (Fills the card) */
   .service-card::before {
     content: "";
     position: absolute;
@@ -174,12 +198,11 @@ const services = [
     background-size: cover;
     background-position: center;
     filter: blur(15px);
-    transform: scale(1.2); /* Prevent blur edges from showing */
+    transform: scale(1.2);
     opacity: 0.6;
     z-index: 1;
   }
 
-  /* Layer 2: Sharp Image (Contained and centered) */
   .service-card::after {
     content: "";
     position: absolute;
@@ -191,17 +214,16 @@ const services = [
     z-index: 2;
   }
 
-  /* Layer 3: White overlay for readability */
   .card-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.75); /* Slightly stronger base opacity */
+    background: rgba(255, 255, 255, 0.75);
     z-index: 3;
     transition: background 0.3s;
   }
 
   .service-card:hover .card-overlay {
-    background: rgba(255, 255, 255, 0.6); /* Reveal more image on hover */
+    background: rgba(255, 255, 255, 0.6);
   }
 
   .card-content {
