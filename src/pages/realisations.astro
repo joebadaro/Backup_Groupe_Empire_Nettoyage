@@ -1,4 +1,7 @@
-// const shiftedIds = [ ... ]; // Logic removed, using simple ids
+---
+import Layout from "../layouts/Layout.astro";
+
+// Full List of Selected IDs
 const ids = [
   5, 9, 10, 11, 14, 15, 16, 17, 18, 19, 
   22, 26, 27, 28, 29, 30, 31, 34, 39, 46, 47, 
@@ -7,15 +10,11 @@ const ids = [
   160, 161, 162, 163, 164
 ];
 
-// No longer needed, original files are overwritten with rotated versions
-// const rotatedIds = [56, 58, 59, 60, 27, 39];
-
-// SEO-Only Logic (Not shown in UI)
-// Generates descriptive Alt text without grouping the UI
+// Original files are now overwritten with rotated versions — no suffix needed
 const galleryImages = ids.map((id) => ({
   src: `/images/catalog/photo-${id}.webp`,
   id: id,
-  alt: "Réalisation professionnelle Groupe Nettoyage Empire - Tapis, Meubles et Entretien", // Generic & Safe SEO
+  alt: "Réalisation professionnelle Groupe Nettoyage Empire - Tapis, Meubles et Entretien",
   isLarge: id === 66
 }));
 ---
