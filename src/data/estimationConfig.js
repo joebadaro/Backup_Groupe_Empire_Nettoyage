@@ -119,7 +119,7 @@ export const CONFIG = {
         {
             id: "meubles",
             label: { fr: "Meubles en tissu", en: "Upholstery" },
-            icon: `<img src="/images/service-meubles.webp" alt="Meubles en tissu" loading="lazy" />`,
+            icon: `<img src="/images/services/services-4.webp" alt="Meubles en tissu" loading="lazy" />`,
             items: [
                 {
                     id: "chaise",
@@ -163,7 +163,7 @@ export const CONFIG = {
         {
             id: "meubles_cuir",
             label: { fr: "Meubles en Cuir", en: "Leather Furniture" },
-            icon: `<img src="/images/service-cuir.webp" alt="Meubles en cuir" loading="lazy" />`,
+            icon: `<img src="/images/catalog/photo-leather-final.webp" alt="Meubles en cuir" loading="lazy" />`,
             items: [
                 {
                     id: "cuir_fauteuil",
@@ -201,7 +201,7 @@ export const CONFIG = {
         {
             id: "matelas",
             label: { fr: "Matelas", en: "Mattress" },
-            icon: `<img src="/images/service-matelas.webp" alt="Matelas" loading="lazy" />`,
+            icon: `<img src="/images/catalog/photo-matelas-custom.webp" alt="Matelas" loading="lazy" />`,
             items: [
                 { id: "mat_king", label: { fr: "Matelas King", en: "King Mattress" }, price: 179.00 },
                 { id: "mat_queen", label: { fr: "Matelas Queen", en: "Queen Mattress" }, price: 149.00 },
@@ -213,7 +213,7 @@ export const CONFIG = {
             id: "tapis_mur",
             label: { fr: "Tapis Mur-à-mur", en: "Wall-to-wall Carpet" },
             promoKey: "residentialCarpet",
-            icon: `<img src="/images/service-tapis-mur.webp" alt="Tapis mur-à-mur" loading="lazy" />`,
+            icon: `<img src="/images/catalog/photo-tapis-clean.webp" alt="Tapis mur-à-mur" loading="lazy" />`,
             items: [
                 {
                     id: "package_3rooms",
@@ -281,7 +281,7 @@ export const CONFIG = {
         {
             id: "ceramique",
             label: { fr: "Tuiles & Céramique", en: "Tile & Grout" },
-            icon: `<img src="/images/service-ceramique.webp" alt="Céramique" loading="lazy" />`,
+            icon: `<img src="/images/catalog/tuile-card-optimized.webp" alt="Céramique" loading="lazy" />`,
             items: [
                 {
                     id: "tiles_sqft",
@@ -329,7 +329,7 @@ export const CONFIG = {
         {
             id: "tapis_commercial",
             label: { fr: "Nettoyage de Tapis Commercial", en: "Commercial Carpet Cleaning" },
-            icon: `<img src="/images/service-tapis-commercial-custom.jpg" alt="Nettoyage Commercial" style="object-fit:cover;" loading="lazy" />`,
+            icon: `<img src="/images/service-tapis-commercial-custom.jpg" alt="Nettoyage Commercial" loading="lazy" />`,
             isQuoteOnly: true, // Special flag for Quote Mode
             longDescription: {
                 fr: `<strong>Demande de soumission commerciale</strong><br><br>

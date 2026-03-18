@@ -222,9 +222,12 @@ import FAQSchema from "../../../components/FAQSchema.astro";
         </div>
 
         <!-- FAQ with Schema Component -->
-        <FAQSchema
-          title="Frequently Asked Questions — Commercial Service"
-          faqs={[
+        <div class="fade-in-section delay-300" style="margin-top: 4rem; margin-bottom: 3rem;">
+          <h2 class="section-title text-gradient-empire">
+            Frequently Asked Questions — Commercial Service
+          </h2>
+          <FAQSchema
+            faqs={[
               {
                 question: "What is the best cleaning method for high-traffic commercial carpets?",
                 answer: "Hot water extraction steam cleaning is the most effective method for commercial carpets (deep restoration). Unlike encapsulation or bonnet cleaning (buffing) which only clean the surface and trap dirt, our extraction method deeply removes salt, winter calcium, and accumulated body oils. This extends the carpet's lifespan and prevents premature crushing of the fibers."
@@ -251,6 +254,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
               }
             ]}
           />
+        </div>
         </div>
 
       </div>

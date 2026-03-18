@@ -290,9 +290,10 @@ import FAQSchema from "../../../components/FAQSchema.astro";
         </div>
 
         <!-- FAQ with Schema Component (rich snippets Google) -->
-        <FAQSchema
-          title="Frequently Asked Questions — Fabric Furniture Cleaning"
-          faqs={[
+        <div class="faq-section" style="margin-top: 4rem;">
+          <h2 class="text-gradient-empire">Frequently Asked Questions — Fabric Furniture Cleaning</h2>
+          <FAQSchema
+            faqs={[
               {
                 question: "Is steam cleaning a sofa effective?",
                 answer: "Yes, steam cleaning by injection-extraction is the most effective method for fabric furniture. High-temperature steam breaks down body oils, kills bacteria and dust mites, and the extraction immediately vacuums the dirt-laden water. The result is incomparable to a standard household cleaner or a consumer steam cleaner whose suction is insufficient to extract deep dirt.",
@@ -323,6 +324,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
               },
             ]}
           />
+        </div>
         </div>
 
       </div>

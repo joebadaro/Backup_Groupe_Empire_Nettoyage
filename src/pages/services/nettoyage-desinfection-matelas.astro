@@ -310,40 +310,45 @@ import FAQSchema from "../../components/FAQSchema.astro";
                     </div>
 
                     <!-- FAQ with Schema Component -->
-                    <FAQSchema
-                        faqs={[
-                            {
-                                question:
-                                    "Pouvez-vous enlever les cernes jaunes de sueur sur mon matelas ?",
-                                answer: "Nous retirons 100% des bactéries et rétablissons l'hygiène totale de la zone. Cependant, pour l'aspect visuel, il faut savoir que la sueur (qui contient du sébum et des acides) agit comme une teinture sur le tissu blanc du matelas avec le temps. Si le cerne jaune est récent, nous l'éliminons très bien. S'il est là depuis 5 ans, nous allons le pâlir considérablement, mais une légère trace jaunâtre permanente (stain de fibre) pourrait subsister. Vous dormirez par contre sur un matelas cliniquement propre.",
-                            },
-                            {
-                                question:
-                                    "Comment traitez-vous l'urine d'enfant ou de chat (pipi au lit) ?",
-                                answer: "C'est notre spécialité la plus demandée. L'urine devient très alcaline en séchant et abrite des bactéries qui libèrent des gaz (mauvaise odeur). Un shampoing régulier ne marche pas pour masquer ça. Nous utilisons un traitement enzymatique lourd : les enzymes bio-actives pénètrent la mousse et « digèrent » littéralement les cristaux d'acide urique et les bactéries pendant environ 15 minutes. Ensuite, nous procédons à une extraction complète à l'eau très chaude. L'odeur est détruite à la source de façon permanente.",
-                            },
-                            {
-                                question:
-                                    "Combien de temps avant de pouvoir redormir sur mon matelas ?",
-                                answer: "Généralement, il faut compter entre 4 et 6 heures de séchage. Notre équipement de classe industrielle extrait massivement l'humidité, laissant la surface du matelas seulement légèrement humide au toucher (pas détrempée). Si nous effectuons le nettoyage le matin ou en début d'après-midi, vous êtes garanti de pouvoir dormir dans vos draps frais le soir même. Un simple ventilateur de plafond accélère grandement ce processus.",
-                            },
-                            {
-                                question:
-                                    "La vapeur très chaude tue-t-elle les punaises de lit ?",
-                                answer: "Oui, la température générée par notre système tue les punaises de lit et leurs œufs au premier contact. CEPENDANT, nous ne sommes pas un service d'extermination. Pour une infestation active dans les murs et le sommier de la chambre, le nettoyage seul ne suffira pas à éradiquer le problème à long terme. Nous intervenons souvent APRÈS le traitement de votre exterminateur pour nettoyer les taches de sang séché, la suie chimique et extraire les punaises mortes du matelas.",
-                            },
-                            {
-                                question:
-                                    "Est-ce sécuritaire de nettoyer mon matelas en mousse mémoire (Tempur-Pedic) ?",
-                                answer: "Totalement sécuritaire. La mousse mémoire (viscoélastique) est dense et agit comme une éponge géante si elle est mal nettoyée, ce qui pourrait causer de la moisissure interne. Nos techniciens certifiés contrôlent rigoureusement le flux d'eau (méthode de nettoyage à basse humidité). Nous nettoyons en profondeur la housse recouvrant la mousse sans jamais saturer ou endommager la structure cellulaire interne du matelas. C'est la méthode recommandée par les fabricants.",
-                            },
-                            {
-                                question:
-                                    "Dois-je faire nettoyer mon matelas même s'il est relativement neuf ?",
-                                answer: "Tout dépend de vos sensibilités. Un humain perd environ 1,5 gramme de peaux mortes par jour (essentiellement dans son lit), ce qui est le repas principal de milliers d'acariens. Pour les personnes souffrant d'asthme, d'allergies aux acariens ou de congestion nasale chronique matinale, l'Association Pulmonaire recommande un nettoyage professionnel du matelas une fois par an ou aux deux ans, même s'il ne présente pas de tache visible.",
-                            },
-                        ]}
-                    />
+                    <div class="fade-in-section delay-300" style="margin-top: 3rem;">
+                        <h2 class="section-title text-gradient-empire">
+                            Questions Fréquentes — Nettoyage de Matelas
+                        </h2>
+                        <FAQSchema
+                            faqs={[
+                                {
+                                    question:
+                                        "Pouvez-vous enlever les cernes jaunes de sueur sur mon matelas ?",
+                                    answer: "Nous retirons 100% des bactéries et rétablissons l'hygiène totale de la zone. Cependant, pour l'aspect visuel, il faut savoir que la sueur (qui contient du sébum et des acides) agit comme une teinture sur le tissu blanc du matelas avec le temps. Si le cerne jaune est récent, nous l'éliminons très bien. S'il est là depuis 5 ans, nous allons le pâlir considérablement, mais une légère trace jaunâtre permanente (stain de fibre) pourrait subsister. Vous dormirez par contre sur un matelas cliniquement propre.",
+                                },
+                                {
+                                    question:
+                                        "Comment traitez-vous l'urine d'enfant ou de chat (pipi au lit) ?",
+                                    answer: "C'est notre spécialité la plus demandée. L'urine devient très alcaline en séchant et abrite des bactéries qui libèrent des gaz (mauvaise odeur). Un shampoing régulier ne marche pas pour masquer ça. Nous utilisons un traitement enzymatique lourd : les enzymes bio-actives pénètrent la mousse et « digèrent » littéralement les cristaux d'acide urique et les bactéries pendant environ 15 minutes. Ensuite, nous procédons à une extraction complète à l'eau très chaude. L'odeur est détruite à la source de façon permanente.",
+                                },
+                                {
+                                    question:
+                                        "Combien de temps avant de pouvoir redormir sur mon matelas ?",
+                                    answer: "Généralement, il faut compter entre 4 et 6 heures de séchage. Notre équipement de classe industrielle extrait massivement l'humidité, laissant la surface du matelas seulement légèrement humide au toucher (pas détrempée). Si nous effectuons le nettoyage le matin ou en début d'après-midi, vous êtes garanti de pouvoir dormir dans vos draps frais le soir même. Un simple ventilateur de plafond accélère grandement ce processus.",
+                                },
+                                {
+                                    question:
+                                        "La vapeur très chaude tue-t-elle les punaises de lit ?",
+                                    answer: "Oui, la température générée par notre système tue les punaises de lit et leurs œufs au premier contact. CEPENDANT, nous ne sommes pas un service d'extermination. Pour une infestation active dans les murs et le sommier de la chambre, le nettoyage seul ne suffira pas à éradiquer le problème à long terme. Nous intervenons souvent APRÈS le traitement de votre exterminateur pour nettoyer les taches de sang séché, la suie chimique et extraire les punaises mortes du matelas.",
+                                },
+                                {
+                                    question:
+                                        "Est-ce sécuritaire de nettoyer mon matelas en mousse mémoire (Tempur-Pedic) ?",
+                                    answer: "Totalement sécuritaire. La mousse mémoire (viscoélastique) est dense et agit comme une éponge géante si elle est mal nettoyée, ce qui pourrait causer de la moisissure interne. Nos techniciens certifiés contrôlent rigoureusement le flux d'eau (méthode de nettoyage à basse humidité). Nous nettoyons en profondeur la housse recouvrant la mousse sans jamais saturer ou endommager la structure cellulaire interne du matelas. C'est la méthode recommandée par les fabricants.",
+                                },
+                                {
+                                    question:
+                                        "Dois-je faire nettoyer mon matelas même s'il est relativement neuf ?",
+                                    answer: "Tout dépend de vos sensibilités. Un humain perd environ 1,5 gramme de peaux mortes par jour (essentiellement dans son lit), ce qui est le repas principal de milliers d'acariens. Pour les personnes souffrant d'asthme, d'allergies aux acariens ou de congestion nasale chronique matinale, l'Association Pulmonaire recommande un nettoyage professionnel du matelas une fois par an ou aux deux ans, même s'il ne présente pas de tache visible.",
+                                },
+                            ]}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
