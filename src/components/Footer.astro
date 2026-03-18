@@ -138,6 +138,17 @@ const isEn = currentPath.startsWith("/en");
           </div>
         </div>
       </div>
+
+      <!-- Villes Desservies (SEO Locales) -->
+      <div class="footer-col animation-float" style="animation-delay: 0.3s">
+        <h4 class="footer-heading">{isEn ? "Cities Served" : "Villes Desservies"}</h4>
+        <ul class="footer-nav">
+          <li><a href={isEn ? "/en/services/nettoyage-tapis-montreal" : "/services/nettoyage-tapis-montreal"}>{isEn ? "Carpet Cleaning Montreal" : "Nettoyage Tapis Montréal"}</a></li>
+          <li><a href={isEn ? "/en/services/nettoyage-tapis-laval" : "/services/nettoyage-tapis-laval"}>{isEn ? "Carpet Cleaning Laval" : "Nettoyage Tapis Laval"}</a></li>
+          <li><a href={isEn ? "/en/services/nettoyage-tapis-rive-sud" : "/services/nettoyage-tapis-rive-sud"}>{isEn ? "Carpet Cleaning South Shore" : "Nettoyage Tapis Rive-Sud"}</a></li>
+          <li><a href={isEn ? "/en/services/villes-desservies" : "/services/villes-desservies"}>{isEn ? "All Cities" : "Toutes les villes"}</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -182,7 +193,7 @@ const isEn = currentPath.startsWith("/en");
 
   .footer-grid {
     display: grid;
-    grid-template-columns: 1.4fr 0.8fr 1fr 1.2fr;
+    grid-template-columns: 1.4fr 0.8fr 1fr 1.2fr 1fr; /* Adjusted for new column */
     gap: 3rem;
   }
 

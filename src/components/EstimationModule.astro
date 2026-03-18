@@ -1558,17 +1558,17 @@
                     gap: 15px !important;
                 }
 
-                /* Compact Service Cards (Smaller Images) */
+                /* Full-Bleed Service Cards for Mobile */
                 .service-card {
-                    aspect-ratio: unset;
-                    height: 125px; /* Compact height */
+                    aspect-ratio: 1 / 1;
+                    height: auto;
                 }
                 .service-icon {
-                    height: 55%;
+                    height: 100%;
                 }
                 .service-label {
                     font-size: 0.75rem;
-                    line-height: 1;
+                    line-height: 1.1;
                 }
 
                 /* Compact Footer */
@@ -1576,10 +1576,15 @@
                     padding: 10px 15px;
                     gap: 10px;
                 }
+                /* Large Prominent Buttons for Mobile */
                 .modal-footer .btn {
-                    padding: 10px 20px;
-                    font-size: 0.9rem;
+                    padding: 16px 30px;
+                    font-size: 1.15rem;
                     width: 100%;
+                    min-height: 58px; /* Better touch target */
+                    display: flex;
+                    justify-content: center;
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
                 }
 
                 .empire-modal {
@@ -2211,6 +2216,45 @@
                     transform: translate3d(0,0,0);
                     -webkit-transform: translate3d(0,0,0);
                     will-change: transform;
+                }
+
+                /* Mobile Primary Button Style */
+                .btn-mobile-primary {
+                    flex: 0 0 55%; /* Reduced from 1.5 to about 55% */
+                    padding: 16px 20px !important;
+                    font-size: 1.15rem !important;
+                    font-weight: 800 !important;
+                    color: white !important;
+                    background: linear-gradient(135deg, #b71c1c 0%, #1a1a1a 100%) !important;
+                    border: none !important;
+                    border-radius: 14px !important;
+                    text-transform: uppercase !important;
+                    letter-spacing: 1px !important;
+                    box-shadow: 0 6px 15px rgba(183, 28, 28, 0.35) !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    gap: 10px !important;
+                    cursor: pointer !important;
+                    transition: all 0.3s ease !important;
+                    min-height: 52px !important;
+                    text-decoration: none !important;
+                }
+
+                .btn-mobile-primary:active {
+                    transform: scale(0.97);
+                    box-shadow: 0 2px 8px rgba(183, 28, 28, 0.2) !important;
+                }
+
+                .btn-mobile-secondary {
+                    background: #f1f1f1 !important;
+                    color: #333 !important;
+                    border: 1px solid #ddd !important;
+                    padding: 12px 20px !important;
+                    border-radius: 12px !important;
+                    font-weight: 700 !important;
+                    font-size: 1rem !important;
+                    cursor: pointer !important;
                 }
 
                 /* Prevent iOS Zoom on Inputs */
@@ -3074,31 +3118,37 @@
                     const isSelected = STATE.selectedServices.has(service.id);
                     const item = document.createElement("div");
                     
-                    // Compact Card Style
+                    // Compact Card Style - FULL BLEED
                     item.setAttribute("data-service-id", service.id);
                     item.style.display = "flex";
                     item.style.flexDirection = "column";
                     item.style.alignItems = "center";
                     item.style.justifyContent = "center";
-                    item.style.padding = "15px 10px";
-                    item.style.borderRadius = "12px";
+                    item.style.padding = "0"; // Remove padding for full bleed
+                    item.style.borderRadius = "14px";
                     item.style.cursor = "pointer";
-                    item.style.transition = "all 0.2s ease";
-                    item.style.border = isSelected ? "2px solid #007bff" : "1px solid #eee";
-                    item.style.backgroundColor = isSelected ? "#e3f2fd" : "white";
-                    item.style.boxShadow = isSelected ? "0 4px 12px rgba(0,123,255,0.2)" : "0 2px 5px rgba(0,0,0,0.05)";
+                    item.style.transition = "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)";
+                    item.style.border = isSelected ? "3px solid #007bff" : "1px solid #ddd";
+                    item.style.backgroundColor = "white";
+                    item.style.boxShadow = isSelected ? "0 8px 20px rgba(0,123,255,0.25)" : "0 4px 10px rgba(0,0,0,0.08)";
+                    item.style.position = "relative";
+                    item.style.overflow = "hidden";
                     
                     item.onclick = () =>
                         toggleService(service.id, item as HTMLElement);
 
-                    // Scale icon
-                    const iconStyle = "font-size: 2rem; margin-bottom: 8px;";
-                    // Ensure icon string has style, or we wrap it
-                    // Service.icon is a string like "🛋️" or "<svg...>"
+                    // Rectangle 4:3 for better visibility
+                    const iconStyle = `width:100%; aspect-ratio:4/3; background:#f5f5f5; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; z-index:0;`;
                     
+                    // Inject object-fit style if it's an image
+                    let iconHtml = service.icon;
+                    if (iconHtml.includes('<img')) {
+                        iconHtml = iconHtml.replace('<img', '<img style="width:100%; height:100%; object-fit:cover;"');
+                    }
+
                     item.innerHTML = `
-                <div style="${iconStyle}">${service.icon}</div>
-                <div style="font-weight:600; font-size:0.9rem; text-align:center; color:${isSelected ? '#0056b3' : '#333'}; line-height:1.2;">${t(service.label)}</div>
+                <div style="${iconStyle}">${iconHtml}</div>
+                <div style="position:relative; z-index:1; margin-top:auto; width:100%; background:rgba(255,255,255,0.75); padding:12px 5px; font-weight:800; font-size:0.85rem; text-align:center; color:${isSelected ? '#0056b3' : '#111'}; line-height:1.2; border-top:1px solid rgba(0,0,0,0.05); backdrop-filter:blur(6px); text-transform:uppercase; letter-spacing:0.5px;">${t(service.label)}</div>
             `;
                     container.appendChild(item);
                 });
@@ -3814,12 +3864,14 @@
                 if (mCard) {
                     const isSel = STATE.selectedServices.has(id);
                     // Inline style updates to match render logic
-                    mCard.style.border = isSel ? "2px solid #007bff" : "1px solid #eee";
-                    mCard.style.backgroundColor = isSel ? "#e3f2fd" : "white";
-                    mCard.style.boxShadow = isSel ? "0 4px 12px rgba(0,123,255,0.2)" : "0 2px 5px rgba(0,0,0,0.05)";
+                    mCard.style.border = isSel ? "3px solid #007bff" : "1px solid #ddd";
+                    mCard.style.boxShadow = isSel ? "0 8px 20px rgba(0,123,255,0.25)" : "0 4px 10px rgba(0,0,0,0.08)";
                     
-                    const labelDiv = mCard.querySelector('div[style*="font-weight:600"]') as HTMLElement;
-                    if(labelDiv) labelDiv.style.color = isSel ? '#0056b3' : '#333';
+                    const labelDiv = mCard.querySelector('div[style*="position:relative"]') as HTMLElement;
+                    if(labelDiv) {
+                        labelDiv.style.color = isSel ? '#0056b3' : '#333';
+                        labelDiv.style.background = isSel ? 'rgba(227, 242, 253, 0.95)' : 'rgba(255, 255, 255, 0.9)';
+                    }
                 }
 
                 calculateTotal();
@@ -5409,8 +5461,6 @@
                         } else {
                              // Reset Standard (Red)
                              mobSubmitBtn.innerText = t({fr: "Confirmer la demande", en: "Confirm Request"});
-                             mobSubmitBtn.style.background = ""; // Reverts to CSS class .btn-mobile-primary (Red Gradient)
-                             mobSubmitBtn.style.boxShadow = "";
                         }
                     }
 
@@ -5786,13 +5836,15 @@
                                     mobNextBtn.style.boxShadow = "0 4px 15px rgba(67, 160, 71, 0.4)";
                                 } else {
                                      mobNextBtn.innerHTML = `<i class="fas fa-check" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.finaliser)}`;
-                                     mobNextBtn.style.background = ""; // Reset
-                                     mobNextBtn.style.boxShadow = "";
+                                }
+                            } else if (STATE.step === 3) {
+                                if (isCommercial) {
+                                     mobNextBtn.innerHTML = `<i class="fas fa-paper-plane" style="margin-right:8px;"></i> ${t({fr: "Envoyer ma demande", en: "Send Request"})}`;
+                                } else {
+                                     mobNextBtn.innerHTML = `<i class="fas fa-check" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.finaliser)}`;
                                 }
                             } else {
                                  mobNextBtn.innerHTML = `<i class="fas fa-arrow-right" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.next)}`;
-                                 mobNextBtn.style.background = ""; // Reset
-                                 mobNextBtn.style.boxShadow = "";
                             }
                         }
 

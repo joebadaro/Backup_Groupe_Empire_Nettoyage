@@ -1,39 +1,39 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import Layout from "../../../layouts/Layout.astro";
 
 const posts = [
   {
     slug: 'urine-animaux-tapis',
-    title: 'Pourquoi l\'odeur d\'urine revient toujours ?',
-    excerpt: 'Découvrez la science derrière les taches d\'urine. Comprenez pourquoi le vinaigre échoue et comment les enzymes détruisent l\'acide urique.',
-    date: '17 Mars 2026',
-    category: 'Animaux & Odeurs',
+    title: 'Why Does Pet Urine Odor Always Come Back?',
+    excerpt: 'Discover the science behind urine stains. Understand why vinegar fails and how enzymes destroy uric acid crystals.',
+    date: 'March 17, 2026',
+    category: 'Pets & Odors',
     icon: '🐶'
   },
   {
     slug: 'erreurs-taches-tapis',
-    title: 'Le Guide Ultime pour Enlever les Taches',
-    excerpt: 'Apprenez les gestes d\'urgence pour sauver votre tapis. Découvrez les erreurs fatales et comment traiter le vin rouge, café et sang.',
-    date: '17 Mars 2026',
-    category: 'Entretien',
+    title: 'The Ultimate Carpet Stain Removal Guide',
+    excerpt: 'Learn emergency steps to save your carpet. Discover the fatal mistakes and how to treat red wine, coffee, and blood.',
+    date: 'March 17, 2026',
+    category: 'Maintenance',
     icon: '🛑'
   },
   {
     slug: 'nettoyage-vapeur-vs-location',
-    title: 'Machine de Location vs Camion-Usine',
-    excerpt: 'Pourquoi louer une machine de supermarché peut ruiner vos tapis. Comparatif technique avec le nettoyage professionnel.',
-    date: '17 Mars 2026',
-    category: 'Comparatif',
+    title: 'Rental Machine vs. Professional Truck-Mount',
+    excerpt: 'Why renting a supermarket carpet machine can ruin your carpets. A complete technical comparison.',
+    date: 'March 17, 2026',
+    category: 'Comparison',
     icon: '🚛'
   }
 ];
 ---
 
-<Layout title="Conseils de l'Expert | Groupe Nettoyage Empire">
+<Layout title="Expert Tips & Blog | Empire Cleaning Group">
   <div class="page-header">
     <div class="container text-center fade-in-section">
-      <h1 class="text-gradient">Conseils de l'Expert</h1>
-      <p class="intro">Astuces, guides complets et recommandations pour préserver vos investissements.</p>
+      <h1 class="text-gradient">Expert Tips</h1>
+      <p class="intro">Comprehensive guides, tips, and recommendations to preserve your investments.</p>
     </div>
   </div>
 
@@ -42,13 +42,13 @@ const posts = [
       
       <div class="blog-grid fade-in-section delay-100">
         {posts.map(post => (
-          <a href={`/conseils/${post.slug}`} class="blog-card">
+          <a href={`/en/tips/${post.slug}`} class="blog-card">
             <div class="card-icon">{post.icon}</div>
             <div class="card-content">
               <span class="card-cat">{post.category}</span>
               <h3>{post.title}</h3>
               <p>{post.excerpt}</p>
-              <span class="read-more">Lire l'article &rarr;</span>
+              <span class="read-more">Read Article &rarr;</span>
             </div>
           </a>
         ))}
