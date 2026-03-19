@@ -18,6 +18,93 @@ import FAQSchema from "../../components/FAQSchema.astro";
             Nettoyage de Sofa, Divan, Fauteuil et Meubles
           </h1>
 
+          <!-- Mobile-only slideshow: shown right after title -->
+          <div class="mobile-hero-slideshow fade-in-up delay-050">
+            <div class="slideshow-container">
+              <img
+                src="/images/catalog/sofa-slide-hero-1.webp"
+                alt="Technicien Nettoyage Empire nettoyage chaise capitonnée - Montréal"
+                class="slide active"
+                width="1200"
+                height="800"
+                loading="eager"
+              />
+              <img
+                src="/images/catalog/sofa-slide-hero-2.webp"
+                alt="Daniel nettoyage sofa sectionnel gris - Professionnel Groupe Empire"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-16.webp"
+                alt="Nettoyage divan tissu en profondeur"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-33.webp"
+                alt="Détachage sofa microfibre"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-119.webp"
+                alt="Nettoyage professionnel de fauteuils"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-129.webp"
+                alt="Extraction vapeur sur meuble en tissu"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-170.webp"
+                alt="Nettoyage divan Laval"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-171.webp"
+                alt="Expert nettoyage meubles Rive-Sud"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-172.webp"
+                alt="Nettoyage sofa avant-après"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/meuble-exterieur-optimized.webp"
+                alt="Nettoyage de meubles de patio et mobilier extérieur professionnel - Montréal"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+            </div>
+            <div class="image-overlay-gradient"></div>
+          </div>
+
           <div class="problem-statement fade-in-up delay-100">
             <h3 class="problem-title">Le Problème :</h3>
             <p class="problem-text">
@@ -397,6 +484,7 @@ import FAQSchema from "../../components/FAQSchema.astro";
   .lead-text { font-size: 1.1rem; line-height: 1.7; color: var(--color-text-main); margin-bottom: 2.5rem; max-width: 650px; }
   .cta-group { display: flex; gap: 1rem; flex-wrap: wrap; }
   .split-image-wrapper { position: relative; height: 100%; min-height: 500px; width: 100%; overflow: hidden; }
+  .mobile-hero-slideshow { display: none; }
   .slideshow-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
   .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out; }
   .slide.active { opacity: 1; }
@@ -467,25 +555,39 @@ import FAQSchema from "../../components/FAQSchema.astro";
   @media (max-width: 992px) {
     .split-layout { grid-template-columns: 1fr; }
     .alternate-layout { grid-template-columns: 1fr; }
-    .split-title { font-size: 2.2rem; }
-    .split-image-wrapper { height: 400px; min-height: 0; }
+    .split-title { font-size: 2.2rem; margin-top: 0; }
+    .split-content { padding: 34px 1.5rem 2.5rem; }
+    .split-image-wrapper { display: none; }
+    .mobile-hero-slideshow {
+      display: block;
+      position: relative;
+      height: 400px;
+      width: calc(100% + 3rem);
+      margin: 0.25rem -1.5rem 1.2rem;
+      border-radius: 0;
+      overflow: hidden;
+    }
+    .mobile-hero-slideshow .slide {
+      object-fit: cover;
+      object-position: center;
+    }
+    .cta-group { display: none !important; }
   }
 </style>
 
 <script>
-  // Slideshow Logic
-  const slides = document.querySelectorAll(".slide");
-  let currentSlide = 0;
-
-  function nextSlide() {
-    slides[currentSlide].classList.remove("active");
-    currentSlide = (currentSlide + 1) % slides.length;
-    slides[currentSlide].classList.add("active");
-  }
-
-  if (slides.length > 1) {
-    setInterval(nextSlide, 4000);
-  }
+  // Slideshow Logic (supports desktop + mobile containers safely)
+  const slideshowContainers = document.querySelectorAll(".slideshow-container");
+  slideshowContainers.forEach((container) => {
+    const slides = container.querySelectorAll(".slide");
+    if (slides.length <= 1) return;
+    let currentSlide = 0;
+    setInterval(() => {
+      slides[currentSlide].classList.remove("active");
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add("active");
+    }, 4000);
+  });
 
 
 </script>
