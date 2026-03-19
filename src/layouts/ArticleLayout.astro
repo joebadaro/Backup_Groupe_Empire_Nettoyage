@@ -3,12 +3,13 @@ import Layout from '../layouts/Layout.astro';
 
 interface Props {
   title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+const { title, description } = Astro.props;
 ---
 
-<Layout title={title}>
+<Layout title={title} description={description}>
   <div class="article-container">
     <div class="container small-container">
       <a href="/conseils" class="back-link">← Retour aux conseils</a>

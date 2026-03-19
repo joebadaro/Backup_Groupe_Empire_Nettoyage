@@ -6,6 +6,7 @@ interface Props {
     article?: boolean;
     serviceType?: string;
     serviceArea?: string[];
+    robots?: string;
 }
 
 const {
@@ -13,6 +14,7 @@ const {
     description,
     image = "/images/catalog/photo-tapis-clean.webp", // Keeping the fixed image as it is better
     article = false,
+    robots,
 } = Astro.props;
 
 const siteUrl = "https://groupenettoyageempire.com";
@@ -25,7 +27,8 @@ const cleanPath = pathname.replace(/\/$/, "") || "/";
 let frPath = isEn ? cleanPath.replace("/en", "") || "/" : cleanPath;
 let enPath = isEn ? cleanPath : "/en" + (cleanPath === "/" ? "" : cleanPath);
 
-const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+// Use cleaned path to avoid canonical mismatches (e.g. trailing slash)
+const canonicalURL = new URL(cleanPath, siteUrl);
 const frURL = new URL(frPath, siteUrl);
 const enURL = new URL(enPath, siteUrl);
 const socialImageURL = new URL(image, siteUrl);
@@ -295,7 +298,10 @@ const breadcrumbSchema = {
 <meta name="description" content={description} />
 <meta
     name="robots"
-    content="index, follow, max-image-preview:large, max-snippet:-1"
+    content={
+        robots ??
+        "index, follow, max-image-preview:large, max-snippet:-1"
+    }
 />
 <link rel="canonical" href={canonicalURL} />
 <link rel="alternate" hreflang="fr" href={frURL} />

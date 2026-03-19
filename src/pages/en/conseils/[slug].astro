@@ -165,7 +165,10 @@ export function getStaticPaths() {
 const { post } = Astro.props;
 ---
 
-<Layout title={`${post.title} | Conseils Nettoyage Empire`}>
+<Layout
+  title={`${post.title} | Conseils Nettoyage Empire`}
+  description={post.excerpt}
+>
   <div class="article-header">
     <div class="container text-center fade-in-section">
       <span class="category-tag">{post.category}</span>

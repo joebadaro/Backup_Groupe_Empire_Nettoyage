@@ -10,13 +10,17 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  robots?: string;
 }
 
-const {
-  title,
-  description = "Groupe Nettoyage Empire - Spécialistes du nettoyage de tapis, divans et carpettes.",
-  image,
-} = Astro.props;
+const { title, image, robots } = Astro.props;
+
+const isEn = Astro.url.pathname.startsWith("/en");
+const defaultDescription = isEn
+  ? "Premium carpet, upholstery and mattress cleaning services in Montreal and Quebec. Eco-friendly solutions and truck-mount technology."
+  : "Groupe Nettoyage Empire - Spécialistes du nettoyage de tapis, divans et carpettes.";
+
+const description = Astro.props.description ?? defaultDescription;
 ---
 
 <!doctype html>
@@ -33,7 +37,12 @@ const {
     </script>
     <!-- End Google Tag Manager -->
 
-    <SEO title={title} description={description} image={image} />
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      robots={robots}
+    />
     {image && <link rel="preload" as="image" href={image} />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
