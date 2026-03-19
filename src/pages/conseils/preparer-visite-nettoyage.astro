@@ -1,0 +1,55 @@
+---
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+
+const pageTitle = "5 minutes pour préparer votre visite de nettoyage | Conseils Nettoyage Empire";
+const heading = "5 minutes pour préparer votre visite de nettoyage";
+const description =
+  "Faut-il passer l'aspirateur ? Bouger les gros meubles ? Voici notre check-list simple pour un service efficace.";
+---
+
+<ArticleLayout title={pageTitle} description={description} heading={heading}>
+  <div class="article-meta" style="margin-bottom: 2rem; color: #666; font-style: italic;">
+    <span>Catégorie : Guide</span> | <span>Mise à jour : 12 Décembre 2024</span>
+  </div>
+
+  <p class="lead" style="font-size: 1.2rem; line-height: 1.6; color: var(--color-primary); font-weight: 500;">
+    Vous avez pris rendez-vous ? Excellent ! Voici comment nous aider à vous offrir le meilleur service possible en quelques gestes simples.
+  </p>
+
+  <div
+    style="background-color: #f8f9fa; border-left: 4px solid var(--color-accent); padding: 1.5rem; margin: 2rem 0; border-radius: 4px;"
+  >
+    <p style="margin: 0;">
+      <strong>Rappel :</strong> ces étapes libèrent nos techniciens pour se concentrer sur l’extraction et la qualité du
+      nettoyage — pas sur le déplacement d’objets fragiles.
+    </p>
+  </div>
+
+  <h2>1. Dégagez les zones de passage</h2>
+  <p>
+    Retirez les petits objets, jouets, lampes fragiles et plantes posées au sol dans les zones à nettoyer. Nous avons
+    besoin d'espace pour manœuvrer nos tuyaux.
+  </p>
+
+  <h2>2. Les meubles : on s'occupe du lourd (raisonnablement)</h2>
+  <p>
+    <strong>Ce que nous déplaçons :</strong> Sofas, tables basses, chaises. Nous plaçons des petits blocs de
+    styromousse sous les pattes après le nettoyage.
+  </p>
+  <p>
+    <strong>Ce que vous devez laisser :</strong> Bibliothèques remplies, pianos, meubles télé avec électronique
+    complexe, lits waterbed. Pour ces items, nous nettoyons tout autour minutieusement.
+  </p>
+
+  <h2>3. L'aspirateur ?</h2>
+  <p>
+    Idéalement, un petit coup d'aspirateur rapide est apprécié pour enlever les gros moutons de poussière, mais nos
+    équipements feront le gros du travail d'extraction de toute façon.
+  </p>
+
+  <h2>4. Stationnement</h2>
+  <p>
+    Notre camion-usine a besoin d'être stationné le plus près possible de votre porte pour garder la chaleur de l'eau.
+    Si vous pouvez libérer l'entrée de garage, c'est l'idéal !
+  </p>
+</ArticleLayout>

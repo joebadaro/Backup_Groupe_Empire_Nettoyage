@@ -1,9 +1,11 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 
+/** Dynamic route rendered on demand (slug from URL). Without this, Astro can require getStaticPaths. */
+export const prerender = false;
+
 /**
- * SSR (output:server): getStaticPaths is ignored, so Astro.props is empty at runtime.
- * Resolve the article from the URL slug instead of props (avoids crash on click).
+ * Resolve the article from the URL slug (not from getStaticPaths props — unreliable with SSR).
  */
 const posts = [
     {
@@ -60,32 +62,6 @@ const posts = [
       `,
     },
     {
-      slug: "frequence-nettoyage-tapis",
-      title: "À quelle fréquence devez-vous nettoyer vos tapis ?",
-      excerpt:
-        "Attendez-vous que le tapis soit sale visuellement ? C'est souvent trop tard. Voici les recommandations pour une maison saine.",
-      date: "10 Décembre 2024",
-      category: "Santé",
-      image: "📅",
-      content: `
-        <p>Beaucoup de gens attendent que leur tapis soit grisâtre ou taché avant d'appeler un nettoyeur. C'est une erreur ! Un tapis agit comme un filtre à air géant pour votre maison : il piège la poussière, le pollen, les peaux mortes et les polluants.</p>
-        <p>Une fois que le filtre est plein, il ne retient plus rien, et vous respirez ces particules.</p>
-
-        <h3>Les Recommandations Standards</h3>
-        <ul>
-          <li><strong>Maison standard (2 adultes) :</strong> Tous les 12 à 18 mois.</li>
-          <li><strong>Famille avec enfants :</strong> Tous les 6 à 12 mois.</li>
-          <li><strong>Avec animaux de compagnie :</strong> Tous les 6 mois recommandé.</li>
-          <li><strong>Allergies / Asthme :</strong> Tous les 4 à 6 mois pour réduire les symptômes.</li>
-        </ul>
-
-        <h3>L'avantage santé</h3>
-        <p>Au-delà de l'apparence, le nettoyage à la vapeur (extraction à l'eau chaude) tue les acariens et élimine les bactéries incrustées. C'est un geste santé essentiel, surtout en hiver où nous passons plus de temps à l'intérieur.</p>
-        
-        <p>N'attendez pas que le tapis "ait l'air sale". Un entretien régulier prolonge aussi la durée de vie de vos tapis et préserve la garantie du fabricant.</p>
-      `,
-    },
-    {
       slug: "urine-animaux-tapis",
       title: "Animaux : Pourquoi l'odeur d'urine revient toujours ?",
       excerpt:
@@ -107,56 +83,6 @@ const posts = [
         <p>Pour éliminer le problème définitivement, nous utilisons des produits professionnels à base d'enzymes actives. Ces "bonnes bactéries" mangent littéralement les cristaux d'acide urique. Combiné à notre extraction par camion-usine, c'est la seule façon de "resetter" votre tapis.</p>
       `,
     },
-    {
-      slug: "preparer-visite-nettoyage",
-      title: "5 minutes pour préparer votre visite de nettoyage",
-      excerpt:
-        "Faut-il passer l'aspirateur ? Bouger les gros meubles ? Voici notre check-list simple pour un service efficace.",
-      date: "12 Décembre 2024",
-      category: "Guide",
-      image: "📋",
-      content: `
-        <p>Vous avez pris rendez-vous ? Excellent ! Voici comment nous aider à vous offrir le meilleur service possible en quelques gestes simples.</p>
-
-        <h3>1. Dégagez les zones de passage</h3>
-        <p>Retirez les petits objets, jouets, lampes fragiles et plantes posées au sol dans les zones à nettoyer. Nous avons besoin d'espace pour manœuvrer nos tuyaux.</p>
-
-        <h3>2. Les Meubles : On s'occupe du lourd (raisonnablement)</h3>
-        <p><strong>Ce que nous déplaçons :</strong> Sofas, tables basses, chaises. Nous plaçons des petits blocs de styromousse sous les pattes après le nettoyage.</p>
-        <p><strong>Ce que vous devez laisser :</strong> Bibliothèques remplies, pianos, meubles télé avec électronique complexe, lits waterbed. Pour ces items, nous nettoyons tout autour minutieusement.</p>
-
-        <h3>3. L'aspirateur ?</h3>
-        <p>Idéalement, un petit coup d'aspirateur rapide est apprécié pour enlever les gros moutons de poussière, mais nos équipements feront le gros du travail d'extraction de toute façon.</p>
-
-        <h3>4. Stationnement</h3>
-        <p>Notre camion-usine a besoin d'être stationné le plus près possible de votre porte pour garder la chaleur de l'eau. Si vous pouvez libérer l'entrée de garage, c'est l'idéal !</p>
-      `,
-    },
-    {
-      slug: "entretien-cuir-erreurs",
-      title: "Cuir : Arrêtez d'utiliser des lingettes pour bébé !",
-      excerpt:
-        "Les produits hydratants de pharmacie encrassent les pores du cuir. Apprenez la vraie méthode d'entretien.",
-      date: "08 Décembre 2024",
-      category: "Entretien",
-      image: "🛋️",
-      content: `
-        <p>Le cuir est une peau. Comme la vôtre, il a besoin de respirer et d'être hydraté. Mais attention aux fausses bonnes idées qui circulent sur internet.</p>
-
-        <h3>L'erreur des lingettes humides</h3>
-        <p>Les lingettes pour bébé contiennent souvent des huiles ou des lotions alcalines qui peuvent, à long terme, détériorer le fini protecteur du cuir (le "top coat").</p>
-
-        <h3>L'huile d'olive ou Lait démaquillant ? Non !</h3>
-        <p>Ces corps gras ne pénètrent pas correctement. Ils restent en surface, deviennent rances (mauvaise odeur) et attirent la poussière qui va agir comme du papier sablé sur votre cuir.</p>
-
-        <h3>La bonne méthode</h3>
-        <ol>
-            <li><strong>Dépoussiérer :</strong> Chiffon doux sec chaque semaine.</li>
-            <li><strong>Nettoyer :</strong> Un linge humide (eau seulement) pour les petits dégâts.</li>
-            <li><strong>Hydrater (1x par an) :</strong> C'est là que nous intervenons. Un cuir doit être nettoyé en profondeur pour ouvrir les pores AVANT d'appliquer une crème hydratante professionnelle. Appliquer de la crème sur un cuir sale ne fait qu'emprisonner la saleté.</li>
-        </ol>
-      `,
-    },
   ];
 
 const slug = Astro.params.slug;
@@ -171,9 +97,10 @@ if (!post) {
   description={post.excerpt}
 >
   <div class="article-header">
-    <div class="container text-center fade-in-section">
+    <!-- Pas de fade-in-section : en desktop opacity:0 jusqu'au JS → bandeau titre invisible -->
+    <div class="container text-center">
       <span class="category-tag">{post.category}</span>
-      <h1 class="text-gradient">{post.title}</h1>
+      <h1 class="conseils-post-title">{post.title}</h1>
       <p class="meta-date">Publié le {post.date}</p>
     </div>
   </div>
@@ -182,7 +109,7 @@ if (!post) {
     <div class="container">
       <div class="article-layout">
         <!-- ARTICLE CONTENT -->
-        <article class="article-content fade-in-section delay-100">
+        <article class="article-content">
           <div class="content-body" set:html={post.content} />
 
           <div class="share-box">
@@ -193,7 +120,7 @@ if (!post) {
 
         <!-- SIDEBAR -->
         <aside class="article-sidebar">
-          <div class="sticky-card fade-in-section">
+          <div class="sticky-card">
             <h3 class="card-title text-gradient-gold">Besoin d'un Pro ?</h3>
             <p class="card-desc">
               Ne prenez pas de risque avec vos tapis et meubles.
@@ -255,6 +182,19 @@ if (!post) {
     font-style: italic;
   }
 
+  /* Solid H1 (no text-gradient): gradient + text-fill transparent broke visibility for some users/browsers */
+  .conseils-post-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.85rem, 4vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--color-primary);
+    margin: 0.75rem auto 0;
+    padding: 0;
+    max-width: 52rem;
+  }
+
   .article-layout {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -263,14 +203,21 @@ if (!post) {
 
   /* Content Styling */
   .article-content {
+    /* Grid default min-width:auto prevents shrinking → overflow, odd line breaks */
+    min-width: 0;
     background: white;
-    padding: 0;
+    padding: 2rem 0 2.5rem;
+  }
+
+  .article-sidebar {
+    min-width: 0;
   }
 
   .content-body {
     font-size: 1.1rem;
     line-height: 1.8;
     color: #444;
+    overflow-wrap: break-word;
   }
 
   /* Global styles for injected HTML content */
@@ -285,13 +232,23 @@ if (!post) {
     margin-bottom: 1.5rem;
   }
 
-  :global(.content-body ul),
+  /* Override global ul { list-style: none } (ArticleLayout-style lists) */
+  :global(.content-body ul) {
+    list-style: disc;
+    list-style-position: outside;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
   :global(.content-body ol) {
-    padding-left: 20px;
+    list-style: decimal;
+    list-style-position: outside;
+    padding-left: 1.5rem;
     margin-bottom: 1.5rem;
   }
 
   :global(.content-body li) {
+    display: list-item;
     margin-bottom: 10px;
   }
 
@@ -300,12 +257,17 @@ if (!post) {
     font-weight: 700;
   }
 
-  :global(.alert-box) {
+  :global(.content-body .alert-box) {
     background: #fdfae9;
     border-left: 4px solid var(--color-accent);
     padding: 1.5rem;
     margin: 2rem 0;
     border-radius: 0 8px 8px 0;
+    box-sizing: border-box;
+  }
+
+  :global(.content-body .alert-box strong) {
+    color: var(--color-primary);
   }
 
   .share-box {

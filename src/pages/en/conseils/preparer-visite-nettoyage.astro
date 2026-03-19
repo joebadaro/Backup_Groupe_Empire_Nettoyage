@@ -1,0 +1,47 @@
+---
+import ArticleLayout from "../../../layouts/ArticleLayout.astro";
+
+const pageTitle = "A 5-Minute Checklist Before Your Cleaning Visit | Expert Tips | Empire Cleaning Group";
+const heading = "A 5-Minute Checklist Before Your Cleaning Visit";
+const description =
+  "Simple preparation steps to help your appointment run smoothly and efficiently.";
+---
+
+<ArticleLayout
+  title={pageTitle}
+  description={description}
+  heading={heading}
+  backHref="/en/conseils"
+  backLabel="← Back to expert tips"
+>
+  <div class="article-meta" style="margin-bottom: 2rem; color: #666; font-style: italic;">
+    <span>Category: Guide</span> | <span>Updated: December 12, 2024</span>
+  </div>
+
+  <p class="lead" style="font-size: 1.2rem; line-height: 1.6; color: var(--color-primary); font-weight: 500;">
+    A little preparation helps your technician work faster and deliver the best result.
+  </p>
+
+  <div
+    style="background-color: #f8f9fa; border-left: 4px solid var(--color-accent); padding: 1.5rem; margin: 2rem 0; border-radius: 4px;"
+  >
+    <p style="margin: 0;">
+      <strong>Tip:</strong> clearing fragile items and tight areas first lets us focus on deep cleaning—not moving
+      décor.
+    </p>
+  </div>
+
+  <h2>1) Clear work areas</h2>
+  <p>Move fragile items, toys, and small objects from the areas to be cleaned.</p>
+
+  <h2>2) Furniture expectations</h2>
+  <p>
+    Most standard furniture can be moved, but heavy or sensitive items should stay in place for safety.
+  </p>
+
+  <h2>3) Light vacuuming (optional)</h2>
+  <p>A quick vacuum pass can help remove surface debris before deep extraction.</p>
+
+  <h2>4) Parking access</h2>
+  <p>Closer truck access supports stronger heat and consistent equipment performance.</p>
+</ArticleLayout>

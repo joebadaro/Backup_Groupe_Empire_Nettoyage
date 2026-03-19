@@ -1,9 +1,11 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 
+/** Dynamic route rendered on demand (slug from URL). Without this, Astro can require getStaticPaths. */
+export const prerender = false;
+
 /**
- * SSR (output:server): getStaticPaths is ignored, so Astro.props is empty at runtime.
- * Resolve the article from the URL slug instead of props (avoids crash on click).
+ * Resolve the article from the URL slug (not from getStaticPaths props — unreliable with SSR).
  */
 const posts = [
     {
@@ -43,27 +45,6 @@ const posts = [
       `,
     },
     {
-      slug: "frequence-nettoyage-tapis",
-      title: "How Often Should Carpets Be Professionally Cleaned?",
-      excerpt:
-        "Visible dirt appears late. Follow practical cleaning intervals based on home traffic, pets, and allergy sensitivity.",
-      date: "December 10, 2024",
-      category: "Health",
-      image: "📅",
-      content: `
-        <p>Carpets trap dust, pollen, and allergens. Waiting until visible staining appears is usually too late for preventive maintenance.</p>
-        <h3>Recommended intervals</h3>
-        <ul>
-          <li><strong>Standard household:</strong> every 12 to 18 months.</li>
-          <li><strong>Families with children:</strong> every 6 to 12 months.</li>
-          <li><strong>Homes with pets:</strong> about every 6 months.</li>
-          <li><strong>Allergy-prone homes:</strong> every 4 to 6 months.</li>
-        </ul>
-        <h3>Health and durability benefits</h3>
-        <p>Regular deep cleaning supports indoor air quality and extends carpet lifespan while preserving texture and appearance.</p>
-      `,
-    },
-    {
       slug: "urine-animaux-tapis",
       title: "Pet Urine Odor: Why It Keeps Coming Back",
       excerpt:
@@ -81,48 +62,6 @@ const posts = [
         <p>Targeted enzyme treatment combined with deep extraction is the most reliable approach for odor control.</p>
       `,
     },
-    {
-      slug: "preparer-visite-nettoyage",
-      title: "A 5-Minute Checklist Before Your Cleaning Visit",
-      excerpt:
-        "Simple preparation steps to help your appointment run smoothly and efficiently.",
-      date: "December 12, 2024",
-      category: "Guide",
-      image: "📋",
-      content: `
-        <p>A little preparation helps your technician work faster and deliver the best result.</p>
-        <h3>1) Clear work areas</h3>
-        <p>Move fragile items, toys, and small objects from the areas to be cleaned.</p>
-        <h3>2) Furniture expectations</h3>
-        <p>Most standard furniture can be moved, but heavy or sensitive items should stay in place for safety.</p>
-        <h3>3) Light vacuuming (optional)</h3>
-        <p>A quick vacuum pass can help remove surface debris before deep extraction.</p>
-        <h3>4) Parking access</h3>
-        <p>Closer truck access supports stronger heat and consistent equipment performance.</p>
-      `,
-    },
-    {
-      slug: "entretien-cuir-erreurs",
-      title: "Leather Care Mistakes to Avoid",
-      excerpt:
-        "Everyday products can damage leather finish. Use a safer cleaning and conditioning routine.",
-      date: "December 08, 2024",
-      category: "Maintenance",
-      image: "🛋️",
-      content: `
-        <p>Leather needs proper cleaning and conditioning. Incorrect products can accelerate wear and damage surface finish.</p>
-        <h3>Avoid baby wipes and harsh household products</h3>
-        <p>Many products contain chemicals that are not designed for leather and can weaken protective coating over time.</p>
-        <h3>Avoid oily DIY treatments</h3>
-        <p>Heavy oils can leave residue, attract dirt, and alter leather appearance.</p>
-        <h3>A safer maintenance process</h3>
-        <ol>
-            <li><strong>Dust weekly:</strong> Use a soft dry cloth.</li>
-            <li><strong>Clean gently:</strong> Use a damp cloth for minor marks.</li>
-            <li><strong>Condition periodically:</strong> Apply professional leather conditioner after proper cleaning.</li>
-        </ol>
-      `,
-    },
   ];
 
 const slug = Astro.params.slug;
@@ -137,9 +76,9 @@ if (!post) {
   description={post.excerpt}
 >
   <div class="article-header">
-    <div class="container text-center fade-in-section">
+    <div class="container text-center">
       <span class="category-tag">{post.category}</span>
-      <h1 class="text-gradient">{post.title}</h1>
+      <h1 class="conseils-post-title">{post.title}</h1>
       <p class="meta-date">Published on {post.date}</p>
     </div>
   </div>
@@ -148,7 +87,7 @@ if (!post) {
     <div class="container">
       <div class="article-layout">
         <!-- ARTICLE CONTENT -->
-        <article class="article-content fade-in-section delay-100">
+        <article class="article-content">
           <div class="content-body" set:html={post.content} />
 
           <div class="share-box">
@@ -159,7 +98,7 @@ if (!post) {
 
         <!-- SIDEBAR -->
         <aside class="article-sidebar">
-          <div class="sticky-card fade-in-section">
+          <div class="sticky-card">
             <h3 class="card-title text-gradient-gold">Need a Pro?</h3>
             <p class="card-desc">
               Protect your carpets and upholstery with professional care.
@@ -223,6 +162,18 @@ if (!post) {
     font-style: italic;
   }
 
+  .conseils-post-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.85rem, 4vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--color-primary);
+    margin: 0.75rem auto 0;
+    padding: 0;
+    max-width: 52rem;
+  }
+
   .article-layout {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -231,14 +182,20 @@ if (!post) {
 
   /* Content Styling */
   .article-content {
+    min-width: 0;
     background: white;
-    padding: 0;
+    padding: 2rem 0 2.5rem;
+  }
+
+  .article-sidebar {
+    min-width: 0;
   }
 
   .content-body {
     font-size: 1.1rem;
     line-height: 1.8;
     color: #444;
+    overflow-wrap: break-word;
   }
 
   /* Global styles for injected HTML content */
@@ -253,13 +210,22 @@ if (!post) {
     margin-bottom: 1.5rem;
   }
 
-  :global(.content-body ul),
+  :global(.content-body ul) {
+    list-style: disc;
+    list-style-position: outside;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
   :global(.content-body ol) {
-    padding-left: 20px;
+    list-style: decimal;
+    list-style-position: outside;
+    padding-left: 1.5rem;
     margin-bottom: 1.5rem;
   }
 
   :global(.content-body li) {
+    display: list-item;
     margin-bottom: 10px;
   }
 
@@ -268,12 +234,17 @@ if (!post) {
     font-weight: 700;
   }
 
-  :global(.alert-box) {
+  :global(.content-body .alert-box) {
     background: #fdfae9;
     border-left: 4px solid var(--color-accent);
     padding: 1.5rem;
     margin: 2rem 0;
     border-radius: 0 8px 8px 0;
+    box-sizing: border-box;
+  }
+
+  :global(.content-body .alert-box strong) {
+    color: var(--color-primary);
   }
 
   .share-box {

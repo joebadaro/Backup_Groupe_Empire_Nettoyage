@@ -159,6 +159,8 @@ ul {
 
 /* Premium Text Effects */
 .text-gradient {
+  /* Explicit stack: background-clip text + delayed font subsets caused accent glyphs to fall back to serif in some browsers */
+  font-family: var(--font-heading);
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -166,6 +168,7 @@ ul {
 }
 
 .text-gradient-silver {
+  font-family: var(--font-heading);
   background: linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -421,6 +424,7 @@ ul {
 }
 
 .text-gradient-empire {
+  font-family: var(--font-heading) !important;
   background: linear-gradient(90deg, #000000 0%, #a31616 85%) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
@@ -429,6 +433,7 @@ ul {
 }
 
 .text-gradient-eco {
+  font-family: var(--font-heading) !important;
   background: linear-gradient(90deg, #000000 0%, #2E7D32 85%) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;

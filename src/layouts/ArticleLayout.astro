@@ -5,16 +5,21 @@ interface Props {
   title: string;
   description?: string;
   robots?: string;
+  /** Si défini, affiché en H1 ; `title` sert pour la balise &lt;title&gt; (ex. suffixe SEO). */
+  heading?: string;
+  backHref?: string;
+  backLabel?: string;
 }
 
-const { title, description, robots } = Astro.props;
+const { title, description, robots, heading, backHref = "/conseils", backLabel = "← Retour aux conseils" } = Astro.props;
+const h1Text = heading ?? title;
 ---
 
 <Layout title={title} description={description} robots={robots}>
   <div class="article-container">
     <div class="container small-container">
-      <a href="/conseils" class="back-link">← Retour aux conseils</a>
-      <h1>{title}</h1>
+      <a href={backHref} class="back-link">{backLabel}</a>
+      <h1>{h1Text}</h1>
       <div class="article-content">
         <slot />
       </div>
@@ -37,6 +42,7 @@ const { title, description, robots } = Astro.props;
   /* Make simple standard markdown-like content look good globally in articles */
   :global(.article-content h2) { margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem; }
   :global(.article-content ul) { margin-bottom: 1.5rem; padding-left: 1.5rem; list-style: disc; }
+  :global(.article-content ol) { margin-bottom: 1.5rem; padding-left: 1.5rem; list-style: decimal; }
   :global(.article-content p) { margin-bottom: 1.5rem; }
 
   .cta-box {

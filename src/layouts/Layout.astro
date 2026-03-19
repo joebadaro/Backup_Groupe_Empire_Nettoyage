@@ -46,18 +46,11 @@ const description = Astro.props.description ?? defaultDescription;
     {image && <link rel="preload" as="image" href={image} />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Load fonts immediately (no media="print" trick): deferred load caused Combining marks / Latin-ext to fallback to system serif before extra subsets arrived. -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
       rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
     />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
     <script>
       // Global Scroll Reveal
       document.addEventListener("DOMContentLoaded", () => {
