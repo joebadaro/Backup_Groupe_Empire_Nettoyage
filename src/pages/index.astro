@@ -897,6 +897,34 @@ import { Image } from "astro:assets";
         opacity: 0.85;
       }
 
+      /* Desktop-only sizing tune for better proportion */
+      @media (min-width: 769px) {
+        .trust-container {
+          padding-bottom: 3.4rem;
+        }
+        .trust-grid {
+          gap: 1rem;
+        }
+        .trust-pill {
+          padding: 0.72rem 1.2rem;
+          border-radius: 18px;
+          font-size: 0.84rem;
+          min-height: 58px;
+          letter-spacing: 0.15px;
+        }
+        .trust-pill .icon {
+          font-size: 0.95rem;
+        }
+        .badge-google {
+          padding: 0.55rem 1rem;
+        }
+        .badge-google .google-badge {
+          width: 130px;
+          height: auto;
+          display: block;
+        }
+      }
+
       /* --- SERVICES MODERN --- */
       .section-services {
         background-color: var(--color-bg-light-blue);

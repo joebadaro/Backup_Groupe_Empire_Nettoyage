@@ -48,34 +48,10 @@ import Layout from "../layouts/Layout.astro";
                         <div class="slideshow-container">
                             <!-- Newest Images (Slides 1-5) -->
                             <img
-                                src="/images/catalog/equipment-slide-1.webp"
-                                alt="Machine de nettoyage PEAK 500"
-                                class="slide active"
-                                loading="eager"
-                            />
-                            <img
-                                src="/images/catalog/equipment-slide-2.webp"
-                                alt="Nettoyage à la vapeur - Camion"
-                                class="slide"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/images/catalog/equipment-slide-3.webp"
-                                alt="Intérieur camion - Équipement"
-                                class="slide"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/images/catalog/equipment-slide-4.webp"
-                                alt="Camion et équipement en action"
-                                class="slide"
-                                loading="lazy"
-                            />
-                            <img
                                 src="/images/catalog/equipment-slide-5.webp"
                                 alt="Outils de nettoyage professionnels"
-                                class="slide"
-                                loading="lazy"
+                                class="slide active"
+                                loading="eager"
                             />
                             <!-- Previous Images -->
                             <img
@@ -227,22 +203,22 @@ import Layout from "../layouts/Layout.astro";
         }
         /* Make Visual Box taller on desktop relative to text */
         .visual-box {
-            height: 500px;
+            height: 625px;
         }
     }
 
     .visual-box {
         position: relative;
         width: 100%;
-        height: 350px; /* Mobile height */
-        border-radius: 12px;
+        height: 438px; /* Mobile height (+25%) */
+        border-radius: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: radial-gradient(circle at center, #2a2a2a 0%, #1a1a1a 100%);
+        background: transparent;
         overflow: hidden;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: none;
+        border: none;
     }
 
     /* Gradients for Text as requested */
