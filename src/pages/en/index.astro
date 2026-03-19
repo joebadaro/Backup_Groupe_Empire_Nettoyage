@@ -928,6 +928,7 @@ import { Image } from "astro:assets";
     @media (max-width: 768px) {
       .services-grid-modern {
         display: flex;
+        align-items: stretch; /* Equal card heights in the row (override % height on items) */
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         gap: 1.5rem;
@@ -960,6 +961,14 @@ import { Image } from "astro:assets";
       text-decoration: none;
       height: 100%;
       border: 1px solid rgba(0, 0, 0, 0.03); /* Subtle border for definition */
+    }
+
+    /* After base height:100% — mobile flex row needs height:auto so stretch equalizes all cards */
+    @media (max-width: 768px) {
+      .service-card-modern {
+        height: auto;
+        align-self: stretch;
+      }
     }
 
     .service-card-modern:hover {
