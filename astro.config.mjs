@@ -8,11 +8,26 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 import netlify from '@astrojs/netlify';
 
+const sitemapFilter = (url) => {
+  const excludedSubstrings = [
+    "/selection/",
+    "/inventaire/",
+    "/test-sms/",
+    "/services/meubles/",
+    "/en/selection/",
+    "/en/inventaire/",
+    "/en/test-sms/",
+    "/en/services/meubles/",
+    "/en/tips/",
+  ];
+  return !excludedSubstrings.some((sub) => url.includes(sub));
+};
+
 export default defineConfig({
   site: 'https://groupenettoyageempire.com',
   output: 'server',
   adapter: netlify(),
-  integrations: [sitemap()],
+  integrations: [sitemap({ filter: sitemapFilter })],
   build: {
     inlineStylesheets: 'always'
   },

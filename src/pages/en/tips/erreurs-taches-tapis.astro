@@ -11,7 +11,11 @@ const frontmatter = {
 };
 ---
 
-<ArticleLayout title={frontmatter.title} description={frontmatter.description}>
+<ArticleLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  robots="noindex,nofollow"
+>
   <div class="article-meta" style="margin-bottom: 2rem; color: #666; font-style: italic;">
     <span>Category: {frontmatter.category}</span> | <span>Updated: {frontmatter.date}</span>
   </div>

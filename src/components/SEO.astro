@@ -22,6 +22,7 @@ const siteUrl = "https://groupenettoyageempire.com";
 // Hreflang Logic
 const { pathname } = Astro.url;
 const isEn = pathname.startsWith("/en");
+const isEnTips = pathname.startsWith("/en/tips");
 const cleanPath = pathname.replace(/\/$/, "") || "/";
 
 let frPath = isEn ? cleanPath.replace("/en", "") || "/" : cleanPath;
@@ -40,15 +41,16 @@ const jsonLD = {
     name: "Groupe Nettoyage Empire",
     alternateName: "Nettoyage Empire",
     slogan: "L'Excellence du Nettoyage au Québec",
-    description:
-        "Service professionnel de nettoyage de tapis, meubles et matelas à Montréal, Laval et Rive-Sud. Technologie de camion-usine, produits écologiques et expertise de 30+ ans.",
+    description: isEn
+        ? "Premium carpet, upholstery and mattress cleaning services in Montreal and Quebec. Eco-friendly solutions and truck-mount technology."
+        : "Service professionnel de nettoyage de tapis, meubles et matelas à Montréal, Laval et Rive-Sud. Technologie de camion-usine, produits écologiques et expertise de 30+ ans.",
     image: [socialImageURL, `${siteUrl}/images/catalog/team-van-back.webp`],
     logo: `${siteUrl}/images/logo-empire.png`,
     telephone: "(514) 893-9939",
     email: "info@groupenettoyageempire.com",
     address: {
         "@type": "PostalAddress",
-        streetAddress: "",
+        streetAddress: undefined,
         addressLocality: "Longueuil",
         addressRegion: "QC",
         postalCode: "J3Y",
@@ -111,11 +113,11 @@ const jsonLD = {
         },
         {
             "@type": "Place",
-            name: "Rive-Sud de Montréal",
+            name: isEn ? "South Shore of Montreal" : "Rive-Sud de Montréal",
         },
         {
             "@type": "Place",
-            name: "Rive-Nord de Montréal",
+            name: isEn ? "North Shore of Montreal" : "Rive-Nord de Montréal",
         },
     ],
     url: siteUrl,
@@ -154,74 +156,109 @@ const jsonLD = {
         "@type": "QuantitativeValue",
         value: 15,
     },
-    knowsAbout: [
-        "Nettoyage de tapis",
-        "Nettoyage de meubles",
-        "Nettoyage de matelas",
-        "Désinfection",
-        "Extraction à la vapeur",
-        "Produits écologiques",
-        "Nettoyage commercial",
-        "Nettoyage résidentiel",
-    ],
+    knowsAbout: isEn
+        ? [
+              "Carpet cleaning",
+              "Upholstery cleaning",
+              "Mattress cleaning",
+              "Disinfection",
+              "Steam extraction",
+              "Eco-friendly products",
+              "Commercial cleaning",
+              "Residential cleaning",
+          ]
+        : [
+              "Nettoyage de tapis",
+              "Nettoyage de meubles",
+              "Nettoyage de matelas",
+              "Désinfection",
+              "Extraction à la vapeur",
+              "Produits écologiques",
+              "Nettoyage commercial",
+              "Nettoyage résidentiel",
+          ],
     hasOfferCatalog: {
         "@type": "OfferCatalog",
-        name: "Services de Nettoyage",
+        name: isEn ? "Cleaning Services" : "Services de Nettoyage",
         itemListElement: [
             {
                 "@type": "Offer",
                 itemOffered: {
                     "@type": "Service",
-                    serviceType: "Nettoyage de tapis résidentiel",
-                    name: "Nettoyage de Tapis Résidentiel",
+                    serviceType: isEn
+                        ? "Residential Carpet Cleaning"
+                        : "Nettoyage de tapis résidentiel",
+                    name: isEn
+                        ? "Residential Carpet Cleaning"
+                        : "Nettoyage de Tapis Résidentiel",
                     description:
-                        "Nettoyage professionnel de tapis à domicile avec camion-usine. Élimination des taches, allergènes et odeurs.",
+                        isEn
+                            ? "Professional in-home carpet cleaning with truck-mount technology. Removes stains, allergens and odors."
+                            : "Nettoyage professionnel de tapis à domicile avec camion-usine. Élimination des taches, allergènes et odeurs.",
                     provider: {
                         "@id": `${siteUrl}/#organization`,
                     },
-                    areaServed: "Montréal, Laval, Rive-Sud",
+                    areaServed: isEn
+                        ? "Montreal, Laval, South Shore"
+                        : "Montréal, Laval, Rive-Sud",
                 },
             },
             {
                 "@type": "Offer",
                 itemOffered: {
                     "@type": "Service",
-                    serviceType: "Nettoyage de meubles",
-                    name: "Nettoyage de Meubles et Divans",
+                    serviceType: isEn ? "Upholstery & Furniture Cleaning" : "Nettoyage de meubles",
+                    name: isEn ? "Upholstery & Furniture Cleaning" : "Nettoyage de Meubles et Divans",
                     description:
-                        "Nettoyage de sofas, divans et fauteuils en tissu ou cuir. Traitement anti-taches et désodorisation.",
+                        isEn
+                            ? "Cleaning for fabric and leather sofas, couches and armchairs. Stain treatment and deodorizing."
+                            : "Nettoyage de sofas, divans et fauteuils en tissu ou cuir. Traitement anti-taches et désodorisation.",
                     provider: {
                         "@id": `${siteUrl}/#organization`,
                     },
-                    areaServed: "Montréal, Laval, Rive-Sud",
+                    areaServed: isEn
+                        ? "Montreal, Laval, South Shore"
+                        : "Montréal, Laval, Rive-Sud",
                 },
             },
             {
                 "@type": "Offer",
                 itemOffered: {
                     "@type": "Service",
-                    serviceType: "Nettoyage et désinfection de matelas",
-                    name: "Nettoyage et Désinfection de Matelas",
+                    serviceType: isEn ? "Mattress Cleaning & Disinfection" : "Nettoyage et désinfection de matelas",
+                    name: isEn ? "Mattress Cleaning & Disinfection" : "Nettoyage et Désinfection de Matelas",
                     description:
-                        "Élimination certifiée des acariens, bactéries et allergènes pour un sommeil sain.",
+                        isEn
+                            ? "Certified removal of dust mites, bacteria and allergens for healthier sleep."
+                            : "Élimination certifiée des acariens, bactéries et allergènes pour un sommeil sain.",
                     provider: {
                         "@id": `${siteUrl}/#organization`,
                     },
-                    areaServed: "Montréal, Laval, Rive-Sud",
+                    areaServed: isEn
+                        ? "Montreal, Laval, South Shore"
+                        : "Montréal, Laval, Rive-Sud",
                 },
             },
             {
                 "@type": "Offer",
                 itemOffered: {
                     "@type": "Service",
-                    serviceType: "Nettoyage de tapis commercial",
-                    name: "Nettoyage de Tapis Commercial",
+                    serviceType: isEn
+                        ? "Commercial Carpet Cleaning"
+                        : "Nettoyage de tapis commercial",
+                    name: isEn
+                        ? "Commercial Carpet Cleaning"
+                        : "Nettoyage de Tapis Commercial",
                     description:
-                        "Solutions professionnelles pour bureaux et espaces commerciaux. Service hors heures disponible.",
+                        isEn
+                            ? "Professional solutions for offices and commercial spaces. After-hours service available."
+                            : "Solutions professionnelles pour bureaux et espaces commerciaux. Service hors heures disponible.",
                     provider: {
                         "@id": `${siteUrl}/#organization`,
                     },
-                    areaServed: "Montréal, Laval, Rive-Sud",
+                    areaServed: isEn
+                        ? "Montreal, Laval, South Shore"
+                        : "Montréal, Laval, Rive-Sud",
                 },
             },
         ],
@@ -234,7 +271,9 @@ const webSiteSchema = {
     "@id": `${siteUrl}/#website`,
     url: siteUrl,
     name: "Groupe Nettoyage Empire",
-    description: "L'Excellence du Nettoyage au Québec",
+    description: isEn
+        ? "The Excellence of Cleaning in Quebec"
+        : "L'Excellence du Nettoyage au Québec",
     publisher: {
         "@id": `${siteUrl}/#organization`,
     },
@@ -304,9 +343,9 @@ const breadcrumbSchema = {
     }
 />
 <link rel="canonical" href={canonicalURL} />
-<link rel="alternate" hreflang="fr" href={frURL} />
+{!isEnTips && <link rel="alternate" hreflang="fr" href={frURL} />}
 <link rel="alternate" hreflang="en" href={enURL} />
-<link rel="alternate" hreflang="x-default" href={frURL} />
+<link rel="alternate" hreflang="x-default" href={isEnTips ? enURL : frURL} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={article ? "article" : "website"} />
