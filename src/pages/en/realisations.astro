@@ -10,12 +10,11 @@ const ids = [
   160, 161, 162, 163, 164
 ];
 
-const rotatedIds = [56, 58, 59, 60, 27, 39];
-
 // SEO-Only Logic (Not shown in UI)
 // Generates descriptive Alt text without grouping the UI
 const galleryImages = ids.map((id) => ({
-  src: `/images/catalog/photo-${id}${rotatedIds.includes(id) ? '-rotated' : ''}.webp`,
+  // EN gallery uses the standard originals (avoid relying on "*-rotated" assets).
+  src: `/images/catalog/photo-${id}.webp`,
   id: id,
   alt: "Réalisation professionnelle Groupe Nettoyage Empire - Tapis, Meubles et Entretien", // Generic & Safe SEO
   isLarge: id === 66
