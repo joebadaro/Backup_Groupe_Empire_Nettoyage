@@ -1,8 +1,11 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 
-export function getStaticPaths() {
-  const posts = [
+/**
+ * SSR (output:server): getStaticPaths is ignored, so Astro.props is empty at runtime.
+ * Resolve the article from the URL slug instead of props (avoids crash on click).
+ */
+const posts = [
     {
       slug: "erreurs-taches-tapis",
       title: "3 Critical Mistakes to Avoid with Carpet Stains",
@@ -122,13 +125,11 @@ export function getStaticPaths() {
     },
   ];
 
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+const slug = Astro.params.slug;
+const post = posts.find((p) => p.slug === slug);
+if (!post) {
+  return new Response(null, { status: 404, statusText: "Not Found" });
 }
-
-const { post } = Astro.props;
 ---
 
 <Layout
