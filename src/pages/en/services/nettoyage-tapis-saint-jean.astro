@@ -7,7 +7,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
   title="Carpet Cleaning Saint-Jean-sur-Richelieu | South Shore Experts"
   description="Professional carpet and furniture cleaning in Saint-Jean-sur-Richelieu. Truck-mount service for deep cleaning and full disinfection. Local experts."
 >
-  <div class="split-hero-container">
+  <div class="split-hero-container mobile-hero-stack">
     <div class="container full-width-split">
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT -->
@@ -16,6 +16,36 @@ import FAQSchema from "../../../components/FAQSchema.astro";
           <h1 class="split-title fade-in-up text-gradient-empire">
             Carpet Cleaning in Saint-Jean-sur-Richelieu
           </h1>
+
+          <div class="mobile-hero-slideshow fade-in-up delay-050">
+            <div class="slideshow-container">
+            <img
+              src="/images/catalog/resultat-tapis-berbere-propre.webp"
+              alt="Deep cleaning result on a carpet in Saint-Jean-sur-Richelieu"
+              class="slide active"
+              width="1200"
+              height="800"
+              loading="eager"
+            />
+            <img
+              src="/images/catalog/camion-usine-nettoyage-empire.webp"
+              alt="Empire Cleaning truck-mount unit ready for Saint-Jean-sur-Richelieu"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            <img
+              src="/images/catalog/nettoyage-fauteuil-professionnel.webp"
+              alt="Professional furniture cleaning in Saint-Jean-sur-Richelieu"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            </div>
+            <div class="image-overlay-gradient"></div>
+          </div>
 
           <div class="problem-statement fade-in-up delay-100" style="border-left-color: var(--color-accent);">
             <h3 class="problem-title" style="color: var(--color-primary);">For a Healthy Home:</h3>
@@ -156,15 +186,16 @@ import FAQSchema from "../../../components/FAQSchema.astro";
 </Layout>
 
 <script>
-  const slides = document.querySelectorAll(".slide");
-  if (slides.length > 0) {
+  document.querySelectorAll(".slideshow-container").forEach((container) => {
+    const slides = container.querySelectorAll(".slide");
+    if (slides.length <= 1) return;
     let currentSlide = 0;
     setInterval(() => {
       slides[currentSlide].classList.remove("active");
       currentSlide = (currentSlide + 1) % slides.length;
       slides[currentSlide].classList.add("active");
     }, 4000);
-  }
+  });
 </script>
 
 <style>

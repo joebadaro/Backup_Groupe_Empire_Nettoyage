@@ -514,3 +514,50 @@ ul {
 .social-btn.yt:hover {
   box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
 }
+
+/* Split hero: mobile — image/diaporama directement sous le titre (pages services avec .mobile-hero-stack) */
+.split-hero-container.mobile-hero-stack .mobile-hero-slideshow {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .split-hero-container.mobile-hero-stack .split-layout {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .split-hero-container.mobile-hero-stack .split-content {
+    padding: 34px 1.5rem 2.5rem;
+    order: 1;
+  }
+
+  .split-hero-container.mobile-hero-stack .split-image-wrapper {
+    display: none !important;
+  }
+
+  .split-hero-container.mobile-hero-stack .mobile-hero-slideshow {
+    display: block;
+    position: relative;
+    height: 400px;
+    width: calc(100% + 3rem);
+    margin: 0.25rem -1.5rem 1.2rem;
+    border-radius: 0;
+    overflow: hidden;
+  }
+
+  .split-hero-container.mobile-hero-stack .mobile-hero-slideshow .slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .split-hero-container.mobile-hero-stack .mobile-hero-slideshow .slide {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .split-hero-container.mobile-hero-stack .split-title {
+    margin-top: 0;
+  }
+}

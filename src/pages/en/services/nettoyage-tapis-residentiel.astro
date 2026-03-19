@@ -8,7 +8,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
   description="Professional residential carpet and stair cleaning with truck-mount. Removes allergens, stains, and odors. Montreal, Laval & South Shore. Quick drying. Free estimate."
 >
   <!-- SPLIT SCREEN HERO -->
-  <div class="split-hero-container">
+  <div class="split-hero-container mobile-hero-stack">
     <div class="container full-width-split">
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT (Hook) -->
@@ -17,6 +17,76 @@ import FAQSchema from "../../../components/FAQSchema.astro";
           <h1 class="split-title fade-in-up text-gradient-empire">
             Residential Carpet & Stair Cleaning
           </h1>
+
+          <div class="mobile-hero-slideshow fade-in-up delay-050">
+            <div class="slideshow-container">
+              <img
+                src="/images/catalog/nettoyage-tapis-vapeur-laval.webp"
+                alt="Steam carpet cleaning Laval - Professional technology"
+                class="slide active"
+                width="1200"
+                height="800"
+                loading="eager"
+              />
+              <img
+                src="/images/catalog/resultat-tapis-propre-longueuil.webp"
+                alt="Residential carpet cleaning result Longueuil - Empire Group"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-34.webp"
+                alt="Home carpet cleaning service Brossard - Guaranteed quality"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-67.webp"
+                alt="Impeccable residential carpet after cleaning Montreal"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-142.webp"
+                alt="Before-after carpet cleaning Empire Group - Professional result"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-143.webp"
+                alt="Clean and healthy carpet - Eliminating allergens Laval"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-144.webp"
+                alt="30 years carpet cleaning expertise - Empire Group South Shore"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-133.webp"
+                alt="At-home carpet cleaning service Longueuil - Without moving furniture"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+            </div>
+            <div class="image-overlay-gradient"></div>
+          </div>
 
           <div class="problem-statement fade-in-up delay-100">
             <h3 class="problem-title">The Problem:</h3>
@@ -361,20 +431,16 @@ import FAQSchema from "../../../components/FAQSchema.astro";
 
 <script>
   // Simple Cross-Fade Slideshow
-  const slides = document.querySelectorAll(".slide");
-
-  if (slides.length > 0) {
+  document.querySelectorAll(".slideshow-container").forEach((container) => {
+    const slides = container.querySelectorAll(".slide");
+    if (slides.length <= 1) return;
     let currentSlide = 0;
-    const intervalTime = 4000; // 4 seconds
-
     setInterval(() => {
       slides[currentSlide].classList.remove("active");
       currentSlide = (currentSlide + 1) % slides.length;
       slides[currentSlide].classList.add("active");
-    }, intervalTime);
-  }
-
-
+    }, 4000);
+  });
 </script>
 
 <style>
@@ -519,17 +585,6 @@ import FAQSchema from "../../../components/FAQSchema.astro";
     .split-layout {
       grid-template-columns: 1fr;
       min-height: auto;
-    }
-
-    .split-content {
-      padding: 3rem 1.5rem;
-      order: 1; /* Content first */
-    }
-
-    .split-image-wrapper {
-      order: 2; /* Image second */
-      height: 400px;
-      min-height: 0;
     }
   }
 

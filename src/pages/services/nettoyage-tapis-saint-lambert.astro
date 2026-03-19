@@ -7,7 +7,7 @@ import FAQSchema from "../../components/FAQSchema.astro";
   title="Nettoyage Tapis Saint-Lambert | Service Résidentiel de Luxe"
   description="Expert en nettoyage de tapis et meubles à Saint-Lambert. Camion-usine ultra-puissant pour un service impeccable et un séchage rapide. Entreprise locale."
 >
-  <div class="split-hero-container">
+  <div class="split-hero-container mobile-hero-stack">
     <div class="container full-width-split">
       <div class="split-layout">
         <div class="split-content fade-in-section">
@@ -15,6 +15,36 @@ import FAQSchema from "../../components/FAQSchema.astro";
           <h1 class="split-title fade-in-up text-gradient-empire">
             Nettoyage de Tapis et Divans à Saint-Lambert
           </h1>
+
+          <div class="mobile-hero-slideshow fade-in-up delay-050">
+            <div class="slideshow-container">
+            <img
+              src="/images/catalog/camion-usine-nettoyage-empire.webp"
+              alt="Notre camion-usine d'extraction à la vapeur stationné à Saint-Lambert"
+              class="slide active"
+              width="1200"
+              height="800"
+              loading="eager"
+            />
+            <img
+              src="/images/catalog/team-nettoyage-empire.webp"
+              alt="L'équipe d'experts de Groupe Nettoyage Empire prête pour Saint-Lambert"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            <img
+              src="/images/catalog/resultat-nettoyage-escaliers-tapis.webp"
+              alt="Résultat impeccable après nettoyage d'escaliers en tapis à Saint-Lambert"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            </div>
+            <div class="image-overlay-gradient"></div>
+          </div>
 
           <div class="problem-statement fade-in-up delay-100" style="border-left-color: var(--color-accent);">
             <h3 class="problem-title" style="color: var(--color-primary);">Une Exigence de Qualité :</h3>
@@ -157,15 +187,16 @@ import FAQSchema from "../../components/FAQSchema.astro";
 </Layout>
 
 <script>
-  const slides = document.querySelectorAll(".slide");
-  if (slides.length > 0) {
+  document.querySelectorAll(".slideshow-container").forEach((container) => {
+    const slides = container.querySelectorAll(".slide");
+    if (slides.length <= 1) return;
     let currentSlide = 0;
     setInterval(() => {
       slides[currentSlide].classList.remove("active");
       currentSlide = (currentSlide + 1) % slides.length;
       slides[currentSlide].classList.add("active");
     }, 4000);
-  }
+  });
 </script>
 
 <style>
@@ -201,8 +232,6 @@ import FAQSchema from "../../components/FAQSchema.astro";
   .slideshow-container img.slide.active { opacity: 1; }
   @media (max-width: 1024px) {
     .split-layout { grid-template-columns: 1fr; min-height: auto; }
-    .split-content { padding: 3rem 1.5rem; order: 1; }
-    .split-image-wrapper { order: 2; height: 400px; min-height: 0; }
   }
   .service-layout { display: grid; grid-template-columns: 1fr; gap: 5rem; }
   .section-title { font-size: 1.8rem; color: var(--color-primary); margin-bottom: 1.5rem; border-bottom: 2px solid #eee; padding-bottom: 0.5rem; display: inline-block; }

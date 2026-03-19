@@ -7,7 +7,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
   title="Carpet Cleaning Candiac | Premium South Shore Service"
   description="Carpet and furniture cleaning in Candiac. Truck-mount expertise for an immaculate and healthy home. Prestige residential service."
 >
-  <div class="split-hero-container">
+  <div class="split-hero-container mobile-hero-stack">
     <div class="container full-width-split">
       <div class="split-layout">
         <div class="split-content fade-in-section">
@@ -15,6 +15,36 @@ import FAQSchema from "../../../components/FAQSchema.astro";
           <h1 class="split-title fade-in-up text-gradient-empire">
             Carpet & Upholstery Cleaning in Candiac
           </h1>
+
+          <div class="mobile-hero-slideshow fade-in-up delay-050">
+            <div class="slideshow-container">
+            <img
+              src="/images/catalog/nettoyage-tapis-laine-jaune.webp"
+              alt="Expert cleaning of a delicate wool rug in Candiac"
+              class="slide active"
+              width="1200"
+              height="800"
+              loading="eager"
+            />
+            <img
+              src="/images/catalog/resultat-tapis-berbere-propre.webp"
+              alt="Immaculate Berber carpet after cleaning in Candiac"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            <img
+              src="/images/catalog/camion-usine-nettoyage-empire.webp"
+              alt="Deep cleaning truck-mount unit parked in Candiac"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            </div>
+            <div class="image-overlay-gradient"></div>
+          </div>
 
           <div class="problem-statement fade-in-up delay-100" style="border-left-color: var(--color-accent);">
             <h3 class="problem-title" style="color: var(--color-primary);">A High Standard for a Great City:</h3>
@@ -154,15 +184,16 @@ import FAQSchema from "../../../components/FAQSchema.astro";
 </Layout>
 
 <script>
-  const slides = document.querySelectorAll(".slide");
-  if (slides.length > 0) {
+  document.querySelectorAll(".slideshow-container").forEach((container) => {
+    const slides = container.querySelectorAll(".slide");
+    if (slides.length <= 1) return;
     let currentSlide = 0;
     setInterval(() => {
       slides[currentSlide].classList.remove("active");
       currentSlide = (currentSlide + 1) % slides.length;
       slides[currentSlide].classList.add("active");
     }, 4000);
-  }
+  });
 </script>
 
 <style>

@@ -8,7 +8,7 @@ import FAQSchema from "../../components/FAQSchema.astro";
   description="Application professionnelle de protecteurs antitaches (Scotchgard 3M, Teflon DuPont, Carbon) pour tapis, sofas et cuirs. Non dilués, à domicile. Montréal, Laval & Rive-Sud. Estimation gratuite."
 >
   <!-- SPLIT SCREEN HERO -->
-  <div class="split-hero-container">
+  <div class="split-hero-container mobile-hero-stack">
     <div class="container full-width-split">
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT -->
@@ -17,6 +17,20 @@ import FAQSchema from "../../components/FAQSchema.astro";
           <h1 class="split-title fade-in-up text-gradient-empire">
             Application de Protecteurs Antitaches
           </h1>
+
+          <div class="mobile-hero-slideshow fade-in-up delay-050">
+            <div class="slideshow-container">
+              <img
+                src="/images/catalog/photo-20.webp"
+                alt="Application professionnelle de protecteur antitache Scotchgard sur tissu - Groupe Empire"
+                class="slide active"
+                width="1200"
+                height="800"
+                loading="eager"
+              />
+            </div>
+            <div class="image-overlay-gradient"></div>
+          </div>
 
           <div class="problem-statement fade-in-up delay-100">
             <h3 class="problem-title">Le Problème :</h3>
@@ -443,8 +457,6 @@ import FAQSchema from "../../components/FAQSchema.astro";
   }
   @media (max-width: 1024px) {
     .split-layout { grid-template-columns: 1fr; min-height: auto; }
-    .split-content { padding: 3rem 1.5rem; order: 1; }
-    .split-image-wrapper { order: 2; height: 400px; min-height: 0; }
     .cta-group { display: none !important; }
   }
   @media (max-width: 900px) {

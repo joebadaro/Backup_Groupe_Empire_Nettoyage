@@ -7,7 +7,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
   title="Leather Sofa Cleaning & Conditioning | Montreal & Laval"
   description="Expert in-home leather furniture cleaning, conditioning and protection. Stain removal, sebum elimination, and restoration of suppleness. Free estimate."
 >
-  <section class="split-hero-container">
+  <section class="split-hero-container mobile-hero-stack">
     <div class="container full-width-split">
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT -->
@@ -16,6 +16,20 @@ import FAQSchema from "../../../components/FAQSchema.astro";
           <h1 class="split-title fade-in-up text-gradient-empire">
             Leather Cleaning, Conditioning and Protection
           </h1>
+
+          <div class="mobile-hero-slideshow fade-in-up delay-050">
+            <div class="slideshow-container">
+              <img
+                src="/images/catalog/photo-leather-final.webp"
+                alt="Technician conditioning a leather sofa - Empire Cleaning Group"
+                class="slide active"
+                width="1200"
+                height="800"
+                loading="eager"
+              />
+            </div>
+            <div class="image-overlay-gradient"></div>
+          </div>
 
           <div class="problem-statement fade-in-up delay-100">
             <h3 class="problem-title">The Problem:</h3>
@@ -274,18 +288,17 @@ import FAQSchema from "../../../components/FAQSchema.astro";
 </Layout>
 
 <script is:inline>
-  // Script gérant le diaporama de la section Hero
   (function () {
-    const slides = document.querySelectorAll(".slide");
-    if (slides.length > 0) {
+    document.querySelectorAll(".slideshow-container").forEach((container) => {
+      const slides = container.querySelectorAll(".slide");
+      if (slides.length <= 1) return;
       let currentSlide = 0;
-      const intervalTime = 4000;
       setInterval(() => {
         slides[currentSlide].classList.remove("active");
         currentSlide = (currentSlide + 1) % slides.length;
         slides[currentSlide].classList.add("active");
-      }, intervalTime);
-    }
+      }, 4000);
+    });
   })();
 </script>
 
@@ -558,8 +571,6 @@ import FAQSchema from "../../../components/FAQSchema.astro";
   /* RESPONSIVE */
   @media (max-width: 1024px) {
     .split-layout { grid-template-columns: 1fr; min-height: auto; }
-    .split-content { padding: 3rem 1.5rem; order: 1; }
-    .split-image-wrapper { order: 2; height: 400px; min-height: 0; }
     .lead-text { max-width: 100%; }
     .cta-group { display: none !important; }
   }

@@ -8,7 +8,7 @@ import FAQSchema from "../../components/FAQSchema.astro";
     description="Nettoyage professionnel de matelas : acariens, odeurs d'urine et allèrgènes éliminés. Service à domicile. Montréal, Laval & Rive-Sud. Séchage en 4h. Estimation gratuite."
 >
     <!-- SPLIT SCREEN HERO: BLOCK 1 -->
-    <div class="split-hero-container">
+    <div class="split-hero-container mobile-hero-stack">
         <div class="container full-width-split">
             <div class="split-layout">
                 <!-- LEFT COLUMN: CONTENT -->
@@ -17,6 +17,60 @@ import FAQSchema from "../../components/FAQSchema.astro";
                     <h1 class="split-title fade-in-up text-gradient-empire">
                         Nettoyage & Désinfection de Matelas
                     </h1>
+
+                    <div class="mobile-hero-slideshow fade-in-up delay-050">
+                        <div class="slideshow-container">
+                            <img
+                                src="/images/catalog/teck-empire-matress-optimized.webp"
+                                alt="Expert Groupe Empire nettoyage en profondeur de matelas - Montréal"
+                                class="slide active"
+                                width="1200"
+                                height="800"
+                                loading="eager"
+                            />
+                            <img
+                                src="/images/catalog/photo-matelas-2.webp"
+                                alt="Nettoyage désinfection matelas à domicile Montréal - Élimination acariens"
+                                class="slide"
+                                width="1200"
+                                height="800"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/kid-dog-matress-optimized.webp"
+                                alt="Désinfection de matelas sécurisée pour enfants et animaux - Montréal"
+                                class="slide"
+                                width="1200"
+                                height="800"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/photo-matelas-6.webp"
+                                alt="Service nettoyage matelas professionnel Laval - Groupe Empire"
+                                class="slide"
+                                width="1200"
+                                height="800"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/photo-matelas-8.webp"
+                                alt="Désinfection matelas écologique Rive-Sud - Sommeil sain"
+                                class="slide"
+                                width="1200"
+                                height="800"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/woman-matress-optimized.webp"
+                                alt="Sommeil réparateur après nettoyage professionnel de matelas - Groupe Empire"
+                                class="slide"
+                                width="1200"
+                                height="800"
+                                loading="lazy"
+                            />
+                        </div>
+                        <div class="image-overlay-gradient"></div>
+                    </div>
 
                     <!-- BLOCK 1: INTRO (VISIBLE) -->
                     <div class="problem-statement fade-in-up delay-100">
@@ -357,17 +411,16 @@ import FAQSchema from "../../components/FAQSchema.astro";
     <script is:inline>
         // Force script to run immediately using is:inline
         (function () {
-            // Slideshow Logic
-            const slides = document.querySelectorAll(".slide");
-            if (slides.length > 0) {
+            document.querySelectorAll(".slideshow-container").forEach((container) => {
+                const slides = container.querySelectorAll(".slide");
+                if (slides.length <= 1) return;
                 let currentSlide = 0;
-                const intervalTime = 4000; // 4 seconds
                 setInterval(() => {
                     slides[currentSlide].classList.remove("active");
                     currentSlide = (currentSlide + 1) % slides.length;
                     slides[currentSlide].classList.add("active");
-                }, intervalTime);
-            }
+                }, 4000);
+            });
 
 
         })();
@@ -505,15 +558,6 @@ import FAQSchema from "../../components/FAQSchema.astro";
             .split-layout {
                 grid-template-columns: 1fr;
                 min-height: auto;
-            }
-            .split-content {
-                padding: 3rem 1.5rem;
-                order: 1; /* Content first */
-            }
-            .split-image-wrapper {
-                order: 2; /* Image second */
-                height: 400px;
-                min-height: 0;
             }
             .lead-text {
                 max-width: 100%;

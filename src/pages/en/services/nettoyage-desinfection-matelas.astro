@@ -8,7 +8,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
     description="Professional mattress cleaning: dust mites, urine odors, and allergens eliminated. At-home service. Montreal, Laval & South Shore. 4h drying. Free quote."
 >
     <!-- SPLIT SCREEN HERO: BLOCK 1 -->
-    <div class="split-hero-container">
+    <div class="split-hero-container mobile-hero-stack">
         <div class="container full-width-split">
             <div class="split-layout">
                 <!-- LEFT COLUMN: CONTENT -->
@@ -17,6 +17,60 @@ import FAQSchema from "../../../components/FAQSchema.astro";
                     <h1 class="split-title fade-in-up text-gradient-empire">
                         Mattress Cleaning & Disinfection
                     </h1>
+
+                    <div class="mobile-hero-slideshow fade-in-up delay-050">
+                        <div class="slideshow-container">
+                            <img
+                                src="/images/catalog/teck-empire-matress-optimized.webp"
+                                alt="Empire Group Expert deep mattress cleaning - Montreal"
+                                class="slide active"
+                                width="1200"
+                                height="800"
+                                loading="eager"
+                            />
+                            <img
+                                src="/images/catalog/photo-matelas-2.webp"
+                                alt="At-home mattress disinfection Montreal - Dust mite elimination"
+                                class="slide"
+                                width="1200"
+                                height="800"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/kid-dog-matress-optimized.webp"
+                                alt="Safe mattress disinfection for children and pets - Montreal"
+                                class="slide"
+                                width="1200"
+                                height="800"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/photo-matelas-6.webp"
+                                alt="Professional mattress cleaning service Laval - Empire Group"
+                                class="slide"
+                                width="1200"
+                                height="800"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/photo-matelas-8.webp"
+                                alt="Eco-friendly mattress disinfection South Shore - Healthy sleep"
+                                class="slide"
+                                width="1200"
+                                height="800"
+                                loading="lazy"
+                            />
+                            <img
+                                src="/images/catalog/woman-matress-optimized.webp"
+                                alt="Restful sleep after professional mattress cleaning - Empire Group"
+                                class="slide"
+                                width="1200"
+                                height="800"
+                                loading="lazy"
+                            />
+                        </div>
+                        <div class="image-overlay-gradient"></div>
+                    </div>
 
                     <!-- BLOCK 1: INTRO (VISIBLE) -->
                     <div class="problem-statement fade-in-up delay-100">
@@ -350,16 +404,16 @@ import FAQSchema from "../../../components/FAQSchema.astro";
         // Force script to run immediately using is:inline
         (function () {
             // Slideshow Logic
-            const slides = document.querySelectorAll(".slide");
-            if (slides.length > 0) {
+            document.querySelectorAll(".slideshow-container").forEach((container) => {
+                const slides = container.querySelectorAll(".slide");
+                if (slides.length <= 1) return;
                 let currentSlide = 0;
-                const intervalTime = 4000; // 4 seconds
                 setInterval(() => {
                     slides[currentSlide].classList.remove("active");
                     currentSlide = (currentSlide + 1) % slides.length;
                     slides[currentSlide].classList.add("active");
-                }, intervalTime);
-            }
+                }, 4000);
+            });
         })();
     </script>
 
@@ -495,15 +549,6 @@ import FAQSchema from "../../../components/FAQSchema.astro";
             .split-layout {
                 grid-template-columns: 1fr;
                 min-height: auto;
-            }
-            .split-content {
-                padding: 3rem 1.5rem;
-                order: 1; /* Content first */
-            }
-            .split-image-wrapper {
-                order: 2; /* Image second */
-                height: 400px;
-                min-height: 0;
             }
             .lead-text {
                 max-width: 100%;

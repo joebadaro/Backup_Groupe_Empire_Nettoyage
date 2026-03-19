@@ -8,7 +8,7 @@ import FAQSchema from "../../components/FAQSchema.astro";
   description="Expert en nettoyage de céramique et joints à haute pression. Élimination du gras, moisissure et application de scellant protecteur. Service résidentiel & commercial."
 >
   <!-- SPLIT SCREEN HERO: BLOCK 1 -->
-  <div class="split-hero-container">
+  <div class="split-hero-container mobile-hero-stack">
     <div class="container full-width-split">
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT -->
@@ -17,6 +17,60 @@ import FAQSchema from "../../components/FAQSchema.astro";
           <h1 class="split-title fade-in-up text-gradient-empire">
             Nettoyage de Tuiles & joints (Coulis)
           </h1>
+
+          <div class="mobile-hero-slideshow fade-in-up delay-050">
+            <div class="slideshow-container">
+              <img
+                src="/images/catalog/tuile-optimized.webp"
+                alt="Nettoyage professionnel de tuiles et joints de céramique - Résultat impeccable"
+                class="slide active"
+                width="1200"
+                height="800"
+                loading="eager"
+              />
+              <img
+                src="/images/catalog/tuile-slide-new-2.webp"
+                alt="Nettoyage professionnel plancher céramique Laval - Groupe Empire"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/tuile-slide-new-3.webp"
+                alt="Cuisine céramique impeccable Rive-Sud - Nettoyage joints profond"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/tuile2-optimized.webp"
+                alt="Plancher de céramique nettoyé et restauré par des professionnels - Montréal"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/tuile3-v3.webp"
+                alt="Nettoyage haute pression de tuiles et joints - Résultat impeccable"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/tuile-before-after-v3.webp"
+                alt="Avant et après nettoyage de joints de céramique très encrassés"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+            </div>
+            <div class="image-overlay-gradient"></div>
+          </div>
 
           <div class="problem-statement fade-in-up delay-100">
             <h3 class="problem-title">Le Problème :</h3>
@@ -295,16 +349,16 @@ import FAQSchema from "../../components/FAQSchema.astro";
 
 <script is:inline>
   (function () {
-    const slides = document.querySelectorAll(".slide");
-    if (slides.length > 0) {
+    document.querySelectorAll(".slideshow-container").forEach((container) => {
+      const slides = container.querySelectorAll(".slide");
+      if (slides.length <= 1) return;
       let currentSlide = 0;
-      const intervalTime = 4000;
       setInterval(() => {
         slides[currentSlide].classList.remove("active");
         currentSlide = (currentSlide + 1) % slides.length;
         slides[currentSlide].classList.add("active");
-      }, intervalTime);
-    }
+      }, 4000);
+    });
   })();
 </script>
 
@@ -426,15 +480,6 @@ import FAQSchema from "../../components/FAQSchema.astro";
       .split-layout {
         grid-template-columns: 1fr;
         min-height: auto;
-      }
-      .split-content {
-        padding: 3rem 1.5rem;
-        order: 1; /* Content first */
-      }
-      .split-image-wrapper {
-        order: 2; /* Image second */
-        height: 400px;
-        min-height: 0;
       }
       .lead-text {
         max-width: 100%;

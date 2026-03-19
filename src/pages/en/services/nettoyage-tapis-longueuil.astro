@@ -8,7 +8,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
   description="The #1 expert in carpet and furniture cleaning in Longueuil. Fast truck-mount service for Old Longueuil, Saint-Hubert, and Greenfield Park."
 >
   <!-- SPLIT SCREEN HERO -->
-  <div class="split-hero-container">
+  <div class="split-hero-container mobile-hero-stack">
     <div class="container full-width-split">
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT (Hook) -->
@@ -17,6 +17,44 @@ import FAQSchema from "../../../components/FAQSchema.astro";
           <h1 class="split-title fade-in-up text-gradient-empire">
             Carpet & Sofa Cleaning in Longueuil
           </h1>
+
+          <div class="mobile-hero-slideshow fade-in-up delay-050">
+            <div class="slideshow-container">
+             <img
+              src="/images/catalog/team-nettoyage-empire.webp"
+              alt="The Empire Cleaning Group expert team ready to serve Longueuil"
+              class="slide active"
+              width="1200"
+              height="800"
+              loading="eager"
+            />
+            <img
+              src="/images/catalog/camion-usine-nettoyage-empire.webp"
+              alt="Our industrial steam extraction truck-mount in action"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            <img
+              src="/images/catalog/nettoyage-tapis-laine-jaune.webp"
+              alt="Professional wool rug cleaning in Longueuil"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+             <img
+              src="/images/catalog/nettoyage-fauteuil-professionnel.webp"
+              alt="Stunning result on a living room sofa after professional cleaning"
+              class="slide"
+              width="1200"
+              height="800"
+              loading="lazy"
+            />
+            </div>
+            <div class="image-overlay-gradient"></div>
+          </div>
 
           <div class="problem-statement fade-in-up delay-100" style="border-left-color: var(--color-accent);">
             <h3 class="problem-title" style="color: var(--color-primary);">One City, Different Needs:</h3>
@@ -209,15 +247,16 @@ import FAQSchema from "../../../components/FAQSchema.astro";
 </Layout>
 
 <script>
-  const slides = document.querySelectorAll(".slide");
-  if (slides.length > 0) {
+  document.querySelectorAll(".slideshow-container").forEach((container) => {
+    const slides = container.querySelectorAll(".slide");
+    if (slides.length <= 1) return;
     let currentSlide = 0;
     setInterval(() => {
       slides[currentSlide].classList.remove("active");
       currentSlide = (currentSlide + 1) % slides.length;
       slides[currentSlide].classList.add("active");
     }, 4000);
-  }
+  });
 </script>
 
 <style>
@@ -254,8 +293,6 @@ import FAQSchema from "../../../components/FAQSchema.astro";
   .slideshow-container img.slide.active { opacity: 1; }
   @media (max-width: 1024px) {
     .split-layout { grid-template-columns: 1fr; min-height: auto; }
-    .split-content { padding: 3rem 1.5rem; order: 1; }
-    .split-image-wrapper { order: 2; height: 400px; min-height: 0; }
     .lead-text { max-width: 100%; }
   }
   .service-layout { display: grid; grid-template-columns: 1fr; gap: 5rem; }

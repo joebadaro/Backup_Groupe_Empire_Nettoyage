@@ -8,7 +8,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
   description="Professional steam cleaning (injection-extraction) for sofas, couches, and fabric furniture at home. Elimination of stains, odors, and allergens. Montreal, Laval & South Shore. Free quote."
 >
   <!-- SPLIT SCREEN HERO (Standardized) -->
-  <div class="split-hero-container">
+  <div class="split-hero-container mobile-hero-stack">
     <div class="container full-width-split">
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT -->
@@ -17,6 +17,92 @@ import FAQSchema from "../../../components/FAQSchema.astro";
           <h1 class="split-title fade-in-up text-gradient-empire">
             Sofa, Couch, Armchair & Fabric Furniture Cleaning
           </h1>
+
+          <div class="mobile-hero-slideshow fade-in-up delay-050">
+            <div class="slideshow-container">
+              <img
+                src="/images/catalog/sofa-slide-hero-1.webp"
+                alt="Empire Cleaning Technician cleaning upholstered chair - Montreal"
+                class="slide active"
+                width="1200"
+                height="800"
+                loading="eager"
+              />
+              <img
+                src="/images/catalog/sofa-slide-hero-2.webp"
+                alt="Daniel cleaning grey sectional sofa - Empire Group Professional"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-16.webp"
+                alt="Deep fabric couch cleaning"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-33.webp"
+                alt="Microfiber sofa stain removal"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-119.webp"
+                alt="Professional armchair cleaning"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-129.webp"
+                alt="Steam extraction on fabric furniture"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-170.webp"
+                alt="Couch cleaning Laval"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-171.webp"
+                alt="Furniture cleaning expert South Shore"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-172.webp"
+                alt="Before-after sofa cleaning"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/meuble-exterieur-optimized.webp"
+                alt="Professional patio furniture cleaning - Montreal"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+            </div>
+            <div class="image-overlay-gradient"></div>
+          </div>
 
           <div class="problem-statement fade-in-up delay-100">
             <h3 class="problem-title">The Problem:</h3>
@@ -462,26 +548,23 @@ import FAQSchema from "../../../components/FAQSchema.astro";
   .sticky-cta p { font-size: 0.95rem; color: #666; margin-bottom: 2rem; }
   .guarantee { margin-top: 1.5rem; font-size: 0.9rem; font-weight: bold; color: #2e7d32; }
 
-  @media (max-width: 992px) {
+  @media (max-width: 1024px) {
     .split-layout { grid-template-columns: 1fr; }
     .alternate-layout { grid-template-columns: 1fr; }
     .split-title { font-size: 2.2rem; }
-    .split-image-wrapper { height: 400px; min-height: 0; }
+    .cta-group { display: none !important; }
   }
 </style>
 
 <script>
-  // Slideshow Logic
-  const slides = document.querySelectorAll(".slide");
-  let currentSlide = 0;
-
-  function nextSlide() {
-    slides[currentSlide].classList.remove("active");
-    currentSlide = (currentSlide + 1) % slides.length;
-    slides[currentSlide].classList.add("active");
-  }
-
-  if (slides.length > 1) {
-    setInterval(nextSlide, 4000);
-  }
+  document.querySelectorAll(".slideshow-container").forEach((container) => {
+    const slides = container.querySelectorAll(".slide");
+    if (slides.length <= 1) return;
+    let currentSlide = 0;
+    setInterval(() => {
+      slides[currentSlide].classList.remove("active");
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add("active");
+    }, 4000);
+  });
 </script>

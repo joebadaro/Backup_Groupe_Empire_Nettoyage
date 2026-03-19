@@ -373,7 +373,7 @@ if (!service) {
   </style>
 
   <!-- SPLIT SCREEN HERO -->
-  <div class="split-hero-container">
+  <div class="split-hero-container mobile-hero-stack">
     <div class="container full-width-split">
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT (Hook) -->
@@ -382,6 +382,33 @@ if (!service) {
           <h1 class="split-title fade-in-up text-gradient-empire">
             {service.title}
           </h1>
+
+          <div class="mobile-hero-slideshow fade-in-up delay-050">
+            {
+              service.slides && service.slides.length > 1 ? (
+                <div class="slideshow-container">
+                  {service.slides.map((slide, index) => (
+                    <img
+                      src={slide}
+                      alt={`${service.title} - Image ${index + 1}`}
+                      class={`slide ${index === 0 ? "active" : ""}`}
+                      loading={index === 0 ? "eager" : "lazy"}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div class="slideshow-container">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    class="slide active"
+                    loading="eager"
+                  />
+                </div>
+              )
+            }
+            <div class="image-overlay-gradient"></div>
+          </div>
 
           <div class="problem-statement fade-in-up delay-100">
             <h3 class="problem-title">Le Problème :</h3>
@@ -635,18 +662,16 @@ if (!service) {
 </Layout>
 
 <script>
-  // Slideshow Logic
-  const slides = document.querySelectorAll(".slide");
-  if (slides.length > 0) {
+  document.querySelectorAll(".slideshow-container").forEach((container) => {
+    const slides = container.querySelectorAll(".slide");
+    if (slides.length <= 1) return;
     let currentSlide = 0;
-    const intervalTime = 4000; // 4 seconds
-
     setInterval(() => {
       slides[currentSlide].classList.remove("active");
       currentSlide = (currentSlide + 1) % slides.length;
       slides[currentSlide].classList.add("active");
-    }, intervalTime);
-  }
+    }, 4000);
+  });
 </script>
 
 <style>
@@ -912,17 +937,6 @@ if (!service) {
     .split-layout {
       grid-template-columns: 1fr;
       min-height: auto;
-    }
-
-    .split-content {
-      padding: 3rem 1.5rem;
-      order: 1; /* Content first */
-    }
-
-    .split-image-wrapper {
-      order: 2; /* Image second */
-      height: 400px;
-      min-height: 0;
     }
 
     .lead-text {

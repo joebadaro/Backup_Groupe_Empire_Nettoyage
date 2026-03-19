@@ -8,7 +8,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
   description="Professional application of stain protectors (Scotchgard 3M, Teflon DuPont, Carbon) for carpets, sofas, and leather. Undiluted, at home. Montreal, Laval & South Shore. Free estimate."
 >
   <!-- SPLIT SCREEN HERO -->
-  <div class="split-hero-container">
+  <div class="split-hero-container mobile-hero-stack">
     <div class="container full-width-split">
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT -->
@@ -443,8 +443,6 @@ import FAQSchema from "../../../components/FAQSchema.astro";
   }
   @media (max-width: 1024px) {
     .split-layout { grid-template-columns: 1fr; min-height: auto; }
-    .split-content { padding: 3rem 1.5rem; order: 1; }
-    .split-image-wrapper { order: 2; height: 400px; min-height: 0; }
     .cta-group { display: none !important; }
   }
   @media (max-width: 900px) {

@@ -8,7 +8,7 @@ import FAQSchema from "../../components/FAQSchema.astro";
   description="Nettoyage professionnel de tapis résidentiel et escaliers avec camion-usine. Élimine allèrgènes, taches et odeurs. Montréal, Laval & Rive-Sud. Séchage rapide. Estimation gratuite."
 >
   <!-- SPLIT SCREEN HERO -->
-  <div class="split-hero-container">
+  <div class="split-hero-container mobile-hero-stack">
     <div class="container full-width-split">
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT (Hook) -->
@@ -17,6 +17,76 @@ import FAQSchema from "../../components/FAQSchema.astro";
           <h1 class="split-title fade-in-up text-gradient-empire">
             Nettoyage de Tapis Résidentiels & Escaliers
           </h1>
+
+          <div class="mobile-hero-slideshow fade-in-up delay-050">
+            <div class="slideshow-container">
+              <img
+                src="/images/catalog/nettoyage-tapis-vapeur-laval.webp"
+                alt="Nettoyage tapis à la vapeur Laval - Technologie professionnelle"
+                class="slide active"
+                width="1200"
+                height="800"
+                loading="eager"
+              />
+              <img
+                src="/images/catalog/resultat-tapis-propre-longueuil.webp"
+                alt="Résultat nettoyage tapis résidentiel Longueuil - Groupe Empire"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-34.webp"
+                alt="Service nettoyage tapis à domicile Brossard - Qualité garantie"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-67.webp"
+                alt="Tapis résidentiel impeccable après nettoyage Montréal"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-142.webp"
+                alt="Avant-après nettoyage tapis Groupe Empire - Résultat professionnel"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-143.webp"
+                alt="Tapis propre et sain - Élimination allergènes Laval"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-144.webp"
+                alt="Expertise nettoyage tapis 30 ans - Groupe Empire Rive-Sud"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+              <img
+                src="/images/catalog/photo-133.webp"
+                alt="Service à domicile nettoyage tapis Longueuil - Sans déplacer meubles"
+                class="slide"
+                width="1200"
+                height="800"
+                loading="lazy"
+              />
+            </div>
+            <div class="image-overlay-gradient"></div>
+          </div>
 
           <div class="problem-statement fade-in-up delay-100">
             <h3 class="problem-title">Le Problème :</h3>
@@ -360,21 +430,16 @@ import FAQSchema from "../../components/FAQSchema.astro";
 </Layout>
 
 <script>
-  // Simple Cross-Fade Slideshow
-  const slides = document.querySelectorAll(".slide");
-
-  if (slides.length > 0) {
+  document.querySelectorAll(".slideshow-container").forEach((container) => {
+    const slides = container.querySelectorAll(".slide");
+    if (slides.length <= 1) return;
     let currentSlide = 0;
-    const intervalTime = 4000; // 4 seconds
-
     setInterval(() => {
       slides[currentSlide].classList.remove("active");
       currentSlide = (currentSlide + 1) % slides.length;
       slides[currentSlide].classList.add("active");
-    }, intervalTime);
-  }
-
-
+    }, 4000);
+  });
 </script>
 
 <style>
@@ -540,17 +605,6 @@ import FAQSchema from "../../components/FAQSchema.astro";
     .split-layout {
       grid-template-columns: 1fr;
       min-height: auto;
-    }
-
-    .split-content {
-      padding: 3rem 1.5rem;
-      order: 1; /* Content first */
-    }
-
-    .split-image-wrapper {
-      order: 2; /* Image second */
-      height: 400px;
-      min-height: 0;
     }
 
     .lead-text {
