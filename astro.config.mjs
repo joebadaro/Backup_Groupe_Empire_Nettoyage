@@ -32,7 +32,10 @@ export default defineConfig({
     inlineStylesheets: 'always'
   },
   redirects: {
-    '/services/tapis-residentiel': '/services/nettoyage-tapis-residentiel'
+    '/services/tapis-residentiel': '/services/nettoyage-tapis-residentiel',
+    '/en/tips/erreurs-taches-tapis': '/en/conseils/erreurs-taches-tapis',
+    '/en/tips/urine-animaux-tapis': '/en/conseils/urine-animaux-tapis',
+    '/en/tips/nettoyage-vapeur-vs-location': '/en/conseils/nettoyage-vapeur-vs-location',
   },
   i18n: {
     defaultLocale: "fr",

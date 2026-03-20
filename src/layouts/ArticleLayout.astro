@@ -13,6 +13,7 @@ interface Props {
 
 const { title, description, robots, heading, backHref = "/conseils", backLabel = "← Retour aux conseils" } = Astro.props;
 const h1Text = heading ?? title;
+const isEnPath = Astro.url.pathname.startsWith("/en");
 ---
 
 <Layout title={title} description={description} robots={robots}>
@@ -25,8 +26,8 @@ const h1Text = heading ?? title;
       </div>
       
       <div class="cta-box">
-        <h3>Besoin d'aide avec ceci ?</h3>
-        <a href="/contact" class="btn btn-primary">Contacter un expert</a>
+        <h3>{isEnPath ? "Need help with this?" : "Besoin d'aide avec ceci ?"}</h3>
+        <a href={isEnPath ? "/en/contact" : "/contact"} class="btn btn-primary">{isEnPath ? "Contact an expert" : "Contacter un expert"}</a>
       </div>
     </div>
   </div>

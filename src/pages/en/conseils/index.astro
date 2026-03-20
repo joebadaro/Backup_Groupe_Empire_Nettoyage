@@ -3,27 +3,10 @@ import Layout from "../../../layouts/Layout.astro";
 
 const posts = [
   {
-    slug: "erreurs-taches-tapis",
-    title: "3 Fatal Mistakes to Avoid on a Stain",
-    excerpt:
-      "Rubbing is the worst thing to do. Discover how to react to save your carpet.",
-    date: "December 17, 2024",
-    category: "Maintenance",
-    icon: "🛑",
-  },
-  {
-    slug: "urine-animaux-tapis",
-    title: "Pets: Why does the smell always come back?",
-    excerpt:
-      "Urine crystallizes in the fiber. Simple surface cleaning is not enough.",
-    date: "December 14, 2024",
-    category: "Pets",
-    icon: "🐶",
-  },
-  {
     slug: "preparer-visite-nettoyage",
-    title: "5 minutes to prepare for your visit",
-    excerpt: "Should you vacuum? Move furniture? Our simple checklist.",
+    title: "5 minutes to prepare for your cleaning visit",
+    excerpt:
+      "Should you vacuum? Move furniture? Our simple checklist for an efficient service.",
     date: "December 12, 2024",
     category: "Guide",
     icon: "📋",
@@ -32,7 +15,7 @@ const posts = [
     slug: "frequence-nettoyage-tapis",
     title: "How often should you clean your carpets?",
     excerpt:
-      "Allergies, dust, health: real recommendations for a healthy home.",
+      "Waiting until the carpet looks dirty? It's often too late. Recommendations for a healthy home.",
     date: "December 10, 2024",
     category: "Health",
     icon: "📅",
@@ -40,16 +23,36 @@ const posts = [
   {
     slug: "entretien-cuir-erreurs",
     title: "Leather: Stop using baby wipes!",
-    excerpt: "Drugstore products clog leather. Here is the real method.",
+    excerpt:
+      "Drugstore products clog leather pores. Learn the proper care method.",
     date: "December 08, 2024",
     category: "Maintenance",
     icon: "🛋️",
   },
   {
+    slug: "urine-animaux-tapis",
+    title: "Pets: Why does the smell always come back?",
+    excerpt:
+      "The science behind urine stains. Why vinegar fails and how enzymes destroy uric acid.",
+    date: "March 17, 2026",
+    category: "Pets & Odors",
+    icon: "🐶",
+  },
+  {
+    slug: "erreurs-taches-tapis",
+    title: "The Ultimate Carpet Stain Removal Guide",
+    excerpt:
+      "Emergency steps to save your carpet. Fatal mistakes and how to treat wine, coffee, and blood.",
+    date: "March 17, 2026",
+    category: "Maintenance",
+    icon: "🛑",
+  },
+  {
     slug: "nettoyage-vapeur-vs-location",
     title: "Rental Machine vs Truck-Mount Unit",
-    excerpt: "Why grocery store rentals are not worth professional cleaning.",
-    date: "December 15, 2024",
+    excerpt:
+      "Why grocery store rentals can ruin carpets. Technical comparison with professional cleaning.",
+    date: "March 17, 2026",
     category: "Comparison",
     icon: "🚛",
   },
@@ -93,7 +96,7 @@ const posts = [
 <style>
   .page-header {
     background-color: var(--color-bg-light-blue);
-    padding: 4rem 0;
+    padding: 2.25rem 0 1.25rem;
     text-align: center;
     border-bottom: 1px solid #eee;
   }
@@ -101,24 +104,29 @@ const posts = [
   .intro {
     text-align: center;
     max-width: 700px;
-    margin: 1rem auto 0 auto;
+    margin: 0.5rem auto 0 auto;
     font-size: 1.2rem;
     color: var(--color-text-light);
+  }
+
+  .section {
+    padding-top: 0.75rem;
+    padding-bottom: var(--spacing-lg, 4rem);
   }
 
   .blog-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.25rem;
-    padding: 2.5rem 0 3rem;
+    padding: 0 0 2.5rem;
   }
 
   .blog-card {
-    background: white;
+    background: linear-gradient(165deg, #f2f8fd 0%, #ffffff 52%, #e8f3fc 100%);
     border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-subtle);
-    transition: transform 0.2s;
-    border: 1px solid #eee;
+    box-shadow: 0 4px 22px rgba(66, 133, 244, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    border: 1px solid rgba(66, 133, 244, 0.12);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -128,13 +136,13 @@ const posts = [
 
   .blog-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
-    border-color: var(--color-accent);
+    box-shadow: 0 12px 32px rgba(66, 133, 244, 0.11);
+    border-color: rgba(100, 181, 246, 0.45);
   }
 
   .card-icon {
     font-size: 2.35rem;
-    background: #f9f9f9;
+    background: linear-gradient(135deg, #a5c9f5 0%, #bbdefb 42%, #e3f2fd 78%, #f5f9ff 100%);
     padding: 1.15rem;
     text-align: center;
     line-height: 1;
@@ -148,7 +156,7 @@ const posts = [
     text-transform: uppercase;
     font-size: 0.75rem;
     font-weight: 700;
-    color: var(--color-accent);
+    color: #4a7ebb;
     letter-spacing: 1px;
     margin-bottom: 0.5rem;
     display: block;
@@ -176,5 +184,58 @@ const posts = [
     color: var(--color-primary);
     font-weight: bold;
     font-size: 0.84rem;
+  }
+
+  @media (max-width: 767px) {
+    .page-header {
+      padding: 1.75rem 0 1rem;
+    }
+
+    .section {
+      padding-top: 0.5rem;
+      padding-bottom: 2rem;
+    }
+
+    .blog-grid {
+      grid-template-columns: 1fr;
+      gap: 0.65rem;
+      padding: 0 0 1.5rem;
+    }
+
+    .blog-card {
+      border-radius: 10px;
+    }
+
+    .card-icon {
+      font-size: 1.45rem;
+      padding: 0.5rem 0.65rem;
+    }
+
+    .card-content {
+      padding: 0.7rem 0.85rem 0.65rem;
+    }
+
+    .card-cat {
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.2rem;
+    }
+
+    .blog-card h3 {
+      font-size: 0.95rem;
+      margin-bottom: 0.3rem;
+      line-height: 1.28;
+    }
+
+    .blog-card p {
+      font-size: 0.8125rem;
+      line-height: 1.36;
+      margin-bottom: 0.4rem;
+      -webkit-line-clamp: 2;
+    }
+
+    .read-more {
+      font-size: 0.76rem;
+    }
   }
 </style>

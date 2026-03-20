@@ -3,29 +3,59 @@ import Layout from "../../../layouts/Layout.astro";
 
 const posts = [
   {
-    slug: 'urine-animaux-tapis',
-    title: 'Why Does Pet Urine Odor Always Come Back?',
-    excerpt: 'Discover the science behind urine stains. Understand why vinegar fails and how enzymes destroy uric acid crystals.',
-    date: 'March 17, 2026',
-    category: 'Pets & Odors',
-    icon: '🐶'
+    slug: "preparer-visite-nettoyage",
+    title: "5 minutes to prepare for your cleaning visit",
+    excerpt:
+      "Should you vacuum? Move furniture? Our simple checklist for an efficient service.",
+    date: "December 12, 2024",
+    category: "Guide",
+    icon: "📋",
   },
   {
-    slug: 'erreurs-taches-tapis',
-    title: 'The Ultimate Carpet Stain Removal Guide',
-    excerpt: 'Learn emergency steps to save your carpet. Discover the fatal mistakes and how to treat red wine, coffee, and blood.',
-    date: 'March 17, 2026',
-    category: 'Maintenance',
-    icon: '🛑'
+    slug: "frequence-nettoyage-tapis",
+    title: "How often should you clean your carpets?",
+    excerpt:
+      "Waiting until the carpet looks dirty? It's often too late. Recommendations for a healthy home.",
+    date: "December 10, 2024",
+    category: "Health",
+    icon: "📅",
   },
   {
-    slug: 'nettoyage-vapeur-vs-location',
-    title: 'Rental Machine vs. Professional Truck-Mount',
-    excerpt: 'Why renting a supermarket carpet machine can ruin your carpets. A complete technical comparison.',
-    date: 'March 17, 2026',
-    category: 'Comparison',
-    icon: '🚛'
-  }
+    slug: "entretien-cuir-erreurs",
+    title: "Leather: Stop using baby wipes!",
+    excerpt:
+      "Drugstore products clog leather pores. Learn the proper care method.",
+    date: "December 08, 2024",
+    category: "Maintenance",
+    icon: "🛋️",
+  },
+  {
+    slug: "urine-animaux-tapis",
+    title: "Pets: Why does the smell always come back?",
+    excerpt:
+      "The science behind urine stains. Why vinegar fails and how enzymes destroy uric acid.",
+    date: "March 17, 2026",
+    category: "Pets & Odors",
+    icon: "🐶",
+  },
+  {
+    slug: "erreurs-taches-tapis",
+    title: "The Ultimate Carpet Stain Removal Guide",
+    excerpt:
+      "Emergency steps to save your carpet. Fatal mistakes and how to treat wine, coffee, and blood.",
+    date: "March 17, 2026",
+    category: "Maintenance",
+    icon: "🛑",
+  },
+  {
+    slug: "nettoyage-vapeur-vs-location",
+    title: "Rental Machine vs Truck-Mount Unit",
+    excerpt:
+      "Why grocery store rentals can ruin carpets. Technical comparison with professional cleaning.",
+    date: "March 17, 2026",
+    category: "Comparison",
+    icon: "🚛",
+  },
 ];
 ---
 
@@ -37,27 +67,29 @@ const posts = [
   <div class="page-header">
     <div class="container text-center fade-in-section">
       <h1 class="text-gradient">Expert Tips</h1>
-      <p class="intro">Comprehensive guides, tips, and recommendations to preserve your investments.</p>
+      <p class="intro">
+        Tips, guides, and recommendations for maintaining your surfaces.
+      </p>
     </div>
   </div>
 
   <section class="section">
     <div class="container">
-      
       <div class="blog-grid fade-in-section delay-100">
-        {posts.map(post => (
-          <a href={`/en/tips/${post.slug}`} class="blog-card">
-            <div class="card-icon">{post.icon}</div>
-            <div class="card-content">
-              <span class="card-cat">{post.category}</span>
-              <h3>{post.title}</h3>
-              <p>{post.excerpt}</p>
-              <span class="read-more">Read Article &rarr;</span>
-            </div>
-          </a>
-        ))}
+        {
+          posts.map((post) => (
+            <a href={`/en/conseils/${post.slug}`} class="blog-card">
+              <div class="card-icon">{post.icon}</div>
+              <div class="card-content">
+                <span class="card-cat">{post.category}</span>
+                <h3>{post.title}</h3>
+                <p>{post.excerpt}</p>
+                <span class="read-more">Read article &rarr;</span>
+              </div>
+            </a>
+          ))
+        }
       </div>
-
     </div>
   </section>
 </Layout>
@@ -65,7 +97,7 @@ const posts = [
 <style>
   .page-header {
     background-color: var(--color-bg-light-blue);
-    padding: 4rem 0;
+    padding: 2.25rem 0 1.25rem;
     text-align: center;
     border-bottom: 1px solid #eee;
   }
@@ -73,24 +105,29 @@ const posts = [
   .intro {
     text-align: center;
     max-width: 700px;
-    margin: 1rem auto 0 auto;
+    margin: 0.5rem auto 0 auto;
     font-size: 1.2rem;
     color: var(--color-text-light);
   }
 
+  .section {
+    padding-top: 0.75rem;
+    padding-bottom: var(--spacing-lg, 4rem);
+  }
+
   .blog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 4rem 0;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+    padding: 0 0 2.5rem;
   }
 
   .blog-card {
-    background: white;
+    background: linear-gradient(165deg, #f2f8fd 0%, #ffffff 52%, #e8f3fc 100%);
     border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-subtle);
-    transition: transform 0.2s;
-    border: 1px solid #eee;
+    box-shadow: 0 4px 22px rgba(66, 133, 244, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    border: 1px solid rgba(66, 133, 244, 0.12);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -100,26 +137,27 @@ const posts = [
 
   .blog-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
-    border-color: var(--color-accent);
+    box-shadow: 0 12px 32px rgba(66, 133, 244, 0.11);
+    border-color: rgba(100, 181, 246, 0.45);
   }
 
   .card-icon {
-    font-size: 3rem;
-    background: #f9f9f9;
-    padding: 2rem;
+    font-size: 2.35rem;
+    background: linear-gradient(135deg, #a5c9f5 0%, #bbdefb 42%, #e3f2fd 78%, #f5f9ff 100%);
+    padding: 1.15rem;
     text-align: center;
+    line-height: 1;
   }
 
   .card-content {
-    padding: 2rem;
+    padding: 1.2rem 1.25rem 1.15rem;
   }
 
   .card-cat {
     text-transform: uppercase;
     font-size: 0.75rem;
     font-weight: 700;
-    color: var(--color-accent);
+    color: #4a7ebb;
     letter-spacing: 1px;
     margin-bottom: 0.5rem;
     display: block;
@@ -127,21 +165,78 @@ const posts = [
 
   .blog-card h3 {
     color: var(--color-primary);
-    margin-bottom: 1rem;
-    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+    font-size: 1.1rem;
     line-height: 1.3;
   }
 
   .blog-card p {
     color: #666;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    margin-bottom: 0.85rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
-  
+
   .read-more {
     color: var(--color-primary);
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 0.84rem;
+  }
+
+  @media (max-width: 767px) {
+    .page-header {
+      padding: 1.75rem 0 1rem;
+    }
+
+    .section {
+      padding-top: 0.5rem;
+      padding-bottom: 2rem;
+    }
+
+    .blog-grid {
+      grid-template-columns: 1fr;
+      gap: 0.65rem;
+      padding: 0 0 1.5rem;
+    }
+
+    .blog-card {
+      border-radius: 10px;
+    }
+
+    .card-icon {
+      font-size: 1.45rem;
+      padding: 0.5rem 0.65rem;
+    }
+
+    .card-content {
+      padding: 0.7rem 0.85rem 0.65rem;
+    }
+
+    .card-cat {
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.2rem;
+    }
+
+    .blog-card h3 {
+      font-size: 0.95rem;
+      margin-bottom: 0.3rem;
+      line-height: 1.28;
+    }
+
+    .blog-card p {
+      font-size: 0.8125rem;
+      line-height: 1.36;
+      margin-bottom: 0.4rem;
+      -webkit-line-clamp: 2;
+    }
+
+    .read-more {
+      font-size: 0.76rem;
+    }
   }
 </style>
