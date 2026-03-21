@@ -4,7 +4,7 @@
  */
 
 /** Bump when any SERVICE_IMAGES `src` changes so browsers/CDNs don’t keep stale /images/* bytes. */
-export const SERVICE_IMAGES_ASSET_VERSION = "3";
+export const SERVICE_IMAGES_ASSET_VERSION = "4";
 
 export function resolveServiceImageSrc(src: string): string {
   return `${src}?v=${SERVICE_IMAGES_ASSET_VERSION}`;
@@ -43,7 +43,7 @@ export const SERVICE_IMAGES = {
     height: 240,
   },
   tapis_residentiel: {
-    src: "/images/catalog/nettoyage-tapis-vapeur-laval.webp",
+    src: "/images/catalog/tapis-residentiel-service-card.webp",
     altFr: "Nettoyage de tapis résidentiel",
     altEn: "Residential carpet cleaning",
     width: 400,
