@@ -3,6 +3,13 @@
  * Homepage uses plain <img> with these paths; estimation builds <img> HTML from the same entries.
  */
 
+/** Bump when any SERVICE_IMAGES `src` changes so browsers/CDNs don’t keep stale /images/* bytes. */
+export const SERVICE_IMAGES_ASSET_VERSION = "3";
+
+export function resolveServiceImageSrc(src: string): string {
+  return `${src}?v=${SERVICE_IMAGES_ASSET_VERSION}`;
+}
+
 export interface ServiceImageEntry {
   src: string;
   altFr: string;
@@ -36,7 +43,7 @@ export const SERVICE_IMAGES = {
     height: 240,
   },
   tapis_residentiel: {
-    src: "/images/catalog/photo-tapis-clean.webp",
+    src: "/images/catalog/nettoyage-tapis-vapeur-laval.webp",
     altFr: "Nettoyage de tapis résidentiel",
     altEn: "Residential carpet cleaning",
     width: 400,
@@ -127,14 +134,16 @@ export function getEstimationIconHtml(serviceId: string): string {
     return "";
   }
   const entry = SERVICE_IMAGES[key];
+  const src = resolveServiceImageSrc(entry.src);
   const pos = entry.objectPosition
     ? ` style="object-position:${entry.objectPosition}"`
     : "";
-  return `<img src="${entry.src}" alt="${entry.altFr.replace(/"/g, "&quot;")}" loading="lazy"${pos} />`;
+  return `<img src="${src}" alt="${entry.altFr.replace(/"/g, "&quot;")}" loading="lazy"${pos} />`;
 }
 
 export function getServiceImage(key: ServiceImageKey): ServiceImageEntry {
-  return SERVICE_IMAGES[key];
+  const e = SERVICE_IMAGES[key];
+  return { ...e, src: resolveServiceImageSrc(e.src) };
 }
 
 export interface HomepageServiceCard {
