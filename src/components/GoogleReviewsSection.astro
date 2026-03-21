@@ -1,0 +1,287 @@
+---
+import {
+  googleReviewsFr,
+  googleReviewsEn,
+  googleReviewsMapsUrl,
+  type GoogleReviewItem,
+} from "../data/googleReviews";
+
+type Locale = "fr" | "en";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "fr" } = Astro.props as Props;
+
+const reviews: GoogleReviewItem[] =
+  locale === "en" ? googleReviewsEn : googleReviewsFr;
+
+const copy =
+  locale === "en"
+    ? {
+        title: "Google reviews from our clients",
+        subtitle:
+          "A selection of real reviews published by our clients on Google.",
+        starsLabel: (n: number) => `${n} out of 5 stars`,
+        cta: "See more on Google",
+        external: "(opens in a new tab)",
+      }
+    : {
+        title: "Avis Google de nos clients",
+        subtitle:
+          "Sélection de vrais avis publiés par nos clients sur Google.",
+        starsLabel: (n: number) => `${n} sur 5 étoiles`,
+        cta: "Voir plus d’avis sur Google",
+        external: "(s’ouvre dans un nouvel onglet)",
+      };
+
+function starsHtml(rating: number): string {
+  return "★".repeat(rating) + "☆".repeat(5 - rating);
+}
+
+/** Mention type Google : seulement si la page affiche une traduction. */
+function getTranslationNote(
+  pageLocale: Locale,
+  original: GoogleReviewItem["originalLanguage"],
+): string | null {
+  if (pageLocale === "fr" && original === "en") return "Traduit de l'anglais";
+  if (pageLocale === "en" && original === "fr") return "Translated from French";
+  return null;
+}
+---
+
+<section
+  class="google-reviews-section"
+  aria-labelledby="google-reviews-heading"
+>
+  <div class="container">
+    <header class="google-reviews-header text-center">
+      <h2 id="google-reviews-heading" class="google-reviews-title">
+        {copy.title}
+      </h2>
+      <p class="google-reviews-subtitle">{copy.subtitle}</p>
+    </header>
+
+    <ul class="google-reviews-grid">
+      {
+        reviews.map((r) => {
+          const translationNote = getTranslationNote(locale, r.originalLanguage);
+          return (
+            <li class="google-reviews-card">
+              <div
+                class="google-reviews-stars"
+                aria-label={copy.starsLabel(r.rating)}
+              >
+                <span aria-hidden="true">{starsHtml(r.rating)}</span>
+              </div>
+              <blockquote class="google-reviews-quote">
+                <p>«&nbsp;{r.text}&nbsp;»</p>
+              </blockquote>
+              <footer class="google-reviews-meta">
+                <span class="google-reviews-author">{r.author}</span>
+                <span class="google-reviews-sep">·</span>
+                <span class="google-reviews-location">{r.location}</span>
+                {r.service ? (
+                  <span class="google-reviews-service">{r.service}</span>
+                ) : null}
+              </footer>
+              {translationNote ? (
+                <p class="google-reviews-translation-note">{translationNote}</p>
+              ) : null}
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <p class="google-reviews-cta-wrap text-center">
+      <a
+        href={googleReviewsMapsUrl}
+        class="google-reviews-cta"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {copy.cta}
+        <span class="google-reviews-cta-arrow" aria-hidden="true"> ↗</span>
+      </a>
+      <span class="visually-hidden">{copy.external}</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  .google-reviews-section {
+    padding: 2.75rem 0 3rem;
+    background: linear-gradient(
+      180deg,
+      #f5f9fc 0%,
+      #ffffff 45%,
+      #f0f6fb 100%
+    );
+    border-top: 1px solid rgba(0, 74, 159, 0.08);
+    border-bottom: 1px solid rgba(0, 74, 159, 0.08);
+  }
+
+  .google-reviews-header {
+    margin-bottom: 2rem;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .google-reviews-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.45rem, 3.5vw, 1.85rem);
+    font-weight: 800;
+    color: var(--color-primary);
+    margin: 0 0 0.5rem;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+  }
+
+  .google-reviews-subtitle {
+    margin: 0;
+    font-size: 0.98rem;
+    color: #5a6b7d;
+    line-height: 1.5;
+  }
+
+  .google-reviews-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .google-reviews-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+  }
+
+  .google-reviews-card {
+    background: linear-gradient(165deg, #ffffff 0%, #f7fbff 100%);
+    border: 1px solid rgba(0, 74, 159, 0.12);
+    border-radius: 14px;
+    padding: 1.35rem 1.25rem 1.25rem;
+    box-shadow: 0 6px 24px rgba(0, 74, 159, 0.06);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .google-reviews-card:hover {
+    box-shadow: 0 10px 32px rgba(0, 74, 159, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .google-reviews-stars {
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    color: #e8a317;
+    margin-bottom: 0.75rem;
+    line-height: 1;
+  }
+
+  .google-reviews-quote {
+    margin: 0 0 1rem;
+    flex: 1;
+  }
+
+  .google-reviews-quote p {
+    margin: 0;
+    font-size: 0.96rem;
+    line-height: 1.62;
+    color: var(--color-text-main);
+  }
+
+  .google-reviews-meta {
+    font-size: 0.82rem;
+    color: #5a6b7d;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.35rem;
+  }
+
+  .google-reviews-author {
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .google-reviews-sep {
+    opacity: 0.55;
+  }
+
+  .google-reviews-location {
+    font-weight: 600;
+  }
+
+  .google-reviews-service {
+    width: 100%;
+    margin-top: 0.35rem;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7c8e;
+  }
+
+  .google-reviews-translation-note {
+    margin: 0.55rem 0 0;
+    padding-top: 0.45rem;
+    border-top: 1px solid rgba(0, 74, 159, 0.08);
+    font-size: 0.7rem;
+    line-height: 1.35;
+    color: #8b97a8;
+    font-weight: 400;
+  }
+
+  .google-reviews-cta-wrap {
+    margin-top: 2rem;
+    margin-bottom: 0;
+  }
+
+  .google-reviews-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--color-primary);
+    text-decoration: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 74, 159, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .google-reviews-cta:hover {
+    background: rgba(0, 74, 159, 0.06);
+    border-color: rgba(0, 74, 159, 0.35);
+    text-decoration: none;
+  }
+
+  .google-reviews-cta-arrow {
+    font-size: 0.85em;
+    opacity: 0.85;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
