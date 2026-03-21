@@ -85,25 +85,30 @@ import GoogleReviewsSection from "../components/GoogleReviewsSection.astro";
 
   <!-- 2. TRUST INSIGNIA (Confiance Immédiate) -->
   <section class="trust-container">
-    <div class="container trust-grid">
-      <div class="trust-pill badge-google">
-        <img
-          src="/images/google-reviews-badge.png"
-          alt="Google Reviews"
-          class="google-badge"
-          width="302"
-          height="167"
-          loading="eager"
-        />
-      </div>
-      <div class="trust-pill badge-exp">
-        <span class="icon">💎</span> 30+ ans d'expérience
-      </div>
-      <div class="trust-pill badge-eco">
-        <span class="icon">🌿</span> 100% Écologique
-      </div>
-      <div class="trust-pill badge-local">
-        <span class="icon">⚜️</span> Entreprise Québécoise
+    <div class="container trust-band-inner">
+      <p class="trust-kicker">Excellence reconnue</p>
+      <div class="trust-unified-wrap">
+        <div class="trust-grid">
+          <div class="trust-pill badge-google">
+            <img
+              src="/images/google-reviews-badge.png"
+              alt="Google Reviews"
+              class="google-badge"
+              width="302"
+              height="167"
+              loading="eager"
+            />
+          </div>
+          <div class="trust-pill badge-exp">
+            <span class="icon">💎</span> 30+ ans d'expérience
+          </div>
+          <div class="trust-pill badge-eco">
+            <span class="icon">🌿</span> 100% Écologique
+          </div>
+          <div class="trust-pill badge-local">
+            <span class="icon">⚜️</span> Entreprise Québécoise
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -856,76 +861,189 @@ import GoogleReviewsSection from "../components/GoogleReviewsSection.astro";
         ); /* Shadow under wave for depth */
       }
 
-      /* --- TRUST INSIGNIA (Refined & Elegant) --- */
+      /* --- TRUST INSIGNIA (unified premium band — hero → services) --- */
       .trust-container {
-        margin-top: -70px;
+        margin-top: -52px;
         position: relative;
         z-index: 10;
-        padding-bottom: 5rem;
+        padding: 0.1rem 0 1.15rem;
         pointer-events: none;
+        overflow: hidden;
+        background:
+          radial-gradient(
+            ellipse 95% 70% at 50% -15%,
+            rgba(255, 255, 255, 0.55) 0%,
+            transparent 55%
+          ),
+          linear-gradient(
+            180deg,
+            #dfe7f0 0%,
+            #e6ecf4 18%,
+            #edf2f9 48%,
+            #f0f5fb 72%,
+            var(--color-bg-light-blue) 100%
+          );
+        border-bottom: 1px solid rgba(0, 74, 159, 0.07);
+      }
+      .trust-container::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 96px;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 31, 63, 0.24) 0%,
+          rgba(0, 31, 63, 0.07) 38%,
+          transparent 100%
+        );
+        pointer-events: none;
+        z-index: 0;
+      }
+      .trust-band-inner {
+        position: relative;
+        z-index: 1;
+        pointer-events: auto;
+      }
+      .trust-kicker {
+        text-align: center;
+        font-size: 0.72rem;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: rgba(22, 45, 72, 0.68);
+        font-weight: 700;
+        margin: 0.2rem 0 0.62rem;
+        padding: 0 0.5rem;
+        font-family: var(--font-heading);
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+      }
+      .trust-unified-wrap {
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 74, 159, 0.095);
+        background: linear-gradient(
+          165deg,
+          rgba(255, 255, 255, 0.75) 0%,
+          rgba(255, 255, 255, 0.97) 42%,
+          rgba(252, 253, 255, 1) 100%
+        );
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.95),
+          inset 0 -1px 0 rgba(0, 45, 90, 0.04),
+          0 1px 2px rgba(0, 31, 63, 0.035),
+          0 12px 42px rgba(0, 31, 63, 0.05);
+        overflow: hidden;
       }
       .trust-grid {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: 1.15fr 1fr 1fr 1fr;
+        gap: 0;
+        align-items: stretch;
         pointer-events: auto;
       }
       .trust-pill {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        box-shadow:
-          0 8px 24px rgba(0, 0, 0, 0.06),
-          0 2px 6px rgba(0, 0, 0, 0.04);
-        padding: 1rem 2.2rem;
-        border-radius: 60px;
+        margin: 0;
+        padding: 0.55rem 0.7rem;
+        min-height: 58px;
         display: flex;
         align-items: center;
-        gap: 10px;
+        justify-content: center;
+        gap: 0.45rem;
         font-weight: 600;
-        font-size: 0.9rem;
-        color: #2c3e50;
-        border: 1px solid rgba(0, 0, 0, 0.08);
-        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        letter-spacing: 0.3px;
+        font-size: 0.76rem;
+        line-height: 1.35;
+        color: #1a3352;
+        letter-spacing: 0.02em;
+        text-align: center;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        border-right: 1px solid rgba(0, 74, 159, 0.1);
+        transition: background-color 0.2s ease;
+      }
+      .trust-pill:last-child {
+        border-right: none;
       }
       .trust-pill:hover {
-        transform: translateY(-4px);
-        box-shadow:
-          0 12px 32px rgba(0, 74, 159, 0.12),
-          0 4px 8px rgba(0, 0, 0, 0.04);
-        border-color: rgba(0, 74, 159, 0.2);
+        background: rgba(0, 74, 159, 0.035);
       }
       .trust-pill .icon {
-        font-size: 1.2rem;
-        opacity: 0.85;
+        font-size: 0.95rem;
+        opacity: 0.88;
+        flex-shrink: 0;
+      }
+      .badge-google {
+        padding: 0.48rem 0.85rem;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.75) 0%,
+          rgba(220, 236, 255, 0.55) 100%
+        );
+        box-shadow: inset 0 0 0 1px rgba(66, 133, 244, 0.14);
+      }
+      .badge-google .google-badge {
+        width: 100%;
+        max-width: 150px;
+        height: auto;
+        max-height: 52px;
+        object-fit: contain;
+        object-position: center;
+        display: block;
+        margin: 0 auto;
+        filter: contrast(1.1) saturate(1.06);
       }
 
-      /* Desktop-only sizing tune for better proportion */
-      @media (min-width: 769px) {
+      @media (max-width: 900px) {
         .trust-container {
-          padding-bottom: 3.4rem;
+          margin-top: -42px;
+          padding: 0.05rem 0 1rem;
+        }
+        .trust-kicker {
+          font-size: 0.64rem;
+          letter-spacing: 0.12em;
+          color: rgba(22, 45, 72, 0.64);
+          margin: 0.1rem 0 0.52rem;
+        }
+        .trust-unified-wrap {
+          border-radius: 12px;
+          max-width: 420px;
         }
         .trust-grid {
-          gap: 1rem;
+          grid-template-columns: 1fr 1fr;
         }
         .trust-pill {
-          padding: 0.72rem 1.2rem;
-          border-radius: 18px;
-          font-size: 0.84rem;
-          min-height: 58px;
-          letter-spacing: 0.15px;
+          min-height: 68px;
+          font-size: 0.72rem;
+          padding: 0.5rem 0.45rem;
+          border-right: 1px solid rgba(0, 74, 159, 0.08);
+          border-bottom: 1px solid rgba(0, 74, 159, 0.08);
         }
-        .trust-pill .icon {
-          font-size: 0.95rem;
+        .trust-pill:nth-child(2n) {
+          border-right: none;
         }
-        .badge-google {
-          padding: 0.55rem 1rem;
+        .trust-pill:nth-child(n + 3) {
+          border-bottom: none;
         }
         .badge-google .google-badge {
-          width: 130px;
-          height: auto;
-          display: block;
+          max-width: 132px;
+          max-height: 46px;
+        }
+      }
+
+      @media (max-width: 380px) {
+        .trust-pill {
+          font-size: 0.66rem;
+          min-height: 62px;
+          padding: 0.4rem 0.35rem;
+        }
+        .badge-google .google-badge {
+          max-width: 108px;
+          max-height: 40px;
         }
       }
 
@@ -1471,36 +1589,102 @@ import GoogleReviewsSection from "../components/GoogleReviewsSection.astro";
           backdrop-filter: none; /* Remove heavy blur on mobile for clarity */
         }
 
-        /* Trust Badges - Pyramid Layout on Mobile */
-        .trust-container {
-          padding-bottom: 2.5rem;
-        }
-        .trust-grid {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 0.6rem;
-          max-width: 100%;
-        }
-        .trust-pill {
-          padding: 0.6rem 1rem;
-          font-size: 0.85rem;
-          border-radius: 40px;
-          gap: 8px;
-          flex-direction: row;
-        }
-        .trust-pill .icon {
-          font-size: 1.2rem;
-        }
-        .trust-pill img {
-          width: 75px !important;
-          height: auto;
-        }
         .watermark-trust,
         .watermark-eco {
           width: 200px;
           height: 200px;
           opacity: 0.1;
+        }
+      }
+
+      /* --- Mobile trust (frozen): ≤767px minimal 2×2 strip — subtle, no cards/scroll; hero untouched — redesign only on explicit request --- */
+      @media (max-width: 767px) {
+        .trust-container {
+          margin-top: -40px;
+          padding: 0.12rem 0 0.65rem !important;
+        }
+
+        .trust-kicker {
+          font-size: 0.58rem;
+          letter-spacing: 0.1em;
+          margin: 0 0 0.35rem;
+          color: rgba(22, 45, 72, 0.48);
+          font-weight: 600;
+        }
+
+        /* Minimal strip: one light frame; flat 2x2 — secondary, not a component */
+        .trust-unified-wrap {
+          max-width: min(100%, 360px);
+          margin-left: auto;
+          margin-right: auto;
+          border-radius: 8px;
+          border: 1px solid rgba(0, 74, 159, 0.055);
+          background: rgba(255, 255, 255, 0.38);
+          box-shadow: none;
+          padding: 0.42rem 0.5rem 0.45rem;
+          overflow: visible;
+        }
+
+        .trust-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          column-gap: 0.55rem;
+          row-gap: 0.32rem;
+          align-items: start;
+          padding: 0;
+          margin: 0;
+        }
+
+        .trust-grid .trust-pill {
+          min-height: 0;
+          margin: 0;
+          padding: 0.28rem 0.15rem;
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          justify-content: flex-start;
+          gap: 0.32rem;
+          text-align: left;
+          font-size: 0.65rem;
+          line-height: 1.36;
+          font-weight: 500;
+          letter-spacing: 0.01em;
+          color: rgba(26, 51, 82, 0.78);
+          overflow-wrap: break-word;
+          hyphens: auto;
+          -webkit-font-smoothing: antialiased;
+          border: none;
+          border-radius: 0;
+          background: transparent;
+          box-shadow: none;
+          border-right: none;
+          border-bottom: none;
+        }
+
+        .trust-grid .badge-google {
+          grid-column: auto;
+          align-items: center;
+          justify-content: center;
+          padding: 0.2rem 0.1rem;
+        }
+
+        .trust-grid .badge-google .google-badge {
+          max-width: 90px;
+          max-height: 26px;
+          width: auto;
+          height: auto;
+          object-fit: contain;
+          margin: 0;
+          opacity: 1;
+          filter: contrast(1.04) saturate(1.03);
+        }
+
+        .trust-grid .trust-pill .icon {
+          font-size: 0.7rem;
+          line-height: 1.15;
+          opacity: 0.66;
+          flex-shrink: 0;
+          margin-top: 0.06em;
         }
       }
     </style>
