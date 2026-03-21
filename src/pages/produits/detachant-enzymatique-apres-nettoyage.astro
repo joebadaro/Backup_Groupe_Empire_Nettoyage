@@ -1,0 +1,270 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProductSchema from "../../components/ProductSchema.astro";
+import ProductPricingBand from "../../components/ProductPricingBand.astro";
+import { productImages } from "../../data/productImages";
+import { productPricing, priceValidUntilDefault } from "../../data/productPricing";
+
+const title =
+  "BioBreak | Détachant enzymatique tapis et tissu | Groupe Nettoyage Empire";
+const description =
+  "BioBreak : détachant enzymatique professionnel pour tapis et tissus d’ameublement. À partir de 26,99 $ ; avec Odor Break, les deux à 49,99 $. Montréal, Laval, Rive-Sud.";
+const hero = productImages.enzymatique;
+const hero2 = productImages.enzymatique2;
+const productImage = hero.src;
+---
+
+<Layout title={title} description={description} image={productImage}>
+  <ProductSchema
+    name="BioBreak — détachant enzymatique professionnel"
+    description={description}
+    image={productImage}
+    additionalImages={[hero2.src]}
+    path="/produits/detachant-enzymatique-apres-nettoyage"
+    price={productPricing.single.amount}
+    priceValidUntil={priceValidUntilDefault}
+  />
+
+  <div class="page-header">
+    <div class="container text-center fade-in-section">
+      <p class="breadcrumb-hint"><a href="/produits">Produits</a> · BioBreak</p>
+      <h1 class="text-gradient">BioBreak — détachant enzymatique professionnel</h1>
+      <p class="lead-text">
+        <strong>BioBreak</strong> est un produit <strong>complémentaire</strong> pour un <strong>traitement local</strong> sur tapis ou tissu d’ameublement : entretien ciblé entre deux visites planifiées, petites taches organiques récentes ou zones précises, lorsque le textile et le fabricant autorisent ce type de solution.
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container prose">
+      <figure class="inline-figure">
+        <img
+          src={hero.src}
+          alt={hero.altFr}
+          width={hero.width}
+          height={hero.height}
+          loading="eager"
+          decoding="async"
+        />
+        <figcaption>
+          BioBreak — demandez les conseils d’usage pour votre type de tapis ou de tissu. Conditionnement pouvant varier.
+        </figcaption>
+      </figure>
+
+      <figure class="inline-figure inline-figure--secondary">
+        <img
+          src={hero2.src}
+          alt={hero2.altFr}
+          width={hero2.width}
+          height={hero2.height}
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>
+          Exemple de tache sur tissu d'ameublement : toujours tester une zone discrète et suivre l'étiquette du textile avant tout entretien local.
+        </figcaption>
+      </figure>
+
+      <h2>À quoi il sert ?</h2>
+      <p>
+        Les enzymes aident à <strong>travailler les résidus organiques</strong> en surface lorsque la tache est encore récente ou localisée. <strong>BioBreak</strong> s’inscrit dans une logique d’<strong>entretien ciblé</strong> : il ne remplace pas l’extraction d’un camion-usine, mais peut convenir pour un <strong>soin local</strong> entre deux nettoyages professionnels ou pour un <strong>accident ponctuel</strong> sur une zone limitée, selon le textile.
+      </p>
+
+      <h2>Quand l'utiliser ?</h2>
+      <ul>
+        <li><strong>Entretien léger</strong> entre deux passages professionnels planifiés, sur une zone précise autorisée par l’étiquette du textile.</li>
+        <li>Un <strong>petit incident</strong> (goutte, trace de nourriture) sur tapis ou tissu compatible.</li>
+        <li>
+          <strong>Traitement local</strong> lorsque vous souhaitez agir rapidement sur une tache organique récente, après avoir vérifié la compatibilité des fibres.
+        </li>
+      </ul>
+
+      <h2>Comment le positionnons-nous ?</h2>
+      <p>
+        Comme pour <a href="/produits/neutralisant-odeurs-urine-oxygene">Odor Break</a>, ce n’est pas un produit « marketing » : nous nous appuyons sur des <strong>années de tests</strong> en conditions réelles avec nos clients. Nous le recommandons lorsque c’est <strong>pertinent et sécuritaire</strong> pour votre type de sol ou de tissu.
+      </p>
+
+      <h2>Utilisation comme savon ou détachant local</h2>
+      <p>
+        Selon le produit et le textile, il peut servir de <strong>détachant local</strong> (application ciblée, temps de contact modéré, rinçage ou absorption selon le mode d'emploi). Ne vous substituez pas à la lecture de l'étiquette : respectez toujours la dilution et les contre-indications.
+      </p>
+
+      <div class="callout">
+        <strong>Faites appel à nous plutôt</strong> si la tache s'étend, sent mauvais de façon persistante, touche un matelas ou un meuble délicat, ou si vous avez déjà utilisé plusieurs produits sans succès — nous éviterons d'aggraver la situation.
+      </div>
+
+      <h2>Sur quelles surfaces ?</h2>
+      <p>
+        En principe : <strong>tapis et carpettes synthétiques</strong>, certains <strong>tissus d'ameublement</strong> selon étiquette. Éviter sans avis sur les fibres très sensibles (certaines laines, soies, ou tapis orientaux). En cas de doute, <a href="/contact">contactez notre équipe</a>.
+      </p>
+
+      <h2>FAQ</h2>
+      <div class="faq-block">
+        <p class="faq-q">Puis-je l'utiliser si je n'ai jamais fait appel à vous ?</p>
+        <p class="faq-a">Le produit reste disponible, mais nous le mettons surtout en avant pour les clients qui comprennent déjà notre protocole. Pour une première intervention, un diagnostic sur place est souvent plus sûr.</p>
+      </div>
+      <div class="faq-block">
+        <p class="faq-q">Est-ce le même produit que celui utilisé pendant le nettoyage ?</p>
+        <p class="faq-a">Nous adaptons nos produits à chaque intervention. BioBreak correspond à une utilisation résidentielle ciblée entre deux services.</p>
+      </div>
+
+      <ProductPricingBand locale="fr" current="biobreak" />
+
+      <div class="cta-panel">
+        <h2>Question sur une tache précise ?</h2>
+        <p>Appelez-nous pour savoir si un entretien maison suffit ou si un nouveau passage est recommandé.</p>
+        <div class="cta-row">
+          <a href="tel:5148939939" class="btn btn-primary">(514) 893-9939</a>
+          <a href="/contact" class="btn btn-secondary-outline">Écrire au service</a>
+        </div>
+      </div>
+
+      <p class="related">
+        Retour : <a href="/produits">Tous les produits</a> · <a href="/produits/neutralisant-odeurs-urine-oxygene">Odor Break</a> · <a href="/services/nettoyage-tapis-residentiel">Nettoyage de tapis résidentiel</a>
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background: var(--color-bg-light-blue);
+    padding: 2rem 0 1.5rem;
+    border-bottom: 1px solid #eee;
+  }
+  .breadcrumb-hint {
+    font-size: 0.9rem;
+    margin: 0 0 0.5rem;
+  }
+  .breadcrumb-hint a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+  .lead-text {
+    max-width: 760px;
+    margin: 0.75rem auto 0;
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: var(--color-text-main);
+  }
+  .section {
+    padding: 2rem 0 3rem;
+  }
+  .prose {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 0.5rem;
+  }
+  .prose h2 {
+    color: var(--color-primary);
+    font-size: 1.45rem;
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose p,
+  .prose li {
+    line-height: 1.75;
+    color: var(--color-text-main);
+    margin-bottom: 1rem;
+  }
+  .prose ul {
+    padding-left: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .inline-figure {
+    margin: 0 0 2rem;
+  }
+  .inline-figure img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+  .inline-figure figcaption {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: 0.5rem;
+  }
+  .inline-figure--secondary {
+    margin-top: 1.5rem;
+  }
+  @media (max-width: 767px) {
+    .inline-figure {
+      width: calc(100% + 4rem);
+      max-width: none;
+      margin-left: -2rem;
+      margin-right: -2rem;
+    }
+    .inline-figure img {
+      border-radius: 0;
+      display: block;
+    }
+    .inline-figure figcaption {
+      padding: 0 2rem;
+      box-sizing: border-box;
+    }
+  }
+  .callout {
+    background: #f5f9ff;
+    border-left: 4px solid var(--color-primary);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+    line-height: 1.65;
+  }
+  .faq-block {
+    margin-bottom: 1.25rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  .faq-q {
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: 0 0 0.35rem;
+  }
+  .faq-a {
+    margin: 0;
+    color: #555;
+    font-size: 0.98rem;
+  }
+  .cta-panel {
+    margin-top: 2.5rem;
+    padding: 2rem;
+    background: linear-gradient(165deg, #e8f3fc 0%, #ffffff 100%);
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid rgba(0, 74, 159, 0.12);
+  }
+  .cta-panel h2 {
+    margin-top: 0;
+  }
+  .cta-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .related {
+    margin-top: 2.5rem;
+    font-size: 0.95rem;
+    color: #666;
+  }
+  .related a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+  .btn-secondary-outline {
+    display: inline-block;
+    padding: 0.65rem 1.25rem;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .btn-secondary-outline:hover {
+    background: var(--color-primary);
+    color: #fff;
+  }
+</style>

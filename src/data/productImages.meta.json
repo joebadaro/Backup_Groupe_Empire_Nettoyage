@@ -1,0 +1,27 @@
+{
+  "hubDuo": {
+    "src": "/images/catalog/produits/hub-duo.webp",
+    "width": 1200,
+    "height": 1200
+  },
+  "neutralisant": {
+    "src": "/images/catalog/produits/neutralisant-odeurs-oxygene.webp",
+    "width": 960,
+    "height": 640
+  },
+  "enzymatique": {
+    "src": "/images/catalog/produits/detachant-enzymatique.webp",
+    "width": 960,
+    "height": 960
+  },
+  "neutralisant2": {
+    "src": "/images/catalog/produits/neutralisant-odeurs-oxygene-2.webp",
+    "width": 960,
+    "height": 640
+  },
+  "enzymatique2": {
+    "src": "/images/catalog/produits/detachant-enzymatique-2.webp",
+    "width": 960,
+    "height": 640
+  }
+}

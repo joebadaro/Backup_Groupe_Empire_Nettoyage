@@ -1,0 +1,279 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import ProductSchema from "../../../components/ProductSchema.astro";
+import ProductPricingBand from "../../../components/ProductPricingBand.astro";
+import { productImages } from "../../../data/productImages";
+import { productPricing, priceValidUntilDefault } from "../../../data/productPricing";
+
+const title =
+  "Odor Break | Pet urine odor remover for carpet & upholstery | Empire Cleaning";
+const description =
+  "Odor Break: professional odor and organic stain treatment for carpets and upholstery. From $26.99; pair with BioBreak for $49.99. Montreal, Laval, South Shore.";
+const hero = productImages.neutralisant;
+const hero2 = productImages.neutralisant2;
+const productImage = hero.src;
+---
+
+<Layout title={title} description={description} image={productImage}>
+  <ProductSchema
+    name="Odor Break — professional odor neutralizer"
+    description={description}
+    image={productImage}
+    additionalImages={[hero2.src]}
+    path="/en/produits/neutralisant-odeurs-urine-oxygene"
+    price={productPricing.single.amount}
+    priceValidUntil={priceValidUntilDefault}
+  />
+
+  <div class="page-header">
+    <div class="container text-center fade-in-section">
+      <p class="breadcrumb-hint"><a href="/en/produits">Products</a> · Odor Break</p>
+      <h1 class="text-gradient">Odor Break — odor neutralization at the source</h1>
+      <p class="lead-text">
+        <strong>Odor Break</strong>, offered by Empire Cleaning Group, is a high-performance solution designed to target <strong>odor-causing molecules</strong> (including pet urine) and <strong>stubborn organic soils</strong> on compatible carpets and upholstery, while respecting fiber care labels and manufacturer directions.
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container prose">
+      <figure class="inline-figure">
+        <img
+          src={hero.src}
+          alt={hero.altEn}
+          width={hero.width}
+          height={hero.height}
+          loading="eager"
+          decoding="async"
+        />
+        <figcaption>
+          Odor Break — packaging and labeling may vary depending on supply.
+        </figcaption>
+      </figure>
+
+      <figure class="inline-figure inline-figure--secondary">
+        <img
+          src={hero2.src}
+          alt={hero2.altEn}
+          width={hero2.width}
+          height={hero2.height}
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>
+          Typical scenarios with pets: follow the manufacturer’s directions; if you are unsure about your fabric, ask our team for guidance.
+        </figcaption>
+      </figure>
+
+      <h2>Overview</h2>
+      <p>
+        Pet-related odors and soils are demanding even for experienced crews. <strong>Odor Break</strong> is built for <strong>deep, targeted action</strong>: the formula centers on professional-grade <strong>hydrogen peroxide (H₂O₂)</strong>, <strong>penetrating agents</strong>, and carefully selected co-agents to support <strong>odor neutralization at the source</strong> and effective work on many <strong>organic stains</strong> — including some yellowing and <strong>blood residues</strong> — when the material and manufacturer guidelines allow.
+      </p>
+      <p>
+        Positioned as a <strong>concentrated</strong> product (use exactly as labeled — no improvised dilution), it delivers <strong>strong performance</strong> to help restore a cleaner appearance while supporting a <strong>longer-lasting fresh feel</strong> when the protocol is followed — not a surface perfume mask.
+      </p>
+
+      <h2>Why we trust Odor Break</h2>
+      <p>
+        With <strong>30+ years</strong> in cleaning and decontamination, we’ve compared a wide range of chemistries. <strong>Odor Break</strong> earned its place through <strong>field results</strong> and alignment with our methods: it’s a <strong>go-to professional choice</strong> our technicians use daily with customers across Montreal, Laval, and the South Shore.
+      </p>
+
+      <h2>Recommended uses</h2>
+      <ul>
+        <li><strong>Urine odors</strong> on wall-to-wall carpet, area rugs, or accessible fabric upholstery zones, after fiber compatibility checks.</li>
+        <li><strong>Localized organic stains</strong> (including some biological soils) when the textile label and manufacturer allow this type of product.</li>
+        <li>A <strong>targeted complement</strong> when a professional assessment indicates a compatible spot-treatment approach.</li>
+      </ul>
+
+      <div class="callout">
+        <strong>Book a full service</strong> when the concern covers a <strong>large area</strong>, likely <strong>deep padding</strong>, <strong>delicate fibers</strong> (silk, fine wool), or when several <strong>home attempts</strong> haven’t delivered the outcome you need. Our <a href="/en/services/nettoyage-tapis-residentiel">truck-mount process</a> and specialized protocols often go beyond product-only treatment.
+      </div>
+
+      <h2>How to use (summary)</h2>
+      <p>
+        Always follow the <strong>label on your bottle</strong>. In general: apply to fully cover the affected area; allow roughly <strong>10–15 minutes</strong> for penetration; blot with a clean dry cloth using firm pressure to lift residues; if the label directs, reapply lightly and leave slight dampness as instructed, <strong>without rinsing</strong> when specified — the product may continue working over time to support deep odor reduction.
+      </p>
+
+      <h2>Important notes</h2>
+      <ul class="spec-list">
+        <li><strong>pH</strong> around 6.0 (indicative — confirm on official product documentation).</li>
+        <li><strong>Colorfastness test</strong> required in a hidden area before visible application.</li>
+        <li>Formulated to address <strong>urine odors and stains</strong> on compatible surfaces.</li>
+        <li><strong>Wash hands</strong> after skin contact.</li>
+        <li>Match use to <strong>stain-resistant carpets and compatible fabrics</strong> per manufacturer guidance.</li>
+        <li><strong>Concentrated product</strong>: respect labeled rates and precautions.</li>
+        <li><strong>Shake well</strong> before use.</li>
+      </ul>
+      <p>
+        Do not mix with other chemicals (especially chlorine). Ventilate during and after use if the label recommends it. Questions about your carpet or fabric? <a href="/en/contact">Contact us</a> or call <a href="tel:5148939939">(514) 893-9939</a>.
+      </p>
+
+      <h2>FAQ</h2>
+      <div class="faq-block">
+        <p class="faq-q">Does Odor Break replace professional cleaning?</p>
+        <p class="faq-a">No. It’s a targeted tool for specific situations. Deep or widespread issues usually need equipment and expertise.</p>
+      </div>
+
+      <ProductPricingBand locale="en" current="odor-break" />
+
+      <div class="cta-panel">
+        <h2>Need a professional opinion?</h2>
+        <p>Free estimates — we’ll tell you whether Odor Break fits your case or a full service is the better route.</p>
+        <div class="cta-row">
+          <a href="tel:5148939939" class="btn btn-primary">(514) 893-9939</a>
+          <a href="/en/contact" class="btn btn-secondary-outline">Online request</a>
+        </div>
+      </div>
+
+      <p class="related">
+        Also see: <a href="/en/produits/detachant-enzymatique-apres-nettoyage">BioBreak</a> (enzymatic spot cleaner) · <a href="/en/conseils/urine-animaux-tapis">article on urine odor</a>
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background: var(--color-bg-light-blue);
+    padding: 2rem 0 1.5rem;
+    border-bottom: 1px solid #eee;
+  }
+  .breadcrumb-hint {
+    font-size: 0.9rem;
+    margin: 0 0 0.5rem;
+  }
+  .breadcrumb-hint a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+  .lead-text {
+    max-width: 760px;
+    margin: 0.75rem auto 0;
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: var(--color-text-main);
+  }
+  .section {
+    padding: 2rem 0 3rem;
+  }
+  .prose {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 0.5rem;
+  }
+  .prose h2 {
+    color: var(--color-primary);
+    font-size: 1.45rem;
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose p,
+  .prose li {
+    line-height: 1.75;
+    color: var(--color-text-main);
+    margin-bottom: 1rem;
+  }
+  .prose ul {
+    padding-left: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .spec-list li {
+    margin-bottom: 0.5rem;
+  }
+  .inline-figure {
+    margin: 0 0 2rem;
+  }
+  .inline-figure img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+  .inline-figure figcaption {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: 0.5rem;
+  }
+  .inline-figure--secondary {
+    margin-top: 1.5rem;
+  }
+  @media (max-width: 767px) {
+    .inline-figure {
+      width: calc(100% + 4rem);
+      max-width: none;
+      margin-left: -2rem;
+      margin-right: -2rem;
+    }
+    .inline-figure img {
+      border-radius: 0;
+      display: block;
+    }
+    .inline-figure figcaption {
+      padding: 0 2rem;
+      box-sizing: border-box;
+    }
+  }
+  .callout {
+    background: #fff8f8;
+    border-left: 4px solid var(--color-accent);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+    line-height: 1.65;
+  }
+  .faq-block {
+    margin-bottom: 1.25rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  .faq-q {
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: 0 0 0.35rem;
+  }
+  .faq-a {
+    margin: 0;
+    color: #555;
+    font-size: 0.98rem;
+  }
+  .cta-panel {
+    margin-top: 2.5rem;
+    padding: 2rem;
+    background: linear-gradient(165deg, #e8f3fc 0%, #ffffff 100%);
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid rgba(0, 74, 159, 0.12);
+  }
+  .cta-panel h2 {
+    margin-top: 0;
+  }
+  .cta-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .related {
+    margin-top: 2.5rem;
+    font-size: 0.95rem;
+    color: #666;
+  }
+  .related a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+  .btn-secondary-outline {
+    display: inline-block;
+    padding: 0.65rem 1.25rem;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .btn-secondary-outline:hover {
+    background: var(--color-primary);
+    color: #fff;
+  }
+</style>

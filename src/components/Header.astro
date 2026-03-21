@@ -199,6 +199,11 @@ const label = isEn ? "FR" : "EN";
             </a>
           </li>
           <li>
+            <a href={isEn ? "/en/produits" : "/produits"} class="nav-item">
+              {isEn ? "Products" : "Produits"}
+            </a>
+          </li>
+          <li>
             <a href={isEn ? "/en/contact" : "/contact"} class="nav-item"
               >Contact</a
             >
@@ -658,7 +663,6 @@ const label = isEn ? "FR" : "EN";
       background: rgba(255, 255, 255, 0.98);
       backdrop-filter: blur(15px);
       padding: 6rem 2rem 2rem 2rem;
-      padding: 6rem 2rem 2rem 2rem;
       z-index: 1001; /* Covered page content, below toggle */
       opacity: 0;
       visibility: hidden;
@@ -677,7 +681,7 @@ const label = isEn ? "FR" : "EN";
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 2rem;
+      gap: 1.35rem;
       min-height: 60%;
     }
 

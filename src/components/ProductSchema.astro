@@ -1,0 +1,77 @@
+---
+/**
+ * JSON-LD Product + Offer (prix sur demande — cohérent avec vente par l’entreprise locale).
+ */
+interface Props {
+  name: string;
+  description: string;
+  image: string;
+  /** Images supplémentaires pour le rich result (schema.org accepte une liste). */
+  additionalImages?: string[];
+  path: string;
+  /** Prix unitaire affiché (schema.org Offer). */
+  price?: number;
+  priceCurrency?: string;
+  /** Date ISO AAAA-MM-JJ (recommandé par Google si prix fourni). */
+  priceValidUntil?: string;
+  /** Texte complémentaire sur l’offre (taxes, disponibilité). */
+  offerDescription?: string;
+}
+
+const siteUrl = "https://groupenettoyageempire.com";
+const {
+  name,
+  description,
+  image,
+  additionalImages = [],
+  path,
+  price,
+  priceCurrency = "CAD",
+  priceValidUntil,
+  offerDescription,
+} = Astro.props;
+const productUrl = new URL(path, siteUrl).href;
+const toAbs = (u: string) =>
+  u.startsWith("http") ? u : new URL(u, siteUrl).href;
+const imageUrls = [image, ...additionalImages].map(toAbs);
+
+const defaultOfferDesc =
+  "Prix courant en succursale ou sur commande. Taxes en sus si applicables. Renseignements : (514) 893-9939 ou formulaire de contact.";
+
+const offers: Record<string, unknown> = {
+  "@type": "Offer",
+  url: productUrl,
+  priceCurrency,
+  availability: "https://schema.org/InStock",
+  seller: {
+    "@type": "LocalBusiness",
+    name: "Groupe Nettoyage Empire",
+    telephone: "+1-514-893-9939",
+    url: siteUrl,
+  },
+  description: offerDescription ?? defaultOfferDesc,
+};
+
+if (typeof price === "number") {
+  offers.price = price;
+  if (priceValidUntil) {
+    offers.priceValidUntil = priceValidUntil;
+  }
+}
+
+const productLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name,
+  description,
+  image: imageUrls.length === 1 ? imageUrls[0] : imageUrls,
+  brand: {
+    "@type": "Brand",
+    name: "Groupe Nettoyage Empire",
+  },
+  url: productUrl,
+  offers,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(productLd)} />

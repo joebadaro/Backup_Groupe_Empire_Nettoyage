@@ -1,0 +1,268 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import ProductSchema from "../../../components/ProductSchema.astro";
+import ProductPricingBand from "../../../components/ProductPricingBand.astro";
+import { productImages } from "../../../data/productImages";
+import { productPricing, priceValidUntilDefault } from "../../../data/productPricing";
+
+const title =
+  "BioBreak | Enzymatic carpet & upholstery spot cleaner | Empire Cleaning";
+const description =
+  "BioBreak: professional enzymatic spot cleaner for carpets and upholstery. From $26.99; with Odor Break, both for $49.99. Montreal, Laval, South Shore.";
+const hero = productImages.enzymatique;
+const hero2 = productImages.enzymatique2;
+const productImage = hero.src;
+---
+
+<Layout title={title} description={description} image={productImage}>
+  <ProductSchema
+    name="BioBreak — professional enzymatic spot cleaner"
+    description={description}
+    image={productImage}
+    additionalImages={[hero2.src]}
+    path="/en/produits/detachant-enzymatique-apres-nettoyage"
+    price={productPricing.single.amount}
+    priceValidUntil={priceValidUntilDefault}
+  />
+
+  <div class="page-header">
+    <div class="container text-center fade-in-section">
+      <p class="breadcrumb-hint"><a href="/en/produits">Products</a> · BioBreak</p>
+      <h1 class="text-gradient">BioBreak — professional enzymatic spot cleaner</h1>
+      <p class="lead-text">
+        <strong>BioBreak</strong> is a <strong>complementary</strong> product for <strong>localized care</strong> on carpet or upholstery: targeted upkeep between scheduled professional visits, small fresh organic spots, or defined areas when the fiber and manufacturer guidance allow this approach.
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container prose">
+      <figure class="inline-figure">
+        <img
+          src={hero.src}
+          alt={hero.altEn}
+          width={hero.width}
+          height={hero.height}
+          loading="eager"
+          decoding="async"
+        />
+        <figcaption>
+          BioBreak — ask us for usage tips for your carpet or fabric type. Packaging may vary.
+        </figcaption>
+      </figure>
+
+      <figure class="inline-figure inline-figure--secondary">
+        <img
+          src={hero2.src}
+          alt={hero2.altEn}
+          width={hero2.width}
+          height={hero2.height}
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>
+          Example of a localized stain on sofa fabric — test a hidden area and follow the fabric care label before any spot treatment.
+        </figcaption>
+      </figure>
+
+      <h2>What it does</h2>
+      <p>
+        Enzymes help target <strong>organic residues</strong> on the surface when the spot is still fresh or localized. <strong>BioBreak</strong> fits a <strong>targeted upkeep</strong> role: it does not replace truck-mount extraction, but can support <strong>local care</strong> between professional cleanings or for a <strong>small, contained incident</strong>, depending on the textile.
+      </p>
+
+      <h2>When to use it</h2>
+      <ul>
+        <li><strong>Light upkeep</strong> between scheduled professional visits, on a defined area allowed by the care label.</li>
+        <li>A <strong>small new spill</strong> on compatible carpet or fabric.</li>
+        <li><strong>Localized treatment</strong> when you want to act quickly on a fresh organic spot after checking fiber compatibility.</li>
+      </ul>
+
+      <h2>How we position it</h2>
+      <p>
+        Like <a href="/en/produits/neutralisant-odeurs-urine-oxygene">Odor Break</a>, this isn't a gimmick: we rely on <strong>years of field testing</strong> with customers. We recommend it when it's <strong>safe and relevant</strong> for your floor or fabric.
+      </p>
+
+      <h2>As a spot soap / local treatment</h2>
+      <p>
+        Depending on label directions and fabric, it can be used as a <strong>localized spot treatment</strong> (controlled dwell time, blot or rinse per instructions). Always read the label — never improvise mixing with other chemicals.
+      </p>
+
+      <div class="callout">
+        <strong>Call us first</strong> if the spot spreads, odor persists, the item is a mattress or delicate textile, or you've already tried several products.
+      </div>
+
+      <h2>Surfaces</h2>
+      <p>
+        Typically: <strong>synthetic wall-to-wall</strong> and some <strong>upholstery fabrics</strong> per label. Avoid guessing on silk, wool, or fine rugs — <a href="/en/contact">ask our team</a>.
+      </p>
+
+      <h2>FAQ</h2>
+      <div class="faq-block">
+        <p class="faq-q">Can I use it if I've never hired you?</p>
+        <p class="faq-a">The product may still be available, but we highlight it mainly for clients who already know our process. A first-time issue may need an on-site assessment.</p>
+      </div>
+      <div class="faq-block">
+        <p class="faq-q">Is it the same chemistry as during your service?</p>
+        <p class="faq-a">We tailor chemistry to each job. BioBreak is meant for small residential touch-ups between services.</p>
+      </div>
+
+      <ProductPricingBand locale="en" current="biobreak" />
+
+      <div class="cta-panel">
+        <h2>Question about a specific spot?</h2>
+        <p>We'll tell you if home care is enough or a return visit makes sense.</p>
+        <div class="cta-row">
+          <a href="tel:5148939939" class="btn btn-primary">(514) 893-9939</a>
+          <a href="/en/contact" class="btn btn-secondary-outline">Email the team</a>
+        </div>
+      </div>
+
+      <p class="related">
+        <a href="/en/produits">All products</a> · <a href="/en/produits/neutralisant-odeurs-urine-oxygene">Odor Break</a> · <a href="/en/services/nettoyage-tapis-residentiel">Residential carpet cleaning</a>
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    background: var(--color-bg-light-blue);
+    padding: 2rem 0 1.5rem;
+    border-bottom: 1px solid #eee;
+  }
+  .breadcrumb-hint {
+    font-size: 0.9rem;
+    margin: 0 0 0.5rem;
+  }
+  .breadcrumb-hint a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+  .lead-text {
+    max-width: 760px;
+    margin: 0.75rem auto 0;
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: var(--color-text-main);
+  }
+  .section {
+    padding: 2rem 0 3rem;
+  }
+  .prose {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 0.5rem;
+  }
+  .prose h2 {
+    color: var(--color-primary);
+    font-size: 1.45rem;
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose p,
+  .prose li {
+    line-height: 1.75;
+    color: var(--color-text-main);
+    margin-bottom: 1rem;
+  }
+  .prose ul {
+    padding-left: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .inline-figure {
+    margin: 0 0 2rem;
+  }
+  .inline-figure img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+  .inline-figure figcaption {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: 0.5rem;
+  }
+  .inline-figure--secondary {
+    margin-top: 1.5rem;
+  }
+  @media (max-width: 767px) {
+    .inline-figure {
+      width: calc(100% + 4rem);
+      max-width: none;
+      margin-left: -2rem;
+      margin-right: -2rem;
+    }
+    .inline-figure img {
+      border-radius: 0;
+      display: block;
+    }
+    .inline-figure figcaption {
+      padding: 0 2rem;
+      box-sizing: border-box;
+    }
+  }
+  .callout {
+    background: #f5f9ff;
+    border-left: 4px solid var(--color-primary);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+    line-height: 1.65;
+  }
+  .faq-block {
+    margin-bottom: 1.25rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  .faq-q {
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: 0 0 0.35rem;
+  }
+  .faq-a {
+    margin: 0;
+    color: #555;
+    font-size: 0.98rem;
+  }
+  .cta-panel {
+    margin-top: 2.5rem;
+    padding: 2rem;
+    background: linear-gradient(165deg, #e8f3fc 0%, #ffffff 100%);
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid rgba(0, 74, 159, 0.12);
+  }
+  .cta-panel h2 {
+    margin-top: 0;
+  }
+  .cta-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .related {
+    margin-top: 2.5rem;
+    font-size: 0.95rem;
+    color: #666;
+  }
+  .related a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+  .btn-secondary-outline {
+    display: inline-block;
+    padding: 0.65rem 1.25rem;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .btn-secondary-outline:hover {
+    background: var(--color-primary);
+    color: #fff;
+  }
+</style>

@@ -1,0 +1,123 @@
+---
+/**
+ * Bloc tarifaire discret pour les fiches Odor Break / BioBreak.
+ */
+import { productPricing } from "../data/productPricing";
+
+interface Props {
+  locale: "fr" | "en";
+  /** Page courante : lien vers l’autre produit */
+  current: "odor-break" | "biobreak";
+}
+
+const { locale, current } = Astro.props;
+const p = productPricing;
+const otherHref =
+  current === "odor-break"
+    ? locale === "fr"
+      ? "/produits/detachant-enzymatique-apres-nettoyage"
+      : "/en/produits/detachant-enzymatique-apres-nettoyage"
+    : locale === "fr"
+      ? "/produits/neutralisant-odeurs-urine-oxygene"
+      : "/en/produits/neutralisant-odeurs-urine-oxygene";
+const otherLabel =
+  current === "odor-break"
+    ? locale === "fr"
+      ? "BioBreak"
+      : "BioBreak"
+    : locale === "fr"
+      ? "Odor Break"
+      : "Odor Break";
+
+const copy =
+  locale === "fr"
+    ? {
+        title: "Tarification",
+        unit: `Chaque produit : ${p.single.displayFr} (CAD).`,
+        duoLead:
+          "Approche en deux temps, comme sur le terrain : souvent BioBreak d’abord pour travailler les taches organiques, puis Odor Break pour neutraliser les odeurs à la source et aider à assainir la zone — toujours selon le textile et le mode d’emploi.",
+        duoPrice: `Duo BioBreak + Odor Break : ${p.duo.displayFr} (CAD).`,
+        foot: "Taxes en sus si applicables. Disponibilité et commande :",
+        contact: "nous contacter",
+      }
+    : {
+        title: "Pricing",
+        unit: `Each product: ${p.single.displayEn} CAD.`,
+        duoLead:
+          "Two-step workflow, as we often use in the field: BioBreak first to work organic soils, then Odor Break to neutralize odors at the source and help sanitize the area — always per fabric and label directions.",
+        duoPrice: `BioBreak + Odor Break duo: ${p.duo.displayEn} CAD.`,
+        foot: "Taxes extra where applicable. Availability and orders:",
+        contact: "contact us",
+      };
+---
+
+<div class="price-band">
+  <h2 class="price-band-title">{copy.title}</h2>
+  <p class="price-band-line">{copy.unit}</p>
+  <p class="price-band-line price-band-duo">{copy.duoPrice}</p>
+  <p class="price-band-muted">{copy.duoLead}</p>
+  <p class="price-band-foot">
+    {copy.foot}
+    <a href="tel:5148939939">(514) 893-9939</a>
+    {locale === "fr" ? " ou " : " or "}
+    <a href={locale === "fr" ? "/contact" : "/en/contact"}>{copy.contact}</a>.
+  </p>
+  <p class="price-band-link-other">
+    <a href={otherHref}
+      >{locale === "fr" ? "Voir la fiche" : "View"} {otherLabel}</a
+    >
+    {locale === "fr" ? " · " : " · "}
+    <a href={locale === "fr" ? "/produits" : "/en/produits"}
+      >{locale === "fr" ? "Tous les produits" : "All products"}</a
+    >
+  </p>
+</div>
+
+<style>
+  .price-band {
+    margin: 2rem 0 0;
+    padding: 1.25rem 1.35rem;
+    background: linear-gradient(165deg, #f7fbff 0%, #ffffff 100%);
+    border: 1px solid rgba(0, 74, 159, 0.12);
+    border-radius: 10px;
+    border-left: 3px solid var(--color-accent);
+  }
+  .price-band-title {
+    margin: 0 0 0.65rem;
+    font-size: 1.15rem;
+    color: var(--color-primary);
+  }
+  .price-band-line {
+    margin: 0 0 0.5rem;
+    line-height: 1.6;
+    color: var(--color-text-main);
+  }
+  .price-band-duo {
+    font-weight: 700;
+    font-size: 1.02rem;
+  }
+  .price-band-muted {
+    margin: 0.75rem 0 0.85rem;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: #555;
+  }
+  .price-band-foot {
+    margin: 0 0 0.35rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: #444;
+  }
+  .price-band-foot a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+  .price-band-link-other {
+    margin: 0.5rem 0 0;
+    font-size: 0.88rem;
+  }
+  .price-band-link-other a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+</style>
