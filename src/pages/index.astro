@@ -1594,6 +1594,8 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
        * d’où height/max-height 85svh sur viewports assez hauts (min-height: 700px), avec overflow hidden sur la section.
        * Petits écrans (hauteur < 700px): pas de hauteur fixe pour éviter de couper le texte.
        * object-position au-dessus de 58% → moins de “bas” visible (cover).
+       * Scroll tactile: translateZ/translate3d + backface sur section/slideshow/slides pour calques GPU stables
+       * (évite le “zoom”/flicker quand WebKit refusionne les layers avec overflow:hidden + opacity transition).
        */
       @media (max-width: 768px) {
         .hero-section {
@@ -1605,6 +1607,17 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           justify-content: center;
           padding: 4.75rem 1rem 0;
           box-sizing: border-box;
+          /* Calque composite stable pendant le scroll (clip + hauteur svh) */
+          transform: translateZ(0);
+          -webkit-transform: translateZ(0);
+        }
+
+        .hero-slideshow {
+          transform: translate3d(0, 0, 0);
+          -webkit-transform: translate3d(0, 0, 0);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          isolation: isolate;
         }
 
         .hero-section .hero-content {
@@ -1634,6 +1647,10 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         /* Portrait slides: anchor a bit higher than 58% → less “bas” visible in frame (cover crops more bottom) */
         .hero-slide {
           object-position: center 50%;
+          transform: translate3d(0, 0, 0);
+          -webkit-transform: translate3d(0, 0, 0);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
       }
 
