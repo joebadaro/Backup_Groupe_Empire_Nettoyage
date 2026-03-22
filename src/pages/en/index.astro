@@ -708,7 +708,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
       overflow: hidden;
     }
 
-    /* Mobile hero padding: defined below with 85svh (single 768px block, same as FR) */
+    /* Mobile hero: padding in ≤768 block; height from global.css (vw + px only) */
 
     /* --- SLIDESHOW CONTAINER --- */
     .hero-slideshow {
@@ -1520,15 +1520,8 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
       line-height: 1.6;
     }
 
-    /* RESPONSIVE */
+    /* RESPONSIVE — hero tablet only (769–1024), not phones (avoids 65vh in Google iPhone WebView) */
     @media (max-width: 1024px) {
-      .hero-section {
-        padding: 8rem 0 6rem 0; /* Reduced padding significantly */
-        min-height: 65vh; /* Force a shorter height */
-        display: flex;
-        align-items: center; /* Center content vertically if height is fixed */
-      }
-
       .section-quality-strip-refined {
         grid-template-columns: 1fr;
       }
@@ -1582,13 +1575,18 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
       }
     }
 
-    /*
-     * Mobile: ~85svh. Single hero image + no opacity transition + no JS slideshow (same as FR) — stable on swipe.
-     */
+    @media (max-width: 1024px) and (min-width: 769px) {
+      .hero-section {
+        padding: 8rem 0 6rem 0;
+        min-height: 65vh;
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    /* Mobile: height from global.css (vw + px only); same behaviour as FR */
     @media (max-width: 768px) {
       .hero-section {
-        min-height: 85vh;
-        min-height: 85svh;
         display: flex;
         flex-direction: row;
         align-items: flex-start;
@@ -1628,16 +1626,6 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
         object-position: center 50%;
         transition: none !important;
         opacity: 1 !important;
-      }
-    }
-
-    @media (max-width: 768px) and (min-height: 700px) {
-      .hero-section {
-        height: 85vh;
-        height: 85svh;
-        max-height: 85vh;
-        max-height: 85svh;
-        overflow: hidden;
       }
     }
 

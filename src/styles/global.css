@@ -567,7 +567,9 @@ ul {
   }
 }
 
-/* --- Homepage hero (FR/EN): mobile stability — global (not scoped) so rules always apply after deploy --- */
+/* --- Homepage hero (FR/EN): mobile — WebView Google iPhone (WKWebView) retaille souvent la hauteur viewport (vh/svh/dvh)
+   pendant le swipe ; la barre d’URL / chrome interne change le “petit viewport” → le hero en % de hauteur semble “zoomer”.
+   Ici : aucune unité de hauteur de viewport pour le hero mobile — min-height = clamp(px, vw, px) + overflow maîtrisé. --- */
 @media (max-width: 768px) {
   .hero-bg-picture--secondary {
     display: none !important;
@@ -576,9 +578,24 @@ ul {
   .hero-section .hero-slide {
     transition: none !important;
     opacity: 1 !important;
+    transform: none !important;
+    will-change: auto !important;
   }
 
-  /* Réduit les sauts de scroll qui peuvent ressembler à un zoom (Chrome/Android) */
+  /* ~ équivalent visuel ancien 85svh sur iPhone 12/13 (~390px) : 184vw ≈ 0,85 × hauteur typique / (largeur/hauteur) */
+  .hero-section {
+    min-height: clamp(380px, 184vw, 720px) !important;
+    height: auto !important;
+    max-height: none !important;
+    /* overflow:hidden sur la section + hauteur vh/svh provoquait des repaints; le clip est sur .hero-slideshow */
+    overflow-x: clip !important;
+    overflow-y: visible !important;
+  }
+
+  .hero-slideshow {
+    overflow: hidden !important;
+  }
+
   html {
     overflow-anchor: none;
   }

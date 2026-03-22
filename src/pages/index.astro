@@ -731,7 +731,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         overflow: hidden;
       }
 
-      /* Mobile hero padding: défini plus bas avec la hauteur 85svh (évite doublon 768px) */
+      /* Mobile hero: padding défini dans @media ≤768 ; hauteur via global.css (vw + px, pas vh/svh) */
 
       /* --- SLIDESHOW CONTAINER --- */
       .hero-slideshow {
@@ -1547,15 +1547,8 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         line-height: 1.6;
       }
 
-      /* RESPONSIVE */
+      /* RESPONSIVE — hero dans un media séparé (769–1024) pour ne pas appliquer 65vh aux phones (WebView Google iPhone) */
       @media (max-width: 1024px) {
-        .hero-section {
-          padding: 8rem 0 6rem 0; /* Reduced padding significantly */
-          min-height: 65vh; /* Force a shorter height */
-          display: flex;
-          align-items: center; /* Center content vertically if height is fixed */
-        }
-
         .section-quality-strip-refined {
           grid-template-columns: 1fr;
         }
@@ -1609,18 +1602,21 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         }
       }
 
+      @media (max-width: 1024px) and (min-width: 769px) {
+        .hero-section {
+          padding: 8rem 0 6rem 0;
+          min-height: 65vh;
+          display: flex;
+          align-items: center;
+        }
+      }
+
       /*
-       * Mobile: hero ~85svh. min-height seul ne change rien si le contenu + paddings dépassent déjà cette valeur —
-       * d’où height/max-height 85svh sur viewports assez hauts (min-height: 700px), avec overflow hidden sur la section.
-       * Petits écrans (hauteur < 700px): pas de hauteur fixe pour éviter de couper le texte.
-       * object-position au-dessus de 58% → moins de “bas” visible (cover).
-       * Stabilité scroll: 1 seule image (2e <picture> masquée), pas de transition opacity, pas de JS slideshow — évite
-       * le flicker/zoom WebKit causé par deux calques + transition 5.2s + swap JS pendant le défilement.
+       * Mobile (≤768): hauteur du hero = global.css (clamp + vw uniquement, pas de vh/svh/dvh) — stable WebView Google iPhone.
+       * 1 image, pas de slideshow JS, pas de fade (voir global.css + script is:inline).
        */
       @media (max-width: 768px) {
         .hero-section {
-          min-height: 85vh;
-          min-height: 85svh;
           display: flex;
           flex-direction: row;
           align-items: flex-start;
@@ -1643,7 +1639,6 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           padding-bottom: calc(5.35rem + env(safe-area-inset-bottom, 0px));
         }
 
-        /* Resserre un peu la pile pour que 85svh “tienne” sans clip sur la plupart des phones */
         .hero-section .hero-badge {
           margin-bottom: 1rem;
         }
@@ -1663,17 +1658,6 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           object-position: center 50%;
           transition: none !important;
           opacity: 1 !important;
-        }
-      }
-
-      /* Hauteur exacte 85svh quand le viewport est assez grand — sinon min-height seul ne se voit pas (72 vs 85) */
-      @media (max-width: 768px) and (min-height: 700px) {
-        .hero-section {
-          height: 85vh;
-          height: 85svh;
-          max-height: 85vh;
-          max-height: 85svh;
-          overflow: hidden;
         }
       }
 
