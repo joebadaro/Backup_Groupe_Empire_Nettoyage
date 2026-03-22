@@ -1575,13 +1575,12 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
     }
 
     /*
-     * Mobile: full viewport + hero text above fixed bottom CTA — same as FR index.astro.
+     * Mobile: 88svh hero (shorter scroll) + text above sticky CTA — same as FR. No 100dvh (scroll jank).
      */
     @media (max-width: 768px) {
       .hero-section {
-        min-height: 100vh;
-        min-height: 100svh;
-        min-height: 100dvh;
+        min-height: 88vh;
+        min-height: 88svh;
         display: flex;
         flex-direction: row;
         align-items: flex-start;

@@ -1595,15 +1595,14 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
       }
 
       /*
-       * Mobile phones: full viewport + text block cleared above fixed bottom CTA (Layout).
-       * Overrides 1024px flex align-items:center which vertically centers copy into the sticky bar zone.
+       * Mobile phones: shorter than full viewport (faster scroll to next section) + text above sticky CTA.
+       * Use 88svh only — stable; avoid 100dvh (dynamic) which resizes when browser chrome hides → “zoom” feel.
        * FR/EN identical; desktop/tablet >768px unchanged.
        */
       @media (max-width: 768px) {
         .hero-section {
-          min-height: 100vh;
-          min-height: 100svh;
-          min-height: 100dvh;
+          min-height: 88vh;
+          min-height: 88svh;
           display: flex;
           flex-direction: row;
           align-items: flex-start;

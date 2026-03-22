@@ -138,6 +138,13 @@ const description = Astro.props.description ?? defaultDescription;
         min-height: 100vh;
       }
 
+      /* fixed + scroll on iOS/Android often causes parallax/jank; desktop keeps fixed */
+      @media (max-width: 768px) {
+        body {
+          background-attachment: scroll;
+        }
+      }
+
       /* MOBILE STICKY BAR — shared FR/EN; dimensions locked so EN matches FR (FR copy often wraps) */
       .mobile-sticky-bar {
         position: fixed;
