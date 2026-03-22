@@ -461,29 +461,24 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         color: rgba(255, 255, 255, 0.85);
       }
 
-      /* --- ANIMATIONS V3 (Staggered & Smooth) --- */
-      /* Optimization Mobile: Desktop Only */
-      @media (min-width: 768px) {
-        .fade-in-section {
-          opacity: 0;
-          transform: translateY(30px);
-          transition:
-            opacity 0.8s ease-out,
-            transform 0.8s ease-out;
-          will-change: opacity, visibility;
-        }
-        .fade-in-section.is-visible {
-          opacity: 1;
-          transform: none;
-        }
+      /* --- ANIMATIONS V3 (Staggered & Smooth) — match EN: hero + sections animate on all viewports */
+      .fade-in-section {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.8s ease-out,
+          transform 0.8s ease-out;
+        will-change: opacity, visibility;
+      }
+      .fade-in-section.is-visible {
+        opacity: 1;
+        transform: none;
       }
 
-      /* CSS-Only Animation for Hero LCP */
-      @media (min-width: 768px) {
-        .animate-on-load {
-          opacity: 0;
-          animation: fadeInUp 0.8s ease-out forwards;
-        }
+      /* CSS-Only Animation for Hero LCP (badge, title, subtitle, CTAs) */
+      .animate-on-load {
+        opacity: 0;
+        animation: fadeInUp 0.8s ease-out forwards;
       }
       .delay-1 {
         animation-delay: 0.2s;
