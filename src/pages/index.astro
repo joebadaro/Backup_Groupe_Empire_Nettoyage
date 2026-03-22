@@ -1595,16 +1595,40 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
       }
 
       /*
-       * Mobile phones: first-screen hero height must match FR reference (full viewport).
-       * 1024px block uses min-height: 65vh — shorter EN copy stays near that floor and the trust
-       * band (negative margin) peeks above the fold. Override to full dynamic viewport on both
-       * locales so slideshow + hero match; desktop/tablet >768px unchanged.
+       * Mobile phones: full viewport + text block cleared above fixed bottom CTA (Layout).
+       * Overrides 1024px flex align-items:center which vertically centers copy into the sticky bar zone.
+       * FR/EN identical; desktop/tablet >768px unchanged.
        */
       @media (max-width: 768px) {
         .hero-section {
           min-height: 100vh;
           min-height: 100svh;
           min-height: 100dvh;
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          justify-content: center;
+          /* Tighter top than 8rem so copy sits higher; no bottom padding here (wave is absolute) */
+          padding: 5.25rem 1rem 0;
+          box-sizing: border-box;
+        }
+
+        .hero-section .hero-content {
+          width: 100%;
+          max-width: 100%;
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+          /* Space above fixed .mobile-sticky-bar + iOS safe area — keeps subtitle off buttons */
+          padding-bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+        }
+
+        .hero-subtitle {
+          margin-bottom: 1.5rem;
+        }
+
+        /* Portrait slides (≤768 picture source): focal point slightly below center — less ceiling, more scene */
+        .hero-slide {
+          object-position: center 58%;
         }
       }
 

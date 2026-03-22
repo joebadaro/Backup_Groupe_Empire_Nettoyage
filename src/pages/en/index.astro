@@ -1575,14 +1575,36 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
     }
 
     /*
-     * Mobile phones: match FR first-screen hero — full viewport height (EN copy is shorter than FR).
-     * Overrides 65vh from 1024px block so trust strip does not peek on load; same rule as FR.
+     * Mobile: full viewport + hero text above fixed bottom CTA — same as FR index.astro.
      */
     @media (max-width: 768px) {
       .hero-section {
         min-height: 100vh;
         min-height: 100svh;
         min-height: 100dvh;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 5.25rem 1rem 0;
+        box-sizing: border-box;
+      }
+
+      .hero-section .hero-content {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        padding-bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+      }
+
+      .hero-subtitle {
+        margin-bottom: 1.5rem;
+      }
+
+      /* Portrait slides: same cadrage as FR — less ceiling, more useful scene */
+      .hero-slide {
+        object-position: center 58%;
       }
     }
 
