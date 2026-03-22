@@ -421,9 +421,10 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
       }, intervalTime);
     }
 
-    // Hero Slideshow: 4.5s hold + 5.2s transition = 9.7s between swap starts; full loop 19.4s (matches heroSlogan 19.4s)
+    // Hero Slideshow: desktop only — mobile keeps first slide static (no scroll flicker on WebKit)
     const heroSlides = document.querySelectorAll(".hero-slide");
-    if (heroSlides.length > 0) {
+    const heroSlideshowDesktop = window.matchMedia("(min-width: 769px)");
+    if (heroSlides.length > 0 && heroSlideshowDesktop.matches) {
       let currentHeroSlide = 0;
       const firstSwapDelayMs = 4500;
       const swapIntervalMs = 9700;
@@ -1570,9 +1571,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
     }
 
     /*
-     * Mobile: ~85svh. min-height alone has no visible effect if content + padding exceed it (same as FR).
-     * Fixed height on tall enough viewports; short viewports keep auto height to avoid clipping text.
-     * Scroll: GPU layer hints on section/slideshow/slides match FR (reduces WebKit zoom/flicker on swipe).
+     * Mobile: ~85svh. Single hero image + no opacity transition + no JS slideshow (same as FR) — stable on swipe.
      */
     @media (max-width: 768px) {
       .hero-section {
@@ -1584,16 +1583,10 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
         justify-content: center;
         padding: 4.75rem 1rem 0;
         box-sizing: border-box;
-        transform: translateZ(0);
-        -webkit-transform: translateZ(0);
       }
 
-      .hero-slideshow {
-        transform: translate3d(0, 0, 0);
-        -webkit-transform: translate3d(0, 0, 0);
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-        isolation: isolate;
+      .hero-slideshow picture:nth-of-type(2) {
+        display: none !important;
       }
 
       .hero-section .hero-content {
@@ -1618,13 +1611,11 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
         margin-bottom: 1.15rem;
       }
 
-      /* Portrait slides: same cadrage as FR — more bottom cropped vs 58% */
+      /* Portrait: same crop as FR — no opacity transition on mobile */
       .hero-slide {
         object-position: center 50%;
-        transform: translate3d(0, 0, 0);
-        -webkit-transform: translate3d(0, 0, 0);
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
+        transition: none !important;
+        opacity: 1 !important;
       }
     }
 
