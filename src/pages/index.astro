@@ -13,25 +13,28 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
   <section class="hero-section">
     <!-- SLIDESHOW BACKGROUND -->
     <div class="hero-slideshow">
-      <!-- Slide 1: Artistic Living Room -->
-      <Image
-        src="/images/catalog/hero-slide-2.webp"
-        alt="Nettoyage professionnel de tapis et divans à Montréal - Groupe Empire"
-        class="hero-slide active"
-        loading="eager"
-        width={1200}
-        height={675}
-        decoding="async"
-        fetchpriority="high"
-      />
-
-      <!-- Slide 3: New Office Carpet -->
+      <!-- Slide 1: Office / commercial carpet — first visible (sync with steam slogan) -->
       <img
         src="/images/catalog/hero-slide-office.webp"
         srcset="/images/catalog/hero-slide-office-mobile.webp 800w, /images/catalog/hero-slide-office.webp 1920w"
         sizes="(max-width: 768px) 100vw, 100vw"
         alt="Nettoyage de tapis commercial et bureau - Service professionnel au Québec"
+        class="hero-slide active"
+        width={1920}
+        height={1080}
+        decoding="async"
+        fetchpriority="high"
+      />
+
+      <!-- Slide 2: Living room -->
+      <Image
+        src="/images/catalog/hero-slide-2.webp"
+        alt="Nettoyage professionnel de tapis et divans à Montréal - Groupe Empire"
         class="hero-slide"
+        loading="lazy"
+        width={1200}
+        height={675}
+        decoding="async"
       />
     </div>
 
@@ -55,8 +58,21 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
       </div>
 
       <h1 class="hero-title animate-on-load delay-1">
-        L'Art du Nettoyage <br />
-        <span class="text-gradient-tricolor">Haut de Gamme</span>
+        <span class="hero-slogan-wrap">
+          <span class="hero-slogan-rotate-stack">
+            <span class="hero-slogan-sizer" aria-hidden="true">
+              L'Art du Nettoyage<br />Haut de Gamme
+            </span>
+            <span class="hero-slogan-layer hero-slogan--a">
+              <span class="hero-slogan-white">L'Art du Nettoyage</span><br />
+              <span class="text-gradient-tricolor">À la Vapeur</span>
+            </span>
+            <span class="hero-slogan-layer hero-slogan--b">
+              <span class="hero-slogan-white">L'Art du Nettoyage</span><br />
+              <span class="text-gradient-tricolor">Haut de Gamme</span>
+            </span>
+          </span>
+        </span>
       </h1>
       <p class="hero-subtitle animate-on-load delay-2">
         Tapis, Meubles et Matelas. Une propreté éclatante grâce à notre
@@ -392,17 +408,23 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         }, intervalTime);
       }
 
-      // Hero Slideshow
+      // Hero Slideshow: 4.5s hold + 5.2s transition = 9.7s between swap starts; full loop 19.4s (matches heroSlogan 19.4s)
       const heroSlides = document.querySelectorAll(".hero-slide");
       if (heroSlides.length > 0) {
         let currentHeroSlide = 0;
-        const heroIntervalTime = 6000; // 6 seconds (Slower for hero)
+        const firstSwapDelayMs = 4500;
+        const swapIntervalMs = 9700;
 
-        setInterval(() => {
+        const swapHeroSlide = () => {
           heroSlides[currentHeroSlide].classList.remove("active");
           currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
           heroSlides[currentHeroSlide].classList.add("active");
-        }, heroIntervalTime);
+        };
+
+        setTimeout(() => {
+          swapHeroSlide();
+          setInterval(swapHeroSlide, swapIntervalMs);
+        }, firstSwapDelayMs);
       }
     </script>
 
@@ -506,6 +528,161 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
       }
 
+      /* First line inside each full-slogan layer — solid white (no gradient) */
+      .hero-slogan-white {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        background: none;
+        -webkit-background-clip: border-box;
+        background-clip: border-box;
+      }
+
+      /*
+       * Full slogan = one animated layer (opacity on .hero-slogan-layer); white + gradient inside.
+       * Timing unchanged: 4.5s + 5.2s + 4.5s + 5.2s = 19.4s. JS: first swap 4.5s, then every 9.7s.
+       */
+      .hero-slogan-wrap {
+        display: inline-block;
+        max-width: 100%;
+        text-align: center;
+        vertical-align: bottom;
+      }
+
+      .hero-slogan-rotate-stack {
+        display: inline-grid;
+        vertical-align: bottom;
+        max-width: 100%;
+        text-align: center;
+      }
+
+      .hero-slogan-sizer {
+        grid-area: 1 / 1;
+        visibility: hidden;
+      }
+
+      .hero-slogan-layer {
+        grid-area: 1 / 1;
+        transform: translateZ(0);
+      }
+
+      .hero-slogan--a {
+        animation: heroSloganA 19.4s linear infinite;
+      }
+
+      .hero-slogan--b {
+        animation: heroSloganB 19.4s linear infinite;
+      }
+
+      @keyframes heroSloganA {
+        /* steam phrase — office slide first */
+        0%,
+        23.195877% {
+          opacity: 1;
+        }
+        28% {
+          opacity: 0.78;
+        }
+        34% {
+          opacity: 0.45;
+        }
+        40% {
+          opacity: 0.2;
+        }
+        46% {
+          opacity: 0.05;
+        }
+        50% {
+          opacity: 0;
+        }
+        50.01%,
+        73.195877% {
+          opacity: 0;
+        }
+        78% {
+          opacity: 0.12;
+        }
+        84% {
+          opacity: 0.42;
+        }
+        90% {
+          opacity: 0.75;
+        }
+        96% {
+          opacity: 0.95;
+        }
+        99% {
+          opacity: 0.995;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes heroSloganB {
+        /* premium phrase — living room second */
+        0%,
+        23.195877% {
+          opacity: 0;
+        }
+        28% {
+          opacity: 0.22;
+        }
+        34% {
+          opacity: 0.55;
+        }
+        40% {
+          opacity: 0.8;
+        }
+        46% {
+          opacity: 0.95;
+        }
+        50% {
+          opacity: 1;
+        }
+        50.01%,
+        73.195877% {
+          opacity: 1;
+        }
+        78% {
+          opacity: 0.88;
+        }
+        84% {
+          opacity: 0.58;
+        }
+        90% {
+          opacity: 0.25;
+        }
+        96% {
+          opacity: 0.05;
+        }
+        99% {
+          opacity: 0.005;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .hero-slogan--a,
+        .hero-slogan--b {
+          animation: none !important;
+        }
+
+        .hero-slogan--a {
+          opacity: 1 !important;
+        }
+
+        .hero-slogan--b {
+          opacity: 0 !important;
+          visibility: hidden;
+        }
+
+        .hero-slogan-sizer {
+          display: none;
+        }
+      }
+
       /* --- NEW HERO --- */
       .hero-section {
         position: relative;
@@ -547,7 +724,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         height: 100%;
         object-fit: cover;
         opacity: 0;
-        transition: opacity 2s ease-in-out; /* Smooth 2s transition */
+        transition: opacity 5.2s ease-in-out; /* 5.2s — matches heroSlogan crossfade (9.7−4.5)/19.4 */
         z-index: 1;
       }
 
