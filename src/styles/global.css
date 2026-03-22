@@ -566,3 +566,20 @@ ul {
     margin-top: 0;
   }
 }
+
+/* --- Homepage hero (FR/EN): mobile stability — global (not scoped) so rules always apply after deploy --- */
+@media (max-width: 768px) {
+  .hero-bg-picture--secondary {
+    display: none !important;
+  }
+
+  .hero-section .hero-slide {
+    transition: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Réduit les sauts de scroll qui peuvent ressembler à un zoom (Chrome/Android) */
+  html {
+    overflow-anchor: none;
+  }
+}

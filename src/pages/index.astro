@@ -13,7 +13,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
     <!-- SLIDESHOW BACKGROUND -->
     <div class="hero-slideshow">
       <!-- Slide 1: Office / commercial — desktop landscape; mobile portrait (≤768px) -->
-      <picture>
+      <picture class="hero-bg-picture">
         <source
           media="(max-width: 768px)"
           type="image/webp"
@@ -34,7 +34,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
       </picture>
 
       <!-- Slide 2: Living room — desktop landscape; mobile portrait (≤768px) -->
-      <picture>
+      <picture class="hero-bg-picture hero-bg-picture--secondary">
         <source
           media="(max-width: 768px)"
           type="image/webp"
@@ -410,40 +410,59 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
       </div>
     </div>
 
-    <script>
-      // Simple Cross-Fade Slideshow (Standardized)
-      const slides = document.querySelectorAll(".slide");
+    <script is:inline>
+      // is:inline = exécuté tel quel sur le client (pas bundlé) — évite tout hoisting qui ferait tourner le hero slideshow sur mobile
+      (function () {
+        function initHomeHeroSlideshow() {
+          // Simple Cross-Fade Slideshow (Standardized)
+          const slides = document.querySelectorAll(".slide");
 
-      if (slides.length > 0) {
-        let currentSlide = 0;
-        const intervalTime = 4000; // 4 seconds
+          if (slides.length > 0) {
+            let currentSlide = 0;
+            const intervalTime = 4000; // 4 seconds
 
-        setInterval(() => {
-          slides[currentSlide].classList.remove("active");
-          currentSlide = (currentSlide + 1) % slides.length;
-          slides[currentSlide].classList.add("active");
-        }, intervalTime);
-      }
+            setInterval(() => {
+              slides[currentSlide].classList.remove("active");
+              currentSlide = (currentSlide + 1) % slides.length;
+              slides[currentSlide].classList.add("active");
+            }, intervalTime);
+          }
 
-      // Hero Slideshow: desktop only — mobile keeps first slide static (no opacity swap = no scroll flicker on WebKit)
-      const heroSlides = document.querySelectorAll(".hero-slide");
-      const heroSlideshowDesktop = window.matchMedia("(min-width: 769px)");
-      if (heroSlides.length > 0 && heroSlideshowDesktop.matches) {
-        let currentHeroSlide = 0;
-        const firstSwapDelayMs = 4500;
-        const swapIntervalMs = 9700;
+          // Hero Slideshow: desktop uniquement (largeur réelle + media query)
+          const heroSlides = document.querySelectorAll(".hero-slide");
+          const desktopMq =
+            typeof window.matchMedia === "function" &&
+            window.matchMedia("(min-width: 769px)").matches;
+          const desktopWidth =
+            typeof window.innerWidth === "number" && window.innerWidth >= 769;
+          if (
+            heroSlides.length > 0 &&
+            desktopMq &&
+            desktopWidth
+          ) {
+            let currentHeroSlide = 0;
+            const firstSwapDelayMs = 4500;
+            const swapIntervalMs = 9700;
 
-        const swapHeroSlide = () => {
-          heroSlides[currentHeroSlide].classList.remove("active");
-          currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
-          heroSlides[currentHeroSlide].classList.add("active");
-        };
+            const swapHeroSlide = () => {
+              heroSlides[currentHeroSlide].classList.remove("active");
+              currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
+              heroSlides[currentHeroSlide].classList.add("active");
+            };
 
-        setTimeout(() => {
-          swapHeroSlide();
-          setInterval(swapHeroSlide, swapIntervalMs);
-        }, firstSwapDelayMs);
-      }
+            setTimeout(() => {
+              swapHeroSlide();
+              setInterval(swapHeroSlide, swapIntervalMs);
+            }, firstSwapDelayMs);
+          }
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initHomeHeroSlideshow);
+        } else {
+          initHomeHeroSlideshow();
+        }
+      })();
     </script>
 
     <style>
@@ -1610,8 +1629,8 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           box-sizing: border-box;
         }
 
-        /* Une seule image en fond — pas de 2e couche à fusionner au scroll */
-        .hero-slideshow picture:nth-of-type(2) {
+        /* 2e slide masquée aussi via .hero-bg-picture--secondary dans global.css (scoped Astro peut rater nth-of-type) */
+        .hero-bg-picture--secondary {
           display: none !important;
         }
 

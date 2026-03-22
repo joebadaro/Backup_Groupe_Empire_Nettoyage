@@ -11,6 +11,22 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Content-Type-Options = "nosniff"
 
+# SSR HTML: éviter une vieille page en cache CDN sans extension .html
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/en"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/en/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 # Cache Images, Fonts, and Textures for 1 Year (Immutable)
 [[headers]]
   for = "/images/*"
