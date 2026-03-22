@@ -423,15 +423,13 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
         }
 
         const heroSlides = document.querySelectorAll(".hero-slide");
-        const desktopMq =
-          typeof window.matchMedia === "function" &&
-          window.matchMedia("(min-width: 769px)").matches;
-        const desktopWidth =
-          typeof window.innerWidth === "number" && window.innerWidth >= 769;
-        if (heroSlides.length > 0 && desktopMq && desktopWidth) {
+        if (heroSlides.length > 0) {
           let currentHeroSlide = 0;
           const firstSwapDelayMs = 4500;
           const swapIntervalMs = 9700;
+          const isMobileHero =
+            typeof window.matchMedia === "function" &&
+            window.matchMedia("(max-width: 768px)").matches;
 
           const swapHeroSlide = () => {
             heroSlides[currentHeroSlide].classList.remove("active");
@@ -439,9 +437,51 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
             heroSlides[currentHeroSlide].classList.add("active");
           };
 
-          setTimeout(() => {
+          let lastInteractionTime = 0;
+          const IDLE_MS_BEFORE_SWAP = 650;
+
+          const maybeSwapHeroSlide = () => {
+            if (
+              isMobileHero &&
+              Date.now() - lastInteractionTime < IDLE_MS_BEFORE_SWAP
+            ) {
+              return;
+            }
             swapHeroSlide();
-            setInterval(swapHeroSlide, swapIntervalMs);
+          };
+
+          const markUserInteraction = () => {
+            lastInteractionTime = Date.now();
+          };
+
+          if (isMobileHero) {
+            window.addEventListener("scroll", markUserInteraction, {
+              passive: true,
+            });
+            window.addEventListener("touchstart", markUserInteraction, {
+              passive: true,
+            });
+            window.addEventListener("touchmove", markUserInteraction, {
+              passive: true,
+            });
+            window.addEventListener("touchend", markUserInteraction, {
+              passive: true,
+            });
+            window.addEventListener("touchcancel", markUserInteraction, {
+              passive: true,
+            });
+          }
+
+          setTimeout(() => {
+            if (isMobileHero) {
+              maybeSwapHeroSlide();
+            } else {
+              swapHeroSlide();
+            }
+            setInterval(
+              isMobileHero ? maybeSwapHeroSlide : swapHeroSlide,
+              swapIntervalMs,
+            );
           }, firstSwapDelayMs);
         }
       }
@@ -1595,10 +1635,6 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
         box-sizing: border-box;
       }
 
-      .hero-bg-picture--secondary {
-        display: none !important;
-      }
-
       .hero-section .hero-content {
         width: 100%;
         max-width: 100%;
@@ -1643,11 +1679,10 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
         margin-bottom: 1.15rem;
       }
 
-      /* Portrait: same crop as FR — no opacity transition on mobile */
+      /* Shorter crossfade on mobile — same two slides as FR */
       .hero-slide {
         object-position: center 50%;
-        transition: none !important;
-        opacity: 1 !important;
+        transition: opacity 1.2s ease-in-out;
       }
     }
 
