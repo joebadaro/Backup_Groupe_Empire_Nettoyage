@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
 import GoogleReviewsSection from "../components/GoogleReviewsSection.astro";
 import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery";
 ---
@@ -12,16 +13,14 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
   <section class="hero-section">
     <!-- SLIDESHOW BACKGROUND -->
     <div class="hero-slideshow">
-      <!-- Slide 1: Artistic Living Room (responsive: mobile gets 1200w WebP for LCP; desktop keeps 1920w) -->
-      <img
+      <!-- Slide 1: Artistic Living Room -->
+      <Image
         src="/images/catalog/hero-slide-2.webp"
-        srcset="/images/catalog/hero-slide-2-mobile.webp 1200w, /images/catalog/hero-slide-2.webp 1920w"
-        sizes="(max-width: 768px) 100vw, 100vw"
         alt="Nettoyage professionnel de tapis et divans à Montréal - Groupe Empire"
         class="hero-slide active"
-        width={1920}
-        height={1080}
         loading="eager"
+        width={1200}
+        height={675}
         decoding="async"
         fetchpriority="high"
       />
