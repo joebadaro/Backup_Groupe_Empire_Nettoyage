@@ -1558,6 +1558,18 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
       }
     }
 
+    /*
+     * Mobile phones: match FR first-screen hero — full viewport height (EN copy is shorter than FR).
+     * Overrides 65vh from 1024px block so trust strip does not peek on load; same rule as FR.
+     */
+    @media (max-width: 768px) {
+      .hero-section {
+        min-height: 100vh;
+        min-height: 100svh;
+        min-height: 100dvh;
+      }
+    }
+
     /* --- Mobile trust (frozen): ≤767px minimal 2×2 strip — subtle, no cards/scroll; hero untouched — redesign only on explicit request --- */
     @media (max-width: 767px) {
       .trust-container {

@@ -1578,6 +1578,20 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         }
       }
 
+      /*
+       * Mobile phones: first-screen hero height must match FR reference (full viewport).
+       * 1024px block uses min-height: 65vh — shorter EN copy stays near that floor and the trust
+       * band (negative margin) peeks above the fold. Override to full dynamic viewport on both
+       * locales so slideshow + hero match; desktop/tablet >768px unchanged.
+       */
+      @media (max-width: 768px) {
+        .hero-section {
+          min-height: 100vh;
+          min-height: 100svh;
+          min-height: 100dvh;
+        }
+      }
+
       /* --- Mobile trust (frozen): ≤767px minimal 2×2 strip — subtle, no cards/scroll; hero untouched — redesign only on explicit request --- */
       @media (max-width: 767px) {
         .trust-container {
