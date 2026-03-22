@@ -695,12 +695,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
       overflow: hidden;
     }
 
-    /* Mobile Padding Adjustment */
-    @media (max-width: 768px) {
-      .hero-section {
-        padding: 8rem 0 10rem 0; /* Reduced padding on mobile */
-      }
-    }
+    /* Mobile hero padding: defined below with 76svh (single 768px block, same as FR) */
 
     /* --- SLIDESHOW CONTAINER --- */
     .hero-slideshow {
@@ -1575,17 +1570,18 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
     }
 
     /*
-     * Mobile: 88svh hero (shorter scroll) + text above sticky CTA — same as FR. No 100dvh (scroll jank).
+     * Mobile: ~76svh. min-height alone has no visible effect if content + padding exceed it (same as FR).
+     * Fixed height on tall enough viewports; short viewports keep auto height to avoid clipping text.
      */
     @media (max-width: 768px) {
       .hero-section {
-        min-height: 88vh;
-        min-height: 88svh;
+        min-height: 76vh;
+        min-height: 76svh;
         display: flex;
         flex-direction: row;
         align-items: flex-start;
         justify-content: center;
-        padding: 5.25rem 1rem 0;
+        padding: 4.75rem 1rem 0;
         box-sizing: border-box;
       }
 
@@ -1594,16 +1590,36 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
         max-width: 100%;
         padding-left: 0.5rem;
         padding-right: 0.5rem;
-        padding-bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+        padding-bottom: calc(5.35rem + env(safe-area-inset-bottom, 0px));
+      }
+
+      .hero-section .hero-badge {
+        margin-bottom: 1rem;
+      }
+
+      .hero-section .hero-title {
+        margin-bottom: 1.1rem;
+        font-size: 2.65rem;
+        line-height: 1.05;
       }
 
       .hero-subtitle {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.15rem;
       }
 
-      /* Portrait slides: same cadrage as FR — less ceiling, more useful scene */
+      /* Portrait slides: same cadrage as FR — more bottom cropped vs 58% */
       .hero-slide {
-        object-position: center 58%;
+        object-position: center 50%;
+      }
+    }
+
+    @media (max-width: 768px) and (min-height: 700px) {
+      .hero-section {
+        height: 76vh;
+        height: 76svh;
+        max-height: 76vh;
+        max-height: 76svh;
+        overflow: hidden;
       }
     }
 

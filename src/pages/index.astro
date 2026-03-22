@@ -711,12 +711,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         overflow: hidden;
       }
 
-      /* Mobile Padding Adjustment */
-      @media (max-width: 768px) {
-        .hero-section {
-          padding: 8rem 0 10rem 0; /* Reduced padding on mobile */
-        }
-      }
+      /* Mobile hero padding: défini plus bas avec la hauteur 76svh (évite doublon 768px) */
 
       /* --- SLIDESHOW CONTAINER --- */
       .hero-slideshow {
@@ -1595,20 +1590,20 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
       }
 
       /*
-       * Mobile phones: shorter than full viewport (faster scroll to next section) + text above sticky CTA.
-       * Use 88svh only — stable; avoid 100dvh (dynamic) which resizes when browser chrome hides → “zoom” feel.
-       * FR/EN identical; desktop/tablet >768px unchanged.
+       * Mobile: hero ~76svh. min-height seul ne change rien si le contenu + paddings dépassent déjà cette valeur —
+       * d’où height/max-height 76svh sur viewports assez hauts (min-height: 700px), avec overflow hidden sur la section.
+       * Petits écrans (hauteur < 700px): pas de hauteur fixe pour éviter de couper le texte.
+       * object-position au-dessus de 58% → moins de “bas” visible (cover).
        */
       @media (max-width: 768px) {
         .hero-section {
-          min-height: 88vh;
-          min-height: 88svh;
+          min-height: 76vh;
+          min-height: 76svh;
           display: flex;
           flex-direction: row;
           align-items: flex-start;
           justify-content: center;
-          /* Tighter top than 8rem so copy sits higher; no bottom padding here (wave is absolute) */
-          padding: 5.25rem 1rem 0;
+          padding: 4.75rem 1rem 0;
           box-sizing: border-box;
         }
 
@@ -1618,16 +1613,38 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           padding-left: 0.5rem;
           padding-right: 0.5rem;
           /* Space above fixed .mobile-sticky-bar + iOS safe area — keeps subtitle off buttons */
-          padding-bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+          padding-bottom: calc(5.35rem + env(safe-area-inset-bottom, 0px));
+        }
+
+        /* Resserre un peu la pile pour que 76svh “tienne” sans clip sur la plupart des phones */
+        .hero-section .hero-badge {
+          margin-bottom: 1rem;
+        }
+
+        .hero-section .hero-title {
+          margin-bottom: 1.1rem;
+          font-size: 2.65rem;
+          line-height: 1.05;
         }
 
         .hero-subtitle {
-          margin-bottom: 1.5rem;
+          margin-bottom: 1.15rem;
         }
 
-        /* Portrait slides (≤768 picture source): focal point slightly below center — less ceiling, more scene */
+        /* Portrait slides: anchor a bit higher than 58% → less “bas” visible in frame (cover crops more bottom) */
         .hero-slide {
-          object-position: center 58%;
+          object-position: center 50%;
+        }
+      }
+
+      /* Hauteur exacte 76svh quand le viewport est assez grand — sinon min-height seul ne se voit pas (72 vs 76) */
+      @media (max-width: 768px) and (min-height: 700px) {
+        .hero-section {
+          height: 76vh;
+          height: 76svh;
+          max-height: 76vh;
+          max-height: 76svh;
+          overflow: hidden;
         }
       }
 
