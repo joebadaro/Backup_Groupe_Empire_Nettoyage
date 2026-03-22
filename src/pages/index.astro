@@ -411,7 +411,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
     </div>
 
     <script is:inline>
-      // is:inline = exécuté tel quel sur le client (pas bundlé) — évite tout hoisting qui ferait tourner le hero slideshow sur mobile
+      // is:inline = exécuté tel quel sur le client (pas bundlé)
       (function () {
         function initHomeHeroSlideshow() {
           // Simple Cross-Fade Slideshow (Standardized)
@@ -428,21 +428,15 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
             }, intervalTime);
           }
 
-          // Hero Slideshow: desktop uniquement (largeur réelle + media query)
+          // Hero slideshow (2 images) — desktop : swap direct. Mobile : crossfade court (CSS) + pause si touch récent (pas d’écouteur scroll : iOS le spamme pendant l’inertie et bloquait tous les swaps).
           const heroSlides = document.querySelectorAll(".hero-slide");
-          const desktopMq =
-            typeof window.matchMedia === "function" &&
-            window.matchMedia("(min-width: 769px)").matches;
-          const desktopWidth =
-            typeof window.innerWidth === "number" && window.innerWidth >= 769;
-          if (
-            heroSlides.length > 0 &&
-            desktopMq &&
-            desktopWidth
-          ) {
+          if (heroSlides.length > 0) {
             let currentHeroSlide = 0;
             const firstSwapDelayMs = 4500;
             const swapIntervalMs = 9700;
+            const isMobileHero =
+              typeof window.matchMedia === "function" &&
+              window.matchMedia("(max-width: 768px)").matches;
 
             const swapHeroSlide = () => {
               heroSlides[currentHeroSlide].classList.remove("active");
@@ -450,9 +444,49 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
               heroSlides[currentHeroSlide].classList.add("active");
             };
 
-            setTimeout(() => {
+            let lastInteractionTime = 0;
+            /** ms sans touch avant d’autoriser un swap (évite fondu pendant le doigt sur l’écran) */
+            const IDLE_MS_BEFORE_SWAP = 650;
+
+            const maybeSwapHeroSlide = () => {
+              if (
+                isMobileHero &&
+                Date.now() - lastInteractionTime < IDLE_MS_BEFORE_SWAP
+              ) {
+                return;
+              }
               swapHeroSlide();
-              setInterval(swapHeroSlide, swapIntervalMs);
+            };
+
+            const markUserInteraction = () => {
+              lastInteractionTime = Date.now();
+            };
+
+            if (isMobileHero) {
+              window.addEventListener("touchstart", markUserInteraction, {
+                passive: true,
+              });
+              window.addEventListener("touchmove", markUserInteraction, {
+                passive: true,
+              });
+              window.addEventListener("touchend", markUserInteraction, {
+                passive: true,
+              });
+              window.addEventListener("touchcancel", markUserInteraction, {
+                passive: true,
+              });
+            }
+
+            setTimeout(() => {
+              if (isMobileHero) {
+                maybeSwapHeroSlide();
+              } else {
+                swapHeroSlide();
+              }
+              setInterval(
+                isMobileHero ? maybeSwapHeroSlide : swapHeroSlide,
+                swapIntervalMs,
+              );
             }, firstSwapDelayMs);
           }
         }
@@ -1625,11 +1659,6 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           box-sizing: border-box;
         }
 
-        /* 2e slide masquée aussi via .hero-bg-picture--secondary dans global.css (scoped Astro peut rater nth-of-type) */
-        .hero-bg-picture--secondary {
-          display: none !important;
-        }
-
         .hero-section .hero-content {
           width: 100%;
           max-width: 100%;
@@ -1675,11 +1704,10 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           margin-bottom: 1.15rem;
         }
 
-        /* Portrait: cadrage inchangé — pas de transition opacity (évite recalculs de calques au swipe) */
+        /* Portrait + crossfade plus court que desktop (5.2s) — même 2 images */
         .hero-slide {
           object-position: center 50%;
-          transition: none !important;
-          opacity: 1 !important;
+          transition: opacity 1.2s ease-in-out;
         }
       }
 

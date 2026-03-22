@@ -455,9 +455,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
           };
 
           if (isMobileHero) {
-            window.addEventListener("scroll", markUserInteraction, {
-              passive: true,
-            });
+            /* No window scroll listener — iOS fires scroll continuously during inertia and blocked all swaps */
             window.addEventListener("touchstart", markUserInteraction, {
               passive: true,
             });

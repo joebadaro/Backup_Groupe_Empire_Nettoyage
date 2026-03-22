@@ -571,17 +571,6 @@ ul {
    pendant le swipe ; la barre d’URL / chrome interne change le “petit viewport” → le hero en % de hauteur semble “zoomer”.
    Ici : aucune unité de hauteur de viewport pour le hero mobile — min-height = clamp(px, vw, px) + overflow maîtrisé. --- */
 @media (max-width: 768px) {
-  .hero-bg-picture--secondary {
-    display: none !important;
-  }
-
-  .hero-section .hero-slide {
-    transition: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-    will-change: auto !important;
-  }
-
   /* ~ équivalent visuel ancien 85svh sur iPhone 12/13 (~390px) : 184vw ≈ 0,85 × hauteur typique / (largeur/hauteur) */
   .hero-section {
     min-height: clamp(380px, 184vw, 720px) !important;
