@@ -104,24 +104,28 @@ const description = Astro.props.description ?? defaultDescription;
     <!-- MOBILE STICKY CTA BAR (Phone Only) -->
     <div class="mobile-sticky-bar">
       <a href="tel:5148939939" class="sticky-btn btn-call">
-        <span class="icon">📞</span>
-        {
-          Astro.url.pathname.startsWith("/en")
-            ? "Call for Estimate"
-            : "Appeler pour une estimation"
-        }
+        <span class="icon" aria-hidden="true">📞</span>
+        <span class="sticky-btn-label">
+          {
+            Astro.url.pathname.startsWith("/en")
+              ? "Call for Estimate"
+              : "Appeler pour une estimation"
+          }
+        </span>
       </a>
       <button
+        type="button"
         onclick="window.openEstimationWidget()"
         class="sticky-btn btn-quote"
-        style="border:none; cursor:pointer;"
       >
-        <span class="icon">📝</span>
-        {
-          Astro.url.pathname.startsWith("/en")
-            ? "Instant Estimate"
-            : "Estimation Instantanée"
-        }
+        <span class="icon" aria-hidden="true">📝</span>
+        <span class="sticky-btn-label">
+          {
+            Astro.url.pathname.startsWith("/en")
+              ? "Instant Estimate"
+              : "Estimation Instantanée"
+          }
+        </span>
       </button>
     </div>
 
@@ -134,7 +138,7 @@ const description = Astro.props.description ?? defaultDescription;
         min-height: 100vh;
       }
 
-      /* MOBILE STICKY BAR */
+      /* MOBILE STICKY BAR — shared FR/EN; dimensions locked so EN matches FR (FR copy often wraps) */
       .mobile-sticky-bar {
         position: fixed;
         bottom: 0;
@@ -145,30 +149,53 @@ const description = Astro.props.description ?? defaultDescription;
         box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
         z-index: 9999;
         display: flex;
-        padding: 8px 12px; /* Smaller Height */
-        gap: 10px; /* Smaller Gap */
+        align-items: stretch;
+        padding: 8px 12px;
+        gap: 10px;
         border-top: 1px solid rgba(0, 0, 0, 0.1);
         transform: translateY(100%);
         animation: slideUp 0.5s 1s forwards;
+        box-sizing: border-box;
       }
 
-      .sticky-btn {
+      .mobile-sticky-bar .sticky-btn {
         flex: 1;
         display: flex;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
         gap: 6px;
-        padding: 10px 14px; /* Detailed Padding */
+        min-height: 3.5rem; /* matches ~2 lines FR labels + padding */
+        padding: 10px 12px;
         border-radius: 50px;
-        font-weight: 800; /* Bolder Text */
+        font-weight: 800;
+        font-size: 0.85rem;
+        line-height: 1.2;
         text-decoration: none;
-        font-size: 0.85rem; /* Smaller Text */
-        transition: all 0.2s ease;
+        text-align: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         border: 1px solid rgba(255, 255, 255, 0.2);
+        box-sizing: border-box;
+        font-family: inherit;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+        margin: 0;
       }
-      .sticky-btn:active {
+
+      .mobile-sticky-bar .sticky-btn-label {
+        flex: 1;
+        min-width: 0;
+        display: block;
+        text-align: center;
+        line-height: 1.2;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      .mobile-sticky-bar .sticky-btn:active {
         transform: scale(0.96);
       }
 
@@ -209,10 +236,10 @@ const description = Astro.props.description ?? defaultDescription;
         }
       }
 
-      /* Adjust footer so it doesn't get covered */
+      /* Adjust footer so it doesn't get covered (sticky bar min-height aligned FR/EN) */
       @media (max-width: 767px) {
         footer {
-          padding-bottom: 60px; /* Reduced from 80px */
+          padding-bottom: 80px;
         }
       }
     </style>

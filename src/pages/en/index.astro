@@ -10,7 +10,6 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
   description="Premier cleaning services for carpets, upholstery, and mattresses in Montreal and Quebec. Eco-friendly solutions and truck-mount technology."
 >
   <!-- 1. HERO SECTION: IMPACT VISUEL FORT (Bleu Foncé & Or) -->
-  <!-- 1. HERO SECTION: IMPACT VISUEL FORT (Bleu Foncé & Or) -->
   <section class="hero-section">
     <!-- SLIDESHOW BACKGROUND -->
     <div class="hero-slideshow">
@@ -1554,6 +1553,20 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
         width: 200px;
         height: 200px;
         opacity: 0.1;
+      }
+    }
+
+    /*
+     * EN mobile hero: shared CSS matches FR, but English copy (badge, headline, subtitle) is shorter,
+     * so the same min-height: 65vh floor made the hero shorter and the trust strip appeared earlier.
+     * Raise the mobile floor + restore bottom padding so the first-screen fold matches FR mobile.
+     * (Desktop / tablet >768px: unchanged.)
+     */
+    @media (max-width: 768px) {
+      .hero-section {
+        min-height: 92vh;
+        min-height: 92dvh;
+        padding: 8rem 0 10rem 0;
       }
     }
 
