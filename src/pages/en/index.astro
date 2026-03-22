@@ -12,31 +12,47 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
   <section class="hero-section">
     <!-- SLIDESHOW BACKGROUND -->
     <div class="hero-slideshow">
-      <!-- Slide 1: Office / commercial — first visible (sync with steam slogan) -->
-      <img
-        src="/images/catalog/hero-slide-office.webp"
-        srcset="/images/catalog/hero-slide-office-mobile.webp 800w, /images/catalog/hero-slide-office.webp 1920w"
-        sizes="(max-width: 768px) 100vw, 100vw"
-        alt="Commercial and office carpet cleaning - Professional service in Quebec"
-        class="hero-slide active"
-        width={1920}
-        height={1080}
-        decoding="async"
-        fetchpriority="high"
-      />
+      <!-- Slide 1: Office / commercial — desktop landscape; mobile portrait (≤768px) -->
+      <picture>
+        <source
+          media="(max-width: 768px)"
+          type="image/webp"
+          srcset="/images/catalog/hero-tapis-commercial-bureau-quebec-portrait-800.webp 800w, /images/catalog/hero-tapis-commercial-bureau-quebec-portrait.webp 1600w"
+          sizes="100vw"
+        />
+        <img
+          src="/images/catalog/hero-slide-office.webp"
+          srcset="/images/catalog/hero-slide-office-mobile.webp 800w, /images/catalog/hero-slide-office.webp 1920w"
+          sizes="100vw"
+          alt="Commercial and office carpet cleaning in Montreal and Quebec - Groupe Empire"
+          class="hero-slide active"
+          width={1920}
+          height={1080}
+          decoding="async"
+          fetchpriority="high"
+        />
+      </picture>
 
-      <!-- Slide 2: Living room — same markup pattern as FR (native img + mobile srcset) -->
-      <img
-        src="/images/catalog/hero-slide-2.webp"
-        srcset="/images/catalog/hero-slide-2-mobile.webp 800w, /images/catalog/hero-slide-2.webp 1920w"
-        sizes="(max-width: 768px) 100vw, 100vw"
-        alt="Professional carpet and sofa cleaning in Montreal - Empire Group"
-        class="hero-slide"
-        loading="lazy"
-        width={1200}
-        height={675}
-        decoding="async"
-      />
+      <!-- Slide 2: Living room — desktop landscape; mobile portrait (≤768px) -->
+      <picture>
+        <source
+          media="(max-width: 768px)"
+          type="image/webp"
+          srcset="/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp 800w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait.webp 1600w"
+          sizes="100vw"
+        />
+        <img
+          src="/images/catalog/hero-slide-2.webp"
+          srcset="/images/catalog/hero-slide-2-mobile.webp 800w, /images/catalog/hero-slide-2.webp 1920w"
+          sizes="100vw"
+          alt="Bright living room and professional carpet cleaning in Montreal - Empire Group"
+          class="hero-slide"
+          loading="lazy"
+          width={1200}
+          height={675}
+          decoding="async"
+        />
+      </picture>
     </div>
 
     <div class="hero-overlay"></div>
