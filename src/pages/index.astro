@@ -1,6 +1,5 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { Image } from "astro:assets";
 import GoogleReviewsSection from "../components/GoogleReviewsSection.astro";
 import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery";
 ---
@@ -26,9 +25,11 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         fetchpriority="high"
       />
 
-      <!-- Slide 2: Living room -->
-      <Image
+      <!-- Slide 2: Living room — native img + mobile srcset (matches slide 1 pattern) -->
+      <img
         src="/images/catalog/hero-slide-2.webp"
+        srcset="/images/catalog/hero-slide-2-mobile.webp 800w, /images/catalog/hero-slide-2.webp 1920w"
+        sizes="(max-width: 768px) 100vw, 100vw"
         alt="Nettoyage professionnel de tapis et divans à Montréal - Groupe Empire"
         class="hero-slide"
         loading="lazy"
@@ -723,6 +724,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center center;
         opacity: 0;
         transition: opacity 5.2s ease-in-out; /* 5.2s — matches heroSlogan crossfade (9.7−4.5)/19.4 */
         z-index: 1;
