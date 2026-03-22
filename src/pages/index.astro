@@ -711,7 +711,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         overflow: hidden;
       }
 
-      /* Mobile hero padding: défini plus bas avec la hauteur 82svh (évite doublon 768px) */
+      /* Mobile hero padding: défini plus bas avec la hauteur 85svh (évite doublon 768px) */
 
       /* --- SLIDESHOW CONTAINER --- */
       .hero-slideshow {
@@ -1590,15 +1590,15 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
       }
 
       /*
-       * Mobile: hero ~82svh. min-height seul ne change rien si le contenu + paddings dépassent déjà cette valeur —
-       * d’où height/max-height 82svh sur viewports assez hauts (min-height: 700px), avec overflow hidden sur la section.
+       * Mobile: hero ~85svh. min-height seul ne change rien si le contenu + paddings dépassent déjà cette valeur —
+       * d’où height/max-height 85svh sur viewports assez hauts (min-height: 700px), avec overflow hidden sur la section.
        * Petits écrans (hauteur < 700px): pas de hauteur fixe pour éviter de couper le texte.
        * object-position au-dessus de 58% → moins de “bas” visible (cover).
        */
       @media (max-width: 768px) {
         .hero-section {
-          min-height: 82vh;
-          min-height: 82svh;
+          min-height: 85vh;
+          min-height: 85svh;
           display: flex;
           flex-direction: row;
           align-items: flex-start;
@@ -1616,7 +1616,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           padding-bottom: calc(5.35rem + env(safe-area-inset-bottom, 0px));
         }
 
-        /* Resserre un peu la pile pour que 82svh “tienne” sans clip sur la plupart des phones */
+        /* Resserre un peu la pile pour que 85svh “tienne” sans clip sur la plupart des phones */
         .hero-section .hero-badge {
           margin-bottom: 1rem;
         }
@@ -1637,13 +1637,13 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         }
       }
 
-      /* Hauteur exacte 82svh quand le viewport est assez grand — sinon min-height seul ne se voit pas (72 vs 82) */
+      /* Hauteur exacte 85svh quand le viewport est assez grand — sinon min-height seul ne se voit pas (72 vs 85) */
       @media (max-width: 768px) and (min-height: 700px) {
         .hero-section {
-          height: 82vh;
-          height: 82svh;
-          max-height: 82vh;
-          max-height: 82svh;
+          height: 85vh;
+          height: 85svh;
+          max-height: 85vh;
+          max-height: 85svh;
           overflow: hidden;
         }
       }
