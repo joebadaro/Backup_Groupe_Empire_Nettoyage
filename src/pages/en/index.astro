@@ -176,7 +176,8 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
                 class="google-badge"
                 width="302"
                 height="167"
-                loading="eager"
+                loading="lazy"
+                fetchpriority="low"
               />
             </div>
             <div class="trust-pill badge-exp">
@@ -1691,6 +1692,11 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
         padding: 5px 14px !important;
         border-radius: 12px;
         max-width: min(100%, 20rem);
+        backdrop-filter: blur(6px);
+      }
+
+      .hero-section .hero-slideshow {
+        contain: paint;
       }
 
       .hero-section .badge-main {
@@ -1740,6 +1746,19 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
 
       .hero-slogan-layer {
         transition: opacity 1.2s ease-in-out;
+      }
+
+      .hero-section .animate-on-load {
+        animation-duration: 0.45s;
+      }
+      .hero-section .delay-1 {
+        animation-delay: 0.08s;
+      }
+      .hero-section .delay-2 {
+        animation-delay: 0.16s;
+      }
+      .hero-section .delay-3 {
+        animation-delay: 0.24s;
       }
 
       .section-services {
