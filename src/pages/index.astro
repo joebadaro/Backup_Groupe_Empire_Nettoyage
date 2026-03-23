@@ -6,7 +6,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
 
 <Layout
   title="Groupe Nettoyage Empire - L'Excellence du Nettoyage au Québec"
-  description="Services de nettoyage de premier plan pour tapis, meubles et matelas à Montréal et Québec. Solutions écologiques et technologie de camion-usine."
+  description="Services de nettoyage de premier plan pour tapis, meubles et matelas à Montréal et Québec. Techniciens certifiés, produits écologiques haut de gamme et technologie de camion-usine."
 >
   <!-- 1. HERO SECTION: IMPACT VISUEL FORT (Bleu Foncé & Or) -->
   <section class="hero-section">
@@ -133,10 +133,16 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           </span>
         </span>
       </h1>
-      <p class="hero-subtitle animate-on-load delay-2">
-        Tapis, Meubles et Matelas. Une propreté éclatante grâce à notre
-        technologie de camion-usine exclusive et nos produits écologiques.
-      </p>
+      <div class="hero-subtitle-group">
+        <p class="hero-subtitle hero-subtitle--desktop animate-on-load delay-2">
+          Tapis, Meubles et Matelas. Une propreté éclatante grâce à notre
+          technologie de camion-usine exclusive et nos produits écologiques.
+        </p>
+        <p class="hero-subtitle hero-subtitle--mobile animate-on-load delay-2">
+          Tapis, meubles, matelas et céramique.<br />
+          Une propreté éclatante grâce à notre technologie de camion-usine exclusive.
+        </p>
+      </div>
       <div class="hero-actions animate-on-load delay-3">
         <a href="tel:5148939939" class="btn btn-glass pulse-btn">
           <span class="icon">📞</span> (514) 893-9939 (Estimation Gratuite)
@@ -147,46 +153,57 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
       </div>
     </div>
 
-    <!-- Wave Separator Bottom -->
-    <div class="wave-bottom">
-      <svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
-        <path
-          fill="#ffffff"
-          fill-opacity="1"
-          d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-        ></path>
-      </svg>
-    </div>
-  </section>
-
-  <!-- 2. TRUST INSIGNIA (Confiance Immédiate) -->
-  <section class="trust-container">
-    <div class="container trust-band-inner">
-      <p class="trust-kicker">Excellence reconnue</p>
-      <div class="trust-unified-wrap">
-        <div class="trust-grid">
-          <div class="trust-pill badge-google">
-            <img
-              src="/images/google-reviews-badge.png"
-              alt="Google Reviews"
-              class="google-badge"
-              width="302"
-              height="167"
-              loading="eager"
-            />
+    <!-- 2. TRUST (mobile: overlay bas du hero — desktop: inchangé visuellement via CSS) -->
+    <section class="trust-container">
+      <div class="container trust-band-inner">
+        <p class="trust-kicker">Excellence reconnue</p>
+        <div class="trust-unified-wrap">
+          <div class="trust-grid trust-grid--desktop">
+            <div class="trust-pill badge-google">
+              <img
+                src="/images/google-reviews-badge.png"
+                alt="Avis clients Google — Groupe Nettoyage Empire"
+                class="google-badge"
+                width="302"
+                height="167"
+                loading="eager"
+              />
+            </div>
+            <div class="trust-pill badge-exp">
+              <span class="icon">💎</span> 30+ ans d'expérience
+            </div>
+            <div class="trust-pill badge-eco">
+              <span class="icon">🌿</span> 100% Écologique
+            </div>
+            <div class="trust-pill badge-local">
+              <span class="icon">⚜️</span> Entreprise Québécoise
+            </div>
           </div>
-          <div class="trust-pill badge-exp">
-            <span class="icon">💎</span> 30+ ans d'expérience
-          </div>
-          <div class="trust-pill badge-eco">
-            <span class="icon">🌿</span> 100% Écologique
-          </div>
-          <div class="trust-pill badge-local">
-            <span class="icon">⚜️</span> Entreprise Québécoise
+          <div
+            class="trust-grid trust-grid--mobile"
+            aria-label="Points forts — Groupe Nettoyage Empire"
+          >
+            <div class="trust-pill">
+              <span class="icon" aria-hidden="true">✓</span>
+              <span>Techniciens certifiés</span>
+            </div>
+            <div class="trust-pill">
+              <span class="icon" aria-hidden="true">💎</span>
+              <span>30+ ans d'expérience</span>
+            </div>
+            <div class="trust-pill trust-pill--long">
+              <span class="icon" aria-hidden="true">🌿</span>
+              <span>Produits écologiques premium</span>
+            </div>
+            <div class="trust-pill">
+              <span class="icon" aria-hidden="true">⚜️</span>
+              <span>Entreprise québécoise</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
+
   </section>
 
   <!-- 3. SERVICES (Fond Bleu Pâle - Contraste Doux) -->
@@ -490,11 +507,23 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
               sloganB.classList.toggle("active", !showA);
             };
 
+            const subtitleGroup = document.querySelector(".hero-subtitle-group");
+            const syncHeroSubtitleGroup = (slideIndex) => {
+              if (!subtitleGroup) return;
+              const hide = slideIndex >= 2;
+              subtitleGroup.classList.toggle(
+                "hero-subtitle-group--hidden-on-slides-34",
+                hide,
+              );
+              subtitleGroup.setAttribute("aria-hidden", hide ? "true" : "false");
+            };
+
             const swapHeroSlide = () => {
               heroSlides[currentHeroSlide].classList.remove("active");
               currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
               heroSlides[currentHeroSlide].classList.add("active");
               syncHeroSloganToSlide(currentHeroSlide);
+              syncHeroSubtitleGroup(currentHeroSlide);
               /* Précharge la slide suivante (une fois par index) pour limiter les trous au fondu */
               const nextIdx = (currentHeroSlide + 1) % heroSlides.length;
               const nextImg = heroSlides[nextIdx];
@@ -540,6 +569,8 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
                 passive: true,
               });
             }
+
+            syncHeroSubtitleGroup(0);
 
             setTimeout(() => {
               if (isMobileHero) {
@@ -848,35 +879,36 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Deep Shadow */
       }
 
+      .hero-subtitle-group {
+        max-width: 700px;
+        margin: 0 auto 3rem auto;
+        transition:
+          opacity 3.5s ease,
+          transform 3.5s ease;
+        transform: translateY(0.5rem);
+      }
+
+      .hero-subtitle-group.hero-subtitle-group--hidden-on-slides-34 {
+        opacity: 0;
+        pointer-events: none;
+      }
+
       .hero-subtitle {
         font-size: 1.3rem;
         color: #cbd5e1;
-        max-width: 700px;
-        margin: 0 auto 3rem auto;
+        margin: 0;
       }
 
-      /* Wave Separator */
-      .wave-bottom {
-        position: absolute;
-        bottom: -1px;
-        left: 0;
-        width: 100%;
-        line-height: 0;
+      @media (min-width: 769px) {
+        .hero-subtitle--mobile {
+          display: none !important;
+        }
       }
 
       @media (max-width: 768px) {
         .hero-actions {
           display: none !important;
         }
-      }
-      .wave-bottom svg {
-        position: relative;
-        display: block;
-        width: calc(100% + 1.3px);
-        height: 120px; /* Thicker wave */
-        filter: drop-shadow(
-          0 -5px 10px rgba(0, 0, 0, 0.1)
-        ); /* Shadow under wave for depth */
       }
 
       /* --- TRUST INSIGNIA (unified premium band — hero → services) --- */
@@ -919,6 +951,26 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         pointer-events: none;
         z-index: 0;
       }
+
+      /* Trust rendu dans le hero : desktop = même ancrage visuel (sous le hero, -52px sur la vague) */
+      @media (min-width: 769px) {
+        .hero-section {
+          overflow: visible;
+        }
+
+        .hero-section .trust-container {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 100%;
+          bottom: auto;
+          margin-top: -52px;
+          margin-bottom: 0;
+          width: 100%;
+          max-width: none;
+        }
+      }
+
       .trust-band-inner {
         position: relative;
         z-index: 1;
@@ -963,6 +1015,11 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         align-items: stretch;
         pointer-events: auto;
       }
+
+      .trust-grid--mobile {
+        display: none;
+      }
+
       .trust-pill {
         margin: 0;
         padding: 0.55rem 0.7rem;
@@ -1031,7 +1088,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           border-radius: 12px;
           max-width: 420px;
         }
-        .trust-grid {
+        .trust-grid--desktop {
           grid-template-columns: 1fr 1fr;
         }
         .trust-pill {
@@ -1589,8 +1646,11 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           font-size: 2.8rem; /* Slightly smaller for better fit */
           margin-bottom: 1.5rem;
         }
-        .hero-subtitle {
+        .hero-subtitle-group .hero-subtitle {
           font-size: 1.1rem;
+        }
+
+        .hero-subtitle-group {
           margin-bottom: 2rem;
         }
         .hero-badge {
@@ -1628,8 +1688,11 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           flex-direction: row;
           align-items: flex-start;
           justify-content: center;
-          padding: 4.75rem 1rem 0;
+          /* Bas : prolonge la photo à la place de l’ancienne vague (mobile homepage uniquement) */
+          padding: 4.75rem 1rem 5rem;
           box-sizing: border-box;
+          /* Homepage seulement (scoped) : hero un peu plus bas / compact que global.css */
+          min-height: clamp(340px, 168vw, 600px) !important;
         }
 
         .hero-section .hero-content {
@@ -1673,8 +1736,19 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           line-height: 1.05;
         }
 
-        .hero-subtitle {
+        .hero-subtitle-group {
           margin-bottom: 1.15rem;
+        }
+
+        .hero-subtitle--desktop {
+          display: none !important;
+        }
+
+        .hero-subtitle--mobile {
+          color: #e8edf4;
+          font-weight: 500;
+          line-height: 1.45;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
         }
 
         /* Portrait + crossfade plus court que desktop (5.2s) — même 2 images */
@@ -1686,96 +1760,116 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         .hero-slogan-layer {
           transition: opacity 1.2s ease-in-out;
         }
+
+        .section-services {
+          margin-top: 0 !important;
+          padding: 3.65rem 0 8rem !important;
+        }
       }
 
-      /* --- Mobile trust (frozen): ≤767px minimal 2×2 strip — subtle, no cards/scroll; hero untouched — redesign only on explicit request --- */
-      @media (max-width: 767px) {
-        .trust-container {
-          margin-top: -40px;
-          padding: 0.12rem 0 0.65rem !important;
-        }
-
-        .trust-kicker {
-          font-size: 0.58rem;
-          letter-spacing: 0.1em;
-          margin: 0 0 0.35rem;
-          color: rgba(22, 45, 72, 0.48);
-          font-weight: 600;
-        }
-
-        /* Minimal strip: one light frame; flat 2x2 — secondary, not a component */
-        .trust-unified-wrap {
-          max-width: min(100%, 360px);
-          margin-left: auto;
-          margin-right: auto;
-          border-radius: 8px;
-          border: 1px solid rgba(0, 74, 159, 0.055);
-          background: rgba(255, 255, 255, 0.38);
-          box-shadow: none;
-          padding: 0.42rem 0.5rem 0.45rem;
+      /* --- Mobile trust (≤768px): overlay dans le hero (position:absolute) — pas de marge négative / pas de chevauchement services --- */
+      @media (max-width: 768px) {
+        .hero-section .trust-container {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: auto;
+          bottom: 72px;
+          margin-top: 0 !important;
+          margin-bottom: 0 !important;
+          padding: 0 !important;
+          z-index: 12;
+          border-bottom: none;
+          background: none !important;
+          background-color: transparent !important;
+          background-image: none !important;
+          pointer-events: none;
           overflow: visible;
         }
 
-        .trust-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          column-gap: 0.55rem;
-          row-gap: 0.32rem;
-          align-items: start;
+        .hero-section .trust-container::before {
+          display: none;
+        }
+
+        .hero-section .trust-kicker {
+          font-size: 0.42rem;
+          letter-spacing: 0.14em;
+          margin: 0 0 0.18rem;
+          color: rgba(255, 255, 255, 0.72);
+          font-weight: 500;
+          text-transform: uppercase;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+        }
+
+        .hero-section .trust-unified-wrap {
+          max-width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+          border: none;
+          background: transparent;
+          box-shadow: none;
+          padding: 0 0.65rem 0;
+          overflow: visible;
+          backdrop-filter: none;
+        }
+
+        .hero-section .trust-grid--desktop {
+          display: none !important;
+        }
+
+        .hero-section .trust-grid--mobile {
+          display: grid !important;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          column-gap: 0.28rem;
+          row-gap: 0.28rem;
+          align-items: stretch;
           padding: 0;
           margin: 0;
         }
 
-        .trust-grid .trust-pill {
+        .hero-section .trust-grid--mobile .trust-pill {
           min-height: 0;
           margin: 0;
-          padding: 0.28rem 0.15rem;
+          padding: 0.2rem 0.22rem;
           display: flex;
           flex-direction: row;
-          align-items: flex-start;
-          justify-content: flex-start;
-          gap: 0.32rem;
-          text-align: left;
-          font-size: 0.65rem;
-          line-height: 1.36;
+          align-items: center;
+          justify-content: center;
+          gap: 0.2rem;
+          text-align: center;
+          font-size: 0.46rem;
+          line-height: 1.18;
           font-weight: 500;
-          letter-spacing: 0.01em;
-          color: rgba(26, 51, 82, 0.78);
+          letter-spacing: 0.02em;
+          color: rgba(255, 255, 255, 0.88);
           overflow-wrap: break-word;
           hyphens: auto;
           -webkit-font-smoothing: antialiased;
-          border: none;
-          border-radius: 0;
-          background: transparent;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.1);
           box-shadow: none;
-          border-right: none;
-          border-bottom: none;
         }
 
-        .trust-grid .badge-google {
-          grid-column: auto;
-          align-items: center;
-          justify-content: center;
-          padding: 0.2rem 0.1rem;
+        .hero-section .trust-grid--mobile .trust-pill--long {
+          font-size: 0.44rem;
+          line-height: 1.2;
+          padding: 0.2rem 0.18rem;
         }
 
-        .trust-grid .badge-google .google-badge {
-          max-width: 90px;
-          max-height: 26px;
-          width: auto;
-          height: auto;
-          object-fit: contain;
-          margin: 0;
-          opacity: 1;
-          filter: contrast(1.04) saturate(1.03);
-        }
-
-        .trust-grid .trust-pill .icon {
-          font-size: 0.7rem;
-          line-height: 1.15;
-          opacity: 0.66;
+        .hero-section .trust-grid--mobile .trust-pill .icon {
+          font-size: 0.5rem;
+          line-height: 1;
+          opacity: 0.78;
           flex-shrink: 0;
-          margin-top: 0.06em;
+          margin-top: 0;
+          filter: none;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .hero-section .trust-container .trust-grid--mobile {
+          grid-template-columns: 1fr 1fr;
         }
       }
     </style>
