@@ -8,12 +8,12 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
   title="Groupe Nettoyage Empire - L'Excellence du Nettoyage au Québec"
   description="Services de nettoyage de premier plan pour tapis, meubles et matelas à Montréal et Québec. Techniciens certifiés, produits écologiques haut de gamme et technologie de camion-usine."
 >
-  <!-- LCP mobile : même srcset que le <picture> slide 1 — démarre le téléchargement tôt (media ≤768px uniquement) -->
+  <!-- LCP mobile : même srcset que le <picture> slide 1 — 1200w évite le 1600w sur beaucoup de DPR 3× (media ≤768px uniquement) -->
   <link
     slot="head"
     rel="preload"
     as="image"
-    imagesrcset="/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp 800w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait.webp 1600w"
+    imagesrcset="/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp 800w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-1200.webp 1200w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait.webp 1600w"
     imagesizes="100vw"
     media="(max-width: 768px)"
   />
@@ -26,7 +26,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         <source
           media="(max-width: 768px)"
           type="image/webp"
-          srcset="/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp 800w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait.webp 1600w"
+          srcset="/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp 800w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-1200.webp 1200w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait.webp 1600w"
           sizes="100vw"
         />
         <img
