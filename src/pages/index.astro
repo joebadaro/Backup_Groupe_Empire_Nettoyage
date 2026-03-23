@@ -12,28 +12,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
   <section class="hero-section">
     <!-- SLIDESHOW BACKGROUND -->
     <div class="hero-slideshow">
-      <!-- Slide 1: Office / commercial — desktop landscape; mobile portrait (≤768px) -->
-      <picture class="hero-bg-picture">
-        <source
-          media="(max-width: 768px)"
-          type="image/webp"
-          srcset="/images/catalog/hero-tapis-commercial-bureau-quebec-portrait-800.webp 800w, /images/catalog/hero-tapis-commercial-bureau-quebec-portrait.webp 1600w"
-          sizes="100vw"
-        />
-        <img
-          src="/images/catalog/hero-slide-office.webp"
-          srcset="/images/catalog/hero-slide-office-mobile.webp 800w, /images/catalog/hero-slide-office.webp 1920w"
-          sizes="100vw"
-          alt="Nettoyage de tapis commercial et bureau - Service professionnel au Québec"
-          class="hero-slide active"
-          width={1920}
-          height={1080}
-          decoding="async"
-          fetchpriority="high"
-        />
-      </picture>
-
-      <!-- Slide 2: Living room — desktop landscape; mobile portrait (≤768px) -->
+      <!-- Slide 1: Salon lumineux (blanc) — priorité LCP (fetchpriority high) -->
       <picture class="hero-bg-picture hero-bg-picture--secondary">
         <source
           media="(max-width: 768px)"
@@ -46,10 +25,73 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           srcset="/images/catalog/hero-slide-2-mobile.webp 800w, /images/catalog/hero-slide-2.webp 1920w"
           sizes="100vw"
           alt="Nettoyage professionnel de tapis et divans à Montréal - Groupe Empire"
-          class="hero-slide"
-          loading="lazy"
+          class="hero-slide active"
           width={1200}
           height={675}
+          decoding="async"
+          fetchpriority="high"
+        />
+      </picture>
+
+      <!-- Slide 2: Salon résidentiel luxe — tapis (portrait source) -->
+      <picture class="hero-bg-picture">
+        <source
+          media="(max-width: 768px)"
+          type="image/webp"
+          srcset="/images/catalog/hero-salon-prestige-tapis-residentiel-quebec-portrait-800.webp 800w, /images/catalog/hero-salon-prestige-tapis-residentiel-quebec-portrait.webp 1600w"
+          sizes="100vw"
+        />
+        <img
+          src="/images/catalog/hero-salon-prestige-tapis-residentiel-quebec.webp"
+          srcset="/images/catalog/hero-salon-prestige-tapis-residentiel-quebec-mobile.webp 800w, /images/catalog/hero-salon-prestige-tapis-residentiel-quebec.webp 1600w"
+          sizes="100vw"
+          alt="Salon résidentiel luxueux avec tapis impeccablement nettoyé - Groupe Nettoyage Empire, Québec"
+          class="hero-slide"
+          loading="lazy"
+          width={1600}
+          height={2000}
+          decoding="async"
+        />
+      </picture>
+
+      <!-- Slide 3: Tapis laine — tall ≤768px / wide desktop -->
+      <picture class="hero-bg-picture hero-bg-picture--wool-tall">
+        <source
+          media="(max-width: 768px)"
+          type="image/webp"
+          srcset="/images/catalog/hero-tapis-laine-wool-quebec-tall-portrait-800.webp 800w, /images/catalog/hero-tapis-laine-wool-quebec-tall-portrait-1600.webp 1600w"
+          sizes="100vw"
+        />
+        <img
+          src="/images/catalog/hero-tapis-laine-wool-quebec-wide.webp"
+          srcset="/images/catalog/hero-tapis-laine-wool-quebec-wide-800.webp 800w, /images/catalog/hero-tapis-laine-wool-quebec-wide.webp 1536w"
+          sizes="100vw"
+          alt="Tapis en laine professionnellement nettoyé, texture soignée - Groupe Nettoyage Empire, Québec"
+          class="hero-slide"
+          loading="lazy"
+          width={1536}
+          height={1024}
+          decoding="async"
+        />
+      </picture>
+
+      <!-- Slide 4: Commercial — espace 2 -->
+      <picture class="hero-bg-picture">
+        <source
+          media="(max-width: 768px)"
+          type="image/webp"
+          srcset="/images/catalog/hero-commercial-bureau-espace2-quebec-portrait-800.webp 800w, /images/catalog/hero-commercial-bureau-espace2-quebec-portrait.webp 1600w"
+          sizes="100vw"
+        />
+        <img
+          src="/images/catalog/hero-commercial-bureau-espace2-quebec.webp"
+          srcset="/images/catalog/hero-commercial-bureau-espace2-quebec-mobile.webp 800w, /images/catalog/hero-commercial-bureau-espace2-quebec.webp 1600w"
+          sizes="100vw"
+          alt="Espace commercial lumineux avec tapis professionnels - Groupe Nettoyage Empire, Québec"
+          class="hero-slide"
+          loading="lazy"
+          width={1600}
+          height={2000}
           decoding="async"
         />
       </picture>
@@ -80,7 +122,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
             <span class="hero-slogan-sizer" aria-hidden="true">
               L'Art du Nettoyage<br />Haut de Gamme
             </span>
-            <span class="hero-slogan-layer hero-slogan--a">
+            <span class="hero-slogan-layer hero-slogan--a active">
               <span class="hero-slogan-white">L'Art du Nettoyage</span><br />
               <span class="text-gradient-tricolor">À la Vapeur</span>
             </span>
@@ -428,7 +470,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
             }, intervalTime);
           }
 
-          // Hero slideshow (2 images) — desktop : swap direct. Mobile : crossfade court (CSS) + pause si touch récent (pas d’écouteur scroll : iOS le spamme pendant l’inertie et bloquait tous les swaps).
+          // Hero slideshow (4 images) — desktop : swap direct. Mobile : crossfade court (CSS) + pause si touch récent (pas d’écouteur scroll : iOS le spamme pendant l’inertie et bloquait tous les swaps).
           const heroSlides = document.querySelectorAll(".hero-slide");
           if (heroSlides.length > 0) {
             let currentHeroSlide = 0;
@@ -438,10 +480,32 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
               typeof window.matchMedia === "function" &&
               window.matchMedia("(max-width: 768px)").matches;
 
+            const sloganA = document.querySelector(".hero-slogan--a");
+            const sloganB = document.querySelector(".hero-slogan--b");
+
+            const syncHeroSloganToSlide = (slideIndex) => {
+              if (!sloganA || !sloganB) return;
+              const showA = slideIndex % 2 === 0;
+              sloganA.classList.toggle("active", showA);
+              sloganB.classList.toggle("active", !showA);
+            };
+
             const swapHeroSlide = () => {
               heroSlides[currentHeroSlide].classList.remove("active");
               currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
               heroSlides[currentHeroSlide].classList.add("active");
+              syncHeroSloganToSlide(currentHeroSlide);
+              /* Précharge la slide suivante (une fois par index) pour limiter les trous au fondu */
+              const nextIdx = (currentHeroSlide + 1) % heroSlides.length;
+              const nextImg = heroSlides[nextIdx];
+              if (nextImg && !nextImg.dataset.heroPrefetched) {
+                nextImg.dataset.heroPrefetched = "1";
+                const u = nextImg.getAttribute("src");
+                if (u) {
+                  const pre = new Image();
+                  pre.src = u;
+                }
+              }
             };
 
             let lastInteractionTime = 0;
@@ -604,8 +668,8 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
       }
 
       /*
-       * Full slogan = one animated layer (opacity on .hero-slogan-layer); white + gradient inside.
-       * Timing unchanged: 4.5s + 5.2s + 4.5s + 5.2s = 19.4s. JS: first swap 4.5s, then every 9.7s.
+       * Slogan : même instant que le swap d’image — classe .active basculée dans swapHeroSlide() avec les .hero-slide.
+       * transition: opacity = même durée que .hero-slide (5.2s desktop, 1.2s ≤768px).
        */
       .hero-slogan-wrap {
         display: inline-block;
@@ -629,110 +693,19 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
       .hero-slogan-layer {
         grid-area: 1 / 1;
         transform: translateZ(0);
+        opacity: 0;
+        transition: opacity 5.2s ease-in-out;
+        z-index: 1;
       }
 
-      .hero-slogan--a {
-        animation: heroSloganA 19.4s linear infinite;
-      }
-
-      .hero-slogan--b {
-        animation: heroSloganB 19.4s linear infinite;
-      }
-
-      @keyframes heroSloganA {
-        /* steam phrase — office slide first */
-        0%,
-        23.195877% {
-          opacity: 1;
-        }
-        28% {
-          opacity: 0.78;
-        }
-        34% {
-          opacity: 0.45;
-        }
-        40% {
-          opacity: 0.2;
-        }
-        46% {
-          opacity: 0.05;
-        }
-        50% {
-          opacity: 0;
-        }
-        50.01%,
-        73.195877% {
-          opacity: 0;
-        }
-        78% {
-          opacity: 0.12;
-        }
-        84% {
-          opacity: 0.42;
-        }
-        90% {
-          opacity: 0.75;
-        }
-        96% {
-          opacity: 0.95;
-        }
-        99% {
-          opacity: 0.995;
-        }
-        100% {
-          opacity: 1;
-        }
-      }
-
-      @keyframes heroSloganB {
-        /* premium phrase — living room second */
-        0%,
-        23.195877% {
-          opacity: 0;
-        }
-        28% {
-          opacity: 0.22;
-        }
-        34% {
-          opacity: 0.55;
-        }
-        40% {
-          opacity: 0.8;
-        }
-        46% {
-          opacity: 0.95;
-        }
-        50% {
-          opacity: 1;
-        }
-        50.01%,
-        73.195877% {
-          opacity: 1;
-        }
-        78% {
-          opacity: 0.88;
-        }
-        84% {
-          opacity: 0.58;
-        }
-        90% {
-          opacity: 0.25;
-        }
-        96% {
-          opacity: 0.05;
-        }
-        99% {
-          opacity: 0.005;
-        }
-        100% {
-          opacity: 0;
-        }
+      .hero-slogan-layer.active {
+        opacity: 1;
+        z-index: 2;
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .hero-slogan--a,
-        .hero-slogan--b {
-          animation: none !important;
+        .hero-slogan-layer {
+          transition: none !important;
         }
 
         .hero-slogan--a {
@@ -786,7 +759,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         object-fit: cover;
         object-position: center center;
         opacity: 0;
-        transition: opacity 5.2s ease-in-out; /* 5.2s — matches heroSlogan crossfade (9.7−4.5)/19.4 */
+        transition: opacity 5.2s ease-in-out; /* 5.2s — même durée que .hero-slogan-layer (swap JS identique) */
         z-index: 1;
       }
 
@@ -1707,6 +1680,10 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
         /* Portrait + crossfade plus court que desktop (5.2s) — même 2 images */
         .hero-slide {
           object-position: center 50%;
+          transition: opacity 1.2s ease-in-out;
+        }
+
+        .hero-slogan-layer {
           transition: opacity 1.2s ease-in-out;
         }
       }
