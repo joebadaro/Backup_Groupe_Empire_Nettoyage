@@ -233,7 +233,9 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
       <div class="services-grid-modern">
         {
           HOMEPAGE_SERVICE_CARDS.map((card) => {
-            const img = getServiceImage(card.imageKey);
+            const img = getServiceImage(card.imageKey, {
+              forHomepageCard: true,
+            });
             return (
               <a
                 href={card.hrefEn}
@@ -284,7 +286,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
     </div>
     <div class="quality-image-wrapper">
       <img
-        src="/images/catalog/team-van-back.webp"
+        src="/images/catalog/team-van-back-home.webp"
         alt="L'équipe Groupe Empire avec le camion-usine"
         class="quality-img-full"
         width="800"
@@ -1515,7 +1517,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
       z-index: 0;
       opacity: 0.12; /* Increased to 12% to be definitely visible */
       pointer-events: none;
-      background-image: url("/images/water-logo.webp");
+      background-image: url("/images/water-logo-home.webp");
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;

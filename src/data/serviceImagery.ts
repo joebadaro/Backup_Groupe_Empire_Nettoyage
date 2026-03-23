@@ -4,7 +4,7 @@
  */
 
 /** Bump when any SERVICE_IMAGES `src` changes so browsers/CDNs don’t keep stale /images/* bytes. */
-export const SERVICE_IMAGES_ASSET_VERSION = "4";
+export const SERVICE_IMAGES_ASSET_VERSION = "5";
 
 export function resolveServiceImageSrc(src: string): string {
   return `${src}?v=${SERVICE_IMAGES_ASSET_VERSION}`;
@@ -51,6 +51,7 @@ export const SERVICE_IMAGES = {
   },
   tapis_synthetique: {
     src: "/images/catalog/photo-47.webp",
+    srcHomeCard: "/images/catalog/photo-47-home.webp",
     altFr: "Nettoyage de tapis synthétique",
     altEn: "Synthetic carpet cleaning at home",
     width: 400,
@@ -58,6 +59,7 @@ export const SERVICE_IMAGES = {
   },
   tapis_laine: {
     src: "/images/catalog/photo-22.webp",
+    srcHomeCard: "/images/catalog/photo-22-home.webp",
     altFr: "Nettoyage de tapis en laine",
     altEn: "Wool carpet cleaning at home",
     width: 400,
@@ -65,6 +67,7 @@ export const SERVICE_IMAGES = {
   },
   tapis_oriental: {
     src: "/images/catalog/photo-oriental-custom.webp",
+    srcHomeCard: "/images/catalog/photo-oriental-custom-home.webp",
     altFr: "Nettoyage de tapis orientaux",
     altEn: "Oriental carpet cleaning",
     width: 400,
@@ -141,9 +144,14 @@ export function getEstimationIconHtml(serviceId: string): string {
   return `<img src="${src}" alt="${entry.altFr.replace(/"/g, "&quot;")}" loading="lazy"${pos} />`;
 }
 
-export function getServiceImage(key: ServiceImageKey): ServiceImageEntry {
+export function getServiceImage(
+  key: ServiceImageKey,
+  options?: { forHomepageCard?: boolean },
+): ServiceImageEntry {
   const e = SERVICE_IMAGES[key];
-  return { ...e, src: resolveServiceImageSrc(e.src) };
+  const base =
+    options?.forHomepageCard && e.srcHomeCard ? e.srcHomeCard : e.src;
+  return { ...e, src: resolveServiceImageSrc(base) };
 }
 
 export interface HomepageServiceCard {
