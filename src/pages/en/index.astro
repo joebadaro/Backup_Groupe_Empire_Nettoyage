@@ -8,6 +8,14 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
   title="Empire Cleaning Group - Cleaning Excellence in Quebec"
   description="Premier cleaning services for carpets, upholstery, and mattresses in Montreal and Quebec. Certified technicians, premium eco-friendly products and truck-mount technology."
 >
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    imagesrcset="/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp 800w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait.webp 1600w"
+    imagesizes="100vw"
+    media="(max-width: 768px)"
+  />
   <!-- 1. HERO SECTION: IMPACT VISUEL FORT (Bleu Foncé & Or) -->
   <section class="hero-section">
     <!-- SLIDESHOW BACKGROUND -->
@@ -28,7 +36,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
           class="hero-slide active"
           width={1200}
           height={675}
-          decoding="async"
+          decoding="sync"
           fetchpriority="high"
         />
       </picture>
@@ -110,6 +118,8 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../../data/serviceImage
             class="badge-icon-img"
             width="40"
             height="40"
+            fetchpriority="low"
+            loading="lazy"
           />
           The #1 Choice
         </span>

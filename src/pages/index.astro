@@ -8,6 +8,15 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
   title="Groupe Nettoyage Empire - L'Excellence du Nettoyage au Québec"
   description="Services de nettoyage de premier plan pour tapis, meubles et matelas à Montréal et Québec. Techniciens certifiés, produits écologiques haut de gamme et technologie de camion-usine."
 >
+  <!-- LCP mobile : même srcset que le <picture> slide 1 — démarre le téléchargement tôt (media ≤768px uniquement) -->
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    imagesrcset="/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp 800w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait.webp 1600w"
+    imagesizes="100vw"
+    media="(max-width: 768px)"
+  />
   <!-- 1. HERO SECTION: IMPACT VISUEL FORT (Bleu Foncé & Or) -->
   <section class="hero-section">
     <!-- SLIDESHOW BACKGROUND -->
@@ -28,7 +37,7 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
           class="hero-slide active"
           width={1200}
           height={675}
-          decoding="async"
+          decoding="sync"
           fetchpriority="high"
         />
       </picture>
@@ -110,6 +119,8 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
             class="badge-icon-img"
             width="40"
             height="40"
+            fetchpriority="low"
+            loading="lazy"
           />
           Le Choix Numéro 1
         </span>

@@ -43,6 +43,8 @@ const description = Astro.props.description ?? defaultDescription;
       image={image}
       robots={robots}
     />
+    <!-- Pages peuvent injecter des preloads LCP / meta additionnels (ex. accueil hero mobile) -->
+    <slot name="head" />
     {image && <link rel="preload" as="image" href={image} />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
