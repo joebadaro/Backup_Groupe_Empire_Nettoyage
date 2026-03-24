@@ -1,0 +1,4246 @@
+            import { CONFIG as RawConfig } from "../data/estimationConfig";
+            import {
+                generateEstimationPDF,
+                type EstimationData,
+            } from "../utils/pdfGenerator";
+            // Debug Alert for Config
+            if (!RawConfig) {
+                alert("CRITICAL: RawConfig is Undefined!");
+            } else {
+                // alert("Config Loaded Successfully. Services: " + (RawConfig.services ? RawConfig.services.length : "None"));
+            }
+
+            // --- Type Definitions ---
+            interface TranslationObj {
+                fr: string;
+                en: string;
+                [key: string]: string;
+            }
+
+            interface ConfigItem {
+                id: string;
+                label: TranslationObj | string;
+                price?: number;
+                pricePerSqFt?: number;
+                type?: string;
+                desc?: TranslationObj | string;
+                note?: TranslationObj | string;
+                baseLabel?: TranslationObj | string;
+                items?: ConfigItem[];
+                options?: {
+                    val: number;
+                    label: TranslationObj;
+                    price: number;
+                }[];
+                forms?: {
+                    totalTitle: TranslationObj;
+                    roomTitle: TranslationObj;
+                    instruct: TranslationObj;
+                    calculated: TranslationObj;
+                    modes: {
+                        total: TranslationObj;
+                        rooms: TranslationObj;
+                    };
+                };
+                promoLabel?: TranslationObj;
+                cartLabel?: TranslationObj | string;
+                icon?: string;
+            }
+
+            interface ConfigService {
+                id: string;
+                label: TranslationObj | string;
+                icon: string;
+                items: ConfigItem[];
+                note?: TranslationObj | string;
+                longDescription?: TranslationObj | string;
+                isQuoteOnly?: boolean; // Added for Commercial Quote
+            }
+
+            interface ConfigRoot {
+                pricing: {
+                    minimumOrder: number;
+                    currency: string;
+                    taxRate: number;
+                    mattressDiscount: number;
+                };
+                text: any;
+                services: ConfigService[];
+            }
+
+            // Cast imported config
+            const CONFIG = RawConfig as unknown as ConfigRoot;
+
+            interface RugState {
+                unit: string;
+                l: number;
+                w: number;
+            }
+
+            interface TileRoom {
+                l: number;
+                w: number;
+            }
+
+            interface CustomSectional {
+                itemId: string;
+                val: number;
+                price: number;
+                label: TranslationObj;
+                tempId: string; // Unique ID for tracking discounts
+            }
+
+            interface AppState {
+                lang: "fr" | "en";
+                step: number;
+                selectedServices: Set<string>;
+                quantities: Record<string, number | boolean>;
+                rugs: Record<string, RugState[]>;
+                tileMode: "total" | "rooms";
+                tileRooms: TileRoom[];
+                customSectionals: CustomSectional[];
+                total: number;
+                activePromos: Set<string>;
+                lastDiscount?: number;
+                savingsPerItem: Record<string, number>;
+                lastCartItems?: any[]; // For Review Step
+            }
+
+            // --- Global Window Declaration ---
+            declare global {
+                interface Window {
+                    resetEstimation: () => void;
+                    togglePromo: () => void;
+                    addCustomSectional: (
+                        itemId: string,
+                        valStr: string,
+                    ) => void;
+                    removeCustomSectional: (idx: number) => void;
+                    updateVal: (id: string, val: string) => void;
+                    updateQty: (id: string, change: number) => void;
+                    removeItem: (id: string) => void;
+                    renderSummaryPage: () => void;
+                    updateRugCount: (id: string, val: string) => void;
+                    updateRugDim: (
+                        id: string,
+                        index: number,
+                        field: string,
+                        val: string,
+                    ) => void;
+                    setTileMode: (mode: "total" | "rooms") => void;
+                    updateTileRoomCount: (val: string, id: string) => void;
+                    updateTileRoom: (
+                        index: number,
+                        field: string,
+                        val: string,
+                        id: string,
+                    ) => void;
+                    toggleService: (id: string, card: HTMLElement) => void;
+                    renderServices: () => void; // Added
+                    handleRugInputKey: (
+                        e: KeyboardEvent,
+                        uniqueId: string,
+                        type: "l" | "w",
+                    ) => void;
+                    openEstimationWidget: () => void;
+                    updateValLive: (id: string, val: string) => void;
+                    toggleMobileStep: (step: number) => void;
+                    handleMobileSubmit: (e: Event) => void;
+                }
+            }
+
+
+
+
+
+            // LOGIQUE AVANCÉE
+            const STATE: AppState = {
+                lang: "fr", // Default
+                step: 1,
+                selectedServices: new Set(),
+                quantities: {},
+                rugs: {}, // { itemId: [{unit:'ft', l:0, w:0}, ...] }
+                tileMode: "total", // 'total' or 'rooms'
+                tileRooms: [], // [{l, w, unit}]
+                customSectionals: [], // [{ id: 'sectionnel', val: 5, price: 249, label: '5 places' }]
+                total: 0,
+                activePromos: new Set(),
+                lastDiscount: 0,
+                savingsPerItem: {},
+                lastCartItems: [],
+            };
+
+            // Helper for Translation
+            function t(keyOrObj: TranslationObj | string | undefined): string {
+                if (!keyOrObj) return "";
+                if (typeof keyOrObj === "string") return keyOrObj;
+                return keyOrObj[STATE.lang] || keyOrObj["fr"] || "";
+            }
+
+            // DOM Elements (Populated on Init)
+            let els: Record<string, HTMLElement | null> = {};
+
+            /** Prevents double init (DOMContentLoaded + legacy setTimeout both ran init). */
+            let estimationBootstrapped = false;
+
+            // init function moved to bottom
+
+            function refreshAllText() {
+                // Update Static Text
+                if (els.modalHeaderTitle)
+                    els.modalHeaderTitle.textContent = t(CONFIG.text.title);
+
+                // FIX: Update Mobile Title
+                const mobileTitle = document.getElementById("mobile-title");
+                if (mobileTitle) mobileTitle.textContent = t(CONFIG.text.title);
+
+                // --- MOBILE STATIC TEXTS ---
+                const mobChoose = document.getElementById("mobile-txt-choose");
+                if (mobChoose) mobChoose.textContent = t(CONFIG.text.chooseServices);
+
+                const mobTouch = document.getElementById("mobile-txt-touch");
+                if (mobTouch) mobTouch.textContent = t({fr: "Touchez pour ajouter à l'estimation.", en: "Tap to add to estimate."});
+
+                const mobHeadDetails = document.getElementById("mobile-header-details");
+                if (mobHeadDetails) mobHeadDetails.textContent = t(CONFIG.text.steps.details);
+
+                const mobHeadSummary = document.getElementById("mobile-header-summary");
+                if (mobHeadSummary) mobHeadSummary.textContent = t(CONFIG.text.steps.summary);
+
+                const mobHeadFinalize = document.getElementById("mobile-header-finalize");
+                // Use shorter text for header
+                if (mobHeadFinalize) mobHeadFinalize.textContent = t({fr: "Finaliser", en: "Finalize"});
+
+                const mobEnterInfo = document.getElementById("mobile-txt-enter-info");
+                if (mobEnterInfo) mobEnterInfo.textContent = t({fr: "Entrez vos infos pour recevoir la soumission.", en: "Enter your info to receive the quote."});
+
+                const mobTotalLabel = document.getElementById("mobile-total-label");
+                if (mobTotalLabel) mobTotalLabel.textContent = t({fr: "Total Estimé", en: "Estimated Total"});
+
+                // --- NEW TRANSLATIONS ---
+                const txtChoose = document.getElementById("txt-choose-services");
+                if (txtChoose) txtChoose.textContent = t(CONFIG.text.chooseServices);
+
+                const txtImmediate = document.getElementById("txt-get-immediate");
+                if (txtImmediate) txtImmediate.textContent = t(CONFIG.text.getImmediate);
+
+                const txtSelectBelow = document.getElementById("txt-select-below");
+                if (txtSelectBelow) txtSelectBelow.textContent = t(CONFIG.text.selectBelow);
+
+                const txtMySel = document.getElementById("txt-my-selection");
+                if (txtMySel) txtMySel.textContent = t(CONFIG.text.mySelection);
+                // if(els.cartTitle) els.cartTitle.textContent = t(CONFIG.text.steps.summary); // Optional
+
+                if (els.btnAddMore)
+                    els.btnAddMore.textContent =
+                        t(CONFIG.text.buttons.add) + " +";
+                const btnReset = document.getElementById("btn-app-reset");
+                if (btnReset) {
+                    btnReset.innerHTML =
+                        t({ fr: "Recommencer", en: "Reset" }) + " &#8634;";
+                }
+
+                // Re-render components (defer step UI to next frame so layout can settle after innerHTML churn)
+                window.renderServices();
+                calculateTotal(); // Calculate first!
+                renderDetails();
+                requestAnimationFrame(() => {
+                    updateUI();
+                });
+
+                // Update New localized fields (Address & Disclaimer)
+                const isFr = STATE.lang === "fr";
+
+                // Desktop
+                const inputAddress = document.getElementById(
+                    "input-address",
+                ) as HTMLInputElement;
+                if (inputAddress)
+                    inputAddress.placeholder = isFr
+                        ? "Ex: 1234 Rue Principale, Apt 101"
+                        : "Ex: 1234 Main St, Apt 101";
+
+                const inputNotes = document.getElementById(
+                    "input-notes",
+                ) as HTMLTextAreaElement;
+                if (inputNotes)
+                    inputNotes.placeholder = isFr
+                        ? "Ex: Code de porte, chien à la maison..."
+                        : "Ex: Entry code, dog at home...";
+
+                const disclaimer = document.getElementById(
+                    "contact-disclaimer-text",
+                );
+                if (disclaimer)
+                    disclaimer.textContent = isFr
+                        ? "Un membre de notre équipe vous contactera sous peu pour finaliser le rendez-vous."
+                        : "A member of our team will contact you shortly to finalize the appointment.";
+
+                // Mobile Translations
+                const mobElements = {
+                    "mobile-title": { fr: "ESTIMATION", en: "ESTIMATE" },
+                    "mobile-txt-choose": { fr: "Sélectionnez vos services", en: "Select your services" },
+                    "mobile-txt-touch": { fr: "Touchez pour ajouter à l'estimation.", en: "Tap to add to estimate." },
+                    "mobile-header-details": { fr: "Détails", en: "Details" },
+                    "mobile-header-summary": { fr: "Sommaire", en: "Summary" },
+                    "mobile-header-finalize": { fr: "Finaliser", en: "Finalize" },
+                    "mobile-txt-enter-info": { fr: "Entrez vos infos pour recevoir la soumission.", en: "Enter your details to receive the quote." },
+                    "mobile-lbl-delivery": { fr: "Recevoir mon estimation par", en: "Receive my estimate via" },
+                    "mobile-total-label": { fr: "Total Estimé", en: "Estimated Total" },
+                    "mobile-next-btn": { fr: "Continuer", en: "Continue" },
+                    "mobile-submit-btn": { fr: "Confirmer la demande", en: "Confirm Request" },
+                    "mobile-txt-email-opt": { fr: "Courriel", en: "Email" }
+                };
+
+                for (const [id, txt] of Object.entries(mobElements)) {
+                    const el = document.getElementById(id);
+                    if (el) el.innerText = t(txt); // Use innerText to preserve structure if simple
+                }
+
+                // Mobile Back Buttons
+                const backText = isFr ? "← Retour" : "← Back";
+                ["mobile-back-btn", "mobile-back-btn-review", "mobile-back-btn-contact"].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.innerText = backText;
+                });
+
+                // Mobile Inputs Placeholders
+                const mobInputs = {
+                    "mobile-input-name": { fr: "Nom complet *", en: "Full Name *" },
+                    "mobile-input-phone": { fr: "Téléphone (mobile pour SMS) *", en: "Phone (mobile for SMS) *" },
+                    "mobile-input-email": { fr: "Adresse courriel *", en: "Email Address *" },
+                    "mobile-input-street": { fr: "Adresse (Rue/No)", en: "Address (Street/No)" },
+                    "mobile-input-apt": { fr: "Apt", en: "Apt/Unit" },
+                    "mobile-input-city": { fr: "Ville *", en: "City *" },
+                    "mobile-input-postal": { fr: "Code Postal", en: "Postal Code" },
+                    "mobile-input-notes": { fr: "Notes (Code de porte, etc...)", en: "Notes (Entry code, etc...)" }
+                };
+
+                for (const [id, place] of Object.entries(mobInputs)) {
+                    const el = document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement;
+                    if (el) {
+                        const val = t(place);
+                        el.placeholder = val;
+                        el.setAttribute('aria-label', val);
+                    }
+                }
+
+                const mobDisclaimer = document.getElementById(
+                    "mobile-contact-disclaimer-text",
+                );
+                if (mobDisclaimer)
+                    mobDisclaimer.textContent = isFr
+                        ? "Un membre de notre équipe vous contactera sous peu pour finaliser le rendez-vous."
+                        : "A member of our team will contact you shortly to finalize the appointment.";
+            }
+
+            // --- GLOBAL EXPORTS FOR HTML ONCLICK HANDLERS ---
+
+            window.addCustomSectional = function (
+                itemId: string,
+                valStr: string,
+            ) {
+                const val = parseInt(valStr);
+                if (!val) return;
+                // Cleaner search that TS understands better
+                let itemConfig: ConfigItem | undefined;
+                for (const s of CONFIG.services) {
+                    const found = s.items.find((i) => i.id === itemId);
+                    if (found) {
+                        itemConfig = found;
+                        break;
+                    }
+                }
+
+                if (itemConfig && itemConfig.options) {
+                    const opt = itemConfig.options.find((o) => o.val === val);
+                    if (opt) {
+                        STATE.customSectionals.push({
+                            itemId: itemId,
+                            val: val,
+                            price: opt.price,
+                            label: opt.label,
+                            tempId:
+                                Date.now() +
+                                Math.random().toString(36).substr(2, 9),
+                        });
+                        calculateTotal();
+                        renderDetails();
+                        renderMobileDetails();
+                    }
+                }
+            }; // Closing bracket for window.addCustomSectional
+
+            window.removeItem = function (id: string) {
+                if (id === "carpet_combined") {
+                    // Special case for aggregated carpet items
+                    STATE.quantities["package_3rooms"] = 0;
+                    STATE.quantities["room_individual"] = 0;
+                } else if (id.startsWith("rug_synth_") || id.startsWith("rug_wool_")) {
+                    // Handle individual rugs
+                    const parts = id.split("_");
+                    const idx = parseInt(parts.pop() || "0");
+                    const type = parts.join("_"); // "rug_synth" or "rug_wool"
+                    
+                    if (STATE.rugs[type]) {
+                        STATE.rugs[type].splice(idx, 1);
+                        if (STATE.quantities[type] && (STATE.quantities[type] as number) > 0) {
+                            STATE.quantities[type] = (STATE.quantities[type] as number) - 1;
+                        }
+                    }
+                } else {
+                    // Default removal
+                    delete STATE.quantities[id];
+                }
+                
+                // Recalculate
+                calculateTotal();
+                renderDetails();
+                updateUI();
+                
+                // If on summary page, re-render it
+                if (STATE.step === 3 && window.renderSummaryPage) {
+                    window.renderSummaryPage();
+                }
+            };
+
+            window.openEstimationWidget = function () {
+                if (!estimationBootstrapped) {
+                    init(); // includes refreshAllText()
+                } else {
+                    refreshAllText();
+                }
+                const isMobile = window.innerWidth <= 850;
+                if (isMobile) {
+                    const mobileApp = document.getElementById(
+                        "mobile-estimation-view",
+                    );
+                    if (mobileApp) {
+                        mobileApp.style.display = "flex";
+                        mobileApp.style.zIndex = "999999"; // Ensure top
+
+                        // FIX: Hide sticky bar so it doesn't cover the footer
+                        const sticky =
+                            document.querySelector(".mobile-sticky-bar");
+                        if (sticky)
+                            (sticky as HTMLElement).style.display = "none";
+
+                        // FIX: Ensure parent is visible (override CSS display: none !important)
+                        const parent =
+                            document.getElementById("estimation-widget");
+                        if (parent) {
+                            parent.style.setProperty(
+                                "display",
+                                "flex",
+                                "important",
+                            );
+                        }
+                        document.body.style.overflow = "hidden";
+
+                        // FIX: Force Footer Visible and Move to Body (Portal)
+                        const foot = document.getElementById("mobile-sticky-footer");
+                        if(foot) {
+                            document.body.appendChild(foot); // MOVE TO BODY prevents transform issues
+                            foot.style.display = "flex";
+                            foot.style.zIndex = "2147483647";
+                            foot.classList.remove('mobile-footer-hidden');
+                        }
+
+                        // FIX: Initialize Mobile Step to 1 to show Footer/Buttons
+                        if (typeof window.toggleMobileStep === "function") {
+                            window.toggleMobileStep(1);
+                        }
+                    }
+                } else {
+                    const modal = document.getElementById("estimation-widget");
+                    if (modal) {
+                        modal.style.display = "flex";
+                        document.body.style.overflow = "hidden";
+                    }
+                }
+            };
+
+            window.resetEstimation = function () {
+                try {
+                    console.log("=== RESET ESTIMATION STARTING ===");
+                    // TEMPORARY: Confirm disabled for testing
+                    // if (
+                    //     !confirm(
+                    //        STATE.lang === "fr" 
+                    //          ? "Voulez-vous vraiment tout effacer et recommencer ?" 
+                    //          : "Are you sure you want to clear everything and start over?"
+                    //     )
+                    // ) {
+                    //     console.log("Reset cancelled by user");
+                    //     return;
+                    // }
+
+                    console.log("Resetting STATE...");
+                    // 1. Reset State
+                    STATE.selectedServices.clear();
+                    STATE.quantities = {};
+                    STATE.rugs = {};
+                    STATE.tileMode = "total";
+                    STATE.tileRooms = [];
+                    STATE.customSectionals = [];
+                    STATE.total = 0;
+                    STATE.activePromos.clear();
+                    STATE.savingsPerItem = {};
+                    STATE.lastCartItems = [];
+                    STATE.lastDiscount = 0;
+                    STATE.step = 1;
+
+                    console.log("Clearing UI inputs...");
+                    // 2. Clear UI Inputs
+                    // 2. Clear UI Inputs
+                     const inputs = document.querySelectorAll('input, textarea');
+                     inputs.forEach((el) => {
+                          const input = el as HTMLInputElement;
+                          if(input.type === 'checkbox' || input.type === 'radio') {
+                              if(input.name !== 'delivery' && input.name !== 'mobile-delivery') input.checked = false; // Don't reset delivery preference? Or should we? Let's reset everything except maybe hidden ones.
+                              // Actually, unchecking radios might be weird. Let's just reset checkboxes and text.
+                              if(input.type === 'checkbox') input.checked = false;
+                          } else if (input.type !== 'button' && input.type !== 'submit') {
+                              input.value = '';
+                          }
+                     });
+
+                    // 3. Clear Inline Elements
+                    const bubble = document.querySelector(".promo-bubble-inline");
+                    if (bubble) bubble.remove();
+
+                    console.log("Calling refreshAllText...");
+                    // 4. Update UI Framework (refreshAllText calls calculateTotal internally)
+                    refreshAllText(); // This re-renders everything and calls calculateTotal
+                    
+                    console.log("Resetting mobile view...");
+                    // 5. Mobile View Reset
+                    const mobView = document.getElementById("mobile-estimation-view");
+                    if (mobView) mobView.style.display = "none";
+                    document.body.style.overflow = "";
+                    
+                    document.getElementById('mobile-step-services')?.classList.add('active');
+                    document.getElementById('mobile-step-details')?.classList.remove('active');
+                    document.getElementById('mobile-step-summary-view')?.classList.remove('active');
+                    document.getElementById('mobile-step-contact')?.classList.remove('active');
+                    
+                    const sticky = document.querySelector(".mobile-sticky-bar") as HTMLElement;
+                    if (sticky) sticky.style.display = "flex";
+
+                    // 6. Navigation
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    
+                    console.log("=== RESET COMPLETE ===");
+
+                } catch (e) {
+                    console.error("!!! RESET ERROR !!!", e);
+                    alert("Error resetting: " + e);
+                }
+            };
+
+            window.updateVal = function (id: string, val: string) {
+                STATE.quantities[id] = parseInt(val) || 0;
+                // MUST re-render to show conditional promos like mattress discounts
+                calculateTotal();
+                renderDetails();
+                renderMobileDetails();
+            };
+
+            window.updateValLive = function (id: string, val: string) {
+                STATE.quantities[id] = parseInt(val) || 0;
+                calculateTotal();
+                renderDetails();
+                // Skip Full Mobile Render, just update totals
+                updateMobileItemUI("tile", id);
+            };
+
+            window.updateQty = function (id: string, change: number) {
+                const current = (STATE.quantities[id] as number) || 0;
+                const newVal = Math.max(0, current + change);
+                STATE.quantities[id] = newVal;
+
+                calculateTotal();
+                renderDetails();
+                renderMobileDetails();
+            };
+
+            window.removeItem = function (id: string) {
+                if (!id) return;
+                id = id.trim();
+
+                // 1. Handle Rugs (e.g. rug_synth_0)
+                if (id.startsWith("rug_")) {
+                    const parts = id.split("_");
+                    // rug_synth_0 -> parts: ['rug', 'synth', '0']
+                    // But rug_wool_0 -> parts: ['rug', 'wool', '0']
+                    // Rug IDs are "rug_synth" and "rug_wool".
+                    // So baseID is parts[0] + "_" + parts[1]. Index is parts[2].
+                    const indexStr = parts.pop();
+                    const baseId = parts.join("_");
+                    const index = parseInt(indexStr || "-1");
+
+                    if (
+                        STATE.rugs[baseId] &&
+                        index >= 0 &&
+                        index < STATE.rugs[baseId].length
+                    ) {
+                        STATE.rugs[baseId].splice(index, 1);
+                        STATE.quantities[baseId] = STATE.rugs[baseId].length;
+                        calculateTotal();
+                        renderDetails();
+                        renderMobileDetails();
+                        return;
+                    }
+                }
+
+                // 2. Handle Custom Sectionals (by tempId)
+                // Check if ID matches any sectional tempId
+                const sectIdx = STATE.customSectionals.findIndex(
+                    (s) => s.tempId === id,
+                );
+                if (sectIdx !== -1) {
+                    STATE.customSectionals.splice(sectIdx, 1);
+                    // Re-calc triggers update
+                    calculateTotal();
+                    renderDetails();
+                    renderMobileDetails();
+                    return;
+                }
+
+                // 3. Handle Standard Quantities (Leather, Fabric, Mattress, Extras)
+                // Unconditionally set to 0. If key didn't exist, it does now (harmless).
+                STATE.quantities[id] = 0;
+
+                // Special case: Tile clearing needs to clear rooms too for safety
+                if (id === "ceramique" || id === "tiles_sqft") {
+                    STATE.quantities["ceramique"] = 0;
+                    STATE.quantities["tiles_sqft"] = 0;
+                    STATE.tileRooms = [];
+                }
+
+                calculateTotal();
+                renderDetails();
+                renderMobileDetails();
+            };
+
+            window.updateRugCount = function (id: string, val: string) {
+                const count = parseInt(val) || 0;
+                const prevCount = (STATE.quantities[id] as number) || 0;
+                STATE.quantities[id] = count;
+
+                if (!STATE.rugs[id]) STATE.rugs[id] = [];
+                const current = STATE.rugs[id];
+                if (count > current.length) {
+                    for (let i = current.length; i < count; i++) {
+                        current.push({ unit: "ft", l: 0, w: 0 });
+                    }
+                } else if (count < current.length) {
+                    current.length = count;
+                }
+
+                calculateTotal(); // Calculate FIRST
+                renderDetails();
+                renderMobileDetails();
+            };
+
+            window.updateRugDim = function (
+                id: string,
+                index: number,
+                field: string,
+                val: string,
+            ) {
+                if (!STATE.rugs[id] || !STATE.rugs[id][index]) return;
+                if (field === "unit") {
+                    STATE.rugs[id][index].unit = val;
+                    // Unit change might require full re-render for label change logic if any, but unit is usually select.
+                    // Ideally we re-render on unit change to be safe, but input change is the critical one.
+                    calculateTotal();
+                    renderDetails();
+                    renderMobileDetails(); // Re-render for unit change (safest)
+                } else {
+                    if (field === "l" || field === "w") {
+                        STATE.rugs[id][index][field] = parseFloat(val) || 0;
+                    }
+                    calculateTotal();
+                    renderDetails();
+                    // OPTIMIZED LIVE UPDATE: Do NOT re-render whole list
+                    updateMobileItemUI("rug", id, index);
+                }
+            };
+
+            // resetEstimation defined earlier (line ~2838) - duplicate removed
+
+
+
+            window.setTileMode = function (mode: "total" | "rooms") {
+                STATE.tileMode = mode;
+                if (
+                    mode === "rooms" &&
+                    (!STATE.tileRooms || STATE.tileRooms.length === 0)
+                ) {
+                    STATE.tileRooms = [{ l: 0, w: 0 }];
+                    STATE.tileRooms = [{ l: 0, w: 0 }];
+                    STATE.quantities["tiles_sqft"] = 0;
+                    // Also reset potential alternative key
+                    STATE.quantities["ceramique"] = 0;
+                }
+                calculateTotal(); // Ensure totals update if qty reset
+                renderDetails();
+                renderMobileDetails();
+            };
+
+            window.updateTileRoomCount = function (val: string, id: string) {
+                const count = parseInt(val) || 1;
+                if (!STATE.tileRooms) STATE.tileRooms = [];
+                const current = STATE.tileRooms;
+                if (count > current.length) {
+                    for (let i = current.length; i < count; i++)
+                        current.push({ l: 0, w: 0 });
+                } else if (count < current.length) {
+                    current.length = count;
+                }
+                recalcTileTotal(id);
+                renderDetails();
+                if (
+                    document
+                        .getElementById("mobile-step-details")
+                        ?.classList.contains("active")
+                ) {
+                    renderMobileDetails();
+                }
+            };
+
+            window.updateTileRoom = function (
+                index: number,
+                field: string,
+                val: string,
+                id: string,
+            ) {
+                if (!STATE.tileRooms) STATE.tileRooms = [];
+                if (!STATE.tileRooms[index])
+                    STATE.tileRooms[index] = { l: 0, w: 0 };
+                if (field === "l" || field === "w") {
+                    STATE.tileRooms[index][field] = parseFloat(val) || 0;
+                }
+                recalcTileTotal(id);
+                renderDetails();
+                // OPTIMIZED LIVE UPDATE
+                updateMobileItemUI("tile", id, index);
+            };
+
+            // --- RUG INPUT UX HELPER ---
+            window.handleRugInputKey = function (
+                e: KeyboardEvent,
+                uniqueId: string,
+                type: "l" | "w",
+            ) {
+                if (e.key === "Enter") {
+                    e.preventDefault(); // Prevent form submission
+                    if (type === "l") {
+                        // Focus Width
+                        const wInput = document.getElementById(
+                            `rug_W_${uniqueId}`,
+                        );
+                        if (wInput) wInput.focus();
+                    } else if (type === "w") {
+                        // Done - Blur to close keyboard
+                        (e.target as HTMLElement).blur();
+                    }
+                }
+            };
+
+            // --- SECTIONAL HANDLER REMOVED (UNIFIED) ---
+            // window.updateSectional was removed as we now use addCustomSectional/removeCustomSectional for all views.
+
+            function recalcTileTotal(id: string) {
+                let total = 0;
+                if (STATE.tileRooms) {
+                    STATE.tileRooms.forEach((r) => {
+                        total += r.l * r.w;
+                    });
+                }
+                STATE.quantities[id] = total;
+                calculateTotal();
+            }
+
+            // --- LOGIC FUNCTIONS ---
+
+            function injectInlineBubble(targetId: string, msg: string) {
+                const target = document.getElementById(targetId);
+                if (!target || !target.parentElement) return;
+
+                // Remove existing
+                const existing = target.parentElement.querySelector(
+                    ".promo-bubble-inline",
+                );
+                if (existing) existing.remove();
+
+                const bubble = document.createElement("div");
+                bubble.className = "persistent-promo-msg promo-bubble-inline";
+                bubble.innerHTML = msg;
+                bubble.style.marginTop = "5px";
+                bubble.style.animation = "fadeInSlide 0.4s ease";
+
+                target.parentElement.appendChild(bubble);
+
+                // Auto remove after 5s
+                setTimeout(() => {
+                    if (bubble && bubble.parentElement) {
+                        bubble.style.opacity = "0";
+                        setTimeout(() => bubble.remove(), 500);
+                    }
+                }, 5000);
+            }
+
+            window.renderServices = function () {
+                if (els.servicesContainer) {
+                    els.servicesContainer.innerHTML = "";
+                    CONFIG.services.forEach((service) => {
+                        const card = document.createElement("div");
+                        card.className = `service-card ${STATE.selectedServices.has(service.id) ? "selected" : ""}`;
+                        card.setAttribute("data-service-id", service.id);
+
+                        // FIX: Add click handler which was missing for desktop
+                        card.onclick = () => toggleService(service.id, card);
+
+                        let promoBadge = "";
+                        if (service.note)
+                            promoBadge = `<div class="promo-badge">${t(service.note)}</div>`;
+
+                        card.innerHTML = `
+            <div class="service-icon" style="pointer-events:none;">${service.icon}</div>
+            <div class="service-label" style="pointer-events:none;">${t(service.label)}</div>
+            ${promoBadge}
+        `;
+                        els.servicesContainer!.appendChild(card);
+                    });
+                }
+                // Calls the new Mobile Renderer
+                renderMobileServices();
+            };
+
+            function renderMobileServices() {
+                const container = document.getElementById(
+                    "mobile-services-list",
+                );
+                if (!container) return;
+                container.innerHTML = "";
+                
+                // GRID LAYOUT STYLE
+                container.style.display = "grid";
+                container.style.gridTemplateColumns = "1fr 1fr";
+                container.style.gap = "12px";
+                container.style.padding = "10px";
+
+                CONFIG.services.forEach((service) => {
+                    const isSelected = STATE.selectedServices.has(service.id);
+                    const item = document.createElement("div");
+                    
+                    // Compact Card Style - FULL BLEED
+                    item.setAttribute("data-service-id", service.id);
+                    item.style.display = "flex";
+                    item.style.flexDirection = "column";
+                    item.style.alignItems = "center";
+                    item.style.justifyContent = "center";
+                    item.style.padding = "0"; // Remove padding for full bleed
+                    item.style.borderRadius = "14px";
+                    item.style.cursor = "pointer";
+                    item.style.transition = "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)";
+                    item.style.border = isSelected ? "3px solid #007bff" : "1px solid #ddd";
+                    item.style.backgroundColor = "white";
+                    item.style.boxShadow = isSelected ? "0 8px 20px rgba(0,123,255,0.25)" : "0 4px 10px rgba(0,0,0,0.08)";
+                    item.style.position = "relative";
+                    item.style.overflow = "hidden";
+                    
+                    item.onclick = () =>
+                        toggleService(service.id, item as HTMLElement);
+
+                    // Rectangle 4:3 for better visibility
+                    const iconStyle = `width:100%; aspect-ratio:4/3; background:#f5f5f5; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; z-index:0;`;
+                    
+                    // Inject object-fit style if it's an image
+                    let iconHtml = service.icon;
+                    if (iconHtml.includes('<img')) {
+                        iconHtml = iconHtml.replace('<img', '<img style="width:100%; height:100%; object-fit:cover;"');
+                    }
+
+                    item.innerHTML = `
+                <div style="${iconStyle}">${iconHtml}</div>
+                <div style="position:relative; z-index:1; margin-top:auto; width:100%; background:rgba(255,255,255,0.75); padding:12px 5px; font-weight:800; font-size:0.85rem; text-align:center; color:${isSelected ? '#0056b3' : '#111'}; line-height:1.2; border-top:1px solid rgba(0,0,0,0.05); backdrop-filter:blur(6px); text-transform:uppercase; letter-spacing:0.5px;">${t(service.label)}</div>
+            `;
+                    container.appendChild(item);
+                });
+            }
+
+            // --- MOBILE INSTANT UI UPDATER ---
+            function updateMobileItemUI(
+                type: "rug" | "tile",
+                itemId: string,
+                index?: number,
+            ) {
+                // NOTE: Do NOT update mobile total here - calculateTotal() handles it with proper formatting (subtitle, min order)
+                // Removed: totalEl.innerText = STATE.total.toFixed(2) + "$";
+
+                // Update Specific Item UI
+                if (type === "rug" && typeof index === "number") {
+                    const uniqueId = `${itemId}_${index}`;
+                    const r = STATE.rugs[itemId][index];
+                    let sqft = 0;
+                    if (r.l > 0 && r.w > 0) {
+                        if (r.unit === "ft") sqft = r.l * r.w;
+                        else sqft = (r.l / 30.48) * (r.w / 30.48);
+                    }
+                    // Find item config to get pricePerSqFt
+                    let itemConfig: ConfigItem | undefined;
+                    for (const s of CONFIG.services) {
+                        const found = s.items.find((i) => i.id === itemId);
+                        if (found) {
+                            itemConfig = found;
+                            break;
+                        }
+                    }
+                    const pricePerSqFt = itemConfig?.pricePerSqFt || 0;
+                    const price = sqft * pricePerSqFt;
+
+                    // savings
+                    const saved = STATE.savingsPerItem[uniqueId] || 0;
+
+                    // DOM Elements
+                    const areaEl = document.getElementById(
+                        `mob_rug_area_${uniqueId}`,
+                    );
+                    const priceEl = document.getElementById(
+                        `mob_rug_price_${uniqueId}`,
+                    );
+                    const saveEl = document.getElementById(
+                        `mob_rug_save_${uniqueId}`,
+                    );
+
+                    if (areaEl)
+                        areaEl.innerText = `${sqft.toFixed(1)} ${STATE.lang === "fr" ? "pi²" : "sqft"}`;
+                    if (priceEl) priceEl.innerText = `${price.toFixed(2)}$`;
+                    if (saveEl) {
+                        if (saved > 0) {
+                            saveEl.innerHTML = `${STATE.lang === "fr" ? "Rabais (50%)" : "Saved (50%)"}: -${saved.toFixed(2)}$`;
+                            saveEl.style.display = "block";
+                        } else {
+                            saveEl.style.display = "none";
+                        }
+                    }
+                } else if (type === "tile") {
+                    const currentTotal =
+                        (STATE.quantities[itemId] as number) || 0;
+
+                    if (
+                        STATE.tileMode === "rooms" &&
+                        typeof index === "number"
+                    ) {
+                        // Update specific room calculation logic if we showed per-room sub-totals (future)
+                        // Currently we show the GLOBAL tile total at the bottom of the card
+                    }
+
+                    // Update the main total text for tiles
+                    const tileTotalEl = document.getElementById(
+                        `mob_tile_total_${itemId}`,
+                    );
+                    if (tileTotalEl) {
+                        // Find forms config for labels if needed, or just hardcode for speed as this handles multiple tile types
+                        tileTotalEl.innerText = `${currentTotal.toFixed(0)} pi²`;
+                    }
+                }
+            }
+
+            function renderMobileDetails() {
+                const container = document.getElementById(
+                    "mobile-details-container",
+                );
+                if (!container) return;
+                container.innerHTML = "";
+
+                const activeServices = CONFIG.services.filter((s) =>
+                    STATE.selectedServices.has(s.id),
+                );
+
+                if (activeServices.length === 0) {
+                    container.innerHTML = `<div style="text-align:center; padding:40px; color:#999;">Aucun service sélectionné.</div>`;
+                    return;
+                }
+
+                activeServices.forEach((service) => {
+                    const card = document.createElement("div");
+                    card.className = "mobile-detail-card";
+                    card.innerHTML = `<h4 style="margin-top:0; margin-bottom:15px; color:#b71c1c; border-bottom:1px solid #eee; padding-bottom:10px;">${t(service.label)}</h4>`;
+
+                    // --- INJECT STATIC PROMO FOR MOBILE ---
+                    if (service.id === "meubles") {
+                        const promoTitle = t({
+                            fr: "PROMOTION EXCLUSIVE Meuble en tissu",
+                            en: "EXCLUSIVE PROMOTION Fabric Furniture",
+                        });
+                        const promoDesc = t({
+                            fr: '1er article au prix régulier et chaque article ajouté à <span class="perm-highlight">25%</span> de rabais',
+                            en: '1st item at regular price and every additional item at <span class="perm-highlight">25%</span> off',
+                        });
+                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon">💎</div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
+                    } else if (service.id === "matelas") {
+                        const promoTitle = t({
+                            fr: "PROMOTION EXCLUSIVE Matelas",
+                            en: "EXCLUSIVE PROMOTION Mattresses",
+                        });
+                        const promoDesc = t({
+                            fr: '1er matelas au prix régulier et chaque matelas ajouté à <span class="perm-highlight">30%</span> de rabais',
+                            en: '1st mattress at regular price and every additional mattress at <span class="perm-highlight">30%</span> off',
+                        });
+                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon">💎</div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
+                    } else if (service.id === "tapis") {
+                        const promoTitle = t({
+                            fr: "PROMOTION EXCLUSIVE Nettoyage de Tapis et Carpettes",
+                            en: "EXCLUSIVE PROMOTION Area Rug Cleaning",
+                        });
+                        const promoDesc = t({
+                            fr: '1er tapis au prix régulier et chaque tapis ajouté à <span class="perm-highlight">50%</span> de rabais',
+                            en: '1st rug at regular price and every additional rug at <span class="perm-highlight">50%</span> off',
+                        });
+                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon">💎</div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
+                    } else if (service.id === "tapis_mur") {
+                        const promoTitle = t({
+                            fr: "PROMOTION EXCLUSIVE Nettoyage de Tapis Résidentiel",
+                            en: "EXCLUSIVE PROMOTION Residential Carpet Cleaning",
+                        });
+                        const promoDesc = t(
+                            CONFIG.text.promos.residentialCarpet,
+                        );
+                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon">💎</div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
+                    }
+
+                    // Check for Quote Only Service (Explicit Flag) or Empty Items
+                    if (
+                        service.isQuoteOnly ||
+                        !service.items ||
+                        service.items.length === 0
+                    ) {
+                        const desc =
+                            t(service.longDescription) ||
+                            t({
+                                fr: "Ce service nécessite une soumission sur mesure.",
+                                en: "This service requires a custom quote.",
+                            });
+                        // We can show the full description if available, or just a summary
+                        card.innerHTML += `
+                    <div style="padding:15px; background:#f9f9f9; border-radius:8px; color:#555; border:1px solid #eee;">
+                        <div style="font-size:0.9rem; line-height:1.5; margin-bottom:10px;">${desc}</div>
+                        <p style="font-size:0.85rem; color:#777; font-style:italic;">${t({ fr: "Continuez pour finaliser la demande avec un agent.", en: "Continue to finalize request with an agent." })}</p>
+                    </div>
+                 `;
+                    } else {
+                        service.items.forEach((item) => {
+                            const qtyVal = STATE.quantities[item.id];
+                            const qty = typeof qtyVal === "number" ? qtyVal : 0;
+
+                            // Helper: Find item price for display
+                            let priceDisplay = "";
+                            const p = getItemPrice(item.id);
+                            if (p > 0) {
+                                priceDisplay = `<span style="font-size:0.8rem; font-weight:600; color:#2e7d32; background:#e8f5e9; padding:2px 6px; border-radius:4px; margin-left:5px;">${p.toFixed(2)}$</span>`;
+                            } else if (item.price && item.price > 0) {
+                                priceDisplay = `<span style="font-size:0.8rem; font-weight:600; color:#2e7d32; background:#e8f5e9; padding:2px 6px; border-radius:4px; margin-left:5px;">${item.price.toFixed(2)}$</span>`;
+                            }
+
+                            if (!item.type || item.type === "input_qty") {
+                                const saved =
+                                    STATE.savingsPerItem[item.id] || 0;
+                                let savingsDisplay = "";
+                                if (saved > 0) {
+                                    const lbl =
+                                        STATE.lang === "fr"
+                                            ? "Rabais"
+                                            : "Saved";
+                                    savingsDisplay = `<div style="font-size:0.8rem; font-weight:700; color:#388e3c; margin-top:5px;">${lbl}: -${saved.toFixed(2)}$</div>`;
+                                }
+
+                                const row = document.createElement("div");
+                                row.className = "mobile-item-row";
+                                row.innerHTML = `
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                <div class="mobile-item-title">
+                                    ${t(item.label)} ${priceDisplay}
+                                    ${savingsDisplay}
+                                </div>
+                            </div>
+                            <div class="mobile-item-desc">${t(item.desc)}</div>
+                            <div class="mobile-stepper">
+                                <button class="mobile-step-btn" onclick="updateQty('${item.id}', -1)">−</button>
+                                <span class="mobile-step-val">${qty}</span>
+                                <button class="mobile-step-btn" onclick="updateQty('${item.id}', 1)">+</button>
+                            </div>
+                        `;
+                                card.appendChild(row);
+                            } else if (item.type === "multi_rug_calculator") {
+                                // --- MOBILE RUG CALCULATOR ---
+                                const row = document.createElement("div");
+                                row.className = "mobile-item-row";
+
+                                const count =
+                                    (STATE.quantities[item.id] as number) || 0;
+                                const rugList = STATE.rugs[item.id] || [];
+                                let rugsHtml = "";
+
+                                for (let i = 0; i < count; i++) {
+                                    const r = rugList[i] || {
+                                        unit: "ft",
+                                        l: 0,
+                                        w: 0,
+                                    };
+                                    let sqft = 0;
+                                    if (r.l > 0 && r.w > 0) {
+                                        if (r.unit === "ft") sqft = r.l * r.w;
+                                        else
+                                            sqft =
+                                                (r.l / 30.48) * (r.w / 30.48);
+                                    }
+                                    const price =
+                                        sqft * (item.pricePerSqFt || 0);
+
+                                    let savingsRecap = "";
+                                    const uniqueRugId = `${item.id}_${i}`;
+                                    const saved =
+                                        STATE.savingsPerItem[uniqueRugId] || 0;
+                                    if (saved > 0) {
+                                        const lbl =
+                                            STATE.lang === "fr"
+                                                ? "Rabais (50%)"
+                                                : "Saved (50%)";
+                                        savingsRecap = `<div style="font-size:0.8rem; font-weight:700; color:#388e3c; margin-top:2px; text-align:right;">${lbl}: -${saved.toFixed(2)}$</div>`;
+                                    }
+
+                                    rugsHtml += `
+                                <div style="background:#f9fafb; border:1px solid #eee; border-radius:8px; padding:10px; margin-bottom:10px;">
+                                    <div style="font-weight:600; font-size:0.85rem; margin-bottom:4px;">${t(item.baseLabel || item.label).split(" ")[0]} #${i + 1}</div>
+                                    <div style="font-size:0.75rem; color:#666; margin-bottom:4px;">${STATE.lang === "fr" ? "Entrez la longueur et la largeur pieds (ft) ou cm" : "Enter length and width in feet (ft) or cm"}</div>
+                                    <div style="display:flex; gap:6px; margin-bottom:8px;">
+                                        <select onchange="updateRugDim('${item.id}', ${i}, 'unit', this.value)" style="padding:8px 4px; border:1px solid #ddd; border-radius:6px; background:white; font-size:16px !important; width: 60px;">
+                                            <option value="ft" ${r.unit === "ft" ? "selected" : ""}>ft</option>
+                                            <option value="cm" ${r.unit === "cm" ? "selected" : ""}>cm</option>
+                                        </select>
+                                        <input type="number" id="rug_L_${uniqueRugId}" placeholder="L" value="${r.l || ""}" min="0" step="0.1" inputmode="decimal"
+                                            oninput="updateRugDim('${item.id}', ${i}, 'l', this.value)"
+                                            onkeydown="handleDimensionKey(event, 'rug', '${uniqueRugId}', 'l')"
+                                            style="flex:1; min-width: 0; padding:8px 4px; border:1px solid #ddd; border-radius:6px; text-align:center; font-size:16px !important;">
+                                        <span style="align-self:center; color:#999;">x</span>
+                                        <input type="number" id="rug_W_${uniqueRugId}" placeholder="W" value="${r.w || ""}" min="0" step="0.1" inputmode="decimal"
+                                            oninput="updateRugDim('${item.id}', ${i}, 'w', this.value)"
+                                            onkeydown="handleDimensionKey(event, 'rug', '${uniqueRugId}', 'w')"
+                                            style="flex:1; min-width: 0; padding:8px 4px; border:1px solid #ddd; border-radius:6px; text-align:center; font-size:16px !important;">
+                                    </div>
+                                    <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#555;">
+                                        <span id="mob_rug_area_${uniqueRugId}">${sqft.toFixed(1)} ${STATE.lang === "fr" ? "pi²" : "sqft"}</span>
+                                        <div>
+                                            <span id="mob_rug_price_${uniqueRugId}" style="font-weight:bold; color:#2e7d32; display:block; text-align:right;">${price.toFixed(2)}$</span>
+                                            <div id="mob_rug_save_${uniqueRugId}" style="font-size:0.8rem; font-weight:700; color:#388e3c; margin-top:2px; text-align:right; display:${saved > 0 ? "block" : "none"};">
+                                                ${saved > 0 ? (STATE.lang === "fr" ? "Rabais (50%)" : "Saved (50%)") + ": -" + saved.toFixed(2) + "$" : ""}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             `;
+                                }
+
+                                row.innerHTML = `
+                            <div class="mobile-item-title">${t(item.label)}</div>
+                            <div class="mobile-item-desc">${t(item.desc)}</div>
+                            
+                            <div class="mobile-stepper" style="margin-top:10px; margin-bottom:15px;">
+                                <span style="font-size:0.85rem; color:#666; margin-right:auto;">${STATE.lang === "fr" ? "Quantité:" : "Quantity:"}</span>
+                                <button class="mobile-step-btn" onclick="updateRugCount('${item.id}', '${Math.max(0, count - 1)}')">−</button>
+                                <span class="mobile-step-val">${count}</span>
+                                <button class="mobile-step-btn" onclick="updateRugCount('${item.id}', '${count + 1}')">+</button>
+                            </div>
+                            
+                            <div class="rug-list-mobile">
+                                ${rugsHtml}
+                            </div>
+                         `;
+                                card.appendChild(row);
+                            } else if (item.type === "tile_calculator") {
+                                // --- MOBILE TILE CALCULATOR ---
+                                const row = document.createElement("div");
+                                row.className = "mobile-item-row";
+
+                                const currentTotal =
+                                    (STATE.quantities[item.id] as number) || 0;
+                                const mode = STATE.tileMode || "total";
+                                const rooms = STATE.tileRooms || [];
+                                const forms = item.forms!;
+
+                                let contentHtm = "";
+
+                                if (mode === "total") {
+                                    contentHtm = `
+                                <div style="margin-top:15px;">
+                                    <label style="font-size:0.9rem; display:block; margin-bottom:8px; color:#333;">${t(forms.totalTitle)}</label>
+                                    <div style="display:flex; align-items:center; gap:10px;">
+                                        <input type="number" min="0" value="${currentTotal > 0 ? currentTotal : ""}" 
+                                            oninput="updateValLive('${item.id}', this.value)"
+                                            onkeydown="if(event.key==='Enter') this.blur()"
+                                            placeholder="Ex: 500"
+                                            class="mobile-input"
+                                            inputmode="decimal"
+                                            style="flex:1; margin-bottom:0; font-size:16px !important;">
+                                        <span style="font-size:0.9rem; color:#666;">pi²</span>
+                                    </div>
+                                </div>
+                             `;
+                                } else {
+                                    const roomCount =
+                                        rooms.length > 0 ? rooms.length : 1;
+                                    let roomsInputs = "";
+                                    for (let i = 0; i < roomCount; i++) {
+                                        const r = rooms[i] || { l: 0, w: 0 };
+                                        const sq = r.l * r.w;
+                                        roomsInputs += `
+                                    <div style="font-size:0.75rem; color:#666; margin-bottom:4px;">${STATE.lang === "fr" ? "Entrez la longueur et la largeur (ft)" : "Enter length and width (ft)"}</div>
+                                    <div style="display:flex; gap:6px; align-items:center; margin-bottom:10px;">
+                                        <span style="font-size:0.8rem; width:20px; color:#999;">#${i + 1}</span>
+                                        <input type="number" id="tile_L_${i}" placeholder="L" value="${r.l || ""}" inputmode="decimal"
+                                            oninput="updateTileRoom(${i}, 'l', this.value, '${item.id}')" 
+                                            onkeydown="handleDimensionKey(event, 'tile', '${i}', 'l')"
+                                            style="flex:1; min-width:0; padding:10px 4px; text-align:center; border:1px solid #ddd; border-radius:8px; font-size:16px !important;">
+                                        <span style="color:#999;">x</span>
+                                        <input type="number" id="tile_W_${i}" placeholder="W" value="${r.w || ""}" inputmode="decimal"
+                                            oninput="updateTileRoom(${i}, 'w', this.value, '${item.id}')" 
+                                            onkeydown="handleDimensionKey(event, 'tile', '${i}', 'w')"
+                                            style="flex:1; min-width:0; padding:10px 4px; text-align:center; border:1px solid #ddd; border-radius:8px; font-size:16px !important;">
+                                    </div>
+                                 `;
+                                    }
+
+                                    contentHtm = `
+                                <div style="margin-top:15px;">
+                                     <div class="mobile-stepper" style="margin-bottom:15px;">
+                                        <span style="font-size:0.85rem; color:#666; margin-right:auto;">${t(forms.roomTitle)}</span>
+                                        <button class="mobile-step-btn" onclick="updateTileRoomCount('${Math.max(1, roomCount - 1)}', '${item.id}')">−</button>
+                                        <span class="mobile-step-val">${roomCount}</span>
+                                        <button class="mobile-step-btn" onclick="updateTileRoomCount('${roomCount + 1}', '${item.id}')">+</button>
+                                    </div>
+                                    <div style="background:#f9fafb; padding:12px; border-radius:10px; border:1px solid #eee;">
+                                        ${roomsInputs}
+                                        <div style="margin-top:10px; padding-top:10px; border-top:1px solid #ddd; text-align:right; font-weight:bold;">
+                                            ${t(forms.calculated)} <span id="mob_tile_total_${item.id}">${currentTotal} pi²</span>
+                                        </div>
+                                    </div>
+                                </div>
+                             `;
+                                }
+
+                                row.innerHTML = `
+                             <div class="mobile-item-title">${t(item.label)}</div>
+                             
+                             <!-- MODE SWITCHER -->
+                             <div style="display:flex; background:#eee; padding:4px; border-radius:8px; margin-top:10px;">
+                                <label style="flex:1; text-align:center; padding:8px; border-radius:6px; background:${mode === "total" ? "white" : "transparent"}; font-weight:${mode === "total" ? "bold" : "normal"}; box-shadow:${mode === "total" ? "0 2px 4px rgba(0,0,0,0.1)" : "none"}; transition:all 0.2s;">
+                                    <input type="radio" name="mob_tilemode" value="total" ${mode === "total" ? "checked" : ""} onclick="setTileMode('total');renderMobileDetails()" style="display:none;">
+                                    ${t(forms.modes.total)}
+                                </label>
+                                <label style="flex:1; text-align:center; padding:8px; border-radius:6px; background:${mode === "rooms" ? "white" : "transparent"}; font-weight:${mode === "rooms" ? "bold" : "normal"}; box-shadow:${mode === "rooms" ? "0 2px 4px rgba(0,0,0,0.1)" : "none"}; transition:all 0.2s;">
+                                    <input type="radio" name="mob_tilemode" value="rooms" ${mode === "rooms" ? "checked" : ""} onclick="setTileMode('rooms');renderMobileDetails()" style="display:none;">
+                                    ${t(forms.modes.rooms)}
+                                </label>
+                             </div>
+                             
+                             ${contentHtm}
+                             
+                             <!-- Pricing Tiers Info (Mobile) -->
+                             <div style="margin-top:15px; padding:10px; background:#f0f8ff; border:1px solid #b3d4fc; border-radius:6px; font-size:0.8rem; color:#333;">
+                                <div style="font-weight:bold; margin-bottom:5px;">${t({ fr: "Prix applicable à la superficie totale", en: "Price applicable to total area" })}</div>
+                                <div style="display:grid; grid-template-columns: 1fr auto; gap:2px;">
+                                    <span>0 - 200 pi²</span> <span style="font-weight:600;">2.35$</span>
+                                    <span>201 - 400 pi²</span> <span style="font-weight:600;">2.25$</span>
+                                    <span>401 - 800 pi²</span> <span style="font-weight:600;">2.15$</span>
+                                    <span>801+ pi²</span> <span style="font-weight:600;">1.85$</span>
+                                </div>
+                                <div style="margin-top:5px; font-style:italic; border-top:1px solid #daeafc; padding-top:4px; font-size:0.75rem;">
+                                    ${t({ fr: "Minimum facturable : 150 pi² (352.50$)", en: "Minimum billable: 150 sqft ($352.50)" })}
+                                </div>
+                             </div>
+                         `;
+                                card.appendChild(row);
+                            } else if (item.type === "input_number") {
+                                const row = document.createElement("div");
+                                row.className = "mobile-item-row";
+                                const val = STATE.quantities[item.id] || "";
+                                row.innerHTML = `
+                                    <div class="mobile-item-title">${t(item.label)}</div>
+                                    <div class="mobile-item-desc">${t(item.desc)}</div>
+                                    <div style="margin-top:10px;">
+                                        <input type="number" value="${val}" placeholder="0" onchange="updateVal('${item.id}', this.value)" 
+                                            class="mobile-input" style="width:100%; text-align:center; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:16px;">
+                                    </div>
+                                `;
+                                card.appendChild(row);
+                            } else if (item.type === "sectional_variable") {
+                                // --- DROPDOWN FOR SECTIONALS (UNIFIED WITH DESKTOP LOGIC) ---
+                                const row = document.createElement("div");
+                                row.className = "mobile-item-row";
+
+                                // List locally added sectionals of this type
+                                let listHtml = "";
+                                const hasAny = STATE.customSectionals.some(
+                                    (x) => x.itemId === item.id,
+                                );
+                                if (hasAny) {
+                                    listHtml =
+                                        '<div style="margin-top:10px; display:flex; flex-direction:column; gap:8px;">';
+                                    STATE.customSectionals.forEach(
+                                        (sect, gIndex) => {
+                                            if (sect.itemId === item.id) {
+                                                const saved =
+                                                    STATE.savingsPerItem[
+                                                        sect.tempId
+                                                    ] || 0;
+                                                let savingsDisplay = "";
+                                                if (saved > 0) {
+                                                    savingsDisplay = `<span style="font-size:0.8rem; font-weight:700; color:#388e3c; margin-left:8px;">(Rabais: -${saved.toFixed(2)}$)</span>`;
+                                                }
+
+                                                listHtml += `
+                                        <div style="display:flex; justify-content:space-between; align-items:center; background:#f9f9f9; padding:10px; border-radius:8px; border:1px solid #eee;">
+                                            <span style="font-weight:500; font-size:0.8rem; line-height:1.2; flex:1; padding-right:8px;">${t(sect.label)} ${savingsDisplay}</span>
+                                            <div style="display:flex; align-items:center; gap:10px;">
+                                                <span style="font-weight:bold; color:#2e7d32;">${sect.price}$</span>
+                                                <button onclick="removeItem('${sect.tempId}')" style="color:#d32f2f; background:white; border:1px solid #ffcdd2; border-radius:4px; width:24px; height:24px; display:flex; align-items:center; justify-content:center; cursor:pointer;">✕</button>
+                                            </div>
+                                        </div>
+                                    `;
+                                            }
+                                        },
+                                    );
+                                    listHtml += "</div>";
+                                }
+
+                                let optionsHtml = (item.options || [])
+                                    .map(
+                                        (o) =>
+                                            `<option value="${o.val}">${t(o.label)}</option>`,
+                                    )
+                                    .join("");
+
+                                row.innerHTML = `
+                            <div class="mobile-item-title">${t(item.label)}</div>
+                            <div class="mobile-item-desc" style="margin-bottom:8px;">${t(item.desc)}</div>
+                            
+                            <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:10px;">
+                                <select id="mob-sect-select-${item.id}" class="mobile-select" style="width:100%; padding:12px; border-radius:8px; border:1px solid #ddd; background:white; font-size:14px;">
+                                    ${optionsHtml}
+                                </select>
+                                <button class="btn-mobile-primary" 
+                                    style="width:100%; padding: 12px; border-radius:8px; font-size:1rem;"
+                                    onclick="addCustomSectional('${item.id}', document.getElementById('mob-sect-select-${item.id}').value)">
+                                    ${t(CONFIG.text.buttons.add)}
+                                </button>
+                            </div>
+                            
+                            <!-- LIST OF ADDED SECTIONALS -->
+                            ${listHtml}
+                        `;
+                                card.appendChild(row);
+                            }
+                        });
+                    }
+                    container.appendChild(card);
+                });
+
+                // Add "Add Another Service" button
+                const addServiceBtn = document.createElement("button");
+                addServiceBtn.className = "btn-mobile-secondary";
+                addServiceBtn.style.cssText = `
+            width:100%; 
+            margin-top:20px; 
+            padding:16px 24px; 
+            background:linear-gradient(135deg, #1a237e 0%, #283593 25%, #3949ab 50%, #5c6bc0 100%);
+            border:none; 
+            color:white; 
+            border-radius:16px; 
+            font-weight:700;
+            font-size:1rem;
+            letter-spacing:0.5px;
+            box-shadow:0 8px 24px rgba(26, 35, 126, 0.4), 0 4px 8px rgba(0,0,0,0.1);
+            transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor:pointer;
+            position:relative;
+            overflow:hidden;
+            text-transform:uppercase;
+        `;
+
+                // Create animated shine overlay
+                const shine = document.createElement("div");
+                shine.style.cssText = `
+            position:absolute;
+            top:-50%;
+            left:-50%;
+            width:200%;
+            height:200%;
+            background:linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+            animation:shine 3s infinite;
+            pointer-events:none;
+        `;
+
+                // Add icon and text
+                addServiceBtn.innerHTML = `
+            <span style="display:flex; align-items:center; justify-content:center; gap:8px; position:relative; z-index:1;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>${t({ fr: "Ajouter autre service", en: "Add Another Service" })}</span>
+            </span>
+        `;
+                addServiceBtn.appendChild(shine);
+
+                // Add animation keyframes to document if not exists
+                if (!document.getElementById("shine-animation")) {
+                    const style = document.createElement("style");
+                    style.id = "shine-animation";
+                    style.textContent = `
+                @keyframes shine {
+                    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+                    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+                }
+            `;
+                    document.head.appendChild(style);
+                }
+
+                // Add touch feedback
+                addServiceBtn.addEventListener("touchstart", function () {
+                    this.style.transform = "scale(0.97) translateY(2px)";
+                    this.style.boxShadow =
+                        "0 4px 12px rgba(26, 35, 126, 0.5), 0 2px 4px rgba(0,0,0,0.1)";
+                });
+                addServiceBtn.addEventListener("touchend", function () {
+                    this.style.transform = "scale(1) translateY(0)";
+                    this.style.boxShadow =
+                        "0 8px 24px rgba(26, 35, 126, 0.4), 0 4px 8px rgba(0,0,0,0.1)";
+                });
+
+                addServiceBtn.onclick = () => {
+                    STATE.step = 1;
+                    updateUI("back");
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                };
+                container.appendChild(addServiceBtn);
+            }
+
+            function showErrorModal(title: string, message: string) {
+                // Create modal if not exists
+                let modal = document.getElementById("error-modal-overlay");
+                if (!modal) {
+                    modal = document.createElement("div");
+                    modal.id = "error-modal-overlay";
+                    modal.style.cssText = `
+                        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                        background: rgba(0,0,0,0.6); z-index: 99999; display: flex;
+                        align-items: center; justify-content: center; opacity: 0;
+                        transition: opacity 0.3s ease; pointer-events: none;
+                    `;
+                    modal.innerHTML = `
+                        <div style="background: white; width: 90%; max-width: 400px; border-radius: 12px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+                            <div style="text-align: center; margin-bottom: 15px;">
+                                <div style="display: inline-flex; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 50%; background: #ffebee; color: #d32f2f; font-size: 30px; margin-bottom: 15px;">
+                                    ⚠️
+                                </div>
+                                <h3 id="err-modal-title" style="margin: 0; color: #333; font-size: 1.25rem;">${title}</h3>
+                            </div>
+                            <p id="err-modal-msg" style="color: #666; font-size: 0.95rem; line-height: 1.5; text-align: center; margin-bottom: 25px;">
+                                ${message}
+                            </p>
+                            <button onclick="document.getElementById('error-modal-overlay').style.opacity='0'; setTimeout(()=>{document.getElementById('error-modal-overlay').style.pointerEvents='none'}, 300);" 
+                                style="width: 100%; padding: 12px; border: none; border-radius: 8px; background: #1a237e; color: white; font-weight: 600; cursor: pointer; font-size: 1rem; transition: background 0.2s;">
+                                ${STATE.lang === "fr" ? "Compris" : "Understood"}
+                            </button>
+                        </div>
+                    `;
+                    document.body.appendChild(modal);
+                }
+                
+                // Update content
+                const titleEl = modal.querySelector("#err-modal-title");
+                const msgEl = modal.querySelector("#err-modal-msg");
+                if (titleEl) titleEl.textContent = title;
+                if (msgEl) msgEl.textContent = message;
+
+                // Show (rAF avoids synchronous layout read for opacity/transform)
+                modal.style.pointerEvents = "auto";
+                requestAnimationFrame(() => {
+                    modal.style.opacity = "1";
+                    const content = modal.firstElementChild as HTMLElement;
+                    if (content) content.style.transform = "scale(1)";
+                });
+            }
+
+            function toggleService(id: string, card: HTMLElement) {
+                // --- MUTUAL EXCLUSIVITY CHECK ---
+                if (!STATE.selectedServices.has(id)) {
+                    // User is TRYING TO ADD a service
+                    
+                    if (id === "tapis_commercial") {
+                         // 1. If adding Commercial, check if ANY other service exists
+                         if (STATE.selectedServices.size > 0) {
+                             showErrorModal(
+                                 STATE.lang === "fr" ? "Service Exclusif" : "Exclusive Service",
+                                 STATE.lang === "fr" 
+                                    ? "Le service commercial ne peut pas être combiné avec d'autres services résidentiels. Veuillez désélectionner les autres services avant de choisir celui-ci."
+                                    : "Commercial service cannot be combined with residential services. Please deselect other services before choosing this one."
+                             );
+                             return;
+                         }
+                    } else {
+                        // 2. If adding Residential/Other, check if Commercial is active
+                        if (STATE.selectedServices.has("tapis_commercial")) {
+                            showErrorModal(
+                                 STATE.lang === "fr" ? "Action Impossible" : "Action Not Allowed",
+                                 STATE.lang === "fr" 
+                                    ? "Vous avez sélectionné le service commercial. Vous ne pouvez pas ajouter de services résidentiels en même temps."
+                                    : "You have selected the commercial service. You cannot add residential services at the same time."
+                             );
+                            return;
+                        }
+                    }
+                }
+
+                if (STATE.selectedServices.has(id)) {
+                    STATE.selectedServices.delete(id);
+                    const foundConfig = CONFIG.services.find(
+                        (s) => s.id === id,
+                    );
+                    if (foundConfig) {
+                        foundConfig.items.forEach((item) => {
+                            if (
+                                STATE.quantities &&
+                                STATE.quantities[item.id] !== undefined
+                            ) {
+                                STATE.quantities[item.id] = 0;
+                            }
+                            if (item.id === "tapis_mur") {
+                                STATE.quantities["package_3rooms"] = 0; // Fixed: was false
+                                STATE.quantities["room_individual"] = 0;
+                            }
+                            if (
+                                item.id === "ceramique" ||
+                                item.id === "tiles_sqft"
+                            ) {
+                                STATE.tileRooms = [];
+                                STATE.quantities["ceramique"] = 0;
+                                STATE.quantities["tiles_sqft"] = 0;
+                            }
+                        });
+                        // Also remove any customSectionals for this service
+                        STATE.customSectionals = STATE.customSectionals.filter(
+                            (c) => {
+                                // Keep if item id is NOT in this service's items
+                                return !foundConfig.items.some(
+                                    (i) => i.id === c.itemId,
+                                );
+                            },
+                        );
+                    }
+                } else {
+                    STATE.selectedServices.add(id);
+                    // AUTO-INIT RUGS to avoid "0 Quantity" bug
+                    const foundConfig = CONFIG.services.find(
+                        (s) => s.id === id,
+                    );
+                    if (foundConfig) {
+                        foundConfig.items.forEach((item) => {
+                            if (item.type === "multi_rug_calculator") {
+                                if (
+                                    !STATE.quantities[item.id] ||
+                                    STATE.quantities[item.id] === 0
+                                ) {
+                                    STATE.quantities[item.id] = 1;
+                                }
+                                if (
+                                    !STATE.rugs[item.id] ||
+                                    STATE.rugs[item.id].length === 0
+                                ) {
+                                    STATE.rugs[item.id] = [
+                                        { unit: "ft", l: 0, w: 0 },
+                                    ];
+                                }
+                            }
+                        });
+                    }
+                }
+                
+                // Update Desktop UI
+                const dCard = document.querySelector(`.service-card[data-service-id="${id}"]`);
+                if (dCard) {
+                    if (STATE.selectedServices.has(id)) dCard.classList.add('selected');
+                    else dCard.classList.remove('selected');
+                }
+
+                // Update Mobile UI
+                const mCard = document.querySelector(`#mobile-services-list div[data-service-id="${id}"]`) as HTMLElement;
+                if (mCard) {
+                    const isSel = STATE.selectedServices.has(id);
+                    // Inline style updates to match render logic
+                    mCard.style.border = isSel ? "3px solid #007bff" : "1px solid #ddd";
+                    mCard.style.boxShadow = isSel ? "0 8px 20px rgba(0,123,255,0.25)" : "0 4px 10px rgba(0,0,0,0.08)";
+                    
+                    const labelDiv = mCard.querySelector('div[style*="position:relative"]') as HTMLElement;
+                    if(labelDiv) {
+                        labelDiv.style.color = isSel ? '#0056b3' : '#333';
+                        labelDiv.style.background = isSel ? 'rgba(227, 242, 253, 0.95)' : 'rgba(255, 255, 255, 0.9)';
+                    }
+                }
+
+                calculateTotal();
+            }
+
+            function renderDetails() {
+                if (!els.detailsContainer) return;
+                els.detailsContainer.innerHTML = "";
+                const activeServices = CONFIG.services.filter((s) =>
+                    STATE.selectedServices.has(s.id),
+                );
+
+                if (activeServices.length === 0) {
+                    els.detailsContainer.innerHTML = `<p class="text-center">${t(CONFIG.text.cartEmpty)}</p>`;
+                    return;
+                }
+
+                activeServices.forEach((service) => {
+                    const section = document.createElement("div");
+                    section.className = "detail-section";
+                    section.style.marginBottom = "40px";
+                    section.style.paddingBottom = "30px";
+                    section.style.borderBottom = "4px solid #eee";
+                    section.innerHTML = `<div class="service-group-title" style="font-size:1.4rem; color:#333; margin-bottom:20px; border-left:5px solid #007bff; padding-left:15px;">${t(service.label)}</div>`;
+
+                    // --- INJECT STATIC PROMO FOR FURNITURE ---
+                    if (service.id === "meubles") {
+                        const promoTitle = t({
+                            fr: "PROMOTION EXCLUSIVE Meuble en tissu",
+                            en: "EXCLUSIVE PROMOTION Fabric Furniture",
+                        });
+                        const promoDesc = t({
+                            fr: '1er article au prix régulier et chaque article ajouté à <span class="perm-highlight">25%</span> de rabais',
+                            en: '1st item at regular price and every additional item at <span class="perm-highlight">25%</span> off',
+                        });
+
+                        const bannerHtml = `
+                    <div class="static-promo-banner">
+                        <div class="promo-icon">💎</div>
+                        <div class="promo-text">
+                            <div class="promo-title">${promoTitle}</div>
+                            <div class="promo-desc">${promoDesc}</div>
+                        </div>
+                    </div>
+                `;
+                        section.innerHTML += bannerHtml;
+                    } else if (service.id === "matelas") {
+                        const promoTitle = t({
+                            fr: "PROMOTION EXCLUSIVE Matelas",
+                            en: "EXCLUSIVE PROMOTION Mattresses",
+                        });
+                        const promoDesc = t({
+                            fr: '1er matelas au prix régulier et chaque matelas ajouté à <span class="perm-highlight">30%</span> de rabais',
+                            en: '1st mattress at regular price and every additional mattress at <span class="perm-highlight">30%</span> off',
+                        });
+
+                        const bannerHtml = `
+                    <div class="static-promo-banner">
+                        <div class="promo-icon">💎</div>
+                        <div class="promo-text">
+                            <div class="promo-title">${promoTitle}</div>
+                            <div class="promo-desc">${promoDesc}</div>
+                        </div>
+                    </div>
+                `;
+                        section.innerHTML += bannerHtml;
+                    } else if (service.id === "tapis") {
+                        const promoTitle = t({
+                            fr: "PROMOTION EXCLUSIVE Nettoyage de Tapis et Carpettes",
+                            en: "EXCLUSIVE PROMOTION Area Rug Cleaning",
+                        });
+                        const promoDesc = t({
+                            fr: '1er tapis au prix régulier et chaque tapis ajouté à <span class="perm-highlight">50%</span> de rabais',
+                            en: '1st rug at regular price and every additional rug at <span class="perm-highlight">50%</span> off',
+                        });
+
+                        const bannerHtml = `
+                    <div class="static-promo-banner">
+                        <div class="promo-icon">💎</div>
+                        <div class="promo-text">
+                            <div class="promo-title">${promoTitle}</div>
+                            <div class="promo-desc">${promoDesc}</div>
+                        </div>
+                    </div>
+                `;
+                        section.innerHTML += bannerHtml;
+                    } else if (service.id === "tapis_mur") {
+                        // Tapis Mur-à-mur / Residential Carpet Promo
+                        const promoTitle = t({
+                            fr: "PROMOTION EXCLUSIVE Nettoyage de Tapis Résidentiel",
+                            en: "EXCLUSIVE PROMOTION Residential Carpet Cleaning",
+                        });
+                        const promoDesc = t(
+                            CONFIG.text.promos.residentialCarpet,
+                        );
+                        const bannerHtml = `
+                    <div class="static-promo-banner">
+                        <div class="promo-icon">💎</div>
+                        <div class="promo-text">
+                            <div class="promo-title">${promoTitle}</div>
+                            <div class="promo-desc">${promoDesc}</div>
+                        </div>
+                    </div>
+                `;
+                        section.innerHTML += bannerHtml;
+                    }
+
+                    // --- GENERIC LONG DESCRIPTION ---
+                    if (service.longDescription) {
+                        const descText = t(service.longDescription);
+                        const descHtml = `
+                    <div style="background:#f0f8ff; border-left:5px solid #0288d1; color:#333; padding:20px; border-radius:4px; margin-bottom:30px; font-size:0.95rem; line-height:1.6; box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+                        ${descText}
+                    </div>
+                `;
+                        section.innerHTML += descHtml;
+                    }
+
+                    service.items.forEach((item) => {
+                        const row = document.createElement("div");
+                        row.className = "item-row";
+                        row.setAttribute("data-item-id", item.id);
+                        // Cast to number for general logic; checkboxes handle their own boolean check
+                        const qtyVal = STATE.quantities[item.id];
+                        const qty = typeof qtyVal === "number" ? qtyVal : 0;
+
+                        // Default to input_qty if type is missing
+                        // Default to input_qty if type is missing
+                        if (!item.type || item.type === "input_qty") {
+                            let promoHtml = "";
+
+                            // Always show Unit Price as requested, UNLESS description already has it (contains '$')
+                            const descText = t(item.desc);
+                            const showUnitPrice =
+                                item.price && !descText.includes("$");
+
+                            const unitPriceDisplay =
+                                showUnitPrice && item.price
+                                    ? `<div class="unit-price-label" style="font-size:0.85rem; font-weight:600; color:#555; margin-top:2px;">${item.price.toFixed(2)}$</div>`
+                                    : "";
+
+                            row.innerHTML = `
+                        <div style="flex:1;">
+                            <div style="font-weight:600;">${t(item.label)}</div>
+                            ${unitPriceDisplay}
+                            <div class="text-muted" style="font-size:0.8rem;">${t(item.desc)}</div>
+                            ${promoHtml}
+                        </div>
+                        <div>
+                            <span class="qty-label" style="margin-right:8px;">${STATE.lang === "fr" ? "Qté" : "Qty"}</span>
+                            <input type="number" min="0" value="${qty}" data-id="${item.id}" onchange="updateVal('${item.id}', this.value)" 
+                            style="width:140px; padding:8px; padding-right:50px; text-align:left; border:1px solid #ccc; border-radius:4px; font-size:1rem;">
+                        </div>
+                     `;
+                        } else if (item.type === "multi_rug_calculator") {
+                            const count =
+                                (STATE.quantities[item.id] as number) || 0;
+                            const rugList = STATE.rugs[item.id] || [];
+                            let rugsHtml = "";
+                            for (let i = 0; i < count; i++) {
+                                const r = rugList[i] || {
+                                    unit: "ft",
+                                    l: 0,
+                                    w: 0,
+                                };
+                                let sqft = 0;
+                                if (r.l > 0 && r.w > 0) {
+                                    if (r.unit === "ft") sqft = r.l * r.w;
+                                    else sqft = (r.l / 30.48) * (r.w / 30.48);
+                                }
+                                const price = sqft * (item.pricePerSqFt || 0);
+
+                                let savingsRecap = "";
+                                const uniqueRugId = `${item.id}_${i}`;
+                                const saved =
+                                    STATE.savingsPerItem[uniqueRugId] || 0;
+                                console.log(
+                                    "RENDER DEBUG:",
+                                    uniqueRugId,
+                                    saved,
+                                    STATE.savingsPerItem,
+                                );
+                                if (saved > 0) {
+                                    const lbl =
+                                        STATE.lang === "fr"
+                                            ? "Rabais 50%"
+                                            : "50% Off";
+                                    savingsRecap = `<div style="font-size:0.8rem; font-weight:700; color:#388e3c; text-align:right;">${lbl}: -${saved.toFixed(2)}$</div>`;
+                                }
+
+                                rugsHtml += `
+                            <div style="margin-top:10px; padding:10px; background:#f9f9f9; border:1px solid #eee; border-radius:4px;">
+                                <div style="font-weight:600; font-size:0.85rem; margin-bottom:5px;">${t(item.baseLabel || item.label).split(" ")[0]} #${i + 1}</div>
+                                <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                                    <select onchange="updateRugDim('${item.id}', ${i}, 'unit', this.value)" style="padding:5px; border-radius:4px; border:1px solid #ddd;">
+                                        <option value="ft" ${r.unit === "ft" ? "selected" : ""}>Pieds (ft)</option>
+                                        <option value="cm" ${r.unit === "cm" ? "selected" : ""}>Cm</option>
+                                    </select>
+                                    <input type="number" placeholder="${STATE.lang === "fr" ? "Long." : "Len."}" value="${r.l || ""}" min="0" step="0.1"
+                                           onchange="updateRugDim('${item.id}', ${i}, 'l', this.value)"
+                                           style="width:70px; padding:5px; border:1px solid #ddd; text-align:center;">
+                                    <span style="color:#666;">x</span>
+                                    <input type="number" placeholder="${STATE.lang === "fr" ? "Larg." : "Wid."}" value="${r.w || ""}" min="0" step="0.1"
+                                           onchange="updateRugDim('${item.id}', ${i}, 'w', this.value)"
+                                           style="width:70px; padding:5px; border:1px solid #ddd; text-align:center;">
+                                </div>
+                                <div style="margin-top:5px; font-size:0.8rem; color:#555; display:flex; justify-content:space-between; align-items:flex-end;">
+                                    <span>${STATE.lang === "fr" ? "Surface :" : "Area :"} <b>${sqft.toFixed(2)} ${STATE.lang === "fr" ? "pi²" : "sq ft"}</b></span>
+                                    <div>
+                                        <div style="font-weight:bold; color:#000;">${price.toFixed(2)} $</div>
+                                        ${savingsRecap}
+                                    </div>
+                                </div>
+                            </div>
+                         `;
+                            }
+                            row.innerHTML = `
+                        <div style="width:100%;">
+                            <div style="font-weight:600;">${t(item.label)}</div>
+                            <div class="text-muted" style="font-size:0.8rem; margin-bottom:5px;">${t(item.desc)}</div>
+                            ${count > 0 ? `` : ""}
+                            
+                            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                                <label style="font-size:0.9rem;">${STATE.lang === "fr" ? "Nombre de tapis :" : "Number of rugs:"}</label>
+                                <input type="number" min="0" max="20" value="${count}" data-id="${item.id}"
+                                       onchange="updateRugCount('${item.id}', this.value)"
+                                       style="width:60px; padding:5px; text-align:center; border:1px solid #ccc; border-radius:4px;">
+                            </div>
+                            
+                            <div class="rug-list">
+                                ${rugsHtml}
+                            </div>
+                        </div>
+                     `;
+                        } else if (item.type === "tile_calculator") {
+                            const currentTotal =
+                                (STATE.quantities[item.id] as number) || 0;
+                            const mode = STATE.tileMode || "total";
+                            const rooms = STATE.tileRooms || [];
+                            const forms = item.forms!; // Assert forms exists for tile_calculator
+                            let contentHtm = "";
+
+                            if (mode === "total") {
+                                contentHtm = `
+                            <div style="margin-top:10px;">
+                                <label style="font-size:0.9rem; display:block; margin-bottom:5px;">
+                                    ${t(forms.totalTitle)}
+                                </label>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <input type="number" min="0" value="${currentTotal > 0 ? currentTotal : ""}" 
+                                           onchange="updateVal('${item.id}', this.value)"
+                                           placeholder="Ex: 500"
+                                           style="width:120px; padding:8px; padding-right:50px; border:1px solid #ccc; border-radius:4px;">
+                                    <span style="font-size:0.85rem; color:#666;">(${t(item.desc)})</span>
+                                </div>
+                            </div>
+                         `;
+                            } else {
+                                const roomCount =
+                                    rooms.length > 0 ? rooms.length : 1;
+                                let roomsInputs = "";
+                                for (let i = 0; i < roomCount; i++) {
+                                    const r = rooms[i] || { l: 0, w: 0 };
+                                    const sq = r.l * r.w;
+                                    roomsInputs += `
+                                <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px;">
+                                    <span style="font-size:0.8rem; width:60px;">${STATE.lang === "fr" ? "Pièce" : "Room"} ${i + 1} :</span>
+                                    <input type="number" placeholder="L" value="${r.l || ""}" onchange="updateTileRoom(${i}, 'l', this.value, '${item.id}')" style="width:90px; padding:6px; text-align:center; border:1px solid #ddd; border-radius:4px;">
+                                    <span style="color:#888;">x</span>
+                                    <input type="number" placeholder="W" value="${r.w || ""}" onchange="updateTileRoom(${i}, 'w', this.value, '${item.id}')" style="width:90px; padding:6px; text-align:center; border:1px solid #ddd; border-radius:4px;">
+                                    <span style="font-size:0.8rem; color:#666; font-weight:500;">= ${sq.toFixed(0)} pi²</span>
+                                </div>
+                             `;
+                                }
+                                contentHtm = `
+                            <div style="margin-top:15px; padding-left:5px;">
+                                <div style="margin-bottom:15px; display:flex; align-items:center; gap:10px;">
+                                    <label style="font-size:0.9rem; font-weight:600;">${t(forms.roomTitle)}</label>
+                                    <input type="number" min="1" max="20" value="${roomCount}" 
+                                           onchange="updateTileRoomCount(this.value, '${item.id}')"
+                                           style="width:70px; padding:5px; text-align:center; border:1px solid #ccc; border-radius:4px;">
+                                </div>
+                                <div style="background:#f9f9f9; padding:15px; border-radius:6px; border:1px solid #eee;">
+                                    <div style="margin-bottom:10px; font-size:0.85rem; color:#555; font-style:italic;">${t(forms.instruct)}</div>
+                                    ${roomsInputs}
+                                    <div style="margin-top:10px; padding-top:10px; border-top:1px solid #ddd; font-weight:bold; text-align:right; font-size:1rem;">
+                                        ${t(forms.calculated)} ${currentTotal} pi²
+                                    </div>
+                                </div>
+                            </div>
+                         `;
+                            }
+                            row.innerHTML = `
+                        <div style="width:100%;">
+                            <div style="font-weight:600; font-size:1.05rem; margin-bottom:5px;">${t(item.label)}</div>
+                            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:12px;">
+                                <label style="cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:8px;">
+                                    <input type="radio" name="tilemode" value="total" ${mode === "total" ? "checked" : ""} onclick="setTileMode('total')"> 
+                                    <span style="font-weight:500;">${t(forms.modes.total)}</span>
+                                </label>
+                                <div style="padding-left:25px; font-weight:bold; font-size:1.1rem; color:#666; font-style:italic;">${STATE.lang === "fr" ? "ou" : "or"}</div>
+                                <label style="cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:8px;">
+                                    <input type="radio" name="tilemode" value="rooms" ${mode === "rooms" ? "checked" : ""} onclick="setTileMode('rooms')"> 
+                                    <span style="font-weight:500;">${t(forms.modes.rooms)}</span>
+                                </label>
+                            </div>
+                            ${contentHtm}
+
+                            <!-- Pricing Tiers Info (Desktop) -->
+                             <div style="margin-top:15px; padding:12px; background:#f0f8ff; border:1px solid #b3d4fc; border-radius:6px; font-size:0.85rem; color:#333;">
+                                <div style="font-weight:bold; margin-bottom:8px;">${t({ fr: "Prix applicable à la superficie totale", en: "Price applicable to total area" })}</div>
+                                <div style="display:grid; grid-template-columns: 1fr auto; gap:4px; max-width:250px;">
+                                    <span>0 - 200 pi²</span> <span style="font-weight:600;">2.35$ / pi²</span>
+                                    <span>201 - 400 pi²</span> <span style="font-weight:600;">2.25$ / pi²</span>
+                                    <span>401 - 800 pi²</span> <span style="font-weight:600;">2.15$ / pi²</span>
+                                    <span>801+ pi²</span> <span style="font-weight:600;">1.85$ / pi²</span>
+                                </div>
+                                <div style="margin-top:10px; font-style:italic; border-top:1px solid #daeafc; padding-top:6px; font-size:0.8rem;">
+                                    ${t({ fr: "Minimum facturable : 150 pi² (352.50$)", en: "Minimum billable: 150 sqft ($352.50)" })}
+                                </div>
+                             </div>
+                        </div>
+                     `;
+                        } else if (item.type === "sectional_variable") {
+                            let listHtml = "";
+                            const hasAny = STATE.customSectionals.some(
+                                (x) => x.itemId === item.id,
+                            );
+                            if (hasAny) {
+                                listHtml =
+                                    '<div style="margin-top:10px; display:flex; flex-direction:column; gap:8px;">';
+                                STATE.customSectionals.forEach(
+                                    (sect, gIndex) => {
+                                        if (sect.itemId === item.id) {
+                                            const saved =
+                                                STATE.savingsPerItem[
+                                                    sect.tempId
+                                                ] || 0;
+                                            let savingsDisplay = "";
+                                            if (saved > 0) {
+                                                savingsDisplay = `<span style="font-size:0.8rem; font-weight:700; color:#388e3c; margin-left:8px;">(Rabais: -${saved.toFixed(2)}$)</span>`;
+                                            }
+                                            listHtml += `
+                                    <div style="display:flex; justify-content:space-between; align-items:center; background:#f9f9f9; padding:8px 12px; border-radius:6px; border:1px solid #eee;">
+                                        <span style="font-weight:500; font-size:0.8rem; line-height:1.2; flex:1; padding-right:8px;">${t(sect.label)} ${savingsDisplay}</span>
+                                        <div style="display:flex; align-items:center; gap:10px;">
+                                            <span style="font-weight:bold;">${sect.price}$</span>
+                                            <button onclick="removeItem('${sect.tempId}')" style="color:red; background:none; border:none; cursor:pointer; font-weight:bold;">X</button>
+                                        </div>
+                                    </div>
+                                `;
+                                        }
+                                    },
+                                );
+                                listHtml += "</div>";
+                            }
+                            let optionsHtml = (item.options || [])
+                                .map(
+                                    (o) =>
+                                        `<option value="${o.val}">${t(o.label)}</option>`,
+                                )
+                                .join("");
+                            row.innerHTML = `
+                        <div style="width:100%;">
+                            <div style="font-weight:600; font-size:1.05rem; margin-bottom:5px;">${t(item.label)}</div>
+                            <div style="font-size:0.9rem; color:#666; margin-bottom:10px;">${t(item.desc)}</div>
+                            <div style="display:flex; gap:10px; margin-bottom:10px;">
+                                <select id="sect-select-${item.id}" style="padding:8px; border-radius:6px; border:1px solid #ccc; flex:1; font-size:14px;">
+                                    ${optionsHtml}
+                                </select>
+                                <button class="btn btn-secondary" onclick="addCustomSectional('${item.id}', document.getElementById('sect-select-${item.id}').value)" style="padding:5px 15px;">${t(CONFIG.text.buttons.add)}</button>
+                            </div>
+                            ${listHtml}
+                        </div>
+                     `;
+                        } else if (item.type === "checkbox") {
+                            // Checkbox value stored as boolean in STATE.quantities OR as 0/1 number?
+                            // Previous logic: STATE.quantities["package_3rooms"] = false;
+                            // AND updateVal uses parseInt.
+                            // If it was updateVal(checked ? 1 : 0), then it's numeric 1/0.
+                            // But toggleService set it to false.
+                            // So it can be boolean.
+                            const val = STATE.quantities[item.id];
+                            const isChecked = val === true || val === 1;
+
+                            row.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <input type="checkbox" id="chk_${item.id}" ${isChecked ? "checked" : ""} onchange="updateVal('${item.id}', this.checked ? '1' : '0')" style="width:20px; height:20px;">
+                            <div>
+                                <div style="font-weight:600;">${t(item.label)}</div>
+                                <div class="text-muted" style="font-size:0.8rem;">${t(item.desc)}</div>
+                            </div>
+                        </div>
+                     `;
+                        } else if (item.type === "input_number") {
+                            const val = STATE.quantities[item.id] || "";
+                            row.innerHTML = `
+                         <div>
+                            <div style="font-weight:600;">${t(item.label)}</div>
+                            <div class="text-muted" style="font-size:0.8rem;">${t(item.desc)}</div>
+                        </div>
+                        <div class="qty-control" style="width:auto;">
+                             <input type="number" 
+                                value="${val}" 
+                                placeholder="0" 
+                                min="0"
+                                onchange="updateVal('${item.id}', this.value)"
+                                style="width:100px; padding:8px; text-align:center; border:1px solid #ddd; border-radius:5px;"
+                             />
+                        </div>
+                    `;
+                        } else {
+                            const saved = STATE.savingsPerItem[item.id] || 0;
+                            let savingsDisplay = "";
+                            if (saved > 0) {
+                                const lbl =
+                                    STATE.lang === "fr" ? "Rabais" : "Saved";
+                                savingsDisplay = `<div style="font-size:0.8rem; font-weight:700; color:#388e3c; margin-top:3px;">${lbl}: -${saved.toFixed(2)}$</div>`;
+                            }
+
+                            row.innerHTML = `
+                        <div>
+                            <div style="font-weight:600;">${t(item.label)}</div>
+                            <div class="text-muted" style="font-size:0.8rem;">${t(item.desc) || (item.price || 0) + "$"}</div>
+                            ${savingsDisplay}
+                        </div>
+                        <div class="qty-control">
+                            <span style="font-size:0.8rem; font-weight:600; color:#555; margin-right:4px;">${STATE.lang === "fr" ? "Qté" : "Qty"}</span>
+                            <button class="qty-btn" onclick="updateQty('${item.id}', -1)">-</button>
+                            <span class="qty-value">${qty}</span>
+                            <button class="qty-btn" onclick="updateQty('${item.id}', 1)">+</button>
+                        </div>
+                    `;
+                        }
+                        section.appendChild(row);
+                    });
+                    els.detailsContainer!.appendChild(section);
+                });
+            }
+
+            function calculateTotal() {
+                let subtotal = 0;
+                let totalDiscount = 0;
+                STATE.savingsPerItem = {}; // Reset savings tracking
+                let cartItems: any[] = [];
+                let hasQuoteItem = false;
+                let fabricItemsParams: {
+                    price: number;
+                    label: string;
+                    rawId: string;
+                    isSectional: boolean;
+                }[] = [];
+
+                // 1. Gather Sectionals (Fabric)
+                // 1. Gather Sectionals (Fabric)
+                STATE.customSectionals.forEach((sect) => {
+                    if (sect.itemId === "sectionnel") {
+                        // Fabric Sectional -> Add to Fabric Params for Promo Logic
+                        let cleanLabel = t(sect.label).split("(")[0].trim();
+                        let itemLabel = t(getItemLabel(sect.itemId));
+                        let label = `${itemLabel} (${cleanLabel})`;
+                        fabricItemsParams.push({
+                            price: sect.price,
+                            label: label,
+                            rawId: sect.tempId, // Use tempId for unique tracking
+                            isSectional: true,
+                        });
+                    } else if (sect.itemId === "cuir_sectionnel") {
+                        // Leather Sectional -> Direct Add (No Promo)
+                        let cleanLabel = t(sect.label).split("(")[0].trim();
+                        let itemLabel = t(getItemLabel(sect.itemId));
+                        let label = `${itemLabel} (${cleanLabel})`;
+                        subtotal += sect.price;
+                        cartItems.push({
+                            rawId: sect.tempId,
+                            label: label,
+                            price: sect.price,
+                        });
+                    }
+                });
+
+                // 2. Gather Standard Fabric Furniture
+                const fabricIds = ["chaise", "fauteuil", "sofa_2", "sofa_3"]; // REMOVED sectionnel (handled by customSectionals)
+
+                fabricIds.forEach((id) => {
+                    const qty = (STATE.quantities[id] as number) || 0;
+                    if (qty > 0) {
+                        const p = getItemPrice(id);
+                        const l = t(getItemLabel(id));
+                        // For standard items, we can't easily track WHICH one gets discount visually if aggregated.
+                        // But we can assign a fake unique ID if we wanted to be precise in list?
+                        // Actually the standard items are aggregated in UI (Number Input).
+                        // So we just track total savings for the ID.
+                        for (let i = 0; i < qty; i++) {
+                            fabricItemsParams.push({
+                                price: p,
+                                label: l,
+                                rawId: id, // Shared ID for all standard items
+                                isSectional: false,
+                            });
+                        }
+                    }
+                });
+
+                // 3. Process Fabric Furniture (Apply 25% on additional items)
+                if (fabricItemsParams.length > 0) {
+                    // Sort Descending Price (First item is most expensive = Full Price)
+                    fabricItemsParams.sort((a, b) => b.price - a.price);
+
+                    fabricItemsParams.forEach((item, index) => {
+                        if (index === 0) {
+                            // First item: Full Price
+                            subtotal += item.price;
+                            cartItems.push({
+                                rawId: item.rawId,
+                                label: item.label,
+                                price: item.price,
+                            });
+                        } else {
+                            // Additional items: 25% OFF
+                            const originalPrice = item.price;
+                            const discount = originalPrice * 0.25;
+                            const finalPrice = originalPrice - discount;
+                            totalDiscount += discount;
+                            subtotal += finalPrice;
+
+                            cartItems.push({
+                                rawId: item.rawId,
+                                label: item.label + " (-25%)",
+                                price: finalPrice,
+                                savings: discount, // Store savings for consolidation
+                            });
+
+                            // Track per-item savings
+                            const existing =
+                                STATE.savingsPerItem[item.rawId] || 0;
+                            STATE.savingsPerItem[item.rawId] =
+                                existing + discount;
+                        }
+                    });
+                }
+
+                // 4. Gather Leather (No discount specified in prompt, keep standard)
+                const leatherIds = [
+                    "cuir_fauteuil",
+                    "cuir_causeuse",
+                    "cuir_sofa",
+                ]; // REMOVED cuir_sectionnel
+                leatherIds.forEach((id) => {
+                    const qty = (STATE.quantities[id] as number) || 0;
+                    if (qty > 0) {
+                        const p = getItemPrice(id);
+                        const l = t(getItemLabel(id));
+                        const finalPrice = p;
+
+                        const lineTotal = qty * finalPrice;
+                        subtotal += lineTotal;
+                        cartItems.push({
+                            rawId: id,
+                            label: `${qty}x ${l}`,
+                            price: lineTotal,
+                        });
+                    }
+                });
+
+                // 4.5. Extras (Stairs, Landings, Hallways)
+                const extraIds = ["marche", "palier", "hallway"];
+                extraIds.forEach((id) => {
+                    const qty = (STATE.quantities[id] as number) || 0;
+                    if (qty > 0) {
+                        const p = getItemPrice(id);
+                        const l = t(getItemLabel(id));
+                        const lineTotal = qty * p;
+                        subtotal += lineTotal;
+                        cartItems.push({
+                            rawId: id,
+                            label: `${qty}x ${l}`,
+                            price: lineTotal,
+                        });
+                    }
+                });
+
+                // 5. Mattresses (Consolidated Rebate)
+                let mattresses: { id: string; price: number; label: string }[] =
+                    [];
+                ["mat_king", "mat_queen", "mat_double", "mat_simple"].forEach(
+                    (id) => {
+                        const qty = (STATE.quantities[id] as number) || 0;
+                        if (qty > 0) {
+                            const price = getItemPrice(id);
+                            const label = t(getItemLabel(id));
+                            for (let i = 0; i < qty; i++)
+                                mattresses.push({ id, price, label });
+                        }
+                    },
+                );
+
+                if (mattresses.length > 0) {
+                    mattresses.sort((a, b) => b.price - a.price);
+                    mattresses.forEach((m, index) => {
+                        let price = m.price;
+                        let savings = 0;
+                        if (index > 0) {
+                            savings = price * CONFIG.pricing.mattressDiscount;
+                            price = price - savings;
+                            totalDiscount += savings;
+                        }
+                        subtotal += price;
+
+                        // Push individual items (will be consolidated by rawId)
+                        cartItems.push({
+                            rawId: m.id,
+                            label: m.label,
+                            price: price,
+                            savings: savings,
+                        });
+
+                        if (savings > 0) {
+                            const existing = STATE.savingsPerItem[m.id] || 0;
+                            STATE.savingsPerItem[m.id] = existing + savings;
+                        }
+                    });
+                }
+
+                const pkg3Qty = STATE.quantities["package_3rooms"] ? 1 : 0;
+                const roomIndQty =
+                    (STATE.quantities["room_individual"] as number) || 0;
+
+                let totalCarpetRooms = 0;
+                if (pkg3Qty > 0) totalCarpetRooms += 3;
+                totalCarpetRooms += roomIndQty;
+
+                if (totalCarpetRooms > 0) {
+                    let carpetTotal = 0;
+                    let standardPrice = totalCarpetRooms * 75;
+                    let label = "";
+                    const packages = Math.floor(totalCarpetRooms / 3);
+                    const remainder = totalCarpetRooms % 3;
+
+                    if (packages > 0) {
+                        const base = packages * 195;
+                        const extra = remainder * 75;
+                        carpetTotal = base + extra;
+                        label = t({
+                            fr: `Tapis Mur - à - mur(${totalCarpetRooms} pièces)[${packages}x Forfait]`,
+                            en: `Wall-to-wall Carpet (${totalCarpetRooms} rms) [${packages}x Pkg]`,
+                        });
+                    } else {
+                        carpetTotal = totalCarpetRooms * 75;
+                        label = t({
+                            fr: `Tapis Mur - à - mur(${totalCarpetRooms} pièces)`,
+                            en: `Wall-to-wall Carpet (${totalCarpetRooms} rms)`,
+                        });
+                    }
+
+                    subtotal += carpetTotal;
+                    // Carpet promo is complex (package vs individual).
+                    // We can treat it as one item "Carpet Service" with savings attached?
+                    // Current rawId is "carpet_combined".
+                    let carpetSavings = 0;
+                    if (carpetTotal < standardPrice) {
+                        carpetSavings = standardPrice - carpetTotal;
+                        totalDiscount += carpetSavings;
+
+                        // Show savings on the inputs
+                        if (pkg3Qty > 0)
+                            STATE.savingsPerItem["package_3rooms"] =
+                                carpetSavings;
+                        if (roomIndQty > 0)
+                            STATE.savingsPerItem["room_individual"] =
+                                carpetSavings;
+                    }
+                    cartItems.push({
+                        rawId: "carpet_combined",
+                        label: label,
+                        price: carpetTotal,
+                        savings: carpetSavings, // Attach savings for inline red text
+                    });
+                }
+
+                let allRugs: {
+                    rawId: string;
+                    label: string;
+                    price: number;
+                    savings: number;
+                }[] = [];
+                ["rug_synth", "rug_wool"].forEach((id) => {
+                    const count = (STATE.quantities[id] as number) || 0;
+                    const rugList = STATE.rugs[id] || [];
+                    if (count > 0 && rugList.length > 0) {
+                        const s = CONFIG.services.find((s) =>
+                            s.items.find((i) => i.id === id),
+                        );
+                        const itemConfig = s?.items.find((i) => i.id === id);
+                        if (!itemConfig) return;
+
+                        const pricePerSqft = itemConfig.pricePerSqFt || 0;
+                        const labelBase = t(itemConfig.baseLabel);
+
+                        rugList.forEach((r, idx) => {
+                            let sq = 0;
+                            if (r.l > 0 && r.w > 0) {
+                                if (r.unit === "ft") sq = r.l * r.w;
+                                else sq = (r.l / 30.48) * (r.w / 30.48);
+                            }
+                            if (sq > 0) {
+                                const price = sq * pricePerSqft;
+                                allRugs.push({
+                                    rawId: `${id}_${idx}`, // Unique ID for tracking
+                                    label: `${labelBase} #${idx + 1} (${sq.toFixed(2)} pi²)`,
+                                    price: price,
+                                    savings: 0, // init
+                                });
+                            }
+                        });
+                    }
+                });
+
+                if (allRugs.length > 0) {
+                    allRugs.sort((a, b) => b.price - a.price);
+                    allRugs.forEach((r, idx) => {
+                        let finalP = r.price;
+                        let savings = 0;
+                        if (idx > 0) {
+                            // Cheapest items (index > 0 after sort desc) get 50% off
+                            savings = r.price * 0.5;
+                            finalP -= savings;
+                            totalDiscount += savings;
+                        }
+                        subtotal += finalP;
+                        cartItems.push({
+                            rawId: r.rawId,
+                            label: r.label,
+                            price: finalP,
+                            savings: savings,
+                        });
+
+                        if (savings > 0) {
+                            STATE.savingsPerItem[r.rawId] = savings;
+                        }
+                    });
+                }
+
+                // Check both potential keys for safety
+                const q1 = STATE.quantities["tiles_sqft"];
+                const q2 = STATE.quantities["ceramique"];
+                const tileSqftVal =
+                    (typeof q1 === "number"
+                        ? q1
+                        : parseFloat(q1 as unknown as string)) ||
+                    (typeof q2 === "number"
+                        ? q2
+                        : parseFloat(q2 as unknown as string)) ||
+                    0;
+
+                const tileSqft = tileSqftVal;
+                let isTileUnderMin = false;
+                if (tileSqft > 0) {
+                    const billed = Math.max(150, tileSqft);
+                    if (tileSqft < 150) isTileUnderMin = true;
+
+                    // Bracket Pricing (Flat Rate)
+                    let rate = 2.35;
+                    if (billed > 800) rate = 1.85;
+                    else if (billed > 400) rate = 2.15;
+                    else if (billed > 200) rate = 2.25;
+
+                    const actualPrice = billed * rate;
+
+                    // Calculate Savings vs Base ($2.35)
+                    const basePrice = billed * 2.35;
+                    let tileSavings = 0;
+                    if (rate < 2.35) {
+                        tileSavings = basePrice - actualPrice;
+                        totalDiscount += tileSavings;
+                    }
+
+                    subtotal += actualPrice;
+
+                    cartItems.push({
+                        rawId: "tiles_sqft",
+                        label:
+                            tileSqft < 150
+                                ? `${t({ fr: "Tuiles & Céramique", en: "Tile & Grout" })} (${tileSqft.toFixed(0)} pi² → Min. 150 pi² x $${rate.toFixed(2)})`
+                                : `${t({ fr: "Tuiles & Céramique", en: "Tile & Grout" })} (${billed} pi² x $${rate.toFixed(2)})`,
+                        price: actualPrice,
+                        savings: tileSavings,
+                    });
+
+                    if (tileSavings > 0) {
+                        STATE.savingsPerItem["tiles_sqft"] = tileSavings;
+                        STATE.savingsPerItem["nettoyage-tuiles-ceramique"] =
+                            tileSavings;
+                    }
+                }
+
+                // 6. Commercial Carpet (Quote Mode)
+                // Check for 'comm_sqft'
+                const commSqftQty =
+                    (STATE.quantities["comm_sqft"] as number) || 0;
+                if (commSqftQty > 0) {
+                    cartItems.push({
+                        rawId: "tapis_commercial",
+                        label: `${t({ fr: "Nettoyage Commercial", en: "Commercial Cleaning" })} (${commSqftQty} pi²)`,
+                        price: 0,
+                        isQuoteOnly: true,
+                        savings: 0,
+                    });
+                    // We do NOT add to show subtotal.
+                    // We set a flag or just handle 'isQuoteOnly' in UI
+                }
+
+                // --- CONSOLIDATION LOGIC START ---
+                // Group items by rawId to "save space" as requested.
+                // E.g. 1 Chair (Full) + 5 Chairs (-25%) -> 6 Chairs (Sum Price)
+                const consolidatedMap = new Map<
+                    string,
+                    {
+                        label: string;
+                        price: number;
+                        count: number;
+                        savings: number;
+                    }
+                >();
+                const promoItems: any[] = []; // Keep promo lines (discounts) separate if they are pure info lines?
+                // Actually, my promo lines (like "Rabais Forfait") have rawId usually distinct or null.
+                // Let's filter distinct IDs.
+
+                cartItems.forEach((item) => {
+                    if (item.isPromo) {
+                        // Keep distinct promos separate (like tile discount, carpet discount)
+                        // Use distinct key or just push to end
+                        promoItems.push(item);
+                        return;
+                    }
+
+                    // Clean label (remove qty prefix "1x " or "6x " if existing, and remove " (-25%)")
+                    // My previous logic added " (-25%)".
+                    // Base label is needed.
+                    // Using rawId is safest.
+                    const key = item.rawId;
+                    if (!consolidatedMap.has(key)) {
+                        // Determine base label.
+                        // item.label might be "Chaise (-25%)" or "Sofa 3 places (Foo)".
+                        // I'll strip " (-25%)" suffix.
+                        let baseLabel = item.label
+                            .replace(" (-25%)", "")
+                            .replace(" (-20%)", "")
+                            .trim();
+                        // Also strip leadng qty if I added it previously (logic Step 325 lines 2115: label: `${qty}x ...`)
+                        // Regex to strip "Nx " from start?
+                        // actually, fabric items were pushed individually without "1x" prefix in steps 2030-2070.
+                        // Standard items (leather) used `${qty}x ...`.
+                        // I should strip that too if merging.
+                        // BUT leather items were already grouped by loop! (Step 325 line 2110: only 1 entry per ID).
+                        // So only Fabric items need merging.
+
+                        consolidatedMap.set(key, {
+                            label: baseLabel,
+                            price: 0,
+                            count: 0,
+                            savings: 0,
+                        });
+                    }
+
+                    const entry = consolidatedMap.get(key)!;
+                    entry.price += item.price;
+                    entry.savings += item.savings || 0;
+
+                    // Increment count.
+                    // If item came from Leather group, it might represent Multiple items already?
+                    // Leather loop: `rawId: id`. Label: `${qty}x ...`.
+                    // So if I have 2 leather chairs, cartItems has 1 entry.
+                    // If I merge, I need to know the count.
+                    // Fabric items: pushed 1 by 1.
+                    // Leather: pushed once.
+                    // Sectionals: pushed 1 by 1.
+
+                    // Robust Count Extraction:
+                    // Check if label starts with number?
+                    const qtyMatch = item.label.match(/^(\d+)x\s/);
+                    if (qtyMatch) {
+                        entry.count += parseInt(qtyMatch[1]);
+                        // clean label
+                        entry.label = item.label.replace(/^\d+x\s/, "");
+                    } else {
+                        entry.count += 1;
+                    }
+                });
+
+                // Rebuild cartItems from map + promos
+                cartItems = [];
+                consolidatedMap.forEach((val, key) => {
+                    let finalLabel = `${val.count}x ${val.label}`;
+                    if (val.savings > 0) {
+                        // Formatting savings
+                        const savingsTxt =
+                            val.savings.toFixed(2).replace(".", ",") + "$";
+                        /*
+                   User said: "voir le rabais appliquer aussi"
+                   Format: "6x Chaise (Rabais: -36,25$)"
+                */
+                        // Keep savings in the object, don't bake into label yet
+                    }
+
+                    cartItems.push({
+                        rawId: key,
+                        label: finalLabel,
+                        price: val.price,
+                        savings: val.savings, // Ensure savings is passed to renderSidebarCart
+                        isPromo: false,
+                    });
+                });
+                // Add promos back
+                cartItems.push(...promoItems);
+                // --- CONSOLIDATION LOGIC END ---
+
+                const finalTotal = subtotal;
+                STATE.lastCartItems = cartItems; // Cache for Review Step
+                renderSidebarCart(cartItems, subtotal, totalDiscount);
+
+                // Gamified Savings Animation
+                if (totalDiscount > (STATE.lastDiscount || 0) + 0.1) {
+                    setTimeout(() => {
+                        const savingsEl =
+                            document.querySelector(".cart-savings");
+                        if (savingsEl) {
+                            savingsEl.classList.remove("flash-gold-anim");
+                            requestAnimationFrame(() => {
+                                savingsEl.classList.add("flash-gold-anim");
+                            });
+                        }
+                    }, 50);
+                }
+                STATE.lastDiscount = totalDiscount;
+
+                const realTotal = finalTotal;
+                const commSqft = (STATE.quantities["comm_sqft"] as number) || 0;
+                hasQuoteItem = isQuoteOnlyMode();
+
+                const isUnderMin =
+                    !hasQuoteItem &&
+                    realTotal > 0 &&
+                    realTotal < CONFIG.pricing.minimumOrder;
+
+                const effectiveTotal = isUnderMin
+                    ? CONFIG.pricing.minimumOrder
+                    : realTotal;
+
+                if (isUnderMin) {
+                    if (els.liveSubtotal) {
+                        els.liveSubtotal.textContent =
+                            realTotal.toFixed(2) + "$";
+                        els.liveSubtotal.style.display = "block";
+                        if (els.liveSubtotal.previousElementSibling)
+                            els.liveSubtotal.previousElementSibling.textContent =
+                                t(CONFIG.text.selectedArticles);
+                    }
+                    if (els.liveTotal)
+                        els.liveTotal.innerHTML =
+                            effectiveTotal.toFixed(2) +
+                            "$" +
+                            `<div style="font-size:0.75rem; color:#ccc; font-weight:normal; margin-top:4px;">Articles: ${realTotal.toFixed(2)}$</div>`;
+                    if (els.minMsgSidebar) {
+                        // Check if tile-specific minimum should be shown instead
+                        if (isTileUnderMin && !isUnderMin) {
+                             // ... existing logic ...
+                            els.minMsgSidebar.innerHTML = `
+                    <div class="min-order-warning">
+                        ${t({ fr: "Minimum 150 pieds carrés ou 352$ achat minimum pour ce service", en: "Minimum 150 square feet or $352 minimum purchase for this service" })}
+                    </div>
+                    `;
+                             els.minMsgSidebar.style.display = "block";
+                        } else if (hasQuoteItem) {
+                             // COMMERCIAL MESSAGE (Desktop) - REVERTED TO IMMEDIATE
+                             els.minMsgSidebar.innerHTML = `
+                            <div style="background: linear-gradient(180deg, #dcedc8 0%, #ffffff 100%); padding:20px; border-radius:12px; margin-top:15px; border:1px solid #c5e1a5; box-shadow:0 4px 10px rgba(0,0,0,0.05); text-align:center;">
+                                <div style="color:#2e7d32; font-weight:700; font-size:1rem; margin-bottom:10px;">
+                                    <i class="fas fa-check-circle" style="font-size:1.5rem; margin-bottom:8px; display:block;"></i>
+                                    ${t({
+                                        fr: "Votre demande sera analysée et votre estimation vous sera envoyée sous peu.",
+                                        en: "Your request will be analyzed and your estimate will be sent to you shortly."
+                                    })}
+                                </div>
+                                <div style="font-size:0.9rem; color:#558b2f; line-height:1.5;">
+                                    ${t({
+                                        fr: "Si des précisions sont nécessaires, nous communiquerons avec vous.",
+                                        en: "If clarifications are needed, we will contact you."
+                                    })}
+                                </div>
+                                <div style="margin-top:15px; font-weight:800; color:#1b5e20; font-family:var(--font-heading); text-transform:uppercase;">
+                                    Groupe Nettoyage Empire
+                                </div>
+                            </div>
+                            `;
+                            els.minMsgSidebar.style.display = "block";
+                        } else {
+                            els.minMsgSidebar.innerHTML = `
+                    <div class="min-order-warning">
+                        ${t(CONFIG.text.minOrderExplanation)} <br>
+                            <div style="margin-top:10px; font-size:0.8rem; font-style:italic; color:#666;">
+                                ${t(CONFIG.text.upsellMessage)}
+                            </div>
+                        </div>
+                    `;
+                        els.minMsgSidebar.style.display = "block";
+                        }
+                    }
+                } else {
+                    if (els.liveSubtotal) {
+                        els.liveSubtotal.textContent =
+                            realTotal.toFixed(2) + "$";
+                        els.liveSubtotal.style.display = "block";
+                        if (els.liveSubtotal.previousElementSibling)
+                            els.liveSubtotal.previousElementSibling.textContent =
+                                t(CONFIG.text.selectedArticles);
+                    }
+                    if (els.liveTotal)
+                        els.liveTotal.textContent = realTotal.toFixed(2) + "$";
+                    if (els.minMsgSidebar) {
+                        // Check if tile-specific minimum should be shown
+                        if (isTileUnderMin) {
+                            els.minMsgSidebar.innerHTML = `
+                    <div class="min-order-warning">
+                        ${t({ fr: "Minimum 150 pieds carrés ou 352$ achat minimum pour ce service", en: "Minimum 150 square feet or $352 minimum purchase for this service" })}
+                    </div>
+                    `;
+                            els.minMsgSidebar.style.display = "block";
+                        } else {
+                            els.minMsgSidebar.style.display = "none";
+                        }
+                    }
+                }
+
+                const mobileTotalEl =
+                    document.getElementById("mobile-live-total");
+                const mobileMsgEl = document.getElementById("mobile-persistent-commercial-msg");
+                if (mobileTotalEl) {
+                    const val = isUnderMin
+                        ? CONFIG.pricing.minimumOrder
+                        : realTotal;
+
+                    const discountHtml =
+                        totalDiscount > 0
+                            ? `<div style="font-size:0.7rem; color:#4caf50; font-weight:600; line-height:1; margin-bottom:2px;">${t({ fr: "Économie:", en: "Saved:" })} -${totalDiscount.toFixed(2)}$</div>`
+                            : "";
+
+                    mobileTotalEl.innerHTML = `${discountHtml}${val.toFixed(2)}$`;
+
+                    // Update Label to show "Minimum" if applied
+                    const labelEl = mobileTotalEl.parentElement
+                        ? mobileTotalEl.parentElement.querySelector(".label")
+                        : null;
+                        
+                    if (hasQuoteItem) {
+                         // COMMERCIAL MODE: Hide price/label in footer
+                         console.log("DEBUG: Commercial Mode Detected. Step:", STATE.step);
+                         mobileTotalEl.style.display = 'none';
+                         if (labelEl) (labelEl as HTMLElement).style.display = 'none';
+                         
+                         // Show Persistent Message if Step >= 1 (MATCH MOBILE REVERT)
+                         if (mobileMsgEl) {
+                             console.log("DEBUG: Checking Mobile Message Step >= 1");
+                             if (STATE.step >= 1) {
+                                 mobileMsgEl.style.display = 'block';
+                                 mobileMsgEl.style.zIndex = '100'; // Ensure visibility
+                                 
+                                 const tTitle = mobileMsgEl.querySelector('.msg-title');
+                                 const tDesc = mobileMsgEl.querySelector('.msg-desc');
+                                 if(tTitle) tTitle.innerHTML = t({
+                                    fr: "Votre demande sera analysée et votre estimation vous sera envoyée sous peu.",
+                                    en: "Your request will be analyzed and your estimate will be sent to you shortly."
+                                 });
+                                 if(tDesc) tDesc.innerHTML = t({
+                                    fr: "Si des précisions sont nécessaires, nous communiquerons avec vous.",
+                                    en: "If clarifications are needed, we will contact you."
+                                 });
+                             } else {
+                                 mobileMsgEl.style.display = 'none';
+                             }
+                         } else {
+                            console.error("DEBUG: mobileMsgEl NOT FOUND");
+                         }
+                    } else {
+                        // RESIDENTIAL MODE: Restore
+                        mobileTotalEl.style.display = 'block';
+                        if (labelEl) (labelEl as HTMLElement).style.display = 'block';
+                        if (mobileMsgEl) mobileMsgEl.style.display = 'none';
+
+                        if (labelEl) {
+                        if (isUnderMin && realTotal > 0) {
+                            labelEl.innerHTML = `TOTAL <span style="font-size:0.65rem; color:#b71c1c;">(${t({fr: "MIN. COMMANDE", en: "MIN. ORDER"})})</span>`;
+                            // Show real subtotal below
+                            mobileTotalEl.innerHTML += `<div style="font-size:0.75rem; color:#666; font-weight:normal; margin-top:2px;">Articles: ${realTotal.toFixed(2)}$</div>`;
+                        } else if (isTileUnderMin && !isUnderMin) {
+                            // Tile-specific minimum
+                            labelEl.textContent = t({ fr: "TOTAL ESTIMÉ", en: "ESTIMATED TOTAL" });
+                            mobileTotalEl.innerHTML += `<div style="font-size:0.7rem; color:#b71c1c; font-weight:600; margin-top:4px; line-height:1.3;">${t({ fr: "Min. 150 pieds carrés ou 352$ pour ce service", en: "Min. 150 sqft or $352 for this service" })}</div>`;
+                        } else {
+                            labelEl.textContent = t({ fr: "TOTAL ESTIMÉ", en: "ESTIMATED TOTAL" });
+                        }
+                    }
+                    }
+
+                    // Update button text?
+                    const mobileNext =
+                        document.getElementById("mobile-next-btn");
+                    if (mobileNext) {
+                        const mobileFooter = document.getElementById('mobile-sticky-footer');
+                        
+                        if (STATE.step === 1) {
+                            mobileNext.textContent = t({
+                                fr: "Continuer",
+                                en: "Next",
+                            });
+                             if(mobileFooter) mobileFooter.classList.remove('mobile-footer-hidden');
+                        }
+                        else if (STATE.step === 2) {
+                            mobileNext.textContent = t({
+                                fr: "Voir les articles sélectionnés",
+                                en: "View Selected Items",
+                            });
+                             if(mobileFooter) mobileFooter.classList.remove('mobile-footer-hidden');
+                        }
+                        else if (STATE.step === 3) {
+                             // "Finaliser" -> leads to Step 4
+                            mobileNext.textContent = t(
+                                CONFIG.text.buttons.finaliser,
+                            );
+                             if(mobileFooter) mobileFooter.classList.remove('mobile-footer-hidden');
+                        } else if (STATE.step === 4) {
+                            // Hide sticky footer on Step 4 (Form) to avoid duplicate buttons
+                            if(mobileFooter) mobileFooter.classList.add('mobile-footer-hidden');
+                        }
+                    }
+                }
+
+                if (hasQuoteItem) {
+                    // Message requested by user: Green gradient to white background
+                    if (els.minMsgSidebar) {
+                        els.minMsgSidebar.innerHTML = `
+                    <div style="background: linear-gradient(180deg, #dcedc8 0%, #ffffff 100%); padding:20px; border-radius:12px; margin-top:15px; border:1px solid #c5e1a5; box-shadow:0 4px 10px rgba(0,0,0,0.05); text-align:center;">
+                        <div style="color:#2e7d32; font-weight:700; font-size:1rem; margin-bottom:10px;">
+                            <i class="fas fa-check-circle" style="font-size:1.5rem; margin-bottom:8px; display:block;"></i>
+                            ${t({
+                                fr: "Votre demande sera analysée et votre estimation vous sera envoyée sous peu.",
+                                en: "Your request will be analyzed and your estimate will be sent to you shortly."
+                            })}
+                        </div>
+                        <div style="font-size:0.9rem; color:#558b2f; line-height:1.5;">
+                            ${t({
+                                fr: "Si des précisions sont nécessaires, nous communiquerons avec vous.",
+                                en: "If clarifications are needed, we will contact you."
+                            })}
+                        </div>
+                        <div style="margin-top:15px; font-weight:800; color:#1b5e20; font-family:var(--font-heading); text-transform:uppercase;">
+                            Groupe Nettoyage Empire
+                        </div>
+                    </div>
+                 `;
+                        els.minMsgSidebar.style.display = "block";
+                    }
+                } else {
+                    // Standard Message
+                    // ONLY show if realTotal < 179 (and > 0)
+                    if (els.minMsgSidebar) {
+                        if (realTotal > 0 && realTotal < 179) {
+                            els.minMsgSidebar.innerHTML = `
+                            <div style="background:#e8f5e9; color:#1b5e20; padding:10px; border-radius:8px; margin-top:10px; font-size:0.85rem; line-height:1.4;">
+                                <i class="fas fa-check-circle" style="margin-right:4px;"></i> 
+                                ${t({
+                                    fr: "Comme vous payez déjà l’achat minimal, vous pouvez ajouter d’autres articles au besoin, souvent à prix réduit, puisque nous sommes déjà sur place.",
+                                    en: "Since you are already paying the minimum charge, you can add other items as needed, often at a reduced price, since we are already on site."
+                                })}
+                            </div>
+                            `;
+                            els.minMsgSidebar.style.display = "block";
+                        } else {
+                            els.minMsgSidebar.style.display = "none";
+                        }
+                    }
+                }
+
+                if (els.liveTotal && els.liveTotal.previousElementSibling) {
+                    els.liveTotal.previousElementSibling.textContent = t(
+                        CONFIG.text.totalService,
+                    );
+                }
+
+                let promoMsg = "";
+                if (totalDiscount > 0) {
+                    promoMsg += `
+                <div style="margin-top:10px; padding:10px; background:#e8f5e9; border:1px dashed #43a047; border-radius:6px; text-align:right;">
+                    <div style="font-size:0.9rem; color:#2e7d32;">${t({ fr: "Rabais total appliqué", en: "Total Discount Applied" })}</div>
+                    <div style="font-size:1.2rem; font-weight:800; color:#1b5e20;">-${totalDiscount.toFixed(2)}$</div>
+                </div>
+            `;
+                }
+                if (els.promoArea) els.promoArea.innerHTML = promoMsg;
+
+                 // Toggle Commercial Gradient
+                 const totalBoxes = document.querySelectorAll('.total-service-box, .details-total-bar, .cart-total-block');
+                 totalBoxes.forEach(box => {
+                     if (hasQuoteItem) {
+                         // box.style.display = 'none'; // Reverted: Keep box visible for the message
+                         box.style.display = 'block'; 
+                         box.classList.add('commercial-mode');
+                     } else {
+                         box.style.display = 'block';
+                         box.classList.remove('commercial-mode');
+                     }
+                 });
+
+                 // HIDE PRICE TEXT/LABEL ONLY (Keep container for message)
+                 if (els.liveTotal) {
+                     const labelEl = els.liveTotal.previousElementSibling;
+                     if (hasQuoteItem) {
+                         els.liveTotal.style.display = 'none';
+                         if (labelEl) (labelEl as HTMLElement).style.display = 'none';
+                         if (els.liveSubtotal && els.liveSubtotal.parentElement) {
+                             els.liveSubtotal.parentElement.style.display = 'none';
+                         }
+                     } else {
+                         els.liveTotal.style.display = 'block';
+                         if (labelEl) (labelEl as HTMLElement).style.display = 'block';
+                         // Subtotal visibility is handled by its own logic above
+                     }
+                 }
+
+                // CRITICAL: Assign EFFECTIVE total (with min order) to STATE
+                STATE.total = effectiveTotal;
+            }
+            function renderSidebarCart(
+                itemsList: any[],
+                subtotal: number,
+                discount: number,
+            ) {
+                if (!els.cartList) return;
+                els.cartList.innerHTML = "";
+                if (itemsList.length === 0) {
+                    els.cartList.innerHTML = `<div class="cart-empty-state">${t(CONFIG.text.cartEmpty)}</div>`;
+                } else {
+                    itemsList.forEach((item) => {
+                        const div = document.createElement("div");
+                        div.className = "cart-item";
+
+                        let discountHtml = "";
+                        if (item.savings > 0) {
+                            const savingsTxt =
+                                item.savings.toFixed(2).replace(".", ",") + "$";
+                            const lbl =
+                                STATE.lang === "fr"
+                                    ? `(Rabais: -${savingsTxt})`
+                                    : `(Saved: -${savingsTxt})`;
+                            discountHtml = `<div style="color:#388e3c; font-size:0.85rem; font-weight:700; margin-top:2px;">${lbl}</div>`;
+                        }
+
+                        div.innerHTML = `
+                <div class="cart-item-info">
+                        <div class="cart-item-name">
+                            ${item.label}
+                            ${discountHtml}
+                        </div>
+                        <div class="cart-item-price">${item.price.toFixed(2)}$</div>
+                    </div>
+                    <button class="cart-delete-btn" onclick="removeItem('${item.rawId}')" title="${t(CONFIG.text.buttons.remove)}">×</button>
+                `;
+                        els.cartList!.appendChild(div);
+                    });
+                    if (discount > 0.01) {
+                        const savingsDiv = document.createElement("div");
+                        savingsDiv.className = "cart-savings";
+                        savingsDiv.style.marginTop = "15px";
+                        savingsDiv.style.borderTop = "2px dashed #28a745";
+                        savingsDiv.style.paddingTop = "10px";
+                        savingsDiv.style.textAlign = "right";
+                        savingsDiv.style.color = "#28a745";
+                        savingsDiv.style.fontWeight = "bold";
+                        savingsDiv.style.fontSize = "1.1rem";
+                        savingsDiv.innerHTML = `${t(CONFIG.text.totalSavings)} -${discount.toFixed(2)} $`;
+                        els.cartList.appendChild(savingsDiv);
+                    }
+                }
+            }
+
+            function getItemPrice(id: string): number {
+                let p = 0;
+                CONFIG.services.forEach((s) => {
+                    const i = s.items.find((x) => x.id === id);
+                    if (i) p = i.price || 0;
+                });
+                return p;
+            }
+
+            function isQuoteOnlyMode(): boolean {
+                const services = Array.from(STATE.selectedServices);
+                return services.some((id) => {
+                    const s = CONFIG.services.find((svc) => svc.id === id);
+                    return s && s.isQuoteOnly;
+                });
+            }
+
+            function getItemLabel(id: string): string | TranslationObj {
+                let l: string | TranslationObj = id;
+                CONFIG.services.forEach((s) => {
+                    const i = s.items.find((x) => x.id === id);
+                    if (i) l = i.cartLabel || i.label;
+                });
+                return l;
+            }
+
+            function getItemImage(id: string): string {
+                let imgSrc = "";
+                CONFIG.services.forEach((s) => {
+                    const i = s.items.find((x) => x.id === id);
+                    if (i) {
+                        // Extract src from service icon string: <img src="..." />
+                        const match = s.icon.match(/src="([^"]+)"/);
+                        if (match && match[1]) {
+                            imgSrc = match[1];
+                        }
+                    }
+                });
+                return imgSrc;
+            }
+
+            function nextStep() {
+                const isQuote = isQuoteOnlyMode();
+
+                if (STATE.step === 1) {
+                    if (isQuote) {
+                        STATE.step = 4;
+                        // Skip Details render
+                    } else {
+                        STATE.step = 2;
+                        renderDetails();
+                    }
+                } else if (STATE.step === 2) {
+                    if (isQuote) {
+                        STATE.step = 4;
+                    } else {
+                        STATE.step = 3;
+                        window.renderSummaryPage();
+                    }
+                } else if (STATE.step === 3) {
+                    STATE.step = 4;
+                } else if (STATE.step === 4) {
+                    // Trigger Submit
+                    const form = document.getElementById(
+                        "contact-form",
+                    ) as HTMLFormElement;
+                    if (form) form.requestSubmit();
+                    return; // Stop here, don't updateUI("next")
+                }
+                updateUI("next");
+            }
+
+            window.renderSummaryPage = function() {
+                // Re-run calc to ensure freshness
+                calculateTotal();
+
+                const list = STATE.lastCartItems || [];
+
+                const html = list
+                    .map((item) => {
+                        const savingsHtml =
+                            item.savings > 0
+                                ? `<div style="color:green; font-size:0.85rem;">${t({ fr: "Rabais", en: "Discount" })}: -${item.savings.toFixed(2)}$</div>`
+                                : "";
+
+                        return `
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding:10px 0;">
+                <div style="flex:1;">
+                    <div style="font-weight:600;">${item.label}</div>
+                    ${savingsHtml}
+                </div>
+                <div style="text-align:right; margin-right:15px;">
+                     <div style="font-weight:bold;">${item.price.toFixed(2)}$</div>
+                </div>
+                <button onclick="removeItem('${item.rawId}'); window.renderSummaryPage();" 
+                    style="color:red; border:1px solid #ffcdd2; background:white; border-radius:4px; padding:4px 8px; cursor:pointer;"
+                    title="${t(CONFIG.text.buttons.remove)}">
+                    ✕
+                </button>
+            </div>
+            `;
+                    })
+                    .join("");
+
+                const container = document.getElementById("summary-container");
+                if (container) {
+                     if (list.length === 0) {
+                        container.innerHTML = `<div style="text-align:center; padding:20px; color:#777;">${t(CONFIG.text.cartEmpty)}</div>`;
+                     } else {
+                        container.innerHTML = html;
+                     }
+                }
+
+                const mobileContainer = document.getElementById("mobile-summary-container");
+                if (mobileContainer) {
+                    let mobileHtml = html;
+                    if (list.length === 0) {
+                        mobileHtml = `<div style="text-align:center; padding:20px; color:#777;">${t(CONFIG.text.cartEmpty)}</div>`;
+                    }
+                    
+                    mobileContainer.innerHTML = mobileHtml;
+                }
+            };
+
+            function prevStep() {
+                const isQuote = isQuoteOnlyMode();
+                if (isQuote && STATE.step === 4) {
+                    STATE.step = 1;
+                } else {
+                    STATE.step--;
+                }
+                updateUI("back");
+            }
+
+            function updateUI(dir = "next") {
+                // Remove active class
+                document.querySelectorAll(".step").forEach((el) => {
+                    el.classList.remove("active");
+                    // Reset animation to ensure clean state
+                    (el as HTMLElement).style.animation = "";
+                });
+
+                let activeStepEl: HTMLElement | null = null;
+                if (STATE.step === 1) activeStepEl = els.stepServices;
+                if (STATE.step === 2) activeStepEl = els.stepDetails;
+                if (STATE.step === 3)
+                    activeStepEl = document.getElementById("step-summary"); // Review
+                if (STATE.step === 4)
+                    activeStepEl = document.getElementById("step-contact"); // Form
+
+                if (activeStepEl) {
+                    const stepEl = activeStepEl;
+                    stepEl.classList.add("active");
+
+                    // Reset then apply animation after layout without sync offsetWidth read
+                    stepEl.style.animation = "none";
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            if (dir === "next") {
+                                stepEl.style.animation =
+                                    "slideInRight 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards";
+                            } else {
+                                stepEl.style.animation =
+                                    "slideInLeft 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards";
+                            }
+                        });
+                    });
+                }
+
+                // Toggle Mobile Steps
+                document.querySelectorAll(".mobile-step").forEach((el) => {
+                    el.classList.remove("active");
+                });
+                let activeMobileEl = null;
+                if (STATE.step === 1)
+                    activeMobileEl = document.getElementById(
+                        "mobile-step-services",
+                    );
+                if (STATE.step === 2)
+                    activeMobileEl = document.getElementById(
+                        "mobile-step-details",
+                    );
+                if (STATE.step === 3)
+                    activeMobileEl = document.getElementById(
+                        "mobile-step-summary-view",
+                    );
+                if (STATE.step === 4)
+                    activeMobileEl = document.getElementById(
+                        "mobile-step-contact",
+                    );
+
+                if (activeMobileEl) {
+                    activeMobileEl.classList.add("active");
+                }
+
+                // Refresh buttons text based on step & lang
+                if (els.btnNext) {
+                    if (STATE.step === 1) {
+                        els.btnNext.textContent = t(CONFIG.text.buttons.next);
+                    } else if (STATE.step === 2) {
+                        if (isQuoteOnlyMode()) {
+                             els.btnNext.textContent = t({
+                                fr: "Finaliser la demande de soumission",
+                                en: "Finalize Quote Request"
+                            });
+                        } else {
+                            els.btnNext.textContent = t({
+                                fr: "Voir les articles sélectionnés, les prix et vos rabais",
+                                en: "View Selected Items, Prices & Discounts",
+                            });
+                        }
+                    } else if (STATE.step === 3) {
+                        // Step 3 (Review) -> Step 4 (Form)
+                        els.btnNext.textContent = t({
+                            fr: "Finaliser la demande",
+                            en: "Finalize Request",
+                        });
+                    } else {
+                        // Step 4 (Form) -> Confirm (Usually hidden or handled by form button)
+                        els.btnNext.textContent = t(
+                            CONFIG.text.buttons.finaliser,
+                        );
+                    }
+                }
+
+                if (els.btnBack)
+                    els.btnBack.textContent =
+                        STATE.step === 2
+                            ? t(CONFIG.text.buttons.backFull)
+                            : t(CONFIG.text.buttons.back);
+
+                if (STATE.step === 1) {
+                    // ... (Existing Step 1 Logic)
+                    if (els.btnBack) {
+                        els.btnBack.style.display = "none";
+                        els.btnBack.classList.add("hidden");
+                    }
+                    if (els.btnAddMore) els.btnAddMore.style.display = "none";
+                    if (els.btnNext) {
+                        els.btnNext.style.display = "inline-block";
+                        els.btnNext.classList.remove("hidden");
+                    }
+                } else if (STATE.step === 2) {
+                    // ... (Existing Step 2 Logic)
+                    if (els.btnBack) {
+                        els.btnBack.style.display = "inline-block";
+                        els.btnBack.classList.remove("hidden");
+                    }
+                    if (els.btnAddMore) {
+                        els.btnAddMore.style.display = "inline-block";
+                        els.btnAddMore.classList.remove("hidden");
+                    }
+                    if (els.btnNext) {
+                        els.btnNext.style.display = "inline-block";
+                        els.btnNext.classList.remove("hidden");
+                    }
+                } else if (STATE.step === 3) {
+                    // Step 3 (Review): Show Back, Hide AddMore, Show Next (to Form)
+                    if (els.btnBack) {
+                        els.btnBack.style.display = "inline-block";
+                        els.btnBack.classList.remove("hidden");
+                    }
+                    if (els.btnAddMore) {
+                        els.btnAddMore.style.display = "inline-block"; // Allow adding more from summary? User asked for delete button.
+                        // Keeping "Add More" helps if they realized they missed something.
+                        els.btnAddMore.classList.remove("hidden");
+                    }
+                    if (els.btnNext) {
+                        els.btnNext.style.display = "inline-block";
+                        els.btnNext.classList.remove("hidden");
+                    }
+                } else {
+                    // Step 4 (Form): Hide AddMore, SHOW Next (as Submit Button)
+                    if (els.btnBack) {
+                        els.btnBack.style.display = "inline-block";
+                        els.btnBack.classList.remove("hidden");
+                    }
+                    if (els.btnAddMore) {
+                        els.btnAddMore.style.display = "none";
+                        els.btnAddMore.classList.add("hidden");
+                    }
+                    if (els.btnNext) {
+                        els.btnNext.style.display = "inline-block";
+                        els.btnNext.classList.remove("hidden");
+                        
+                        // COMMERCIAL QUOTE BUTTON STYLE & TEXT
+                        if (isQuoteOnlyMode()) {
+                             els.btnNext.innerHTML = `<i class="fas fa-paper-plane" style="margin-right:8px;"></i> ${t({fr: "ENVOYER", en: "SEND"})}`;
+                             els.btnNext.style.background = "linear-gradient(135deg, #43a047 0%, #1a1a1a 100%)";
+                             els.btnNext.style.borderColor = "transparent";
+                        } else {
+                             // Standard
+                             els.btnNext.innerHTML = `<i class="fas fa-paper-plane" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.finaliser)}`; 
+                             els.btnNext.style.background = ""; // Reset to CSS default
+                             els.btnNext.style.borderColor = "";
+                        }
+                    }
+
+                    // SYNC MOBILE SUBMIT BUTTON (The one inside the form)
+                    const mobSubmitBtn = document.getElementById("mobile-submit-btn");
+                    if (mobSubmitBtn) {
+                        if (isQuoteOnlyMode()) {
+                             mobSubmitBtn.innerHTML = `<i class="fas fa-paper-plane" style="margin-right:8px;"></i> ${t({fr: "ENVOYER", en: "SEND"})}`;
+                             mobSubmitBtn.style.background = "linear-gradient(135deg, #43a047 0%, #1a1a1a 100%)";
+                             mobSubmitBtn.style.boxShadow = "0 4px 15px rgba(67, 160, 71, 0.4)";
+                        } else {
+                             // Reset Standard (Red)
+                             mobSubmitBtn.innerText = t({fr: "Confirmer la demande", en: "Confirm Request"});
+                        }
+                    }
+
+                    // SCROLL FIX FOR STEP 4
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+
+                    // UPDATE TITLE FOR STEP 4
+                    const step4Title = document.querySelector("#step-contact h2");
+                    if (step4Title) {
+                         if (isQuoteOnlyMode()) {
+                             step4Title.textContent = t({fr: "Coordonnées de l'entreprise", en: "Company Details"});
+                             // Hide OLD mobile quote message container
+                             const oldMobMsg = document.getElementById("mobile-quote-message-container");
+                             if(oldMobMsg) oldMobMsg.style.display = 'none';
+                         } else {
+                             step4Title.textContent = t({fr: "Finaliser la demande", en: "Finalize Request"});
+                         }
+                    }
+
+                    // QUOTE MODE MESSAGE LOGIC
+                    const msgContainer = document.getElementById("quote-message-container");
+                    const labelCompany = document.getElementById("label-company");
+                    const inputCompany = document.getElementById("input-company") as HTMLInputElement;
+                    const labelName = document.getElementById("label-name-text");
+                    const inputName = document.getElementById("input-name") as HTMLInputElement;
+                    const inputNotes = document.getElementById("input-notes") as HTMLInputElement;
+
+                    // Mobile Elements
+                    const mobMsgContainer = document.getElementById("mobile-quote-message-container");
+                    const mobInputCompany = document.getElementById("mobile-input-company") as HTMLInputElement;
+                    const mobInputName = document.getElementById("mobile-input-name") as HTMLInputElement;
+                    const mobInputNotes = document.getElementById("mobile-input-notes") as HTMLInputElement;
+                    const mobNextBtn = document.getElementById("mobile-next-btn");
+
+                        const sidebarTotalBlock = document.querySelector('.cart-total-block') as HTMLElement;
+                        const mobileFooter = document.getElementById('mobile-sticky-footer');
+
+                        if (isQuoteOnlyMode()) {
+                            // HIDE TOTALS
+                            // HIDE PRICE CONTENT BUT KEEP BOX VISIBLE (Modified)
+                            if (sidebarTotalBlock) sidebarTotalBlock.style.opacity = '1'; 
+                            if (sidebarTotalBlock) sidebarTotalBlock.style.display = 'block';
+                            if (mobileFooter) mobileFooter.classList.add('mobile-footer-hidden');
+
+                            const services = Array.from(STATE.selectedServices);
+                            const quoteSvc = services.map(id => CONFIG.services.find(s => s.id === id)).find(s => s && s.isQuoteOnly);
+                            
+                            // Message removed as per user request
+                            if (msgContainer) msgContainer.style.display = "none";
+                            if (mobMsgContainer) mobMsgContainer.style.display = "none";
+                        
+                        // Show Company Field
+                        if (labelCompany) labelCompany.style.display = "block";
+                        if (inputCompany) {
+                            inputCompany.style.display = "block";
+                            inputCompany.required = true;
+                        }
+                        if (mobInputCompany) {
+                            mobInputCompany.style.display = "block";
+                            // For mobile manual validation might be needed if form not standard submit
+                        }
+
+                        // Update Delivery Label & Info Text
+                        const lblDelivery = document.getElementById("lbl-delivery-method");
+                        const deskIntro = document.getElementById("desktop-contact-intro"); // NEW
+                        const mobLblDelivery = document.getElementById("mobile-lbl-delivery-method");
+                        const infoDelivery = document.getElementById("quote-delivery-info");
+                        const mobInfoDelivery = document.getElementById("mobile-quote-delivery-info");
+
+                        const quoteLabelText = t({fr: "Recevoir ma demande d'estimation par", en: "Receive my quote request by"});
+                        
+                        // Hide Desktop Intro Text
+                        if (deskIntro) deskIntro.style.display = "none";
+                        
+                        if (lblDelivery) lblDelivery.innerText = quoteLabelText;
+                        if (mobLblDelivery) mobLblDelivery.innerText = quoteLabelText;
+
+                        if (infoDelivery) infoDelivery.style.display = "block";
+                        if (mobInfoDelivery) mobInfoDelivery.style.display = "block";
+                        
+                        // Update Name Label/Placeholder
+                        if (labelName) labelName.textContent = t({fr: "Nom de la personne ressource *", en: "Contact Person Name *"});
+                        if (inputName) inputName.placeholder = t({fr: "Votre nom", en: "Your Name"});
+                        if (mobInputName) mobInputName.placeholder = t({fr: "Nom de la personne ressource *", en: "Contact Person Name *"});
+
+                        // Update Notes Text & Placeholder
+                        const instructionText = t({
+                            fr: "Veuillez indiquer la superficie des tapis à nettoyer, incluant les dimensions des pièces et des corridors. Si des marches et paliers sont à nettoyer, merci d'en préciser le nombre. Tout autre article ou détail peut être ajouté ici.",
+                            en: "Please specify the area of carpets to be cleaned, including room and hallway dimensions. If cleaning stairs and landings, please specify the quantity. Any other items or details can be added here."
+                        });
+
+                        const instructionEl = document.getElementById("quote-notes-instruction");
+                        const mobInstructionEl = document.getElementById("mobile-quote-notes-instruction");
+
+                        if (instructionEl) {
+                            instructionEl.textContent = instructionText;
+                            instructionEl.style.display = "block";
+                        }
+                        if (mobInstructionEl) {
+                            mobInstructionEl.textContent = instructionText;
+                            mobInstructionEl.style.display = "block";
+                        }
+
+                        if (inputNotes) inputNotes.placeholder = "";
+                        if (mobInputNotes) mobInputNotes.placeholder = "";
+
+                        // HIDE Phone Delivery Option (Only SMS/Email Allowed)
+                        // HIDE Phone Delivery Option (Only SMS/Email Allowed)
+                        // labelPhone & mobLabelPhone removed from DOM
+
+                        // Reset Desktop Phone selection
+                        const radioPhone = document.querySelector('input[name="delivery"][value="phone"]') as HTMLInputElement;
+                        if (radioPhone && radioPhone.checked) {
+                            const radioEmail = document.querySelector('input[name="delivery"][value="email"]') as HTMLInputElement;
+                            if (radioEmail) radioEmail.click();
+                        }
+                        // Reset Mobile Phone selection
+                        const mobRadioPhone = document.querySelector('input[name="mobile-delivery"][value="phone"]') as HTMLInputElement;
+                        if (mobRadioPhone && mobRadioPhone.checked) {
+                             const mobRadioEmail = document.querySelector('input[name="mobile-delivery"][value="email"]') as HTMLInputElement;
+                             if (mobRadioEmail) mobRadioEmail.click(); 
+                        }
+
+                        // Update Mobile Next Button Text (Step 2)
+                        if (STATE.step === 2 && mobNextBtn) {
+                            // "Finaliser la demande" instead of "Suivant"
+                            mobNextBtn.innerText = t({fr: "Finaliser", en: "Finalize"});
+                        }
+
+                        // Hide Callback Request for Quote
+                        const deskCallback = document.getElementById("desktop-callback-request");
+                        const mobCallback = document.getElementById("mobile-callback-request");
+                        
+                        if (deskCallback) {
+                            deskCallback.style.display = "none";
+                            // Remove required to avoid validation blocker
+                            const inputs = deskCallback.querySelectorAll("input");
+                            inputs.forEach(i => i.required = false);
+                        }
+                        if (mobCallback) {
+                            mobCallback.style.display = "none";
+                            const inputs = mobCallback.querySelectorAll("input");
+                            inputs.forEach(i => i.required = false);
+                        }
+
+                    } else {
+                        // SHOW TOTALS (Standard Mode)
+                        if (sidebarTotalBlock) sidebarTotalBlock.style.display = "block";
+                        // Mobile footer visibility is handled by step logic, but ensure we don't force hide it unless step 4
+                        if (mobileFooter && STATE.step !== 4) mobileFooter.classList.remove('mobile-footer-hidden');
+
+
+                        // Reset Standard Mode
+                        if (msgContainer) msgContainer.style.display = "none";
+                        if (mobMsgContainer) mobMsgContainer.style.display = "none";
+
+                        if (labelCompany) labelCompany.style.display = "none";
+                        if (inputCompany) {
+                            inputCompany.style.display = "none";
+                            inputCompany.required = false;
+                        }
+                        if (mobInputCompany) mobInputCompany.style.display = "none";
+
+                        // Reset Delivery Label & Info Text
+                        const lblDelivery = document.getElementById("lbl-delivery-method");
+                        const deskIntro = document.getElementById("desktop-contact-intro"); // NEW
+                        const mobLblDelivery = document.getElementById("mobile-lbl-delivery-method");
+                        const infoDelivery = document.getElementById("quote-delivery-info");
+                        const mobInfoDelivery = document.getElementById("mobile-quote-delivery-info");
+
+                        const stdLabelText = t({fr: "Recevoir mon estimation par", en: "Receive my estimate by"});
+                        
+                        // Show Desktop Intro Text
+                        if (deskIntro) deskIntro.style.display = "block";
+                        
+                        if (lblDelivery) lblDelivery.innerText = stdLabelText;
+                        if (mobLblDelivery) mobLblDelivery.innerText = stdLabelText;
+
+                        if (infoDelivery) infoDelivery.style.display = "none";
+                        if (mobInfoDelivery) mobInfoDelivery.style.display = "none";
+
+                        if (labelName) labelName.textContent = t({fr: "Nom complet *", en: "Full Name *"}); 
+                        if (inputName) inputName.placeholder = "Jean Dupont";
+                        if (mobInputName) mobInputName.placeholder = t({fr: "Nom complet *", en: "Full Name *"});
+
+                        if (inputNotes) inputNotes.placeholder = "Ex: Code de porte, chien...";
+                        if (mobInputNotes) mobInputNotes.placeholder = "Ex: Code de porte, chien...";
+
+                        // Hide Instructions in Standard Mode
+                        const instructionEl = document.getElementById("quote-notes-instruction");
+                        const mobInstructionEl = document.getElementById("mobile-quote-notes-instruction");
+                        if (instructionEl) instructionEl.style.display = "none";
+                        if (mobInstructionEl) mobInstructionEl.style.display = "none";
+
+                        // Phone display logic removed
+                        
+                        if (STATE.step === 2 && mobNextBtn) {
+                            mobNextBtn.innerText = t(CONFIG.text.buttons.next);
+                        }
+
+                        // Show Callback Request for Standard
+                        const deskCallback = document.getElementById("desktop-callback-request");
+                        const mobCallback = document.getElementById("mobile-callback-request");
+                        
+                        if (deskCallback) {
+                            deskCallback.style.display = "block"; // Or flex/grid? Block is fine for wrapping div
+                            // Add required back
+                            const inputs = deskCallback.querySelectorAll("input");
+                            inputs.forEach(i => i.required = true);
+                        }
+                        if (mobCallback) {
+                            mobCallback.style.display = "block";
+                            const inputs = mobCallback.querySelectorAll("input");
+                            inputs.forEach(i => i.required = true);
+                        }
+                    }
+                }
+
+                // Progress Bar Update
+                if (els.progressFill) {
+                    // 1=25%, 2=50%, 3=75%, 4=100%
+                    let w = "25%";
+                    if (STATE.step === 2) w = "50%";
+                    if (STATE.step === 3) w = "75%";
+                    if (STATE.step === 4) w = "100%";
+                    els.progressFill.style.width = w;
+                }
+            }
+
+            function init() {
+                // Removed initCalled guard to allow safe re-init if needed
+
+
+                try {
+                    els = {
+                        stepServices: document.getElementById("step-services"),
+                        stepDetails: document.getElementById("step-details"),
+                        detailsContainer:
+                            document.getElementById("details-container"),
+                        servicesContainer:
+                            document.getElementById("services-container"),
+                        cartList: document.getElementById("cart-list"),
+                        cartCount: document.getElementById("cart-count"),
+                        liveTotal: document.getElementById("live-total"),
+                        liveSubtotal: document.getElementById("live-subtotal"),
+                        minMsgSidebar:
+                            document.getElementById("min-msg-sidebar"),
+                        promoArea:
+                            document.getElementById("promo-message-area"),
+                        btnNext: document.getElementById("btn-next"),
+                        btnBack: document.getElementById("btn-back"),
+                        btnAddMore: document.getElementById("btn-add-more"),
+                        progressBar: document.getElementById("progress-fill"),
+                        modalHeaderTitle: document.querySelector(
+                            ".modal-header h2",
+                        ) as HTMLElement,
+                        cartTitle: document.querySelector(
+                            ".cart-title span",
+                        ) as HTMLElement,
+                    };
+
+                    // Language Toggle Logic
+                    const langBtn = document.getElementById("lang-toggle");
+
+                    // Auto-detect Language from URL (Empire Fix)
+                    if (window.location.pathname.startsWith("/en")) {
+                        STATE.lang = "en";
+                    }
+
+                    // Apply initial language text
+                    refreshAllText();
+
+                    if (langBtn) {
+                        // Sync button text with initial state
+                        langBtn.textContent = STATE.lang === "fr" ? "EN" : "FR";
+
+                        langBtn.onclick = () => {
+                            STATE.lang = STATE.lang === "fr" ? "en" : "fr";
+                            langBtn.textContent =
+                                STATE.lang === "fr" ? "EN" : "FR";
+                            refreshAllText();
+                        };
+                    }
+
+                    const btnBackToServices = document.getElementById(
+                        "btn-back-to-services",
+                    );
+                    if (btnBackToServices) btnBackToServices.onclick = prevStep;
+
+                    if (els.btnAddMore) {
+                        els.btnAddMore.onclick = () => {
+                            STATE.step = 1;
+                            updateUI("back");
+                        };
+                    }
+
+                    if (els.btnNext) els.btnNext.onclick = nextStep;
+                    if (els.btnBack) els.btnBack.onclick = prevStep;
+
+                    // --- CLOSE BUTTON LOGIC ---
+                    function closeModal() {
+                        const widget = document.getElementById("estimation-widget");
+                        if (widget) widget.style.display = "none";
+                        const mobView = document.getElementById("mobile-estimation-view");
+                        if (mobView) mobView.style.display = "none";
+                        document.body.style.overflow = ""; // Restore scrolling
+
+                        // Restore mobile sticky bar if exists
+                        const sticky = document.querySelector(".mobile-sticky-bar") as HTMLElement;
+                        if (sticky) sticky.style.display = "flex";
+                    }
+
+                    const closeBtn = document.getElementById("close-modal-btn");
+                    if (closeBtn) closeBtn.onclick = closeModal;
+
+                    const closeOverlayBtn = document.getElementById("close-modal-btn-overlay");
+                    if (closeOverlayBtn) closeOverlayBtn.onclick = closeModal;
+
+                    const mobileCloseBtn = document.getElementById("mobile-close-btn");
+                    if (mobileCloseBtn) mobileCloseBtn.onclick = closeModal;
+
+                    // Expose toggleMobileStep for Mobile Buttons
+                    window.toggleMobileStep = function (targetStep: number) {
+                        const isQuote = isQuoteOnlyMode();
+                        
+                        // If trying to go to Step 3 (Summary) but in Quote Mode, skip to Step 4
+                        // Also skip Step 2 (Details) if in Quote Mode
+                        if (isQuote) {
+                            if(targetStep === 2 || targetStep === 3) targetStep = 4;
+                        }
+
+                        STATE.step = targetStep;
+                        if (STATE.step === 2) renderMobileDetails();
+                        if (STATE.step === 3) window.renderSummaryPage();
+                        updateUI("next");
+                        
+                        // CRITICAL: Hide footer on step 4 (Contact Form)
+                        const mobileFooter = document.getElementById('mobile-sticky-footer');
+                        if (STATE.step === 4 && mobileFooter) {
+                            mobileFooter.classList.add('mobile-footer-hidden');
+                        } else if (mobileFooter) {
+                            mobileFooter.classList.remove('mobile-footer-hidden');
+                            // FORCE DISPLAY
+                            mobileFooter.style.display = 'flex';
+                            mobileFooter.style.zIndex = '2147483647';
+                        }
+                        
+                        const mobScroll = document.getElementById(
+                            "mobile-scroll-container",
+                        );
+                        if (mobScroll)
+                            mobScroll.scrollTo({ top: 0, behavior: "smooth" });
+
+                        // MOBILE TITLE UPDATE
+                        const mobTitle = document.getElementById("mobile-title");
+                        if (mobTitle) {
+                            if (STATE.step === 1) mobTitle.innerText = t({fr: "SERVICES", en: "SERVICES"});
+                            else if (STATE.step === 2) mobTitle.innerText = t({fr: "DÉTAILS", en: "DETAILS"});
+                            else if (STATE.step === 3) mobTitle.innerText = t({fr: "SOMMAIRE", en: "SUMMARY"});
+                            else if (STATE.step === 4) {
+                                if (isQuote) mobTitle.innerText = t({fr: "COORDONNÉES", en: "DETAILS"});
+                                else mobTitle.innerText = t(CONFIG.text.buttons.finaliser); // "Finaliser"
+                            }
+                        }
+
+                        // MOBILE BUTTON TEXT UPDATE
+                        const mobNextBtn = document.getElementById("mobile-next-btn");
+                        if (mobNextBtn) {
+                            if (STATE.step === 4) {
+                                if (isQuoteOnlyMode()) {
+                                    mobNextBtn.innerHTML = `<i class="fas fa-paper-plane" style="margin-right:8px;"></i> ${t({fr: "ENVOYER", en: "SEND"})}`;
+                                    mobNextBtn.style.background = "linear-gradient(135deg, #43a047 0%, #1a1a1a 100%)";
+                                    mobNextBtn.style.boxShadow = "0 4px 15px rgba(67, 160, 71, 0.4)";
+                                } else {
+                                     mobNextBtn.innerHTML = `<i class="fas fa-check" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.finaliser)}`;
+                                }
+                            } else if (STATE.step === 3) {
+                                if (isCommercial) {
+                                     mobNextBtn.innerHTML = `<i class="fas fa-paper-plane" style="margin-right:8px;"></i> ${t({fr: "Envoyer ma demande", en: "Send Request"})}`;
+                                } else {
+                                     mobNextBtn.innerHTML = `<i class="fas fa-check" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.finaliser)}`;
+                                }
+                            } else {
+                                 mobNextBtn.innerHTML = `<i class="fas fa-arrow-right" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.next)}`;
+                            }
+                        }
+
+                        // NEW: Hide "Finaliser" Sub-header in Commercial Mode
+                        const mobHeaderFinalize = document.getElementById("mobile-header-finalize");
+                        if (mobHeaderFinalize) {
+                            if (STATE.step === 4 && isQuote) { // Fixed: isQuote is boolean
+                                mobHeaderFinalize.style.display = "none";
+                            } else {
+                                mobHeaderFinalize.style.display = "block";
+                            }
+                        }
+                    };
+
+                    const mobileViewNextBtn =
+                        document.getElementById("mobile-next-btn");
+                    if (mobileViewNextBtn) {
+                        mobileViewNextBtn.onclick = () => {
+                            if (STATE.step === 1) window.toggleMobileStep(2);
+                            else if (STATE.step === 2)
+                                window.toggleMobileStep(3); // Logic inside toggle will handle skip
+                            else if (STATE.step === 3)
+                                window.toggleMobileStep(4);
+                        };
+                    }
+
+                    // Mobile Back Buttons Logic
+                    const btnBackDetails = document.getElementById("mobile-back-btn");
+                    const btnBackReview = document.getElementById("mobile-back-btn-review");
+                    const btnBackContact = document.getElementById("mobile-back-btn-contact");
+
+                    if (btnBackDetails) {
+                        btnBackDetails.onclick = () => window.toggleMobileStep(1);
+                    }
+                    if (btnBackReview) {
+                        btnBackReview.onclick = () => window.toggleMobileStep(2);
+                    }
+                    if (btnBackContact) {
+                        btnBackContact.onclick = () => {
+                            if (isQuoteOnlyMode()) {
+                                window.toggleMobileStep(1); // Skip back to Services
+                            } else {
+                                window.toggleMobileStep(3);
+                            }
+                        };
+                    }
+
+                    // Mobile Delivery Toggle Logic
+                    const mobDeliveryRadios = document.querySelectorAll(
+                        'input[name="mobile-delivery"]',
+                    );
+                    const mobLabelSMS =
+                        document.getElementById("mobile-label-sms");
+                    const mobLabelEmail =
+                        document.getElementById("mobile-label-email");
+                    const mobLabelPhone = 
+                        document.getElementById("mobile-label-phone");
+                    const mobFieldEmail =
+                        document.getElementById("mobile-field-email");
+                    const mobFieldPhone =
+                        document.getElementById("mobile-field-phone"); // optional?
+                    const mobInputPhone = document.getElementById(
+                        "mobile-input-phone",
+                    ) as HTMLInputElement;
+                    const mobInputEmail = document.getElementById(
+                        "mobile-input-email",
+                    ) as HTMLInputElement;
+
+                    if (mobLabelSMS && mobLabelEmail && mobFieldEmail) {
+                        mobDeliveryRadios.forEach((radio) => {
+                            radio.addEventListener("change", (e) => {
+                                const target = e.target as HTMLInputElement;
+                                if (target.value === "sms") {
+                                    // SMS Active
+                                    mobLabelSMS.style.background = "white";
+                                    mobLabelSMS.style.color = "#1a237e";
+                                    mobLabelSMS.style.boxShadow = "0 2px 5px rgba(0,0,0,0.05)";
+
+                                    mobLabelEmail.style.background = "transparent";
+                                    mobLabelEmail.style.color = "#666";
+                                    mobLabelEmail.style.boxShadow = "none";
+                                    
+                                    mobFieldEmail.style.display = "none";
+                                    if (mobInputPhone) mobInputPhone.placeholder = "Téléphone (mobile pour SMS) *";
+                                    mobInputEmail.required = false;
+                                } else {
+                                    // Email Active
+                                    mobLabelEmail.style.background = "white";
+                                    mobLabelEmail.style.color = "#1a237e";
+                                    mobLabelEmail.style.boxShadow = "0 2px 5px rgba(0,0,0,0.05)";
+
+                                    mobLabelSMS.style.background = "transparent";
+                                    mobLabelSMS.style.color = "#666";
+                                    mobLabelSMS.style.boxShadow = "none";
+                                    
+                                    mobFieldEmail.style.display = "block";
+                                    if (mobInputPhone) mobInputPhone.placeholder = "Téléphone *";
+                                    mobInputEmail.required = true;
+                                }
+                            });
+                        });
+                    }
+
+                    // Delivery Method Toggle Logic
+                    const labelSMS = document.getElementById("label-sms");
+                    const labelEmail = document.getElementById("label-email");
+                    const labelPhone = document.getElementById("label-phone");
+                    const fieldPhone = document.getElementById("field-phone");
+                    const fieldEmail = document.getElementById("field-email");
+                    const inputEmail = document.getElementById(
+                        "input-email",
+                    ) as HTMLInputElement;
+                    const inputPhone = document.getElementById(
+                        "input-phone",
+                    ) as HTMLInputElement;
+
+                    if (labelSMS && labelEmail && fieldPhone && fieldEmail) {
+                        const deliveryRadios = document.querySelectorAll(
+                            'input[name="delivery"]',
+                        );
+
+                        deliveryRadios.forEach((radio) => {
+                            radio.addEventListener("change", (e) => {
+                                const target = e.target as HTMLInputElement;
+                                if (target.value === "sms") {
+                                    // Style SMS as active
+                                    labelSMS.style.background = "white";
+                                    labelSMS.style.fontWeight = "600";
+                                    labelSMS.style.color = "#1a237e";
+                                    labelSMS.style.boxShadow =
+                                        "0 2px 8px rgba(0,0,0,0.1)";
+
+                                    labelEmail.style.background = "transparent";
+                                    labelEmail.style.fontWeight = "500";
+                                    labelEmail.style.color = "#666";
+                                    labelEmail.style.boxShadow = "none";
+
+                                    // Show/hide fields
+                                    fieldPhone.style.display = "block";
+                                    fieldEmail.style.display = "none";
+                                    inputPhone.required = true;
+                                    inputEmail.required = false;
+
+                                    // Update label text for SMS
+                                    const phoneLabelText =
+                                        document.getElementById(
+                                            "label-phone-text",
+                                        );
+                                    if (phoneLabelText)
+                                        phoneLabelText.innerText =
+                                            "Téléphone (mobile pour SMS) *";
+                                } else {
+                                    // Style Email as active
+                                    labelEmail.style.background = "white";
+                                    labelEmail.style.fontWeight = "600";
+                                    labelEmail.style.color = "#1a237e";
+                                    labelEmail.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
+
+                                    labelSMS.style.background = "transparent";
+                                    labelSMS.style.fontWeight = "500";
+                                    labelSMS.style.color = "#666";
+                                    labelSMS.style.boxShadow = "none";
+
+                                    // Show/hide fields
+                                    fieldEmail.style.display = "block";
+                                    fieldPhone.style.display = "block"; // Always show Phone
+                                    inputEmail.required = true;
+                                    inputPhone.required = true; // Always require Phone
+
+                                    // Update label text for Email (Remove "mobile pour SMS")
+                                    const phoneLabelText = document.getElementById("label-phone-text");
+                                    if (phoneLabelText) phoneLabelText.innerText = "Téléphone *";
+                                }
+                            });
+                        });
+                    }
+
+                    // Reset Logic consolidated at line 2838
+                    (window as any).renderCart = function() { /* no-op */ };
+                    (window as any).updateTotals = function() { calculateTotal(); };
+
+                    (window as any).removeItem = function (id: string) {
+                        if (id === "carpet_combined") {
+                            STATE.quantities["package_3rooms"] = 0;
+                            STATE.quantities["room_individual"] = 0;
+                        } else if (id.startsWith("rug_synth_") || id.startsWith("rug_wool_")) {
+                            const parts = id.split("_");
+                            const idx = parseInt(parts.pop() || "0");
+                            const type = parts.join("_");
+                            if (STATE.rugs[type]) {
+                                STATE.rugs[type].splice(idx, 1);
+                                if (STATE.quantities[type] && (STATE.quantities[type] as number) > 0) {
+                                    STATE.quantities[type] = (STATE.quantities[type] as number) - 1;
+                                }
+                            }
+                        } else {
+                            // Check customSectionals first
+                            const sectIdx = STATE.customSectionals.findIndex((s) => s.tempId === id);
+                            if (sectIdx !== -1) {
+                                STATE.customSectionals.splice(sectIdx, 1);
+                            } else {
+                                // Default removal
+                                delete STATE.quantities[id];
+                            }
+                        }
+                        calculateTotal();
+                        renderDetails();
+                        renderMobileDetails(); // Ensure Mobile UI updates
+                        updateUI();
+                        if (STATE.step === 3 && window.renderSummaryPage) {
+                            window.renderSummaryPage();
+                        }
+                    };
+
+                    async function submitEstimationForm(data: {
+                        name: string;
+                        email: string;
+                        phone: string;
+                        city: string;
+                        street: string;
+                        apt: string;
+                        postal: string;
+                        notes: string;
+                        deliveryMethod: string;
+                        items: any[];
+                        total: number;
+                        summary: string;
+                        callBackRequested: string;
+                    }) {
+                        const {
+                            name,
+                            email,
+                            phone,
+                            city,
+                            street,
+                            apt,
+                            postal,
+                            notes,
+                            deliveryMethod,
+                            items,
+                            total,
+                            summary,
+                            callBackRequested,
+                        } = data;
+
+                        const isQuote = isQuoteOnlyMode();
+                        let finalName = name;
+                        
+                        const inputCompany = document.getElementById("input-company") as HTMLInputElement;
+                        const mobInputCompany = document.getElementById("mobile-input-company") as HTMLInputElement;
+                        
+                        let companyVal = "";
+                        if (inputCompany && inputCompany.offsetParent !== null && inputCompany.value) companyVal = inputCompany.value;
+                        else if (mobInputCompany && mobInputCompany.offsetParent !== null && mobInputCompany.value) companyVal = mobInputCompany.value;
+
+                        // For API/Email Subject: Combined Name
+                        if (isQuote && companyVal) {
+                             finalName = `${companyVal} - ${name}`;
+                        }
+
+                        // deliveryMethod validation is assumed done by caller or here
+                        if (!finalName || !deliveryMethod) {
+                            alert(
+                                STATE.lang === "fr"
+                                    ? "Veuillez remplir les champs obligatoires."
+                                    : "Please fill required fields.",
+                            );
+                            return;
+                        }
+
+                        // Generate PDF
+                        // Calculate unique service images
+                        const uniqueImages = new Set<string>();
+                        (items || []).forEach((item) => {
+                            const img = getItemImage(item.rawId);
+                            if (img) uniqueImages.add(img);
+                        });
+
+                        const address = `${street}, ${apt ? "Apt " + apt + ", " : ""}${city}, ${postal}`;
+
+                        const pdfData: EstimationData = {
+                            clientName: name, // Keep just the person name for the PDF "Contact" line
+                            businessName: companyVal, // Pass business name explicitly for PDF Title
+                            clientEmail: email,
+                            clientPhone: phone,
+                            clientCity: city,
+                            clientAddress: address,
+                            clientStreet: street,
+                            clientApt: apt,
+                            clientPostal: postal,
+                            clientNotes: notes,
+                            items: items || [],
+                            total: total || 0,
+                            lang: STATE.lang,
+                            serviceImages: Array.from(uniqueImages),
+                        };
+
+                        console.log("Generating PDF...");
+                        let pdfBlob;
+                        try {
+                            pdfBlob = await generateEstimationPDF(pdfData);
+                        } catch (e) {
+                            console.error("PDF Gen Error:", e);
+                            alert(
+                                "Erreur lors de la création du PDF. Veuillez réessayer.",
+                            );
+                            return;
+                        }
+
+                        // SEND TO API
+                        console.log("Sending to API...");
+                        const formData = new FormData();
+                        formData.append(
+                            "pdf",
+                            pdfBlob,
+                            `Estimation_${finalName.replace(/\s+/g, "_")}.pdf`, // Use Final Name for filename
+                        );
+                        formData.append("clientName", finalName); // Use Final Name (Company - Name) for Email Subject
+                        formData.append("clientEmail", email);
+                        formData.append("clientPhone", phone);
+                        formData.append("clientCity", city);
+                        formData.append("clientAddress", address); // Full address
+                        formData.append("clientStreet", street);
+                        formData.append("clientApt", apt);
+                        formData.append("clientPostal", postal);
+                        formData.append("clientNotes", notes);
+                        formData.append("deliveryMethod", deliveryMethod);
+                        formData.append("total", total.toFixed(2));
+                        formData.append("summary", summary);
+                        formData.append("lang", STATE.lang);
+                        formData.append("isCommercial", isQuote ? "true" : "false"); // Pass flag
+                        formData.append("callBackRequested", callBackRequested);
+
+                        try {
+                            // Disable button to prevent double clicks
+                            const btn = els.btnNext as HTMLButtonElement;
+                            const originalText = btn ? btn.innerHTML : "";
+                            if (btn) {
+                                btn.disabled = true;
+                                btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${STATE.lang === "fr" ? "Envoi..." : "Sending..."}`;
+                            }
+
+                            const response = await fetch("/api/send-estimate", {
+                                method: "POST",
+                                body: formData,
+                            });
+
+                            if (btn) {
+                                btn.disabled = false;
+                                btn.innerHTML = originalText;
+                            }
+
+                            if (response.ok) {
+                                const deliveryText = deliveryMethod === 'sms' 
+                                    ? (STATE.lang === "fr" ? "par SMS" : "by SMS")
+                                    : (STATE.lang === "fr" ? "par courriel" : "by email");
+                                    
+                                alert(
+                                    STATE.lang === "fr"
+                                        ? `✅ Demande envoyée avec succès!\n\nVotre estimation a été envoyée ${deliveryText}.`
+                                        : `✅ Request sent successfully!\n\nYour estimate has been sent ${deliveryText}.`,
+                                );
+                                // Success - maybe close modal or reset?
+                                // For now, just close modal as per original logic
+                                const widget =
+                                    document.getElementById(
+                                        "estimation-widget",
+                                    );
+                                if (widget) widget.style.display = "none";
+                                // Fixed: Also hide mobile view if open
+                                const mobView = document.getElementById(
+                                    "mobile-estimation-view",
+                                );
+                                if (mobView) mobView.style.display = "none";
+
+                                document.body.style.overflow = "";
+                                const sticky = document.querySelector(
+                                    ".mobile-sticky-bar",
+                                ) as HTMLElement;
+                                if (sticky) sticky.style.display = "flex";
+
+                                // RESET APP
+                                if(window.resetEstimation) window.resetEstimation();
+                            } else {
+                                const errText = await response.text();
+                                console.error("API Error:", errText);
+                                throw new Error("Erreur API Email: " + errText);
+                            }
+                        } catch (err) {
+                            console.error("Submit Error:", err);
+                            alert("Erreur lors de l'envoi: " + err);
+                        }
+                    }
+
+                    // Desktop Form Submission
+                    const contactForm = document.getElementById("contact-form");
+                    if (contactForm) {
+                        // Use onsubmit to overwrite any existing listener (prevents duplicates)
+                        contactForm.onsubmit = async (e) => {
+                            e.preventDefault();
+                            console.log("Desktop Form Submit Triggered");
+
+                            const inputName = document.getElementById(
+                                "input-name",
+                            ) as HTMLInputElement;
+                            const inputCity = document.getElementById(
+                                "input-city",
+                            ) as HTMLInputElement;
+                            const inputNotes = document.getElementById(
+                                "input-notes",
+                            ) as HTMLTextAreaElement;
+                            const inputStreet = document.getElementById(
+                                "input-street",
+                            ) as HTMLInputElement;
+                            const inputApt = document.getElementById(
+                                "input-apt",
+                            ) as HTMLInputElement;
+                            const inputPostal = document.getElementById(
+                                "input-postal",
+                            ) as HTMLInputElement;
+                            const inputPhone = document.getElementById(
+                                "input-phone",
+                            ) as HTMLInputElement;
+                            const inputEmail = document.getElementById(
+                                "input-email",
+                            ) as HTMLInputElement;
+
+                            const deliveryMethod = (
+                                document.querySelector(
+                                    'input[name="delivery"]:checked',
+                                ) as HTMLInputElement
+                            )?.value;
+
+                            const callBackRequested = (
+                                document.querySelector('input[name="callback-request"]:checked') as HTMLInputElement
+                            )?.value || "no";
+
+                            if (!inputName || !deliveryMethod) return;
+
+                            const summary =
+                                STATE.lastCartItems
+                                    ?.map(
+                                        (item) =>
+                                            `${item.label}: ${item.price.toFixed(2)}$`,
+                                    )
+                                    .join("\n") || "";
+
+                            await submitEstimationForm({
+                                name: inputName.value,
+                                city: inputCity?.value || "",
+                                street: inputStreet?.value || "",
+                                apt: inputApt?.value || "",
+                                postal: inputPostal?.value || "",
+                                notes: inputNotes?.value || "",
+                                phone: inputPhone?.value || "",
+                                email: inputEmail?.value || "",
+                                deliveryMethod,
+                                items: STATE.lastCartItems || [],
+                                total: STATE.total || 0,
+                                summary,
+                                callBackRequested,
+                            });
+                        };
+                    }
+
+                    const mobSubmit =
+                        document.getElementById("mobile-submit-btn") as HTMLButtonElement | null;
+                    if (mobSubmit) {
+                        // Prevent any default behavior just in case
+                        mobSubmit.onclick = async (e) => {
+                            if(e) e.preventDefault();
+                            // DEBUG: Verifying code update
+                            // alert("DEBUG: Animation Logic Reached - V4");
+                            console.log("DEBUG: Animation Logic Reached - V4");
+                            const nameInput = document.getElementById(
+                                "mobile-input-name",
+                            ) as HTMLInputElement;
+                            const cityInput = document.getElementById(
+                                "mobile-input-city",
+                            ) as HTMLInputElement;
+                            const notesInput = document.getElementById(
+                                "mobile-input-notes",
+                            ) as HTMLTextAreaElement;
+                            const phoneInput = document.getElementById(
+                                "mobile-input-phone",
+                            ) as HTMLInputElement;
+                            const emailInput = document.getElementById(
+                                "mobile-input-email",
+                            ) as HTMLInputElement;
+                            const streetInput = document.getElementById(
+                                "mobile-input-street",
+                            ) as HTMLInputElement;
+                            const aptInput = document.getElementById(
+                                "mobile-input-apt",
+                            ) as HTMLInputElement;
+                            const postalInput = document.getElementById(
+                                "mobile-input-postal",
+                            ) as HTMLInputElement;
+
+                            const deliveryMethod = (
+                                document.querySelector(
+                                    'input[name="mobile-delivery"]:checked',
+                                ) as HTMLInputElement
+                            )?.value;
+
+                            const callBackRequested = (
+                                document.querySelector('input[name="mobile-callback-request"]:checked') as HTMLInputElement
+                            )?.value || "no";
+
+                            // Validation
+                            const isQuote = isQuoteOnlyMode();
+                            const mobCompanyInput = document.getElementById("mobile-input-company") as HTMLInputElement;
+
+                            if (isQuote && mobCompanyInput && !mobCompanyInput.value) {
+                                alert(
+                                    STATE.lang === "fr"
+                                        ? "Veuillez entrer le nom de l'entreprise."
+                                        : "Please enter the company name.",
+                                );
+                                return;
+                            }
+
+                            if (!nameInput || !nameInput.value) {
+                                alert(
+                                    STATE.lang === "fr"
+                                        ? "Veuillez entrer votre nom."
+                                        : "Please enter your name.",
+                                );
+                                return;
+                            }
+                            if (!deliveryMethod) return;
+
+                            if (deliveryMethod === "sms" && !phoneInput.value) {
+                                alert(
+                                    STATE.lang === "fr"
+                                        ? "Veuillez entrer votre numéro de téléphone."
+                                        : "Please enter your phone number.",
+                                );
+                                return;
+                            }
+                            if (deliveryMethod === "email") {
+                                if (!emailInput.value) {
+                                    alert(
+                                        STATE.lang === "fr"
+                                            ? "Veuillez entrer votre courriel."
+                                            : "Please enter your email.",
+                                    );
+                                    return;
+                                }
+                                if (!phoneInput.value) {
+                                    alert(
+                                        STATE.lang === "fr"
+                                            ? "Veuillez entrer votre numéro de téléphone."
+                                            : "Please enter your phone number.",
+                                    );
+                                    return;
+                                }
+                            }
+
+                            // ➤ TRIGGER EXPLOSION ANIMATION (JS INJECTION V4)
+                            // Using JS injection to bypass potential CSS caching issues.
+                            
+                            const styleId = "mobile-submit-anim-style-v4";
+                            if (!document.getElementById(styleId)) {
+                                const style = document.createElement("style");
+                                style.id = styleId;
+                                style.innerHTML = `
+                                    @keyframes btnExplodeJSv4 {
+                                        0% { transform: scale(1); opacity: 1; background: #b71c1c; }
+                                        30% { transform: scale(3); background: #43a047; box-shadow: 0 0 30px rgba(67, 160, 71, 0.6); } 
+                                        45% { transform: scale(2.6); } 
+                                        60% { transform: scale(3.2); } 
+                                        100% { transform: scale(10); opacity: 0; filter: blur(20px); background: #43a047; } 
+                                    }
+                                    .btn-explode-js-v4 {
+                                        animation: btnExplodeJSv4 2s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+                                        pointer-events: none !important;
+                                        background: #43a047 !important;
+                                        background-image: none !important;
+                                        border-color: transparent !important;
+                                        color: white !important;
+                                        z-index: 999999 !important;
+                                        position: relative !important;
+                                        text-shadow: 0 0 10px rgba(255,255,255,0.8) !important;
+                                        box-shadow: none !important;
+                                        transform-origin: center center !important;
+                                    }
+                                `;
+                                document.head.appendChild(style);
+                            }
+
+                            // Apply new class
+                            mobSubmit.className = "btn-mobile-primary btn-explode-js-v4"; 
+                            
+                            mobSubmit.disabled = true; // Prevent double clicks
+                            mobSubmit.innerHTML = "🚀"; // Visual feedback
+
+                            const summary =
+                                STATE.lastCartItems
+                                    ?.map(
+                                        (item) =>
+                                            `${item.label}: ${item.price.toFixed(2)}$`,
+                                    )
+                                    .join("\n") || "";
+
+                            await submitEstimationForm({
+                                name: nameInput.value,
+                                city: cityInput?.value || "",
+                                street: streetInput?.value || "",
+                                apt: aptInput?.value || "",
+                                postal: postalInput?.value || "",
+                                notes: notesInput?.value || "",
+                                phone: phoneInput?.value || "",
+                                email: emailInput?.value || "",
+                                deliveryMethod,
+                                items: STATE.lastCartItems || [],
+                                total: STATE.total || 0,
+                                summary,
+                                callBackRequested,
+                            });
+                        };
+                    }
+
+                    // Mobile Intercept Observer Removed to prevent conflicts
+                } catch (err: any) {
+                    console.error(err);
+                    const errDiv = document.createElement("div");
+                    errDiv.style.position = "fixed";
+                    errDiv.style.top = "0";
+                    errDiv.style.left = "0";
+                    errDiv.style.width = "100%";
+                    errDiv.style.height = "100%";
+                    errDiv.style.backgroundColor = "white";
+                    errDiv.style.color = "red";
+                    errDiv.style.zIndex = "10000";
+                    errDiv.style.padding = "20px";
+                    errDiv.style.fontSize = "16px";
+                    errDiv.style.overflow = "auto";
+                    errDiv.innerHTML =
+                        "<h1>FATAL ERROR</h1><pre>" + err.stack + "</pre>";
+                    document.body.appendChild(errDiv);
+                }
+                // Watch for Modal Close (Display None) to hide Portal Footer
+                const widgetObserver = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        // @ts-ignore
+                        if(mutation.target.style.display === 'none') {
+                             const foot = document.getElementById("mobile-sticky-footer");
+                             if(foot) foot.classList.add('mobile-footer-hidden');
+                        }
+                    });
+                });
+                const widgetEl = document.getElementById('estimation-widget');
+                if(widgetEl) {
+                    widgetObserver.observe(widgetEl, { attributes: true, attributeFilter: ['style'] });
+                }
+            }
+
+            // Defer heavy bootstrap to idle so first paint / LCP are not contending with full service-grid DOM + updateUI
+            function scheduleEstimationInit() {
+                const run = () => {
+                    if (estimationBootstrapped) return;
+                    init();
+                };
+                if (typeof requestIdleCallback !== "undefined") {
+                    requestIdleCallback(run, { timeout: 8000 });
+                } else {
+                    setTimeout(run, 2500);
+                }
+            }
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", scheduleEstimationInit);
+            } else {
+                scheduleEstimationInit();
+            }
+
+            // Duplicate openEstimationWidget removed. Logic is now handled by the function added earlier.
