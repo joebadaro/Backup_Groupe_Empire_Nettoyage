@@ -550,7 +550,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
           if (heroSlides.length > 0) {
             let currentHeroSlide = 0;
             const firstSwapDelayMs = 4500;
-            const swapIntervalMs = 9700;
+            const swapIntervalMs = 4500;
             const isMobileHero =
               typeof window.matchMedia === "function" &&
               window.matchMedia("(max-width: 768px)").matches;
@@ -595,51 +595,11 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
               }
             };
 
-            let lastInteractionTime = 0;
-            /** ms sans touch avant d’autoriser un swap (évite fondu pendant le doigt sur l’écran) */
-            const IDLE_MS_BEFORE_SWAP = 650;
-
-            const maybeSwapHeroSlide = () => {
-              if (
-                isMobileHero &&
-                Date.now() - lastInteractionTime < IDLE_MS_BEFORE_SWAP
-              ) {
-                return;
-              }
-              swapHeroSlide();
-            };
-
-            const markUserInteraction = () => {
-              lastInteractionTime = Date.now();
-            };
-
-            if (isMobileHero) {
-              window.addEventListener("touchstart", markUserInteraction, {
-                passive: true,
-              });
-              window.addEventListener("touchmove", markUserInteraction, {
-                passive: true,
-              });
-              window.addEventListener("touchend", markUserInteraction, {
-                passive: true,
-              });
-              window.addEventListener("touchcancel", markUserInteraction, {
-                passive: true,
-              });
-            }
-
             syncHeroSubtitleGroup(0);
 
             setTimeout(() => {
-              if (isMobileHero) {
-                maybeSwapHeroSlide();
-              } else {
-                swapHeroSlide();
-              }
-              setInterval(
-                isMobileHero ? maybeSwapHeroSlide : swapHeroSlide,
-                swapIntervalMs,
-              );
+              swapHeroSlide();
+              setInterval(swapHeroSlide, swapIntervalMs);
             }, firstSwapDelayMs);
           }
         }
