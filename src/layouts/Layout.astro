@@ -6,6 +6,10 @@ import EstimationModule from "../components/EstimationModule.astro";
 
 import SEO from "../components/SEO.astro";
 
+/** Same-origin hashed URLs as @font-face in global CSS — early preload shortens font discovery vs CSS-parse-only */
+import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import outfitLatinWoff2 from "@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2?url";
+
 interface Props {
   title: string;
   description?: string;
@@ -27,6 +31,22 @@ const description = Astro.props.description ?? defaultDescription;
 <html lang={Astro.url.pathname.startsWith("/en") ? "en" : "fr"}>
   <head>
     <meta name="version" content="2.0.0-perf-optimized" />
+    <link
+      rel="preload"
+      href={interLatinWoff2}
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      href={outfitLatinWoff2}
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+      fetchpriority="high"
+    />
     <!-- Google Tag Manager -->
     <script is:inline>
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
