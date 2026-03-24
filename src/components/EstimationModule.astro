@@ -2471,6 +2471,9 @@
             // DOM Elements (Populated on Init)
             let els: Record<string, HTMLElement | null> = {};
 
+            /** Prevents double init (DOMContentLoaded + legacy setTimeout both ran init). */
+            let estimationBootstrapped = false;
+
             // init function moved to bottom
 
             function refreshAllText() {
@@ -2528,11 +2531,13 @@
                         t({ fr: "Recommencer", en: "Reset" }) + " &#8634;";
                 }
 
-                // Re-render components
+                // Re-render components (defer step UI to next frame so layout can settle after innerHTML churn)
                 window.renderServices();
                 calculateTotal(); // Calculate first!
                 renderDetails();
-                updateUI();
+                requestAnimationFrame(() => {
+                    updateUI();
+                });
 
                 // Update New localized fields (Address & Disclaimer)
                 const isFr = STATE.lang === "fr";
@@ -2691,7 +2696,11 @@
             };
 
             window.openEstimationWidget = function () {
-                refreshAllText();
+                if (!estimationBootstrapped) {
+                    init(); // includes refreshAllText()
+                } else {
+                    refreshAllText();
+                }
                 const isMobile = window.innerWidth <= 850;
                 if (isMobile) {
                     const mobileApp = document.getElementById(
@@ -6507,15 +6516,22 @@
                 }
             }
 
-            // Initialize when DOM is ready
-            document.addEventListener("DOMContentLoaded", init);
-
-            // Additional Safety: If component loads late (Astro Islands)
-            if (
-                document.readyState === "complete" ||
-                document.readyState === "interactive"
-            ) {
-                setTimeout(init, 100);
+            // Defer heavy bootstrap to idle so first paint / LCP are not contending with full service-grid DOM + updateUI
+            function scheduleEstimationInit() {
+                const run = () => {
+                    if (estimationBootstrapped) return;
+                    init();
+                };
+                if (typeof requestIdleCallback !== "undefined") {
+                    requestIdleCallback(run, { timeout: 8000 });
+                } else {
+                    setTimeout(run, 2500);
+                }
+            }
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", scheduleEstimationInit);
+            } else {
+                scheduleEstimationInit();
             }
 
             // Duplicate openEstimationWidget removed. Logic is now handled by the function added earlier.
