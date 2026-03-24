@@ -134,6 +134,27 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
           decoding="async"
         />
       </picture>
+
+      <!-- Slide 5: Mattress — same portrait / desktop pattern as slide 4 -->
+      <picture class="hero-bg-picture">
+        <source
+          media="(max-width: 768px)"
+          type="image/webp"
+          srcset="/images/catalog/hero-matelas-professionnel-quebec-portrait-800.webp 800w, /images/catalog/hero-matelas-professionnel-quebec-portrait.webp 1600w"
+          sizes="100vw"
+        />
+        <img
+          src="/images/catalog/hero-matelas-professionnel-quebec.webp"
+          srcset="/images/catalog/hero-matelas-professionnel-quebec-mobile.webp 800w, /images/catalog/hero-matelas-professionnel-quebec.webp 1600w"
+          sizes="100vw"
+          alt="Impeccably cleaned and sanitized mattress - Empire Cleaning Group, Quebec"
+          class="hero-slide"
+          loading="lazy"
+          width={1600}
+          height={2000}
+          decoding="async"
+        />
+      </picture>
     </div>
 
     <div class="hero-overlay"></div>
@@ -165,11 +186,11 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
             <span class="hero-slogan-sizer" aria-hidden="true">
               The Art of<br />Premium Cleaning
             </span>
-            <span class="hero-slogan-layer hero-slogan--a active">
+            <span class="hero-slogan-layer hero-slogan--a">
               <span class="hero-slogan-white">The Art of</span><br />
               <span class="text-gradient-tricolor">Steam Cleaning</span>
             </span>
-            <span class="hero-slogan-layer hero-slogan--b">
+            <span class="hero-slogan-layer hero-slogan--b active">
               <span class="hero-slogan-white">The Art of</span><br />
               <span class="text-gradient-tricolor">Premium Cleaning</span>
             </span>
@@ -541,7 +562,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         if (heroSlides.length > 0) {
           let currentHeroSlide = 0;
           const firstSwapDelayMs = 4500;
-          const swapIntervalMs = 9700;
+          const swapIntervalMs = 4500;
           const isMobileHero =
             typeof window.matchMedia === "function" &&
             window.matchMedia("(max-width: 768px)").matches;
@@ -551,7 +572,8 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
 
           const syncHeroSloganToSlide = (slideIndex) => {
             if (!sloganA || !sloganB) return;
-            const showA = slideIndex % 2 === 0;
+            /* Photos 1–3: Premium Cleaning; 4–5: Steam Cleaning (A = steam if index >= 3) */
+            const showA = slideIndex >= 3;
             sloganA.classList.toggle("active", showA);
             sloganB.classList.toggle("active", !showA);
           };
@@ -585,51 +607,11 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
             }
           };
 
-          let lastInteractionTime = 0;
-          const IDLE_MS_BEFORE_SWAP = 650;
-
-          const maybeSwapHeroSlide = () => {
-            if (
-              isMobileHero &&
-              Date.now() - lastInteractionTime < IDLE_MS_BEFORE_SWAP
-            ) {
-              return;
-            }
-            swapHeroSlide();
-          };
-
-          const markUserInteraction = () => {
-            lastInteractionTime = Date.now();
-          };
-
-          if (isMobileHero) {
-            /* No window scroll listener — iOS fires scroll continuously during inertia and blocked all swaps */
-            window.addEventListener("touchstart", markUserInteraction, {
-              passive: true,
-            });
-            window.addEventListener("touchmove", markUserInteraction, {
-              passive: true,
-            });
-            window.addEventListener("touchend", markUserInteraction, {
-              passive: true,
-            });
-            window.addEventListener("touchcancel", markUserInteraction, {
-              passive: true,
-            });
-          }
-
           syncHeroSubtitleGroup(0);
 
           setTimeout(() => {
-            if (isMobileHero) {
-              maybeSwapHeroSlide();
-            } else {
-              swapHeroSlide();
-            }
-            setInterval(
-              isMobileHero ? maybeSwapHeroSlide : swapHeroSlide,
-              swapIntervalMs,
-            );
+            swapHeroSlide();
+            setInterval(swapHeroSlide, swapIntervalMs);
           }, firstSwapDelayMs);
         }
       }
