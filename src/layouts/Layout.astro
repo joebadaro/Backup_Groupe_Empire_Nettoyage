@@ -46,13 +46,6 @@ const description = Astro.props.description ?? defaultDescription;
     <!-- Pages peuvent injecter des preloads LCP / meta additionnels (ex. accueil hero mobile) -->
     <slot name="head" />
     {image && <link rel="preload" as="image" href={image} />}
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Load fonts immediately (no media="print" trick): deferred load caused Combining marks / Latin-ext to fallback to system serif before extra subsets arrived. -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
-      rel="stylesheet"
-    />
     <script>
       // Global Scroll Reveal
       document.addEventListener("DOMContentLoaded", () => {
@@ -74,16 +67,24 @@ const description = Astro.props.description ?? defaultDescription;
         document.querySelectorAll(".fade-in-section").forEach((section) => {
           observer.observe(section);
         });
+      });
 
-        // Track Visit (SMS Notification)
+      // Track Visit (SMS) — after load + idle to stay off the critical path
+      window.addEventListener("load", () => {
         const sessionKey = "visit_tracked_sms";
-        if (!sessionStorage.getItem(sessionKey)) {
+        const run = () => {
+          if (sessionStorage.getItem(sessionKey)) return;
           fetch("/.netlify/functions/track-visit", { method: "POST" })
             .then((res) => {
               if (!res.ok) console.error("TRACKING FAILED:", res.status);
             })
             .then(() => sessionStorage.setItem(sessionKey, "true"))
             .catch((err) => console.error("Tracking error:", err));
+        };
+        if ("requestIdleCallback" in window) {
+          requestIdleCallback(run, { timeout: 5000 });
+        } else {
+          setTimeout(run, 2500);
         }
       });
     </script>

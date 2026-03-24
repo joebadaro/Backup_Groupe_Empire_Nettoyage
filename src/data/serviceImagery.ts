@@ -4,7 +4,7 @@
  */
 
 /** Bump when any SERVICE_IMAGES `src` changes so browsers/CDNs don’t keep stale /images/* bytes. */
-export const SERVICE_IMAGES_ASSET_VERSION = "7";
+export const SERVICE_IMAGES_ASSET_VERSION = "8";
 
 export function resolveServiceImageSrc(src: string): string {
   return `${src}?v=${SERVICE_IMAGES_ASSET_VERSION}`;
@@ -14,9 +14,10 @@ export interface ServiceImageEntry {
   src: string;
   /** Homepage card lighter asset (800px wide). */
   srcHomeCard?: string;
-  /** Responsive variants for homepage cards (400 / 640 / 800 px). */
+  /** Responsive variants for homepage cards (400 / 480 / 640 / 800 px). */
   srcHomeCardSrcset?: {
     w400: string;
+    w480?: string;
     w640: string;
     w800: string;
   };
@@ -30,11 +31,18 @@ export interface ServiceImageEntry {
 
 /** `sizes` for service card images: mobile horizontal strip vs grid. */
 export const HOMEPAGE_CARD_IMAGE_SIZES =
-  "(max-width: 768px) 85vw, min(400px, 33vw)";
+  "(max-width: 768px) min(85vw, 360px), min(400px, 33vw)";
 
 export const SERVICE_IMAGES = {
   meubles_tissu: {
     src: "/images/services/services-4.webp",
+    srcHomeCard: "/images/services/services-4-home-800.webp",
+    srcHomeCardSrcset: {
+      w400: "/images/services/services-4-home-400.webp",
+      w480: "/images/services/services-4-home-480.webp",
+      w640: "/images/services/services-4-home-640.webp",
+      w800: "/images/services/services-4-home-800.webp",
+    },
     altFr: "Nettoyage de meubles",
     altEn: "Upholstery cleaning",
     width: 400,
@@ -42,6 +50,13 @@ export const SERVICE_IMAGES = {
   },
   matelas: {
     src: "/images/catalog/photo-matelas-custom.webp",
+    srcHomeCard: "/images/catalog/photo-matelas-custom-home-800.webp",
+    srcHomeCardSrcset: {
+      w400: "/images/catalog/photo-matelas-custom-home-400.webp",
+      w480: "/images/catalog/photo-matelas-custom-home-480.webp",
+      w640: "/images/catalog/photo-matelas-custom-home-640.webp",
+      w800: "/images/catalog/photo-matelas-custom-home-800.webp",
+    },
     altFr: "Nettoyage de matelas",
     altEn: "Mattress cleaning",
     width: 400,
@@ -49,6 +64,13 @@ export const SERVICE_IMAGES = {
   },
   meubles_cuir: {
     src: "/images/catalog/photo-leather-final.webp",
+    srcHomeCard: "/images/catalog/photo-leather-final-home-800.webp",
+    srcHomeCardSrcset: {
+      w400: "/images/catalog/photo-leather-final-home-400.webp",
+      w480: "/images/catalog/photo-leather-final-home-480.webp",
+      w640: "/images/catalog/photo-leather-final-home-640.webp",
+      w800: "/images/catalog/photo-leather-final-home-800.webp",
+    },
     altFr: "Nettoyage de meubles en cuir",
     altEn: "Leather furniture cleaning",
     width: 400,
@@ -56,6 +78,13 @@ export const SERVICE_IMAGES = {
   },
   tapis_residentiel: {
     src: "/images/catalog/tapis-residentiel-service-card.webp",
+    srcHomeCard: "/images/catalog/tapis-residentiel-service-card-home-800.webp",
+    srcHomeCardSrcset: {
+      w400: "/images/catalog/tapis-residentiel-service-card-home-400.webp",
+      w480: "/images/catalog/tapis-residentiel-service-card-home-480.webp",
+      w640: "/images/catalog/tapis-residentiel-service-card-home-640.webp",
+      w800: "/images/catalog/tapis-residentiel-service-card-home-800.webp",
+    },
     altFr: "Nettoyage de tapis résidentiel",
     altEn: "Residential carpet cleaning",
     width: 400,
@@ -66,6 +95,7 @@ export const SERVICE_IMAGES = {
     srcHomeCard: "/images/catalog/photo-47-home.webp",
     srcHomeCardSrcset: {
       w400: "/images/catalog/photo-47-home-400.webp",
+      w480: "/images/catalog/photo-47-home-480.webp",
       w640: "/images/catalog/photo-47-home-640.webp",
       w800: "/images/catalog/photo-47-home.webp",
     },
@@ -79,6 +109,7 @@ export const SERVICE_IMAGES = {
     srcHomeCard: "/images/catalog/photo-22-home.webp",
     srcHomeCardSrcset: {
       w400: "/images/catalog/photo-22-home-400.webp",
+      w480: "/images/catalog/photo-22-home-480.webp",
       w640: "/images/catalog/photo-22-home-640.webp",
       w800: "/images/catalog/photo-22-home.webp",
     },
@@ -92,6 +123,7 @@ export const SERVICE_IMAGES = {
     srcHomeCard: "/images/catalog/photo-oriental-custom-home.webp",
     srcHomeCardSrcset: {
       w400: "/images/catalog/photo-oriental-custom-home-400.webp",
+      w480: "/images/catalog/photo-oriental-custom-home-480.webp",
       w640: "/images/catalog/photo-oriental-custom-home-640.webp",
       w800: "/images/catalog/photo-oriental-custom-home.webp",
     },
@@ -102,6 +134,13 @@ export const SERVICE_IMAGES = {
   },
   tapis_commercial: {
     src: "/images/catalog/tapis-commercial-combo.webp",
+    srcHomeCard: "/images/catalog/tapis-commercial-combo-home-800.webp",
+    srcHomeCardSrcset: {
+      w400: "/images/catalog/tapis-commercial-combo-home-400.webp",
+      w480: "/images/catalog/tapis-commercial-combo-home-480.webp",
+      w640: "/images/catalog/tapis-commercial-combo-home-640.webp",
+      w800: "/images/catalog/tapis-commercial-combo-home-800.webp",
+    },
     altFr: "Nettoyage de tapis commercial",
     altEn: "Commercial carpet cleaning",
     width: 400,
@@ -109,6 +148,7 @@ export const SERVICE_IMAGES = {
   },
   ceramique: {
     src: "/images/catalog/tuile-card-optimized.webp",
+    srcHomeCard: "/images/catalog/tuile-card-optimized-home.webp",
     altFr:
       "Nettoyage professionnel de tuiles et joints de céramique - Montréal Laval Rive-Sud",
     altEn: "Tile and grout cleaning",
@@ -117,6 +157,13 @@ export const SERVICE_IMAGES = {
   },
   protecteur: {
     src: "/images/catalog/photo-20.webp",
+    srcHomeCard: "/images/catalog/photo-20-home-800.webp",
+    srcHomeCardSrcset: {
+      w400: "/images/catalog/photo-20-home-400.webp",
+      w480: "/images/catalog/photo-20-home-480.webp",
+      w640: "/images/catalog/photo-20-home-640.webp",
+      w800: "/images/catalog/photo-20-home-800.webp",
+    },
     altFr: "Protecteur anti-taches",
     altEn: "Stain protector application",
     width: 400,
@@ -182,26 +229,36 @@ export function getServiceImage(
   options?: { forHomepageCard?: boolean },
 ): ServiceImageResolved {
   const e = SERVICE_IMAGES[key];
-  const base =
-    options?.forHomepageCard && e.srcHomeCard ? e.srcHomeCard : e.src;
-  const src = resolveServiceImageSrc(base);
 
-  if (options?.forHomepageCard && e.srcHomeCardSrcset) {
-    const { w400, w640, w800 } = e.srcHomeCardSrcset;
-    const srcset = [
-      `${resolveServiceImageSrc(w400)} 400w`,
-      `${resolveServiceImageSrc(w640)} 640w`,
-      `${resolveServiceImageSrc(w800)} 800w`,
-    ].join(", ");
+  if (options?.forHomepageCard && e.srcHomeCard) {
+    const src = resolveServiceImageSrc(e.srcHomeCard);
+    if (e.srcHomeCardSrcset) {
+      const sc = e.srcHomeCardSrcset;
+      const parts: string[] = [
+        `${resolveServiceImageSrc(sc.w400)} 400w`,
+      ];
+      if (sc.w480) {
+        parts.push(`${resolveServiceImageSrc(sc.w480)} 480w`);
+      }
+      parts.push(
+        `${resolveServiceImageSrc(sc.w640)} 640w`,
+        `${resolveServiceImageSrc(sc.w800)} 800w`,
+      );
+      return {
+        ...e,
+        src,
+        srcset: parts.join(", "),
+        sizes: HOMEPAGE_CARD_IMAGE_SIZES,
+      };
+    }
     return {
       ...e,
       src,
-      srcset,
       sizes: HOMEPAGE_CARD_IMAGE_SIZES,
     };
   }
 
-  return { ...e, src };
+  return { ...e, src: resolveServiceImageSrc(e.src) };
 }
 
 export interface HomepageServiceCard {

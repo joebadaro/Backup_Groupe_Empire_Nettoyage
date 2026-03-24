@@ -14,9 +14,14 @@ const TEAM_FACEBOOK_SIZES =
   "(max-width: 768px) min(calc(100vw - 3rem), 560px), min(800px, 34vw)";
 
 const _van = "/images/catalog/team-van-back-home";
-const TEAM_VAN_SRCSET = `${_van}-400.webp?v=${_v} 400w, ${_van}-640.webp?v=${_v} 640w, ${_van}.webp?v=${_v} 800w`;
+const TEAM_VAN_SRCSET = `${_van}-400.webp?v=${_v} 400w, ${_van}-480.webp?v=${_v} 480w, ${_van}-640.webp?v=${_v} 640w, ${_van}.webp?v=${_v} 800w`;
 const TEAM_VAN_SIZES =
-  "(max-width: 768px) min(calc(100vw - 3rem), 560px), min(800px, 34vw)";
+  "(max-width: 768px) min(calc(100vw - 3rem), 520px), min(800px, 34vw)";
+
+const _p8 = "/images/catalog/photo-8-home";
+const PHOTO_8_SRCSET = `${_p8}-320.webp?v=${_v} 320w, ${_p8}-400.webp?v=${_v} 400w, ${_p8}-533.webp?v=${_v} 533w`;
+const PHOTO_8_SIZES =
+  "(max-width: 768px) min(calc(100vw - 2rem), 380px), min(50vw, 520px)";
 
 const _p76 = "/images/catalog/photo-76";
 const PHOTO_76_SRCSET = `${_p76}-400.webp?v=${_v} 400w, ${_p76}-640.webp?v=${_v} 640w, ${_p76}-800.webp?v=${_v} 800w, ${_p76}.webp?v=${_v} 1200w`;
@@ -36,6 +41,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
     slot="head"
     rel="preload"
     as="image"
+    fetchpriority="high"
     imagesrcset="/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp 800w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-1200.webp 1200w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait.webp 1600w"
     imagesizes="100vw"
     media="(max-width: 768px)"
@@ -345,12 +351,15 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         <ul class="eco-list">
           <li>
             <img
-              src="/images/catalog/photo-8.webp"
+              src={`/images/catalog/photo-8-home-400.webp?v=${_v}`}
+              srcset={PHOTO_8_SRCSET}
+              sizes={PHOTO_8_SIZES}
               alt="Certification"
               class="icon-cert"
               style="width: 50px; height: auto;"
               width="533"
               height="224"
+              loading="lazy"
             />
             <div>
               <strong>Certified Ecological</strong><br />Approved and safe
