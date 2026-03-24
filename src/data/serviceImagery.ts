@@ -4,7 +4,7 @@
  */
 
 /** Bump when any SERVICE_IMAGES `src` changes so browsers/CDNs don’t keep stale /images/* bytes. */
-export const SERVICE_IMAGES_ASSET_VERSION = "5";
+export const SERVICE_IMAGES_ASSET_VERSION = "6";
 
 export function resolveServiceImageSrc(src: string): string {
   return `${src}?v=${SERVICE_IMAGES_ASSET_VERSION}`;
@@ -12,6 +12,14 @@ export function resolveServiceImageSrc(src: string): string {
 
 export interface ServiceImageEntry {
   src: string;
+  /** Homepage card lighter asset (800px wide). */
+  srcHomeCard?: string;
+  /** Responsive variants for homepage cards (400 / 640 / 800 px). */
+  srcHomeCardSrcset?: {
+    w400: string;
+    w640: string;
+    w800: string;
+  };
   altFr: string;
   altEn: string;
   width: number;
@@ -19,6 +27,10 @@ export interface ServiceImageEntry {
   /** Optional CSS object-position for homepage .card-img */
   objectPosition?: string;
 }
+
+/** `sizes` for service card images: mobile horizontal strip vs grid. */
+export const HOMEPAGE_CARD_IMAGE_SIZES =
+  "(max-width: 768px) 85vw, min(400px, 33vw)";
 
 export const SERVICE_IMAGES = {
   meubles_tissu: {
@@ -52,6 +64,11 @@ export const SERVICE_IMAGES = {
   tapis_synthetique: {
     src: "/images/catalog/photo-47.webp",
     srcHomeCard: "/images/catalog/photo-47-home.webp",
+    srcHomeCardSrcset: {
+      w400: "/images/catalog/photo-47-home-400.webp",
+      w640: "/images/catalog/photo-47-home-640.webp",
+      w800: "/images/catalog/photo-47-home.webp",
+    },
     altFr: "Nettoyage de tapis synthétique",
     altEn: "Synthetic carpet cleaning at home",
     width: 400,
@@ -60,6 +77,11 @@ export const SERVICE_IMAGES = {
   tapis_laine: {
     src: "/images/catalog/photo-22.webp",
     srcHomeCard: "/images/catalog/photo-22-home.webp",
+    srcHomeCardSrcset: {
+      w400: "/images/catalog/photo-22-home-400.webp",
+      w640: "/images/catalog/photo-22-home-640.webp",
+      w800: "/images/catalog/photo-22-home.webp",
+    },
     altFr: "Nettoyage de tapis en laine",
     altEn: "Wool carpet cleaning at home",
     width: 400,
@@ -68,6 +90,11 @@ export const SERVICE_IMAGES = {
   tapis_oriental: {
     src: "/images/catalog/photo-oriental-custom.webp",
     srcHomeCard: "/images/catalog/photo-oriental-custom-home.webp",
+    srcHomeCardSrcset: {
+      w400: "/images/catalog/photo-oriental-custom-home-400.webp",
+      w640: "/images/catalog/photo-oriental-custom-home-640.webp",
+      w800: "/images/catalog/photo-oriental-custom-home.webp",
+    },
     altFr: "Nettoyage de tapis orientaux",
     altEn: "Oriental carpet cleaning",
     width: 400,
@@ -144,14 +171,37 @@ export function getEstimationIconHtml(serviceId: string): string {
   return `<img src="${src}" alt="${entry.altFr.replace(/"/g, "&quot;")}" loading="lazy"${pos} />`;
 }
 
+export type ServiceImageResolved = ServiceImageEntry & {
+  src: string;
+  srcset?: string;
+  sizes?: string;
+};
+
 export function getServiceImage(
   key: ServiceImageKey,
   options?: { forHomepageCard?: boolean },
-): ServiceImageEntry {
+): ServiceImageResolved {
   const e = SERVICE_IMAGES[key];
   const base =
     options?.forHomepageCard && e.srcHomeCard ? e.srcHomeCard : e.src;
-  return { ...e, src: resolveServiceImageSrc(base) };
+  const src = resolveServiceImageSrc(base);
+
+  if (options?.forHomepageCard && e.srcHomeCardSrcset) {
+    const { w400, w640, w800 } = e.srcHomeCardSrcset;
+    const srcset = [
+      `${resolveServiceImageSrc(w400)} 400w`,
+      `${resolveServiceImageSrc(w640)} 640w`,
+      `${resolveServiceImageSrc(w800)} 800w`,
+    ].join(", ");
+    return {
+      ...e,
+      src,
+      srcset,
+      sizes: HOMEPAGE_CARD_IMAGE_SIZES,
+    };
+  }
+
+  return { ...e, src };
 }
 
 export interface HomepageServiceCard {

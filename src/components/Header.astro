@@ -1,4 +1,18 @@
 ---
+import { SERVICE_IMAGES_ASSET_VERSION } from "../data/serviceImagery";
+
+const _logoV = SERVICE_IMAGES_ASSET_VERSION;
+const _logoBase = "/images/logo-officiel-optimized";
+const logoSrc = `${_logoBase}.webp?v=${_logoV}`;
+const logoSrcset = [
+  `${_logoBase}-240.webp?v=${_logoV} 240w`,
+  `${_logoBase}-360.webp?v=${_logoV} 360w`,
+  `${_logoBase}-480.webp?v=${_logoV} 480w`,
+  `${_logoBase}.webp?v=${_logoV} 600w`,
+].join(", ");
+/* ~207px CSS wide on desktop (height 85px); mobile ~146px at height 60px */
+const logoSizes = "(max-width: 768px) 150px, 210px";
+
 const currentPath = Astro.url.pathname;
 const isEn = currentPath.startsWith("/en");
 const targetPath = isEn
@@ -33,7 +47,9 @@ const label = isEn ? "FR" : "EN";
       <div class="logo">
         <a href={isEn ? "/en" : "/"} class="logo-link">
           <img
-            src="/images/logo-officiel-optimized.webp"
+            src={logoSrc}
+            srcset={logoSrcset}
+            sizes={logoSizes}
             alt={isEn ? "Empire Cleaning Group" : "Groupe Nettoyage Empire"}
             class="logo-img"
             width="600"

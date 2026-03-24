@@ -1,7 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import GoogleReviewsSection from "../components/GoogleReviewsSection.astro";
-import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery";
+import {
+  HOMEPAGE_SERVICE_CARDS,
+  getServiceImage,
+  SERVICE_IMAGES_ASSET_VERSION,
+} from "../data/serviceImagery";
+
+const _v = SERVICE_IMAGES_ASSET_VERSION;
+const _teamFb = "/images/catalog/team-facebook-optimized";
+const TEAM_FACEBOOK_SRCSET = `${_teamFb}-400.webp?v=${_v} 400w, ${_teamFb}-640.webp?v=${_v} 640w, ${_teamFb}.webp?v=${_v} 800w`;
+const TEAM_FACEBOOK_SIZES = "(max-width: 768px) 92vw, min(800px, 34vw)";
 ---
 
 <Layout
@@ -244,6 +253,8 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
               >
                 <img
                   src={img.src}
+                  {...(img.srcset ? { srcset: img.srcset } : {})}
+                  {...(img.sizes ? { sizes: img.sizes } : {})}
                   alt={img.altFr}
                   class="card-img"
                   width={img.width}
@@ -273,7 +284,9 @@ import { HOMEPAGE_SERVICE_CARDS, getServiceImage } from "../data/serviceImagery"
   <section class="section-quality-strip-refined">
     <div class="quality-image-wrapper">
       <img
-        src="/images/catalog/team-facebook-optimized.webp"
+        src={`/images/catalog/team-facebook-optimized.webp?v=${_v}`}
+        srcset={TEAM_FACEBOOK_SRCSET}
+        sizes={TEAM_FACEBOOK_SIZES}
         alt="L'équipe certifiée de Groupe Nettoyage Empire - Montréal et Rive-Sud"
         class="quality-img-full"
         width="800"
