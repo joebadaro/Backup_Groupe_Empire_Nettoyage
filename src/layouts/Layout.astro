@@ -25,6 +25,18 @@ const defaultDescription = isEn
   : "Groupe Nettoyage Empire - Spécialistes du nettoyage de tapis, divans et carpettes.";
 
 const description = Astro.props.description ?? defaultDescription;
+
+/** GTM only when a real container ID is set in Netlify/env as PUBLIC_GTM_ID (never load placeholder → avoids 404 + console errors). */
+function getGtmId(): string | null {
+  const raw = import.meta.env.PUBLIC_GTM_ID;
+  if (raw == null) return null;
+  if (typeof raw !== "string") return null;
+  const t = raw.trim();
+  if (t === "" || t === "GTM-PLACEHOLDER") return null;
+  if (!/^GTM-[A-Z0-9]+$/i.test(t)) return null;
+  return t;
+}
+const gtmId = getGtmId();
 ---
 
 <!doctype html>
@@ -47,15 +59,26 @@ const description = Astro.props.description ?? defaultDescription;
       crossorigin="anonymous"
       fetchpriority="high"
     />
-    <!-- Google Tag Manager -->
-    <script is:inline>
-      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-PLACEHOLDER');
-    </script>
-    <!-- End Google Tag Manager -->
+    {
+      gtmId ? (
+        <>
+          <!-- Google Tag Manager -->
+          <script is:inline define:vars={{ gtmId }}>
+            (function (w, d, s, l, i) {
+              w[l] = w[l] || [];
+              w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+              var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != "dataLayer" ? "&l=" + l : "";
+              j.async = true;
+              j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+              f.parentNode.insertBefore(j, f);
+            })(window, document, "script", "dataLayer", gtmId);
+          </script>
+          <!-- End Google Tag Manager -->
+        </>
+      ) : null
+    }
 
     <SEO
       title={title}
@@ -114,10 +137,22 @@ const description = Astro.props.description ?? defaultDescription;
     </script>
   </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PLACEHOLDER"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    {
+      gtmId ? (
+        <>
+          <!-- Google Tag Manager (noscript) -->
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+              height="0"
+              width="0"
+              style="display:none;visibility:hidden"
+            />
+          </noscript>
+          <!-- End Google Tag Manager (noscript) -->
+        </>
+      ) : null
+    }
 
     <Header />
     <main>
