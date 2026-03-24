@@ -38,7 +38,7 @@ const isEn = currentPath.startsWith("/en");
 
       <!-- 2. Navigation -->
       <div class="footer-col links-col">
-        <h4 class="footer-heading">{isEn ? "Company" : "Entreprise"}</h4>
+        <div class="footer-heading">{isEn ? "Company" : "Entreprise"}</div>
         <ul class="footer-nav">
           <li><a href={isEn ? "/en" : "/"}>{isEn ? "Home" : "Accueil"}</a></li>
           <li>
@@ -103,9 +103,9 @@ const isEn = currentPath.startsWith("/en");
 
       <!-- 4. Contact -->
       <div class="footer-col contact-col">
-        <h4 class="footer-heading">
+        <div class="footer-heading">
           {isEn ? "Customer Service" : "Service Client"}
-        </h4>
+        </div>
         <div class="contact-info">
           <a href="tel:5148939939" class="contact-row highlight">
             <span class="icon-circle">📞</span>
@@ -145,7 +145,7 @@ const isEn = currentPath.startsWith("/en");
 
       <!-- Villes Desservies (SEO Locales) -->
       <div class="footer-col animation-float" style="animation-delay: 0.3s">
-        <h4 class="footer-heading">{isEn ? "Cities Served" : "Villes Desservies"}</h4>
+        <div class="footer-heading">{isEn ? "Cities Served" : "Villes Desservies"}</div>
         <ul class="footer-nav">
           <li><a href={isEn ? "/en/services/nettoyage-tapis-montreal" : "/services/nettoyage-tapis-montreal"}>{isEn ? "Carpet Cleaning Montreal" : "Nettoyage Tapis Montréal"}</a></li>
           <li><a href={isEn ? "/en/services/nettoyage-tapis-laval" : "/services/nettoyage-tapis-laval"}>{isEn ? "Carpet Cleaning Laval" : "Nettoyage Tapis Laval"}</a></li>
@@ -187,7 +187,9 @@ const isEn = currentPath.startsWith("/en");
   /* --- Professional Variables --- */
   :root {
     --footer-bg: #0b0f19; /* Very dark rich blue */
-    --footer-text: #94a3b8;
+    /* Lighter slate for ≥4.5:1 on #0b0f19 (AA body text) */
+    --footer-text: #c5d0e0;
+    --footer-muted: #a8b8cc; /* labels / surtitle without opacity hacks */
     --footer-accent: #f0c14b; /* Goldish */
     --footer-border: rgba(255, 255, 255, 0.08);
   }
@@ -220,7 +222,7 @@ const isEn = currentPath.startsWith("/en");
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 2px;
-    opacity: 0.7;
+    color: var(--footer-muted);
     margin-bottom: 4px;
   }
   .logo-title {
@@ -341,7 +343,7 @@ const isEn = currentPath.startsWith("/en");
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    opacity: 0.6;
+    color: var(--footer-muted);
   }
   .value {
     color: #e2e8f0;
@@ -366,10 +368,12 @@ const isEn = currentPath.startsWith("/en");
     display: flex;
     justify-content: space-between;
     align-items: center;
-    opacity: 0.7;
+  }
+  .copyright {
+    color: var(--footer-text);
   }
   .legal a {
-    color: inherit;
+    color: var(--footer-text);
     text-decoration: none;
     margin-left: 20px;
     transition: 0.3s;
