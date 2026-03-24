@@ -69,7 +69,7 @@ const description = Astro.props.description ?? defaultDescription;
         });
       });
 
-      // Track Visit (SMS) — after load + idle to stay off the critical path
+      // Track Visit (SMS): delay past typical LCP, then idle — keeps fetch out of early network chain
       window.addEventListener("load", () => {
         const sessionKey = "visit_tracked_sms";
         const run = () => {
@@ -81,11 +81,15 @@ const description = Astro.props.description ?? defaultDescription;
             .then(() => sessionStorage.setItem(sessionKey, "true"))
             .catch((err) => console.error("Tracking error:", err));
         };
-        if ("requestIdleCallback" in window) {
-          requestIdleCallback(run, { timeout: 5000 });
-        } else {
-          setTimeout(run, 2500);
-        }
+        const schedule = () => {
+          if (sessionStorage.getItem(sessionKey)) return;
+          if ("requestIdleCallback" in window) {
+            requestIdleCallback(run, { timeout: 20000 });
+          } else {
+            setTimeout(run, 10000);
+          }
+        };
+        setTimeout(schedule, 4500);
       });
     </script>
   </head>
