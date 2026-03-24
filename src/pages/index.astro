@@ -8,6 +8,8 @@ import {
 } from "../data/serviceImagery";
 
 const _v = SERVICE_IMAGES_ASSET_VERSION;
+/** 3e vignette « La Puissance… » uniquement — bump si bytes de photo-56 changent (évite cache navigateur sur ?v= global). */
+const PHOTO_56_TRUCK_TILE_V = "11";
 const _teamFb = "/images/catalog/team-facebook-optimized";
 const TEAM_FACEBOOK_SRCSET = `${_teamFb}-400.webp?v=${_v} 400w, ${_teamFb}-560.webp?v=${_v} 560w, ${_teamFb}-640.webp?v=${_v} 640w, ${_teamFb}.webp?v=${_v} 800w`;
 const TEAM_FACEBOOK_SIZES =
@@ -343,15 +345,15 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
       <h3 class="text-gradient-eco">Une Équipe Dévouée</h3>
       <p>Experts certifiés et produits 100% écologiques.</p>
     </div>
-    <div class="quality-image-wrapper">
+    <div class="quality-image-wrapper quality-image-wrapper--van-frame">
         <img
           src={`/images/catalog/team-van-back-home.webp?v=${_v}`}
           srcset={TEAM_VAN_SRCSET}
           sizes={TEAM_VAN_SIZES}
           alt="L'équipe Groupe Empire avec le camion-usine"
-          class="quality-img-full"
+          class="quality-img-full quality-img-full--fullframe"
           width="800"
-          height="800"
+          height="644"
           loading="lazy"
         />
     </div>
@@ -441,9 +443,11 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
               loading="lazy"
             />
             <img
-              src="/images/catalog/photo-56.webp"
+              src={`/images/catalog/photo-56.webp?v=${PHOTO_56_TRUCK_TILE_V}`}
               alt="Professional Intervention"
-              class="tech-img"
+              class="tech-img tech-img--fullframe"
+              width="900"
+              height="725"
               loading="lazy"
             />
           </div>
@@ -1628,6 +1632,31 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
       }
 
+      /* 2e visuel « Une équipe dévouée » : même largeur utile que la photo du dessus, ratio 800×644, plus de hauteur si besoin */
+      .quality-image-wrapper--van-frame .quality-img-full.quality-img-full--fullframe {
+        width: 100%;
+        max-width: 100%;
+        max-height: none;
+        height: auto;
+        aspect-ratio: 800 / 644;
+        object-fit: contain;
+        object-position: center bottom;
+        background: transparent;
+        display: block;
+        margin-inline: auto;
+      }
+
+      /* Photo entière — 3e vignette « La Puissance de nos Camions-Usines » uniquement */
+      .tech-gallery .tech-img.tech-img--fullframe {
+        object-fit: contain;
+        object-position: center;
+        width: 100%;
+        height: 400px;
+        min-height: unset;
+        background: rgba(10, 35, 66, 0.35);
+        box-sizing: border-box;
+      }
+
       /* Elegant lift on hover */
       .quality-image-wrapper:hover .quality-img-full {
         transform: translateY(-10px);
@@ -1658,6 +1687,9 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         }
         .quality-img-full {
           max-height: 300px;
+        }
+        .quality-image-wrapper--van-frame .quality-img-full.quality-img-full--fullframe {
+          max-height: none;
         }
         .tech-gallery {
           grid-template-columns: 1fr;

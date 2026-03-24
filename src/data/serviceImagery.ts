@@ -4,7 +4,7 @@
  */
 
 /** Bump when any SERVICE_IMAGES `src` changes so browsers/CDNs don’t keep stale /images/* bytes. */
-export const SERVICE_IMAGES_ASSET_VERSION = "8";
+export const SERVICE_IMAGES_ASSET_VERSION = "10";
 
 export function resolveServiceImageSrc(src: string): string {
   return `${src}?v=${SERVICE_IMAGES_ASSET_VERSION}`;
