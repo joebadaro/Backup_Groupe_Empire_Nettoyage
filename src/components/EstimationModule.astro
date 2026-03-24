@@ -3749,13 +3749,13 @@
                 if (titleEl) titleEl.textContent = title;
                 if (msgEl) msgEl.textContent = message;
 
-                // Show
+                // Show (rAF avoids synchronous layout read for opacity/transform)
                 modal.style.pointerEvents = "auto";
-                // Trigger reflow
-                void modal.offsetWidth;
-                modal.style.opacity = "1";
-                const content = modal.firstElementChild as HTMLElement;
-                if(content) content.style.transform = "scale(1)";
+                requestAnimationFrame(() => {
+                    modal.style.opacity = "1";
+                    const content = modal.firstElementChild as HTMLElement;
+                    if (content) content.style.transform = "scale(1)";
+                });
             }
 
             function toggleService(id: string, card: HTMLElement) {
@@ -4800,8 +4800,9 @@
                             document.querySelector(".cart-savings");
                         if (savingsEl) {
                             savingsEl.classList.remove("flash-gold-anim");
-                            void (savingsEl as HTMLElement).offsetWidth; // trigger reflow
-                            savingsEl.classList.add("flash-gold-anim");
+                            requestAnimationFrame(() => {
+                                savingsEl.classList.add("flash-gold-anim");
+                            });
                         }
                     }, 50);
                 }
@@ -5307,19 +5308,22 @@
                     activeStepEl = document.getElementById("step-contact"); // Form
 
                 if (activeStepEl) {
-                    activeStepEl.classList.add("active");
+                    const stepEl = activeStepEl;
+                    stepEl.classList.add("active");
 
-                    // Override the default CSS animation with our directional slide
-                    activeStepEl.style.animation = "none";
-                    void activeStepEl.offsetWidth; // Force reflow
-
-                    if (dir === "next") {
-                        activeStepEl.style.animation =
-                            "slideInRight 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards";
-                    } else {
-                        activeStepEl.style.animation =
-                            "slideInLeft 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards";
-                    }
+                    // Reset then apply animation after layout without sync offsetWidth read
+                    stepEl.style.animation = "none";
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            if (dir === "next") {
+                                stepEl.style.animation =
+                                    "slideInRight 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards";
+                            } else {
+                                stepEl.style.animation =
+                                    "slideInLeft 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards";
+                            }
+                        });
+                    });
                 }
 
                 // Toggle Mobile Steps

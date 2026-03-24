@@ -9,8 +9,23 @@ import {
 
 const _v = SERVICE_IMAGES_ASSET_VERSION;
 const _teamFb = "/images/catalog/team-facebook-optimized";
-const TEAM_FACEBOOK_SRCSET = `${_teamFb}-400.webp?v=${_v} 400w, ${_teamFb}-640.webp?v=${_v} 640w, ${_teamFb}.webp?v=${_v} 800w`;
-const TEAM_FACEBOOK_SIZES = "(max-width: 768px) 92vw, min(800px, 34vw)";
+const TEAM_FACEBOOK_SRCSET = `${_teamFb}-400.webp?v=${_v} 400w, ${_teamFb}-560.webp?v=${_v} 560w, ${_teamFb}-640.webp?v=${_v} 640w, ${_teamFb}.webp?v=${_v} 800w`;
+const TEAM_FACEBOOK_SIZES =
+  "(max-width: 768px) min(calc(100vw - 3rem), 560px), min(800px, 34vw)";
+
+const _van = "/images/catalog/team-van-back-home";
+const TEAM_VAN_SRCSET = `${_van}-400.webp?v=${_v} 400w, ${_van}-640.webp?v=${_v} 640w, ${_van}.webp?v=${_v} 800w`;
+const TEAM_VAN_SIZES =
+  "(max-width: 768px) min(calc(100vw - 3rem), 560px), min(800px, 34vw)";
+
+const _p76 = "/images/catalog/photo-76";
+const PHOTO_76_SRCSET = `${_p76}-400.webp?v=${_v} 400w, ${_p76}-640.webp?v=${_v} 640w, ${_p76}-800.webp?v=${_v} 800w, ${_p76}.webp?v=${_v} 1200w`;
+const PHOTO_76_SIZES =
+  "(max-width: 768px) min(calc(100vw - 3rem), 600px), min(50vw, 600px)";
+
+const _choix = "/images/choix-quebec-optimized";
+const CHOIX_SRCSET = `${_choix}-96.webp?v=${_v} 96w, ${_choix}-128.webp?v=${_v} 128w, ${_choix}.webp?v=${_v} 200w`;
+const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
 ---
 
 <Layout
@@ -47,6 +62,7 @@ const TEAM_FACEBOOK_SIZES = "(max-width: 768px) 92vw, min(800px, 34vw)";
           height={675}
           decoding="sync"
           fetchpriority="high"
+          loading="eager"
         />
       </picture>
 
@@ -122,7 +138,9 @@ const TEAM_FACEBOOK_SIZES = "(max-width: 768px) 92vw, min(800px, 34vw)";
       <div class="hero-badge animate-on-load">
         <span class="badge-main">
           <img
-            src="/images/choix-quebec-optimized.webp"
+            src={`/images/choix-quebec-optimized.webp?v=${_v}`}
+            srcset={CHOIX_SRCSET}
+            sizes={CHOIX_SIZES}
             alt="Consumer Choice Award"
             class="badge-icon-img"
             width="40"
@@ -299,7 +317,9 @@ const TEAM_FACEBOOK_SIZES = "(max-width: 768px) 92vw, min(800px, 34vw)";
     </div>
     <div class="quality-image-wrapper">
       <img
-        src="/images/catalog/team-van-back-home.webp"
+        src={`/images/catalog/team-van-back-home.webp?v=${_v}`}
+        srcset={TEAM_VAN_SRCSET}
+        sizes={TEAM_VAN_SIZES}
         alt="L'équipe Groupe Empire avec le camion-usine"
         class="quality-img-full"
         width="800"
@@ -354,7 +374,9 @@ const TEAM_FACEBOOK_SIZES = "(max-width: 768px) 92vw, min(800px, 34vw)";
       <div class="eco-image-wrapper fade-in-section delay-100">
         <div class="eco-circle-bg"></div>
         <img
-          src="/images/catalog/photo-76.webp"
+          src={`/images/catalog/photo-76-800.webp?v=${_v}`}
+          srcset={PHOTO_76_SRCSET}
+          sizes={PHOTO_76_SIZES}
           alt="Eco-friendly cleaning products"
           class="eco-img floating"
           width="1200"
