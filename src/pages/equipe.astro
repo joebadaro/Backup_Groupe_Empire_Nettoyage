@@ -107,17 +107,36 @@ import Layout from "../layouts/Layout.astro";
             />
           </div>
 
-          <div class="visual-box floating">
-            <img
-              src="/images/catalog/equipe-interne-optimized.webp"
-              alt="Équipe interne Groupe Nettoyage Empire"
-              class="team-img shadow-premium"
-            />
+          <div class="team-visual-stack">
+            <div class="visual-box floating">
+              <img
+                src="/images/catalog/equipe-interne-optimized.webp"
+                alt="Équipe interne Groupe Nettoyage Empire"
+                class="team-img shadow-premium"
+                width="800"
+                height="526"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="visual-box visual-box--secondary">
+              <img
+                src="/images/catalog/equipe-techniciens-teck-cone.webp"
+                srcset="/images/catalog/equipe-techniciens-teck-cone-480.webp 480w, /images/catalog/equipe-techniciens-teck-cone.webp 800w"
+                sizes="(max-width: 900px) min(calc(100vw - 2rem), 560px), min(520px, 40vw)"
+                alt="Techniciens certifiés avec équipement camion-usine Groupe Nettoyage Empire"
+                class="team-img team-img--secondary shadow-premium"
+                width="800"
+                height="800"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
           </div>
 
           <div class="trust-badge">
             <span class="stars">⚜️</span>
-            <p>"Une fierté locale : notre famille à votre service."</p>
+            <p>Une fierté locale, notre famille à votre service</p>
           </div>
         </div>
       </div>
@@ -240,10 +259,24 @@ import Layout from "../layouts/Layout.astro";
     color: #666;
   }
 
+  .team-visual-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+    margin-bottom: 2rem;
+  }
+
+  .team-visual-stack .visual-box {
+    margin-bottom: 0;
+  }
+
   .visual-box {
     /* Removed fixed height to adapt to landscape image */
-    margin-bottom: 2rem;
     position: relative;
+  }
+
+  .visual-box--secondary .team-img--secondary {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
   }
 
   .team-img {
