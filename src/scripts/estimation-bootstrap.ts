@@ -1,6 +1,6 @@
 /**
- * Tiny entry: loads the full estimator on demand (dynamic import) so the large chunk
- * is not on the initial critical path. Idle preloads the chunk before first interaction.
+ * Tiny entry: loads the full estimator only when the user opens it (dynamic import).
+ * No idle preload — avoids pulling estimation-main into Lighthouse’s early navigation tree.
  */
 let loadPromise: Promise<void> | null = null;
 
@@ -19,13 +19,4 @@ function bootstrapOpen(): void {
 
 if (typeof window !== "undefined") {
   window.openEstimationWidget = bootstrapOpen;
-
-  const idlePreload = () => {
-    void loadEstimationMain();
-  };
-  if ("requestIdleCallback" in window) {
-    requestIdleCallback(idlePreload, { timeout: 12000 });
-  } else {
-    setTimeout(idlePreload, 3000);
-  }
 }
