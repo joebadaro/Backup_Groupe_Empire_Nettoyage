@@ -8,7 +8,8 @@ const posts = [
     excerpt: "Faut-il passer l'aspirateur ? Bouger les gros meubles ? Voici notre check-list simple pour un service efficace.",
     date: '12 Décembre 2024',
     category: 'Guide',
-    icon: '📋'
+    icon: '📋',
+    image: '/images/conseils/preparer-visite-nettoyage.webp'
   },
   {
     slug: 'frequence-nettoyage-tapis',
@@ -16,7 +17,8 @@ const posts = [
     excerpt: "Attendez-vous que le tapis soit sale visuellement ? C'est souvent trop tard. Voici les recommandations pour une maison saine.",
     date: '10 Décembre 2024',
     category: 'Santé',
-    icon: '📅'
+    icon: '📅',
+    image: '/images/conseils/frequence-nettoyage-tapis.webp'
   },
   {
     slug: 'entretien-cuir-erreurs',
@@ -24,7 +26,8 @@ const posts = [
     excerpt: "Les produits hydratants de pharmacie encrassent les pores du cuir. Apprenez la vraie méthode d'entretien.",
     date: '08 Décembre 2024',
     category: 'Entretien',
-    icon: '🛋️'
+    icon: '🛋️',
+    image: '/images/conseils/entretien-cuir-erreurs.webp'
   },
   {
     slug: 'urine-animaux-tapis',
@@ -32,7 +35,8 @@ const posts = [
     excerpt: 'Découvrez la science derrière les taches d\'urine. Comprenez pourquoi le vinaigre échoue et comment les enzymes détruisent l\'acide urique.',
     date: '17 Mars 2026',
     category: 'Animaux & Odeurs',
-    icon: '🐶'
+    icon: '🐶',
+    image: '/images/conseils/urine-animaux-tapis.webp'
   },
   {
     slug: 'erreurs-taches-tapis',
@@ -40,7 +44,8 @@ const posts = [
     excerpt: 'Apprenez les gestes d\'urgence pour sauver votre tapis. Découvrez les erreurs fatales et comment traiter le vin rouge, café et sang.',
     date: '17 Mars 2026',
     category: 'Entretien',
-    icon: '🛑'
+    icon: '🛑',
+    image: '/images/conseils/erreurs-taches-tapis.webp'
   },
   {
     slug: 'nettoyage-vapeur-vs-location',
@@ -48,7 +53,8 @@ const posts = [
     excerpt: 'Pourquoi louer une machine de supermarché peut ruiner vos tapis. Comparatif technique avec le nettoyage professionnel.',
     date: '17 Mars 2026',
     category: 'Comparatif',
-    icon: '🚛'
+    icon: '🚛',
+    image: '/images/conseils/location-vs-pro-1.webp'
   }
 ];
 ---
@@ -69,12 +75,12 @@ const posts = [
       
       <div class="blog-grid fade-in-section delay-100">
         {posts.map(post => (
-          <a href={`/conseils/${post.slug}`} class="blog-card">
-            <div class="card-icon">{post.icon}</div>
+          <a href={`/conseils/${post.slug}`} class={`blog-card ${post.image ? 'has-image' : ''}`} style={post.image ? `background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.85)), url('${post.image}');` : ''}>
+            {/* <div class="card-icon">{post.icon}</div> */}
             <div class="card-content">
               <span class="card-cat">{post.category}</span>
               <h3>{post.title}</h3>
-              <p>{post.excerpt}</p>
+              {/* <p>{post.excerpt}</p> */}
               <span class="read-more">Lire l'article &rarr;</span>
             </div>
           </a>
@@ -109,8 +115,8 @@ const posts = [
 
   .blog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 1.5rem;
     padding: 0 0 2.5rem;
   }
 
@@ -124,8 +130,34 @@ const posts = [
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     text-decoration: none;
     color: inherit;
+    aspect-ratio: 4 / 3;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .blog-card.has-image {
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .blog-card.has-image h3,
+  .blog-card.has-image p,
+  .blog-card.has-image .card-cat,
+  .blog-card.has-image .read-more {
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  }
+
+  .blog-card.has-image .card-icon {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 
   .blog-card:hover {

@@ -16,6 +16,8 @@ const frontmatter = {
     <span>Catégorie : {frontmatter.category}</span> | <span>Mise à jour : {frontmatter.date}</span>
   </div>
 
+  <img src="/images/conseils/erreurs-taches-tapis.webp" alt="Le Guide Ultime pour Enlever les Taches" style="width: 100%; border-radius: 8px; margin-bottom: 2rem; object-fit: cover; aspect-ratio: 21/9; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
+
   <p class="lead" style="font-size: 1.2rem; line-height: 1.6; color: var(--color-primary); font-weight: 500;">
     C'est le scénario catastrophe lors d'une soirée : le verre de vin rouge bascule, la tasse de café glisse, ou un enfant s'érafle le genou... et tout se retrouve sur votre beau tapis tissé pâle. La panique s'installe. Pourtant, la manière dont vous réagissez dans les 60 premières secondes détermine si la tache sera effacée à 100% ou si elle deviendra une cicatrice permanente sur votre revêtement de sol.
   </p>
@@ -106,13 +108,13 @@ const frontmatter = {
   <div style="background-color: var(--color-primary); color: white; padding: 2rem; margin-top: 3rem; border-radius: 8px; text-align: center;">
     <h3 style="color: var(--color-accent); margin-top: 0;">La tache refuse de partir ? Ne ruinez pas le tapis !</h3>
     <p>Le temps joue contre vous. Laissez nos techniciens certifiés extraire ce profil chimique de votre plancher, sans dommage.</p>
-    <div style="margin-top: 1.5rem;">
-      <a href="tel:5148939939" style="display: inline-block; background-color: var(--color-accent); color: #000; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 4px; border: 2px solid var(--color-accent); transition: 0.3s; margin: 0 10px;">
-        📞 Obtenir une Solution (514) 893-9939
+    <div style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+      <a href="tel:5148939939" class="btn btn-gradient-green">
+        📞 (514) 893-9939 (Parler à un Expert)
       </a>
-      <a href="/contact" style="display: inline-block; background-color: transparent; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 4px; border: 2px solid white; transition: 0.3s; margin: 0 10px;">
-        ✉️ Devis Rapide
-      </a>
+      <button onclick="window.openEstimationWidget()" class="btn btn-gradient-green">
+        ⚡ Estimation Instantanée en Ligne
+      </button>
     </div>
   </div>
 </ArticleLayout>

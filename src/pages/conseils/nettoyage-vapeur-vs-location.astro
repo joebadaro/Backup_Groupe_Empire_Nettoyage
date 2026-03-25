@@ -17,16 +17,10 @@ const frontmatter = {
   </div>
 
   <p class="lead" style="font-size: 1.2rem; line-height: 1.6; color: var(--color-primary); font-weight: 500;">
-    C'est le grand ménage de printemps. Vous passez devant la quincaillerie ou l'épicerie et vous voyez cette fameuse machine rouge à louer ("Rug Doctor" ou similaire). Pour quelques dizaines de dollars, vous vous dites que vous allez nettoyer vos tapis vous-même. <strong>Grave erreur.</strong> Si cette machine semble économique à court terme, elle risque de vous coûter un tapis neuf (et possiblement votre santé respiratoire) à long terme. Voici l'explication technique.
+    C'est le grand ménage de printemps. Vous passez devant la quincaillerie ou l'épicerie et vous voyez cette fameuse machine rouge ou bleue à louer ("Rug Doctor" ou similaire). Pour quelques dizaines de dollars, vous vous dites que vous allez nettoyer vos tapis vous-même. <strong>Grave erreur.</strong> Si cette machine semble économique à court terme, elle risque de vous coûter un tapis neuf (et possiblement votre santé respiratoire) à long terme. Voici l'explication technique.
   </p>
 
-  <img 
-    src="/images/catalog/photo-34.webp" 
-    alt="Système d'extraction professionnel par camion-usine" 
-    class="article-hero-image" 
-    style="width: 100%; height: auto; border-radius: 8px; margin: 2rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" 
-    loading="eager"
-  />
+  <img src="/images/conseils/location-vs-pro-1.webp" alt="Machine de location pour tapis" loading="lazy" style="width: 100%; border-radius: 8px; margin: 1.5rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
 
   <h2>Le Problème #1 des Locations : L'Eau Résiduelle</h2>
 
@@ -54,7 +48,12 @@ const frontmatter = {
 
   <hr style="margin: 3rem 0; border: 0; height: 1px; background: #eee;" />
 
-  <h2>Le Camion-Usine : Une Bête de Puissance (La Solution Empire)</h2>
+  <div style="position: relative; margin: 1.5rem 0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+    <img src="/images/conseils/location-vs-pro-2.webp" alt="Camion-usine professionnel pour le nettoyage de tapis" loading="lazy" style="width: 100%; display: block;" />
+    <div style="position: absolute; top: 0; left: 0; right: 0; background: linear-gradient(to bottom, rgba(10,20,40,0.88), rgba(10,20,40,0.05)); padding: 1.25rem 1.5rem 2rem;">
+      <h2 style="color: #fff; margin: 0; font-size: 1.4rem; line-height: 1.3; text-shadow: 0 2px 6px rgba(0,0,0,0.5);">Le Camion-Usine : Une Bête de Puissance (La Solution Empire)</h2>
+    </div>
+  </div>
 
   <p>Chez Groupe Nettoyage Empire, nous n'utilisons de l'équipement portatif que lorsque c'est strictement obligatoire (comme dans un condo au 15e étage à Montréal, et nos portatifs coûtent le prix d'une voiture d'occasion). Partout ailleurs, sur la Rive-Sud, à Laval, ou dans les maisons unifamiliales, nous déployons la puissance brute de nos "Truck-Mounts" (Camions-Usines).</p>
 
@@ -84,13 +83,13 @@ const frontmatter = {
   <div style="background-color: var(--color-primary); color: white; padding: 2rem; margin-top: 3rem; border-radius: 8px; text-align: center;">
     <h3 style="color: var(--color-accent); margin-top: 0;">Prêt à voir la différence d'un vrai camion-usine ?</h3>
     <p>Nous desservons Montréal, Laval et la Rive-Sud. Le diagnostic et la soumission en ligne sont gratuits.</p>
-    <div style="margin-top: 1.5rem;">
-      <a href="tel:5148939939" style="display: inline-block; background-color: var(--color-accent); color: #000; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 4px; border: 2px solid var(--color-accent); transition: 0.3s; margin: 0 10px;">
-        📞 Fixer un Rendez-vous (514) 893-9939
+    <div style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+      <a href="tel:5148939939" class="btn btn-gradient-green">
+        📞 (514) 893-9939 (Parler à un Expert)
       </a>
-      <a href="javascript:void(0)" onclick="window.openEstimationWidget()" style="display: inline-block; background-color: transparent; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 4px; border: 2px solid white; transition: 0.3s; margin: 0 10px;">
-        ⚡ Devis en Ligne
-      </a>
+      <button onclick="window.openEstimationWidget()" class="btn btn-gradient-green">
+        ⚡ Estimation Instantanée en Ligne
+      </button>
     </div>
   </div>
 </ArticleLayout>

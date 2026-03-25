@@ -2,34 +2,43 @@
 import ArticleLayout from "../../../layouts/ArticleLayout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
 
-const frontmatter = {
-  title: "Expert Advice: Why Does Pet Urine Odor Always Come Back on Carpets?",
-  description: "Discover the science behind dog and cat urine stains on carpets. Understand why vinegar fails and how enzymes destroy uric acid crystals.",
-  date: "March 17, 2026",
-  category: "Pets & Odors",
-  author: "Empire Cleaning Group"
-};
+const pageTitle =
+  "Expert Advice: Why Does Pet Urine Odor Always Come Back on Carpets? | Expert Tips | Empire Cleaning Group";
+const heading = "Expert Advice: Why Does Pet Urine Odor Always Come Back on Carpets?";
+const description =
+  "Discover the science behind dog and cat urine stains on carpets. Understand why vinegar fails and how enzymes destroy uric acid crystals.";
 ---
 
 <ArticleLayout
-  title={frontmatter.title}
-  description={frontmatter.description}
-  robots="noindex,nofollow"
+  title={pageTitle}
+  description={description}
+  heading={heading}
+  backHref="/en/tips"
+  backLabel="← Back to expert tips"
 >
   <div class="article-meta" style="margin-bottom: 2rem; color: #666; font-style: italic;">
-    <span>Category: {frontmatter.category}</span> | <span>Updated: {frontmatter.date}</span>
+    <span>Category: Pets & Odors</span> | <span>Updated: March 17, 2026</span>
   </div>
+
+  <img
+    src="/images/catalog/enlever-odeur-pipi-chat-tapis.webp"
+    alt="Eliminating cat urine odor on carpet — professional enzyme treatment by Empire Cleaning Group"
+    class="article-hero-image"
+    style="width: 100%; height: auto; border-radius: 8px; margin: 2rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"
+    width="1200"
+    height="800"
+    loading="eager"
+  />
 
   <p class="lead" style="font-size: 1.2rem; line-height: 1.6; color: var(--color-primary); font-weight: 500;">
     It's the ultimate frustration for any dog or cat owner: you find an accident on your beautiful carpet. You clean it immediately with a grocery store product, spray some deodorizer, and the smell seems to have vanished. Yet, a few weeks later, especially on a hot and humid day, the pungent smell of ammonia invades your living room again. Why does this happen?
   </p>
 
-  <img 
-    src="/images/catalog/photo-40.webp" 
-    alt="Dog sitting on a freshly enzyme-cleaned living room carpet" 
-    class="article-hero-image" 
-    style="width: 100%; height: auto; border-radius: 8px; margin: 2rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" 
-    loading="eager"
+  <img
+    src="/images/conseils/urine-chimie-acide-urique.webp"
+    alt="Uric acid crystals in carpet fibers viewed under microscope"
+    loading="lazy"
+    style="width: 100%; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"
   />
 
   <h2>The Science Behind Pet Urine (What You Can't See)</h2>
@@ -73,12 +82,7 @@ const frontmatter = {
   <p>The enzymes must reach the urine. This is why we flood the targeted area with our treatment to ensure it reaches the underpad. Then comes the crucial step you cannot do yourself: <strong>extraction</strong>.</p>
   <p>Thanks to the phenomenal suction of our truck-mounts (or our industrial portable units for high-rise condos), combined with a specialized sub-surface extraction tool, we vacuum the liquid, the digested urine, and the bacteria out of your carpet directly into our waste tank.</p>
 
-  <img 
-    src="/images/catalog/nettoyage-tapis-vapeur-laval.webp" 
-    alt="Empire technician using heavy steam extraction on a stained carpet" 
-    style="width: 100%; height: auto; border-radius: 8px; margin: 2rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" 
-    loading="lazy"
-  />
+
 
   <h2>What to Do When a Fresh Accident Happens? (First Aid)</h2>
 
@@ -95,34 +99,67 @@ const frontmatter = {
   <hr style="margin: 3rem 0; border: 0; height: 1px; background: #eee;" />
 
   <h2>Frequently Asked Questions About Urine Cleaning (FAQ)</h2>
-  
+
   <FAQSchema
     faqs={[
-        {
+      {
         question: "Is the enzyme treatment safe for my pets?",
-        answer: "Absolutely. Our professional enzymatic solutions are non-toxic, eco-friendly, and completely safe for dogs, cats, and children once applied. They use harmless, naturally occurring bacteria designed specifically to target urine proteins."
+        answer:
+          "Absolutely. Our professional enzymatic solutions are non-toxic, eco-friendly, and completely safe for dogs, cats, and children once applied. They use harmless, naturally occurring bacteria designed specifically to target urine proteins.",
       },
       {
         question: "My dog urinated several times in the exact same spot months ago. Is it still salvageable?",
-        answer: "In the vast majority of cases, yes. The enzymes will simply take more time to 'digest' older, very dense crystal formations. In extreme and rare cases where the subfloor beneath is rotting, we might need to recommend replacing that specific section of the carpet underpad."
+        answer:
+          "In the vast majority of cases, yes. The enzymes will simply take more time to 'digest' older, very dense crystal formations. In extreme and rare cases where the subfloor beneath is rotting, we might need to recommend replacing that specific section of the carpet underpad.",
       },
       {
         question: "Can you detect urine stains that I can no longer see with the naked eye?",
-        answer: "Yes. Our technicians are equipped with tracking tools, including professional-grade ultraviolet (UV) lights and moisture meters. Uric acid salts glow a distinctive yellowish-green under UV light, allowing us to accurately pinpoint and treat every hidden invisible accident in your living room."
-      }
+        answer:
+          "Yes. Our technicians are equipped with tracking tools, including professional-grade ultraviolet (UV) lights and moisture meters. Uric acid salts glow a distinctive yellowish-green under UV light, allowing us to accurately pinpoint and treat every hidden invisible accident in your living room.",
+      },
     ]}
   />
 
+  <div
+    style="background-color: #f5f9ff; border: 1px solid #c5dff0; margin-top: 2rem; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(66,133,244,0.08);"
+  >
+    <div style="display: flex; flex-wrap: wrap; align-items: stretch;">
+      <div style="flex: 0 0 auto; max-width: 280px; min-width: 180px; flex-basis: 40%;">
+        <img
+          src="/images/conseils/produits-odorbreak-biobreak.webp"
+          alt="Odor Break and BioBreak products by Empire Cleaning Group — odour neutralization and enzymatic spot treatment"
+          loading="lazy"
+          style="width: 100%; height: 100%; object-fit: contain; background: #fff; display: block; padding: 1rem;"
+        />
+      </div>
+      <div style="flex: 1 1 200px; padding: 1.25rem 1.5rem; display: flex; align-items: center;">
+        <p style="margin: 0; line-height: 1.65; color: var(--color-text-main);">
+          <strong>Maintenance products:</strong> see
+          <a href="/en/produits/neutralisant-odeurs-urine-oxygene" style="color: var(--color-primary); font-weight: 600;"
+            >Odor Break</a
+          >
+          (odor neutralization) and
+          <a href="/en/produits/detachant-enzymatique-apres-nettoyage" style="color: var(--color-primary); font-weight: 600;"
+            >BioBreak</a
+          >
+          (enzymatic spot cleaner), or the
+          <a href="/en/produits" style="color: var(--color-primary); font-weight: 600;">Products hub</a>
+          — from <strong>$26.99</strong> each; <strong>both for $49.99</strong> CAD (taxes extra where applicable).
+        </p>
+      </div>
+    </div>
+  </div>
+
   <div style="background-color: var(--color-primary); color: white; padding: 2rem; margin-top: 3rem; border-radius: 8px; text-align: center;">
-    <h3 style="color: var(--color-accent); margin-top: 0;">Is pet urine odor ruining your comfort?</h3>
-    <p>Stop wasting money on ineffective grocery store sprays. Let us destroy the odor-causing molecules at their source.</p>
-    <div style="margin-top: 1.5rem;">
-      <a href="tel:5148939939" style="display: inline-block; background-color: var(--color-accent); color: #000; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 4px; border: 2px solid var(--color-accent); transition: 0.3s; margin: 0 10px;">
-        📞 Call an Expert (514) 893-9939
+    <h3 style="color: var(--color-accent); margin-top: 0;">Is pet urine odour making your life miserable?</h3>
+    <p>Stop wasting money on ineffective grocery store products. Let us destroy the molecules at the source.</p>
+    <div style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+      <a href="tel:5148939939" class="btn btn-gradient-green">
+        📞 (514) 893-9939 (Talk to an Expert)
       </a>
-      <a href="/en/contact" style="display: inline-block; background-color: transparent; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 4px; border: 2px solid white; transition: 0.3s; margin: 0 10px;">
-        ✉️ Request a Quote
-      </a>
+      <button onclick="window.openEstimationWidget()" class="btn btn-gradient-green">
+        ⚡ Instant Online Estimate
+      </button>
     </div>
   </div>
 </ArticleLayout>

@@ -3,92 +3,90 @@ import Layout from "../../../layouts/Layout.astro";
 
 const posts = [
   {
-    slug: "preparer-visite-nettoyage",
-    title: "5 minutes to prepare for your cleaning visit",
-    excerpt:
-      "Should you vacuum? Move furniture? Our simple checklist for an efficient service.",
-    date: "December 12, 2024",
-    category: "Guide",
-    icon: "📋",
+    slug: 'preparer-visite-nettoyage',
+    title: '5 minutes to prepare for your cleaning visit',
+    excerpt: "Should you vacuum? Move furniture? Our simple checklist for an efficient service.",
+    date: 'December 12, 2024',
+    category: 'Guide',
+    icon: '📋',
+    image: '/images/conseils/preparer-visite-nettoyage.webp'
   },
   {
-    slug: "frequence-nettoyage-tapis",
-    title: "How often should you clean your carpets?",
-    excerpt:
-      "Waiting until the carpet looks dirty? It's often too late. Recommendations for a healthy home.",
-    date: "December 10, 2024",
-    category: "Health",
-    icon: "📅",
+    slug: 'frequence-nettoyage-tapis',
+    title: 'How often should you clean your carpets?',
+    excerpt: "Waiting until the carpet looks dirty? It's often too late. Recommendations for a healthy home.",
+    date: 'December 10, 2024',
+    category: 'Health',
+    icon: '📅',
+    image: '/images/conseils/frequence-nettoyage-tapis.webp'
   },
   {
-    slug: "entretien-cuir-erreurs",
+    slug: 'entretien-cuir-erreurs',
     title: "Leather: Stop using baby wipes!",
-    excerpt:
-      "Drugstore products clog leather pores. Learn the proper care method.",
-    date: "December 08, 2024",
-    category: "Maintenance",
-    icon: "🛋️",
+    excerpt: "Drugstore products clog leather pores. Learn the proper care method.",
+    date: 'December 08, 2024',
+    category: 'Maintenance',
+    icon: '🛋️',
+    image: '/images/conseils/entretien-cuir-erreurs.webp'
   },
   {
-    slug: "urine-animaux-tapis",
-    title: "Pets: Why does the smell always come back?",
-    excerpt:
-      "The science behind urine stains. Why vinegar fails and how enzymes destroy uric acid.",
-    date: "March 17, 2026",
-    category: "Pets & Odors",
-    icon: "🐶",
+    slug: 'urine-animaux-tapis',
+    title: 'Pets: Why does the smell always come back?',
+    excerpt: 'The science behind urine stains. Why vinegar fails and how enzymes destroy uric acid.',
+    date: 'March 17, 2026',
+    category: 'Pets & Odors',
+    icon: '🐶',
+    image: '/images/conseils/urine-animaux-tapis.webp'
   },
   {
-    slug: "erreurs-taches-tapis",
-    title: "The Ultimate Carpet Stain Removal Guide",
-    excerpt:
-      "Emergency steps to save your carpet. Fatal mistakes and how to treat wine, coffee, and blood.",
-    date: "March 17, 2026",
-    category: "Maintenance",
-    icon: "🛑",
+    slug: 'erreurs-taches-tapis',
+    title: 'The Ultimate Carpet Stain Removal Guide',
+    excerpt: 'Emergency steps to save your carpet. Fatal mistakes and how to treat wine, coffee, and blood.',
+    date: 'March 17, 2026',
+    category: 'Maintenance',
+    icon: '🛑',
+    image: '/images/conseils/erreurs-taches-tapis.webp'
   },
   {
-    slug: "nettoyage-vapeur-vs-location",
-    title: "Rental Machine vs Truck-Mount Unit",
-    excerpt:
-      "Why grocery store rentals can ruin carpets. Technical comparison with professional cleaning.",
-    date: "March 17, 2026",
-    category: "Comparison",
-    icon: "🚛",
-  },
+    slug: 'nettoyage-vapeur-vs-location',
+    title: 'Rental Machine vs Truck-Mount Unit',
+    excerpt: 'Why grocery store rentals can ruin carpets. Technical comparison with professional cleaning.',
+    date: 'March 17, 2026',
+    category: 'Comparison',
+    icon: '🚛',
+    image: '/images/conseils/location-vs-pro-1.webp'
+  }
 ];
 ---
 
 <Layout
   title="Expert Tips | Empire Cleaning Group"
-  description="Expert Tips: maintenance and stain/odor treatment guides for carpets, upholstery and surfaces. Professional methods and practical recommendations from our technicians."
+  description="Expert tips and guides for professional surface care: carpet maintenance, stain removal, and pet odor solutions. Practical recommendations from Empire Cleaning Group."
 >
   <div class="page-header">
     <div class="container text-center fade-in-section">
       <h1 class="text-gradient">Expert Tips</h1>
-      <p class="intro">
-        Tips, guides, and recommendations for maintaining your surfaces.
-      </p>
+      <p class="intro">Tips, guides, and recommendations for maintaining your surfaces.</p>
     </div>
   </div>
 
   <section class="section">
     <div class="container">
+      
       <div class="blog-grid fade-in-section delay-100">
-        {
-          posts.map((post) => (
-            <a href={`/en/conseils/${post.slug}`} class="blog-card">
-              <div class="card-icon">{post.icon}</div>
-              <div class="card-content">
-                <span class="card-cat">{post.category}</span>
-                <h3>{post.title}</h3>
-                <p>{post.excerpt}</p>
-                <span class="read-more">Read article &rarr;</span>
-              </div>
-            </a>
-          ))
-        }
+        {posts.map(post => (
+          <a href={`/en/conseils/${post.slug}`} class={`blog-card ${post.image ? 'has-image' : ''}`} style={post.image ? `background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.85)), url('${post.image}');` : ''}>
+            {/* <div class="card-icon">{post.icon}</div> */}
+            <div class="card-content">
+              <span class="card-cat">{post.category}</span>
+              <h3>{post.title}</h3>
+              {/* <p>{post.excerpt}</p> */}
+              <span class="read-more">Read article &rarr;</span>
+            </div>
+          </a>
+        ))}
       </div>
+
     </div>
   </section>
 </Layout>
@@ -109,6 +107,7 @@ const posts = [
     color: var(--color-text-light);
   }
 
+  /* Moins d'espace sous le titre : la classe .section ajoute 6rem en global.css */
   .section {
     padding-top: 0.75rem;
     padding-bottom: var(--spacing-lg, 4rem);
@@ -116,11 +115,12 @@ const posts = [
 
   .blog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 1.5rem;
     padding: 0 0 2.5rem;
   }
 
+  /* Dégradé bleu pâle : bandeau haut + corps très doux */
   .blog-card {
     background: linear-gradient(165deg, #f2f8fd 0%, #ffffff 52%, #e8f3fc 100%);
     border-radius: var(--border-radius-md);
@@ -130,8 +130,34 @@ const posts = [
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     text-decoration: none;
     color: inherit;
+    aspect-ratio: 4 / 3;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .blog-card.has-image {
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .blog-card.has-image h3,
+  .blog-card.has-image p,
+  .blog-card.has-image .card-cat,
+  .blog-card.has-image .read-more {
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  }
+
+  .blog-card.has-image .card-icon {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 
   .blog-card:hover {
@@ -179,13 +205,14 @@ const posts = [
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-
+  
   .read-more {
     color: var(--color-primary);
     font-weight: bold;
     font-size: 0.84rem;
   }
 
+  /* Mobile: cartes plus compactes (liste Conseils uniquement, ce fichier) */
   @media (max-width: 767px) {
     .page-header {
       padding: 1.75rem 0 1rem;
