@@ -45,12 +45,11 @@ const jsonLD = {
         ? "Premium carpet, upholstery and mattress cleaning services in Montreal and Quebec. Eco-friendly solutions and truck-mount technology."
         : "Service professionnel de nettoyage de tapis, meubles et matelas à Montréal, Laval et Rive-Sud. Technologie de camion-usine, produits écologiques et expertise de 30+ ans.",
     image: [socialImageURL, `${siteUrl}/images/catalog/team-van-back.webp`],
-    logo: `${siteUrl}/images/logo-empire.png`,
+    logo: `${siteUrl}/images/logo-empire.webp`,
     telephone: "(514) 893-9939",
     email: "info@groupenettoyageempire.com",
     address: {
         "@type": "PostalAddress",
-        streetAddress: undefined,
         addressLocality: "Longueuil",
         addressRegion: "QC",
         postalCode: "J3Y",
@@ -121,6 +120,9 @@ const jsonLD = {
         },
     ],
     url: siteUrl,
+    serviceType: isEn
+        ? "Carpet and Upholstery Cleaning Service"
+        : "Service de Nettoyage de Tapis et Meubles Rembourrés",
     priceRange: "$$",
     paymentAccepted: ["Cash", "Credit Card", "Debit Card", "Interac"],
     currenciesAccepted: "CAD",
@@ -144,6 +146,7 @@ const jsonLD = {
         "https://www.facebook.com/NettoyageEmpire/",
         "https://www.youtube.com/@NettoyageEmpire",
         "https://instagram.com/groupenettoyageempire",
+        "https://share.google/65gSEf1ioSMnuCvN1",
     ],
     aggregateRating: {
         "@type": "AggregateRating",
@@ -253,6 +256,40 @@ const jsonLD = {
                         isEn
                             ? "Professional solutions for offices and commercial spaces. After-hours service available."
                             : "Solutions professionnelles pour bureaux et espaces commerciaux. Service hors heures disponible.",
+                    provider: {
+                        "@id": `${siteUrl}/#organization`,
+                    },
+                    areaServed: isEn
+                        ? "Montreal, Laval, South Shore"
+                        : "Montréal, Laval, Rive-Sud",
+                },
+            },
+            {
+                "@type": "Offer",
+                itemOffered: {
+                    "@type": "Service",
+                    serviceType: isEn ? "Oriental & Area Rug Cleaning" : "Nettoyage de tapis orientaux et carpettes",
+                    name: isEn ? "Oriental & Area Rug Cleaning" : "Nettoyage de Tapis Orientaux et Carpettes",
+                    description: isEn
+                        ? "Specialist cleaning for wool, silk and oriental rugs. Safe hand-washing techniques that preserve colour and fibre integrity."
+                        : "Nettoyage spécialisé de tapis en laine, soie et tapis orientaux. Techniques de lavage qui préservent les couleurs et les fibres.",
+                    provider: {
+                        "@id": `${siteUrl}/#organization`,
+                    },
+                    areaServed: isEn
+                        ? "Montreal, Laval, South Shore"
+                        : "Montréal, Laval, Rive-Sud",
+                },
+            },
+            {
+                "@type": "Offer",
+                itemOffered: {
+                    "@type": "Service",
+                    serviceType: isEn ? "Leather Cleaning & Conditioning" : "Nettoyage et conditionnement de cuir",
+                    name: isEn ? "Leather Cleaning & Conditioning" : "Nettoyage et Conditionnement de Cuir",
+                    description: isEn
+                        ? "Professional cleaning and conditioning for leather sofas, chairs and sectionals. Removes stains and restores suppleness."
+                        : "Nettoyage professionnel et conditionnement de sofas, fauteuils et sectionnels en cuir. Élimination des taches et restauration de la souplesse.",
                     provider: {
                         "@id": `${siteUrl}/#organization`,
                     },
