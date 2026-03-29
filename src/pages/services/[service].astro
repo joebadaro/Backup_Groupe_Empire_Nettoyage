@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import FAQSchema from "../../components/FAQSchema.astro";
 
 const services = [
   {
@@ -594,23 +595,16 @@ if (!service) {
             <p class="contact-footer">Besoin d'un rendez-vous rapide ? Appelez-nous au <strong>(514) 893-9939</strong>.</p>
           </div>
 
-          <!-- FAQ (Schema Friendly structure) -->
           {
-            service.faq && (
+            service.faq && service.faq.length > 0 && (
               <div class="fade-in-section delay-300" style="margin-top: 3rem;">
-                <h2 class="section-title text-gradient-empire">
-                  Questions Fréquentes
-                </h2>
-                <div class="faq-list">
-                  {service.faq.map((item) => (
-                    <div class="faq-item">
-                      <p class="question">
-                        <strong>Q : {item.q}</strong>
-                      </p>
-                      <p class="answer">{item.a}</p>
-                    </div>
-                  ))}
-                </div>
+                <FAQSchema
+                  title="Questions Fréquentes"
+                  faqs={service.faq.map((item) => ({
+                    question: item.q,
+                    answer: item.a,
+                  }))}
+                />
               </div>
             )
           }

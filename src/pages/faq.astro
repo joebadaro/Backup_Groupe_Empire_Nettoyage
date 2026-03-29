@@ -1,0 +1,111 @@
+---
+import Layout from "../layouts/Layout.astro";
+import FAQSchema from "../components/FAQSchema.astro";
+import { googleReviewsMapsUrl } from "../data/googleReviews";
+
+const faqs = [
+  {
+    question: "Comment obtenir une estimation ou prendre rendez-vous ?",
+    answer:
+      "Vous pouvez nous appeler au (514) 893-9939 ou ouvrir la page Contact : le site propose aussi une estimation en ligne (outil indiqué sur cette page).",
+  },
+  {
+    question: "Quelle est votre zone de service ?",
+    answer:
+      "Nous intervenons dans la grande région de Montréal, Laval et la Rive-Sud, comme sur nos pages services et notre page À propos.",
+  },
+  {
+    question: "Nettoyez-vous les tapis à domicile ?",
+    answer:
+      "Oui. Nous proposons notamment le nettoyage de tapis résidentiel ; les modalités sont décrites sur la page « Nettoyage de tapis résidentiel ».",
+  },
+  {
+    question:
+      "Ramassez-vous les tapis pour les nettoyer en atelier ou en usine ?",
+    answer:
+      "Non. Nos services sont réalisés sur place, chez vous ou sur vos lieux (résidentiel ou commercial). Nous ne proposons pas le ramassage des tapis pour un nettoyage en atelier.",
+  },
+  {
+    question: "Offrez-vous le nettoyage de tapis pour commerces ou bureaux ?",
+    answer:
+      "Oui. Les informations se trouvent sur la page « Nettoyage de tapis commercial ».",
+  },
+  {
+    question:
+      "Nettoyez-vous les meubles rembourrés (divans, fauteuils, sofas) ?",
+    answer:
+      "Oui : nous traitons les meubles en tissu ainsi que le cuir. Voir les pages « Meubles en tissu » et « Meubles en cuir ».",
+  },
+  {
+    question: "Proposez-vous le nettoyage ou la désinfection de matelas ?",
+    answer:
+      "Oui. La page « Nettoyage et désinfection de matelas » décrit notre approche.",
+  },
+  {
+    question: "Utilisez-vous des produits écologiques ?",
+    answer:
+      "Le site présente une approche fondée sur des produits écologiques ; le technicien sélectionne les solutions adaptées à la fibre ou à la surface à traiter.",
+  },
+  {
+    question: "Sous-traitiez-vous les interventions ?",
+    answer:
+      "Non. Cette information est précisée sur notre page À propos : les spécialistes qui interviennent font partie de notre équipe.",
+  },
+  {
+    question:
+      "Combien de temps faut-il prévoir pour le séchage après un nettoyage ?",
+    answer:
+      "Le délai dépend de la fibre, de la ventilation et du type d’intervention. Le technicien sur place peut vous indiquer quoi attendre pour votre cas.",
+  },
+  {
+    question: "Où puis-je consulter des avis clients ?",
+    answer: `Les retours sont visibles sur notre fiche Google (${googleReviewsMapsUrl}). Des extraits d’avis figurent aussi sur la page d’accueil du site.`,
+  },
+  {
+    question: "Avez-vous des conseils d’entretien pour tapis ou meubles ?",
+    answer:
+      "Oui. Consultez la section « Conseils » du site pour des articles pratiques.",
+  },
+];
+---
+
+<Layout
+  title="FAQ — Questions fréquentes | Groupe Nettoyage Empire"
+  description="FAQ : nettoyage sur place de tapis, meubles et matelas à Montréal, Laval et Rive-Sud — pas de ramassage pour atelier. Rendez-vous, zones et services."
+>
+  <div class="page-header">
+    <div class="container text-center fade-in-section">
+      <h1 class="text-gradient">Questions fréquentes</h1>
+      <p class="lead-text">
+        Informations générales sur nos services. Pour un cas précis, contactez-nous
+        ou utilisez l’estimation en ligne.
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container faq-hub-wrap">
+      <p class="faq-hub-intro">
+        Les liens vers nos pages détaillées se trouvent dans le menu « Services » et
+        sur la page <a href="/services">Nos services</a>.
+      </p>
+      <FAQSchema title="" faqs={faqs} />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .faq-hub-wrap {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+  .faq-hub-intro {
+    margin-bottom: 2rem;
+    line-height: 1.65;
+    color: var(--color-text-light);
+  }
+  .faq-hub-intro a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+</style>

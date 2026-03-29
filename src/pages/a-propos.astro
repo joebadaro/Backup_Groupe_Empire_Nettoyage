@@ -1,30 +1,130 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { googleReviewsMapsUrl } from "../data/googleReviews";
 ---
 
 <Layout
-  title="Notre Histoire & Équipe — Groupe Nettoyage Empire"
-  description="Depuis plus de 30 ans, Groupe Nettoyage Empire est une référence en nettoyage spécialisé dans la grande région de Montréal. Techniciens certifiés, produits écologiques et approche sans sous-traitance."
+  title="À propos — Groupe Nettoyage Empire"
+  description="Groupe Nettoyage Empire : nettoyage spécialisé sur place (tapis, meubles, matelas) à Montréal, Laval et Rive-Sud — pas de ramassage pour atelier. Mission, équipe et zone desservie."
 >
   <div class="about-container">
     <div class="container">
-      <h1>Notre Histoire</h1>
-      <p class="intro">Depuis plus de 30 ans, Groupe Nettoyage Empire est la référence en nettoyage spécialisé dans la grande région de Montréal.</p>
-      
+      <h1>À propos de nous</h1>
+      <p class="intro">
+        Depuis plus de 30 ans, <strong>Groupe Nettoyage Empire</strong> offre des
+        services de nettoyage spécialisé aux résidences et aux entreprises de la
+        <strong>grande région de Montréal</strong>, incluant <strong>Laval</strong>
+        et la <strong>Rive-Sud</strong>. Nous intervenons notamment sur les tapis,
+        les meubles rembourrés, les matelas et d’autres surfaces — avec une approche
+        professionnelle et le souci du résultat.
+      </p>
+
       <div class="mission-box">
-        <h2>Notre Mission</h2>
-        <p>Offrir le nettoyage le plus complet et hygiénique possible, en combinant service à la clientèle d'exception et technologies de pointe.</p>
+        <h2>Notre mission</h2>
+        <p>
+          Offrir le nettoyage le plus complet et hygiénique possible, en combinant
+          service à la clientèle d’exception et technologies adaptées au terrain.
+        </p>
       </div>
 
-      <h2>L'Équipe</h2>
-      <p>Nos techniciens sont certifiés, formés en continu et dédiés à votre satisfaction. Nous ne sous-traitons pas : chaque expert est un membre de la famille Empire.</p>
+      <h2>Notre équipe</h2>
+      <p>
+        Nos techniciens sont certifiés, formés en continu et dédiés à votre
+        satisfaction. <strong>Nous ne sous-traitons pas</strong> : chaque
+        spécialiste qui intervient chez vous représente notre équipe.
+      </p>
+
+      <h2>Notre approche</h2>
+      <p>
+        Nous utilisons des <strong>méthodes de nettoyage professionnel</strong>,
+        dont l’extraction à l’eau chaude lorsque la situation s’y prête, avec un
+        <strong>équipement adapté</strong> — y compris des unités montées sur
+        camion lorsque les accès le permettent. Nous sélectionnons des solutions
+        de nettoyage en fonction des fibres et des surfaces, en privilégiant des
+        <strong>produits écologiques</strong> dans la lignée de ce qui est présenté
+        sur le reste du site.
+      </p>
+      <p>
+        Nos interventions sont réalisées <strong>sur place</strong>, à votre domicile
+        ou sur vos lieux (résidentiel ou commercial).{" "}
+        <strong>Nous ne ramassons pas les tapis</strong> pour un nettoyage en atelier
+        ou en usine.
+      </p>
+
+      <h2>Zone desservie</h2>
+      <p>
+        Nous desservons la <strong>grande région de Montréal</strong>,{" "}
+        <strong>Laval</strong> et la <strong>Rive-Sud</strong>. Pour une
+        intervention précise ou un devis, vous pouvez nous{" "}
+        <a href="/contact">contacter</a> ou utiliser l’outil d’estimation en ligne
+        proposé sur notre site.
+      </p>
+
+      <h2>Avis clients</h2>
+      <p>
+        Les commentaires de nos clients sont visibles sur notre{" "}
+        <a href={googleReviewsMapsUrl} target="_blank" rel="noopener noreferrer"
+          >fiche Google</a
+        >
+        . Sur l’accueil du site, nous affichons des <strong>extraits</strong>{" "}
+        d’avis ; la fiche permet de consulter l’ensemble des retours à jour.
+      </p>
+
+      <div class="mission-box history-cta">
+        <h2>Notre histoire</h2>
+        <p>
+          Pour le récit de nos origines et notre parcours — notamment notre
+          expérience auprès des clients dans le cadre de <strong
+            >Nettoyage Sears</strong
+          > à Montréal et en banlieue — consultez la page{" "}
+          <a href="/about">Notre histoire</a>.
+        </p>
+      </div>
     </div>
   </div>
 </Layout>
 
 <style>
-  .about-container { padding: 4rem 0; }
-  h1 { font-size: 3rem; margin-bottom: 2rem; }
-  .intro { font-size: 1.2rem; margin-bottom: 3rem; max-width: 800px; }
-  .mission-box { background-color: var(--color-background); padding: 2rem; border-left: 5px solid var(--color-gold); margin-bottom: 3rem; }
+  .about-container {
+    padding: 4rem 0;
+  }
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+  }
+  h2 {
+    font-size: 1.35rem;
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-primary);
+  }
+  .intro {
+    font-size: 1.15rem;
+    line-height: 1.65;
+    margin-bottom: 2rem;
+    max-width: 44rem;
+    color: var(--color-text);
+  }
+  .about-container p {
+    line-height: 1.65;
+    max-width: 44rem;
+    color: var(--color-text-light);
+  }
+  .mission-box {
+    background-color: var(--color-background);
+    padding: 2rem;
+    border-left: 5px solid var(--color-gold);
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .history-cta {
+    margin-top: 2.5rem;
+  }
+  .about-container a:not(.btn) {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
 </style>

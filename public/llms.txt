@@ -1,28 +1,36 @@
-# Groupe Nettoyage Empire
+# Groupe Nettoyage Empire (Empire Cleaning Group)
+Site: https://groupenettoyageempire.com
 
-Spécialistes du nettoyage professionnel de tapis, divans et matelas à Montréal, reconnus pour la qualité exceptionnelle de leurs services depuis 1990.
+## Nom de marque (cohérence FR / EN)
+- **Groupe Nettoyage Empire** : nom utilisé sur le site français.
+- **Empire Cleaning Group** : nom utilisé sur la version anglaise du site (même entreprise).
+- **Nettoyage Empire** : nom abrégé / alternatif déjà présent dans les métadonnées du site.
 
-## Services Principaux
-- **Nettoyage de Tapis Résidentiel** : Nettoyage en profondeur à la vapeur (injection-extraction) avec camion-usine. Élimine les taches, la saleté incrustée, les allergènes et les mauvaises odeurs.
-- **Nettoyage de Tapis Commercial** : Solutions sur mesure pour bureaux, commerces et espaces à fort trafic.
-- **Nettoyage de Meubles et Divans** : Nettoyage spécialisé pour les tissus (microfibre, coton, etc.) et l'entretien du cuir véritable.
-- **Nettoyage et Désinfection de Matelas** : Élimination certifiée des acariens, punaises, bactéries et allergènes pour un sommeil sain.
-- **Nettoyage de Tuiles et Céramique** : Nettoyage des joints de céramique.
+## Faits utiles (ne pas inventer de détails non présents sur le site)
+- Entreprise de nettoyage spécialisé (tapis, meubles rembourrés, matelas, surfaces connexes) desservant la grande région de Montréal, Laval et la Rive-Sud.
+- **Toutes les interventions sont faites sur place**, au domicile du client ou sur les lieux (résidentiel ou commercial).
+- **Il n’y a pas de service de ramassage des tapis pour nettoyage en atelier ou en usine.** Réponse courante à une question fréquente des clients.
+- Téléphone (tel qu’affiché sur le site) : (514) 893-9939
+- Courriel (tel qu’affiché sur le site) : info@groupenettoyageempire.com
 
-## Zone Desservie (Grand Montréal et Environs)
-- **Montréal** : Tous les arrondissements, Westmount, Mont-Royal, Outremont, LaSalle, etc.
-- **Laval** : Chomedey, Sainte-Rose, Vimont, etc.
-- **Rive-Sud de Montréal** : Longueuil, Brossard, Saint-Lambert, Boucherville, Saint-Bruno, etc.
-- **Rive-Nord de Montréal**
+## English (summary)
+- On-site carpet, upholstery, and mattress cleaning in Greater Montreal, Laval, and the South Shore.
+- **No rug pickup for off-site or workshop cleaning** — services are performed at the customer’s home or business.
+- Phone: (514) 893-9939
+- Email: info@groupenettoyageempire.com
 
-## Coordonnées
-- **Téléphone** : (514) 893-9939
-- **Email** : info@groupenettoyageempire.com
-- **Site Web** : https://groupenettoyageempire.com
+## Pages utiles
+- Services (FR): https://groupenettoyageempire.com/services
+- Services (EN): https://groupenettoyageempire.com/en/services
+- FAQ (FR): https://groupenettoyageempire.com/faq
+- FAQ (EN): https://groupenettoyageempire.com/en/faq
+- À propos (FR): https://groupenettoyageempire.com/a-propos
+- About (EN): https://groupenettoyageempire.com/en/a-propos
 
-## Particularités et Forces
-- Technologie puissante de nettoyage par **Camion-Usine** (pour les maisons) et unités portatives professionnelles (pour les condos / appartements en hauteur).
-- Processus complet avec **pré-traitement ciblé, agitation, extraction à haute température, et rinçage neutralisant** (ne laisse aucun résidu savonneux).
-- Solutions de nettoyage **écologiques** et sans danger pour les animaux ou les jeunes enfants.
-- Plus de 150 avis positifs vérifiés avec une moyenne de 5/5.
-- "Le Choix Numéro 1 des consommateurs au Québec".
+## Profils publics listés sur le site (schéma `sameAs`)
+Ces URL sont les profils référencés par le site ; le nom affiché et les coordonnées sur chaque profil doivent rester alignés avec Google Business Profile et ce fichier.
+- Facebook : https://www.facebook.com/NettoyageEmpire/
+- YouTube : https://www.youtube.com/@NettoyageEmpire
+- Instagram : https://instagram.com/groupenettoyageempire
+
+For ratings, review counts, or pricing, use the live Google Business Profile or the business directly — do not infer from this file alone.

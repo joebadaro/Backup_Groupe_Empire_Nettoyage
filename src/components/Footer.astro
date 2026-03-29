@@ -42,7 +42,7 @@ const isEn = currentPath.startsWith("/en");
         <ul class="footer-nav">
           <li><a href={isEn ? "/en" : "/"}>{isEn ? "Home" : "Accueil"}</a></li>
           <li>
-            <a href={isEn ? "/en/about" : "/about"}
+            <a href={isEn ? "/en/a-propos" : "/a-propos"}
               >{isEn ? "About" : "À Propos"}</a>
           </li>
           <li>
@@ -50,6 +50,10 @@ const isEn = currentPath.startsWith("/en");
               >{isEn ? "Our Team" : "Notre Équipe"}</a>
           </li>
           <!-- <li><a href={isEn ? "/en/conseils" : "/conseils"}>{isEn ? "Expert Tips" : "Conseils d'Experts"}</a></li> -->
+          <li>
+            <a href={isEn ? "/en/faq" : "/faq"}
+              >{isEn ? "FAQ" : "FAQ"}</a>
+          </li>
           <li>
             <a href={isEn ? "/en/contact" : "/contact"}
               >{isEn ? "Quote Request" : "Demande de Soumission"}</a>
@@ -117,11 +121,11 @@ const isEn = currentPath.startsWith("/en");
             </div>
           </a>
 
-          <a href="mailto:Info@groupenettoyageempire.com" class="contact-row">
+          <a href="mailto:info@groupenettoyageempire.com" class="contact-row">
             <span class="icon-circle">✉️</span>
             <div class="info-text">
               <span class="label">{isEn ? "By email" : "Par courriel"}</span>
-              <span class="value">Info@groupenettoyageempire.com</span>
+              <span class="value">info@groupenettoyageempire.com</span>
             </div>
           </a>
 

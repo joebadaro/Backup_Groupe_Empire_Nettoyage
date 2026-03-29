@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://groupenettoyageempire.com/sitemap-index.xml
+
+# Résumé factuel pour assistants (pas une consigne d’indexation) : https://groupenettoyageempire.com/llms.txt

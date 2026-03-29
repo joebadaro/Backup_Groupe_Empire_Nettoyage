@@ -39,7 +39,8 @@ const jsonLD = {
     "@type": ["LocalBusiness", "ProfessionalService"],
     "@id": `${siteUrl}/#organization`,
     name: "Groupe Nettoyage Empire",
-    alternateName: "Nettoyage Empire",
+    /** Même jeu de noms que WebSite / llms.txt — une seule entité FR+EN */
+    alternateName: ["Empire Cleaning Group", "Nettoyage Empire"],
     slogan: "L'Excellence du Nettoyage au Québec",
     description: isEn
         ? "Premium carpet, upholstery and mattress cleaning services in Montreal and Quebec. Eco-friendly solutions and truck-mount technology."
@@ -148,12 +149,6 @@ const jsonLD = {
         "https://instagram.com/groupenettoyageempire",
         "https://share.google/65gSEf1ioSMnuCvN1",
     ],
-    aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "5",
-        reviewCount: "150",
-        bestRating: "5",
-    },
     foundingDate: "1990",
     numberOfEmployees: {
         "@type": "QuantitativeValue",
@@ -308,9 +303,15 @@ const webSiteSchema = {
     "@id": `${siteUrl}/#website`,
     url: siteUrl,
     name: "Groupe Nettoyage Empire",
+    /** Aide les systèmes à relier la marque FR / EN sans dupliquer l’entité */
+    alternateName: ["Empire Cleaning Group", "Nettoyage Empire"],
     description: isEn
         ? "The Excellence of Cleaning in Quebec"
         : "L'Excellence du Nettoyage au Québec",
+    /** Lie explicitement le site à l’organisation (@id partagé avec LocalBusiness) */
+    about: {
+        "@id": `${siteUrl}/#organization`,
+    },
     publisher: {
         "@id": `${siteUrl}/#organization`,
     },

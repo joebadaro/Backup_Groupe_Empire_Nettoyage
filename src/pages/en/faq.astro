@@ -1,0 +1,109 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import FAQSchema from "../../components/FAQSchema.astro";
+import { googleReviewsMapsUrl } from "../../data/googleReviews";
+
+const faqs = [
+  {
+    question: "How do I get a quote or book an appointment?",
+    answer:
+      "Call us at (514) 893-9939 or visit the Contact page. The site also offers an online estimate option from that page.",
+  },
+  {
+    question: "What area do you serve?",
+    answer:
+      "We work in Greater Montreal, Laval, and the South Shore, as described on our service pages and About page.",
+  },
+  {
+    question: "Do you clean carpets in homes?",
+    answer:
+      "Yes. We offer residential carpet cleaning among other services; see the Residential carpet cleaning page for details.",
+  },
+  {
+    question: "Do you pick up rugs for off-site, workshop, or plant cleaning?",
+    answer:
+      "No. We work on-site at your home or business. We do not pick up rugs for workshop or in-plant cleaning.",
+  },
+  {
+    question: "Do you clean carpet for offices or commercial spaces?",
+    answer:
+      "Yes. See our Commercial carpet cleaning page.",
+  },
+  {
+    question: "Do you clean upholstered furniture (sofas, chairs, sectionals)?",
+    answer:
+      "Yes — fabric upholstery and leather. See our Fabric upholstery and Leather cleaning pages.",
+  },
+  {
+    question: "Do you clean or disinfect mattresses?",
+    answer:
+      "Yes. Our Mattress cleaning & disinfection page explains the service.",
+  },
+  {
+    question: "Do you use eco-friendly products?",
+    answer:
+      "Our site describes an eco-friendly approach; your technician selects solutions suited to the fibre or surface.",
+  },
+  {
+    question: "Do you subcontract your work?",
+    answer:
+      "No. As noted on our About page, the people who come to your home or business are part of our team.",
+  },
+  {
+    question: "How long does drying take after a cleaning?",
+    answer:
+      "It depends on fibre type, ventilation, and the work performed. Your technician can tell you what to expect for your situation.",
+  },
+  {
+    question: "Where can I read client reviews?",
+    answer: `Feedback is on our Google Business Profile (${googleReviewsMapsUrl}). The homepage also shows excerpts from reviews.`,
+  },
+  {
+    question: "Do you publish care tips for carpet or furniture?",
+    answer:
+      "Yes — see the Tips section of the site for practical articles.",
+  },
+];
+---
+
+<Layout
+  title="FAQ — Frequently asked questions | Empire Cleaning Group"
+  description="FAQ: on-site carpet, upholstery, and mattress cleaning in Greater Montreal — no rug pickup for off-site cleaning. Bookings, service area, and services."
+>
+  <div class="page-header">
+    <div class="container text-center fade-in-section">
+      <h1 class="text-gradient">Frequently asked questions</h1>
+      <p class="lead-text">
+        General information about our services. For a specific situation, contact us
+        or use the online estimate.
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container faq-hub-wrap">
+      <p class="faq-hub-intro">
+        Detailed pages are under Services in the main menu and on the{" "}
+        <a href="/en/services">Our services</a> hub.
+      </p>
+      <FAQSchema title="" faqs={faqs} />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .faq-hub-wrap {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+  .faq-hub-intro {
+    margin-bottom: 2rem;
+    line-height: 1.65;
+    color: var(--color-text-light);
+
+  }
+  .faq-hub-intro a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+</style>

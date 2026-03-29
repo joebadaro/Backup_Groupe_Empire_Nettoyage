@@ -21,8 +21,8 @@ const { title, image, robots } = Astro.props;
 
 const isEn = Astro.url.pathname.startsWith("/en");
 const defaultDescription = isEn
-  ? "Premium carpet, upholstery and mattress cleaning services in Montreal and Quebec. Eco-friendly solutions and truck-mount technology."
-  : "Groupe Nettoyage Empire - Spécialistes du nettoyage de tapis, divans et carpettes.";
+  ? "Professional on-site carpet, upholstery, and mattress cleaning in Greater Montreal, Laval, and the South Shore. Eco-friendly products and truck-mount equipment. We do not pick up rugs for off-site cleaning."
+  : "Groupe Nettoyage Empire — nettoyage sur place de tapis, meubles et matelas à Montréal, Laval et sur la Rive-Sud. Pas de ramassage des tapis pour nettoyage en atelier.";
 
 const description = Astro.props.description ?? defaultDescription;
 
