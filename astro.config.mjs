@@ -10,6 +10,7 @@ import netlify from '@astrojs/netlify';
 
 const sitemapFilter = (url) => {
   const excludedSubstrings = [
+    "/promo/",
     "/selection/",
     "/inventaire/",
     "/test-sms/",
