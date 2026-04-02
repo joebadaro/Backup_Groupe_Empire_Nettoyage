@@ -37,6 +37,13 @@ function getGtmId(): string | null {
   return t;
 }
 const gtmId = getGtmId();
+
+/** GA4 measurement ID — defer gtag.js until after load so LCP is not competing with analytics (GTM may also use dataLayer). */
+const ga4MeasurementId =
+  typeof import.meta.env.PUBLIC_GA4_MEASUREMENT_ID === "string" &&
+  import.meta.env.PUBLIC_GA4_MEASUREMENT_ID.trim() !== ""
+    ? import.meta.env.PUBLIC_GA4_MEASUREMENT_ID.trim()
+    : "G-V2CR801H3F";
 ---
 
 <!doctype html>
@@ -59,13 +66,26 @@ const gtmId = getGtmId();
       crossorigin="anonymous"
       fetchpriority="high"
     />
-    <!-- Google tag (gtag.js) - GA4 -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-V2CR801H3F"></script>
-    <script is:inline>
+    <!-- GA4: stub only in head; gtag.js loads after window load (reduces main-thread + network contention with LCP) -->
+    <script is:inline define:vars={{ ga4MeasurementId }}>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-V2CR801H3F');
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      window.addEventListener("load", function () {
+        if (window.__ga4GtagLoaded) return;
+        window.__ga4GtagLoaded = true;
+        var s = document.createElement("script");
+        s.async = true;
+        s.src =
+          "https://www.googletagmanager.com/gtag/js?id=" +
+          encodeURIComponent(ga4MeasurementId);
+        s.onload = function () {
+          gtag("js", new Date());
+          gtag("config", ga4MeasurementId);
+        };
+        document.head.appendChild(s);
+      });
     </script>
 
     {

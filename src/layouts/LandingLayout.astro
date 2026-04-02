@@ -56,14 +56,26 @@ const { title, description, image, service } = Astro.props;
 
     <slot name="head" />
 
-    <!-- Google Ads Tag (AW-18054652665) + GA4 (G-V2CR801H3F) -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=AW-18054652665"></script>
+    <!-- Google Ads + GA4: defer gtag.js until after load (landing heroes compete less with third-party JS) -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'AW-18054652665');
-      gtag('config', 'G-V2CR801H3F');
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      window.addEventListener("load", function () {
+        if (window.__promoGtagLoaded) return;
+        window.__promoGtagLoaded = true;
+        var s = document.createElement("script");
+        s.async = true;
+        s.src =
+          "https://www.googletagmanager.com/gtag/js?id=AW-18054652665";
+        s.onload = function () {
+          gtag("js", new Date());
+          gtag("config", "AW-18054652665");
+          gtag("config", "G-V2CR801H3F");
+        };
+        document.head.appendChild(s);
+      });
     </script>
   </head>
   <body>
