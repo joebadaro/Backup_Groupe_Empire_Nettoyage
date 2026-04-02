@@ -159,10 +159,32 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
       btn.textContent = 'Envoi en cours...';
       btn.style.background = '#2E7D32';
       btn.disabled = true;
-      console.log('Lead soumis:', payload);
-      if (typeof fbq !== 'undefined') { fbq('track', 'Lead', { content_name: 'Nettoyage Tuiles', content_category: payload.service, city: 'Montréal' }); }
-      if (typeof gtag !== 'undefined') { gtag('event', 'conversion', { send_to: 'AW-18054652665', value: 50.0, currency: 'CAD' }); }
-      setTimeout(function() { window.location.href = '/promo/merci'; }, 500);
+
+      fetch('/.netlify/functions/promo-form-submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: (payload.prenom + ' ' + payload.nom).trim(),
+          phone: payload.telephone,
+          email: payload.email || '',
+          service: payload.service || 'tuiles',
+          address: payload.adresse || '',
+          message: payload.message || '',
+          source: 'promo-tuiles'
+        })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(result) {
+        if (typeof fbq !== 'undefined') { fbq('track', 'Lead', { content_name: 'Nettoyage Tuiles', content_category: payload.service, city: 'Montréal' }); }
+        if (typeof gtag !== 'undefined') { gtag('event', 'conversion', { send_to: 'AW-18054652665', value: 50.0, currency: 'CAD' }); }
+        window.location.href = '/promo/merci';
+      })
+      .catch(function(err) {
+        console.error('Erreur soumission:', err);
+        btn.textContent = 'Erreur - Réessayer';
+        btn.style.background = '#c62828';
+        btn.disabled = false;
+      });
     });
   </script>
 </LandingLayout>
