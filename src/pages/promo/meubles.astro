@@ -166,17 +166,18 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
       btn.style.background = '#2E7D32';
       btn.disabled = true;
 
-      fetch('/.netlify/functions/promo-form-submit', {
+      fetch('https://nettoyage-empire-api.onrender.com/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: (payload.prenom + ' ' + payload.nom).trim(),
+          firstName: payload.prenom,
+          lastName: payload.nom,
           phone: payload.telephone,
           email: payload.email || '',
-          service: payload.service || 'meubles',
           address: payload.adresse || '',
+          source: 'promo-meubles',
           message: payload.message || '',
-          source: 'promo-meubles'
+          service: payload.service || 'meubles'
         })
       })
       .then(function(res) { return res.json(); })

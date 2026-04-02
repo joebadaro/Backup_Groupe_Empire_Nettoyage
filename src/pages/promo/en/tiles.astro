@@ -159,10 +159,34 @@ import LandingLayout from '../../../layouts/LandingLayout.astro';
       btn.textContent = 'Sending...';
       btn.style.background = '#2E7D32';
       btn.disabled = true;
-      console.log('Lead submitted:', payload);
-      if (typeof fbq !== 'undefined') { fbq('track', 'Lead', { content_name: 'Tile Cleaning', content_category: payload.service, city: 'Montreal' }); }
-      if (typeof gtag !== 'undefined') { gtag('event', 'conversion', { send_to: 'AW-18054652665', value: 50.0, currency: 'CAD' }); }
-      setTimeout(function() { window.location.href = '/promo/en/thank-you'; }, 500);
+
+      fetch('https://nettoyage-empire-api.onrender.com/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: payload.prenom,
+          lastName: payload.nom,
+          phone: payload.telephone,
+          email: payload.email || '',
+          address: payload.adresse || '',
+          source: 'promo-tuiles',
+          message: payload.message || '',
+          service: payload.service || 'tuiles',
+          lang: 'en'
+        })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(result) {
+        if (typeof fbq !== 'undefined') { fbq('track', 'Lead', { content_name: 'Tile Cleaning', content_category: payload.service, city: 'Montreal' }); }
+        if (typeof gtag !== 'undefined') { gtag('event', 'conversion', { send_to: 'AW-18054652665', value: 50.0, currency: 'CAD' }); }
+        window.location.href = '/promo/en/thank-you';
+      })
+      .catch(function(err) {
+        console.error('Submit error:', err);
+        btn.textContent = 'Error - Retry';
+        btn.style.background = '#c62828';
+        btn.disabled = false;
+      });
     });
   </script>
 </LandingLayout>

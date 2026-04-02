@@ -3837,68 +3837,8 @@
                             return;
                         }
 
-                        // Generate PDF
-                        // Calculate unique service images
-                        const uniqueImages = new Set<string>();
-                        (items || []).forEach((item) => {
-                            const img = getItemImage(item.rawId);
-                            if (img) uniqueImages.add(img);
-                        });
-
-                        const address = `${street}, ${apt ? "Apt " + apt + ", " : ""}${city}, ${postal}`;
-
-                        const pdfData: EstimationData = {
-                            clientName: name, // Keep just the person name for the PDF "Contact" line
-                            businessName: companyVal, // Pass business name explicitly for PDF Title
-                            clientEmail: email,
-                            clientPhone: phone,
-                            clientCity: city,
-                            clientAddress: address,
-                            clientStreet: street,
-                            clientApt: apt,
-                            clientPostal: postal,
-                            clientNotes: notes,
-                            items: items || [],
-                            total: total || 0,
-                            lang: STATE.lang,
-                            serviceImages: Array.from(uniqueImages),
-                        };
-
-                        console.log("Generating PDF...");
-                        let pdfBlob;
-                        try {
-                            pdfBlob = await generateEstimationPDF(pdfData);
-                        } catch (e) {
-                            console.error("PDF Gen Error:", e);
-                            alert(
-                                "Erreur lors de la création du PDF. Veuillez réessayer.",
-                            );
-                            return;
-                        }
-
-                        // SEND TO API
-                        console.log("Sending to API...");
-                        const formData = new FormData();
-                        formData.append(
-                            "pdf",
-                            pdfBlob,
-                            `Estimation_${finalName.replace(/\s+/g, "_")}.pdf`, // Use Final Name for filename
-                        );
-                        formData.append("clientName", finalName); // Use Final Name (Company - Name) for Email Subject
-                        formData.append("clientEmail", email);
-                        formData.append("clientPhone", phone);
-                        formData.append("clientCity", city);
-                        formData.append("clientAddress", address); // Full address
-                        formData.append("clientStreet", street);
-                        formData.append("clientApt", apt);
-                        formData.append("clientPostal", postal);
-                        formData.append("clientNotes", notes);
-                        formData.append("deliveryMethod", deliveryMethod);
-                        formData.append("total", total.toFixed(2));
-                        formData.append("summary", summary);
-                        formData.append("lang", STATE.lang);
-                        formData.append("isCommercial", isQuote ? "true" : "false"); // Pass flag
-                        formData.append("callBackRequested", callBackRequested);
+                        // Build address string
+                        const fullAddress = [street, apt ? '#' + apt : '', city, postal].filter(Boolean).join(', ');
 
                         try {
                             // Disable button to prevent double clicks
@@ -3909,9 +3849,20 @@
                                 btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${STATE.lang === "fr" ? "Envoi..." : "Sending..."}`;
                             }
 
-                            const response = await fetch("/api/send-estimate", {
+                            const response = await fetch("https://nettoyage-empire-api.onrender.com/api/leads", {
                                 method: "POST",
-                                body: formData,
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    firstName: name.split(' ')[0],
+                                    lastName: name.split(' ').slice(1).join(' '),
+                                    phone,
+                                    email,
+                                    address: fullAddress,
+                                    source: 'estimation-site',
+                                    message: summary,
+                                    service: 'estimation',
+                                    lang: STATE.lang,
+                                }),
                             });
 
                             if (btn) {
@@ -3920,44 +3871,31 @@
                             }
 
                             if (response.ok) {
-                                const deliveryText = deliveryMethod === 'sms' 
-                                    ? (STATE.lang === "fr" ? "par SMS" : "by SMS")
-                                    : (STATE.lang === "fr" ? "par courriel" : "by email");
-                                    
                                 alert(
                                     STATE.lang === "fr"
-                                        ? `✅ Demande envoyée avec succès!\n\nVotre estimation a été envoyée ${deliveryText}.`
-                                        : `✅ Request sent successfully!\n\nYour estimate has been sent ${deliveryText}.`,
+                                        ? "Demande envoyée avec succès!\n\nUn membre de notre équipe vous contactera sous peu."
+                                        : "Request sent successfully!\n\nA team member will contact you shortly.",
                                 );
-                                // Success - maybe close modal or reset?
-                                // For now, just close modal as per original logic
-                                const widget =
-                                    document.getElementById(
-                                        "estimation-widget",
-                                    );
+                                const widget = document.getElementById("estimation-widget");
                                 if (widget) widget.style.display = "none";
-                                // Fixed: Also hide mobile view if open
-                                const mobView = document.getElementById(
-                                    "mobile-estimation-view",
-                                );
+                                const mobView = document.getElementById("mobile-estimation-view");
                                 if (mobView) mobView.style.display = "none";
 
                                 document.body.style.overflow = "";
-                                const sticky = document.querySelector(
-                                    ".mobile-sticky-bar",
-                                ) as HTMLElement;
+                                const sticky = document.querySelector(".mobile-sticky-bar") as HTMLElement;
                                 if (sticky) sticky.style.display = "flex";
 
-                                // RESET APP
                                 if(window.resetEstimation) window.resetEstimation();
                             } else {
                                 const errText = await response.text();
                                 console.error("API Error:", errText);
-                                throw new Error("Erreur API Email: " + errText);
+                                throw new Error("Erreur API: " + errText);
                             }
                         } catch (err) {
                             console.error("Submit Error:", err);
-                            alert("Erreur lors de l'envoi: " + err);
+                            alert(STATE.lang === "fr"
+                                ? "Erreur lors de l'envoi. Veuillez réessayer ou appeler le (450) 977-4636."
+                                : "Error sending request. Please try again or call (450) 977-4636.");
                         }
                     }
 
