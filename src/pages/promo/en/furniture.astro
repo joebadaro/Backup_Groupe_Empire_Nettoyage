@@ -248,7 +248,8 @@ import LandingLayout from '../../../layouts/LandingLayout.astro';
           source: 'promo-meubles',
           message: payload.message || '',
           service: payload.service || 'meubles',
-          lang: 'en'
+          lang: 'en',
+          customData: { cf_type_service: payload.service || 'meubles' }
         })
       })
       .then(function(res) { return res.json(); })

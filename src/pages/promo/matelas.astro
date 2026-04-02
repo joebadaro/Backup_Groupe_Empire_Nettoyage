@@ -170,7 +170,8 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
           address: payload.adresse || '',
           source: 'promo-matelas',
           message: payload.message || '',
-          service: payload.service || 'matelas'
+          service: payload.service || 'matelas',
+          customData: { cf_type_service: payload.service || 'matelas' }
         })
       })
       .then(function(res) { return res.json(); })

@@ -177,7 +177,8 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
           address: payload.adresse || '',
           source: 'promo-meubles',
           message: payload.message || '',
-          service: payload.service || 'meubles'
+          service: payload.service || 'meubles',
+          customData: { cf_type_service: payload.service || 'meubles' }
         })
       })
       .then(function(res) { return res.json(); })

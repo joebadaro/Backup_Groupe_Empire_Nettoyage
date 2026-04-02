@@ -3862,9 +3862,97 @@
                                     state: 'QC',
                                     postalCode: postal,
                                     source: 'estimation-site',
-                                    message: summary,
+                                    message: notes,
                                     service: 'estimation',
                                     lang: STATE.lang,
+                                    customData: (() => {
+                                        const FORM_TO_GHL: Record<string, string> = {
+                                            'sofa_3': 'qty_canape_3places',
+                                            'sofa_2': 'qty_causeuse',
+                                            'fauteuil': 'qty_fauteuil',
+                                            'chaise': 'qty_chaise_cuisine',
+                                            'cuir_sofa': 'qty_cuir_sofa',
+                                            'cuir_causeuse': 'qty_cuir_causeuse',
+                                            'cuir_fauteuil': 'qty_cuir_fauteuil',
+                                            'matelas_simple': 'qty_matelas_simple',
+                                            'matelas_double': 'qty_matelas_double',
+                                            'matelas_queen': 'qty_matelas_queen',
+                                            'matelas_king': 'qty_matelas_king',
+                                            'marche': 'qty_marche',
+                                            'palier': 'qty_palier',
+                                            'hallway': 'qty_corridor',
+                                        };
+                                        const cd: Record<string, any> = {};
+
+                                        // Quantites depuis STATE.quantities
+                                        for (const [formId, ghlName] of Object.entries(FORM_TO_GHL)) {
+                                            const qty = (STATE.quantities[formId] as number) || 0;
+                                            if (qty > 0) cd[ghlName] = qty;
+                                        }
+
+                                        // Sectionnels tissu (custom sectionals)
+                                        if (STATE.customSectionals) {
+                                            const sectCounts: Record<string, number> = {};
+                                            STATE.customSectionals.forEach((s: any) => {
+                                                if (s.itemId === 'sectionnel') {
+                                                    const key = 'qty_sectionnel_' + (s.label?.includes('chaise') ? 'ch' : s.tempId?.toString().slice(-1) || '5');
+                                                    sectCounts[key] = (sectCounts[key] || 0) + 1;
+                                                } else if (s.itemId === 'cuir_sectionnel') {
+                                                    const key = 'qty_cuir_sectionnel_' + (s.label?.includes('chaise') ? 'ch' : s.tempId?.toString().slice(-1) || '5');
+                                                    sectCounts[key] = (sectCounts[key] || 0) + 1;
+                                                }
+                                            });
+                                            for (const [k, v] of Object.entries(sectCounts)) {
+                                                if (v > 0) cd[k] = v;
+                                            }
+                                        }
+
+                                        // Pieces mur-a-mur
+                                        const pkg3 = STATE.quantities['package_3rooms'] ? 3 : 0;
+                                        const roomInd = (STATE.quantities['room_individual'] as number) || 0;
+                                        if (pkg3 + roomInd > 0) cd.qty_pieces_mur_a_mur = pkg3 + roomInd;
+
+                                        // Tapis amovibles
+                                        if (STATE.rugs) {
+                                            let synthCount = 0, laineCount = 0;
+                                            for (const rugs of Object.values(STATE.rugs) as any[]) {
+                                                if (Array.isArray(rugs)) {
+                                                    rugs.forEach((r: any) => {
+                                                        if (r.materiau === 'laine') laineCount++;
+                                                        else synthCount++;
+                                                    });
+                                                }
+                                            }
+                                            if (synthCount > 0) cd.tapis_liste_synthetique = synthCount;
+                                            if (laineCount > 0) cd.tapis_liste_laine = laineCount;
+                                        }
+
+                                        // Surface ceramique
+                                        const tileSqft = (STATE.quantities['tiles_sqft'] as number) || (STATE.quantities['ceramique'] as number) || 0;
+                                        if (tileSqft > 0) cd.surface_ceramique = tileSqft;
+
+                                        // Montants
+                                        const subtotal = STATE.total || 0;
+                                        if (subtotal > 0) {
+                                            cd.cf_sous_total = Math.round(subtotal * 100) / 100;
+                                            cd.cf_montant_tps = Math.round(subtotal * 0.05 * 100) / 100;
+                                            cd.cf_montant_tvq = Math.round(subtotal * 0.09975 * 100) / 100;
+                                            cd.cf_total_final = Math.round(subtotal * 1.14975 * 100) / 100;
+                                            cd.prix_formate = cd.cf_total_final.toFixed(2) + ' $';
+                                        }
+
+                                        // Texte
+                                        cd.cf_type_service = 'estimation';
+                                        if (city) cd.cf_client_ville = city;
+                                        if (notes) cd.message_client = notes;
+                                        if (summary) cd.description_nettoyage = summary;
+                                        if (summary) cd.cf_quantites_detail = summary;
+                                        if (phone) cd.telephone = phone;
+                                        if (deliveryMethod) cd.deliveryMethod = deliveryMethod;
+                                        if (callBackRequested) cd.callBackRequested = callBackRequested;
+
+                                        return cd;
+                                    })(),
                                 }),
                             });
 

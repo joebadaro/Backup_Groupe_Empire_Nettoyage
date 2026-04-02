@@ -247,7 +247,8 @@ import LandingLayout from '../../../layouts/LandingLayout.astro';
           source: 'promo-tapis',
           message: payload.message || '',
           service: payload.service || 'tapis',
-          lang: 'en'
+          lang: 'en',
+          customData: { cf_type_service: payload.service || 'tapis' }
         })
       })
       .then(function(res) { return res.json(); })

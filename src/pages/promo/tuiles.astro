@@ -171,7 +171,8 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
           address: payload.adresse || '',
           source: 'promo-tuiles',
           message: payload.message || '',
-          service: payload.service || 'tuiles'
+          service: payload.service || 'tuiles',
+          customData: { cf_type_service: payload.service || 'tuiles' }
         })
       })
       .then(function(res) { return res.json(); })

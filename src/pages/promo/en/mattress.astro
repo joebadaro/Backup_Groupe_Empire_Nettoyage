@@ -171,7 +171,8 @@ import LandingLayout from '../../../layouts/LandingLayout.astro';
           source: 'promo-matelas',
           message: payload.message || '',
           service: payload.service || 'matelas',
-          lang: 'en'
+          lang: 'en',
+          customData: { cf_type_service: payload.service || 'matelas' }
         })
       })
       .then(function(res) { return res.json(); })
