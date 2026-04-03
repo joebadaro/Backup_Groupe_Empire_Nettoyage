@@ -981,7 +981,7 @@
                             fr: '1er article au prix régulier et chaque article ajouté à <span class="perm-highlight">25%</span> de rabais',
                             en: '1st item at regular price and every additional item at <span class="perm-highlight">25%</span> off',
                         });
-                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon">💎</div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
+                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon"></div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
                     } else if (service.id === "matelas") {
                         const promoTitle = t({
                             fr: "PROMOTION EXCLUSIVE Matelas",
@@ -991,7 +991,7 @@
                             fr: '1er matelas au prix régulier et chaque matelas ajouté à <span class="perm-highlight">30%</span> de rabais',
                             en: '1st mattress at regular price and every additional mattress at <span class="perm-highlight">30%</span> off',
                         });
-                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon">💎</div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
+                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon"></div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
                     } else if (service.id === "tapis") {
                         const promoTitle = t({
                             fr: "PROMOTION EXCLUSIVE Nettoyage de Tapis et Carpettes",
@@ -1001,7 +1001,7 @@
                             fr: '1er tapis au prix régulier et chaque tapis ajouté à <span class="perm-highlight">50%</span> de rabais',
                             en: '1st rug at regular price and every additional rug at <span class="perm-highlight">50%</span> off',
                         });
-                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon">💎</div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
+                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon"></div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
                     } else if (service.id === "tapis_mur") {
                         const promoTitle = t({
                             fr: "PROMOTION EXCLUSIVE Nettoyage de Tapis Résidentiel",
@@ -1010,7 +1010,7 @@
                         const promoDesc = t(
                             CONFIG.text.promos.residentialCarpet,
                         );
-                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon">💎</div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
+                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon"></div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
                     }
 
                     // Check for Quote Only Service (Explicit Flag) or Empty Items
@@ -1307,7 +1307,7 @@
                                             <span style="font-weight:500; font-size:0.8rem; line-height:1.2; flex:1; padding-right:8px;">${t(sect.label)} ${savingsDisplay}</span>
                                             <div style="display:flex; align-items:center; gap:10px;">
                                                 <span style="font-weight:bold; color:#2e7d32;">${sect.price}$</span>
-                                                <button onclick="removeItem('${sect.tempId}')" style="color:#d32f2f; background:white; border:1px solid #ffcdd2; border-radius:4px; width:24px; height:24px; display:flex; align-items:center; justify-content:center; cursor:pointer;">✕</button>
+                                                <button type="button" onclick="removeItem('${sect.tempId}')" title="${t(CONFIG.text.buttons.remove)}" style="color:#d32f2f; background:white; border:1px solid #ffcdd2; border-radius:4px; width:24px; height:24px; display:flex; align-items:center; justify-content:center; cursor:pointer;"></button>
                                             </div>
                                         </div>
                                     `;
@@ -1445,7 +1445,6 @@
                         <div style="background: white; width: 90%; max-width: 400px; border-radius: 12px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
                             <div style="text-align: center; margin-bottom: 15px;">
                                 <div style="display: inline-flex; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 50%; background: #ffebee; color: #d32f2f; font-size: 30px; margin-bottom: 15px;">
-                                    ⚠️
                                 </div>
                                 <h3 id="err-modal-title" style="margin: 0; color: #333; font-size: 1.25rem;">${title}</h3>
                             </div>
@@ -1628,7 +1627,7 @@
 
                         const bannerHtml = `
                     <div class="static-promo-banner">
-                        <div class="promo-icon">💎</div>
+                        <div class="promo-icon"></div>
                         <div class="promo-text">
                             <div class="promo-title">${promoTitle}</div>
                             <div class="promo-desc">${promoDesc}</div>
@@ -1648,7 +1647,7 @@
 
                         const bannerHtml = `
                     <div class="static-promo-banner">
-                        <div class="promo-icon">💎</div>
+                        <div class="promo-icon"></div>
                         <div class="promo-text">
                             <div class="promo-title">${promoTitle}</div>
                             <div class="promo-desc">${promoDesc}</div>
@@ -1668,7 +1667,7 @@
 
                         const bannerHtml = `
                     <div class="static-promo-banner">
-                        <div class="promo-icon">💎</div>
+                        <div class="promo-icon"></div>
                         <div class="promo-text">
                             <div class="promo-title">${promoTitle}</div>
                             <div class="promo-desc">${promoDesc}</div>
@@ -1687,7 +1686,7 @@
                         );
                         const bannerHtml = `
                     <div class="static-promo-banner">
-                        <div class="promo-icon">💎</div>
+                        <div class="promo-icon"></div>
                         <div class="promo-text">
                             <div class="promo-title">${promoTitle}</div>
                             <div class="promo-desc">${promoDesc}</div>
@@ -2567,9 +2566,7 @@
                              // COMMERCIAL MESSAGE (Desktop) - REVERTED TO IMMEDIATE
                              els.minMsgSidebar.innerHTML = `
                             <div style="background: linear-gradient(180deg, #dcedc8 0%, #ffffff 100%); padding:20px; border-radius:12px; margin-top:15px; border:1px solid #c5e1a5; box-shadow:0 4px 10px rgba(0,0,0,0.05); text-align:center;">
-                                <div style="color:#2e7d32; font-weight:700; font-size:1rem; margin-bottom:10px;">
-                                    <i class="fas fa-check-circle" style="font-size:1.5rem; margin-bottom:8px; display:block;"></i>
-                                    ${t({
+                                <div style="color:#2e7d32; font-weight:700; font-size:1rem; margin-bottom:10px;">${t({
                                         fr: "Votre demande sera analysée et votre estimation vous sera envoyée sous peu.",
                                         en: "Your request will be analyzed and your estimate will be sent to you shortly."
                                     })}
@@ -2732,9 +2729,7 @@
                     if (els.minMsgSidebar) {
                         els.minMsgSidebar.innerHTML = `
                     <div style="background: linear-gradient(180deg, #dcedc8 0%, #ffffff 100%); padding:20px; border-radius:12px; margin-top:15px; border:1px solid #c5e1a5; box-shadow:0 4px 10px rgba(0,0,0,0.05); text-align:center;">
-                        <div style="color:#2e7d32; font-weight:700; font-size:1rem; margin-bottom:10px;">
-                            <i class="fas fa-check-circle" style="font-size:1.5rem; margin-bottom:8px; display:block;"></i>
-                            ${t({
+                        <div style="color:#2e7d32; font-weight:700; font-size:1rem; margin-bottom:10px;">${t({
                                 fr: "Votre demande sera analysée et votre estimation vous sera envoyée sous peu.",
                                 en: "Your request will be analyzed and your estimate will be sent to you shortly."
                             })}
@@ -2758,9 +2753,7 @@
                     if (els.minMsgSidebar) {
                         if (realTotal > 0 && realTotal < 179) {
                             els.minMsgSidebar.innerHTML = `
-                            <div style="background:#e8f5e9; color:#1b5e20; padding:10px; border-radius:8px; margin-top:10px; font-size:0.85rem; line-height:1.4;">
-                                <i class="fas fa-check-circle" style="margin-right:4px;"></i> 
-                                ${t({
+                            <div style="background:#e8f5e9; color:#1b5e20; padding:10px; border-radius:8px; margin-top:10px; font-size:0.85rem; line-height:1.4;">${t({
                                     fr: "Comme vous payez déjà l’achat minimal, vous pouvez ajouter d’autres articles au besoin, souvent à prix réduit, puisque nous sommes déjà sur place.",
                                     en: "Since you are already paying the minimum charge, you can add other items as needed, often at a reduced price, since we are already on site."
                                 })}
@@ -2972,7 +2965,6 @@
                 <button onclick="removeItem('${item.rawId}'); window.renderSummaryPage();" 
                     style="color:red; border:1px solid #ffcdd2; background:white; border-radius:4px; padding:4px 8px; cursor:pointer;"
                     title="${t(CONFIG.text.buttons.remove)}">
-                    ✕
                 </button>
             </div>
             `;
@@ -3557,13 +3549,13 @@
                                     mobNextBtn.style.background = "linear-gradient(135deg, #43a047 0%, #1a1a1a 100%)";
                                     mobNextBtn.style.boxShadow = "0 4px 15px rgba(67, 160, 71, 0.4)";
                                 } else {
-                                     mobNextBtn.innerHTML = `<i class="fas fa-check" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.finaliser)}`;
+                                     mobNextBtn.innerHTML = t(CONFIG.text.buttons.finaliser);
                                 }
                             } else if (STATE.step === 3) {
                                 if (isCommercial) {
                                      mobNextBtn.innerHTML = `<i class="fas fa-paper-plane" style="margin-right:8px;"></i> ${t({fr: "Envoyer ma demande", en: "Send Request"})}`;
                                 } else {
-                                     mobNextBtn.innerHTML = `<i class="fas fa-check" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.finaliser)}`;
+                                     mobNextBtn.innerHTML = t(CONFIG.text.buttons.finaliser);
                                 }
                             } else {
                                  mobNextBtn.innerHTML = `<i class="fas fa-arrow-right" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.next)}`;
@@ -4191,7 +4183,7 @@
                             mobSubmit.className = "btn-mobile-primary btn-explode-js-v4"; 
                             
                             mobSubmit.disabled = true; // Prevent double clicks
-                            mobSubmit.innerHTML = "🚀"; // Visual feedback
+                            mobSubmit.innerHTML = ""; // Visual feedback
 
                             const summary =
                                 STATE.lastCartItems

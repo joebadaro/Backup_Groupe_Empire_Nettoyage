@@ -14,18 +14,18 @@ export const POST: APIRoute = async ({ request }) => {
         const from = formData.get('From') as string;
         const body = formData.get('Body') as string;
 
-        console.log(`📩 Incoming SMS from ${from}: ${body}`);
+        console.log(`Incoming SMS from ${from}: ${body}`);
 
         if (accountSid && authToken && twilioPhoneNumber) {
             const client = twilio(accountSid, authToken);
 
             // Forward to Admin
             await client.messages.create({
-                body: `📩 Réponse de ${from}: ${body}`,
+                body: `Réponse de ${from}: ${body}`,
                 from: twilioPhoneNumber,
                 to: adminPhone
             });
-            console.log("✅ Message forwarded to admin.");
+            console.log("Message forwarded to admin.");
         }
 
         // Return TwiML to Twilio (empty response to acknowledge receipt)

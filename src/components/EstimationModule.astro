@@ -410,9 +410,7 @@
             <div id="mobile-scroll-container" class="mobile-app-content">
                 <!-- Persistent Commercial Message (Mobile) -->
                 <div id="mobile-persistent-commercial-msg" style="display:none; background: linear-gradient(180deg, #dcedc8 0%, #ffffff 100%); padding:20px; border-radius:12px; margin: 15px 15px 25px 15px; border:1px solid #c5e1a5; box-shadow:0 4px 10px rgba(0,0,0,0.05); text-align:center;">
-                    <div style="color:#2e7d32; font-weight:700; font-size:1rem; margin-bottom:10px;">
-                        <i class="fas fa-check-circle" style="font-size:1.5rem; margin-bottom:8px; display:block;"></i>
-                        <span class="msg-title"></span>
+                    <div style="color:#2e7d32; font-weight:700; font-size:1rem; margin-bottom:10px;"><span class="msg-title"></span>
                     </div>
                     <div class="msg-desc" style="font-size:0.9rem; color:#558b2f; line-height:1.5;"></div>
                     <div style="margin-top:15px; font-weight:800; color:#1b5e20; font-family:var(--font-heading); text-transform:uppercase;">
@@ -1075,7 +1073,7 @@
 
             /* Hand-Drawn Checkmark Style */
             .service-card.selected::after {
-                content: "✔";
+                content: "";
                 position: absolute;
                 top: 2px;
                 right: 5px;

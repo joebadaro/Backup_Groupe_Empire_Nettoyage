@@ -108,12 +108,12 @@ export const CONFIG = {
         en: 'Get <span class="promo-highlight">50% off</span> any additional rug cleaning!',
       },
       sectional: {
-        fr: "💎 Rabais de 10% appliqué !",
-        en: "💎 10% Discount Applied!",
+        fr: "Rabais de 10% appliqué !",
+        en: "10% Discount Applied!",
       },
       residentialCarpet: {
-        fr: '💎 Le 3e tapis est à <span class="promo-highlight">30$ de rabais</span> !',
-        en: '💎 3rd carpet is <span class="promo-highlight">$30 off</span>!',
+        fr: 'Le 3e tapis est à <span class="promo-highlight">30$ de rabais</span> !',
+        en: '3rd carpet is <span class="promo-highlight">$30 off</span>!',
       },
     },
   },

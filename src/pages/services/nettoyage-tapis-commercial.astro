@@ -82,13 +82,13 @@ import LocalTapisCrossServiceLinks from "../../components/LocalTapisCrossService
 
           <div class="cta-group fade-in-up delay-300">
             <a href="tel:5148939939" class="btn btn-gradient-green pulse-btn">
-              <span class="icon">📞</span> (514) 893-9939 (Parler à un Expert)
+              (514) 893-9939 (Parler à un Expert)
             </a>
             <button
               onclick="window.openEstimationWidget()"
               class="btn btn-gradient-green"
             >
-              <span class="icon">⚡</span> Estimation Instantanée en Ligne
+              Estimation Instantanée en Ligne
             </button>
           </div>
         </div>
@@ -214,23 +214,18 @@ import LocalTapisCrossServiceLinks from "../../components/LocalTapisCrossService
           </h2>
           <div class="benefits-grid">
             <div class="benefit-item">
-              <div class="check-circle">✓</div>
               <span><strong>Horaires flexibles :</strong> Interventions soirs, nuits ou fins de semaine sans frais cachés.</span>
             </div>
             <div class="benefit-item">
-              <div class="check-circle">✓</div>
               <span><strong>Assurance responsabilité :</strong> Couverture complète de 2M$ pour votre tranquillité d'esprit en milieu corporatif.</span>
             </div>
             <div class="benefit-item">
-              <div class="check-circle">✓</div>
               <span><strong>Techniciens certifiés :</strong> Un personnel en uniforme, discret, professionnelisé et vérifié (Background check).</span>
             </div>
             <div class="benefit-item">
-              <div class="check-circle">✓</div>
               <span><strong>Séchage très rapide :</strong> Grâce à notre extraction supérieure, vos locaux sont praticables en quelques heures.</span>
             </div>
             <div class="benefit-item">
-              <div class="check-circle">✓</div>
               <span><strong>Capacité multisite :</strong> Nous pouvons desservir plusieurs succursales à travers la grande région métropolitaine.</span>
             </div>
           </div>
@@ -242,32 +237,32 @@ import LocalTapisCrossServiceLinks from "../../components/LocalTapisCrossService
           <p>Nous couvrons l'ensemble des pôles d'affaires de la grande région métropolitaine avec des unités dédiées au commercial.</p>
 
           <div class="city-group">
-            <p class="city-lead">🏙️ Montréal (Pôles d'affaires)</p>
+            <p class="city-lead">Montréal (Pôles d'affaires)</p>
             <div class="badges-container">
-              <span class="badge badge-blue">📍 Centre-ville (Tours à bureaux)</span>
-              <span class="badge badge-blue">📍 Vieux-Montréal</span>
-              <span class="badge badge-blue">📍 Parc Industriel d'Anjou</span>
-              <span class="badge badge-blue">📍 Technoparc de Saint-Laurent</span>
-              <span class="badge badge-blue">📍 Pointe-Claire & Ouest de l'Île</span>
+              <span class="badge badge-blue">Centre-ville (Tours à bureaux)</span>
+              <span class="badge badge-blue">Vieux-Montréal</span>
+              <span class="badge badge-blue">Parc Industriel d'Anjou</span>
+              <span class="badge badge-blue">Technoparc de Saint-Laurent</span>
+              <span class="badge badge-blue">Pointe-Claire & Ouest de l'Île</span>
             </div>
           </div>
 
           <div class="city-group">
-            <p class="city-lead">🏘️ Laval & Rive-Nord</p>
+            <p class="city-lead">Laval & Rive-Nord</p>
             <div class="badges-container">
-              <span class="badge badge-blue">📍 Centropolis & Chomedey</span>
-              <span class="badge badge-blue">📍 Parc Industriel Centre</span>
-              <span class="badge badge-blue">📍 Sainte-Rose (Commerces)</span>
+              <span class="badge badge-blue">Centropolis & Chomedey</span>
+              <span class="badge badge-blue">Parc Industriel Centre</span>
+              <span class="badge badge-blue">Sainte-Rose (Commerces)</span>
             </div>
           </div>
 
           <div class="city-group">
-            <p class="city-lead">🌿 Rive-Sud de Montréal</p>
+            <p class="city-lead">Rive-Sud de Montréal</p>
             <div class="badges-container">
-              <span class="badge badge-green">📍 Quartier DIX30 (Brossard)</span>
-              <span class="badge badge-green">📍 Parc Industriel de Longueuil</span>
-              <span class="badge badge-green">📍 Boucherville (Secteur Eiffel)</span>
-              <span class="badge badge-green">📍 Saint-Bruno-de-Montarville</span>
+              <span class="badge badge-green">Quartier DIX30 (Brossard)</span>
+              <span class="badge badge-green">Parc Industriel de Longueuil</span>
+              <span class="badge badge-green">Boucherville (Secteur Eiffel)</span>
+              <span class="badge badge-green">Saint-Bruno-de-Montarville</span>
             </div>
           </div>
         </div>
@@ -566,18 +561,12 @@ import LocalTapisCrossServiceLinks from "../../components/LocalTapisCrossService
 
   .benefit-list li {
     margin-bottom: 1rem;
-    padding-left: 1.5rem;
+    padding-left: 0;
     position: relative;
     font-size: 1.05rem;
   }
 
-  .benefit-list li::before {
-    content: "✓";
-    color: #d32f2f; /* Empire Red or Gold */
-    position: absolute;
-    left: 0;
-    font-weight: bold;
-  }
+  
 
   /* NEW SECTIONS CSS */
   .benefits-grid {
@@ -647,8 +636,8 @@ import LocalTapisCrossServiceLinks from "../../components/LocalTapisCrossService
   .alternate-layout { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
   .info-block { background: #f8f9fa; padding: 2rem; border-radius: 8px; border-left: 4px solid var(--color-primary); }
   .check-list { list-style: none; padding: 0; }
-  .check-list li { padding: 0.5rem 0; padding-left: 2rem; position: relative; }
-  .check-list li::before { content: "✓"; color: var(--color-accent); font-weight: bold; position: absolute; left: 0; }
+  .check-list li { padding: 0.5rem 0; padding-left: 0; position: relative; }
+  
   
   .process-steps { display: flex; flex-direction: column; gap: 1.5rem; position: relative; }
   .process-steps::before { content: ""; position: absolute; left: 20px; top: 0; bottom: 0; width: 2px; background: #eee; z-index: 0; }
