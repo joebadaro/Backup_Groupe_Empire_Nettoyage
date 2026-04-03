@@ -7,7 +7,7 @@ export const POST: APIRoute = async ({ request }) => {
     const twilioPhoneNumber = import.meta.env.TWILIO_PHONE_NUMBER;
 
     // Admin phone to forward messages TO
-    const adminPhone = '+15148939939';
+    const adminPhone = '+14509774636';
 
     try {
         const formData = await request.formData();

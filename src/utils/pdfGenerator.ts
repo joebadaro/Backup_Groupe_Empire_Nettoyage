@@ -163,7 +163,7 @@ export const generateEstimationPDF = async (data: EstimationData) => {
     doc.setTextColor(100, 100, 100);
     doc.text("www.groupenettoyageempire.com", 15, leftY);
     leftY += 5;
-    doc.text("514 893 9939", 15, leftY);
+    doc.text("450 977 4636", 15, leftY);
     leftY += 2;
 
     // Service Image Collage (Horizontal Row under Logo)
