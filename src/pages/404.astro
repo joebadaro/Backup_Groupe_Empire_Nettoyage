@@ -1,0 +1,203 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const currentPath = Astro.url.pathname;
+const isEn = currentPath.startsWith("/en");
+---
+
+<Layout
+  title={isEn ? "Page Not Found | Empire Cleaning Group" : "Page introuvable | Groupe Nettoyage Empire"}
+  description={isEn
+    ? "The page you are looking for does not exist. Explore our professional cleaning services or contact us."
+    : "La page que vous cherchez n'existe pas. Découvrez nos services de nettoyage professionnel ou contactez-nous."}
+  robots="noindex"
+>
+  <div class="error-page">
+    <div class="container text-center">
+      <div class="error-content">
+        <span class="error-code">404</span>
+        <h1 class="error-title">
+          {isEn ? "Page not found" : "Page introuvable"}
+        </h1>
+        <p class="error-desc">
+          {isEn
+            ? "The page you are looking for may have been moved or no longer exists."
+            : "La page que vous cherchez a peut-être été déplacée ou n'existe plus."}
+        </p>
+
+        <div class="error-actions">
+          <a href={isEn ? "/en" : "/"} class="btn btn-primary">
+            {isEn ? "Back to Home" : "Retour à l'accueil"}
+          </a>
+          <a href="tel:4509774636" class="btn btn-outline">
+            (450) 977-4636
+          </a>
+        </div>
+
+        <div class="error-links">
+          <p class="links-title">
+            {isEn ? "Popular pages:" : "Pages populaires :"}
+          </p>
+          <ul>
+            <li>
+              <a href={isEn ? "/en/services/nettoyage-tapis-residentiel" : "/services/nettoyage-tapis-residentiel"}>
+                {isEn ? "Carpet Cleaning" : "Nettoyage de tapis"}
+              </a>
+            </li>
+            <li>
+              <a href={isEn ? "/en/services/meubles-tissu" : "/services/meubles-tissu"}>
+                {isEn ? "Furniture Cleaning" : "Nettoyage de meubles"}
+              </a>
+            </li>
+            <li>
+              <a href={isEn ? "/en/services/nettoyage-desinfection-matelas" : "/services/nettoyage-desinfection-matelas"}>
+                {isEn ? "Mattress Cleaning" : "Nettoyage de matelas"}
+              </a>
+            </li>
+            <li>
+              <a href={isEn ? "/en/contact" : "/contact"}>
+                {isEn ? "Free Estimate" : "Estimation gratuite"}
+              </a>
+            </li>
+            <li>
+              <a href={isEn ? "/en/faq" : "/faq"}>
+                {isEn ? "FAQ" : "FAQ"}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .error-page {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 1rem;
+  }
+
+  .error-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .error-code {
+    font-family: var(--font-heading);
+    font-size: clamp(5rem, 15vw, 10rem);
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .error-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 800;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+  }
+
+  .error-desc {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: white;
+  }
+
+  .btn-outline {
+    border: 2px solid var(--color-accent);
+    color: var(--color-accent);
+    background: transparent;
+  }
+
+  .error-links {
+    background: #f9f9f9;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    text-align: left;
+  }
+
+  .links-title {
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .error-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .error-links a {
+    color: #555;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.25rem 0;
+    display: block;
+    transition: color 0.2s, padding-left 0.2s;
+  }
+
+  .error-links a:hover {
+    color: var(--color-accent);
+    padding-left: 4px;
+  }
+
+  @media (max-width: 600px) {
+    .error-links ul {
+      grid-template-columns: 1fr;
+    }
+
+    .error-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn {
+      width: 100%;
+      max-width: 280px;
+      text-align: center;
+    }
+  }
+</style>
