@@ -212,19 +212,10 @@ const ga4MeasurementId =
     </main>
     <Footer />
 
-    <!-- Global Estimation Module — stored in <template>, injected into live DOM on first click only -->
-    <template id="estimation-widget-template">
-      <EstimationModule />
-    </template>
+    <!-- Global Estimation Module -->
+    <EstimationModule />
     <script is:inline define:vars={{ estimationBootstrapEntryUrl }}>
       window.openEstimationWidget = function () {
-        // Inject widget HTML into the live DOM exactly once, before loading JS
-        if (!document.getElementById("estimation-widget")) {
-          var tpl = document.getElementById("estimation-widget-template");
-          if (tpl && tpl.content) {
-            document.body.appendChild(tpl.content.cloneNode(true));
-          }
-        }
         void import(/* @vite-ignore */ estimationBootstrapEntryUrl).then(
           function () {
             window.openEstimationWidget();
