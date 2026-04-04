@@ -344,10 +344,8 @@ const services = [
 ];
 
 export function getStaticPaths() {
-  return services.map((service) => ({
-    params: { service: service.slug },
-    props: { service },
-  }));
+  const slugs = ["tapis-residentiel", "tapis-commercial", "tapis-synthetique", "tapis-laine", "tapis-orientaux"];
+  return slugs.map((slug) => ({ params: { service: slug } }));
 }
 
 const { service: serviceParam } = Astro.params;

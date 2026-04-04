@@ -26,7 +26,7 @@ const sitemapFilter = (url) => {
 
 export default defineConfig({
   site: 'https://groupenettoyageempire.com',
-  output: 'server',
+  output: 'static',
   adapter: netlify(),
   integrations: [sitemap({ filter: sitemapFilter })],
   build: {

@@ -1,12 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 
-/** Dynamic route rendered on demand (slug from URL). Without this, Astro can require getStaticPaths. */
-export const prerender = false;
+export const prerender = true;
 
-/**
- * Resolve the article from the URL slug (not from getStaticPaths props — unreliable with SSR).
- */
 const posts = [
     {
       slug: "erreurs-taches-tapis",
@@ -85,10 +81,19 @@ const posts = [
     },
   ];
 
-const slug = Astro.params.slug;
+export function getStaticPaths() {
+  const allPosts = [
+    { slug: "erreurs-taches-tapis" },
+    { slug: "nettoyage-vapeur-vs-location" },
+    { slug: "urine-animaux-tapis" },
+  ];
+  return allPosts.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
 const post = posts.find((p) => p.slug === slug);
 if (!post) {
-  return new Response(null, { status: 404, statusText: "Not Found" });
+  return Astro.redirect("/conseils");
 }
 ---
 
