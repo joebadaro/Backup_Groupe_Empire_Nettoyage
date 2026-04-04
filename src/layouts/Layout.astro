@@ -166,18 +166,22 @@ const ga4MeasurementId =
         setTimeout(schedule, 4500);
       });
     </script>
-    <!-- Meta Pixel Code -->
+    <!-- Meta Pixel Code (deferred after load to avoid blocking LCP) -->
     <script is:inline>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '1493807748988860');
-      fbq('track', 'PageView');
+      window.addEventListener('load', function () {
+        if (window.__fbPixelLoaded) return;
+        window.__fbPixelLoaded = true;
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1493807748988860');
+        fbq('track', 'PageView');
+      });
     </script>
     <noscript><img height="1" width="1" style="display:none"
       src="https://www.facebook.com/tr?id=1493807748988860&ev=PageView&noscript=1"
@@ -208,10 +212,19 @@ const ga4MeasurementId =
     </main>
     <Footer />
 
-    <!-- Global Estimation Module -->
-    <EstimationModule />
+    <!-- Global Estimation Module — stored in <template>, injected into live DOM on first click only -->
+    <template id="estimation-widget-template">
+      <EstimationModule />
+    </template>
     <script is:inline define:vars={{ estimationBootstrapEntryUrl }}>
       window.openEstimationWidget = function () {
+        // Inject widget HTML into the live DOM exactly once, before loading JS
+        if (!document.getElementById("estimation-widget")) {
+          var tpl = document.getElementById("estimation-widget-template");
+          if (tpl && tpl.content) {
+            document.body.appendChild(tpl.content.cloneNode(true));
+          }
+        }
         void import(/* @vite-ignore */ estimationBootstrapEntryUrl).then(
           function () {
             window.openEstimationWidget();
