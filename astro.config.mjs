@@ -40,6 +40,11 @@ export default defineConfig({
     '/en/tips/erreurs-taches-tapis': '/en/conseils/erreurs-taches-tapis',
     '/en/tips/urine-animaux-tapis': '/en/conseils/urine-animaux-tapis',
     '/en/tips/nettoyage-vapeur-vs-location': '/en/conseils/nettoyage-vapeur-vs-location',
+    '/soumission-en-ligne': '/contact',
+    '/blog': '/conseils',
+    '/en/blog': '/en/conseils',
+    '/nettoyage-tapis-résidentiel': '/services/nettoyage-tapis-residentiel',
+    '/nettoyage-de-sofa': '/services/meubles-tissu',
   },
   i18n: {
     defaultLocale: "fr",
