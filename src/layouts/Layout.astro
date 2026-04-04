@@ -50,6 +50,8 @@ const ga4MeasurementId =
 <html lang={Astro.url.pathname.startsWith("/en") ? "en" : "fr"}>
   <head>
     <meta name="version" content="2.0.0-perf-optimized" />
+    <!-- Slot tôt : preloads LCP (ex. hero home) avant polices et GTM -->
+    <slot name="head" />
     <link
       rel="preload"
       href={interLatinWoff2}
@@ -64,7 +66,7 @@ const ga4MeasurementId =
       as="font"
       type="font/woff2"
       crossorigin="anonymous"
-      fetchpriority="high"
+      fetchpriority="low"
     />
     <!-- GA4: stub only in head; gtag.js loads after window load (reduces main-thread + network contention with LCP) -->
     <script is:inline define:vars={{ ga4MeasurementId }}>
@@ -115,8 +117,6 @@ const ga4MeasurementId =
       image={image}
       robots={robots}
     />
-    <!-- Pages peuvent injecter des preloads LCP / meta additionnels (ex. accueil hero mobile) -->
-    <slot name="head" />
     {image && <link rel="preload" as="image" href={image} />}
     <!-- Bundled as inline: keeps fade-in + track-visit out of /_astro/Layout*.js (smaller critical bundle) -->
     <script is:inline>

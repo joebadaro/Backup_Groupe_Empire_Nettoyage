@@ -44,9 +44,18 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
     rel="preload"
     as="image"
     fetchpriority="high"
-    imagesrcset="/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp 800w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-1200.webp 1200w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait.webp 1600w"
+    imagesrcset="/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-640.webp 640w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp 800w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-1200.webp 1200w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait.webp 1600w"
     imagesizes="100vw"
     media="(max-width: 768px)"
+  />
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    fetchpriority="high"
+    imagesrcset="/images/catalog/hero-slide-2-mobile.webp 800w, /images/catalog/hero-slide-2.webp 1920w"
+    imagesizes="100vw"
+    media="(min-width: 769px)"
   />
   <!-- 1. HERO SECTION: IMPACT VISUEL FORT (Bleu Foncé & Or) -->
   <section class="hero-section">
@@ -57,7 +66,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         <source
           media="(max-width: 768px)"
           type="image/webp"
-          srcset="/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp 800w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-1200.webp 1200w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait.webp 1600w"
+          srcset="/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-640.webp 640w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp 800w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-1200.webp 1200w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait.webp 1600w"
           sizes="100vw"
         />
         <img
@@ -68,7 +77,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
           class="hero-slide active"
           width={1200}
           height={675}
-          decoding="async"
+          decoding="sync"
           fetchpriority="high"
           loading="eager"
         />
@@ -584,6 +593,40 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
             subtitleGroup.setAttribute("aria-hidden", hide ? "true" : "false");
           };
 
+          function prefetchHeroSlideCandidate(imgEl) {
+            if (!imgEl || imgEl.tagName !== "IMG") return;
+            var picture = imgEl.closest && imgEl.closest("picture");
+            var pre = new Image();
+            var chosenSrcset = null;
+            var sizesAttr = imgEl.getAttribute("sizes") || "";
+            if (picture) {
+              var sources = picture.querySelectorAll("source[srcset]");
+              for (var si = 0; si < sources.length; si++) {
+                var srcEl = sources[si];
+                var mediaQ = srcEl.getAttribute("media");
+                if (
+                  mediaQ &&
+                  typeof window.matchMedia === "function" &&
+                  !window.matchMedia(mediaQ).matches
+                ) {
+                  continue;
+                }
+                chosenSrcset = srcEl.getAttribute("srcset");
+                break;
+              }
+            }
+            if (chosenSrcset) {
+              pre.srcset = chosenSrcset;
+              pre.sizes = sizesAttr;
+            }
+            var fallbackSrc = imgEl.getAttribute("src");
+            if (fallbackSrc) pre.src = fallbackSrc;
+            if (!chosenSrcset && imgEl.getAttribute("srcset")) {
+              pre.srcset = imgEl.getAttribute("srcset");
+              pre.sizes = sizesAttr;
+            }
+          }
+
           const swapHeroSlide = () => {
             heroSlides[currentHeroSlide].classList.remove("active");
             currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
@@ -594,11 +637,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
             const nextImg = heroSlides[nextIdx];
             if (nextImg && !nextImg.dataset.heroPrefetched) {
               nextImg.dataset.heroPrefetched = "1";
-              const u = nextImg.getAttribute("src");
-              if (u) {
-                const pre = new Image();
-                pre.src = u;
-              }
+              prefetchHeroSlideCandidate(nextImg);
             }
           };
 
@@ -611,10 +650,16 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         }
       }
 
+      function deferInitHomeHeroSlideshow() {
+        requestAnimationFrame(function () {
+          requestAnimationFrame(initHomeHeroSlideshow);
+        });
+      }
+
       if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initHomeHeroSlideshow);
+        document.addEventListener("DOMContentLoaded", deferInitHomeHeroSlideshow);
       } else {
-        initHomeHeroSlideshow();
+        deferInitHomeHeroSlideshow();
       }
     })();
   </script>
