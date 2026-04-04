@@ -353,8 +353,8 @@ const label = isEn ? "FR" : "EN";
     position: sticky;
     top: 0;
     z-index: 1000;
-    /* Premium soft cyan/blue gradient matching reference */
-    background: linear-gradient(90deg, rgba(236, 246, 252, 0.98) 0%, rgba(206, 234, 250, 0.98) 100%);
+    /* Horizontal gradient: starts pure white on the left (behind logo), fades to light blue on the right */
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.98) 40%, rgba(206, 234, 250, 0.95) 100%);
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow-subtle);
   }

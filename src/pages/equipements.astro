@@ -18,98 +18,100 @@ import Layout from "../layouts/Layout.astro";
 
     <section class="section">
         <div class="container">
-            <!-- Top Section: Text Left, Slideshow Right -->
-            <div class="equip-intro-layout">
-                <div class="intro-text fade-in-section">
-                    <div class="highlight-box">
-                        <h2 class="gradient-text-red">
-                            La puissance du camion-usine
-                        </h2>
-                        <p>
-                            Pour garantir un nettoyage en profondeur inégalé,
-                            nous utilisons des camions-usines à la fine pointe
-                            de la technologie. Ces unités mobiles génèrent une
-                            puissance d'aspiration et une chaleur largement
-                            supérieures aux équipements portatifs standards.
-                        </p>
-                        <p>
-                            Le résultat ? Un séchage plus rapide, une extraction
-                            maximale de la saleté et un tapis qui reste propre
-                            plus longtemps.
-                        </p>
-                    </div>
-                    <div class="trust-badge-mobile">
-                        <!-- Only visible on mobile/small screens if needed -->
+            <div class="intro-text text-center fade-in-section page-intro-center">
+                <h2 class="gradient-text-red">
+                    La puissance du camion-usine
+                </h2>
+                <p>
+                    Pour garantir un nettoyage en profondeur inégalé,
+                    nous utilisons des camions-usines à la fine pointe
+                    de la technologie. Ces unités mobiles génèrent une
+                    puissance d'aspiration et une chaleur largement
+                    supérieures aux équipements portatifs standards.
+                </p>
+                <p>
+                    Le résultat ? Un séchage plus rapide, une extraction
+                    maximale de la saleté et un tapis qui reste propre
+                    plus longtemps.
+                </p>
+            </div>
+
+            <div class="equipment-grid-2x2 fade-in-section delay-100">
+                <div class="equip-card">
+                    <img
+                        src="/images/catalog/equipment-slide-6.webp"
+                        alt="Unité Mobile Camion-Usine Groupe Nettoyage Empire"
+                        loading="eager"
+                    />
+                    <div class="equip-card-overlay">
+                        <h3>Unités Mobiles Camions-Usines</h3>
+                        <p>Puissance d’extraction supérieure pour un séchage ultra rapide.</p>
                     </div>
                 </div>
-
-                <div class="equip-visual fade-in-section delay-100">
-                    <div class="visual-box">
-                        <div class="slideshow-container">
-                            <!-- Newest Images (Slides 1-5) -->
-                            <img
-                                src="/images/catalog/equipment-slide-5.webp?v=3"
-                                alt="Outils de nettoyage professionnels"
-                                class="slide active"
-                                loading="eager"
-                            />
-                            <!-- Previous Images -->
-                            <img
-                                src="/images/catalog/equipment-slide-6.webp"
-                                alt="Camion et équipement complet"
-                                class="slide"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/images/catalog/equipment-slide-7.webp?v=2"
-                                alt="Équipe technique Empire"
-                                class="slide"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/images/catalog/equipment-slide-8.webp"
-                                alt="Camion Usine - Vue latérale"
-                                class="slide"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/images/catalog/equipment-slide-9.webp"
-                                alt="Équipement haute performance"
-                                class="slide"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/images/catalog/equipment-slide-10.webp"
-                                alt="Camion Usine Groupe Nettoyage Empire"
-                                class="slide"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/images/catalog/equipment-slide-11.webp"
-                                alt="Équipement de nettoyage puissant"
-                                class="slide"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/images/catalog/equipment-slide-12.webp"
-                                alt="Intérieur camion nettoyage"
-                                class="slide"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/images/catalog/equipment-slide-13.webp"
-                                alt="Groupe Empire en action"
-                                class="slide"
-                                loading="lazy"
-                            />
-                        </div>
+                <div class="equip-card">
+                    <img
+                        src="/images/catalog/equipment-slide-13.webp"
+                        alt="Camion Usine Mobile Nettoyage Empire"
+                        loading="lazy"
+                    />
+                    <div class="equip-card-overlay">
+                        <h3>Unités Mobiles Nettoyage Empire</h3>
+                        <p>Équipements de fine pointe et technologie supérieure pour des résultats impeccables.</p>
                     </div>
-                    <div class="trust-badge">
-                        <span class="stars">★★★★★</span>
-                        <p>
-                            "Le meilleur équipement sur le marché pour un
-                            résultat garanti."
-                        </p>
+                </div>
+                <div class="equip-card">
+                    <img
+                        src="/images/catalog/equipment-slide-7.webp?v=2"
+                        alt="Notre équipe technique certifiée"
+                        loading="lazy"
+                    />
+                    <div class="equip-card-overlay">
+                        <h3>Notre Équipe d'Experts</h3>
+                        <p>Des professionnels passionnés dédiés à la propreté absolue de votre habitat.</p>
+                    </div>
+                </div>
+                <div class="equip-card">
+                    <img
+                        src="/images/catalog/equipment-slide-8.webp"
+                        alt="Camion usine thermique vue de profil"
+                        loading="lazy"
+                    />
+                    <div class="equip-card-overlay">
+                        <h3>Unités Mobiles Indépendantes</h3>
+                        <p>Autonomie totale en eau chaude et puissants générateurs thermiques intégrés.</p>
+                    </div>
+                </div>
+                <div class="equip-card">
+                    <img
+                        src="/images/catalog/equipment-slide-9.webp"
+                        alt="Aspirateur industriel et machine d'extraction"
+                        loading="lazy"
+                    />
+                    <div class="equip-card-overlay">
+                        <h3>Machinerie Industrielle</h3>
+                        <p>Pression contrôlée et chaleur constante pour dissoudre les pires taches.</p>
+                    </div>
+                </div>
+                <div class="equip-card">
+                    <img
+                        src="/images/catalog/equipment-slide-10.webp"
+                        alt="Flotte de nettoyage Groupe Nettoyage Empire"
+                        loading="lazy"
+                    />
+                    <div class="equip-card-overlay">
+                        <h3>Intervention Rapide Garantie</h3>
+                        <p>Flotte moderne s'engageant à offrir un service exceptionnel partout.</p>
+                    </div>
+                </div>
+                <div class="equip-card">
+                    <img
+                        src="/images/catalog/equipment-slide-5.webp?v=3"
+                        alt="Techniciens certifiés et nettoyage professionnel"
+                        loading="lazy"
+                    />
+                    <div class="equip-card-overlay">
+                        <h3>Techniciens Certifiés</h3>
+                        <p>Camions usines et expertise professionnelle de haut niveau.</p>
                     </div>
                 </div>
             </div>
@@ -167,54 +169,96 @@ import Layout from "../layouts/Layout.astro";
     </section>
 </Layout>
 
-<script>
-    // Slideshow Logic
-    const slides = document.querySelectorAll(".slide");
-    if (slides.length > 0) {
-        let currentSlide = 0;
-        const intervalTime = 4000;
-        setInterval(() => {
-            slides[currentSlide].classList.remove("active");
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add("active");
-        }, intervalTime);
-    }
-</script>
+
 
 <style>
     /* New Layout Structure */
-    .equip-intro-layout {
+    .page-intro-center {
+        max-width: 800px;
+        margin: 0 auto 3rem auto;
+    }
+    .page-intro-center h2 {
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+    .page-intro-center p {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: #444;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Elegant 2x2 Grid Layout */
+    .equipment-grid-2x2 {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 3rem;
-        margin-bottom: 4rem;
-        align-items: center;
+        gap: 2rem;
+        margin: 0 auto 4rem auto;
     }
-
-    /* Responsive Grid for Tablets and up */
+    
     @media (min-width: 768px) {
-        .equip-intro-layout {
-            grid-template-columns: 1fr 1fr; /* Side by Side */
-            gap: 4rem;
-        }
-        /* Make Visual Box taller on desktop relative to text */
-        .visual-box {
-            height: 625px;
+        .equipment-grid-2x2 {
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            max-width: 950px; /* Constrains width so images aren't massive */
         }
     }
 
-    .visual-box {
+    .equip-card {
         position: relative;
-        width: 100%;
-        height: 438px; /* Mobile height (+25%) */
-        border-radius: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: transparent;
+        border-radius: 16px;
         overflow: hidden;
-        box-shadow: none;
-        border: none;
+        box-shadow: 0 15px 35px rgba(0, 30, 60, 0.2); /* Stronger static shadow */
+        background: #fff;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+    }
+
+    .equip-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 55px rgba(0, 20, 40, 0.65); /* Much darker hover shadow as requested */
+    }
+
+    .equip-card img {
+        width: 100%;
+        height: 300px; /* Reduced from 380px to be more elegant and less imposing */
+        object-fit: cover;
+        display: block;
+        transition: transform 0.6s ease;
+    }
+
+    .equip-card:hover img {
+        transform: scale(1.05); /* Elegant zoom effect */
+    }
+
+    /* Dark gradient over the bottom of the image for text readability */
+    .equip-card-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(to top, rgba(10, 25, 40, 0.95) 0%, rgba(10, 25, 40, 0.5) 60%, transparent 100%);
+        padding: 4rem 1.5rem 1.5rem 1.5rem; /* Generous top padding for gradient fade */
+        text-align: center;
+        color: white;
+        pointer-events: none; /* Let hover events pass through to card */
+    }
+
+    .equip-card-overlay h3 {
+        color: white; /* Ensure it stays white over image */
+        font-size: 1.35rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* extra crispness */
+        line-height: 1.3;
+    }
+
+    .equip-card-overlay p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        opacity: 0.95;
+        margin: 0;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.5);
     }
 
     /* Gradients for Text as requested */
@@ -240,8 +284,8 @@ import Layout from "../layouts/Layout.astro";
             #0f243a 100%
         );
         color: white;
-        padding: 6rem 0 4rem 0;
-        margin-bottom: 4rem;
+        padding: 3rem 0 2rem 0; /* Reduced to eliminate dead space */
+        margin-bottom: 2rem; /* Reduced to bring content closer */
     }
     .text-white {
         color: white;
@@ -318,24 +362,7 @@ import Layout from "../layouts/Layout.astro";
         font-weight: 700;
     }
 
-    .slideshow-container {
-        width: 100%;
-        height: 100%;
-        position: relative;
-    }
-    .slide {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        opacity: 0;
-        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .slide.active {
-        opacity: 1;
-    }
+
 
     .trust-badge {
         text-align: center;
