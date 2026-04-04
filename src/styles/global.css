@@ -237,47 +237,50 @@ ul {
   z-index: 1;
 }
 
-/* 1. Primary "Empire" Button (Rich Red Gradient) */
+/* 1. Primary "Empire" Button (Rich Green Gradient matching reference) */
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-accent) 0%, #B71C1C 100%);
+  background: linear-gradient(90deg, #32963b 0%, #050a06 100%);
   color: white;
-  box-shadow: 0 10px 25px rgba(211, 47, 47, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(30, 86, 49, 0.4);
+  border: none;
 }
 
 .btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
-  opacity: 1;
-  transition: opacity 0.3s ease;
+  display: none; /* Removed the glass reflection to match the flat reference style */
 }
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 35px rgba(211, 47, 47, 0.4);
-  background: linear-gradient(135deg, #E53935 0%, #C62828 100%);
-  /* Slightly lighter on hover */
+  box-shadow: 0 10px 25px rgba(30, 86, 49, 0.6);
+  background: linear-gradient(90deg, #3fb54a 0%, #0a140d 100%);
 }
 
-/* Custom Green-Black Gradient (Service Page Buttons) */
-.btn-gradient-green {
-  background: linear-gradient(135deg, #2E7D32 0%, #000000 100%);
+/* Specific Red Gradient Button for the Header */
+.btn-primary-red {
+  background: linear-gradient(90deg, #cc0000 0%, #0a0000 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 12px 28px;
-  font-size: 0.95rem;
+  box-shadow: 0 4px 15px rgba(204, 0, 0, 0.4);
+  border: none;
+}
+
+.btn-primary-red:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(204, 0, 0, 0.6);
+  background: linear-gradient(90deg, #e60000 0%, #1a0000 100%);
+}
+
+/* Custom Green-Black Gradient (Service Page Buttons) matching reference */
+.btn-gradient-green {
+  background: linear-gradient(90deg, #32963b 0%, #050a06 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(30, 86, 49, 0.4);
+  border: none;
 }
 
 .btn-gradient-green:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(46, 125, 50, 0.6);
-  background: linear-gradient(135deg, #43A047 0%, #1a1a1a 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(30, 86, 49, 0.6);
+  background: linear-gradient(90deg, #3fb54a 0%, #0a140d 100%);
 }
 
 /* Blue to Green Gradient (Matching Logo Water Droplet) */

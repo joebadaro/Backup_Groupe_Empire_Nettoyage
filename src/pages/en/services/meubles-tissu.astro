@@ -119,7 +119,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
             <a href="tel:4509774636" class="btn btn-primary pulse-btn">
               (450) 977-4636
             </a>
-            <button onclick="window.openEstimationWidget()" class="btn btn-outline-reveal">
+            <button onclick="window.openEstimationWidget()" class="btn btn-primary pulse-btn">
               Instant Free Quote
             </button>
           </div>
@@ -430,7 +430,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
         <div class="sticky-cta">
           <h3>Free Estimate</h3>
           <a href="tel:4509774636" class="btn btn-primary full-width">(450) 977-4636</a>
-          <button onclick="window.openEstimationWidget()" class="btn btn-outline full-width">Online Estimate</button>
+          <button onclick="window.openEstimationWidget()" class="btn btn-primary pulse-btn full-width">Online Estimate</button>
           <div class="guarantee">100% Satisfaction Guarantee</div>
         </div>
       </aside>
@@ -497,13 +497,13 @@ import FAQSchema from "../../../components/FAQSchema.astro";
   .image-overlay-gradient { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.2), transparent); pointer-events: none; z-index: 2; }
 
   /* BUTTON STYLES (Standardized) */
-  .btn-outline-reveal {
+  .btn-primary pulse-btn {
     background: transparent; border: 2px solid var(--color-primary); color: var(--color-primary);
     padding: 0.75rem 1.5rem; font-weight: 700; font-size: 1rem; cursor: pointer;
     border-radius: 4px; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem;
     text-transform: uppercase; letter-spacing: 0.5px;
   }
-  .btn-outline-reveal:hover { background: var(--color-primary); color: white; transform: translateY(-2px); }
+  .btn-primary pulse-btn:hover { background: var(--color-primary); color: white; transform: translateY(-2px); }
 
   .content-section { padding: 5rem 0; }
   .alternate-layout { display: grid; grid-template-columns: 1fr 350px; gap: 4rem; }

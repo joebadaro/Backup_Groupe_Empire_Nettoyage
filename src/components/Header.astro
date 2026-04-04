@@ -11,7 +11,7 @@ const logoSrcset = [
   `${_logoBase}.webp?v=${_logoV} 600w`,
 ].join(", ");
 /* ~207px CSS wide on desktop (height 85px); mobile ~146px at height 60px */
-const logoSizes = "(max-width: 768px) 150px, 210px";
+const logoSizes = "(max-width: 768px) 210px, 300px";
 
 const currentPath = Astro.url.pathname;
 const isEn = currentPath.startsWith("/en");
@@ -230,7 +230,7 @@ const label = isEn ? "FR" : "EN";
         <button
           id="btn-open-estimation"
           onclick="if(window.openEstimationWidget) window.openEstimationWidget()"
-          class="btn btn-primary btn-sm"
+          class="btn btn-primary-red btn-sm"
         >
           {isEn ? "Free Estimate" : "Estimation Gratuite"}
         </button>
@@ -353,7 +353,8 @@ const label = isEn ? "FR" : "EN";
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.98);
+    /* Premium soft cyan/blue gradient matching reference */
+    background: linear-gradient(90deg, rgba(236, 246, 252, 0.98) 0%, rgba(206, 234, 250, 0.98) 100%);
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow-subtle);
   }
@@ -393,7 +394,7 @@ const label = isEn ? "FR" : "EN";
 
   /* Main Header */
   .header-main {
-    padding: 1rem 0;
+    padding: 0.25rem 0; /* Small safe padding to prevent image background bleeding */
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
 
@@ -410,10 +411,12 @@ const label = isEn ? "FR" : "EN";
   }
 
   .logo-img {
-    height: 85px; /* Balanced size */
+    height: 108px; /* Very large but safely contained */
+    margin: 0; /* No negative margins */
     width: auto;
     object-fit: contain;
     transition: transform 0.3s ease;
+    mix-blend-mode: multiply; /* Removes the white background of the image file perfectly */
   }
 
   .logo-img:hover {
@@ -430,7 +433,7 @@ const label = isEn ? "FR" : "EN";
   .nav-item {
     font-weight: 600;
     font-size: 0.9rem;
-    color: var(--color-primary);
+    color: #4a5568; /* Elegant slate gray from reference */
     position: relative;
     padding: 10px 0;
     background: none;
@@ -596,26 +599,22 @@ const label = isEn ? "FR" : "EN";
 
   /* Language Switcher (Desktop) */
   .lang-switch {
-    font-weight: 800;
+    font-weight: 700;
     font-size: 0.9rem;
-    color: var(--color-primary);
+    color: #4a5568;
     text-decoration: none;
-    border: 2px solid #e0e0e0;
-    padding: 8px 16px; /* Slightly larger padding */
-    border-radius: 50px;
-    transition: all 0.3s ease;
+    border: none;
+    padding: 10px 0;
+    background: transparent;
+    transition: color 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: white;
   }
 
   .lang-switch:hover {
-    background-color: var(--color-primary);
-    color: white;
-    border-color: var(--color-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    color: var(--color-accent);
+    background: transparent;
   }
 
   /* Mobile Only Language Item */
@@ -642,13 +641,13 @@ const label = isEn ? "FR" : "EN";
   /* Mobile Lang Header (Hidden on Laptop+) */
   .mobile-lang-header {
     display: none;
-    font-weight: 800;
-    color: var(--color-primary);
+    font-weight: 700;
+    color: #4a5568;
     text-decoration: none;
     font-size: 1.1rem;
     padding: 5px 10px;
-    border: 2px solid var(--color-primary);
-    border-radius: 6px;
+    border: none;
+    background: transparent;
     margin-right: 15px; /* Spacing from hamburger */
   }
 
@@ -734,7 +733,8 @@ const label = isEn ? "FR" : "EN";
 
     /* Reduce Header Size on Mobile */
     .logo-img {
-      height: 60px; /* Reduced from default */
+      height: 70px; /* Elegant and proportional on mobile */
+      margin: 0;
     }
 
     .site-header {
@@ -742,7 +742,7 @@ const label = isEn ? "FR" : "EN";
     }
 
     .header-main {
-      padding: 0.5rem 0;
+      padding: 0.2rem 0;
     }
 
     /* Dropdown in Mobile */

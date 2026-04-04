@@ -51,7 +51,7 @@ import FAQSchema from "../../components/FAQSchema.astro";
             <a href="tel:4509774636" class="btn btn-primary pulse-btn">
               (450) 977-4636
             </a>
-            <button onclick="window.openEstimationWidget()" class="btn btn-outline-reveal">
+            <button onclick="window.openEstimationWidget()" class="btn btn-primary pulse-btn">
               Estimation Gratuite
             </button>
           </div>
@@ -432,13 +432,13 @@ import FAQSchema from "../../components/FAQSchema.astro";
   .badge-green { background: #f0faf0; border-color: #b8ddb8; }
 
   /* BUTTON STYLES */
-  .btn-outline-reveal {
+  .btn-primary pulse-btn {
     background: transparent; border: 2px solid var(--color-primary); color: var(--color-primary);
     padding: 0.75rem 1.5rem; font-weight: 700; font-size: 1rem; cursor: pointer;
     border-radius: 4px; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem;
     text-transform: uppercase; letter-spacing: 0.5px;
   }
-  .btn-outline-reveal:hover { background: var(--color-primary); color: white; transform: translateY(-2px); }
+  .btn-primary pulse-btn:hover { background: var(--color-primary); color: white; transform: translateY(-2px); }
 
   /* SIDEBAR */
   .service-sidebar { position: relative; }
