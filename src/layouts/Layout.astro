@@ -9,8 +9,7 @@ import SEO from "../components/SEO.astro";
 /** Same-origin hashed URLs as @font-face in global CSS — early preload shortens font discovery vs CSS-parse-only */
 import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 import outfitLatinWoff2 from "@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2?url";
-/** Built URL for dynamic import — évite le chunk Layout*.js (bootstrap inline, chargement estimation au clic) */
-import estimationBootstrapEntryUrl from "../scripts/estimation-bootstrap.ts?url";
+/** estimation-bootstrap-lazy.ts est bundlé par Vite en ESM — définit window.openEstimationWidget au chargement */
 
 interface Props {
   title: string;
@@ -214,14 +213,9 @@ const ga4MeasurementId =
 
     <!-- Global Estimation Module -->
     <EstimationModule />
-    <script is:inline define:vars={{ estimationBootstrapEntryUrl }}>
-      window.openEstimationWidget = function () {
-        void import(/* @vite-ignore */ estimationBootstrapEntryUrl).then(
-          function () {
-            window.openEstimationWidget();
-          },
-        );
-      };
+    <!-- Bootstrap: Astro <script> → bundlé par Vite avec MIME type JS correct (évite data:video/mp2t) -->
+    <script>
+      import '../scripts/estimation-bootstrap-lazy.ts';
     </script>
 
     <!-- MOBILE STICKY CTA BAR (Phone Only) -->
