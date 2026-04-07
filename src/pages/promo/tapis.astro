@@ -255,7 +255,7 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
       .then(function(res) { return res.json(); })
       .then(function(result) {
         if (typeof fbq !== 'undefined') { fbq('track', 'Lead', { content_name: 'Nettoyage Tapis', content_category: payload.service, city: 'Montréal' }); }
-        if (typeof gtag !== 'undefined') { gtag('event', 'conversion', { send_to: 'AW-18054652665', value: 50.0, currency: 'CAD' }); }
+        if (typeof gtag !== 'undefined') { gtag('event', 'conversion', { send_to: 'AW-17960384308/vw2FCIet2ZccELTulvRC', value: 50.0, currency: 'CAD' }); }
         window.location.href = '/promo/merci';
       })
       .catch(function(err) {
