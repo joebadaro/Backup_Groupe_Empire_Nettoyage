@@ -2,6 +2,7 @@
 import Layout from "../../../layouts/Layout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
 import LocalTapisCrossServiceLinks from "../../../components/LocalTapisCrossServiceLinks.astro";
+import UiIcon from "../../../components/icons/UiIcon.astro";
 ---
 
 <Layout
@@ -78,12 +79,14 @@ import LocalTapisCrossServiceLinks from "../../../components/LocalTapisCrossServ
 
           <div class="cta-group fade-in-up delay-300">
             <a href="tel:4509774636" class="btn btn-gradient-green pulse-btn">
+              <span class="icon" aria-hidden="true"><UiIcon name="phone" size={18} /></span>
               (450) 977-4636 (Talk to an Expert)
             </a>
             <button
               onclick="window.openEstimationWidget()"
               class="btn btn-gradient-green"
             >
+              <span class="icon" aria-hidden="true"><UiIcon name="bolt" size={18} /></span>
               Instant Online Quote
             </button>
           </div>
@@ -210,18 +213,23 @@ import LocalTapisCrossServiceLinks from "../../../components/LocalTapisCrossServ
           </h2>
           <div class="benefits-grid">
             <div class="benefit-item">
+              <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
               <span><strong>Flexible hours:</strong> Evening, night, or weekend interventions with no hidden fees.</span>
             </div>
             <div class="benefit-item">
+              <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
               <span><strong>Liability insurance:</strong> Comprehensive $2M coverage for your peace of mind in a corporate environment.</span>
             </div>
             <div class="benefit-item">
+              <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
               <span><strong>Certified technicians:</strong> Uniformed, discreet, professional, and vetted staff (Background check).</span>
             </div>
             <div class="benefit-item">
+              <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
               <span><strong>Very fast drying:</strong> Thanks to our superior extraction, your premises are usable in a few hours.</span>
             </div>
             <div class="benefit-item">
+              <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
               <span><strong>Multi-site capability:</strong> We can service multiple branches across the greater metropolitan area.</span>
             </div>
           </div>

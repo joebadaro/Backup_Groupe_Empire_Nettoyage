@@ -1,5 +1,6 @@
 ---
 import { SERVICE_IMAGES_ASSET_VERSION } from "../data/serviceImagery";
+import UiIcon from "./icons/UiIcon.astro";
 
 const _logoV = SERVICE_IMAGES_ASSET_VERSION;
 const _logoBase = "/images/logo-officiel-optimized";
@@ -26,6 +27,9 @@ const label = isEn ? "FR" : "EN";
   <div class="header-top">
     <div class="container top-bar-content">
       <div class="trust-signal">
+        <span class="header-top-icon" aria-hidden="true"
+          ><UiIcon name="award" size={15} /></span
+        >
         {
           isEn
             ? "30+ years of excellence in Quebec"
@@ -34,6 +38,8 @@ const label = isEn ? "FR" : "EN";
       </div>
       <div class="contact-quick">
         <a href="tel:4509774636" class="phone-link"
+          ><span class="header-top-icon" aria-hidden="true"
+            ><UiIcon name="phone" size={14} /></span
           >(450) 977-4636</a
         >
       </div>
@@ -376,6 +382,17 @@ const label = isEn ? "FR" : "EN";
   .trust-signal {
     font-weight: 500;
     opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .header-top-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    opacity: 0.95;
   }
 
   .contact-quick {
@@ -385,6 +402,9 @@ const label = isEn ? "FR" : "EN";
 
   .phone-link {
     font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
   }
 
   .quote-link {

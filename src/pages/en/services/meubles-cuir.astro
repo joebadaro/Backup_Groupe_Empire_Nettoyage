@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
+import UiIcon from "../../../components/icons/UiIcon.astro";
 ---
 
 <Layout
@@ -48,12 +49,18 @@ import FAQSchema from "../../../components/FAQSchema.astro";
 
           <div class="cta-group fade-in-up delay-300">
             <a href="tel:4509774636" class="btn btn-primary pulse-btn">
+              <span class="icon" aria-hidden="true"
+                ><UiIcon name="phone" size={18} /></span
+              >
               (450) 977-4636
             </a>
             <button
               onclick="window.openEstimationWidget()"
               class="btn btn-primary pulse-btn"
             >
+              <span class="icon" aria-hidden="true"
+                ><UiIcon name="bolt" size={18} /></span
+              >
               Instant Online Quote
             </button>
           </div>
@@ -145,18 +152,23 @@ import FAQSchema from "../../../components/FAQSchema.astro";
             </h2>
             <div class="benefits-grid">
               <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                 <span><strong>Inverse cracking prevention:</strong> Rehydrates the natural oils of the skin to prevent permanent drying caused by sun and heating.</span>
               </div>
               <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                 <span><strong>Sebum elimination:</strong> Dissolves rings of grease and perspiration accumulation on armrests and headrests.</span>
               </div>
               <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                 <span><strong>Silky finish with no sticky residue:</strong> Unlike supermarket waxes, our products do not leave the furniture shiny or artificially slippery.</span>
               </div>
               <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                 <span><strong>Embedded odor removal:</strong> Eliminates the impregnation of sweat or smoke that can cling over time.</span>
               </div>
               <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                 <span><strong>Carbon Hydration and Protection:</strong> After cleaning, we apply a rich professional hydrating cream to prevent future cracking. In addition, we offer the application of <a href="/en/services/protecteur" style="color: var(--color-primary); font-weight: bold; text-decoration: underline;">a premium stain protector (Carbon Protector)</a> which blocks the absorption of pen ink, food oil, or textile dye.</span>
               </div>
             </div>

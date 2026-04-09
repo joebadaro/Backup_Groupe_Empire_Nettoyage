@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import UiIcon from "../../components/icons/UiIcon.astro";
 ---
 
 <Layout
@@ -18,9 +19,14 @@ import Layout from "../../layouts/Layout.astro";
         <div class="container">
             <!-- Top Section: Text Left, Slideshow Right -->
             <div class="intro-text text-center fade-in-section page-intro-center">
-                <h2 class="gradient-text-red">
-                    The Power of the Truck-Mount Unit
-                </h2>
+                <div class="intro-h2-wrap">
+                    <span class="intro-h2-icon" aria-hidden="true"
+                        ><UiIcon name="truck-mount" size={30} /></span
+                    >
+                    <h2 class="gradient-text-red intro-h2-title">
+                        The Power of the Truck-Mount Unit
+                    </h2>
+                </div>
                 <p>
                     To guarantee unequal deep cleaning, we use
                     state-of-the-art truck-mount units. These mobile
@@ -116,6 +122,9 @@ import Layout from "../../layouts/Layout.astro";
             <!-- Features Grid below the main visual -->
             <div class="features-grid fade-in-section">
                 <div class="feature-card">
+                    <div class="feature-card-icon" aria-hidden="true">
+                        <UiIcon name="thermometer" size={26} />
+                    </div>
                     <h3>Thermal Truck-Mount Unit</h3>
                     <p>
                         Our units generate constant heat over 200°F, allowing
@@ -125,6 +134,9 @@ import Layout from "../../layouts/Layout.astro";
                 </div>
 
                 <div class="feature-card">
+                    <div class="feature-card-icon" aria-hidden="true">
+                        <UiIcon name="leaf" size={26} />
+                    </div>
                     <h3>Ecological Products</h3>
                     <p>
                         We use 100% biodegradable cleaning solutions, safe for
@@ -133,6 +145,9 @@ import Layout from "../../layouts/Layout.astro";
                 </div>
 
                 <div class="feature-card">
+                    <div class="feature-card-icon" aria-hidden="true">
+                        <UiIcon name="airflow" size={26} />
+                    </div>
                     <h3>Powerful Suction</h3>
                     <p>
                         Our industrial suction system extracts up to 95% of
@@ -141,6 +156,9 @@ import Layout from "../../layouts/Layout.astro";
                 </div>
 
                 <div class="feature-card">
+                    <div class="feature-card-icon" aria-hidden="true">
+                        <UiIcon name="crosshair" size={26} />
+                    </div>
                     <h3>Precision Tools</h3>
                     <p>
                         From rotary brushes to delicate tools for fragile
@@ -154,6 +172,8 @@ import Layout from "../../layouts/Layout.astro";
                 <h3 class="gradient-text-green">See the difference yourself</h3>
                 <p>Request a free quote today.</p>
                 <a href="tel:4509774636" class="btn btn-primary pulse-btn"
+                    ><span class="btn-inline-icon" aria-hidden="true"
+                        ><UiIcon name="phone" size={18} /></span
                     >(450) 977-4636</a
                 >
             </div>
@@ -169,9 +189,25 @@ import Layout from "../../layouts/Layout.astro";
         max-width: 800px;
         margin: 0 auto 3rem auto;
     }
-    .page-intro-center h2 {
-        font-size: 2.2rem;
+    .intro-h2-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.65rem;
+        flex-wrap: wrap;
         margin-bottom: 1.5rem;
+    }
+    .intro-h2-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-primary);
+        opacity: 0.88;
+        flex-shrink: 0;
+    }
+    .intro-h2-title {
+        font-size: 2.2rem;
+        margin: 0;
         line-height: 1.2;
     }
     .page-intro-center p {
@@ -342,10 +378,28 @@ import Layout from "../../layouts/Layout.astro";
         box-shadow: var(--shadow-hover);
         border-color: var(--color-accent);
     }
-    .icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        display: inline-block;
+    .feature-card-icon {
+        width: 52px;
+        height: 52px;
+        margin: 0 auto 1rem auto;
+        border-radius: 12px;
+        background: rgba(10, 35, 66, 0.055);
+        border: 1px solid rgba(10, 35, 66, 0.08);
+        color: var(--color-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .feature-card:hover .feature-card-icon {
+        background: rgba(0, 74, 159, 0.08);
+        border-color: rgba(0, 74, 159, 0.14);
+    }
+    .btn-inline-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0.35rem;
     }
     .feature-card h3 {
         color: var(--color-primary);

@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import FAQSchema from "../../components/FAQSchema.astro";
 import LocalTapisCrossServiceLinks from "../../components/LocalTapisCrossServiceLinks.astro";
+import UiIcon from "../../components/icons/UiIcon.astro";
 ---
 
 <Layout
@@ -82,12 +83,14 @@ import LocalTapisCrossServiceLinks from "../../components/LocalTapisCrossService
 
           <div class="cta-group fade-in-up delay-300">
             <a href="tel:4509774636" class="btn btn-gradient-green pulse-btn">
+              <span class="icon" aria-hidden="true"><UiIcon name="phone" size={18} /></span>
               (450) 977-4636 (Parler à un Expert)
             </a>
             <button
               onclick="window.openEstimationWidget()"
               class="btn btn-gradient-green"
             >
+              <span class="icon" aria-hidden="true"><UiIcon name="bolt" size={18} /></span>
               Estimation Instantanée en Ligne
             </button>
           </div>
@@ -214,18 +217,23 @@ import LocalTapisCrossServiceLinks from "../../components/LocalTapisCrossService
           </h2>
           <div class="benefits-grid">
             <div class="benefit-item">
+              <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
               <span><strong>Horaires flexibles :</strong> Interventions soirs, nuits ou fins de semaine sans frais cachés.</span>
             </div>
             <div class="benefit-item">
+              <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
               <span><strong>Assurance responsabilité :</strong> Couverture complète de 2M$ pour votre tranquillité d'esprit en milieu corporatif.</span>
             </div>
             <div class="benefit-item">
+              <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
               <span><strong>Techniciens certifiés :</strong> Un personnel en uniforme, discret, professionnelisé et vérifié (Background check).</span>
             </div>
             <div class="benefit-item">
+              <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
               <span><strong>Séchage très rapide :</strong> Grâce à notre extraction supérieure, vos locaux sont praticables en quelques heures.</span>
             </div>
             <div class="benefit-item">
+              <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
               <span><strong>Capacité multisite :</strong> Nous pouvons desservir plusieurs succursales à travers la grande région métropolitaine.</span>
             </div>
           </div>

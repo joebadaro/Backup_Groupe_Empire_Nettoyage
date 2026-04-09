@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
+import UiIcon from "../../../components/icons/UiIcon.astro";
 
 const services = [
   {
@@ -525,6 +526,9 @@ if (!service) {
               {
                 service.benefits.map((benefit) => (
                   <div class="benefit-item">
+                    <div class="check-circle" aria-hidden="true">
+                      <UiIcon name="check" size={14} />
+                    </div>
                     <span>{benefit}</span>
                   </div>
                 ))

@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import FAQSchema from "../../components/FAQSchema.astro";
+import UiIcon from "../../components/icons/UiIcon.astro";
 ---
 
 <Layout
@@ -118,9 +119,15 @@ import FAQSchema from "../../components/FAQSchema.astro";
 
           <div class="cta-group fade-in-up delay-300">
             <a href="tel:4509774636" class="btn btn-primary pulse-btn">
+              <span class="icon" aria-hidden="true"
+                ><UiIcon name="phone" size={18} /></span
+              >
               (450) 977-4636
             </a>
             <button onclick="window.openEstimationWidget()" class="btn btn-primary pulse-btn">
+              <span class="icon" aria-hidden="true"
+                ><UiIcon name="bolt" size={18} /></span
+              >
               Estimation Instantanée
             </button>
           </div>

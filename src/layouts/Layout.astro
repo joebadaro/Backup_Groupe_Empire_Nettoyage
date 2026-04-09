@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import EstimationModule from "../components/EstimationModule.astro";
+import UiIcon from "../components/icons/UiIcon.astro";
 
 import SEO from "../components/SEO.astro";
 
@@ -221,6 +222,9 @@ const ga4MeasurementId =
     <!-- MOBILE STICKY CTA BAR (Phone Only) -->
     <div class="mobile-sticky-bar">
       <a href="tel:4509774636" class="sticky-btn btn-call">
+        <span class="sticky-btn-icon" aria-hidden="true"
+          ><UiIcon name="phone" size={18} /></span
+        >
         <span class="sticky-btn-label">
           {
             Astro.url.pathname.startsWith("/en")
@@ -234,6 +238,9 @@ const ga4MeasurementId =
         onclick="window.openEstimationWidget()"
         class="sticky-btn btn-quote"
       >
+        <span class="sticky-btn-icon" aria-hidden="true"
+          ><UiIcon name="clipboard" size={18} /></span
+        >
         <span class="sticky-btn-label">
           {
             Astro.url.pathname.startsWith("/en")
@@ -305,6 +312,14 @@ const ga4MeasurementId =
         -webkit-appearance: none;
         appearance: none;
         margin: 0;
+      }
+
+      .mobile-sticky-bar .sticky-btn-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        opacity: 0.95;
       }
 
       .mobile-sticky-bar .sticky-btn-label {

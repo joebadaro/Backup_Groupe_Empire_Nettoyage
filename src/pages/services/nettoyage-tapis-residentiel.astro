@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import FAQSchema from "../../components/FAQSchema.astro";
+import UiIcon from "../../components/icons/UiIcon.astro";
 ---
 
 <Layout
@@ -105,12 +106,14 @@ import FAQSchema from "../../components/FAQSchema.astro";
 
           <div class="cta-group fade-in-up delay-300">
             <a href="tel:4509774636" class="btn btn-gradient-green pulse-btn">
+              <span class="icon" aria-hidden="true"><UiIcon name="phone" size={18} /></span>
               (450) 977-4636 (Parler à un Expert)
             </a>
             <button
               onclick="window.openEstimationWidget()"
               class="btn btn-gradient-green"
             >
+              <span class="icon" aria-hidden="true"><UiIcon name="bolt" size={18} /></span>
               Estimation Instantanée en Ligne
             </button>
           </div>
@@ -307,12 +310,15 @@ import FAQSchema from "../../components/FAQSchema.astro";
             </h2>
             <div class="benefits-grid">
               <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                 <span>Protection systématique des planchers</span>
               </div>
               <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                 <span>40+ produits pour toutes taches</span>
               </div>
               <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                 <span>Camion-Usine ou Portable Pro selon l'accès</span>
               </div>
             </div>

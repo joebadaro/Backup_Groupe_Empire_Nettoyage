@@ -1,0 +1,104 @@
+---
+import type { ServiceImageKey } from "../../data/serviceImagery";
+
+interface Props {
+  imageKey: ServiceImageKey;
+  class?: string;
+}
+
+const { imageKey, class: className = "" } = Astro.props;
+
+const s = {
+  xmlns: "http://www.w3.org/2000/svg",
+  width: 34,
+  height: 34,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  "stroke-width": "1.5",
+  "stroke-linecap": "round" as const,
+  "stroke-linejoin": "round" as const,
+  class: `homepage-card-icon ${className}`.trim(),
+  "aria-hidden": "true" as const,
+};
+---
+
+{imageKey === "meubles_tissu" && (
+  <svg {...s}>
+    <path d="M5 12h14v8H5v-8Z" />
+    <path d="M5 12V9a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v3" />
+    <path d="M9 16h6" />
+  </svg>
+)}
+
+{imageKey === "matelas" && (
+  <svg {...s}>
+    <path d="M4 14h16v5H4v-5Z" />
+    <path d="M4 14V9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5" />
+    <path d="M8 11h8" />
+  </svg>
+)}
+
+{imageKey === "meubles_cuir" && (
+  <svg {...s}>
+    <path d="M12 3 5 6v6c0 4 2.5 7.5 7 9 4.5-1.5 7-5 7-9V6l-7-3Z" />
+    <path d="M9 12h6" />
+  </svg>
+)}
+
+{imageKey === "tapis_residentiel" && (
+  <svg {...s}>
+    <path d="M4 10h16v10H4V10Z" />
+    <path d="M8 6h8v4H8V6Z" />
+    <path d="M6 14h12" />
+  </svg>
+)}
+
+{imageKey === "tapis_synthetique" && (
+  <svg {...s}>
+    <path d="M4 11h16v9H4v-9Z" />
+    <path d="M7 8h10" />
+    <path d="M9 14h6" />
+  </svg>
+)}
+
+{imageKey === "tapis_laine" && (
+  <svg {...s}>
+    <path d="M8 8c2-2 6-2 8 0" />
+    <path d="M7 11c2.5-1.5 7.5-1.5 10 0" />
+    <path d="M6 14c3-1.5 9-1.5 12 0" />
+    <path d="M5 17h14" />
+  </svg>
+)}
+
+{imageKey === "tapis_oriental" && (
+  <svg {...s}>
+    <path d="M5 9h14v11H5V9Z" />
+    <path d="M9 13h6" />
+    <path d="M12 9v11" />
+    <path d="M7 7h10" />
+  </svg>
+)}
+
+{imageKey === "tapis_commercial" && (
+  <svg {...s}>
+    <path d="M4 20V10l4-2 4 2 4-2 4 2v10" />
+    <path d="M9 10v10M17 10v10" />
+  </svg>
+)}
+
+{imageKey === "ceramique" && (
+  <svg {...s}>
+    <path d="M4 4h7v7H4V4Z" />
+    <path d="M13 4h7v7h-7V4Z" />
+    <path d="M4 13h7v7H4v-7Z" />
+    <path d="M13 13h7v7h-7v-7Z" />
+  </svg>
+)}
+
+{imageKey === "protecteur" && (
+  <svg {...s}>
+    <path d="M12 3 5 6v6c0 4 2.5 7.5 7 9 4.5-1.5 7-5 7-9V6l-7-3Z" />
+    <path d="M9 12.5 11 15l4-5" />
+  </svg>
+)}

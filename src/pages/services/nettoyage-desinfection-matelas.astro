@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import FAQSchema from "../../components/FAQSchema.astro";
+import UiIcon from "../../components/icons/UiIcon.astro";
 ---
 
 <Layout
@@ -86,6 +87,7 @@ import FAQSchema from "../../components/FAQSchema.astro";
                             onclick="window.openEstimationWidget()"
                             class="btn btn-gradient-green"
                         >
+                            <span class="icon" aria-hidden="true"><UiIcon name="bolt" size={18} /></span>
                             Estimation Instantanée en
                             Ligne
                         </button>
@@ -273,14 +275,17 @@ import FAQSchema from "../../components/FAQSchema.astro";
                         </h2>
                         <div class="benefits-grid">
                             <div class="benefit-item">
+                                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                                 <span
                                     >Élimination 99% allergènes & acariens</span
                                 >
                             </div>
                             <div class="benefit-item">
+                                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                                 <span>Désinfection écologique sans odeur</span>
                             </div>
                             <div class="benefit-item">
+                                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                                 <span>Séchage rapide (quelques heures)</span>
                             </div>
                         </div>

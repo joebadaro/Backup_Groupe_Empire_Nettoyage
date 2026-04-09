@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import UiIcon from "../../components/icons/UiIcon.astro";
 ---
 
 <Layout
@@ -20,7 +21,9 @@ import Layout from "../../layouts/Layout.astro";
         <!-- CHOICE 1: CALL -->
         <div class="choice-card card-call fade-in-section delay-100">
           <div class="card-icon-wrapper icon-phone-bg">
-            <span class="card-icon" aria-hidden="true"></span>
+            <span class="card-icon" aria-hidden="true"
+              ><UiIcon name="phone" size={40} /></span
+            >
           </div>
           <h2>Talk to an Expert</h2>
           <p class="choice-desc">
@@ -35,7 +38,9 @@ import Layout from "../../layouts/Layout.astro";
         <!-- CHOICE 2: ONLINE ESTIMATE -->
         <div class="choice-card card-online fade-in-section delay-200">
           <div class="card-icon-wrapper icon-online-bg">
-            <span class="card-icon" aria-hidden="true"></span>
+            <span class="card-icon" aria-hidden="true"
+              ><UiIcon name="bolt" size={40} /></span
+            >
           </div>
           <h2>Instant Estimate</h2>
           <p class="choice-desc">
@@ -53,12 +58,21 @@ import Layout from "../../layouts/Layout.astro";
       <!-- TRUST SIGNALS BELOW -->
       <div class="trust-container-lower fade-in-section delay-300">
         <div class="trust-item">
+          <span class="check-gold" aria-hidden="true"
+            ><UiIcon name="check" size={18} /></span
+          >
           <span>Satisfaction Guaranteed</span>
         </div>
         <div class="trust-item">
+          <span class="check-gold" aria-hidden="true"
+            ><UiIcon name="check" size={18} /></span
+          >
           <span>30+ Years Experience</span>
         </div>
         <div class="trust-item">
+          <span class="check-gold" aria-hidden="true"
+            ><UiIcon name="check" size={18} /></span
+          >
           <span>Ecological Products</span>
         </div>
       </div>
@@ -135,6 +149,11 @@ import Layout from "../../layouts/Layout.astro";
       justify-content: center;
       margin-bottom: 1.5rem;
       font-size: 3rem;
+    }
+    .card-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .icon-phone-bg {
       background: #e3f2fd; /* Light Blue */
@@ -219,6 +238,10 @@ import Layout from "../../layouts/Layout.astro";
       color: #c5a059;
       font-weight: 800;
       font-size: 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
     .map-container {
       height: 400px;

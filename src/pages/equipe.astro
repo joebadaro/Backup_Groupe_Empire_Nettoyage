@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import UiIcon from "../components/icons/UiIcon.astro";
 ---
 
 <Layout
@@ -44,6 +45,9 @@ import Layout from "../layouts/Layout.astro";
 
           <div class="features-grid">
             <div class="feature-card">
+              <div class="feature-card-icon" aria-hidden="true">
+                <UiIcon name="badge-certified" size={26} />
+              </div>
               <h3>Techniciens Certifiés</h3>
               <p>
                 Chaque membre de notre équipe a suivi une formation rigoureuse.
@@ -53,6 +57,9 @@ import Layout from "../layouts/Layout.astro";
             </div>
 
             <div class="feature-card">
+              <div class="feature-card-icon" aria-hidden="true">
+                <UiIcon name="open-book" size={26} />
+              </div>
               <h3>Expertise Éprouvée</h3>
               <p>
                 Nous provenons du milieu du nettoyage de haut niveau
@@ -63,6 +70,9 @@ import Layout from "../layouts/Layout.astro";
             </div>
 
             <div class="feature-card">
+              <div class="feature-card-icon" aria-hidden="true">
+                <UiIcon name="handshake" size={26} />
+              </div>
               <h3>Respect & Courtoisie</h3>
               <p>
                 Nos techniciens sont reconnus pour leur minutie et leur respect
@@ -73,6 +83,9 @@ import Layout from "../layouts/Layout.astro";
             </div>
 
             <div class="feature-card">
+              <div class="feature-card-icon" aria-hidden="true">
+                <UiIcon name="shield-check" size={26} />
+              </div>
               <h3>Tranquillité d'Esprit</h3>
               <p>
                 Plusieurs clients craignent les sous-contractants inconnus. Avec
@@ -87,6 +100,8 @@ import Layout from "../layouts/Layout.astro";
             <h3>Prêt à accueillir un expert ?</h3>
             <p>Contactez-nous pour une estimation gratuite.</p>
             <a href="tel:4509774636" class="btn btn-primary pulse-btn"
+              ><span class="btn-inline-icon" aria-hidden="true"
+                ><UiIcon name="phone" size={18} /></span
               >(450) 977-4636</a
             >
           </div>
@@ -224,10 +239,31 @@ import Layout from "../layouts/Layout.astro";
     box-shadow: var(--shadow-hover);
   }
 
-  .icon {
-    font-size: 2.5rem;
+  .feature-card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: rgba(10, 35, 66, 0.055);
+    border: 1px solid rgba(10, 35, 66, 0.08);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 1rem;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   }
+  .feature-card:hover .feature-card-icon {
+    background: rgba(0, 74, 159, 0.08);
+    border-color: rgba(0, 74, 159, 0.14);
+  }
+
+  .btn-inline-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.35rem;
+  }
+
   .feature-card h3 {
     color: var(--color-primary);
     margin-bottom: 0.5rem;

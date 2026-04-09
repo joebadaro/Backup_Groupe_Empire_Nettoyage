@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import FAQSchema from "../../components/FAQSchema.astro";
+import UiIcon from "../../components/icons/UiIcon.astro";
 ---
 
 <Layout
@@ -48,12 +49,18 @@ import FAQSchema from "../../components/FAQSchema.astro";
 
           <div class="cta-group fade-in-up delay-300">
             <a href="tel:4509774636" class="btn btn-primary pulse-btn">
+              <span class="icon" aria-hidden="true"
+                ><UiIcon name="phone" size={18} /></span
+              >
               (450) 977-4636
             </a>
             <button
               onclick="window.openEstimationWidget()"
               class="btn btn-primary pulse-btn"
             >
+              <span class="icon" aria-hidden="true"
+                ><UiIcon name="bolt" size={18} /></span
+              >
               Estimation Instantanée
             </button>
           </div>
@@ -145,18 +152,23 @@ import FAQSchema from "../../components/FAQSchema.astro";
             </h2>
             <div class="benefits-grid">
               <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                 <span><strong>Prévention des craquelures inverses :</strong> Réhydrate les huiles naturelles de la peau pour éviter un dessèchement permanent causé par le soleil et le chauffage.</span>
               </div>
               <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                 <span><strong>Élimination du sébum :</strong> Dissout les cernes d'accumulation de gras et de transpiration sur les accoudoirs et appuie-têtes.</span>
               </div>
               <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                 <span><strong>Fini soyeux sans résidus collants :</strong> Contrairement aux cires de supermarché, nos produits ne laissent pas le meuble luisant ou artificiellement glissant.</span>
               </div>
               <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                 <span><strong>Enlèvement des odeurs incrustées :</strong> Élimine l'imprégnation de sueur ou de fumée qui peut s'accrocher au fil du temps.</span>
               </div>
               <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
                 <span><strong>Hydratation et Protection Carbon :</strong> Après le nettoyage, nous appliquons une riche crème hydratante professionnelle pour éviter les craquelures futures. De plus, nous offrons l'application d'<a href="/services/protecteur" style="color: var(--color-primary); font-weight: bold; text-decoration: underline;">un protecteur antitache haut de gamme (Carbon Protector)</a> qui bloque l'absorption d'encre de stylo, d'huile alimentaire ou de colorant textile.</span>
               </div>
             </div>

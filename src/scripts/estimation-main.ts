@@ -71,6 +71,13 @@
             // Cast imported config
             const CONFIG = RawConfig as unknown as ConfigRoot;
 
+            /** Replaces removed 💎 in promo banners (inline SVG, currentColor). */
+            const PROMO_GEM_ICON_SVG =
+                '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l4 6-10 13L2 9l4-6Z"/><path d="M2 9h20"/></svg>';
+
+            const INLINE_CLOSE_ICON_SVG =
+                '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+
             interface RugState {
                 unit: string;
                 l: number;
@@ -981,7 +988,7 @@
                             fr: '1er article au prix régulier et chaque article ajouté à <span class="perm-highlight">25%</span> de rabais',
                             en: '1st item at regular price and every additional item at <span class="perm-highlight">25%</span> off',
                         });
-                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon"></div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
+                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon">${PROMO_GEM_ICON_SVG}</div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
                     } else if (service.id === "matelas") {
                         const promoTitle = t({
                             fr: "PROMOTION EXCLUSIVE Matelas",
@@ -991,7 +998,7 @@
                             fr: '1er matelas au prix régulier et chaque matelas ajouté à <span class="perm-highlight">30%</span> de rabais',
                             en: '1st mattress at regular price and every additional mattress at <span class="perm-highlight">30%</span> off',
                         });
-                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon"></div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
+                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon">${PROMO_GEM_ICON_SVG}</div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
                     } else if (service.id === "tapis") {
                         const promoTitle = t({
                             fr: "PROMOTION EXCLUSIVE Nettoyage de Tapis et Carpettes",
@@ -1001,7 +1008,7 @@
                             fr: '1er tapis au prix régulier et chaque tapis ajouté à <span class="perm-highlight">50%</span> de rabais',
                             en: '1st rug at regular price and every additional rug at <span class="perm-highlight">50%</span> off',
                         });
-                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon"></div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
+                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon">${PROMO_GEM_ICON_SVG}</div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
                     } else if (service.id === "tapis_mur") {
                         const promoTitle = t({
                             fr: "PROMOTION EXCLUSIVE Nettoyage de Tapis Résidentiel",
@@ -1010,7 +1017,7 @@
                         const promoDesc = t(
                             CONFIG.text.promos.residentialCarpet,
                         );
-                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon"></div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
+                        card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon">${PROMO_GEM_ICON_SVG}</div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
                     }
 
                     // Check for Quote Only Service (Explicit Flag) or Empty Items
@@ -1307,7 +1314,7 @@
                                             <span style="font-weight:500; font-size:0.8rem; line-height:1.2; flex:1; padding-right:8px;">${t(sect.label)} ${savingsDisplay}</span>
                                             <div style="display:flex; align-items:center; gap:10px;">
                                                 <span style="font-weight:bold; color:#2e7d32;">${sect.price}$</span>
-                                                <button type="button" onclick="removeItem('${sect.tempId}')" title="${t(CONFIG.text.buttons.remove)}" style="color:#d32f2f; background:white; border:1px solid #ffcdd2; border-radius:4px; width:24px; height:24px; display:flex; align-items:center; justify-content:center; cursor:pointer;"></button>
+                                                <button type="button" onclick="removeItem('${sect.tempId}')" title="${t(CONFIG.text.buttons.remove)}" style="color:#d32f2f; background:white; border:1px solid #ffcdd2; border-radius:4px; width:24px; height:24px; display:flex; align-items:center; justify-content:center; cursor:pointer;">${INLINE_CLOSE_ICON_SVG}</button>
                                             </div>
                                         </div>
                                     `;
@@ -1627,7 +1634,7 @@
 
                         const bannerHtml = `
                     <div class="static-promo-banner">
-                        <div class="promo-icon"></div>
+                        <div class="promo-icon">${PROMO_GEM_ICON_SVG}</div>
                         <div class="promo-text">
                             <div class="promo-title">${promoTitle}</div>
                             <div class="promo-desc">${promoDesc}</div>
@@ -1647,7 +1654,7 @@
 
                         const bannerHtml = `
                     <div class="static-promo-banner">
-                        <div class="promo-icon"></div>
+                        <div class="promo-icon">${PROMO_GEM_ICON_SVG}</div>
                         <div class="promo-text">
                             <div class="promo-title">${promoTitle}</div>
                             <div class="promo-desc">${promoDesc}</div>
@@ -1667,7 +1674,7 @@
 
                         const bannerHtml = `
                     <div class="static-promo-banner">
-                        <div class="promo-icon"></div>
+                        <div class="promo-icon">${PROMO_GEM_ICON_SVG}</div>
                         <div class="promo-text">
                             <div class="promo-title">${promoTitle}</div>
                             <div class="promo-desc">${promoDesc}</div>
@@ -1686,7 +1693,7 @@
                         );
                         const bannerHtml = `
                     <div class="static-promo-banner">
-                        <div class="promo-icon"></div>
+                        <div class="promo-icon">${PROMO_GEM_ICON_SVG}</div>
                         <div class="promo-text">
                             <div class="promo-title">${promoTitle}</div>
                             <div class="promo-desc">${promoDesc}</div>
