@@ -1,6 +1,7 @@
 ---
 import { SERVICE_IMAGES_ASSET_VERSION } from "../data/serviceImagery";
 import UiIcon from "./icons/UiIcon.astro";
+import { PHONES } from "../config/phones";
 
 const _logoV = SERVICE_IMAGES_ASSET_VERSION;
 const _logoBase = "/images/logo-officiel-optimized";
@@ -37,10 +38,10 @@ const label = isEn ? "FR" : "EN";
         }
       </div>
       <div class="contact-quick">
-        <a href="tel:4509774636" class="phone-link"
+        <a href={`tel:${PHONES.main.tel}`} class="phone-link"
           ><span class="header-top-icon" aria-hidden="true"
             ><UiIcon name="phone" size={14} /></span
-          >(450) 977-4636</a
+          >{PHONES.main.display}</a
         >
       </div>
     </div>

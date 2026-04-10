@@ -3,6 +3,7 @@
  * Bloc tarifaire discret pour les fiches Odor Break / BioBreak.
  */
 import { productPricing } from "../data/productPricing";
+import { PHONES } from "../config/phones";
 
 interface Props {
   locale: "fr" | "en";
@@ -58,7 +59,7 @@ const copy =
   <p class="price-band-muted">{copy.duoLead}</p>
   <p class="price-band-foot">
     {copy.foot}
-    <a href="tel:4509774636">(450) 977-4636</a>
+    <a href={`tel:${PHONES.main.tel}`}>{PHONES.main.display}</a>
     {locale === "fr" ? " ou " : " or "}
     <a href={locale === "fr" ? "/contact" : "/en/contact"}>{copy.contact}</a>.
   </p>

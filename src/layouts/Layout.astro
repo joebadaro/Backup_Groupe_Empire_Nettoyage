@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import EstimationModule from "../components/EstimationModule.astro";
 import UiIcon from "../components/icons/UiIcon.astro";
+import { PHONES } from "../config/phones";
 
 import SEO from "../components/SEO.astro";
 
@@ -221,7 +222,7 @@ const ga4MeasurementId =
 
     <!-- MOBILE STICKY CTA BAR (Phone Only) -->
     <div class="mobile-sticky-bar">
-      <a href="tel:4509774636" class="sticky-btn btn-call">
+      <a href={`tel:${PHONES.main.tel}`} class="sticky-btn btn-call">
         <span class="sticky-btn-icon" aria-hidden="true"
           ><UiIcon name="phone" size={18} /></span
         >

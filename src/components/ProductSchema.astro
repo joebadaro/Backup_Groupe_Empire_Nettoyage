@@ -1,4 +1,5 @@
 ---
+import { PHONES } from "../config/phones";
 /**
  * JSON-LD Product + Offer (prix sur demande — cohérent avec vente par l’entreprise locale).
  */
@@ -36,7 +37,7 @@ const toAbs = (u: string) =>
 const imageUrls = [image, ...additionalImages].map(toAbs);
 
 const defaultOfferDesc =
-  "Prix courant en succursale ou sur commande. Taxes en sus si applicables. Renseignements : (450) 977-4636 ou formulaire de contact.";
+  `Prix courant en succursale ou sur commande. Taxes en sus si applicables. Renseignements : ${PHONES.main.display} ou formulaire de contact.`;
 
 const offers: Record<string, unknown> = {
   "@type": "Offer",
@@ -46,7 +47,7 @@ const offers: Record<string, unknown> = {
   seller: {
     "@type": "LocalBusiness",
     name: "Groupe Nettoyage Empire",
-    telephone: "+1-450-977-4636",
+    telephone: PHONES.main.schema,
     url: siteUrl,
   },
   description: offerDescription ?? defaultOfferDesc,

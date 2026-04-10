@@ -1,4 +1,6 @@
 ---
+import { PHONES } from "../config/phones";
+
 interface Props {
     title: string;
     description: string;
@@ -47,7 +49,7 @@ const jsonLD = {
         : "Service professionnel de nettoyage de tapis, meubles et matelas à Montréal, Laval et Rive-Sud. Technologie de camion-usine, produits écologiques et expertise de 30+ ans.",
     image: [socialImageURL, `${siteUrl}/images/catalog/team-van-back.webp`],
     logo: `${siteUrl}/images/logo-empire.webp`,
-    telephone: "(450) 977-4636",
+    telephone: PHONES.main.display,
     email: "info@groupenettoyageempire.com",
     address: {
         "@type": "PostalAddress",

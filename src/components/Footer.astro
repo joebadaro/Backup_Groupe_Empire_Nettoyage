@@ -1,5 +1,6 @@
 ---
 import UiIcon from "./icons/UiIcon.astro";
+import { PHONES } from "../config/phones";
 
 const currentPath = Astro.url.pathname;
 const isEn = currentPath.startsWith("/en");
@@ -115,7 +116,7 @@ const isEn = currentPath.startsWith("/en");
           {isEn ? "Customer Service" : "Service Client"}
         </div>
         <div class="contact-info">
-          <a href="tel:4509774636" class="contact-row highlight">
+          <a href={`tel:${PHONES.main.tel}`} class="contact-row highlight">
             <span class="icon-circle" aria-hidden="true"
               ><UiIcon name="phone" size={16} /></span
             >
@@ -123,7 +124,7 @@ const isEn = currentPath.startsWith("/en");
               <span class="label"
                 >{isEn ? "By phone (7/7)" : "Par téléphone (7/7)"}</span
               >
-              <span class="value">(450) 977-4636</span>
+              <span class="value">{PHONES.main.display}</span>
             </div>
           </a>
 
