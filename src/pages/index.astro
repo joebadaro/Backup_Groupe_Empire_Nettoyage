@@ -236,6 +236,15 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
           Soumission en Ligne
         </a>
       </div>
+
+      <!-- Promotions Hero Pill -->
+      <div class="hero-promo-pill-wrapper animate-on-load delay-4">
+        <a href="/promotions" class="hero-promo-pill" aria-label="Voir nos offres en cours">
+          <span class="promo-pill-icon">✨</span>
+          <span class="promo-pill-text">Voir nos offres en cours : <strong>Jusqu'à 50% de rabais</strong></span>
+          <span class="promo-pill-arrow">→</span>
+        </a>
+      </div>
     </div>
 
     <!-- 2. TRUST (mobile: overlay bas du hero — desktop: inchangé visuellement via CSS) -->
@@ -582,6 +591,196 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
 
   <!-- 5.5 AVIS GOOGLE (preuve sociale — après La puissance des camions-usines) -->
   <GoogleReviewsSection locale="fr" />
+
+  <!-- 5.8 PROMOTIONS TEASER (Entre les avis et le CTA final) -->
+  <section class="section-promos-teaser">
+    <div class="container promos-teaser-inner">
+      <div class="promos-teaser-label">
+        <span class="promos-tag">Offres exclusives</span>
+      </div>
+      <div class="promos-teaser-content">
+        <div class="promos-teaser-text">
+          <h2 class="promos-teaser-title">Économisez sur chaque visite</h2>
+          <p class="promos-teaser-desc">
+            Nous offrons des rabais automatiques sur de nombreux services : tapis additionnels à
+            <strong>50&thinsp;% de rabais</strong>, matelas supplémentaires à <strong>30&thinsp;%</strong>,
+            sofas, sectionnels et plus encore — tous calculés en temps réel dans votre estimation.
+          </p>
+        </div>
+        <div class="promos-teaser-cta">
+          <a href="/promotions" class="btn-promos-link" id="btn-voir-promotions" aria-label="Voir toutes nos promotions en cours">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            Voir nos promotions en cours
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <!-- Promo pills -->
+      <ul class="promos-pills" aria-label="Aperçu des promotions actives">
+        <li class="promos-pill">
+          <span class="promos-pill-pct">50%</span>
+          <span class="promos-pill-label">de rabais sur chaque tapis additionnel</span>
+        </li>
+        <li class="promos-pill">
+          <span class="promos-pill-pct">30%</span>
+          <span class="promos-pill-label">de rabais sur chaque matelas supplémentaire</span>
+        </li>
+        <li class="promos-pill">
+          <span class="promos-pill-pct">10%</span>
+          <span class="promos-pill-label">de rabais sur les sectionnels et sofas en L</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <style>
+    /* ================================
+       PROMOTIONS TEASER SECTION
+    ================================ */
+    .section-promos-teaser {
+      background: #fff;
+      border-top: 1px solid #e4ecf5;
+      border-bottom: 1px solid #e4ecf5;
+      padding: 3.5rem 0;
+    }
+
+    .promos-teaser-inner {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .promos-teaser-label {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .promos-tag {
+      display: inline-block;
+      background: linear-gradient(135deg, #003b7a 0%, #080d14 100%);
+      color: #f0c14b;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 5px 16px;
+      border-radius: 50px;
+    }
+
+    .promos-teaser-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .promos-teaser-text {
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .promos-teaser-title {
+      font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+      font-weight: 800;
+      color: #001f3f;
+      margin: 0 0 0.65rem;
+      line-height: 1.25;
+    }
+
+    .promos-teaser-desc {
+      font-size: 0.95rem;
+      color: #374151;
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    .promos-teaser-cta {
+      flex-shrink: 0;
+    }
+
+    .btn-promos-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #003b7a 0%, #080d14 100%);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 12px 22px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 16px rgba(0, 59, 122, 0.3);
+      white-space: nowrap;
+    }
+
+    .btn-promos-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 59, 122, 0.42);
+    }
+
+    /* Promo pills row */
+    .promos-pills {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .promos-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #f0f6ff;
+      border: 1px solid #d0e2f8;
+      border-radius: 50px;
+      padding: 8px 18px 8px 12px;
+      flex: 1;
+      min-width: 200px;
+      max-width: 340px;
+    }
+
+    .promos-pill-pct {
+      background: linear-gradient(135deg, #c2181b 0%, #7a0000 100%);
+      color: white;
+      font-weight: 900;
+      font-size: 0.85rem;
+      padding: 3px 10px;
+      border-radius: 50px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .promos-pill-label {
+      font-size: 0.85rem;
+      color: #1b2b4b;
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 600px) {
+      .promos-teaser-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .promos-teaser-cta {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+      .promos-pills {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .promos-pill {
+        max-width: 100%;
+      }
+    }
+  </style>
 
   <!-- 6. CONCLUSION CTA (Rouge/Action) -->
   <section class="cta-final">
@@ -2052,6 +2251,95 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
           grid-template-columns: 1fr 1fr;
         }
       }
+      /* ================================
+         PROMO HERO PILL
+      ================================ */
+      .hero-promo-pill-wrapper {
+        margin-top: 1.25rem;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        position: relative;
+        z-index: 10;
+        pointer-events: auto;
+      }
+
+      .hero-promo-pill {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        padding: 8px 16px 8px 12px;
+        border-radius: 50px;
+        text-decoration: none;
+        color: white;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        gap: 8px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-promo-pill::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(135deg, rgba(240, 193, 75, 0.2) 0%, transparent 100%);
+        border-radius: 50px;
+        z-index: -1;
+      }
+
+      .hero-promo-pill:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(240, 193, 75, 0.6);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(240, 193, 75, 0.2);
+      }
+
+      .promo-pill-icon {
+        font-size: 1.1rem;
+        line-height: 1;
+      }
+
+      .promo-pill-text {
+        font-weight: 500;
+        letter-spacing: 0.2px;
+      }
+
+      .promo-pill-text strong {
+        font-weight: 800;
+        color: #f0c14b; /* Gold accent */
+      }
+
+      .promo-pill-arrow {
+        font-weight: bold;
+        color: #f0c14b;
+        transition: transform 0.3s ease;
+        line-height: 1;
+        margin-left: 2px;
+      }
+
+      .hero-promo-pill:hover .promo-pill-arrow {
+        transform: translateX(4px);
+      }
+
+      @media (max-width: 600px) {
+        .hero-promo-pill {
+          font-size: 0.85rem;
+          padding: 6px 14px 6px 10px;
+          gap: 6px;
+        }
+        .promo-pill-icon {
+          font-size: 1rem;
+        }
+        .hero-promo-pill-wrapper {
+          margin-top: 1rem;
+        }
+      }
+      /* --- END PROMO PILL --- */
     </style>
   </section>
 </Layout>

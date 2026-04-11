@@ -1,0 +1,304 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import HomepageServiceCardIcon from "../../components/icons/HomepageServiceCardIcon.astro";
+import UiIcon from "../../components/icons/UiIcon.astro";
+
+const title = "Promotions & Special Offers | Groupe Nettoyage Empire";
+const description = "Explore our exclusive cleaning promotions on rugs, upholstery, mattresses and more. All discounts are applied automatically in your free estimate.";
+---
+
+<Layout title={title} description={description}>
+  <!-- PAGE HERO -->
+  <section class="promo-hero">
+    <div class="container promo-hero-inner">
+      <span class="promo-tag">Current Offers</span>
+      <h1 class="promo-hero-title">Promotions &amp; Special Offers</h1>
+      <p class="promo-hero-subtitle">
+        Exclusive discounts applied automatically — directly inside your free estimate.
+      </p>
+    </div>
+  </section>
+
+  <!-- PROMOTIONS CONTENT -->
+  <section class="promo-main">
+    <div class="container promo-grid-layout">
+
+      <!-- AREA RUGS -->
+      <article class="promo-card fade-in-section" aria-labelledby="promo-rugs-title">
+        <div class="promo-card-header promo-card-header--blue">
+          <div>
+            <h2 id="promo-rugs-title" class="promo-card-title">Area Rug &amp; Carpet Cleaning</h2>
+            <p class="promo-card-category">Synthetic and wool area rugs</p>
+          </div>
+        </div>
+        <div class="promo-card-body">
+          <div class="promo-offer-primary">
+            <span class="promo-badge-highlight">50% off</span>
+            <p class="promo-offer-desc">every additional rug or carpet</p>
+          </div>
+          <ul class="promo-details-list">
+            <li>The first rug is at the regular price</li>
+            <li>Every additional rug receives an automatic <strong>50% discount</strong></li>
+            <li>Applies to synthetic rugs (<em>$1.85/sqft</em>) and wool rugs (<em>$2.25/sqft</em>)</li>
+            <li>The discount is calculated in real time inside the estimator</li>
+          </ul>
+          <p class="promo-example">
+            <strong>Example:</strong> You clean two 5&thinsp;×&thinsp;8 ft synthetic rugs.
+            First rug: $74. Second rug: only $37 instead of $74.
+          </p>
+        </div>
+      </article>
+
+      <!-- MATTRESS -->
+      <article class="promo-card fade-in-section delay-100" aria-labelledby="promo-mattress-title">
+        <div class="promo-card-header promo-card-header--indigo">
+          <div>
+            <h2 id="promo-mattress-title" class="promo-card-title">Mattress Cleaning</h2>
+            <p class="promo-card-category">All sizes: Twin, Double, Queen, King</p>
+          </div>
+        </div>
+        <div class="promo-card-body">
+          <div class="promo-offer-primary">
+            <span class="promo-badge-highlight">30% off</span>
+            <p class="promo-offer-desc">every additional mattress</p>
+          </div>
+          <ul class="promo-details-list">
+            <li>The first mattress is at the regular price</li>
+            <li>Every additional mattress receives an automatic <strong>30% discount</strong></li>
+            <li>Applies to all sizes: Twin ($99), Double ($129), Queen ($149), King ($179)</li>
+            <li>Perfect for families cleaning multiple bedrooms in a single visit</li>
+          </ul>
+          <p class="promo-example">
+            <strong>Example:</strong> You clean one Queen and one Double mattress.
+            Queen: $149. Double: $129 × 70% = <em>$90.30</em> instead of $129.
+          </p>
+        </div>
+      </article>
+
+      <!-- SOFA 3-SEATER -->
+      <article class="promo-card fade-in-section" aria-labelledby="promo-sofa3-title">
+        <div class="promo-card-header promo-card-header--teal">
+          <div>
+            <h2 id="promo-sofa3-title" class="promo-card-title">Fabric Sofa Cleaning (3-Seat)</h2>
+            <p class="promo-card-category">Fabric upholstery — Living room</p>
+          </div>
+        </div>
+        <div class="promo-card-body">
+          <div class="promo-offer-primary">
+            <span class="promo-badge-highlight">30% off</span>
+            <p class="promo-offer-desc">the 2nd 3-seat sofa</p>
+          </div>
+          <ul class="promo-details-list">
+            <li>First 3-seat sofa at the regular price of <strong>$149</strong></li>
+            <li>Second 3-seat sofa: automatic <strong>30% discount</strong></li>
+          </ul>
+          <p class="promo-example">
+            <strong>Example:</strong> 2 fabric sofas (3 seats each).
+            First sofa: $149. Second sofa: $149 × 70% = <em>$104.30</em>.
+          </p>
+        </div>
+      </article>
+
+      <!-- LOVESEAT -->
+      <article class="promo-card fade-in-section delay-100" aria-labelledby="promo-loveseat-title">
+        <div class="promo-card-header promo-card-header--teal">
+          <div>
+            <h2 id="promo-loveseat-title" class="promo-card-title">Fabric Loveseat / 2-Seater Cleaning</h2>
+            <p class="promo-card-category">Fabric upholstery — Living room</p>
+          </div>
+        </div>
+        <div class="promo-card-body">
+          <div class="promo-offer-primary">
+            <span class="promo-badge-highlight">15% off</span>
+            <p class="promo-offer-desc">the 2nd loveseat / 2-seat sofa</p>
+          </div>
+          <ul class="promo-details-list">
+            <li>First loveseat or 2-seat sofa at the regular price of <strong>$99</strong></li>
+            <li>Second unit: automatic <strong>15% discount</strong></li>
+          </ul>
+          <p class="promo-example">
+            <strong>Example:</strong> 2 fabric loveseats.
+            First: $99. Second: $99 × 85% = <em>$84.15</em>.
+          </p>
+        </div>
+      </article>
+
+      <!-- SECTIONAL -->
+      <article class="promo-card fade-in-section" aria-labelledby="promo-sectional-title">
+        <div class="promo-card-header promo-card-header--deep">
+          <div>
+            <h2 id="promo-sectional-title" class="promo-card-title">Fabric Sectional &amp; L-Shaped Sofa</h2>
+            <p class="promo-card-category">Large format — Living room</p>
+          </div>
+        </div>
+        <div class="promo-card-body">
+          <div class="promo-offer-primary">
+            <span class="promo-badge-highlight">10% off</span>
+            <p class="promo-offer-desc">automatically applied on all sectionals</p>
+          </div>
+          <ul class="promo-details-list">
+            <li>A <strong>10% discount</strong> is applied automatically when selecting a fabric sectional</li>
+            <li>Available for configurations from 3 to 7 seats</li>
+            <li>Base prices: 3&thinsp;seats = $209&thinsp;|&thinsp;5&thinsp;seats = $249&thinsp;|&thinsp;6&thinsp;seats = $294&thinsp;|&thinsp;7&thinsp;seats = $339</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- WALL-TO-WALL CARPET -->
+      <article class="promo-card fade-in-section delay-100" aria-labelledby="promo-carpet-title">
+        <div class="promo-card-header promo-card-header--green">
+          <div>
+            <h2 id="promo-carpet-title" class="promo-card-title">Residential Wall-to-Wall Carpet</h2>
+            <p class="promo-card-category">Rooms, hallways, stairs, landings</p>
+          </div>
+        </div>
+        <div class="promo-card-body">
+          <div class="promo-offer-row">
+            <div class="promo-offer-pill">
+              <strong>3-Room Package</strong>
+              <span>$195 <em>(max. 175 sqft / room)</em></span>
+            </div>
+            <div class="promo-offer-pill">
+              <strong>Individual rooms</strong>
+              <span>$75 / room</span>
+            </div>
+          </div>
+          <div class="promo-offer-primary promo-offer-primary--sm">
+            <span class="promo-badge-highlight promo-badge-highlight--gold">$30 off</span>
+            <p class="promo-offer-desc">the 3rd additional room</p>
+          </div>
+          <ul class="promo-details-list">
+            <li>3-room package at <strong>$195</strong> (savings vs. individual rooms)</li>
+            <li>Extra rooms beyond the package: $75 each</li>
+            <li>The 3rd extra room receives an automatic <strong>$30 discount</strong></li>
+            <li>Hallways: $39/corridor (max. 80 sqft) — Stairs: $5/step — Landings: $20/landing</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- MINIMUM ORDER -->
+      <article class="promo-card promo-card--wide fade-in-section" aria-labelledby="promo-minimum-title">
+        <div class="promo-card-header promo-card-header--slate">
+          <div>
+            <h2 id="promo-minimum-title" class="promo-card-title">Minimum Order &amp; Travel Included</h2>
+            <p class="promo-card-category">Important — Applies to all orders</p>
+          </div>
+        </div>
+        <div class="promo-card-body">
+          <div class="promo-offer-primary">
+            <span class="promo-badge-highlight promo-badge-highlight--neutral">$179 minimum</span>
+            <p class="promo-offer-desc">travel included — maximize your visit</p>
+          </div>
+          <ul class="promo-details-list">
+            <li>Minimum order of <strong>$179</strong> per visit (includes travel/dispatch)</li>
+            <li>Since our team is already on-site, you can add more items to the same visit — often at a reduced cost</li>
+            <li>The ideal opportunity to combine multiple services in one single intervention</li>
+          </ul>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- CTA CALCULATOR SECTION -->
+  <section class="promo-cta-section fade-in-section">
+    <div class="container promo-cta-inner">
+      <div class="promo-cta-icon" aria-hidden="true" style="color: #003b7a;"><UiIcon name="clipboard" size={48} /></div>
+      <h2 class="promo-cta-title">Calculate your estimate in just a few clicks</h2>
+      <p class="promo-cta-text">
+        Want to know the exact cost of cleaning your items?
+        Our online estimate calculator gives you an instant approximate price.
+        All current promotions and discounts are applied <strong>automatically</strong>
+        and displayed clearly in the summary — no surprises.
+      </p>
+      <div class="promo-cta-actions">
+        <button
+          type="button"
+          onclick="window.openEstimationWidget()"
+          class="btn btn-primary-promo pulse-btn"
+          id="btn-open-estimation-promos-en"
+          aria-label="Open the free estimate calculator"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+          Calculate my free estimate
+        </button>
+        <a href="/en/contact" class="btn btn-outline-promo">
+          Contact us
+        </a>
+      </div>
+      <p class="promo-cta-disclaimer">All prices are before taxes. The minimum order is $179 per visit.</p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .promo-hero {
+    background: linear-gradient(135deg, var(--color-primary, #003b7a) 0%, #080d14 100%);
+    color: white;
+    padding: 4rem 0 3rem;
+    text-align: center;
+  }
+  .promo-hero-inner { max-width: 700px; margin: 0 auto; }
+  .promo-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #f0c14b;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 5px 16px;
+    border-radius: 50px;
+    margin-bottom: 1.2rem;
+  }
+  .promo-hero-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; margin: 0 0 1rem; line-height: 1.15; color: #ffffff; }
+  .promo-hero-subtitle { font-size: 1.05rem; color: rgba(255,255,255,0.82); line-height: 1.6; margin: 0; }
+  .promo-main { padding: 4rem 0; }
+  .promo-grid-layout { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.75rem; max-width: 1100px; margin: 0 auto; }
+  @media (max-width: 768px) { .promo-grid-layout { grid-template-columns: 1fr; } }
+  .promo-card { background: #fff; border-radius: 16px; border: 1px solid #e8edf3; box-shadow: 0 4px 20px rgba(0,30,80,0.07); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .promo-card:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(0,30,80,0.12); }
+  .promo-card--wide { grid-column: 1 / -1; }
+  .promo-card-header { padding: 1.4rem 1.5rem 1.2rem; display: flex; align-items: flex-start; gap: 1rem; color: white; }
+  .promo-card-header--blue   { background: linear-gradient(135deg, #004a9f 0%, #001f3f 100%); }
+  .promo-card-header--indigo { background: linear-gradient(135deg, #3949ab 0%, #1a237e 100%); }
+  .promo-card-header--teal   { background: linear-gradient(135deg, #006064 0%, #002b2d 100%); }
+  .promo-card-header--deep   { background: linear-gradient(135deg, #1b2b4b 0%, #080d14 100%); }
+  .promo-card-header--green  { background: linear-gradient(135deg, #2e7d32 0%, #0a3a0c 100%); }
+  .promo-card-header--slate  { background: linear-gradient(135deg, #37474f 0%, #102027 100%); }
+  .promo-card-icon { font-size: 2rem; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+  .promo-card-title { font-size: 1.05rem; font-weight: 800; margin: 0 0 4px; line-height: 1.3; color: #fff; }
+  .promo-card-category { font-size: 0.78rem; color: rgba(255,255,255,0.72); margin: 0; text-transform: uppercase; letter-spacing: 0.8px; }
+  .promo-card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; gap: 1rem; }
+  .promo-offer-primary { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; background: #f8fbff; border: 1px solid #dbe9fc; border-radius: 10px; padding: 0.9rem 1.1rem; }
+  .promo-offer-primary--sm { margin-top: 0.5rem; }
+  .promo-offer-desc { margin: 0; font-size: 0.9rem; color: #1b2b4b; font-weight: 500; }
+  .promo-badge-highlight { display: inline-block; background: linear-gradient(135deg, #c2181b 0%, #7a0000 100%); color: white; font-weight: 800; font-size: 1rem; padding: 5px 14px; border-radius: 50px; white-space: nowrap; letter-spacing: 0.3px; }
+  .promo-badge-highlight--gold { background: linear-gradient(135deg, #c5a059 0%, #8a6c30 100%); }
+  .promo-badge-highlight--neutral { background: linear-gradient(135deg, #37474f 0%, #102027 100%); }
+  .promo-offer-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .promo-offer-pill { flex: 1; min-width: 140px; background: #f0f4f8; border: 1px solid #d4dde8; border-radius: 10px; padding: 0.75rem 1rem; display: flex; flex-direction: column; gap: 4px; font-size: 0.88rem; color: #1b2b4b; }
+  .promo-offer-pill strong { font-weight: 700; color: #003b7a; }
+  .promo-offer-pill span { color: #555; font-size: 0.85rem; }
+  .promo-details-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+  .promo-details-list li { font-size: 0.9rem; color: #374151; line-height: 1.55; padding-left: 1.3em; position: relative; }
+  .promo-details-list li::before { content: "✓"; position: absolute; left: 0; color: #2e7d32; font-weight: 800; font-size: 0.85rem; }
+  .promo-example { font-size: 0.85rem; color: #4b5563; background: #fffbf0; border-left: 3px solid #c5a059; padding: 0.7rem 0.9rem; border-radius: 0 8px 8px 0; margin: 0; line-height: 1.5; }
+  .promo-cta-section { background: linear-gradient(135deg, #f0f6ff 0%, #e8f5f0 100%); border-top: 1px solid #dbe9fc; padding: 4rem 0; text-align: center; }
+  .promo-cta-inner { max-width: 680px; margin: 0 auto; }
+  .promo-cta-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+  .promo-cta-title { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; color: #001f3f; margin: 0 0 1.1rem; line-height: 1.25; }
+  .promo-cta-text { font-size: 1rem; color: #374151; line-height: 1.7; margin: 0 0 1.75rem; }
+  .promo-cta-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .btn-primary-promo { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #003b7a 0%, #080d14 100%); color: #fff; font-weight: 800; font-size: 1rem; padding: 14px 28px; border-radius: 50px; border: none; cursor: pointer; text-decoration: none; transition: transform 0.25s ease, box-shadow 0.25s ease; box-shadow: 0 6px 20px rgba(0,59,122,0.35); line-height: 1; }
+  .btn-primary-promo:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,59,122,0.45); }
+  .btn-outline-promo { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: #003b7a; font-weight: 700; font-size: 1rem; padding: 13px 26px; border-radius: 50px; border: 2px solid #003b7a; cursor: pointer; text-decoration: none; transition: background 0.25s ease, color 0.25s ease; }
+  .btn-outline-promo:hover { background: #003b7a; color: white; }
+  .promo-cta-disclaimer { font-size: 0.8rem; color: #6b7280; margin: 0; }
+  .fade-in-section { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+  .fade-in-section.is-visible { opacity: 1; transform: none; }
+  .delay-100 { transition-delay: 0.1s; }
+  .pulse-btn { animation: pulseShadow 2.5s ease-in-out infinite; }
+  @keyframes pulseShadow { 0%, 100% { box-shadow: 0 6px 20px rgba(0,59,122,0.35); } 50% { box-shadow: 0 8px 30px rgba(0,59,122,0.6); } }
+</style>
