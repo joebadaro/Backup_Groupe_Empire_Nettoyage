@@ -46,8 +46,9 @@ const canonicalPath = "/promotions";
             <li>Le rabais est calculé en temps réel dans le calculateur</li>
           </ul>
           <p class="promo-example">
-            <strong>Exemple :</strong> Vous nettoyez 2 tapis synthétiques de 5&thinsp;×&thinsp;8 pi chacun.
-            Le premier tapis : 74&nbsp;$. Le deuxième : seulement 37&nbsp;$ au lieu de 74&nbsp;$.
+            <strong>Exemple :</strong> Vous nettoyez 2 tapis synthétiques de 5&thinsp;×&thinsp;8 pi chacun.<br/>
+            Le premier tapis : 74&nbsp;$.<br/>
+            Le deuxième tapis : seulement <strong class="price-discount-inline">37&nbsp;$</strong> au lieu de 74&nbsp;$.
           </p>
         </div>
       </article>
@@ -74,8 +75,9 @@ const canonicalPath = "/promotions";
             <li>Idéal pour les familles souhaitant nettoyer plusieurs chambres en une seule visite</li>
           </ul>
           <p class="promo-example">
-            <strong>Exemple :</strong> Vous nettoyez un matelas Queen et un matelas Double.
-            Queen : 149&nbsp;$. Double : 129&nbsp;$ × 70&thinsp;% = <em>90,30&nbsp;$</em> au lieu de 129&nbsp;$.
+            <strong>Exemple :</strong> Vous nettoyez un matelas Queen et un matelas Double.<br/>
+            Matelas Queen : 149&nbsp;$.<br/>
+            Matelas Double : <strong class="price-discount-inline">90,30&nbsp;$</strong> au lieu de 129&nbsp;$.
           </p>
         </div>
       </article>
@@ -101,8 +103,9 @@ const canonicalPath = "/promotions";
             <li>En combinant les deux, vous économisez directement sur votre facture</li>
           </ul>
           <p class="promo-example">
-            <strong>Exemple :</strong> 2 sofas 3 places en tissu.
-            Premier sofa : 149&nbsp;$. Deuxième sofa : 149&nbsp;$ × 70&thinsp;% = <em>104,30&nbsp;$</em>.
+            <strong>Exemple :</strong> 2 sofas 3 places en tissu.<br/>
+            Premier sofa : 149&nbsp;$.<br/>
+            Deuxième sofa : <strong class="price-discount-inline">104,30&nbsp;$</strong> au lieu de 149&nbsp;$.
           </p>
         </div>
       </article>
@@ -127,8 +130,9 @@ const canonicalPath = "/promotions";
             <li>La deuxième : <strong>15&thinsp;% de rabais automatique</strong></li>
           </ul>
           <p class="promo-example">
-            <strong>Exemple :</strong> 2 causeuses en tissu.
-            Première : 99&nbsp;$. Deuxième : 99&nbsp;$ × 85&thinsp;% = <em>84,15&nbsp;$</em>.
+            <strong>Exemple :</strong> 2 causeuses en tissu.<br/>
+            Première causeuse : 99&nbsp;$.<br/>
+            Deuxième causeuse : <strong class="price-discount-inline">84,15&nbsp;$</strong> au lieu de 99&nbsp;$.
           </p>
         </div>
       </article>
@@ -151,7 +155,10 @@ const canonicalPath = "/promotions";
           <ul class="promo-details-list">
             <li>Un rabais de <strong>10&thinsp;%</strong> est appliqué automatiquement lors de la sélection d'un sectionnel en tissu</li>
             <li>Disponible pour les configurations de 3 à 7 places</li>
-            <li>Tarifs de base : 3&nbsp;places allongées = 209&nbsp;$&thinsp;|&thinsp;5&nbsp;places = 249&nbsp;$&thinsp;|&thinsp;6&nbsp;places = 294&nbsp;$&thinsp;|&thinsp;7&nbsp;places = 339&nbsp;$</li>
+            <li>3 places allongées : 209&nbsp;$ &rarr; maintenant <strong class="price-discount-inline">188,10&nbsp;$</strong></li>
+            <li>5 places : 249&nbsp;$ &rarr; maintenant <strong class="price-discount-inline">224,10&nbsp;$</strong></li>
+            <li>6 places : 294&nbsp;$ &rarr; maintenant <strong class="price-discount-inline">264,60&nbsp;$</strong></li>
+            <li>7 places : 339&nbsp;$ &rarr; maintenant <strong class="price-discount-inline">305,10&nbsp;$</strong></li>
           </ul>
         </div>
       </article>
@@ -499,6 +506,12 @@ const canonicalPath = "/promotions";
     border-radius: 0 8px 8px 0;
     margin: 0;
     line-height: 1.5;
+  }
+
+  .price-discount-inline {
+    color: #c2181b;
+    font-weight: 800;
+    font-size: 1.05em;
   }
 
   /* ================================
