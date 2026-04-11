@@ -3,8 +3,8 @@ import { SERVICE_IMAGES_ASSET_VERSION } from "../data/serviceImagery";
 import UiIcon from "./icons/UiIcon.astro";
 import { PHONES } from "../config/phones";
 
-const _logoV = SERVICE_IMAGES_ASSET_VERSION;
-const _logoBase = "/images/logo-officiel-optimized";
+const _logoV = "finalv4";
+const _logoBase = "/images/logo-last-update-1";
 const logoSrc = `${_logoBase}.webp?v=${_logoV}`;
 const logoSrcset = [
   `${_logoBase}-240.webp?v=${_logoV} 240w`,
@@ -368,7 +368,7 @@ const label = isEn ? "FR" : "EN";
 
   /* Top Bar */
   .header-top {
-    background-color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary) 0%, #080d14 100%);
     color: white;
     font-size: 0.85rem;
     padding: 8px 0;
@@ -432,16 +432,21 @@ const label = isEn ? "FR" : "EN";
   }
 
   .logo-img {
-    height: 108px; /* Very large but safely contained */
-    margin: 0; /* No negative margins */
+    height: 55px; /* Compact height for mobile (-15%) */
+    margin: 0;
     width: auto;
     object-fit: contain;
     transition: transform 0.3s ease;
-    mix-blend-mode: multiply; /* Removes the white background of the image file perfectly */
+  }
+
+  @media (min-width: 768px) {
+    .logo-img {
+      height: 72px; /* Balanced desktop height (-15%) without overpowering */
+    }
   }
 
   .logo-img:hover {
-    transform: scale(1.02);
+    transform: scale(1.03); /* Subtle interaction logic */
   }
 
   /* Navigation */

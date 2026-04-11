@@ -4,6 +4,17 @@ import { PHONES } from "../config/phones";
 
 const currentPath = Astro.url.pathname;
 const isEn = currentPath.startsWith("/en");
+
+/* Footer Logo Configuration */
+const _logoV = "finalv4";
+const _logoBase = "/images/logo-last-update-1";
+const logoSrc = `${_logoBase}.webp?v=${_logoV}`;
+const logoSrcset = [
+  `${_logoBase}-240.webp?v=${_logoV} 240w`,
+  `${_logoBase}-360.webp?v=${_logoV} 360w`,
+  `${_logoBase}.webp?v=${_logoV} 480w`,
+].join(", ");
+const logoSizes = "240px";
 ---
 
 <footer class="site-footer">
@@ -11,12 +22,18 @@ const isEn = currentPath.startsWith("/en");
     <div class="container footer-grid">
       <!-- 1. Brand Identity -->
       <div class="footer-col brand-col">
-        <div class="logo-group">
-          <span class="logo-surtitle">{isEn ? "Group" : "Groupe"}</span>
-          <span class="logo-title text-gradient-gold"
-            >{isEn ? "Empire Cleaning" : "Nettoyage Empire"}</span
-          >
-        </div>
+        <a href={isEn ? "/en" : "/"} class="footer-logo-link">
+          <img
+            src={logoSrc}
+            srcset={logoSrcset}
+            sizes={logoSizes}
+            alt={isEn ? "Empire Cleaning Group" : "Groupe Nettoyage Empire"}
+            class="footer-logo-img"
+            width="240"
+            height="90"
+            loading="lazy"
+          />
+        </a>
         <p class="brand-desc">
           {
             isEn
@@ -228,30 +245,25 @@ const isEn = currentPath.startsWith("/en");
   }
 
   /* Brand */
-  .logo-group {
-    display: flex;
-    flex-direction: column;
+  .footer-logo-link {
+    display: inline-block;
     margin-bottom: 1.2rem;
   }
-  .logo-surtitle {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--footer-muted);
-    margin-bottom: 4px;
+  .footer-logo-img {
+    height: 55px; /* Clean mobile height matching header balance */
+    width: auto;
+    object-fit: contain;
+    display: block;
+    mix-blend-mode: normal; /* Transparent PNG */
+    transition: transform 0.3s ease;
   }
-  .logo-title {
-    font-family: var(--font-heading);
-    font-size: 1.5rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    line-height: 1.1;
+  @media (min-width: 768px) {
+    .footer-logo-img {
+      height: 72px; /* Mirrors desktop header layout sizing */
+    }
   }
-  .text-gradient-gold {
-    background: linear-gradient(135deg, #ffffff 40%, #f0c14b 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  .footer-logo-img:hover {
+    transform: scale(1.02);
   }
   .brand-desc {
     line-height: 1.6;
