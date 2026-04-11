@@ -239,10 +239,10 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
 
       <!-- Promotions Hero Pill -->
       <div class="hero-promo-pill-wrapper animate-on-load delay-4">
-        <a href="/promotions" class="hero-promo-pill" aria-label="Voir nos offres en cours">
-          <span class="promo-pill-icon">✨</span>
-          <span class="promo-pill-text">Voir nos offres en cours : <strong>Jusqu'à 50% de rabais</strong></span>
-          <span class="promo-pill-arrow">→</span>
+        <a href="/promotions" class="hero-promo-pill" aria-label="Offres Exclusives : Jusqu'à 50 % de rabais">
+          <span class="promo-pill-icon"><UiIcon name="award" size={17} /></span>
+          <span class="promo-pill-text">Offres Exclusives : <strong class="promo-pill-highlight">Jusqu'à 50 % de rabais</strong></span>
+          <span class="promo-pill-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
         </a>
       </div>
     </div>
@@ -2252,10 +2252,10 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         }
       }
       /* ================================
-         PROMO HERO PILL
+         PROMO HERO PILL (REFINED LUXURY)
       ================================ */
       .hero-promo-pill-wrapper {
-        margin-top: 1.25rem;
+        margin-top: 1.75rem;
         display: flex;
         justify-content: center;
         width: 100%;
@@ -2267,76 +2267,62 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
       .hero-promo-pill {
         display: inline-flex;
         align-items: center;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-        padding: 8px 16px 8px 12px;
+        background: rgba(0, 20, 45, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(240, 193, 75, 0.4);
+        padding: 10px 22px;
         border-radius: 50px;
         text-decoration: none;
-        color: white;
+        color: rgba(255, 255, 255, 0.95);
         font-size: 0.95rem;
-        transition: all 0.3s ease;
-        gap: 8px;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .hero-promo-pill::before {
-        content: "";
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: linear-gradient(135deg, rgba(240, 193, 75, 0.2) 0%, transparent 100%);
-        border-radius: 50px;
-        z-index: -1;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        gap: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       }
 
       .hero-promo-pill:hover {
-        background: rgba(255, 255, 255, 0.15);
-        border-color: rgba(240, 193, 75, 0.6);
+        background: rgba(0, 25, 60, 0.8);
+        border-color: rgba(240, 193, 75, 0.8);
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(240, 193, 75, 0.15);
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(240, 193, 75, 0.2);
       }
 
       .promo-pill-icon {
-        font-size: 1.1rem;
-        line-height: 1;
+        display: flex;
+        color: #f0c14b;
+        align-items: center;
       }
 
       .promo-pill-text {
-        font-weight: 500;
-        letter-spacing: 0.2px;
+        font-weight: 400;
+        letter-spacing: 0.3px;
       }
 
-      .promo-pill-text strong {
-        font-weight: 800;
-        color: #f0c14b; /* Gold accent */
+      .promo-pill-highlight {
+        font-weight: 700;
+        color: #f0c14b;
       }
 
       .promo-pill-arrow {
-        font-weight: bold;
-        color: #f0c14b;
-        transition: transform 0.3s ease;
-        line-height: 1;
-        margin-left: 2px;
+        display: flex;
+        color: rgba(255, 255, 255, 0.6);
+        transition: transform 0.4s ease, color 0.4s ease;
       }
 
       .hero-promo-pill:hover .promo-pill-arrow {
         transform: translateX(4px);
+        color: #f0c14b;
       }
 
       @media (max-width: 600px) {
         .hero-promo-pill {
           font-size: 0.85rem;
-          padding: 6px 14px 6px 10px;
-          gap: 6px;
-        }
-        .promo-pill-icon {
-          font-size: 1rem;
+          padding: 8px 18px;
+          gap: 8px;
         }
         .hero-promo-pill-wrapper {
-          margin-top: 1rem;
+          margin-top: 1.5rem;
         }
       }
       /* --- END PROMO PILL --- */

@@ -237,10 +237,10 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
 
       <!-- Promotions Hero Pill -->
       <div class="hero-promo-pill-wrapper animate-on-load delay-4">
-        <a href="/en/promotions" class="hero-promo-pill" aria-label="View our current offers">
-          <span class="promo-pill-icon">✨</span>
-          <span class="promo-pill-text">View our current offers: <strong>Up to 50% discount</strong></span>
-          <span class="promo-pill-arrow">→</span>
+        <a href="/en/promotions" class="hero-promo-pill" aria-label="Exclusive Offers: Up to 50% discount">
+          <span class="promo-pill-icon"><UiIcon name="award" size={17} /></span>
+          <span class="promo-pill-text">Exclusive Offers: <strong class="promo-pill-highlight">Up to 50% discount</strong></span>
+          <span class="promo-pill-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
         </a>
       </div>
     </div>
@@ -2030,6 +2030,81 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
     @media (max-width: 360px) {
       .hero-section .trust-container .trust-grid--mobile {
         grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* ================================
+       PROMO HERO PILL (REFINED LUXURY)
+    ================================ */
+    .hero-promo-pill-wrapper {
+      margin-top: 1.75rem;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      position: relative;
+      z-index: 10;
+      pointer-events: auto;
+    }
+
+    .hero-promo-pill {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(0, 20, 45, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(240, 193, 75, 0.4);
+      padding: 10px 22px;
+      border-radius: 50px;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 0.95rem;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      gap: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-promo-pill:hover {
+      background: rgba(0, 25, 60, 0.8);
+      border-color: rgba(240, 193, 75, 0.8);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(240, 193, 75, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .promo-pill-icon {
+      display: flex;
+      color: #f0c14b;
+      align-items: center;
+    }
+
+    .promo-pill-text {
+      font-weight: 400;
+      letter-spacing: 0.3px;
+    }
+
+    .promo-pill-highlight {
+      font-weight: 700;
+      color: #f0c14b;
+    }
+
+    .promo-pill-arrow {
+      display: flex;
+      color: rgba(255, 255, 255, 0.6);
+      transition: transform 0.4s ease, color 0.4s ease;
+    }
+
+    .hero-promo-pill:hover .promo-pill-arrow {
+      transform: translateX(4px);
+      color: #f0c14b;
+    }
+
+    @media (max-width: 600px) {
+      .hero-promo-pill {
+        font-size: 0.85rem;
+        padding: 8px 18px;
+        gap: 8px;
+      }
+      .hero-promo-pill-wrapper {
+        margin-top: 1.5rem;
       }
     }
   </style>
