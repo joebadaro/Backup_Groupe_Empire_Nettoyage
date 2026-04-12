@@ -8,6 +8,7 @@ import {
 } from "../../data/serviceImagery";
 import UiIcon from "../../components/icons/UiIcon.astro";
 import HomepageServiceCardIcon from "../../components/icons/HomepageServiceCardIcon.astro";
+import YouTubeFacade from "../../components/YouTubeFacade.astro";
 
 const _v = SERVICE_IMAGES_ASSET_VERSION;
 /** 3rd truck-gallery tile only — bust cache when photo-56 bytes change (separate from global ?v=). */
@@ -367,6 +368,45 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
             );
           })
         }
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.8 FEATURED VIDEO SECTION (Conversion Hook) -->
+  <section class="section-featured-video fade-in-section">
+    <div class="container text-center">
+      <div class="section-header-video">
+        <span class="tag-gold-outline">Stunning Results</span>
+        <h2 class="title-light">The Empire Difference: Results That Speak for Themselves</h2>
+        <p class="lead-text-light">
+          Watch the effectiveness of our truck-mounts during an extreme cleaning intervention.
+        </p>
+      </div>
+      
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "name": "Velvet Furniture Cleaning | Steam Cleaning with Truck Mount",
+        "description": "Demonstration of velvet furniture cleaning by Groupe Nettoyage Empire. Before/after video and professional steam cleaning demonstration.",
+        "thumbnailUrl": "https://groupenettoyageempire.com/images/videos/video-thumb-banquette.webp",
+        "uploadDate": "2024-01-01T08:00:00+00:00",
+        "embedUrl": "https://www.youtube.com/embed/l2L2E-s1y2s"
+      })} />
+
+      <div class="video-facade-standalone video-facade-shorts">
+        <YouTubeFacade 
+          videoId="l2L2E-s1y2s" 
+          title="Velvet Furniture Cleaning | Steam Cleaning with Truck Mount"
+          posterUrl="/images/videos/video-thumb-banquette.webp" 
+          aspectRatio="9/16"
+        />
+      </div>
+
+      <div class="video-cta-standalone">
+        <a href="/en/video-gallery" class="btn btn-gold-solid pulse-btn">
+          <span class="icon" aria-hidden="true"><UiIcon name="play" size={20} /></span>
+          View our complete video gallery
+        </a>
       </div>
     </div>
   </section>
@@ -1609,6 +1649,100 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
       text-transform: uppercase;
       font-weight: 700;
       letter-spacing: 1px;
+    }
+
+    /* --- CTA FINAL --- */
+    .cta-final {
+      background: linear-gradient(-90deg, #6aa84f 0%, #38761d 100%);
+    }
+
+    /* ================================
+       FEATURED VIDEO SECTION STYLES
+    ================================ */
+    .section-featured-video {
+      background: linear-gradient(135deg, #001f3f 0%, #080d14 100%);
+      padding: 5rem 0;
+      position: relative;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .section-header-video {
+      max-width: 800px;
+      margin: 0 auto 3rem;
+    }
+
+    .tag-gold-outline {
+      display: inline-block;
+      border: 1px solid rgba(240, 193, 75, 0.5);
+      color: #f0c14b;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 6px 16px;
+      border-radius: 50px;
+      margin-bottom: 1.2rem;
+      background: rgba(240, 193, 75, 0.05);
+    }
+
+    .title-light {
+      color: #ffffff;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      margin: 0 0 1rem;
+      line-height: 1.2;
+    }
+
+    .lead-text-light {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .video-facade-standalone {
+      margin: 0 auto 2.5rem;
+    }
+    
+    .video-facade-shorts {
+      max-width: 360px; /* Constrain vertical video width */
+      width: 100%;
+    }
+
+    .video-facade-shorts :global(.yt-facade) {
+      border-radius: 20px; /* Phone-like rounding */
+    }
+    
+    .video-facade-standalone :global(.yt-facade) {
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .video-cta-standalone {
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn-gold-solid {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #f0c14b;
+      color: #001f3f;
+      font-weight: 800;
+      font-size: 1.05rem;
+      padding: 15px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(240, 193, 75, 0.3);
+    }
+
+    .btn-gold-solid:hover {
+      background: #f4d068;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(240, 193, 75, 0.4);
     }
 
     /* --- CTA FINAL --- */

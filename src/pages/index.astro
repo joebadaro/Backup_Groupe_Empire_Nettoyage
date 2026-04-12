@@ -8,6 +8,7 @@ import {
 } from "../data/serviceImagery";
 import UiIcon from "../components/icons/UiIcon.astro";
 import HomepageServiceCardIcon from "../components/icons/HomepageServiceCardIcon.astro";
+import YouTubeFacade from "../components/YouTubeFacade.astro";
 
 const _v = SERVICE_IMAGES_ASSET_VERSION;
 /** 3e vignette « La Puissance… » uniquement — bump si bytes de photo-56 changent (évite cache navigateur sur ?v= global). */
@@ -373,6 +374,133 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
     </div>
   </section>
 
+  <!-- 3.8 FEATURED VIDEO SECTION (Conversion Hook) -->
+  <section class="section-featured-video fade-in-section">
+    <div class="container text-center">
+      <div class="section-header-video">
+        <span class="tag-gold-outline">Résultats Époustouflants</span>
+        <h2 class="title-light">La différence Empire : Des résultats qui parlent d'eux-mêmes</h2>
+        <p class="lead-text-light">
+          Visionnez l'efficacité de nos camions-usines lors d'une intervention de nettoyage extrême.
+        </p>
+      </div>
+      
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "name": "Nettoyage de meuble en velours | Nettoyage à la vapeur avec camion usine",
+        "description": "Démonstration de nettoyage de meubles en velours par Groupe Nettoyage Empire. Vidéo avant/après et démonstration de nettoyage professionnel à la vapeur.",
+        "thumbnailUrl": "https://groupenettoyageempire.com/images/videos/video-thumb-banquette.webp",
+        "uploadDate": "2024-01-01T08:00:00+00:00",
+        "embedUrl": "https://www.youtube.com/embed/l2L2E-s1y2s"
+      })} />
+
+      <div class="video-facade-standalone video-facade-shorts">
+        <YouTubeFacade 
+          videoId="l2L2E-s1y2s" 
+          title="Nettoyage de meuble en velours | Nettoyage à la vapeur avec camion usine"
+          posterUrl="/images/videos/video-thumb-banquette.webp" 
+          aspectRatio="9/16"
+        />
+      </div>
+
+      <div class="video-cta-standalone">
+        <a href="/realisations-video" class="btn btn-gold-solid pulse-btn">
+          <span class="icon" aria-hidden="true"><UiIcon name="play" size={20} /></span>
+          Voir notre galerie vidéo complète
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .section-featured-video {
+      background: linear-gradient(135deg, #001f3f 0%, #080d14 100%);
+      padding: 5rem 0;
+      position: relative;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .section-header-video {
+      max-width: 800px;
+      margin: 0 auto 3rem;
+    }
+
+    .tag-gold-outline {
+      display: inline-block;
+      border: 1px solid rgba(240, 193, 75, 0.5);
+      color: #f0c14b;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 6px 16px;
+      border-radius: 50px;
+      margin-bottom: 1.2rem;
+      background: rgba(240, 193, 75, 0.05);
+    }
+
+    .title-light {
+      color: #ffffff;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      margin: 0 0 1rem;
+      line-height: 1.2;
+    }
+
+    .lead-text-light {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .video-facade-standalone {
+      margin: 0 auto 2.5rem;
+    }
+    
+    .video-facade-shorts {
+      max-width: 360px; /* Constrain vertical video width */
+      width: 100%;
+    }
+
+    .video-facade-shorts :global(.yt-facade) {
+      border-radius: 20px; /* Phone-like rounding */
+    }
+    
+    .video-facade-standalone :global(.yt-facade) {
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .video-cta-standalone {
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn-gold-solid {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #f0c14b;
+      color: #001f3f;
+      font-weight: 800;
+      font-size: 1.05rem;
+      padding: 15px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(240, 193, 75, 0.3);
+    }
+
+    .btn-gold-solid:hover {
+      background: #f4d068;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(240, 193, 75, 0.4);
+    }
+  </style>
+
   <!-- 3.5 QUALITY DETAILS STRIP (Refined) -->
   <section class="section-quality-strip-refined">
     <div class="quality-image-wrapper">
@@ -404,6 +532,8 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         />
     </div>
   </section>
+
+
 
   <!-- 4. SECTION ÉCOLOGIQUE (Vert - Nature - Confiance) -->
   <section class="section section-eco">
@@ -535,15 +665,8 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
                 aria-label="Facebook"
                 class="social-btn fb"
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  width="20"
-                  height="20"
-                >
-                  <path
-                    d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"
-                  ></path>
+                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
                 </svg>
               </a>
               <a
@@ -553,15 +676,9 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
                 aria-label="Instagram"
                 class="social-btn ig"
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  width="20"
-                  height="20"
-                >
-                  <path
-                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.948-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
-                  ></path>
+                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                  <path d="M12 2.163c3.204..."></path>
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.948-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
                 </svg>
               </a>
               <a
@@ -571,15 +688,8 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
                 aria-label="YouTube"
                 class="social-btn yt"
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  width="20"
-                  height="20"
-                >
-                  <path
-                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
-                  ></path>
+                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path>
                 </svg>
               </a>
             </div>

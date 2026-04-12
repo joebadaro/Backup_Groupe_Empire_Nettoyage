@@ -1,0 +1,370 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import YouTubeFacade from "../../components/YouTubeFacade.astro";
+import UiIcon from "../../components/icons/UiIcon.astro";
+
+const title = "Video Gallery | Groupe Nettoyage Empire";
+const description = "Watch our before-and-after cleaning videos. See the power of our truck-mount technology on carpets, furniture, and mattresses.";
+const canonicalPath = "/en/video-gallery";
+
+// Placeholder videos for the gallery. 
+const videos = [
+  {
+    id: "IRxgswcnjpI",
+    title: "Persian Rug Cleaning at Home in Westmount | Cat Urine Treatment and UV Light",
+    category: "Persian Rugs",
+    posterUrl: "/images/videos/video-thumb-tapis-perse.webp"
+  },
+  {
+    id: "rmdaHcA2mcc",
+    title: "Tufted Sofa and Loveseat Cleaning",
+    category: "Tufted Sofas",
+    posterUrl: "/images/videos/video-thumb-causeuse.webp"
+  },
+  {
+    id: "a6ESbeUbols",
+    title: "Spring Cleaning | Steam Cleaning and Truck Mount",
+    category: "Deep Cleaning",
+    posterUrl: "/images/videos/video-thumb-produits.webp"
+  },
+  {
+    id: "iZqbmcUTjJA",
+    title: "Sofa and Loveseat Cleaning in Brossard | Steam and Enzymatic Treatment",
+    category: "Tufted Sofas",
+    posterUrl: "/images/videos/video-thumb-sofa-brossard.webp"
+  },
+  {
+    id: "l2L2E-s1y2s",
+    title: "Velvet Furniture Cleaning | Steam Cleaning with Truck Mount",
+    category: "Velvet Furniture",
+    posterUrl: "/images/videos/video-thumb-banquette.webp"
+  },
+  {
+    id: "BtCGbCaIq9M",
+    title: "Velvet-Style Furniture Steam Cleaning",
+    category: "Velvet Furniture",
+    posterUrl: "/images/videos/video-thumb-velour.webp"
+  },
+  {
+    id: "6GDp9ff_6EY",
+    title: "Oriental Rug Cleaning at Home in Westmount | Steam Cleaning",
+    category: "Oriental Rugs",
+    posterUrl: "/images/videos/video-thumb-tapis-oriental-v2.webp"
+  },
+  {
+    id: "Ew7zbheK83U",
+    title: "Extremely Dirty Rug Cleaning | Before and After, Enzyme and Steam Treatment",
+    category: "Extremely Dirty Rugs",
+    posterUrl: "/images/videos/video-thumb-tapis-berbere.webp"
+  },
+  {
+    id: "gUCvR2RsdHQ",
+    title: "Tile and Grout Steam Cleaning",
+    category: "Tile & Grout",
+    posterUrl: "/images/videos/video-thumb-tuile-v2.webp"
+  },
+  {
+    id: "QS7mPeE122A",
+    title: "Couch Cleaning with Coffee Stain | Before and After Results",
+    category: "Extreme Stain Removal",
+    posterUrl: "/images/videos/video-thumb-cafe.webp"
+  }
+];
+
+const videoSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": videos.map((video, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "item": {
+      "@type": "VideoObject",
+      "name": video.title,
+      "description": `Demonstration of ${video.category.toLowerCase()} by Groupe Nettoyage Empire. Before and after results using professional cleaning equipment.`,
+      "thumbnailUrl": `https://groupenettoyageempire.com${video.posterUrl}`,
+      "uploadDate": "2024-01-01T08:00:00+00:00",
+      "embedUrl": `https://www.youtube.com/embed/${video.id}`
+    }
+  }))
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(videoSchema)} />
+
+  <!-- PAGE HERO -->
+  <section class="video-hero">
+    <div class="container video-hero-inner">
+      <span class="video-tag">Portfolio</span>
+      <h1 class="video-hero-title">Our Video Gallery</h1>
+      <p class="video-hero-subtitle">
+        Results that speak for themselves. Discover the efficiency of our exclusive truck-mount technology in action.
+      </p>
+    </div>
+  </section>
+
+  <!-- VIDEO GALLERY CONTENT -->
+  <section class="video-main">
+    <div class="container">
+      
+      <div class="video-grid">
+        {videos.map((video, index) => (
+          <article class={`video-card fade-in-section ${index > 1 ? 'delay-100' : ''}`} aria-labelledby={`video-title-${index}`}>
+            <div class="video-facade-container">
+               <YouTubeFacade 
+                  videoId={video.id} 
+                  title={video.title} 
+                  posterUrl={video.posterUrl}
+                  aspectRatio="9/16"
+               />
+            </div>
+            <div class="video-card-body">
+              <span class="video-category-badge">{video.category}</span>
+              <h2 id={`video-title-${index}`} class="video-card-title">{video.title}</h2>
+            </div>
+          </article>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="video-cta-section fade-in-section">
+    <div class="container video-cta-inner text-center">
+      <div class="video-cta-icon" aria-hidden="true" style="color: #003b7a;"><UiIcon name="check" size={48} /></div>
+      <h2 class="video-cta-title">Convinced by our results?</h2>
+      <p class="video-cta-text">
+        Restore your interior's brand-new look. Get an accurate quote and see our current promotions in just a few seconds.
+      </p>
+      <div class="video-cta-actions">
+        <button
+          type="button"
+          onclick="window.openEstimationWidget()"
+          class="btn btn-primary-promo pulse-btn"
+          aria-label="Open the free estimate calculator"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+          Get my free estimate
+        </button>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ================================
+     PAGE HERO
+  ================================ */
+  .video-hero {
+    background: linear-gradient(135deg, var(--color-primary, #003b7a) 0%, #080d14 100%);
+    color: white;
+    padding: 5rem 0 4rem;
+    text-align: center;
+  }
+
+  .video-hero-inner {
+    max-width: 750px;
+    margin: 0 auto;
+  }
+
+  .video-tag {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #f0c14b;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 5px 16px;
+    border-radius: 50px;
+    margin-bottom: 1.2rem;
+  }
+
+  .video-hero-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    margin: 0 0 1rem;
+    line-height: 1.15;
+    color: #ffffff;
+  }
+
+  .video-hero-subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ================================
+     MAIN SECTION & GRID
+  ================================ */
+  .video-main {
+    padding: 5rem 0;
+    background: #f8fbff;
+  }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for vertical videos on desktop */
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 900px) {
+    .video-grid {
+      grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
+    }
+  }
+
+  @media (max-width: 600px) {
+    .video-grid {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+  }
+
+  /* ================================
+     VIDEO CARD
+  ================================ */
+  .video-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #e8edf3;
+    box-shadow: 0 5px 25px rgba(0, 30, 80, 0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 30, 80, 0.12);
+  }
+
+  .video-facade-container {
+    width: 100%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  :global(.video-facade-container .yt-facade) {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .video-card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+    background: #fff;
+  }
+
+  .video-category-badge {
+    align-self: flex-start;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #003b7a;
+    background: #eef4fc;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  .video-card-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #001f3f;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* ================================
+     CTA SECTION
+  ================================ */
+  .video-cta-section {
+    background: #fff;
+    border-top: 1px solid #e8edf3;
+    padding: 5rem 0;
+  }
+
+  .video-cta-inner {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .video-cta-icon {
+    margin-bottom: 1rem;
+  }
+
+  .video-cta-title {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 800;
+    color: #001f3f;
+    margin: 0 0 1rem;
+    line-height: 1.25;
+  }
+
+  .video-cta-text {
+    font-size: 1.05rem;
+    color: #4b5563;
+    line-height: 1.6;
+    margin: 0 0 2rem;
+  }
+
+  .video-cta-actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  .btn-primary-promo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #003b7a 0%, #080d14 100%);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.05rem;
+    padding: 16px 32px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 8px 25px rgba(0, 59, 122, 0.35);
+  }
+
+  .btn-primary-promo:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 59, 122, 0.45);
+  }
+
+  /* ================================
+     ANIMATIONS
+  ================================ */
+  .fade-in-section {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+  .fade-in-section.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  .delay-100 {
+    transition-delay: 0.15s;
+  }
+  .pulse-btn {
+    animation: pulseShadow 2.5s ease-in-out infinite;
+  }
+  @keyframes pulseShadow {
+    0%, 100% { box-shadow: 0 6px 20px rgba(0, 59, 122, 0.35); }
+    50% { box-shadow: 0 8px 30px rgba(0, 59, 122, 0.6); }
+  }
+</style>

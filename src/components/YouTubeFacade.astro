@@ -1,0 +1,234 @@
+---
+interface Props {
+  videoId: string;
+  title: string;
+  posterUrl?: string; // Opt-in custom high-res poster
+  aspectRatio?: string;
+  class?: string;
+}
+
+const {
+  videoId,
+  title,
+  posterUrl,
+  aspectRatio = "16/9",
+  class: className = "",
+} = Astro.props;
+
+// For production, using a custom WebP poster is highly recommended for best quality,
+// but for Shorts and default videos, hqdefault.jpg natively guarantees existence.
+const fallbackPoster = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+const finalPoster = posterUrl || fallbackPoster;
+---
+
+<div 
+  class:list={["yt-facade", className]} 
+  data-yid={videoId} 
+  style={`--aspect: ${aspectRatio};`}
+  role="button"
+  tabindex="0"
+  aria-label={`Lancer la vidéo : ${title}`}
+>
+  <img 
+    src={finalPoster} 
+    alt={`Aperçu de la vidéo : ${title}`} 
+    loading="lazy" 
+    class="yt-facade-poster"
+  />
+  <div class="yt-play-overlay">
+    <button class="yt-play-btn" aria-hidden="true" tabindex="-1">
+      <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+        <path d="M8 5v14l11-7z" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  .yt-facade {
+    position: relative;
+    width: auto;
+    max-width: 100%;
+    max-height: 75vh;
+    margin: 0 auto; /* Ensure it stays centered if scaling down */
+    aspect-ratio: var(--aspect);
+    background-color: #080d14; /* Dark theme navy */
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .yt-facade:hover, .yt-facade:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 35px rgba(0, 31, 63, 0.25);
+    outline: none;
+  }
+
+  .yt-facade-poster {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .yt-facade.is-loaded .yt-facade-poster,
+  .yt-facade.is-loaded .yt-play-overlay {
+    display: none;
+  }
+
+  /* Deepen the image when hovering for cinematic effect */
+  .yt-facade:hover .yt-facade-poster {
+    opacity: 0.75;
+    transform: scale(1.02);
+  }
+
+  .yt-play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  /* Glassmorphism premium play button */
+  .yt-play-btn {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  .yt-play-btn svg {
+    width: 34px;
+    height: 34px;
+    margin-left: 4px; /* Optically center the play triangle */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    transition: color 0.3s ease;
+  }
+
+  /* Elegant pulsing aura */
+  .yt-play-btn::before {
+    content: '';
+    position: absolute;
+    inset: -15px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    animation: play-pulse 2.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @keyframes play-pulse {
+    0% { transform: scale(0.85); opacity: 0; border-width: 2px; }
+    50% { opacity: 0.6; }
+    100% { transform: scale(1.3); opacity: 0; border-width: 0.5px; }
+  }
+
+  /* On hover, transition directly to the brand's premium Gold (#f0c14b) */
+  .yt-facade:hover .yt-play-btn, .yt-facade:focus-visible .yt-play-btn {
+    background: rgba(240, 193, 75, 0.95);
+    border-color: #f0c14b;
+    transform: scale(1.08);
+    box-shadow: 0 8px 25px rgba(240, 193, 75, 0.4);
+  }
+
+  .yt-facade:hover .yt-play-btn svg, .yt-facade:focus-visible .yt-play-btn svg {
+    color: #001f3f; /* Deep brand blue for contrast against gold */
+    filter: none;
+  }
+
+  .yt-facade:hover .yt-play-btn::before {
+    border-color: rgba(240, 193, 75, 0.6);
+  }
+
+  :global(.yt-facade iframe) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #000;
+  }
+</style>
+
+<script>
+  // Script runs once client-side
+  const loadYoutubeIframe = (facade: HTMLElement) => {
+    if (facade.classList.contains('is-loaded')) return;
+    
+    const videoId = facade.getAttribute('data-yid');
+    if (!videoId) return;
+
+    // SINGLETON BEHAVIOR: 
+    // Find all other playing facades and destroy their iframes.
+    // This instantly stops overlapping audio and restores them to their poster state.
+    const activeFacades = document.querySelectorAll('.yt-facade.is-loaded');
+    activeFacades.forEach((activeNode) => {
+      if (activeNode !== facade) {
+        activeNode.classList.remove('is-loaded');
+        const oldIframe = activeNode.querySelector('iframe');
+        if (oldIframe) {
+          activeNode.removeChild(oldIframe);
+        }
+      }
+    });
+
+    facade.classList.add('is-loaded');
+
+    const iframe = document.createElement('iframe');
+    // Using autoplay=1 to immediately play upon click
+    // mute=0 but often browsers might block autoplay if not muted, however since it's a user gesture click, autoplay is allowed with sound.
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&showinfo=0&modestbranding=1`;
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    
+    facade.appendChild(iframe);
+  };
+
+  // Setup event listeners
+  const initFacades = () => {
+    const facades = document.querySelectorAll('.yt-facade');
+    facades.forEach(facade => {
+      // Keyboard support (Space and Enter to play)
+      facade.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          loadYoutubeIframe(facade as HTMLElement);
+        }
+      });
+      
+      // Click support
+      facade.addEventListener('click', () => {
+        loadYoutubeIframe(facade as HTMLElement);
+      });
+    });
+  };
+
+  // Run on first load and also after Astro page transitions if enabled
+  document.addEventListener('DOMContentLoaded', initFacades);
+  // Optional: Astro view transitions support
+  document.addEventListener('astro:page-load', initFacades);
+</script>
