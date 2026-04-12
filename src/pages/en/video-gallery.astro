@@ -221,7 +221,8 @@ const videoSchema = {
 
   @media (max-width: 600px) {
     .video-grid {
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
     }
   }
 
@@ -278,12 +279,30 @@ const videoSchema = {
     border-radius: 4px;
   }
 
+  @media (max-width: 600px) {
+    .video-category-badge {
+      font-size: 0.65rem;
+      padding: 3px 6px;
+      letter-spacing: 0.5px;
+    }
+  }
+
   .video-card-title {
     font-size: 1.25rem;
     font-weight: 800;
     color: #001f3f;
     margin: 0;
     line-height: 1.4;
+  }
+
+  @media (max-width: 600px) {
+    .video-card-title {
+      font-size: 0.95rem;
+      line-height: 1.3;
+    }
+    .video-card-body {
+      padding: 1rem 0.75rem;
+    }
   }
 
   /* ================================

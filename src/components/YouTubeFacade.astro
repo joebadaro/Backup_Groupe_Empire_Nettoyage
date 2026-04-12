@@ -163,7 +163,71 @@ const finalPoster = posterUrl || fallbackPoster;
     border-color: rgba(240, 193, 75, 0.6);
   }
 
-  :global(.yt-facade iframe) {
+  /* ================================
+     PREMIUM OVERLAY MODAL STYLES
+  ================================ */
+  :global(#yt-modal-overlay) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(4, 8, 14, 0.95);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    animation: modalFadeIn 0.3s forwards ease-out;
+  }
+
+  :global(.yt-modal-close) {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 2rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000000;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-bottom: 4px; /* Optically centers the X */
+  }
+
+  :global(.yt-modal-close:hover) {
+    background: #f0c14b;
+    color: #001f3f;
+    border-color: #f0c14b;
+    transform: scale(1.1);
+  }
+
+  :global(.yt-modal-content) {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    height: 85vh;
+    max-height: 900px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+    transform: scale(0.95) translateY(20px);
+    animation: modalScaleUp 0.4s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  :global(.yt-modal-content iframe) {
     position: absolute;
     top: 0;
     left: 0;
@@ -172,63 +236,130 @@ const finalPoster = posterUrl || fallbackPoster;
     border: none;
     background: #000;
   }
+
+  /* Lock body scrolling when modal is active */
+  :global(body.yt-modal-locked) {
+    overflow: hidden !important;
+  }
+
+  @keyframes modalFadeIn {
+    to { opacity: 1; }
+  }
+
+  @keyframes modalScaleUp {
+    to { transform: scale(1) translateY(0); }
+  }
+
+  /* Outgoing animations mapped via JS delay */
+  :global(#yt-modal-overlay.is-closing) {
+    animation: modalFadeOut 0.3s forwards ease-in;
+  }
+  
+  :global(#yt-modal-overlay.is-closing .yt-modal-content) {
+    animation: modalScaleDown 0.3s forwards cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes modalFadeOut {
+    to { opacity: 0; }
+  }
+
+  @keyframes modalScaleDown {
+    to { transform: scale(0.95) translateY(10px); }
+  }
 </style>
 
 <script>
-  // Script runs once client-side
-  const loadYoutubeIframe = (facade: HTMLElement) => {
-    if (facade.classList.contains('is-loaded')) return;
-    
-    const videoId = facade.getAttribute('data-yid');
-    if (!videoId) return;
+  let activeModal: HTMLElement | null = null;
 
-    // SINGLETON BEHAVIOR: 
-    // Find all other playing facades and destroy their iframes.
-    // This instantly stops overlapping audio and restores them to their poster state.
-    const activeFacades = document.querySelectorAll('.yt-facade.is-loaded');
-    activeFacades.forEach((activeNode) => {
-      if (activeNode !== facade) {
-        activeNode.classList.remove('is-loaded');
-        const oldIframe = activeNode.querySelector('iframe');
-        if (oldIframe) {
-          activeNode.removeChild(oldIframe);
-        }
+  const closeYoutubeModal = () => {
+    if (!activeModal) return;
+    
+    // Trigger outbound animation
+    activeModal.classList.add('is-closing');
+    
+    // Unlock body scrolling instantly to feel responsive
+    document.body.classList.remove('yt-modal-locked');
+
+    // Wait for cinematic animation to finish (300ms) before destroying DOM
+    setTimeout(() => {
+      if (activeModal && activeModal.parentNode) {
+        activeModal.parentNode.removeChild(activeModal);
       }
+      activeModal = null;
+    }, 300);
+  };
+
+  const spawnYoutubeModal = (videoId: string) => {
+    // SINGLETON: If one is already open, instantly kill it.
+    if (activeModal) closeYoutubeModal();
+
+    // Lock page background
+    document.body.classList.add('yt-modal-locked');
+
+    // Build the overlay wrapper
+    const overlay = document.createElement('div');
+    overlay.id = 'yt-modal-overlay';
+    
+    // Close on background click
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeYoutubeModal();
     });
 
-    facade.classList.add('is-loaded');
+    // Build close button
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'yt-modal-close';
+    closeBtn.innerHTML = '×';
+    closeBtn.setAttribute('aria-label', 'Fermer la vidéo');
+    closeBtn.addEventListener('click', closeYoutubeModal);
 
+    // Build content bounding box
+    const contentBox = document.createElement('div');
+    contentBox.className = 'yt-modal-content';
+
+    // Build the actual iframe
     const iframe = document.createElement('iframe');
-    // Using autoplay=1 to immediately play upon click
-    // mute=0 but often browsers might block autoplay if not muted, however since it's a user gesture click, autoplay is allowed with sound.
     iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&showinfo=0&modestbranding=1`;
     iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
     iframe.allowFullscreen = true;
+
+    // Assemble DOM
+    contentBox.appendChild(iframe);
+    overlay.appendChild(closeBtn);
+    overlay.appendChild(contentBox);
+    document.body.appendChild(overlay);
     
-    facade.appendChild(iframe);
+    activeModal = overlay;
   };
 
-  // Setup event listeners
   const initFacades = () => {
     const facades = document.querySelectorAll('.yt-facade');
     facades.forEach(facade => {
-      // Keyboard support (Space and Enter to play)
-      facade.addEventListener('keydown', (e) => {
+      const clone = facade.cloneNode(true) as HTMLElement;
+      if (facade.parentNode) facade.parentNode.replaceChild(clone, facade);
+
+      clone.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          loadYoutubeIframe(facade as HTMLElement);
+          const videoId = clone.getAttribute('data-yid');
+          if (videoId) spawnYoutubeModal(videoId);
         }
       });
       
-      // Click support
-      facade.addEventListener('click', () => {
-        loadYoutubeIframe(facade as HTMLElement);
+      clone.addEventListener('click', () => {
+        const videoId = clone.getAttribute('data-yid');
+        if (videoId) spawnYoutubeModal(videoId);
       });
+    });
+
+    // Global ESC key to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && activeModal) {
+        closeYoutubeModal();
+      }
     });
   };
 
   // Run on first load and also after Astro page transitions if enabled
   document.addEventListener('DOMContentLoaded', initFacades);
-  // Optional: Astro view transitions support
   document.addEventListener('astro:page-load', initFacades);
 </script>
