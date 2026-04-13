@@ -274,15 +274,15 @@ const ga4MeasurementId =
         bottom: 0;
         left: 0;
         width: 100%;
-        background: rgba(255, 255, 255, 0.98);
+        background: rgba(255, 255, 255, 0.15); /* Modified for transparent effect */
         backdrop-filter: blur(12px);
-        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: none; /* Removed shadow */
         z-index: 9999;
         display: flex;
         align-items: stretch;
         padding: 8px 12px;
         gap: 10px;
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        border-top: none; /* Removed white border */
         transform: translateY(100%);
         animation: slideUp 0.5s 1s forwards;
         box-sizing: border-box;
