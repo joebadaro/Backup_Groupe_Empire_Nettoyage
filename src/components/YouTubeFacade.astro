@@ -163,120 +163,8 @@ const finalPoster = posterUrl || fallbackPoster;
     border-color: rgba(240, 193, 75, 0.6);
   }
 
-  /* ================================
-     PREMIUM OVERLAY MODAL STYLES
-  ================================ */
-  :global(#yt-modal-overlay) {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(4, 8, 14, 0.95);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    z-index: 999999;
-    display: flex;
-    flex-direction: column; /* Force vertical stacking to separate header from video natively */
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    opacity: 0;
-    animation: modalFadeIn 0.3s forwards ease-out;
-  }
-
-  /* ================================
-     PREMIUM HEADER & MODAL STYLES
-  ================================ */
-  :global(#yt-modal-header) {
-    width: 100%;
-    max-width: 450px; /* Constrict exactly to structural video width */
-    padding: 0 0 1.25rem 0; /* Buffer explicit breathing room visually above the video limit */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000000;
-    box-sizing: border-box;
-    pointer-events: none; /* Let clicks pass through empty areas */
-  }
-
-  :global(.yt-modal-brand) {
-    display: flex;
-    align-items: center;
-    pointer-events: auto; /* Re-enable clicks for the logo pill */
-    animation: modalFadeIn 0.5s forwards ease-out 0.1s;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  :global(.yt-modal-brand img) {
-    height: 48px; /* Slightly larger, elegant presence */
-    width: auto;
-    display: block;
-    /* Pure cinematic monochrome white logic */
-    filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-    opacity: 0.85;
-    transition: all 0.3s ease;
-  }
-
-  :global(.yt-modal-brand:hover img) {
-    opacity: 1;
-    filter: brightness(0) invert(1) drop-shadow(0 0 15px rgba(255,255,255,0.4));
-  }
-
-  @media (max-width: 600px) {
-    :global(.yt-modal-brand img) {
-      height: 38px;
-    }
-  }
-
-  :global(.yt-modal-close) {
-    position: relative;
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.6);
-    width: 44px;
-    height: 44px;
-    font-size: 2.8rem;
-    font-weight: 200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    pointer-events: auto;
-  }
-
-  :global(.yt-modal-close:hover) {
-    background: #f0c14b;
-    color: #001f3f;
-    border-color: #f0c14b;
-    transform: scale(1.1);
-  }
-
-  :global(.yt-modal-content) {
-    position: relative;
-    width: 100%;
-    max-width: 450px;
-    height: 100%; /* Adapt freely up to max limits alongside header */
-    max-height: 78vh; /* Scaled securely to make perfect room for header element on mobile */
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-    background: #000;
-  }
-  
-  /* Ensure the iframe fills its space */
-  :global(#yt-singleton-iframe) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-
-  :global(.yt-modal-content iframe) {
+  /* Support original inline desktop video layer natively */
+  :global(.yt-facade iframe) {
     position: absolute;
     top: 0;
     left: 0;
@@ -286,170 +174,55 @@ const finalPoster = posterUrl || fallbackPoster;
     background: #000;
   }
 
-  /* Lock body scrolling when modal is active */
-  :global(body.yt-modal-locked) {
-    overflow: hidden !important;
-  }
-
-  @keyframes modalFadeIn {
-    to { opacity: 1; }
-  }
-
-  @keyframes modalScaleUp {
-    to { transform: scale(1) translateY(0); }
-  }
-
-  /* Outgoing animations mapped via JS delay */
-  :global(#yt-modal-overlay.is-closing) {
-    animation: modalFadeOut 0.3s forwards ease-in;
-  }
-  
-  :global(#yt-modal-overlay.is-closing .yt-modal-content) {
-    animation: modalScaleDown 0.3s forwards cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  @keyframes modalFadeOut {
-    to { opacity: 0; }
-  }
-
-  @keyframes modalScaleDown {
-    to { transform: scale(0.95) translateY(10px); }
-  }
+  /* Note: Full-width structural expansion on Mobile is securely handled directly via JS ancestor manipulation */
 </style>
 
 <script>
-  // SINGLETON STATE
-  let activeModal: HTMLElement | null = null;
-  let ytPlayer: any = null;
-  let isApiReady = false;
-
-  const closeYoutubeModal = () => {
-    const overlay = document.getElementById('yt-modal-overlay');
-    if (!overlay) return;
+  const loadYoutubeIframe = (facade: HTMLElement, videoId: string) => {
+    if (facade.classList.contains('is-loaded')) return;
     
-    // Trigger outbound animation
-    overlay.classList.add('is-closing');
-    
-    // Unlock body scrolling instantly to feel responsive
-    document.body.classList.remove('yt-modal-locked');
-
-    // Mute and pause the video immediately utilizing explicit API
-    if (ytPlayer && typeof ytPlayer.stopVideo === 'function') {
-      ytPlayer.stopVideo();
-    }
-
-    // Wait for cinematic animation to finish (300ms) before hiding securely
-    setTimeout(() => {
-      overlay.style.display = 'none';
-      overlay.classList.remove('is-closing');
-      activeModal = null;
-    }, 300);
-  };
-
-  const spawnYoutubeModal = (videoId: string) => {
-    const overlay = document.getElementById('yt-modal-overlay');
-    if (!overlay) return;
-
-    // Lock page background
-    document.body.classList.add('yt-modal-locked');
-    
-    // Visually spawn the modal
-    overlay.style.display = 'flex';
-    activeModal = overlay;
-
-    // Drive explicit instantaneous playback leveraging the initialized YT engine!
-    if (isApiReady && ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
-      ytPlayer.loadVideoById(videoId);
-    } else {
-      // Emergency fallback if connection blocked API load
-      const frame = document.getElementById('yt-singleton-iframe') as HTMLIFrameElement;
-      if (frame) {
-        frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&showinfo=0&modestbranding=1`;
+    // SINGLETON BEHAVIOR: Destroy old active inline iframes structurally universally
+    const activeFacades = document.querySelectorAll('.yt-facade.is-loaded');
+    activeFacades.forEach((activeNode) => {
+      if (activeNode !== facade) {
+        activeNode.classList.remove('is-loaded');
+        const oldIframe = activeNode.querySelector('iframe');
+        if (oldIframe) {
+          activeNode.removeChild(oldIframe);
+        }
+        // Force the old parent card to strictly shrink back to its grid half-column space
+        const oldParentCard = activeNode.closest('.video-card') as HTMLElement;
+        if (oldParentCard) {
+          oldParentCard.style.gridColumn = '';
+        }
       }
-    }
-  };
-
-  const ensureSingletonModalExists = () => {
-    if (document.getElementById('yt-modal-overlay')) return;
-
-    const overlay = document.createElement('div');
-    overlay.id = 'yt-modal-overlay';
-    overlay.style.display = 'none'; // Critical to hide layout normally
-    
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) closeYoutubeModal();
     });
 
-    const header = document.createElement('header');
-    header.id = 'yt-modal-header';
+    facade.classList.add('is-loaded');
 
-    const brandPill = document.createElement('div');
-    brandPill.className = 'yt-modal-brand';
-    
-    const brandLogo = document.createElement('img');
-    brandLogo.src = '/images/logo-last-update-1.webp?v=finalv4';
-    brandLogo.alt = 'Groupe Nettoyage Empire Logo';
-    
-    brandPill.appendChild(brandLogo);
+    // EXPLICIT STRUCTURAL EXPANSION:
+    // Scale the true ancestor card across all grid columns securely on Mobile views
+    const parentCard = facade.closest('.video-card') as HTMLElement;
+    if (parentCard && window.innerWidth <= 768) {
+      parentCard.style.gridColumn = '1 / -1';
+    }
 
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'yt-modal-close';
-    closeBtn.innerHTML = '×';
-    closeBtn.setAttribute('aria-label', 'Fermer la vidéo');
-    closeBtn.addEventListener('click', closeYoutubeModal);
+    const iframe = document.createElement('iframe');
+    // Using playsinline to bypass typical mobile restriction logic gracefully alongside inline
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&showinfo=0&modestbranding=1`;
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    facade.appendChild(iframe);
 
-    header.appendChild(brandPill);
-    header.appendChild(closeBtn);
-
-    const contentBox = document.createElement('div');
-    contentBox.className = 'yt-modal-content';
-
-    const iframe = document.createElement('div');
-    iframe.id = 'yt-singleton-iframe'; 
-
-    contentBox.appendChild(iframe);
-    overlay.appendChild(header);
-    overlay.appendChild(contentBox);
-    document.body.appendChild(overlay);
-  };
-
-  // Declare global callback function required natively by the YT API script
-  if (typeof window !== 'undefined') {
-    (window as any).onYouTubeIframeAPIReady = () => {
-      isApiReady = true;
-      if (document.getElementById('yt-singleton-iframe')) {
-        ytPlayer = new (window as any).YT.Player('yt-singleton-iframe', {
-          height: '100%',
-          width: '100%',
-          playerVars: {
-            'playsinline': 1,
-            'rel': 0,
-            'showinfo': 0,
-            'modestbranding': 1,
-            'autoplay': 1,
-            'controls': 1
-          }
-        });
-      }
-    };
-  }
-
-  const loadYTAPI = () => {
-    if (document.getElementById('youtube-api-script')) return;
-    const tag = document.createElement('script');
-    tag.id = 'youtube-api-script';
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    if (firstScriptTag && firstScriptTag.parentNode) {
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    } else {
-      document.head.appendChild(tag);
+    // Core functionality requested: Smooth Auto-Centering for expanded active elements on Mobile layout
+    if (window.innerWidth <= 768 && parentCard) {
+      setTimeout(() => {
+        parentCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100); // Buffer interval permitting CSS OM reflow execution before dimensional bounds are parsed
     }
   };
 
   const initFacades = () => {
-    ensureSingletonModalExists(); // Construct structural grid once statically
-
     const facades = document.querySelectorAll('.yt-facade');
     facades.forEach(facade => {
       const clone = facade.cloneNode(true) as HTMLElement;
@@ -459,33 +232,18 @@ const finalPoster = posterUrl || fallbackPoster;
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           const videoId = clone.getAttribute('data-yid');
-          if (videoId) spawnYoutubeModal(videoId);
+          if (videoId) loadYoutubeIframe(clone as HTMLElement, videoId);
         }
       });
       
       clone.addEventListener('click', () => {
         const videoId = clone.getAttribute('data-yid');
-        if (videoId) spawnYoutubeModal(videoId);
+        if (videoId) loadYoutubeIframe(clone as HTMLElement, videoId);
       });
-    });
-
-    // Global ESC key to close
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && activeModal) {
-        closeYoutubeModal();
-      }
     });
   };
 
-  // Run extensively ensuring robust lazy-hook functionality
-  document.addEventListener('DOMContentLoaded', () => {
-    initFacades();
-    // Aggressive API pre-load trick allowing iOS to securely load dependencies BEFORE the tap!
-    setTimeout(loadYTAPI, 750); 
-  });
-  
-  document.addEventListener('astro:page-load', () => {
-    initFacades();
-    loadYTAPI();
-  });
+  // Run on first load and respect Astro page transitions flawlessly
+  document.addEventListener('DOMContentLoaded', initFacades);
+  document.addEventListener('astro:page-load', initFacades);
 </script>
