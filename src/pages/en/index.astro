@@ -403,7 +403,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
       </div>
 
       <div class="video-cta-standalone">
-        <a href="/en/video-gallery" class="btn btn-gold-solid pulse-btn">
+        <a href="/en/video-gallery" class="btn btn-gold-solid">
           <span class="icon" aria-hidden="true"><UiIcon name="play" size={20} /></span>
           View our complete video gallery
         </a>
@@ -1701,7 +1701,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
        FEATURED VIDEO SECTION STYLES
     ================================ */
     .section-featured-video {
-      background: linear-gradient(135deg, #001f3f 0%, #080d14 100%);
+      background: linear-gradient(145deg, #2a6bb5 0%, #003b7a 60%, #07172c 100%);
       padding: 5rem 0;
       position: relative;
       border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -1768,22 +1768,41 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
     .btn-gold-solid {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
-      background: #f0c14b;
-      color: #001f3f;
-      font-weight: 800;
-      font-size: 1.05rem;
-      padding: 15px 32px;
+      /* Stacked: refined top gloss + rich centered cobalt blue */
+      background: 
+        linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0%, transparent 32%),
+        radial-gradient(ellipse at 50% 30%, #3a7eff 0%, #1a3fd4 45%, #080f6e 100%) !important;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1.5px solid rgba(100, 180, 255, 0.55) !important;
+      color: #ffffff !important;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      padding: 15px 36px;
       border-radius: 50px;
       text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 25px rgba(240, 193, 75, 0.3);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      /* Grounding shadow + very soft halo + subtle inset depth */
+      box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.35),
+        0 0 22px rgba(0, 70, 200, 0.28),
+        inset 0 1px 2px rgba(255, 255, 255, 0.08),
+        inset 0 -3px 8px rgba(0, 0, 50, 0.65) !important;
     }
 
     .btn-gold-solid:hover {
-      background: #f4d068;
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(240, 193, 75, 0.4);
+      background: 
+        linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 30%, #5090ff 0%, #2a52e0 45%, #0c1890 100%) !important;
+      transform: translateY(-2px);
+      border: 1.5px solid rgba(130, 200, 255, 0.7) !important;
+      box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(0, 70, 200, 0.38),
+        inset 0 1px 5px rgba(255, 255, 255, 0.45),
+        inset 0 -3px 8px rgba(0, 0, 50, 0.55) !important;
     }
 
     /* --- CTA FINAL --- */
