@@ -204,15 +204,37 @@ const finalPoster = posterUrl || fallbackPoster;
   };
 
   // ─── Iframe factory ──────────────────────────────────────────────────────────
-  // Creates a fully-compliant YouTube iframe with autoplay + playsinline.
-  // Injected SYNCHRONOUSLY inside the click handler → mobile OS trusts the gesture.
-  const createIframe = (videoId) => {
+  // enablejsapi=1 + origin allows postMessage commands to the YouTube iframe.
+  // The 'load' listener is attached BEFORE append so it's set up within the
+  // gesture call-stack — iOS treats the playVideo postMessage as gesture-trusted.
+  const createIframe = (videoId, container) => {
     const iframe = document.createElement('iframe');
-    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
+    iframe.src = [
+      `https://www.youtube.com/embed/${videoId}`,
+      `?autoplay=1`,
+      `&playsinline=1`,
+      `&rel=0`,
+      `&modestbranding=1`,
+      `&enablejsapi=1`,
+      `&origin=${encodeURIComponent(location.origin)}`,
+    ].join('');
     iframe.title = 'YouTube video player';
     iframe.setAttribute('frameborder', '0');
     iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
     iframe.setAttribute('allowfullscreen', '');
+
+    // postMessage playVideo — sent the instant YouTube's iframe DOM is ready.
+    // Because the listener is registered synchronously inside the click handler,
+    // iOS Safari preserves gesture trust through to this callback.
+    iframe.addEventListener('load', () => {
+      try {
+        iframe.contentWindow?.postMessage(
+          JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
+          'https://www.youtube.com'
+        );
+      } catch (e) { /* silent fail — autoplay=1 param remains the fallback */ }
+    });
+
     return iframe;
   };
 
