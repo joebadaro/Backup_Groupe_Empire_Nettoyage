@@ -178,164 +178,73 @@ const finalPoster = posterUrl || fallbackPoster;
 </style>
 
 <script>
-  // Ghost Overlay State Architecture avoiding Safari strict autoplay penalties
-  let ytGhostPlayer: any = null;
-  let isYtApiReady = false;
-  let ghostSyncInterval: any = null;
-
-  const initGhostOverlay = () => {
-    if (document.getElementById('yt-ghost-wrapper')) return;
-    
-    const wrapper = document.createElement('div');
-    wrapper.id = 'yt-ghost-wrapper';
-    wrapper.style.position = 'absolute';
-    wrapper.style.zIndex = '999';
-    wrapper.style.display = 'none'; // Hidden structurally until tap triggers API bypass
-    wrapper.style.border = 'none';
-    wrapper.style.backgroundColor = '#000';
-
-    const iframeBox = document.createElement('div');
-    iframeBox.id = 'yt-ghost-iframe';
-
-    wrapper.appendChild(iframeBox);
-    document.body.appendChild(wrapper);
+  const createIframe = (videoId) => {
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&showinfo=0&modestbranding=1`);
+    iframe.setAttribute('title', 'YouTube video player'); // Solves Accessibility/Best Practices penalty
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+    iframe.setAttribute('allowfullscreen', '');
+    return iframe;
   };
 
-  const syncGhostPosition = (facade: HTMLElement) => {
-    const wrapper = document.getElementById('yt-ghost-wrapper');
-    if (!wrapper) return;
-    // Map absolute coords aggressively matching the active card position safely natively
-    const rect = facade.getBoundingClientRect();
-    wrapper.style.top = `${rect.top + window.scrollY}px`;
-    wrapper.style.left = `${rect.left + window.scrollX}px`;
-    wrapper.style.width = `${rect.width}px`;
-    wrapper.style.height = `${rect.height}px`;
-  };
-
-  const startGhostSync = (facade: HTMLElement) => {
-    if (ghostSyncInterval) clearInterval(ghostSyncInterval);
-    syncGhostPosition(facade);
-    ghostSyncInterval = setInterval(() => {
-      syncGhostPosition(facade);
-    }, 50); // Polling sufficiently fast to remain visuo-locked safely against UI jumps/reflows
-  };
-
-  const stopGhostSync = () => {
-    if (ghostSyncInterval) clearInterval(ghostSyncInterval);
-    const wrapper = document.getElementById('yt-ghost-wrapper');
-    if (wrapper) {
-      wrapper.style.display = 'none';
-      wrapper.style.top = '-9999px';
-    }
-  };
-
-  if (typeof window !== 'undefined') {
-    (window as any).onYouTubeIframeAPIReady = () => {
-      isYtApiReady = true;
-      if (document.getElementById('yt-ghost-iframe')) {
-        ytGhostPlayer = new (window as any).YT.Player('yt-ghost-iframe', {
-          height: '100%',
-          width: '100%',
-          playerVars: {
-            playsinline: 1,
-            rel: 0,
-            showinfo: 0,
-            modestbranding: 1,
-            autoplay: 1,
-            controls: 1
-          }
-        });
-      }
-    };
-  }
-
-  const loadYTAPI = () => {
-    if (document.getElementById('youtube-api-script')) return;
-    initGhostOverlay();
-    const tag = document.createElement('script');
-    tag.id = 'youtube-api-script';
-    tag.src = 'https://www.youtube.com/iframe_api';
-    document.head.appendChild(tag);
-  };
-
-  const loadYoutubeGhost = (facade: HTMLElement, videoId: string) => {
+  const loadInlineVideo = (facade, videoId) => {
     if (facade.classList.contains('is-loaded')) return;
-    
-    // Instantly mute and clear the API layer from previously active cards
-    if (ytGhostPlayer && typeof ytGhostPlayer.stopVideo === 'function') {
-      ytGhostPlayer.stopVideo();
-    }
-    stopGhostSync();
 
-    // Structurally reset all old facade grid markers naturally
+    // Play one at a time: reset previously playing cards
     const activeFacades = document.querySelectorAll('.yt-facade.is-loaded');
     activeFacades.forEach((activeNode) => {
       if (activeNode !== facade) {
         activeNode.classList.remove('is-loaded');
-        const oldParentCard = activeNode.closest('.video-card') as HTMLElement;
+        const oldParentCard = activeNode.closest('.video-card');
         if (oldParentCard) oldParentCard.style.gridColumn = '';
+        const iframeToRemove = activeNode.querySelector('iframe');
+        if (iframeToRemove) iframeToRemove.remove();
       }
     });
 
     facade.classList.add('is-loaded');
-
-    // EXPLICIT STRUCTURAL EXPANSION: Let grid natively expand before parsing coords
-    const parentCard = facade.closest('.video-card') as HTMLElement;
+    
+    // Expand grid on mobile cleanly
+    const parentCard = facade.closest('.video-card');
     if (parentCard && window.innerWidth <= 768) {
       parentCard.style.gridColumn = '1 / -1';
     }
 
-    // Push execution cleanly enforcing structural layout reflow completion natively 
-    setTimeout(() => {
-      const wrapper = document.getElementById('yt-ghost-wrapper');
-      if (wrapper) {
-        wrapper.style.display = 'block';
-        startGhostSync(facade);
-      }
+    // Synchronous DOM injection guarantees autoplay gesture trust natively on iOS/Android
+    const iframe = createIframe(videoId);
+    facade.appendChild(iframe);
 
-      // Bypass playback restrictions reliably by executing direct singleton telemetry binding!
-      if (isYtApiReady && ytGhostPlayer && typeof ytGhostPlayer.loadVideoById === 'function') {
-        ytGhostPlayer.loadVideoById(videoId);
-      } else {
-        // Safely failback to basic parameter injections relying strictly against DOM
-        const fallback = document.getElementById('yt-ghost-iframe') as HTMLIFrameElement;
-        if (fallback) {
-          fallback.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&showinfo=0&modestbranding=1`;
-        }
-      }
-
-      // Trigger final cinematic smooth auto-centering on Mobile
-      if (window.innerWidth <= 768 && parentCard) {
+    // Cinematic smooth auto-centering on Mobile
+    if (window.innerWidth <= 768 && parentCard) {
+      setTimeout(() => {
         parentCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }, 60);
+      }, 40);
+    }
   };
 
   const initFacades = () => {
-    // Explicit API Pre-warm immediately on module cycle startup universally
-    setTimeout(loadYTAPI, 750);
-
+    // 100% Lazy - ZERO prewarm penalty! Nothing loads on page execution!
     const facades = document.querySelectorAll('.yt-facade');
     facades.forEach(facade => {
-      const clone = facade.cloneNode(true) as HTMLElement;
+      const clone = facade.cloneNode(true);
       if (facade.parentNode) facade.parentNode.replaceChild(clone, facade);
 
       clone.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           const videoId = clone.getAttribute('data-yid');
-          if (videoId) loadYoutubeGhost(clone as HTMLElement, videoId);
+          if (videoId) loadInlineVideo(clone, videoId);
         }
       });
       
       clone.addEventListener('click', () => {
         const videoId = clone.getAttribute('data-yid');
-        if (videoId) loadYoutubeGhost(clone as HTMLElement, videoId);
+        if (videoId) loadInlineVideo(clone, videoId);
       });
     });
   };
 
-  // Run on first load and respect Astro page transitions flawlessly universally
   document.addEventListener('DOMContentLoaded', initFacades);
   document.addEventListener('astro:page-load', initFacades);
 </script>
