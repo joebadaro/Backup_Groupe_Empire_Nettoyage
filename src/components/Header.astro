@@ -758,8 +758,12 @@ const label = isEn ? "FR" : "EN";
     }
 
     /* Reduce Header Size on Mobile */
+    .header-top {
+      padding: 4px 0; /* Compact top bar safely on mobile */
+    }
+
     .logo-img {
-      height: 70px; /* Elegant and proportional on mobile */
+      height: 50px; /* Highly compact height requested for mobile */
       margin: 0;
     }
 
@@ -768,7 +772,7 @@ const label = isEn ? "FR" : "EN";
     }
 
     .header-main {
-      padding: 0.2rem 0;
+      padding: 0; /* Remove internal spacing for minimal height */
     }
 
     /* Dropdown in Mobile */
