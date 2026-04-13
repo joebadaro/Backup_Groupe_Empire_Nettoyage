@@ -177,9 +177,10 @@ const finalPoster = posterUrl || fallbackPoster;
     -webkit-backdrop-filter: blur(15px);
     z-index: 999999;
     display: flex;
+    flex-direction: column; /* Force vertical stacking to separate header from video natively */
     align-items: center;
     justify-content: center;
-    padding: 1rem;
+    padding: 1.5rem;
     opacity: 0;
     animation: modalFadeIn 0.3s forwards ease-out;
   }
@@ -188,70 +189,61 @@ const finalPoster = posterUrl || fallbackPoster;
      PREMIUM HEADER & MODAL STYLES
   ================================ */
   :global(#yt-modal-header) {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    padding: 1.5rem 2rem;
+    max-width: 450px; /* Constrict exactly to structural video width */
+    padding: 0 0 1.25rem 0; /* Buffer explicit breathing room visually above the video limit */
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     z-index: 1000000;
     box-sizing: border-box;
     pointer-events: none; /* Let clicks pass through empty areas */
   }
 
-  @media (max-width: 600px) {
-    :global(#yt-modal-header) {
-      padding: 1rem 1rem;
-    }
-  }
-
   :global(.yt-modal-brand) {
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 8px 18px;
-    border-radius: 50px;
     display: flex;
     align-items: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), inset 0 0 0 1px rgba(255,255,255,0.5);
     pointer-events: auto; /* Re-enable clicks for the logo pill */
     animation: modalFadeIn 0.5s forwards ease-out 0.1s;
     opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
   :global(.yt-modal-brand img) {
-    height: 32px;
+    height: 48px; /* Slightly larger, elegant presence */
     width: auto;
     display: block;
+    /* Pure cinematic monochrome white logic */
+    filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    opacity: 0.85;
+    transition: all 0.3s ease;
+  }
+
+  :global(.yt-modal-brand:hover img) {
+    opacity: 1;
+    filter: brightness(0) invert(1) drop-shadow(0 0 15px rgba(255,255,255,0.4));
   }
 
   @media (max-width: 600px) {
     :global(.yt-modal-brand img) {
-      height: 24px;
-    }
-    :global(.yt-modal-brand) {
-      padding: 6px 12px;
+      height: 38px;
     }
   }
 
   :global(.yt-modal-close) {
     position: relative;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #fff;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    font-size: 2rem;
-    line-height: 1;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    width: 44px;
+    height: 44px;
+    font-size: 2.8rem;
+    font-weight: 200;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    padding-bottom: 4px; /* Optically centers the X */
     pointer-events: auto;
   }
 
@@ -266,8 +258,8 @@ const finalPoster = posterUrl || fallbackPoster;
     position: relative;
     width: 100%;
     max-width: 450px;
-    height: 85vh;
-    max-height: 900px;
+    height: 100%; /* Adapt freely up to max limits alongside header */
+    max-height: 78vh; /* Scaled securely to make perfect room for header element on mobile */
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 30px 60px rgba(0,0,0,0.8);
