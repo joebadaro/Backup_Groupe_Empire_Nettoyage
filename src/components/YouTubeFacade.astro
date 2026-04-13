@@ -178,10 +178,123 @@ const finalPoster = posterUrl || fallbackPoster;
 </style>
 
 <script>
+  let ytGhostPlayer = null;
+  let isYtApiReady = false;
+  let isYtApiLoading = false;
+  let ghostResizeObserver = null;
+
+  const initGhostOverlay = () => {
+    if (document.getElementById('yt-ghost-wrapper')) return;
+    
+    // Create the global invisible ghost wrapper
+    const wrapper = document.createElement('div');
+    wrapper.id = 'yt-ghost-wrapper';
+    wrapper.title = 'YouTube video player'; // Best Practices fix
+    wrapper.style.position = 'absolute';
+    wrapper.style.zIndex = '999';
+    wrapper.style.top = '-9999px';
+    wrapper.style.left = '-9999px';
+    wrapper.style.width = '100px';
+    wrapper.style.height = '100px';
+    wrapper.style.border = 'none';
+    wrapper.style.backgroundColor = '#000';
+    wrapper.style.pointerEvents = 'auto'; // Allows natural touch forwarding
+
+    const iframeBox = document.createElement('div');
+    iframeBox.id = 'yt-ghost-iframe';
+
+    wrapper.appendChild(iframeBox);
+    document.body.appendChild(wrapper);
+  };
+
+  const loadYTAPI = () => {
+    isYtApiLoading = true;
+    initGhostOverlay();
+
+    if (!document.getElementById('youtube-api-script')) {
+      if (typeof window !== 'undefined') {
+        window.onYouTubeIframeAPIReady = () => {
+          isYtApiReady = true;
+          if (document.getElementById('yt-ghost-iframe')) {
+            ytGhostPlayer = new window.YT.Player('yt-ghost-iframe', {
+              height: '100%',
+              width: '100%',
+              playerVars: {
+                playsinline: 1,
+                rel: 0,
+                showinfo: 0,
+                modestbranding: 1,
+                autoplay: 1,
+                controls: 1
+              }
+            });
+          }
+        };
+      }
+      const tag = document.createElement('script');
+      tag.id = 'youtube-api-script';
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(tag);
+    } else if (typeof window !== 'undefined' && window.YT && window.YT.Player) {
+      // Re-initialize safely for Astro View Transitions if DOM was wiped but script remains
+      isYtApiReady = true;
+      if (document.getElementById('yt-ghost-iframe')) {
+        ytGhostPlayer = new window.YT.Player('yt-ghost-iframe', {
+          height: '100%',
+          width: '100%',
+          playerVars: {
+            playsinline: 1,
+            rel: 0,
+            showinfo: 0,
+            modestbranding: 1,
+            autoplay: 1,
+            controls: 1
+          }
+        });
+      }
+    }
+  };
+
+  const syncGhostPosition = (facade) => {
+    const wrapper = document.getElementById('yt-ghost-wrapper');
+    if (!wrapper) return;
+    const rect = facade.getBoundingClientRect();
+    wrapper.style.top = `${rect.top + window.scrollY}px`;
+    wrapper.style.left = `${rect.left + window.scrollX}px`;
+    wrapper.style.width = `${rect.width}px`;
+    wrapper.style.height = `${rect.height}px`;
+  };
+
+  const startGhostSync = (facade) => {
+    if (ghostResizeObserver) {
+      ghostResizeObserver.disconnect();
+    }
+    syncGhostPosition(facade);
+
+    // CPU-friendly hardware-accelerated layout sync replaces heavy setInterval
+    ghostResizeObserver = new ResizeObserver(() => {
+      syncGhostPosition(facade);
+    });
+    ghostResizeObserver.observe(facade);
+    ghostResizeObserver.observe(document.body);
+  };
+
+  const stopGhostSync = () => {
+    if (ghostResizeObserver) {
+      ghostResizeObserver.disconnect();
+      ghostResizeObserver = null;
+    }
+    const wrapper = document.getElementById('yt-ghost-wrapper');
+    if (wrapper) {
+      wrapper.style.top = '-9999px';
+      wrapper.style.left = '-9999px';
+    }
+  };
+
   const createIframe = (videoId) => {
     const iframe = document.createElement('iframe');
     iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&showinfo=0&modestbranding=1`);
-    iframe.setAttribute('title', 'YouTube video player'); // Solves Accessibility/Best Practices penalty
+    iframe.setAttribute('title', 'YouTube video player'); // Best Practices
     iframe.setAttribute('frameborder', '0');
     iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
     iframe.setAttribute('allowfullscreen', '');
@@ -191,7 +304,13 @@ const finalPoster = posterUrl || fallbackPoster;
   const loadInlineVideo = (facade, videoId) => {
     if (facade.classList.contains('is-loaded')) return;
 
-    // Play one at a time: reset previously playing cards
+    // Reset previously playing Ghost Players cleanly
+    if (ytGhostPlayer && typeof ytGhostPlayer.stopVideo === 'function') {
+      try { ytGhostPlayer.stopVideo(); } catch (e) {}
+    }
+    stopGhostSync();
+
+    // Structurally reset old UI facades
     const activeFacades = document.querySelectorAll('.yt-facade.is-loaded');
     activeFacades.forEach((activeNode) => {
       if (activeNode !== facade) {
@@ -205,28 +324,59 @@ const finalPoster = posterUrl || fallbackPoster;
 
     facade.classList.add('is-loaded');
     
-    // Expand grid on mobile cleanly
+    // Mobile cinematic structural grid expansion
     const parentCard = facade.closest('.video-card');
     if (parentCard && window.innerWidth <= 768) {
       parentCard.style.gridColumn = '1 / -1';
     }
 
-    // Synchronous DOM injection guarantees autoplay gesture trust natively on iOS/Android
-    const iframe = createIframe(videoId);
-    facade.appendChild(iframe);
-
-    // Cinematic smooth auto-centering on Mobile
-    if (window.innerWidth <= 768 && parentCard) {
+    if (isYtApiReady && ytGhostPlayer && typeof ytGhostPlayer.loadVideoById === 'function') {
+      // API is ready: Execute the Pre-warmed Ghost Overlay
       setTimeout(() => {
-        parentCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const wrapper = document.getElementById('yt-ghost-wrapper');
+        if (wrapper) {
+          startGhostSync(facade);
+          ytGhostPlayer.loadVideoById(videoId);
+        }
+        if (window.innerWidth <= 768 && parentCard) {
+          parentCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
       }, 40);
+    } else {
+      // Fallback: Synchronous DOM injection guarantees standard autoplay if API evaded Pre-warm
+      const iframe = createIframe(videoId);
+      facade.appendChild(iframe);
+      if (window.innerWidth <= 768 && parentCard) {
+        setTimeout(() => {
+          parentCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 40);
+      }
     }
   };
 
   const initFacades = () => {
-    // 100% Lazy - ZERO prewarm penalty! Nothing loads on page execution!
+    // 1. Astro View Transition persistence restoration
+    if (isYtApiLoading && !document.getElementById('yt-ghost-wrapper')) {
+      loadYTAPI(); 
+    }
+
     const facades = document.querySelectorAll('.yt-facade');
+    
+    // 2. IntersectionObserver triggers lazy Pre-Warm exactly 800px beforehand
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!isYtApiLoading) loadYTAPI();
+          // Disconnect to guarantee zero subsequent CPU processing
+          observer.disconnect();
+        }
+      });
+    }, { rootMargin: '800px 0px' });
+
     facades.forEach(facade => {
+      observer.observe(facade); // Register for lazy loading sensing
+
+      // 3. Purge ghost event listeners across re-rendering boundaries safely
       const clone = facade.cloneNode(true);
       if (facade.parentNode) facade.parentNode.replaceChild(clone, facade);
 
@@ -245,6 +395,7 @@ const finalPoster = posterUrl || fallbackPoster;
     });
   };
 
+  // Bind respectfully acknowledging Astro's architecture
   document.addEventListener('DOMContentLoaded', initFacades);
   document.addEventListener('astro:page-load', initFacades);
 </script>
