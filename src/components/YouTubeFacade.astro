@@ -178,224 +178,126 @@ const finalPoster = posterUrl || fallbackPoster;
 </style>
 
 <script>
-  let ytGhostPlayer = null;
-  let isYtApiReady = false;
-  let isYtApiLoading = false;
-  let ghostResizeObserver = null;
+  // ─── Preconnect helper ───────────────────────────────────────────────────────
+  // Adds DNS-preconnect + preconnect link tags for YouTube origins ONE time only.
+  // This is pure network warmup — no script, no player, no DOM weight at all.
+  const addYouTubePreconnect = () => {
+    if (document.querySelector('link[data-yt-preconnect]')) return;
+    const origins = [
+      'https://www.youtube.com',
+      'https://www.youtube-nocookie.com',
+      'https://i.ytimg.com',
+    ];
+    origins.forEach(origin => {
+      const dns = document.createElement('link');
+      dns.rel = 'dns-prefetch';
+      dns.href = origin;
+      dns.setAttribute('data-yt-preconnect', '');
+      document.head.appendChild(dns);
 
-  const initGhostOverlay = () => {
-    if (document.getElementById('yt-ghost-wrapper')) return;
-    
-    // Create the global invisible ghost wrapper
-    const wrapper = document.createElement('div');
-    wrapper.id = 'yt-ghost-wrapper';
-    wrapper.title = 'YouTube video player'; // Best Practices fix
-    wrapper.style.position = 'absolute';
-    wrapper.style.zIndex = '999';
-    wrapper.style.top = '-9999px';
-    wrapper.style.left = '-9999px';
-    wrapper.style.width = '100px';
-    wrapper.style.height = '100px';
-    wrapper.style.border = 'none';
-    wrapper.style.backgroundColor = '#000';
-    wrapper.style.pointerEvents = 'auto'; // Allows natural touch forwarding
-
-    const iframeBox = document.createElement('div');
-    iframeBox.id = 'yt-ghost-iframe';
-
-    wrapper.appendChild(iframeBox);
-    document.body.appendChild(wrapper);
-  };
-
-  const loadYTAPI = () => {
-    isYtApiLoading = true;
-    initGhostOverlay();
-
-    if (!document.getElementById('youtube-api-script')) {
-      if (typeof window !== 'undefined') {
-        window.onYouTubeIframeAPIReady = () => {
-          isYtApiReady = true;
-          if (document.getElementById('yt-ghost-iframe')) {
-            ytGhostPlayer = new window.YT.Player('yt-ghost-iframe', {
-              height: '100%',
-              width: '100%',
-              playerVars: {
-                playsinline: 1,
-                rel: 0,
-                showinfo: 0,
-                modestbranding: 1,
-                autoplay: 1,
-                controls: 1
-              }
-            });
-          }
-        };
-      }
-      const tag = document.createElement('script');
-      tag.id = 'youtube-api-script';
-      tag.src = 'https://www.youtube.com/iframe_api';
-      document.head.appendChild(tag);
-    } else if (typeof window !== 'undefined' && window.YT && window.YT.Player) {
-      // Re-initialize safely for Astro View Transitions if DOM was wiped but script remains
-      isYtApiReady = true;
-      if (document.getElementById('yt-ghost-iframe')) {
-        ytGhostPlayer = new window.YT.Player('yt-ghost-iframe', {
-          height: '100%',
-          width: '100%',
-          playerVars: {
-            playsinline: 1,
-            rel: 0,
-            showinfo: 0,
-            modestbranding: 1,
-            autoplay: 1,
-            controls: 1
-          }
-        });
-      }
-    }
-  };
-
-  const syncGhostPosition = (facade) => {
-    const wrapper = document.getElementById('yt-ghost-wrapper');
-    if (!wrapper) return;
-    const rect = facade.getBoundingClientRect();
-    wrapper.style.top = `${rect.top + window.scrollY}px`;
-    wrapper.style.left = `${rect.left + window.scrollX}px`;
-    wrapper.style.width = `${rect.width}px`;
-    wrapper.style.height = `${rect.height}px`;
-  };
-
-  const startGhostSync = (facade) => {
-    if (ghostResizeObserver) {
-      ghostResizeObserver.disconnect();
-    }
-    syncGhostPosition(facade);
-
-    // CPU-friendly hardware-accelerated layout sync replaces heavy setInterval
-    ghostResizeObserver = new ResizeObserver(() => {
-      syncGhostPosition(facade);
+      const pre = document.createElement('link');
+      pre.rel = 'preconnect';
+      pre.href = origin;
+      pre.crossOrigin = 'anonymous';
+      document.head.appendChild(pre);
     });
-    ghostResizeObserver.observe(facade);
-    ghostResizeObserver.observe(document.body);
   };
 
-  const stopGhostSync = () => {
-    if (ghostResizeObserver) {
-      ghostResizeObserver.disconnect();
-      ghostResizeObserver = null;
-    }
-    const wrapper = document.getElementById('yt-ghost-wrapper');
-    if (wrapper) {
-      wrapper.style.top = '-9999px';
-      wrapper.style.left = '-9999px';
-    }
-  };
-
+  // ─── Iframe factory ──────────────────────────────────────────────────────────
+  // Creates a fully-compliant YouTube iframe with autoplay + playsinline.
+  // Injected SYNCHRONOUSLY inside the click handler → mobile OS trusts the gesture.
   const createIframe = (videoId) => {
     const iframe = document.createElement('iframe');
-    iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&showinfo=0&modestbranding=1`);
-    iframe.setAttribute('title', 'YouTube video player'); // Best Practices
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
+    iframe.title = 'YouTube video player';
     iframe.setAttribute('frameborder', '0');
     iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
     iframe.setAttribute('allowfullscreen', '');
     return iframe;
   };
 
-  const loadInlineVideo = (facade, videoId) => {
+  // ─── Video activation ────────────────────────────────────────────────────────
+  const activateVideo = (facade, videoId) => {
     if (facade.classList.contains('is-loaded')) return;
 
-    // Reset previously playing Ghost Players cleanly
-    if (ytGhostPlayer && typeof ytGhostPlayer.stopVideo === 'function') {
-      try { ytGhostPlayer.stopVideo(); } catch (e) {}
-    }
-    stopGhostSync();
-
-    // Structurally reset old UI facades
-    const activeFacades = document.querySelectorAll('.yt-facade.is-loaded');
-    activeFacades.forEach((activeNode) => {
-      if (activeNode !== facade) {
-        activeNode.classList.remove('is-loaded');
-        const oldParentCard = activeNode.closest('.video-card');
-        if (oldParentCard) oldParentCard.style.gridColumn = '';
-        const iframeToRemove = activeNode.querySelector('iframe');
-        if (iframeToRemove) iframeToRemove.remove();
-      }
+    // Reset any previously active card
+    document.querySelectorAll('.yt-facade.is-loaded').forEach(node => {
+      if (node === facade) return;
+      node.classList.remove('is-loaded');
+      const oldCard = node.closest('.video-card');
+      if (oldCard) oldCard.style.gridColumn = '';
+      const oldIframe = node.querySelector('iframe');
+      if (oldIframe) oldIframe.remove();
     });
 
     facade.classList.add('is-loaded');
-    
-    // Mobile cinematic structural grid expansion
+
+    // Mobile grid expansion
     const parentCard = facade.closest('.video-card');
     if (parentCard && window.innerWidth <= 768) {
       parentCard.style.gridColumn = '1 / -1';
     }
 
-    if (isYtApiReady && ytGhostPlayer && typeof ytGhostPlayer.loadVideoById === 'function') {
-      // API is ready: Execute the Pre-warmed Ghost Overlay
+    // ── SYNCHRONOUS injection ─────────────────────────────────────────────────
+    // The iframe is appended within the SAME call-stack as the user's click/tap.
+    // iOS Safari and Android Chrome both require this to honour autoplay.
+    // Any async gap (setTimeout, await, etc.) breaks the gesture-trust chain.
+    facade.appendChild(createIframe(videoId));
+
+    // Smooth-scroll the card into view on mobile (deferred is fine after injection)
+    if (window.innerWidth <= 768 && parentCard) {
       setTimeout(() => {
-        const wrapper = document.getElementById('yt-ghost-wrapper');
-        if (wrapper) {
-          startGhostSync(facade);
-          ytGhostPlayer.loadVideoById(videoId);
-        }
-        if (window.innerWidth <= 768 && parentCard) {
-          parentCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        parentCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 40);
-    } else {
-      // Fallback: Synchronous DOM injection guarantees standard autoplay if API evaded Pre-warm
-      const iframe = createIframe(videoId);
-      facade.appendChild(iframe);
-      if (window.innerWidth <= 768 && parentCard) {
-        setTimeout(() => {
-          parentCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 40);
-      }
     }
   };
 
-  const initFacades = () => {
-    // 1. Astro View Transition persistence restoration
-    if (isYtApiLoading && !document.getElementById('yt-ghost-wrapper')) {
-      loadYTAPI(); 
-    }
+  // ─── IntersectionObserver — preconnect only ──────────────────────────────────
+  // Fires when the user scrolls within 600 px of any facade.
+  // Only adds <link rel="preconnect"> tags — no script download, no player init.
+  const observeFacadesForPreconnect = (facades) => {
+    if (!('IntersectionObserver' in window)) return;
 
-    const facades = document.querySelectorAll('.yt-facade');
-    
-    // 2. IntersectionObserver triggers lazy Pre-Warm exactly 800px beforehand
-    const observer = new IntersectionObserver((entries) => {
+    const io = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          if (!isYtApiLoading) loadYTAPI();
-          // Disconnect to guarantee zero subsequent CPU processing
-          observer.disconnect();
+          addYouTubePreconnect();
+          obs.disconnect(); // One-shot, zero ongoing CPU cost
         }
       });
-    }, { rootMargin: '800px 0px' });
+    }, { rootMargin: '600px 0px' });
+
+    facades.forEach(f => io.observe(f));
+  };
+
+  // ─── Bootstrap ───────────────────────────────────────────────────────────────
+  const initFacades = () => {
+    const facades = Array.from(document.querySelectorAll('.yt-facade'));
+    if (!facades.length) return;
+
+    observeFacadesForPreconnect(facades);
 
     facades.forEach(facade => {
-      observer.observe(facade); // Register for lazy loading sensing
-
-      // 3. Purge ghost event listeners across re-rendering boundaries safely
+      // Clone node to purge any stale listeners from previous Astro page loads
       const clone = facade.cloneNode(true);
-      if (facade.parentNode) facade.parentNode.replaceChild(clone, facade);
+      facade.parentNode?.replaceChild(clone, facade);
+
+      clone.addEventListener('click', () => {
+        const vid = clone.getAttribute('data-yid');
+        if (vid) activateVideo(clone, vid);
+      });
 
       clone.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          const videoId = clone.getAttribute('data-yid');
-          if (videoId) loadInlineVideo(clone, videoId);
+          const vid = clone.getAttribute('data-yid');
+          if (vid) activateVideo(clone, vid);
         }
-      });
-      
-      clone.addEventListener('click', () => {
-        const videoId = clone.getAttribute('data-yid');
-        if (videoId) loadInlineVideo(clone, videoId);
       });
     });
   };
 
-  // Bind respectfully acknowledging Astro's architecture
   document.addEventListener('DOMContentLoaded', initFacades);
   document.addEventListener('astro:page-load', initFacades);
 </script>
+
