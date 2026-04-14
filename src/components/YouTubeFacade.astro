@@ -64,10 +64,12 @@ const finalPoster = posterUrl || fallbackPoster;
     border: 1px solid rgba(255,255,255,0.1);
   }
 
-  .yt-facade:hover, .yt-facade:focus-visible {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 35px rgba(0, 31, 63, 0.25);
-    outline: none;
+  @media (hover: hover) and (pointer: fine) {
+    .yt-facade:hover, .yt-facade:focus-visible {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 35px rgba(0, 31, 63, 0.25);
+      outline: none;
+    }
   }
 
   .yt-facade-poster {
@@ -86,10 +88,11 @@ const finalPoster = posterUrl || fallbackPoster;
     display: none;
   }
 
-  /* Deepen the image when hovering for cinematic effect */
-  .yt-facade:hover .yt-facade-poster {
-    opacity: 0.75;
-    transform: scale(1.02);
+  @media (hover: hover) and (pointer: fine) {
+    .yt-facade:hover .yt-facade-poster {
+      opacity: 0.75;
+      transform: scale(1.02);
+    }
   }
 
   .yt-play-overlay {
@@ -146,21 +149,23 @@ const finalPoster = posterUrl || fallbackPoster;
     100% { transform: scale(1.3); opacity: 0; border-width: 0.5px; }
   }
 
-  /* On hover, transition directly to the brand's premium Gold (#f0c14b) */
-  .yt-facade:hover .yt-play-btn, .yt-facade:focus-visible .yt-play-btn {
-    background: rgba(240, 193, 75, 0.95);
-    border-color: #f0c14b;
-    transform: scale(1.08);
-    box-shadow: 0 8px 25px rgba(240, 193, 75, 0.4);
-  }
+  @media (hover: hover) and (pointer: fine) {
+    /* On hover, transition directly to the brand's premium Gold (#f0c14b) */
+    .yt-facade:hover .yt-play-btn, .yt-facade:focus-visible .yt-play-btn {
+      background: rgba(240, 193, 75, 0.95);
+      border-color: #f0c14b;
+      transform: scale(1.08);
+      box-shadow: 0 8px 25px rgba(240, 193, 75, 0.4);
+    }
 
-  .yt-facade:hover .yt-play-btn svg, .yt-facade:focus-visible .yt-play-btn svg {
-    color: #001f3f; /* Deep brand blue for contrast against gold */
-    filter: none;
-  }
+    .yt-facade:hover .yt-play-btn svg, .yt-facade:focus-visible .yt-play-btn svg {
+      color: #001f3f;
+      filter: none;
+    }
 
-  .yt-facade:hover .yt-play-btn::before {
-    border-color: rgba(240, 193, 75, 0.6);
+    .yt-facade:hover .yt-play-btn::before {
+      border-color: rgba(240, 193, 75, 0.6);
+    }
   }
 
   /* Support original inline desktop video layer natively */
