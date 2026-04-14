@@ -180,6 +180,7 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
           address: payload.adresse || '',
           city: payload.ville || '',
           source: 'promo-meubles',
+          extraTags: ['google_ads', 'google_ads_meubles'],
           message: payload.message || '',
           service: payload.service || 'meubles',
           customData: { cf_type_service: payload.service || 'meubles' }
