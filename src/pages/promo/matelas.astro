@@ -93,7 +93,10 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
           <div class="form-group"><label for="telephone">Téléphone *</label><input type="tel" id="telephone" name="telephone" placeholder="(514) 000-0000" required></div>
           <div class="form-group"><label for="email">Courriel</label><input type="email" id="email" name="email" placeholder="votre@courriel.com"></div>
         </div>
-        <div class="form-group"><label for="adresse">Adresse du service *</label><input type="text" id="adresse" name="adresse" placeholder="123 rue Exemple, Montréal, QC" required></div>
+        <div class="form-row">
+          <div class="form-group"><label for="adresse">Adresse du service *</label><input type="text" id="adresse" name="adresse" placeholder="123 rue Exemple" required></div>
+          <div class="form-group"><label for="ville">Ville *</label><input type="text" id="ville" name="ville" placeholder="Montréal" required></div>
+        </div>
         <div class="form-group">
           <label for="service">Taille du matelas *</label>
           <select id="service" name="service" required>
@@ -168,6 +171,7 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
           phone: payload.telephone,
           email: payload.email || '',
           address: payload.adresse || '',
+          city: payload.ville || '',
           source: 'promo-matelas',
           message: payload.message || '',
           service: payload.service || 'matelas',
