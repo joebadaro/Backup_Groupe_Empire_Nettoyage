@@ -311,10 +311,32 @@ const finalPoster = posterUrl || fallbackPoster;
       const clone = facade.cloneNode(true);
       facade.parentNode?.replaceChild(clone, facade);
 
+      // ── 3-phase tap detection (tap vs scroll/drag) ─────────────────────────
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchMoved = false;
+
+      // Phase 1 — Record start position. passive:true keeps native scroll intact.
       clone.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        const vid = clone.getAttribute('data-yid');
-        if (vid) activateVideo(clone, vid);
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchMoved = false;
+      }, { passive: true });
+
+      // Phase 2 — Flag as drag if finger moves beyond 10px threshold.
+      clone.addEventListener('touchmove', (e) => {
+        const dx = Math.abs(e.touches[0].clientX - touchStartX);
+        const dy = Math.abs(e.touches[0].clientY - touchStartY);
+        if (dx > 10 || dy > 10) touchMoved = true;
+      }, { passive: true });
+
+      // Phase 3 — Activate only if it was a true tap (no significant movement).
+      clone.addEventListener('touchend', (e) => {
+        if (!touchMoved) {
+          e.preventDefault(); // Block synthetic click — we handle it here
+          const vid = clone.getAttribute('data-yid');
+          if (vid) activateVideo(clone, vid);
+        }
       }, { passive: false });
 
       clone.addEventListener('click', () => {
