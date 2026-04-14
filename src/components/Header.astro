@@ -199,6 +199,13 @@ const label = isEn ? "FR" : "EN";
               >{isEn ? "Our Equipment" : "Nos Équipements"}</a
             >
           </li>
+          <li class="mobile-nav-only">
+            <a
+              href={isEn ? "/en/promotions" : "/promotions"}
+              class="nav-item nav-item-promo"
+            ><span class="promo-badge">{isEn ? "Our Promotions" : "Nos promotions"}</span></a
+            >
+          </li>
           <li class="desktop-nav-only">
             <a
               href={isEn ? "/en/realisations" : "/realisations"}
@@ -213,7 +220,7 @@ const label = isEn ? "FR" : "EN";
           </li>
           <li class="mobile-nav-only">
             <a
-              href={isEn ? "/en/realisations-video" : "/realisations-video"}
+              href={isEn ? "/en/video-gallery" : "/realisations-video"}
               class="nav-item">{isEn ? "Video Gallery" : "Réalisations en vidéo"}</a
             >
           </li>
@@ -757,6 +764,27 @@ const label = isEn ? "FR" : "EN";
       width: auto;
       text-align: center;
       border: none;
+    }
+
+    /* Promotions item — premium red pill */
+    .nav-item-promo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .promo-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #8b0000 0%, #c2181b 60%, #a01010 100%);
+      color: #fff;
+      padding: 6px 24px;
+      border-radius: 50px;
+      font-size: 1.5rem;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      box-shadow: 0 4px 16px rgba(194, 24, 27, 0.30);
     }
 
     /* Animations */
