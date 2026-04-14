@@ -50,12 +50,13 @@ const finalPoster = posterUrl || fallbackPoster;
     width: auto;
     max-width: 100%;
     max-height: 75vh;
-    margin: 0 auto; /* Ensure it stays centered if scaling down */
+    margin: 0 auto;
     aspect-ratio: var(--aspect);
-    background-color: #080d14; /* Dark theme navy */
+    background-color: #080d14;
     border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
+    touch-action: manipulation;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
     display: flex;
@@ -119,6 +120,7 @@ const finalPoster = posterUrl || fallbackPoster;
     justify-content: center;
     color: #ffffff;
     cursor: pointer;
+    pointer-events: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   }
@@ -308,6 +310,12 @@ const finalPoster = posterUrl || fallbackPoster;
       // Clone node to purge any stale listeners from previous Astro page loads
       const clone = facade.cloneNode(true);
       facade.parentNode?.replaceChild(clone, facade);
+
+      clone.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        const vid = clone.getAttribute('data-yid');
+        if (vid) activateVideo(clone, vid);
+      }, { passive: false });
 
       clone.addEventListener('click', () => {
         const vid = clone.getAttribute('data-yid');
