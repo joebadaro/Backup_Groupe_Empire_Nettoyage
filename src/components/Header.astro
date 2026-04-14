@@ -199,10 +199,22 @@ const label = isEn ? "FR" : "EN";
               >{isEn ? "Our Equipment" : "Nos Équipements"}</a
             >
           </li>
-          <li>
+          <li class="desktop-nav-only">
             <a
               href={isEn ? "/en/realisations" : "/realisations"}
               class="nav-item">{isEn ? "Our Work" : "Réalisations"}</a
+            >
+          </li>
+          <li class="mobile-nav-only">
+            <a
+              href={isEn ? "/en/realisations" : "/realisations"}
+              class="nav-item">{isEn ? "Photo Gallery" : "Réalisations en photos"}</a
+            >
+          </li>
+          <li class="mobile-nav-only">
+            <a
+              href={isEn ? "/en/realisations-video" : "/realisations-video"}
+              class="nav-item">{isEn ? "Video Gallery" : "Réalisations en vidéo"}</a
             >
           </li>
           <li>
@@ -648,6 +660,10 @@ const label = isEn ? "FR" : "EN";
     display: none;
   }
 
+  /* Mobile/Desktop nav item visibility control */
+  .mobile-nav-only { display: none; }
+  .desktop-nav-only { display: list-item; }
+
   /* Button Small */
   .btn-sm {
     padding: 10px 20px;
@@ -693,8 +709,16 @@ const label = isEn ? "FR" : "EN";
 
   @media (max-width: 1024px) {
     /* --- PREMIUM MOBILE MENU REDESIGN --- */
+
+    /* Show mobile-only items, hide desktop-only item */
+    .mobile-nav-only { display: list-item; }
+    .desktop-nav-only { display: none; }
+
     .main-nav {
-      display: block; /* Always present for transition */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       position: fixed;
       top: 0;
       left: 0;
@@ -702,8 +726,8 @@ const label = isEn ? "FR" : "EN";
       height: 100vh;
       background: rgba(255, 255, 255, 0.98);
       backdrop-filter: blur(15px);
-      padding: 4.5rem 2rem 1.5rem 2rem;
-      z-index: 1001; /* Covered page content, below toggle */
+      padding: 5rem 2rem 2rem 2rem;
+      z-index: 1001;
       opacity: 0;
       visibility: hidden;
       transform: translateY(-20px);
@@ -721,8 +745,8 @@ const label = isEn ? "FR" : "EN";
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 0.85rem;
-      min-height: 60%;
+      gap: 0.65rem;
+      min-height: auto;
     }
 
     .nav-item {
