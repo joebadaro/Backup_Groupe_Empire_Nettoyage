@@ -10,9 +10,9 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
   <nav class="navbar">
     <a href="/" class="navbar-brand"><img src="/favicon.svg" alt="" class="navbar-brand-icon"><span class="navbar-brand-text">Nettoyage<span class="brand-line2">Empire</span></span></a>
     <div class="navbar-right">
-      <a href="tel:+14509774636" class="navbar-phone">
+      <a href="tel:+15148939939" class="navbar-phone">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-        <span>(450) 977-4636</span>
+        <span>(514) 893-9939</span>
       </a>
       <a href="#soumission" class="navbar-cta">Soumission gratuite</a>
     </div>
@@ -28,7 +28,7 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
         <p class="hero-desc">Nos experts redonnent l'éclat à vos meubles rembourrés avec un nettoyage vapeur en profondeur. Protection Scotchgard incluse avec chaque service.</p>
         <div class="hero-btns">
           <a href="#soumission" class="btn-hero-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Soumission gratuite</a>
-          <a href="tel:+14509774636" class="btn-hero-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> Appelez-nous</a>
+          <a href="tel:+15148939939" class="btn-hero-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> Appelez-nous</a>
         </div>
         <div class="hero-stats">
           <div class="hero-stat"><span class="number">30+</span><span class="label">Ans d'expérience</span></div>
@@ -90,7 +90,9 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
   <section class="form-section" id="soumission">
     <div class="form-container">
       <div class="section-header"><h2>Soumission gratuite</h2><p>Remplissez le formulaire et recevez votre estimation en moins de 2 heures</p></div>
-      <form id="leadForm">
+      <form id="leadForm" name="promo_meubles" data-netlify="true" netlify-honeypot="bot-field" method="POST">
+        <input type="hidden" name="form-name" value="promo_meubles" />
+        <p style="display:none;"><label>Laissez ce champ vide: <input name="bot-field" /></label></p>
         <div class="form-row">
           <div class="form-group"><label for="prenom">Prénom *</label><input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required></div>
           <div class="form-group"><label for="nom">Nom *</label><input type="text" id="nom" name="nom" placeholder="Votre nom" required></div>
@@ -99,10 +101,7 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
           <div class="form-group"><label for="telephone">Téléphone *</label><input type="tel" id="telephone" name="telephone" placeholder="(514) 000-0000" required></div>
           <div class="form-group"><label for="email">Courriel</label><input type="email" id="email" name="email" placeholder="votre@courriel.com"></div>
         </div>
-        <div class="form-row">
-          <div class="form-group"><label for="adresse">Adresse du service *</label><input type="text" id="adresse" name="adresse" placeholder="123 rue Exemple" required></div>
-          <div class="form-group"><label for="ville">Ville *</label><input type="text" id="ville" name="ville" placeholder="Montréal" required></div>
-        </div>
+        <div class="form-group"><label for="adresse">Adresse du service *</label><input type="text" id="adresse" name="adresse" placeholder="123 rue Exemple, Montréal, QC" required></div>
         <div class="form-group">
           <label for="service">Type de meuble *</label>
           <select id="service" name="service" required>
@@ -147,13 +146,13 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
     <div class="footer-inner">
       <div class="footer-brand"><img src="/favicon.svg" alt="" class="footer-brand-icon"><span class="footer-brand-text">Nettoyage Empire</span></div>
       <p>&copy; 2026 Nettoyage Empire - L'Art du Nettoyage Haut de Gamme</p>
-      <p>Montréal | Laval | Rive-Sud | West Island | <a href="tel:+14509774636">Appelez-nous</a></p>
+      <p>Montréal | Laval | Rive-Sud | West Island | <a href="tel:+15148939939">Appelez-nous</a></p>
     </div>
   </div>
 
   <div class="mobile-cta">
     <div class="mobile-cta-inner">
-      <a href="tel:+14509774636" class="mobile-cta-call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> Appeler</a>
+      <a href="tel:+15148939939" class="mobile-cta-call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> Appeler</a>
       <a href="#soumission" class="mobile-cta-quote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Soumission gratuite</a>
     </div>
   </div>
@@ -169,24 +168,14 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
       btn.style.background = '#2E7D32';
       btn.disabled = true;
 
-      fetch('https://nettoyage-empire-api.onrender.com/api/leads', {
+      data.append('source', 'promo_meubles');
+      
+      fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName: payload.prenom,
-          lastName: payload.nom,
-          phone: payload.telephone,
-          email: payload.email || '',
-          address: payload.adresse || '',
-          city: payload.ville || '',
-          source: 'promo-meubles',
-          extraTags: ['google_ads', 'google_ads_meubles'],
-          message: payload.message || '',
-          service: payload.service || 'meubles',
-          customData: { cf_type_service: payload.service || 'meubles' }
-        })
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(data).toString()
       })
-      .then(function(res) { return res.json(); })
+      .then(function() { return { success: true }; })
       .then(function(result) {
         if (typeof fbq !== 'undefined') { fbq('track', 'Lead', { content_name: 'Nettoyage Meubles', content_category: payload.service, city: 'Montréal' }); }
         if (typeof gtag !== 'undefined') { gtag('event', 'conversion', { send_to: 'AW-17960384308/vw2FCIet2ZccELTulvRC', value: 50.0, currency: 'CAD' }); }

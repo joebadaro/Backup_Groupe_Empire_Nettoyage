@@ -15,13 +15,13 @@ export const PHONES = {
    */
   main: {
     /** Texte affiché / Display text */
-    display: "(450) 977-4636",
+    display: "(514) 893-9939",
     /** Format href tel: sans ponctuation */
-    tel: "4509774636",
+    tel: "5148939939",
     /** Format href tel: international (pour pages promo) */
-    telIntl: "+14509774636",
+    telIntl: "+15148939939",
     /** Format Schema.org JSON-LD */
-    schema: "+1-450-977-4636",
+    schema: "+1-514-893-9939",
   },
 
   /**

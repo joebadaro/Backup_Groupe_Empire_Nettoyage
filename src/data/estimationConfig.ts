@@ -82,7 +82,7 @@ export const CONFIG = {
     },
     buttons: {
       next: { fr: "Suivant", en: "Next" },
-      finaliser: { fr: "Finaliser la demande de devis", en: "Finalize Quote Request" },
+      finaliser: { fr: "Envoyer ma demande", en: "Send Request" },
       back: { fr: "Retour", en: "Back" },
       backFull: { fr: "Retour en arrière", en: "Go Back" },
       print: { fr: "Imprimer cette page", en: "Print this page" },

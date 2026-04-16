@@ -83,7 +83,7 @@ import UiIcon from "./icons/UiIcon.astro";
                 <div id="step-contact" class="step">
                     <div id="desktop-contact-intro">
                         <h3 class="text-center" style="margin-bottom:10px;">
-                            Recevoir votre estimation
+                            <span id="step4Title">Demande de réservation</span>
                         </h3>
                         <p
                             class="text-center"
@@ -101,46 +101,11 @@ import UiIcon from "./icons/UiIcon.astro";
                         id="contact-form"
                         style="max-width:500px; margin:0 auto;"
                     >
-                        <!-- Delivery Method Toggle -->
-                        <div style="margin-bottom:25px;">
-                            <label
-                                style="display:block; font-weight:600; margin-bottom:12px; color:#333;"
-                                id="lbl-delivery-method"
-                                >Recevoir mon estimation par</label
-                            >
-                            <div
-                                style="display:flex; gap:12px; background:#f5f5f5; padding:6px; border-radius:12px;"
-                            >
-                                <label
-                                    style="flex:1; text-align:center; padding:12px; border-radius:8px; cursor:pointer; transition:all 0.3s; background:white; font-weight:600; color:#1a237e; box-shadow:0 2px 8px rgba(0,0,0,0.1);"
-                                    id="label-sms"
-                                >
-                                    <input
-                                        type="radio"
-                                        name="delivery"
-                                        value="sms"
-                                        checked
-                                        style="display:none;"
-                                    />
-                                    <i class="fas fa-sms" style="margin-right:6px;"></i> Texto
-                                </label>
-                                <label
-                                    style="flex:1; text-align:center; padding:12px; border-radius:8px; cursor:pointer; transition:all 0.3s; background:transparent; font-weight:500; color:#666;"
-                                    id="label-email"
-                                >
-                                    <input
-                                        type="radio"
-                                        name="delivery"
-                                        value="email"
-                                        style="display:none;"
-                                    />
-                                    <i class="fas fa-envelope" style="margin-right:6px;"></i> Courriel
-                                </label>
-                                <!-- Phone Option Removed -->
+                        <!-- Delivery Method Toggle Removed -->
+                        <div style="margin-bottom:25px; display:none;">
+                            <div style="display:none;">
+                                <input type="radio" name="delivery" value="email" checked />
                             </div>
-                            <p id="quote-delivery-info" style="display:none; margin-top:8px; font-size:0.85rem; color:#666; font-style:italic;">
-                                Un membre de notre équipe vous contactera s'il a besoin de plus d'information.
-                            </p>
                         </div>
 
                         <!-- Form Fields -->
@@ -276,23 +241,36 @@ import UiIcon from "./icons/UiIcon.astro";
                                 <p id="quote-notes-instruction" style="display:none; font-size:0.85rem; color:#555; margin-top:5px; line-height:1.4; background:#f9f9f9; padding:8px; border-radius:6px; border-left:3px solid #1a237e;"></p>
                             </div>
                             
-                            <div id="desktop-callback-request" style="grid-column: 1 / -1; margin-top:5px;">
-                                <label style="display:block; font-weight:600; margin-bottom:8px; color:#333; font-size:0.9rem;">
-                                    Souhaitez-vous que nous vous rappelions pour planifier un rendez-vous ? *
-                                </label>
-                                <div style="display:flex; gap:20px; align-items:center;">
-                                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
-                                        <input type="radio" name="callback-request" value="yes" required style="width:18px; height:18px; cursor:pointer;">
-                                        <span style="font-size:0.95rem;">Oui</span>
-                                    </label>
-                                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
-                                        <input type="radio" name="callback-request" value="no" required style="width:18px; height:18px; cursor:pointer;">
-                                        <span style="font-size:0.95rem;">Non</span>
-                                    </label>
-                                </div>
-                        </div>
+                            <div id="desktop-callback-request" style="grid-column: 1 / -1; margin-top:10px; background:#f8f9fa; border-left:4px solid #1a237e; padding:12px 15px; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                                <p style="margin:0; font-size:0.95rem; color:#444; line-height:1.5;">
+                                    <i class="fas fa-info-circle" style="color:#1a237e; margin-right:8px;"></i>
+                                    Un membre de notre équipe vous contactera sous peu pour vous proposer des plages horaires selon vos disponibilités.
+                                </p>
+                            </div>
                         </div>
                     </form>
+                </div>
+
+                <!-- STEP 5: SUCCESS & PRINT (NEW) -->
+                <div id="step-success" class="step">
+                    <div style="text-align:center; padding: 10px 0;">
+                        <h3 id="txt-success-title" style="color:#2E7D32; font-size:1.5rem; margin-bottom:10px;">
+                            <i class="fas fa-check-circle"></i> Demande Envoyée avec Succès!
+                        </h3>
+                        <p id="txt-success-msg" style="color:#666; margin-bottom:20px;">
+                            Merci. Voici le détail complet de votre estimation.
+                        </p>
+                        <button onclick="window.print()" class="btn btn-primary btn-print" style="background:#1a237e; border:none; padding:12px 25px; font-size:1.1rem; border-radius:8px; display:inline-flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:15px; width:auto; text-shadow:none;">
+                            🖨️ Imprimer l'estimation
+                        </button>
+                    </div>
+                    <div
+                        id="print-summary-container"
+                        class="print-summary-area"
+                        style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); background:#fff;"
+                    >
+                        <!-- Injected on submit -->
+                    </div>
                 </div>
 
                 <p
@@ -466,7 +444,7 @@ import UiIcon from "./icons/UiIcon.astro";
                     </div>
                     <div style="padding-top:10px;">
                         <p id="mobile-txt-enter-info" style="margin-bottom:20px; color:#666;">
-                            Entrez vos infos pour recevoir la soumission.
+                            Entrez vos coordonnées pour nous transmettre votre demande.
                         </p>
                         
                         <!-- Mobile Quote Message -->
@@ -475,46 +453,9 @@ import UiIcon from "./icons/UiIcon.astro";
                         <!-- Mobile Form Container -->
                         <div id="mobile-contact-form-container">
                             <div class="mobile-form-wrapper">
-                                <!-- Mobile Delivery Toggle -->
-                                <div style="margin-bottom:20px;">
-                                    <label
-                                        id="mobile-lbl-delivery-method"
-                                        style="display:block; font-weight:600; margin-bottom:10px; color:#333; font-size:0.95rem;"
-                                        >Recevoir mon estimation par</label
-                                    >
-                                    <div
-                                        style="display:flex; gap:10px; background:#f5f5f5; padding:5px; border-radius:12px;"
-                                    >
-                                        <label
-                                            style="flex:1; text-align:center; padding:12px; border-radius:10px; transition:all 0.3s; background:white; font-weight:600; color:#1a237e; box-shadow:0 2px 5px rgba(0,0,0,0.05);"
-                                            id="mobile-label-sms"
-                                        >
-                                            <input
-                                                type="radio"
-                                                name="mobile-delivery"
-                                                value="sms"
-                                                checked
-                                                style="display:none;"
-                                            />
-                                            <span>SMS</span>
-                                        </label>
-                                        <label
-                                            style="flex:1; text-align:center; padding:12px; border-radius:10px; transition:all 0.3s; background:transparent; font-weight:500; color:#666;"
-                                            id="mobile-label-email"
-                                        >
-                                            <input
-                                                type="radio"
-                                                name="mobile-delivery"
-                                                value="email"
-                                                style="display:none;"
-                                            />
-                                            <span>Courriel</span>
-                                        </label>
-                                        <!-- Phone Option Removed -->
-                                    </div>
-                                    <p id="mobile-quote-delivery-info" style="display:none; margin-top:8px; font-size:0.85rem; color:#666; font-style:italic;">
-                                        Un membre de notre équipe vous contactera s'il a besoin de plus d'information.
-                                    </p>
+                                <!-- Mobile Delivery Toggle Removed -->
+                                <div style="display:none;">
+                                    <input type="radio" name="mobile-delivery" value="email" checked />
                                 </div>
 
                                 <div style="display:grid; gap:12px;">
@@ -609,20 +550,11 @@ import UiIcon from "./icons/UiIcon.astro";
                                     ></textarea>
                                     <p id="mobile-quote-notes-instruction" style="display:none; font-size:0.9rem; color:#555; margin-top:8px; line-height:1.4; background:#f9f9f9; padding:10px; border-radius:8px; border-left:3px solid #1a237e;"></p>
                                     
-                                    <div id="mobile-callback-request" style="margin-top:15px; margin-bottom: 20px;">
-                                        <label style="display:block; font-weight:600; margin-bottom:10px; color:#333; font-size:0.95rem;">
-                                            Souhaitez-vous que nous vous rappelions pour planifier un rendez-vous ? *
-                                        </label>
-                                        <div style="display:flex; gap:12px;">
-                                            <label style="display:flex; align-items:center; gap:8px; cursor:pointer; padding:12px; background:#f5f5f5; border-radius:8px; flex:1; justify-content:center; border:1px solid #ddd;">
-                                                <input type="radio" name="mobile-callback-request" value="yes" required style="width:18px; height:18px;">
-                                                <span style="font-weight:600; color:#333;">Oui</span>
-                                            </label>
-                                            <label style="display:flex; align-items:center; gap:8px; cursor:pointer; padding:12px; background:#f5f5f5; border-radius:8px; flex:1; justify-content:center; border:1px solid #ddd;">
-                                                <input type="radio" name="mobile-callback-request" value="no" required style="width:18px; height:18px;">
-                                                <span style="font-weight:600; color:#333;">Non</span>
-                                            </label>
-                                        </div>
+                                    <div id="mobile-callback-request" style="margin-top:10px; margin-bottom: 20px; background:#f8f9fa; border-left:4px solid #1a237e; padding:12px; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                                        <p style="margin:0; font-size:0.95rem; color:#444; line-height:1.4;">
+                                            <i class="fas fa-info-circle" style="color:#1a237e; margin-right:8px;"></i>
+                                            Un membre de notre équipe vous contactera sous peu pour vous proposer des plages horaires selon vos disponibilités.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -635,7 +567,7 @@ import UiIcon from "./icons/UiIcon.astro";
                             style="width:100%; margin-top:20px; box-shadow:0 4px 15px rgba(26, 35, 126, 0.3);"
                             onclick="window.handleMobileSubmit(event)"
                         >
-                            Confirmer la demande
+                            Afficher mon estimation
                         </button>
                     </div>
                 </div>
@@ -2302,3 +2234,16 @@ import UiIcon from "./icons/UiIcon.astro";
         </button>
     </footer>
 </div>
+
+<style is="inline">
+    @media print {
+        /* --- SECURE NATIVE PRINT CSS --- */
+        body > *:not(#estimation-widget) { display: none !important; }
+        body, html { background: white !important; margin: 0 !important; padding: 0 !important; }
+        #estimation-widget { position: absolute !important; left: 0 !important; top: 0 !important; width: 100% !important; height: 100% !important; display: block !important; background: white !important; }
+        .empire-modal { box-shadow: none !important; border: none !important; width: 100% !important; max-width: 100% !important; border-radius: 0 !important; margin: 0 !important; }
+        .modal-sidebar, .btn-print, .modal-footer, .progress-bar, #lang-toggle, #close-modal-btn, #close-modal-btn-overlay { display: none !important; }
+        .modal-main { padding: 0 !important; width: 100% !important; }
+        .print-summary-area { border: none !important; box-shadow: none !important; padding: 0 !important; }
+    }
+</style>
