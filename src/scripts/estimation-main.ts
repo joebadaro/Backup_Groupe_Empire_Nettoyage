@@ -981,8 +981,8 @@
                             en: "EXCLUSIVE PROMOTION Fabric Furniture",
                         });
                         const promoDesc = t({
-                            fr: '1er article au prix régulier et chaque article ajouté à <span class="perm-highlight">25%</span> de rabais',
-                            en: '1st item at regular price and every additional item at <span class="perm-highlight">25%</span> off',
+                            fr: '1er article au prix régulier et chaque article ajouté à <span class="perm-highlight">15%</span> de rabais',
+                            en: '1st item at regular price and every additional item at <span class="perm-highlight">15%</span> off',
                         });
                         card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon">${PROMO_GEM_ICON_SVG}</div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
                     } else if (service.id === "matelas") {
@@ -1257,9 +1257,9 @@
                                 <div style="font-weight:bold; margin-bottom:5px;">${t({ fr: "Prix applicable à la superficie totale", en: "Price applicable to total area" })}</div>
                                 <div style="display:grid; grid-template-columns: 1fr auto; gap:2px;">
                                     <span>0 - 200 pi²</span> <span style="font-weight:600;">2.35$</span>
-                                    <span>201 - 400 pi²</span> <span style="font-weight:600;">2.25$</span>
-                                    <span>401 - 800 pi²</span> <span style="font-weight:600;">2.15$</span>
-                                    <span>801+ pi²</span> <span style="font-weight:600;">1.85$</span>
+                                    <span>201 - 400 pi²</span> <span style="font-weight:600;">2.15$</span>
+                                    <span>401 - 800 pi²</span> <span style="font-weight:600;">1.65$</span>
+                                    <span>801+ pi²</span> <span style="font-weight:600;">1.45$</span>
                                 </div>
                                 <div style="margin-top:5px; font-style:italic; border-top:1px solid #daeafc; padding-top:4px; font-size:0.75rem;">
                                     ${t({ fr: "Minimum facturable : 150 pi² (352.50$)", en: "Minimum billable: 150 sqft ($352.50)" })}
@@ -1624,8 +1624,8 @@
                             en: "EXCLUSIVE PROMOTION Fabric Furniture",
                         });
                         const promoDesc = t({
-                            fr: '1er article au prix régulier et chaque article ajouté à <span class="perm-highlight">25%</span> de rabais',
-                            en: '1st item at regular price and every additional item at <span class="perm-highlight">25%</span> off',
+                            fr: '1er article au prix régulier et chaque article ajouté à <span class="perm-highlight">15%</span> de rabais',
+                            en: '1st item at regular price and every additional item at <span class="perm-highlight">15%</span> off',
                         });
 
                         const bannerHtml = `
@@ -1905,9 +1905,9 @@
                                 <div style="font-weight:bold; margin-bottom:8px;">${t({ fr: "Prix applicable à la superficie totale", en: "Price applicable to total area" })}</div>
                                 <div style="display:grid; grid-template-columns: 1fr auto; gap:4px; max-width:250px;">
                                     <span>0 - 200 pi²</span> <span style="font-weight:600;">2.35$ / pi²</span>
-                                    <span>201 - 400 pi²</span> <span style="font-weight:600;">2.25$ / pi²</span>
-                                    <span>401 - 800 pi²</span> <span style="font-weight:600;">2.15$ / pi²</span>
-                                    <span>801+ pi²</span> <span style="font-weight:600;">1.85$ / pi²</span>
+                                    <span>201 - 400 pi²</span> <span style="font-weight:600;">2.15$ / pi²</span>
+                                    <span>401 - 800 pi²</span> <span style="font-weight:600;">1.65$ / pi²</span>
+                                    <span>801+ pi²</span> <span style="font-weight:600;">1.45$ / pi²</span>
                                 </div>
                                 <div style="margin-top:10px; font-style:italic; border-top:1px solid #daeafc; padding-top:6px; font-size:0.8rem;">
                                     ${t({ fr: "Minimum facturable : 150 pi² (352.50$)", en: "Minimum billable: 150 sqft ($352.50)" })}
@@ -2096,7 +2096,7 @@
                     }
                 });
 
-                // 3. Process Fabric Furniture (Apply 25% on additional items)
+                // 3. Process Fabric Furniture (Apply 15% on additional items)
                 if (fabricItemsParams.length > 0) {
                     // Sort Descending Price (First item is most expensive = Full Price)
                     fabricItemsParams.sort((a, b) => b.price - a.price);
@@ -2111,16 +2111,16 @@
                                 price: item.price,
                             });
                         } else {
-                            // Additional items: 25% OFF
+                            // Additional items: 15% OFF
                             const originalPrice = item.price;
-                            const discount = originalPrice * 0.25;
+                            const discount = originalPrice * 0.15;
                             const finalPrice = originalPrice - discount;
                             totalDiscount += discount;
                             subtotal += finalPrice;
 
                             cartItems.push({
                                 rawId: item.rawId,
-                                label: item.label + " (-25%)",
+                                label: item.label + " (-15%)",
                                 price: finalPrice,
                                 savings: discount, // Store savings for consolidation
                             });
@@ -2355,9 +2355,9 @@
 
                     // Bracket Pricing (Flat Rate)
                     let rate = 2.35;
-                    if (billed > 800) rate = 1.85;
-                    else if (billed > 400) rate = 2.15;
-                    else if (billed > 200) rate = 2.25;
+                    if (billed > 800) rate = 1.45;
+                    else if (billed > 400) rate = 1.65;
+                    else if (billed > 200) rate = 2.15;
 
                     const actualPrice = billed * rate;
 
@@ -2406,7 +2406,7 @@
 
                 // --- CONSOLIDATION LOGIC START ---
                 // Group items by rawId to "save space" as requested.
-                // E.g. 1 Chair (Full) + 5 Chairs (-25%) -> 6 Chairs (Sum Price)
+                // E.g. 1 Chair (Full) + 5 Chairs (-15%) -> 6 Chairs (Sum Price)
                 const consolidatedMap = new Map<
                     string,
                     {
@@ -2428,17 +2428,17 @@
                         return;
                     }
 
-                    // Clean label (remove qty prefix "1x " or "6x " if existing, and remove " (-25%)")
-                    // My previous logic added " (-25%)".
+                    // Clean label (remove qty prefix "1x " or "6x " if existing, and remove " (-15%)")
+                    // My previous logic added " (-15%)".
                     // Base label is needed.
                     // Using rawId is safest.
                     const key = item.rawId;
                     if (!consolidatedMap.has(key)) {
                         // Determine base label.
-                        // item.label might be "Chaise (-25%)" or "Sofa 3 places (Foo)".
-                        // I'll strip " (-25%)" suffix.
+                        // item.label might be "Chaise (-15%)" or "Sofa 3 places (Foo)".
+                        // I'll strip " (-15%)" suffix.
                         let baseLabel = item.label
-                            .replace(" (-25%)", "")
+                            .replace(" (-15%)", "")
                             .replace(" (-20%)", "")
                             .trim();
                         // Also strip leadng qty if I added it previously (logic Step 325 lines 2115: label: `${qty}x ...`)

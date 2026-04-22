@@ -136,19 +136,19 @@ export const CONFIG = {
         {
           id: "fauteuil",
           label: { fr: "Fauteuil 1 place", en: "Armchair (1 seat)" },
-          price: 79.0,
+          price: 89.0,
           desc: { fr: "", en: "" },
         },
         {
           id: "sofa_2",
           label: { fr: "Causeuse / sofa 2 places", en: "Loveseat / 2-seater" },
-          price: 99.0,
+          price: 129.0,
           desc: { fr: "", en: "" },
         },
         {
           id: "sofa_3",
           label: { fr: "Sofa 3 places", en: "Sofa (3 seats)" },
-          price: 149.0,
+          price: 179.0,
           desc: { fr: "", en: "" },
         },
         {
@@ -163,25 +163,20 @@ export const CONFIG = {
             {
               val: 3,
               label: {
-                fr: "3 places allongée (équivalent 4) (209 $)",
-                en: "3 seats w/ chaise (equivalent 4) ($209)",
+                fr: "3 places allongé équivalent 4 places (239 $)",
+                en: "3 seats w/ chaise (equivalent 4) ($239)",
               },
-              price: 209,
+              price: 239,
             },
             {
               val: 5,
-              label: { fr: "5 places (249 $)", en: "5 seats ($249)" },
-              price: 249,
+              label: { fr: "5 places (285 $)", en: "5 seats ($285)" },
+              price: 285,
             },
             {
               val: 6,
-              label: { fr: "6 places (294 $)", en: "6 seats ($294)" },
-              price: 294,
-            },
-            {
-              val: 7,
-              label: { fr: "7 places (339 $)", en: "7 seats ($339)" },
-              price: 339,
+              label: { fr: "6 places (330 $)", en: "6 seats ($330)" },
+              price: 330,
             },
           ],
           price: 0, // handled by options
@@ -196,7 +191,7 @@ export const CONFIG = {
         {
           id: "cuir_fauteuil",
           label: { fr: "Fauteuil 1 place (Cuir)", en: "Armchair (1 seat) - Leather" },
-          price: 109.0,
+          price: 129.0,
           desc: { fr: "", en: "" },
         },
         {
@@ -205,13 +200,13 @@ export const CONFIG = {
             fr: "Causeuse / Sofa 2 places (Cuir)",
             en: "Loveseat / 2-seater - Leather",
           },
-          price: 139.0,
+          price: 159.0,
           desc: { fr: "", en: "" },
         },
         {
           id: "cuir_sofa",
           label: { fr: "Sofa 3 places (Cuir)", en: "Sofa (3 seats) - Leather" },
-          price: 189.0,
+          price: 219.0,
           desc: { fr: "", en: "" },
         },
         {
@@ -226,25 +221,20 @@ export const CONFIG = {
             {
               val: 3,
               label: {
-                fr: "3 places allongée (équivalent 4) (259 $)",
-                en: "3 seats w/ chaise (equivalent 4) ($259)",
+                fr: "Sectionnel / sofa en L 3 places allongé équivalent 4 places (279 $)",
+                en: "Sectional / L-shape, 3 seats + chaise eq. 4 ($279)",
               },
-              price: 259,
+              price: 279,
             },
             {
               val: 5,
-              label: { fr: "5 places (319 $)", en: "5 seats ($319)" },
-              price: 319,
+              label: { fr: "Sectionnel 5 places (339 $)", en: "Sectional 5 seats ($339)" },
+              price: 339,
             },
             {
               val: 6,
-              label: { fr: "6 places (384 $)", en: "6 seats ($384)" },
-              price: 384,
-            },
-            {
-              val: 7,
-              label: { fr: "7 places (449 $)", en: "7 seats ($449)" },
-              price: 449,
+              label: { fr: "Sectionnel 6 places (399 $)", en: "Sectional 6 seats ($399)" },
+              price: 399,
             },
           ],
           price: 0,
@@ -300,9 +290,9 @@ export const CONFIG = {
           id: "marche",
           label: { fr: "Marches en tapis", en: "Carpet Stairs" },
           cartLabel: { fr: "Marches", en: "Stairs" },
-          price: 5.0,
+          price: 8.0,
           type: "input_qty",
-          desc: { fr: "5$ / marche", en: "$5 / stair" },
+          desc: { fr: "8$ / marche", en: "$8 / stair" },
         },
         {
           id: "palier",
@@ -346,7 +336,7 @@ export const CONFIG = {
           id: "tiles_sqft",
           label: { fr: "Surface à nettoyer (pi²)", en: "Area to clean (sqft)" },
           type: "tile_calculator",
-          price: 2.15,
+          price: 2.35,
           desc: { fr: "Min. facturable 150 pi²", en: "Min. billable 150 sqft" },
           forms: {
             totalTitle: {
@@ -380,9 +370,9 @@ export const CONFIG = {
             en: "How many stairs to clean?",
           },
           cartLabel: { fr: "Marches", en: "Stairs" },
-          price: 5.0,
+          price: 8.0,
           type: "input_qty",
-          desc: { fr: "5$ / marche", en: "$5 / stair" },
+          desc: { fr: "8$ / marche", en: "$8 / stair" },
         },
         {
           id: "palier",
