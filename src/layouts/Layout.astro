@@ -80,22 +80,29 @@ const description = Astro.props.description ?? defaultDescription;
     <!-- Bundled as inline: keeps fade-in + track-visit out of /_astro/Layout*.js (smaller critical bundle) -->
     <script is:inline>
       document.addEventListener("DOMContentLoaded", function () {
-        var observerOptions = {
-          root: null,
-          rootMargin: "0px",
-          threshold: 0.1,
-        };
-        var observer = new IntersectionObserver(function (entries, obs) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              obs.unobserve(entry.target);
-            }
+        function registerFadeInObserver() {
+          var observerOptions = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.1,
+          };
+          var observer = new IntersectionObserver(function (entries, obs) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                obs.unobserve(entry.target);
+              }
+            });
+          }, observerOptions);
+          document.querySelectorAll(".fade-in-section").forEach(function (section) {
+            observer.observe(section);
           });
-        }, observerOptions);
-        document.querySelectorAll(".fade-in-section").forEach(function (section) {
-          observer.observe(section);
-        });
+        }
+        if ("requestIdleCallback" in window) {
+          requestIdleCallback(registerFadeInObserver, { timeout: 2000 });
+        } else {
+          setTimeout(registerFadeInObserver, 1);
+        }
       });
       window.addEventListener("load", function () {
         var sessionKey = "visit_tracked_sms";

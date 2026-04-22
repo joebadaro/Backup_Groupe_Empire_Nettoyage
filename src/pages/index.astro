@@ -58,7 +58,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
     rel="preload"
     as="image"
     fetchpriority="high"
-    imagesrcset="/images/catalog/hero-slide-2-mobile.webp 800w, /images/catalog/hero-slide-2.webp 1920w"
+    imagesrcset="/images/catalog/hero-slide-2-mobile.webp 800w, /images/catalog/hero-slide-2-1280.webp 1280w, /images/catalog/hero-slide-2-1600.webp 1600w, /images/catalog/hero-slide-2.webp 1920w"
     imagesizes="100vw"
     media="(min-width: 769px)"
   />
@@ -76,7 +76,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         />
         <img
           src="/images/catalog/hero-slide-2.webp"
-          srcset="/images/catalog/hero-slide-2-mobile.webp 800w, /images/catalog/hero-slide-2.webp 1920w"
+          srcset="/images/catalog/hero-slide-2-mobile.webp 800w, /images/catalog/hero-slide-2-1280.webp 1280w, /images/catalog/hero-slide-2-1600.webp 1600w, /images/catalog/hero-slide-2.webp 1920w"
           sizes="100vw"
           alt="Nettoyage professionnel de tapis et divans à Montréal - Groupe Empire"
           class="hero-slide active"
@@ -1120,7 +1120,16 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
 
         function deferInitHomeHeroSlideshow() {
           requestAnimationFrame(function () {
-            requestAnimationFrame(initHomeHeroSlideshow);
+            requestAnimationFrame(function () {
+              function runInit() {
+                initHomeHeroSlideshow();
+              }
+              if ("requestIdleCallback" in window) {
+                requestIdleCallback(runInit, { timeout: 150 });
+              } else {
+                setTimeout(runInit, 0);
+              }
+            });
           });
         }
 
