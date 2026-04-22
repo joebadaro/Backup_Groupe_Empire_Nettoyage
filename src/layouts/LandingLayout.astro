@@ -56,48 +56,6 @@ const { title, description, image, service } = Astro.props;
 
     <slot name="head" />
 
-    <!-- Google Ads + GA4: defer gtag.js until after load (landing heroes compete less with third-party JS) -->
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      window.addEventListener("load", function () {
-        if (window.__promoGtagLoaded) return;
-        window.__promoGtagLoaded = true;
-        var s = document.createElement("script");
-        s.async = true;
-        s.src =
-          "https://www.googletagmanager.com/gtag/js?id=AW-17960384308";
-        s.onload = function () {
-          gtag("js", new Date());
-          gtag("config", "AW-17960384308");
-          gtag("config", "G-V2CR801H3F");
-        };
-        document.head.appendChild(s);
-      });
-    </script>
-    <!-- Meta Pixel Code (deferred after load to avoid blocking LCP) -->
-    <script is:inline>
-      window.addEventListener('load', function () {
-        if (window.__fbPixelLoaded) return;
-        window.__fbPixelLoaded = true;
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1493807748988860');
-        fbq('track', 'PageView');
-      });
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1493807748988860&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Meta Pixel Code -->
   </head>
   <body>
     <slot />

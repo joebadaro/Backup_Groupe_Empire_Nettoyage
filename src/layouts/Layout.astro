@@ -29,24 +29,6 @@ const defaultDescription = isEn
 
 const description = Astro.props.description ?? defaultDescription;
 
-/** GTM only when a real container ID is set in Netlify/env as PUBLIC_GTM_ID (never load placeholder → avoids 404 + console errors). */
-function getGtmId(): string | null {
-  const raw = import.meta.env.PUBLIC_GTM_ID;
-  if (raw == null) return null;
-  if (typeof raw !== "string") return null;
-  const t = raw.trim();
-  if (t === "" || t === "GTM-PLACEHOLDER") return null;
-  if (!/^GTM-[A-Z0-9]+$/i.test(t)) return null;
-  return t;
-}
-const gtmId = getGtmId();
-
-/** GA4 measurement ID — defer gtag.js until after load so LCP is not competing with analytics (GTM may also use dataLayer). */
-const ga4MeasurementId =
-  typeof import.meta.env.PUBLIC_GA4_MEASUREMENT_ID === "string" &&
-  import.meta.env.PUBLIC_GA4_MEASUREMENT_ID.trim() !== ""
-    ? import.meta.env.PUBLIC_GA4_MEASUREMENT_ID.trim()
-    : "G-V2CR801H3F";
 ---
 
 <!doctype html>
@@ -71,49 +53,6 @@ const ga4MeasurementId =
       crossorigin="anonymous"
       fetchpriority="low"
     />
-    <!-- GA4: stub only in head; gtag.js loads after window load (reduces main-thread + network contention with LCP) -->
-    <script is:inline define:vars={{ ga4MeasurementId }}>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      window.addEventListener("load", function () {
-        if (window.__ga4GtagLoaded) return;
-        window.__ga4GtagLoaded = true;
-        var s = document.createElement("script");
-        s.async = true;
-        s.src =
-          "https://www.googletagmanager.com/gtag/js?id=" +
-          encodeURIComponent(ga4MeasurementId);
-        s.onload = function () {
-          gtag("js", new Date());
-          gtag("config", ga4MeasurementId);
-        };
-        document.head.appendChild(s);
-      });
-    </script>
-
-    {
-      gtmId ? (
-        <>
-          <!-- Google Tag Manager -->
-          <script is:inline define:vars={{ gtmId }}>
-            (function (w, d, s, l, i) {
-              w[l] = w[l] || [];
-              w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-              var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l != "dataLayer" ? "&l=" + l : "";
-              j.async = true;
-              j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-              f.parentNode.insertBefore(j, f);
-            })(window, document, "script", "dataLayer", gtmId);
-          </script>
-          <!-- End Google Tag Manager -->
-        </>
-      ) : null
-    }
-
     <SEO
       title={title}
       description={description}
@@ -167,46 +106,8 @@ const ga4MeasurementId =
         setTimeout(schedule, 4500);
       });
     </script>
-    <!-- Meta Pixel Code (deferred after load to avoid blocking LCP) -->
-    <script is:inline>
-      window.addEventListener('load', function () {
-        if (window.__fbPixelLoaded) return;
-        window.__fbPixelLoaded = true;
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1493807748988860');
-        fbq('track', 'PageView');
-      });
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1493807748988860&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Meta Pixel Code -->
   </head>
   <body>
-    {
-      gtmId ? (
-        <>
-          <!-- Google Tag Manager (noscript) -->
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
-              height="0"
-              width="0"
-              style="display:none;visibility:hidden"
-            />
-          </noscript>
-          <!-- End Google Tag Manager (noscript) -->
-        </>
-      ) : null
-    }
-
     <Header />
     <main>
       <slot />

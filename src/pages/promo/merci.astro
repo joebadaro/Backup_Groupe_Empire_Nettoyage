@@ -55,14 +55,4 @@ import LandingLayout from '../../layouts/LandingLayout.astro';
     </div>
   </div>
 
-  <script is:inline>
-    // Track conversion on thank you page load
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'conversion', { send_to: 'AW-17960384308/vw2FCIet2ZccELTulvRC', value: 50.0, currency: 'CAD' });
-      gtag('event', 'generate_lead', { event_category: 'landing_page', event_label: 'form_submitted', value: 50.0, currency: 'CAD' });
-    }
-    if (typeof fbq !== 'undefined') {
-      fbq('track', 'Lead', { content_name: 'Soumission Complétée', value: 50.0, currency: 'CAD' });
-    }
-  </script>
 </LandingLayout>
