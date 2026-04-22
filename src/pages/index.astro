@@ -9,6 +9,10 @@ import {
 import UiIcon from "../components/icons/UiIcon.astro";
 import HomepageServiceCardIcon from "../components/icons/HomepageServiceCardIcon.astro";
 import YouTubeFacade from "../components/YouTubeFacade.astro";
+import {
+  SALON_SECTIONNEL_POSTER_SIZES_HOME,
+  SALON_SECTIONNEL_POSTER_SRCSET,
+} from "../data/salonSectionnelPoster";
 
 const _v = SERVICE_IMAGES_ASSET_VERSION;
 /** 3e vignette « La Puissance… » uniquement — bump si bytes de photo-56 changent (évite cache navigateur sur ?v= global). */
@@ -406,6 +410,8 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
           videoId="em1yhDedcOQ" 
           title="Nettoyage de salon sectionnel 6 places | Résultat avant-après"
           posterUrl="/images/videos/video-thumb-salon-sectionnel.webp" 
+          posterSrcSet={SALON_SECTIONNEL_POSTER_SRCSET}
+          posterSizes={SALON_SECTIONNEL_POSTER_SIZES_HOME}
           aspectRatio="9/16"
         />
       </div>

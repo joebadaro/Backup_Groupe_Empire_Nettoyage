@@ -2,6 +2,10 @@
 import Layout from "../../layouts/Layout.astro";
 import YouTubeFacade from "../../components/YouTubeFacade.astro";
 import UiIcon from "../../components/icons/UiIcon.astro";
+import {
+  SALON_SECTIONNEL_POSTER_SIZES_GRID,
+  SALON_SECTIONNEL_POSTER_SRCSET,
+} from "../../data/salonSectionnelPoster";
 
 const title = "Video Gallery | Groupe Nettoyage Empire";
 const description = "Watch our before-and-after cleaning videos. See the power of our truck-mount technology on carpets, furniture, and mattresses.";
@@ -43,7 +47,9 @@ const videos = [
     id: "em1yhDedcOQ",
     title: "6-Seater Sectional Sofa Cleaning | Before & After Results",
     category: "Furniture Cleaning",
-    posterUrl: "/images/videos/video-thumb-salon-sectionnel.webp"
+    posterUrl: "/images/videos/video-thumb-salon-sectionnel.webp",
+    posterSrcSet: SALON_SECTIONNEL_POSTER_SRCSET,
+    posterSizes: SALON_SECTIONNEL_POSTER_SIZES_GRID,
   },
   {
     id: "BtCGbCaIq9M",
@@ -121,6 +127,8 @@ const videoSchema = {
                   videoId={video.id} 
                   title={video.title} 
                   posterUrl={video.posterUrl}
+                  posterSrcSet={video.posterSrcSet}
+                  posterSizes={video.posterSizes}
                   aspectRatio="9/16"
                />
             </div>

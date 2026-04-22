@@ -9,6 +9,10 @@ import {
 import UiIcon from "../../components/icons/UiIcon.astro";
 import HomepageServiceCardIcon from "../../components/icons/HomepageServiceCardIcon.astro";
 import YouTubeFacade from "../../components/YouTubeFacade.astro";
+import {
+  SALON_SECTIONNEL_POSTER_SIZES_HOME,
+  SALON_SECTIONNEL_POSTER_SRCSET,
+} from "../../data/salonSectionnelPoster";
 
 const _v = SERVICE_IMAGES_ASSET_VERSION;
 /** 3rd truck-gallery tile only — bust cache when photo-56 bytes change (separate from global ?v=). */
@@ -403,6 +407,8 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
           videoId="em1yhDedcOQ" 
           title="6-Seater Sectional Sofa Cleaning | Before and After Results"
           posterUrl="/images/videos/video-thumb-salon-sectionnel.webp" 
+          posterSrcSet={SALON_SECTIONNEL_POSTER_SRCSET}
+          posterSizes={SALON_SECTIONNEL_POSTER_SIZES_HOME}
           aspectRatio="9/16"
         />
       </div>

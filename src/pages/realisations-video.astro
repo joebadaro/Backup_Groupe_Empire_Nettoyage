@@ -2,6 +2,10 @@
 import Layout from "../layouts/Layout.astro";
 import YouTubeFacade from "../components/YouTubeFacade.astro";
 import UiIcon from "../components/icons/UiIcon.astro";
+import {
+  SALON_SECTIONNEL_POSTER_SIZES_GRID,
+  SALON_SECTIONNEL_POSTER_SRCSET,
+} from "../data/salonSectionnelPoster";
 
 const title = "Réalisations en Vidéo | Groupe Nettoyage Empire";
 const description = "Visionnez nos vidéos de nettoyage avant et après. Constatez l'efficacité de nos camions-usines sur les tapis, meubles, et matelas.";
@@ -44,7 +48,9 @@ const videos = [
     id: "em1yhDedcOQ",
     title: "Nettoyage de salon sectionnel 6 places | Résultat avant-après",
     category: "Nettoyage de Meubles",
-    posterUrl: "/images/videos/video-thumb-salon-sectionnel.webp"
+    posterUrl: "/images/videos/video-thumb-salon-sectionnel.webp",
+    posterSrcSet: SALON_SECTIONNEL_POSTER_SRCSET,
+    posterSizes: SALON_SECTIONNEL_POSTER_SIZES_GRID,
   },
   {
     id: "BtCGbCaIq9M",
@@ -122,6 +128,8 @@ const videoSchema = {
                   videoId={video.id} 
                   title={video.title} 
                   posterUrl={video.posterUrl}
+                  posterSrcSet={video.posterSrcSet}
+                  posterSizes={video.posterSizes}
                   aspectRatio="9/16"
                />
             </div>
