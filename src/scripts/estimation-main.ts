@@ -149,6 +149,7 @@
                     updateValLive: (id: string, val: string) => void;
                     toggleMobileStep: (step: number) => void;
                     handleMobileSubmit: (e: Event) => void;
+                    printEstimateSheet: () => void;
                 }
             }
 
@@ -3875,6 +3876,96 @@
   </div>
 </div>`;
                     }
+
+                    /** Opens a minimal document containing only the estimate sheet, then prints it (no site chrome). */
+                    window.printEstimateSheet = function (): void {
+                        const desktop = document.getElementById(
+                            "estimate-print-root",
+                        );
+                        const mobile = document.getElementById(
+                            "estimate-print-root-mobile",
+                        );
+                        let fragment = "";
+                        if (desktop && desktop.innerHTML.trim()) {
+                            fragment = desktop.innerHTML;
+                        } else if (mobile && mobile.innerHTML.trim()) {
+                            fragment = mobile.innerHTML;
+                        }
+                        if (!fragment.trim()) {
+                            alert(
+                                STATE.lang === "fr"
+                                    ? "Contenu d'estimation indisponible pour l'impression."
+                                    : "Estimate content is not available to print.",
+                            );
+                            return;
+                        }
+
+                        const isFr = STATE.lang === "fr";
+                        const titlePlain = isFr
+                            ? "Estimation — Groupe Nettoyage Empire"
+                            : "Estimate — Groupe Nettoyage Empire";
+
+                        const pw = window.open("", "_blank");
+                        if (!pw) {
+                            alert(
+                                isFr
+                                    ? "Veuillez autoriser les fenêtres contextuelles pour imprimer votre estimation."
+                                    : "Please allow pop-ups to print your estimate.",
+                            );
+                            return;
+                        }
+
+                        const css = `
+* { box-sizing: border-box; }
+body { margin: 0; padding: 14mm 12mm; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #111; background: #fff;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact; font-size: 11pt; line-height: 1.35; }
+h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin: 0 0 8px !important; }
+.eps-sent { margin: 0 0 14px !important; }
+.eps-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10.5pt; }
+.eps-inner { max-width: 720px; margin: 0 auto; }
+.eps-inspection { orphans: 3; widows: 3; }
+@media print {
+  @page { margin: 12mm; size: auto; }
+  body { padding: 0; margin: 0; }
+}`;
+
+                        pw.document.open();
+                        pw.document.write(
+                            `<!DOCTYPE html><html lang="${
+                                isFr ? "fr-CA" : "en-CA"
+                            }"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>${escapeHtmlPrint(
+                                titlePlain,
+                            )}</title><style>${css}</style></head><body>${fragment}</body></html>`,
+                        );
+                        pw.document.close();
+
+                        const closePrintWindow = () => {
+                            try {
+                                pw.close();
+                            } catch {
+                                /* ignore */
+                            }
+                        };
+
+                        setTimeout(() => {
+                            try {
+                                pw.focus();
+                            } catch {
+                                /* ignore */
+                            }
+                            setTimeout(() => {
+                                pw.print();
+                                pw.addEventListener(
+                                    "afterprint",
+                                    closePrintWindow,
+                                    { once: true },
+                                );
+                                setTimeout(() => {
+                                    if (!pw.closed) closePrintWindow();
+                                }, 2500);
+                            }, 80);
+                        }, 0);
+                    };
 
                     async function submitEstimationForm(data: {
                         name: string;

@@ -260,7 +260,7 @@ import UiIcon from "./icons/UiIcon.astro";
                         <p id="txt-success-msg" style="color:#666; margin-bottom:20px;">
                             Votre demande de rendez-vous a été envoyée avec succès. Imprimez l'estimation.
                         </p>
-                        <button type="button" id="btn-print-estimate" onclick="window.print()" class="btn btn-primary btn-print" style="background:#1a237e; border:none; padding:12px 25px; font-size:1.1rem; border-radius:8px; display:inline-flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:15px; width:auto; text-shadow:none;">
+                        <button type="button" id="btn-print-estimate" onclick="typeof window.printEstimateSheet==='function'&&window.printEstimateSheet()" class="btn btn-primary btn-print" style="background:#1a237e; border:none; padding:12px 25px; font-size:1.1rem; border-radius:8px; display:inline-flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:15px; width:auto; text-shadow:none;">
                             🖨️ Imprimer l'estimation
                         </button>
                     </div>
@@ -581,7 +581,7 @@ import UiIcon from "./icons/UiIcon.astro";
                             <span id="mobile-success-heading">Demande de rendez-vous envoyée</span>
                         </h3>
                         <p id="mobile-success-msg" style="color:#666;margin-bottom:16px;font-size:0.95rem;line-height:1.45;"></p>
-                        <button type="button" id="mobile-btn-print-estimate" class="btn-mobile-primary" style="width:100%;max-width:340px;" onclick="window.print()">
+                        <button type="button" id="mobile-btn-print-estimate" class="btn-mobile-primary" style="width:100%;max-width:340px;" onclick="typeof window.printEstimateSheet==='function'&&window.printEstimateSheet()">
                             🖨️ Imprimer l'estimation
                         </button>
                     </div>
@@ -2256,75 +2256,5 @@ import UiIcon from "./icons/UiIcon.astro";
 </div>
 
 <style is="inline">
-    /* Impression : uniquement la feuille d’estimation (pas le site, pas le chrome du modal) */
-    @media print {
-        @page {
-            margin: 12mm;
-            size: auto;
-        }
-        html,
-        body {
-            background: #fff !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            height: auto !important;
-            overflow: visible !important;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
-        header,
-        main,
-        footer,
-        noscript,
-        .mobile-sticky-bar,
-        body > script {
-            display: none !important;
-        }
-        body * {
-            visibility: hidden !important;
-        }
-        #estimate-print-root:not(:empty),
-        #estimate-print-root:not(:empty) *,
-        #estimate-print-root-mobile:not(:empty),
-        #estimate-print-root-mobile:not(:empty) * {
-            visibility: visible !important;
-        }
-        #estimate-print-root:not(:empty),
-        #estimate-print-root-mobile:not(:empty) {
-            position: absolute !important;
-            left: 0 !important;
-            top: 0 !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            border: none !important;
-            box-shadow: none !important;
-            background: #fff !important;
-            display: block !important;
-        }
-        #estimate-print-root:empty,
-        #estimate-print-root-mobile:empty {
-            display: none !important;
-            visibility: hidden !important;
-        }
-        #estimation-widget {
-            position: static !important;
-            display: block !important;
-            overflow: visible !important;
-            height: auto !important;
-            background: transparent !important;
-            width: 100% !important;
-            box-shadow: none !important;
-        }
-        .estimate-no-print {
-            display: none !important;
-        }
-        .eps-doc-title {
-            font-size: 18pt !important;
-        }
-        .eps-table {
-            font-size: 10pt !important;
-        }
-    }
+    /* Impression du devis : fenêtre dédiée via window.printEstimateSheet() dans estimation-main.ts (pas window.print() sur cette page). */
 </style>
