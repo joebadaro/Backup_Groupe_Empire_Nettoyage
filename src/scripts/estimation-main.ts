@@ -4127,7 +4127,6 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                                     cd.cf_montant_tps = Math.round(subtotal * 0.05 * 100) / 100;
                                     cd.cf_montant_tvq = Math.round(subtotal * 0.09975 * 100) / 100;
                                     cd.cf_total_final = Math.round(subtotal * 1.14975 * 100) / 100;
-                                    cd.prix_formate = cd.cf_total_final.toFixed(2) + ' $';
                                 }
 
                                 cd.cf_type_service = 'estimation';
@@ -4211,7 +4210,15 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                                     } catch {
                                         /* ignore */
                                     }
-                                    console.error("Reservation submit failed:", response.status, detail);
+                                    console.error(
+                                        "Reservation submit failed:",
+                                        response.status,
+                                        detail,
+                                        "payloadBytes=",
+                                        jsonPayload.length,
+                                        "lineItems=",
+                                        lineItems.length,
+                                    );
                                     throw new Error("Submit failed: " + response.status);
                                 }
                             }

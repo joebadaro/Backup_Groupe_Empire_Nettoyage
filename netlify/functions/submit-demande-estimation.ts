@@ -5,12 +5,24 @@ const DEFAULT_TO = "info@groupenettoyageempire.com";
 /** Must match a Gmail “Send mail as” / Workspace address that SMTP is allowed to use */
 const DEFAULT_FROM = "Groupe Nettoyage Empire <info@groupenettoyageempire.com>";
 
-function escapeHtml(s: string): string {
-    return s
+function escapeHtml(s: unknown): string {
+    const str = String(s ?? "");
+    return str
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;");
+}
+
+/** Avoid RFC 5322 / SMTP « line too long » issues in HTML parts (labels with many & etc.). */
+function chunkHtmlSafe(s: string, maxChunk = 900): string {
+    if (s.length <= maxChunk) return escapeHtml(s);
+    let out = "";
+    for (let i = 0; i < s.length; i += maxChunk) {
+        out += escapeHtml(s.slice(i, i + maxChunk));
+        if (i + maxChunk < s.length) out += "&#8203;";
+    }
+    return out;
 }
 
 /** Compact line item from JSON body (built server-side email table). */
@@ -49,6 +61,28 @@ interface JsonPayload {
     crmHints?: Record<string, unknown>;
 }
 
+function normalizeLineItem(li: Partial<JsonLineItem>): JsonLineItem {
+    const label = String(li.label ?? "").slice(0, 500);
+    const qty = Math.max(1, Math.min(99999, Math.floor(Number(li.qty) || 1)));
+    const regularLine = Number.isFinite(Number(li.regularLine))
+        ? Number(li.regularLine)
+        : 0;
+    const discount = Number.isFinite(Number(li.discount))
+        ? Number(li.discount)
+        : 0;
+    const lineTotal = Number.isFinite(Number(li.lineTotal))
+        ? Number(li.lineTotal)
+        : 0;
+    return {
+        id: li.id != null ? String(li.id).slice(0, 120) : "",
+        label,
+        qty,
+        regularLine: Math.round(regularLine * 100) / 100,
+        discount: Math.round(discount * 100) / 100,
+        lineTotal: Math.round(lineTotal * 100) / 100,
+    };
+}
+
 function formatMoney(n: number): string {
     const x = Number.isFinite(n) ? n : 0;
     return x.toFixed(2);
@@ -65,15 +99,20 @@ function buildHtmlTableFromLineItems(items: JsonLineItem[], fr: boolean): string
     const hDisc = fr ? "Rabais" : "Discount";
     const hLine = fr ? "Total ligne" : "Line total";
     const rows = items
-        .map(
-            (li) => `
+        .map((raw) => {
+            const li = normalizeLineItem(raw);
+            const qtyDisp =
+                li.qty > 1
+                    ? ` <span style="color:#666;">×${escapeHtml(li.qty)}</span>`
+                    : "";
+            return `
       <tr>
-        <td style="padding:8px;border-bottom:1px solid #ddd;">${escapeHtml(li.label)}${li.qty > 1 ? ` <span style="color:#666;">×${li.qty}</span>` : ""}</td>
+        <td style="padding:8px;border-bottom:1px solid #ddd;">${chunkHtmlSafe(li.label)}${qtyDisp}</td>
         <td style="padding:8px;border-bottom:1px solid #ddd;text-align:right;">${formatMoney(li.regularLine)} $</td>
         <td style="padding:8px;border-bottom:1px solid #ddd;text-align:right;color:#2e7d32;">${li.discount > 0 ? `−${formatMoney(li.discount)} $` : "—"}</td>
         <td style="padding:8px;border-bottom:1px solid #ddd;text-align:right;font-weight:600;">${formatMoney(li.lineTotal)} $</td>
-      </tr>`,
-        )
+      </tr>`;
+        })
         .join("");
     return `
       <table style="border-collapse:collapse;width:100%;max-width:720px;font-family:sans-serif;font-size:14px;margin-top:12px;">
@@ -167,10 +206,15 @@ export default async (req: Request): Promise<Response> => {
     let message = "";
     let lineItems: JsonLineItem[] = [];
     let totals: JsonPayload["totals"];
-    let crmHintsFormatted = "";
     let htmlMainContent = "";
     /** Email section titles for CRM block (legacy form = FR). */
     let emailFr = true;
+    /** CRM payload as attachment — avoids giant `<pre>` lines (SMTP / Gmail limits). */
+    let mailAttachments: {
+        filename: string;
+        content: string;
+        contentType: string;
+    }[] = [];
 
     try {
         if (contentType.includes("application/json")) {
@@ -178,7 +222,10 @@ export default async (req: Request): Promise<Response> => {
             try {
                 parsed = JSON.parse(raw) as JsonPayload;
             } catch (e) {
-                console.error("[submit-demande-estimation] stage=json_parse error=", e);
+                console.error(
+                    "[submit-demande-estimation] stage=json_parse error=",
+                    e instanceof Error ? e.message : e,
+                );
                 return new Response(JSON.stringify({ ok: false, error: "Invalid JSON" }), {
                     status: 400,
                     headers: { "Content-Type": "application/json" },
@@ -211,10 +258,33 @@ export default async (req: Request): Promise<Response> => {
             callBackRequested = parsed.callBackRequested?.trim() || "";
             source = parsed.source?.trim() || "";
             message = parsed.message?.trim() || "";
-            lineItems = Array.isArray(parsed.lineItems) ? parsed.lineItems : [];
+            lineItems = Array.isArray(parsed.lineItems)
+                ? parsed.lineItems.map((x) =>
+                      normalizeLineItem(x as Partial<JsonLineItem>),
+                  )
+                : [];
             totals = parsed.totals;
 
             const itemCount = lineItems.length;
+            let crmHintsCompact = "";
+            if (parsed.crmHints && typeof parsed.crmHints === "object") {
+                try {
+                    crmHintsCompact = JSON.stringify(parsed.crmHints);
+                    mailAttachments.push({
+                        filename: "crm-hints.json",
+                        content: crmHintsCompact,
+                        contentType: "application/json; charset=utf-8",
+                    });
+                } catch {
+                    crmHintsCompact = String(parsed.crmHints);
+                    mailAttachments.push({
+                        filename: "crm-hints.txt",
+                        content: crmHintsCompact,
+                        contentType: "text/plain; charset=utf-8",
+                    });
+                }
+            }
+
             console.log("[submit-demande-estimation] stage=json_ok", {
                 bodyBytes: raw.length,
                 lineItemCount: itemCount,
@@ -222,15 +292,8 @@ export default async (req: Request): Promise<Response> => {
                 messageLen: message.length,
                 hasTotals: !!totals,
                 crmHintsKeys: parsed.crmHints ? Object.keys(parsed.crmHints).length : 0,
+                crmHintsPayloadBytes: crmHintsCompact.length,
             });
-
-            if (parsed.crmHints && typeof parsed.crmHints === "object") {
-                try {
-                    crmHintsFormatted = JSON.stringify(parsed.crmHints, null, 2);
-                } catch {
-                    crmHintsFormatted = String(parsed.crmHints);
-                }
-            }
 
             const useFr = parsed.locale !== "en";
             emailFr = useFr;
@@ -285,10 +348,17 @@ export default async (req: Request): Promise<Response> => {
                 customDataChars: customDataRaw.length,
             });
 
-            crmHintsFormatted = customDataFormatted;
-            htmlMainContent = `
-      <p><strong>Données estimation (JSON — format formulaire historique)</strong></p>
-      <pre style="background:#f5f5f5;padding:12px;overflow:auto;max-height:400px;">${escapeHtml(customDataFormatted)}</pre>`;
+            if (customDataRaw) {
+                mailAttachments.push({
+                    filename: "crm-hints-legacy.json.txt",
+                    content: customDataRaw,
+                    contentType: "text/plain; charset=utf-8",
+                });
+            }
+            htmlMainContent = customDataRaw
+                ? `
+      <p style="font-size:14px;"><strong>Données estimation (format formulaire historique)</strong> — voir pièce jointe <code>crm-hints-legacy.json.txt</code> (${customDataRaw.length} car.).</p>`
+                : "";
         }
     } catch (e) {
         console.error("[submit-demande-estimation] stage=normalize error=", e);
@@ -302,9 +372,19 @@ export default async (req: Request): Promise<Response> => {
         `Demande de réservation (estimateur) — ${firstName} ${lastName}`.trim() ||
         "Demande de réservation (estimateur)";
 
-    const crmSectionTitle = emailFr
-        ? "Indices CRM (compact)"
-        : "CRM hints (compact)";
+    const attachmentListHtml =
+        mailAttachments.length > 0
+            ? mailAttachments
+                  .map((a) => `<code>${escapeHtml(a.filename)}</code>`)
+                  .join(", ")
+            : "";
+
+    const crmAttachNote =
+        mailAttachments.length > 0
+            ? emailFr
+                ? `<p style="font-size:13px;color:#333;margin-top:16px;">Indices CRM (pièces jointes, évite les lignes trop longues pour SMTP) : ${attachmentListHtml}</p>`
+                : `<p style="font-size:13px;color:#333;margin-top:16px;">CRM data (attachments; avoids SMTP line-length issues) : ${attachmentListHtml}</p>`
+            : "";
 
     const html = `
       <h2>Nouvelle demande depuis l'estimateur en ligne</h2>
@@ -320,18 +400,26 @@ export default async (req: Request): Promise<Response> => {
         <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Rappel demandé</td><td>${escapeHtml(callBackRequested)}</td></tr>
         <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Source</td><td>${escapeHtml(source)}</td></tr>
       </table>
-      ${message ? `<p><strong>Notes client</strong><br/>${escapeHtml(message).replace(/\n/g, "<br/>")}</p>` : ""}
-      ${htmlMainContent}
       ${
-          crmHintsFormatted
-              ? `<p style="margin-top:20px;"><strong>${escapeHtml(crmSectionTitle)}</strong></p><pre style="background:#f9f9f9;padding:12px;overflow:auto;max-height:280px;font-size:12px;">${escapeHtml(crmHintsFormatted)}</pre>`
+          message
+              ? `<p><strong>Notes client</strong><br/>${message
+                    .split(/\n/)
+                    .map((ln) => chunkHtmlSafe(ln))
+                    .join("<br/>")}</p>`
               : ""
       }
+      ${htmlMainContent}
+      ${crmAttachNote}
     `;
 
     console.log("[submit-demande-estimation] stage=before_sendMail", {
         htmlApproxChars: html.length,
         lineItemsForTable: lineItems.length,
+        attachmentCount: mailAttachments.length,
+        attachmentTotalBytes: mailAttachments.reduce(
+            (n, a) => n + (typeof a.content === "string" ? a.content.length : 0),
+            0,
+        ),
     });
 
     const transporter = nodemailer.createTransport({
@@ -349,10 +437,13 @@ export default async (req: Request): Promise<Response> => {
             replyTo: email || undefined,
             subject,
             html,
+            attachments: mailAttachments.length ? mailAttachments : undefined,
         });
         console.log("[submit-demande-estimation] stage=after_sendMail ok to=", toAddress);
     } catch (err: unknown) {
-        console.error("[submit-demande-estimation] stage=sendMail_error", err);
+        const msg = err instanceof Error ? err.message : String(err);
+        const stack = err instanceof Error ? err.stack : "";
+        console.error("[submit-demande-estimation] stage=sendMail_error message=", msg, "stack=", stack);
         return new Response(JSON.stringify({ ok: false, error: "Failed to send email" }), {
             status: 502,
             headers: { "Content-Type": "application/json" },
