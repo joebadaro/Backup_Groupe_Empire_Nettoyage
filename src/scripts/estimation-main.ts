@@ -3967,6 +3967,30 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                         }, 0);
                     };
 
+                    /** Compact line items for API — no duplicate prose, scales with cart size safely. */
+                    function buildCompactLineItemsForSubmit(rawItems: any[]) {
+                        return rawItems.map((it) => {
+                            const price = Number(it.price) || 0;
+                            const savings = Number(it.savings) || 0;
+                            let qty = 1;
+                            let label = String(it.label ?? "");
+                            const m = label.match(/^(\d+)\s*x\s+(.*)$/i);
+                            if (m) {
+                                qty = parseInt(m[1]!, 10) || 1;
+                                label = (m[2] ?? "").trim();
+                            }
+                            return {
+                                id: String(it.rawId ?? ""),
+                                label: label.slice(0, 400),
+                                qty,
+                                regularLine:
+                                    Math.round((price + savings) * 100) / 100,
+                                discount: Math.round(savings * 100) / 100,
+                                lineTotal: Math.round(price * 100) / 100,
+                            };
+                        });
+                    }
+
                     async function submitEstimationForm(data: {
                         name: string;
                         email: string;
@@ -3979,7 +4003,6 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                         deliveryMethod: string;
                         items: any[];
                         total: number;
-                        summary: string;
                         callBackRequested: string;
                     }) {
                         const {
@@ -3994,7 +4017,6 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                             deliveryMethod,
                             items,
                             total,
-                            summary,
                             callBackRequested,
                         } = data;
 
@@ -4110,9 +4132,6 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
 
                                 cd.cf_type_service = 'estimation';
                                 if (city) cd.cf_client_ville = city;
-                                if (notes) cd.message_client = notes;
-                                if (summary) cd.description_nettoyage = summary;
-                                if (summary) cd.cf_quantites_detail = summary;
                                 if (phone) cd.telephone = phone;
                                 if (deliveryMethod) cd.deliveryMethod = deliveryMethod;
                                 if (callBackRequested) cd.callBackRequested = callBackRequested;
@@ -4120,21 +4139,44 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                                 return cd;
                             })();
 
-                            const formData = new URLSearchParams();
-                            formData.append("form-name", "demande_estimation");
-                            formData.append("firstName", name.split(' ')[0] || '');
-                            formData.append("lastName", name.split(' ').slice(1).join(' ') || '');
-                            formData.append("phone", phone || '');
-                            formData.append("email", email || '');
-                            formData.append("address", street + (apt ? ' #' + apt : ''));
-                            formData.append("city", city || '');
-                            formData.append("postalCode", postal || '');
-                            formData.append("deliveryMethod", deliveryMethod || '');
-                            formData.append("callBackRequested", callBackRequested || "no");
-                            formData.append("source", "estimation-site");
-                            formData.append("message", notes || '');
-                            formData.append("customData", JSON.stringify(customDataPayload));
-                            formData.append("bot-field", "");
+                            const lineItems = buildCompactLineItemsForSubmit(items);
+                            const totalDiscount =
+                                lineItems.reduce((s, r) => s + r.discount, 0);
+                            const subtotalBeforeDiscount = lineItems.reduce(
+                                (s, r) => s + r.regularLine,
+                                0,
+                            );
+                            const grandTotal =
+                                Number(total) ||
+                                lineItems.reduce((s, r) => s + r.lineTotal, 0);
+
+                            const submitBody = {
+                                formName: "demande_estimation",
+                                botField: "",
+                                firstName: name.split(" ")[0] || "",
+                                lastName:
+                                    name.split(" ").slice(1).join(" ") || "",
+                                phone: phone || "",
+                                email: email || "",
+                                address: street + (apt ? " #" + apt : ""),
+                                city: city || "",
+                                postalCode: postal || "",
+                                deliveryMethod: deliveryMethod || "",
+                                callBackRequested: callBackRequested || "no",
+                                source: "estimation-site",
+                                locale:
+                                    STATE.lang === "en" ? ("en" as const) : ("fr" as const),
+                                message: notes || "",
+                                lineItems,
+                                totals: {
+                                    subtotalBeforeDiscount,
+                                    totalDiscount,
+                                    grandTotal,
+                                },
+                                crmHints: customDataPayload,
+                            };
+
+                            const jsonPayload = JSON.stringify(submitBody);
 
                             let isSuccess = false;
 
@@ -4143,14 +4185,23 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                                 window.location.hostname === "localhost" ||
                                 window.location.hostname === "127.0.0.1";
                             if (isLocalDev) {
-                                console.log("Localhost: simulating successful reservation submit (no email sent).");
+                                console.log(
+                                    "Localhost: simulating successful reservation submit (no email sent).",
+                                    "payloadBytes ~",
+                                    jsonPayload.length,
+                                    "items",
+                                    lineItems.length,
+                                );
                                 await new Promise((resolve) => setTimeout(resolve, 600));
                                 isSuccess = true;
                             } else {
                                 const response = await fetch("/.netlify/functions/submit-demande-estimation", {
                                     method: "POST",
-                                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                                    body: formData.toString(),
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json; charset=utf-8",
+                                    },
+                                    body: jsonPayload,
                                 });
                                 isSuccess = response.ok;
                                 if (!isSuccess) {
@@ -4324,14 +4375,6 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
 
                             if (!inputName || !deliveryMethod) return;
 
-                            const summary =
-                                STATE.lastCartItems
-                                    ?.map(
-                                        (item) =>
-                                            `${item.label}: ${item.price.toFixed(2)}$`,
-                                    )
-                                    .join("\n") || "";
-
                             await submitEstimationForm({
                                 name: inputName.value,
                                 city: inputCity?.value || "",
@@ -4344,7 +4387,6 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                                 deliveryMethod,
                                 items: STATE.lastCartItems || [],
                                 total: STATE.total || 0,
-                                summary,
                                 callBackRequested,
                             });
                         };
@@ -4480,14 +4522,6 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                             mobSubmit.disabled = true; // Prevent double clicks
                             mobSubmit.innerHTML = ""; // Visual feedback
 
-                            const summary =
-                                STATE.lastCartItems
-                                    ?.map(
-                                        (item) =>
-                                            `${item.label}: ${item.price.toFixed(2)}$`,
-                                    )
-                                    .join("\n") || "";
-
                             await submitEstimationForm({
                                 name: nameInput.value,
                                 city: cityInput?.value || "",
@@ -4500,7 +4534,6 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                                 deliveryMethod,
                                 items: STATE.lastCartItems || [],
                                 total: STATE.total || 0,
-                                summary,
                                 callBackRequested,
                             });
                         };
