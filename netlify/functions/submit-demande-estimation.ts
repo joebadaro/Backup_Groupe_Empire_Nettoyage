@@ -90,7 +90,6 @@ interface JsonPayload {
         totalDiscount?: number;
         grandTotal?: number;
     };
-    crmHints?: Record<string, unknown>;
 }
 
 function normalizeLineItem(li: Partial<JsonLineItem>): JsonLineItem {
@@ -346,12 +345,6 @@ export default async (req: Request): Promise<Response> => {
     let totals: JsonPayload["totals"];
     let htmlMainContent = "";
     let emailFr = true;
-    let mailAttachments: {
-        filename: string;
-        content: string;
-        contentType: string;
-    }[] = [];
-
     try {
         if (!contentType.includes("application/json")) {
             console.error(`[submit-demande-estimation] requestId=${requestId} unsupported content-type`);
@@ -408,25 +401,6 @@ export default async (req: Request): Promise<Response> => {
             : [];
         totals = parsed.totals;
 
-        let crmHintsCompact = "";
-        if (parsed.crmHints && typeof parsed.crmHints === "object") {
-            try {
-                crmHintsCompact = JSON.stringify(parsed.crmHints);
-                mailAttachments.push({
-                    filename: "crm-hints.json",
-                    content: crmHintsCompact,
-                    contentType: "application/json; charset=utf-8",
-                });
-            } catch {
-                crmHintsCompact = String(parsed.crmHints);
-                mailAttachments.push({
-                    filename: "crm-hints.txt",
-                    content: crmHintsCompact,
-                    contentType: "text/plain; charset=utf-8",
-                });
-            }
-        }
-
         const itemCount = lineItems.length;
         console.log(`[submit-demande-estimation] requestId=${requestId} stage=json_ok`, {
             payloadJsonBytes: raw.length,
@@ -434,8 +408,6 @@ export default async (req: Request): Promise<Response> => {
             firstNameLen: firstName.length,
             messageLen: message.length,
             hasTotals: !!totals,
-            crmHintsKeys: parsed.crmHints ? Object.keys(parsed.crmHints).length : 0,
-            crmHintsPayloadBytes: crmHintsCompact.length,
         });
 
         const useFr = parsed.locale !== "en";
@@ -446,18 +418,6 @@ export default async (req: Request): Promise<Response> => {
         const subject =
             `Demande de réservation (estimateur) — ${firstName} ${lastName}`.trim() ||
             "Demande de réservation (estimateur)";
-
-        const attachmentListHtml =
-            mailAttachments.length > 0
-                ? mailAttachments.map((a) => `<code>${escapeHtml(a.filename)}</code>`).join(", ")
-                : "";
-
-        const crmAttachNote =
-            mailAttachments.length > 0
-                ? useFr
-                    ? `<p style="font-size:13px;color:#333;margin-top:16px;">Indices CRM (pièces jointes) : ${attachmentListHtml}</p>`
-                    : `<p style="font-size:13px;color:#333;margin-top:16px;">CRM attachments : ${attachmentListHtml}</p>`
-                : "";
 
         const html = `
       <h2>Nouvelle demande depuis l'estimateur en ligne</h2>
@@ -482,7 +442,6 @@ export default async (req: Request): Promise<Response> => {
               : ""
       }
       ${htmlMainContent}
-      ${crmAttachNote}
     `;
 
         const textPlain = buildPlainTextEmail(
@@ -505,11 +464,6 @@ export default async (req: Request): Promise<Response> => {
 
         const longestHtmlLine = longestLineLength(html);
         const longestTextLine = longestLineLength(textPlain);
-        const attachmentTotalBytes = mailAttachments.reduce(
-            (n, a) => n + (typeof a.content === "string" ? a.content.length : 0),
-            0,
-        );
-
         console.log(`[submit-demande-estimation] requestId=${requestId} stage=before_sendMail`, {
             htmlCharCount: html.length,
             textCharCount: textPlain.length,
@@ -517,8 +471,6 @@ export default async (req: Request): Promise<Response> => {
             longestTextLine,
             subjectCharCount: subject.length,
             lineItemsForTable: lineItems.length,
-            attachmentCount: mailAttachments.length,
-            attachmentTotalBytes,
         });
 
         if (longestHtmlLine > 990) {
@@ -551,9 +503,6 @@ export default async (req: Request): Promise<Response> => {
                         htmlCharCount: html.length,
                         longestHtmlLine,
                         longestTextLine,
-                        attachmentCount: mailAttachments.length,
-                        attachmentTotalBytes,
-                        crmHintsPayloadBytes: crmHintsCompact.length,
                     }),
                     { status: 200, headers: jsonHeaders(requestId, { "X-Submit-Stage": "diag_a" }) },
                 );
@@ -663,7 +612,6 @@ export default async (req: Request): Promise<Response> => {
                         subject: `[diag-e] ${subject}`,
                         text: textPlain,
                         html,
-                        attachments: mailAttachments.length ? mailAttachments : undefined,
                     });
                     console.log(`[submit-demande-estimation] requestId=${requestId} stage=after_sendMail diag_e`);
                     return new Response(
@@ -681,7 +629,6 @@ export default async (req: Request): Promise<Response> => {
                             requestId,
                             smtpError: exposeMailErr ? msg : undefined,
                             longestHtmlLine,
-                            attachmentTotalBytes,
                         }),
                         { status: 502, headers: jsonHeaders(requestId, { "X-Submit-Stage": "diag_e_sendMail_error" }) },
                     );
@@ -708,7 +655,6 @@ export default async (req: Request): Promise<Response> => {
                 subject,
                 text: textPlain,
                 html,
-                attachments: mailAttachments.length ? mailAttachments : undefined,
             });
             console.log(`[submit-demande-estimation] requestId=${requestId} stage=after_sendMail ok to=${toAddress}`);
         } catch (err: unknown) {
