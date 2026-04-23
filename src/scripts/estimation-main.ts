@@ -298,6 +298,31 @@
                         : "🖨️ Print estimate";
                 }
 
+                const mobileSuccessHeading = document.getElementById(
+                    "mobile-success-heading",
+                );
+                if (mobileSuccessHeading) {
+                    mobileSuccessHeading.textContent = isFr
+                        ? "Demande de rendez-vous envoyée"
+                        : "Appointment request sent";
+                }
+                const mobileSuccessMsgDefault = document.getElementById(
+                    "mobile-success-msg",
+                );
+                if (mobileSuccessMsgDefault) {
+                    mobileSuccessMsgDefault.textContent = isFr
+                        ? "Votre demande de rendez-vous a été envoyée avec succès. Imprimez l'estimation."
+                        : "Your appointment request was sent successfully. Print your estimate.";
+                }
+                const mobilePrintBtnInit = document.getElementById(
+                    "mobile-btn-print-estimate",
+                );
+                if (mobilePrintBtnInit) {
+                    mobilePrintBtnInit.innerHTML = isFr
+                        ? "🖨️ Imprimer l'estimation"
+                        : "🖨️ Print estimate";
+                }
+
                 // Mobile Translations
                 const mobElements = {
                     "mobile-title": { fr: "ESTIMATION", en: "ESTIMATE" },
@@ -3766,6 +3791,91 @@
                         }
                     };
 
+                    function escapeHtmlPrint(s: string): string {
+                        return String(s)
+                            .replace(/&/g, "&amp;")
+                            .replace(/</g, "&lt;")
+                            .replace(/>/g, "&gt;")
+                            .replace(/"/g, "&quot;");
+                    }
+
+                    /** Printable estimate sheet only (screen + @media print isolation in EstimationModule). */
+                    function buildEstimatePrintSheetHtml(
+                        items: { label: string; price: number; savings?: number }[],
+                        grandTotal: number,
+                    ): string {
+                        const isFr = STATE.lang === "fr";
+                        const title = isFr ? "Estimation client" : "Client estimate";
+                        const sent = isFr
+                            ? "Votre demande de rendez-vous a bien été envoyée."
+                            : "Your appointment request has been received.";
+                        const thArticle = isFr ? "Article" : "Item";
+                        const thDiscount = isFr ? "Rabais" : "Discount";
+                        const thPrice = isFr ? "Prix" : "Price";
+                        const subtotalLbl = isFr
+                            ? "Sous-total (avant rabais)"
+                            : "Subtotal (before discounts)";
+                        const totalDiscLbl = isFr ? "Rabais appliqués" : "Discounts applied";
+                        const totalLbl = isFr ? "Total estimé" : "Estimated total";
+                        const taxNote = isFr ? "Taxes en sus." : "Taxes extra.";
+                        const inspection = isFr
+                            ? "Avant de commencer les travaux, le technicien inspectera les tissus, tapis ou surfaces à nettoyer et vous informera si des traitements spécialisés sont nécessaires ou optionnels selon le matériau ou l'état. Vous pourrez alors décider sur place des suites à donner."
+                            : "Before work begins, your technician will inspect the fabrics, carpets, or surfaces to be cleaned and will let you know if any specialized treatments are required or optional, based on the material and its condition. You may then decide on site how you wish to proceed.";
+
+                        let subtotalBefore = 0;
+                        let totalSavings = 0;
+                        for (const it of items) {
+                            const p = Number(it.price) || 0;
+                            const sv = Number(it.savings) || 0;
+                            subtotalBefore += p + sv;
+                            totalSavings += sv;
+                        }
+
+                        const rows = items
+                            .map((it) => {
+                                const lab = escapeHtmlPrint(it.label);
+                                const p = (Number(it.price) || 0).toFixed(2);
+                                const svNum = Number(it.savings) || 0;
+                                const sv =
+                                    svNum > 0
+                                        ? `−${svNum.toFixed(2)} $`
+                                        : "—";
+                                return `<tr>
+  <td style="padding:6px 8px;border-bottom:1px solid #e0e0e0;vertical-align:top;">${lab}</td>
+  <td style="padding:6px 8px;border-bottom:1px solid #e0e0e0;text-align:right;white-space:nowrap;color:#2e7d32;">${sv}</td>
+  <td style="padding:6px 8px;border-bottom:1px solid #e0e0e0;text-align:right;white-space:nowrap;font-weight:600;">${p} $</td>
+</tr>`;
+                            })
+                            .join("");
+
+                        const emptyRow = `<tr><td colspan="3" style="padding:8px;">${isFr ? "Aucun article." : "No items."}</td></tr>`;
+
+                        return `
+<div class="eps-inner">
+  <h1 class="eps-doc-title" style="margin:0 0 8px;font-size:18pt;color:#001f3f;">${escapeHtmlPrint(title)}</h1>
+  <p class="eps-sent" style="margin:0 0 14px;font-size:11pt;color:#444;">${escapeHtmlPrint(sent)}</p>
+  <table class="eps-table" style="width:100%;border-collapse:collapse;margin:12px 0;font-size:10.5pt;">
+    <thead>
+      <tr style="border-bottom:2px solid #001f3f;">
+        <th style="text-align:left;padding:6px 8px;font-weight:700;">${thArticle}</th>
+        <th style="text-align:right;padding:6px 8px;font-weight:700;">${thDiscount}</th>
+        <th style="text-align:right;padding:6px 8px;font-weight:700;">${thPrice}</th>
+      </tr>
+    </thead>
+    <tbody>${rows || emptyRow}</tbody>
+  </table>
+  <div class="eps-totals" style="margin-top:10px;font-size:10.5pt;">
+    <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>${subtotalLbl}</span><span>${subtotalBefore.toFixed(2)} $</span></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0;color:#2e7d32;"><span>${totalDiscLbl}</span><span>−${totalSavings.toFixed(2)} $</span></div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0;margin-top:6px;border-top:2px solid #001f3f;font-weight:800;font-size:12pt;"><span>${totalLbl}</span><span>${grandTotal.toFixed(2)} $</span></div>
+    <p style="margin:6px 0 0;font-size:9pt;color:#666;">${taxNote}</p>
+  </div>
+  <div class="eps-inspection" style="margin-top:12px;padding-top:10px;border-top:1px solid #ccc;font-size:9.5pt;line-height:1.45;color:#333;">
+    ${escapeHtmlPrint(inspection)}
+  </div>
+</div>`;
+                    }
+
                     async function submitEstimationForm(data: {
                         name: string;
                         email: string;
@@ -3970,47 +4080,96 @@
                             }
 
                             if (isSuccess) {
-                                // Affichage du reçu dynamique (Étape 5)
+                                const itemsSnapshot = JSON.parse(
+                                    JSON.stringify(STATE.lastCartItems || []),
+                                ) as { label: string; price: number; savings?: number }[];
+                                const totalSnapshot = Number(STATE.total) || 0;
+                                const sheetHtml = buildEstimatePrintSheetHtml(
+                                    itemsSnapshot,
+                                    totalSnapshot,
+                                );
+
                                 const isMobile = window.innerWidth <= 850;
-                                
+                                const printDesktop = document.getElementById(
+                                    "estimate-print-root",
+                                );
+                                const printMobile = document.getElementById(
+                                    "estimate-print-root-mobile",
+                                );
                                 if (isMobile) {
-                                    const mobileSteps = document.querySelectorAll(".mobile-step");
-                                    mobileSteps.forEach((s) => s.classList.remove("active"));
-                                    const mobSuccessStep = document.getElementById("mobile-step-success");
-                                    if (mobSuccessStep) {
-                                        mobSuccessStep.classList.add("active");
-                                        const printContainer = document.getElementById("mobile-print-summary-container");
-                                        if (printContainer) {
-                                            printContainer.innerHTML = summary; 
-                                        }
-                                        const scrollContainer = document.getElementById("mobile-scroll-container");
-                                        if (scrollContainer) scrollContainer.scrollTop = 0;
-                                    }
+                                    if (printDesktop) printDesktop.innerHTML = "";
+                                    if (printMobile) printMobile.innerHTML = sheetHtml;
                                 } else {
-                                    const desktopSteps = document.querySelectorAll(".step");
-                                    desktopSteps.forEach((s) => s.classList.remove("active"));
-                                    const successStep = document.getElementById("step-success");
-                                    if (successStep) {
-                                        successStep.classList.add("active");
-                                        const printContainer = document.getElementById("print-summary-container");
-                                        if (printContainer) {
-                                            printContainer.innerHTML = summary;
-                                        }
-                                    }
-                                    
-                                    // Hide footer buttons
-                                    const btnBack = document.getElementById("btn-back");
-                                    const btnNext = document.getElementById("btn-next");
-                                    const btnAddMore = document.getElementById("btn-add-more");
-                                    if(btnBack) btnBack.style.display = "none";
-                                    if(btnNext) btnNext.style.display = "none";
-                                    if (btnAddMore) btnAddMore.style.display = "none";
+                                    if (printMobile) printMobile.innerHTML = "";
+                                    if (printDesktop) printDesktop.innerHTML = sheetHtml;
                                 }
-                                
-                                // Reset the cart state in memory so the background logic resets, 
-                                // but we keep the current view open
-                                if(window.resetEstimation) {
-                                    // Make sure we just reset data, not the UI state if it forcefully resets the DOM
+
+                                if (isMobile) {
+                                    const mobileSteps =
+                                        document.querySelectorAll(".mobile-step");
+                                    mobileSteps.forEach((s) =>
+                                        s.classList.remove("active"),
+                                    );
+                                    document
+                                        .getElementById("mobile-step-success")
+                                        ?.classList.add("active");
+                                    const msm = document.getElementById(
+                                        "mobile-success-msg",
+                                    );
+                                    if (msm) {
+                                        msm.textContent =
+                                            STATE.lang === "fr"
+                                                ? "Votre demande de rendez-vous a été envoyée avec succès. Imprimez l'estimation."
+                                                : "Your appointment request was sent successfully. Print your estimate.";
+                                    }
+                                    const mobPrintBtn =
+                                        document.getElementById(
+                                            "mobile-btn-print-estimate",
+                                        );
+                                    if (mobPrintBtn) {
+                                        mobPrintBtn.innerHTML =
+                                            STATE.lang === "fr"
+                                                ? "🖨️ Imprimer l'estimation"
+                                                : "🖨️ Print estimate";
+                                    }
+                                    document
+                                        .getElementById(
+                                            "mobile-scroll-container",
+                                        )
+                                        ?.scrollTo(0, 0);
+                                    const mt = document.getElementById(
+                                        "mobile-title",
+                                    );
+                                    if (mt)
+                                        mt.textContent =
+                                            STATE.lang === "fr"
+                                                ? "Envoyé"
+                                                : "Sent";
+                                } else {
+                                    const desktopSteps =
+                                        document.querySelectorAll(".step");
+                                    desktopSteps.forEach((s) =>
+                                        s.classList.remove("active"),
+                                    );
+                                    const successStep =
+                                        document.getElementById("step-success");
+                                    if (successStep)
+                                        successStep.classList.add("active");
+
+                                    const btnBack =
+                                        document.getElementById("btn-back");
+                                    const btnNext =
+                                        document.getElementById("btn-next");
+                                    const btnAddMore = document.getElementById(
+                                        "btn-add-more",
+                                    );
+                                    if (btnBack) btnBack.style.display = "none";
+                                    if (btnNext) btnNext.style.display = "none";
+                                    if (btnAddMore)
+                                        btnAddMore.style.display = "none";
+                                }
+
+                                if (window.resetEstimation) {
                                     STATE.quantities = {};
                                     STATE.customSectionals = [];
                                     STATE.rugs = { synthetique: [], laine: [] };

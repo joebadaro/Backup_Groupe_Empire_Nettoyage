@@ -253,7 +253,7 @@ import UiIcon from "./icons/UiIcon.astro";
 
                 <!-- STEP 5: SUCCESS & PRINT (NEW) -->
                 <div id="step-success" class="step">
-                    <div style="text-align:center; padding: 10px 0;">
+                    <div class="estimate-no-print" style="text-align:center; padding: 10px 0;">
                         <h3 id="txt-success-title" style="color:#2E7D32; font-size:1.5rem; margin-bottom:10px;">
                             <i class="fas fa-check-circle"></i> Demande de rendez-vous envoyée
                         </h3>
@@ -265,15 +265,16 @@ import UiIcon from "./icons/UiIcon.astro";
                         </button>
                     </div>
                     <div
-                        id="print-summary-container"
-                        class="print-summary-area"
+                        id="estimate-print-root"
+                        class="estimate-print-sheet print-summary-area"
                         style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); background:#fff;"
                     >
-                        <!-- Injected on submit -->
+                        <!-- Rempli au succès par estimation-main (feuille client seule à l’impression) -->
                     </div>
                 </div>
 
                 <p
+                    class="estimate-no-print"
                     style="text-align:center; font-size:0.85rem; color:#999; margin-top:15px;"
                 >
                     Vos informations sont confidentielles et sécurisées
@@ -570,6 +571,25 @@ import UiIcon from "./icons/UiIcon.astro";
                             Afficher mon estimation
                         </button>
                     </div>
+                </div>
+
+                <!-- Step 5 (mobile): confirmation + même feuille imprimable que bureau -->
+                <div id="mobile-step-success" class="mobile-step">
+                    <div class="estimate-no-print" style="text-align:center;padding:16px 12px;">
+                        <h3 style="color:#2E7D32;font-size:1.35rem;margin-bottom:8px;">
+                            <i class="fas fa-check-circle"></i>
+                            <span id="mobile-success-heading">Demande de rendez-vous envoyée</span>
+                        </h3>
+                        <p id="mobile-success-msg" style="color:#666;margin-bottom:16px;font-size:0.95rem;line-height:1.45;"></p>
+                        <button type="button" id="mobile-btn-print-estimate" class="btn-mobile-primary" style="width:100%;max-width:340px;" onclick="window.print()">
+                            🖨️ Imprimer l'estimation
+                        </button>
+                    </div>
+                    <div
+                        id="estimate-print-root-mobile"
+                        class="estimate-print-sheet"
+                        style="margin:12px;padding:14px;border:1px solid #e0e0e0;border-radius:8px;background:#fafafa;"
+                    ></div>
                 </div>
             </div>
         </div>
@@ -2236,14 +2256,75 @@ import UiIcon from "./icons/UiIcon.astro";
 </div>
 
 <style is="inline">
+    /* Impression : uniquement la feuille d’estimation (pas le site, pas le chrome du modal) */
     @media print {
-        /* --- SECURE NATIVE PRINT CSS --- */
-        body > *:not(#estimation-widget) { display: none !important; }
-        body, html { background: white !important; margin: 0 !important; padding: 0 !important; }
-        #estimation-widget { position: absolute !important; left: 0 !important; top: 0 !important; width: 100% !important; height: 100% !important; display: block !important; background: white !important; }
-        .empire-modal { box-shadow: none !important; border: none !important; width: 100% !important; max-width: 100% !important; border-radius: 0 !important; margin: 0 !important; }
-        .modal-sidebar, .btn-print, .modal-footer, .progress-bar, #lang-toggle, #close-modal-btn, #close-modal-btn-overlay { display: none !important; }
-        .modal-main { padding: 0 !important; width: 100% !important; }
-        .print-summary-area { border: none !important; box-shadow: none !important; padding: 0 !important; }
+        @page {
+            margin: 12mm;
+            size: auto;
+        }
+        html,
+        body {
+            background: #fff !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            height: auto !important;
+            overflow: visible !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        header,
+        main,
+        footer,
+        noscript,
+        .mobile-sticky-bar,
+        body > script {
+            display: none !important;
+        }
+        body * {
+            visibility: hidden !important;
+        }
+        #estimate-print-root:not(:empty),
+        #estimate-print-root:not(:empty) *,
+        #estimate-print-root-mobile:not(:empty),
+        #estimate-print-root-mobile:not(:empty) * {
+            visibility: visible !important;
+        }
+        #estimate-print-root:not(:empty),
+        #estimate-print-root-mobile:not(:empty) {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+            background: #fff !important;
+            display: block !important;
+        }
+        #estimate-print-root:empty,
+        #estimate-print-root-mobile:empty {
+            display: none !important;
+            visibility: hidden !important;
+        }
+        #estimation-widget {
+            position: static !important;
+            display: block !important;
+            overflow: visible !important;
+            height: auto !important;
+            background: transparent !important;
+            width: 100% !important;
+            box-shadow: none !important;
+        }
+        .estimate-no-print {
+            display: none !important;
+        }
+        .eps-doc-title {
+            font-size: 18pt !important;
+        }
+        .eps-table {
+            font-size: 10pt !important;
+        }
     }
 </style>
