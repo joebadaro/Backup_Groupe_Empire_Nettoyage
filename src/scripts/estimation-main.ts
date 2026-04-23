@@ -4175,7 +4175,23 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                                 crmHints: customDataPayload,
                             };
 
-                            const jsonPayload = JSON.stringify(submitBody);
+                            let jsonPayload = "";
+                            try {
+                                jsonPayload = JSON.stringify(submitBody);
+                            } catch (serErr) {
+                                console.error(
+                                    "[estimation-submit] JSON.stringify(payload) failed — not sent",
+                                    serErr,
+                                    "lineItems count",
+                                    lineItems.length,
+                                );
+                                alert(
+                                    STATE.lang === "fr"
+                                        ? "Erreur technique lors de la préparation de l’envoi. Réessayez ou contactez-nous."
+                                        : "Technical error preparing your request. Please try again or contact us.",
+                                );
+                                throw serErr;
+                            }
 
                             let isSuccess = false;
 
@@ -4202,6 +4218,9 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                                     },
                                     body: jsonPayload,
                                 });
+                                const rid =
+                                    response.headers.get("x-request-id") ||
+                                    "(no-x-request-id)";
                                 isSuccess = response.ok;
                                 if (!isSuccess) {
                                     let detail = "";
@@ -4210,16 +4229,34 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                                     } catch {
                                         /* ignore */
                                     }
+                                    let parsedDetail: Record<string, unknown> | null =
+                                        null;
+                                    try {
+                                        parsedDetail = JSON.parse(detail) as Record<
+                                            string,
+                                            unknown
+                                        >;
+                                    } catch {
+                                        parsedDetail = null;
+                                    }
                                     console.error(
-                                        "Reservation submit failed:",
+                                        "[estimation-submit] failed:",
+                                        "httpStatus=",
                                         response.status,
-                                        detail,
+                                        "xRequestId=",
+                                        rid,
                                         "payloadBytes=",
                                         jsonPayload.length,
                                         "lineItems=",
                                         lineItems.length,
+                                        "responseBodyRaw=",
+                                        detail,
+                                        "responseBodyParsed=",
+                                        parsedDetail,
                                     );
-                                    throw new Error("Submit failed: " + response.status);
+                                    throw new Error(
+                                        `Submit failed: ${response.status} requestId=${rid}`,
+                                    );
                                 }
                             }
 

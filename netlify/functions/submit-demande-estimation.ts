@@ -5,6 +5,40 @@ const DEFAULT_TO = "info@groupenettoyageempire.com";
 /** Must match a Gmail “Send mail as” / Workspace address that SMTP is allowed to use */
 const DEFAULT_FROM = "Groupe Nettoyage Empire <info@groupenettoyageempire.com>";
 
+function newRequestId(): string {
+    try {
+        const c = globalThis.crypto as Crypto | undefined;
+        if (c?.randomUUID) return c.randomUUID();
+    } catch {
+        /* ignore */
+    }
+    return `r${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
+
+function jsonHeaders(
+    requestId: string,
+    status: number,
+    extra?: Record<string, string>,
+): HeadersInit {
+    const h: Record<string, string> = {
+        "Content-Type": "application/json; charset=utf-8",
+        "X-Request-Id": requestId,
+        ...(extra || {}),
+    };
+    return h;
+}
+
+/** Longest single “line” in the string (by \n). SMTP often limits ~1000 octets/line in unencoded form. */
+function longestLineLength(s: string): number {
+    if (!s) return 0;
+    const lines = s.split(/\r?\n/);
+    let m = 0;
+    for (const ln of lines) {
+        if (ln.length > m) m = ln.length;
+    }
+    return m;
+}
+
 function escapeHtml(s: unknown): string {
     const str = String(s ?? "");
     return str
@@ -48,7 +82,6 @@ interface JsonPayload {
     deliveryMethod?: string;
     callBackRequested?: string;
     source?: string;
-    /** From estimation module UI language */
     locale?: "fr" | "en";
     message?: string;
     lineItems?: JsonLineItem[];
@@ -57,7 +90,6 @@ interface JsonPayload {
         totalDiscount?: number;
         grandTotal?: number;
     };
-    /** CRM / GHL hints only — numbers & short strings, no duplicate prose */
     crmHints?: Record<string, unknown>;
 }
 
@@ -153,12 +185,103 @@ function buildTotalsBlock(totals?: JsonPayload["totals"], langFr?: boolean): str
     return parts.length ? `<div style="margin-top:16px;max-width:720px;">${parts.join("")}</div>` : "";
 }
 
+/** Plain-text mirror: short lines (wrap label) for multipart/alternative. */
+function buildPlainTextEmail(
+    fr: boolean,
+    fields: {
+        firstName: string;
+        lastName: string;
+        phone: string;
+        email: string;
+        address: string;
+        city: string;
+        postalCode: string;
+        deliveryMethod: string;
+        callBackRequested: string;
+        message: string;
+    },
+    lineItems: JsonLineItem[],
+    totals?: JsonPayload["totals"],
+): string {
+    const lines: string[] = [];
+    const L = (a: string, b: string) => lines.push(`${a}: ${b}`);
+    L(fr ? "Prénom" : "First", fields.firstName);
+    L(fr ? "Nom" : "Last", fields.lastName);
+    L(fr ? "Tél" : "Phone", fields.phone);
+    L("Email", fields.email);
+    L(fr ? "Adresse" : "Address", fields.address);
+    L(fr ? "Ville" : "City", fields.city);
+    L(fr ? "CP" : "Postal", fields.postalCode);
+    L(fr ? "Livraison" : "Delivery", fields.deliveryMethod);
+    lines.push("");
+    if (fields.message) {
+        lines.push(fr ? "Notes:" : "Notes:");
+        for (const ln of fields.message.split(/\n/)) {
+            lines.push(ln.length > 78 ? ln.replace(/(.{78})/g, "$1\n") : ln);
+        }
+        lines.push("");
+    }
+    lines.push(fr ? "Articles:" : "Items:");
+    for (const raw of lineItems) {
+        const li = normalizeLineItem(raw);
+        const lab =
+            li.label.length > 70 ? li.label.slice(0, 67) + "..." : li.label;
+        lines.push(
+            `- ${lab} | qty ${li.qty} | ${formatMoney(li.lineTotal)} $`,
+        );
+    }
+    lines.push("");
+    if (totals) {
+        if (typeof totals.subtotalBeforeDiscount === "number") {
+            lines.push(
+                `${fr ? "Sous-total" : "Subtotal"}: ${formatMoney(totals.subtotalBeforeDiscount)} $`,
+            );
+        }
+        if (typeof totals.totalDiscount === "number" && totals.totalDiscount > 0) {
+            lines.push(
+                `${fr ? "Rabais" : "Discount"}: -${formatMoney(totals.totalDiscount)} $`,
+            );
+        }
+        if (typeof totals.grandTotal === "number") {
+            lines.push(
+                `${fr ? "Total" : "Total"}: ${formatMoney(totals.grandTotal)} $`,
+            );
+        }
+    }
+    return lines.join("\n");
+}
+
 export default async (req: Request): Promise<Response> => {
+    const requestId = newRequestId();
+
     if (req.method !== "POST") {
-        return new Response(JSON.stringify({ ok: false, error: "Method not allowed" }), {
+        return new Response(JSON.stringify({ ok: false, error: "Method not allowed", requestId }), {
             status: 405,
-            headers: { "Content-Type": "application/json" },
+            headers: jsonHeaders(requestId),
         });
+    }
+
+    const exposeMailErr = process.env.ESTIMATION_RETURN_MAIL_ERROR === "true";
+    const diagKeyEnv = process.env.ESTIMATION_DIAG_KEY || "";
+    const diagUrl = new URL(req.url);
+    const diagStep = diagUrl.searchParams.get("diag");
+    const diagHeader = req.headers.get("x-estimation-diag-key") || "";
+    const diagOk =
+        !!diagStep &&
+        !!diagKeyEnv &&
+        diagHeader === diagKeyEnv &&
+        diagStep.length > 0;
+
+    if (diagStep && !diagOk) {
+        console.warn(`[submit-demande-estimation] requestId=${requestId} diag rejected (missing/wrong secret)`);
+        return new Response(
+            JSON.stringify({
+                ok: false,
+                error: "Diagnostic requires valid x-estimation-diag-key and ESTIMATION_DIAG_KEY",
+                requestId,
+            }),
+            { status: 403, headers: jsonHeaders(requestId, { "X-Submit-Stage": "diag_forbidden" }) },
+        );
     }
 
     const gmailAppPassword = process.env.GMAIL_APP_PASSWORD;
@@ -167,32 +290,47 @@ export default async (req: Request): Promise<Response> => {
     const fromAddress = process.env.DEMANDE_ESTIMATION_FROM || DEFAULT_FROM;
 
     if (!gmailAppPassword) {
-        console.error("[submit-demande-estimation] Missing GMAIL_APP_PASSWORD");
+        console.error(`[submit-demande-estimation] requestId=${requestId} Missing GMAIL_APP_PASSWORD`);
         return new Response(
-            JSON.stringify({ ok: false, error: "Email transport not configured" }),
-            { status: 503, headers: { "Content-Type": "application/json" } },
+            JSON.stringify({ ok: false, error: "Email transport not configured", requestId }),
+            { status: 503, headers: jsonHeaders(requestId, { "X-Submit-Stage": "config_error" }) },
         );
     }
+
+    const contentLengthHeader = req.headers.get("content-length") ?? "";
 
     let raw: string;
     try {
         raw = await req.text();
     } catch (e) {
-        console.error("[submit-demande-estimation] stage=body_read error=", e);
-        return new Response(JSON.stringify({ ok: false, error: "Invalid body" }), {
+        const msg = e instanceof Error ? e.message : String(e);
+        console.error(`[submit-demande-estimation] requestId=${requestId} stage=body_read error=`, msg);
+        return new Response(JSON.stringify({ ok: false, error: "Invalid body", requestId, detail: msg }), {
             status: 400,
-            headers: { "Content-Type": "application/json" },
+            headers: jsonHeaders(requestId, { "X-Submit-Stage": "body_read_error" }),
         });
     }
 
     const contentType = req.headers.get("content-type") || "";
 
-    console.log("[submit-demande-estimation] stage=received", {
+    console.log(`[submit-demande-estimation] requestId=${requestId} stage=received`, {
         bodyBytes: raw.length,
+        contentLengthHeader: contentLengthHeader || "(missing)",
+        contentLengthParsed: contentLengthHeader ? parseInt(contentLengthHeader, 10) : NaN,
         contentTypeSnippet: contentType.slice(0, 80),
+        diagStep: diagOk ? diagStep : "(off)",
     });
 
-    /** Unified fields after parsing either JSON or form */
+    if (contentLengthHeader && !Number.isNaN(parseInt(contentLengthHeader, 10))) {
+        const cl = parseInt(contentLengthHeader, 10);
+        if (cl !== raw.length) {
+            console.warn(`[submit-demande-estimation] requestId=${requestId} Content-Length mismatch`, {
+                header: cl,
+                actual: raw.length,
+            });
+        }
+    }
+
     let firstName = "";
     let lastName = "";
     let phone = "";
@@ -207,9 +345,7 @@ export default async (req: Request): Promise<Response> => {
     let lineItems: JsonLineItem[] = [];
     let totals: JsonPayload["totals"];
     let htmlMainContent = "";
-    /** Email section titles for CRM block (legacy form = FR). */
     let emailFr = true;
-    /** CRM payload as attachment — avoids giant `<pre>` lines (SMTP / Gmail limits). */
     let mailAttachments: {
         filename: string;
         content: string;
@@ -217,176 +353,113 @@ export default async (req: Request): Promise<Response> => {
     }[] = [];
 
     try {
-        if (contentType.includes("application/json")) {
-            let parsed: JsonPayload;
-            try {
-                parsed = JSON.parse(raw) as JsonPayload;
-            } catch (e) {
-                console.error(
-                    "[submit-demande-estimation] stage=json_parse error=",
-                    e instanceof Error ? e.message : e,
-                );
-                return new Response(JSON.stringify({ ok: false, error: "Invalid JSON" }), {
-                    status: 400,
-                    headers: { "Content-Type": "application/json" },
-                });
-            }
+        if (!contentType.includes("application/json")) {
+            console.error(`[submit-demande-estimation] requestId=${requestId} unsupported content-type`);
+            return new Response(
+                JSON.stringify({
+                    ok: false,
+                    error: "Expected application/json",
+                    requestId,
+                }),
+                { status: 415, headers: jsonHeaders(requestId, { "X-Submit-Stage": "unsupported_media" }) },
+            );
+        }
 
-            if (parsed.formName !== "demande_estimation") {
-                return new Response(JSON.stringify({ ok: false, error: "Invalid form" }), {
-                    status: 400,
-                    headers: { "Content-Type": "application/json" },
-                });
-            }
-
-            if (parsed.botField) {
-                console.warn("[submit-demande-estimation] Honeypot filled — ignored");
-                return new Response(JSON.stringify({ ok: true }), {
-                    status: 200,
-                    headers: { "Content-Type": "application/json" },
-                });
-            }
-
-            firstName = parsed.firstName?.trim() || "";
-            lastName = parsed.lastName?.trim() || "";
-            phone = parsed.phone?.trim() || "";
-            email = parsed.email?.trim() || "";
-            address = parsed.address?.trim() || "";
-            city = parsed.city?.trim() || "";
-            postalCode = parsed.postalCode?.trim() || "";
-            deliveryMethod = parsed.deliveryMethod?.trim() || "";
-            callBackRequested = parsed.callBackRequested?.trim() || "";
-            source = parsed.source?.trim() || "";
-            message = parsed.message?.trim() || "";
-            lineItems = Array.isArray(parsed.lineItems)
-                ? parsed.lineItems.map((x) =>
-                      normalizeLineItem(x as Partial<JsonLineItem>),
-                  )
-                : [];
-            totals = parsed.totals;
-
-            const itemCount = lineItems.length;
-            let crmHintsCompact = "";
-            if (parsed.crmHints && typeof parsed.crmHints === "object") {
-                try {
-                    crmHintsCompact = JSON.stringify(parsed.crmHints);
-                    mailAttachments.push({
-                        filename: "crm-hints.json",
-                        content: crmHintsCompact,
-                        contentType: "application/json; charset=utf-8",
-                    });
-                } catch {
-                    crmHintsCompact = String(parsed.crmHints);
-                    mailAttachments.push({
-                        filename: "crm-hints.txt",
-                        content: crmHintsCompact,
-                        contentType: "text/plain; charset=utf-8",
-                    });
-                }
-            }
-
-            console.log("[submit-demande-estimation] stage=json_ok", {
-                bodyBytes: raw.length,
-                lineItemCount: itemCount,
-                firstNameLen: firstName.length,
-                messageLen: message.length,
-                hasTotals: !!totals,
-                crmHintsKeys: parsed.crmHints ? Object.keys(parsed.crmHints).length : 0,
-                crmHintsPayloadBytes: crmHintsCompact.length,
+        let parsed: JsonPayload;
+        try {
+            parsed = JSON.parse(raw) as JsonPayload;
+        } catch (e) {
+            const msg = e instanceof Error ? e.message : String(e);
+            console.error(`[submit-demande-estimation] requestId=${requestId} stage=json_parse error=`, msg);
+            return new Response(JSON.stringify({ ok: false, error: "Invalid JSON", requestId, detail: msg }), {
+                status: 400,
+                headers: jsonHeaders(requestId, { "X-Submit-Stage": "json_parse_error" }),
             });
+        }
 
-            const useFr = parsed.locale !== "en";
-            emailFr = useFr;
-            htmlMainContent =
-                buildHtmlTableFromLineItems(lineItems, useFr) +
-                buildTotalsBlock(totals, useFr);
-        } else {
-            /** Legacy: application/x-www-form-urlencoded */
-            const params = new URLSearchParams(raw);
-            const formName = params.get("form-name");
-            if (formName !== "demande_estimation") {
-                return new Response(JSON.stringify({ ok: false, error: "Invalid form" }), {
-                    status: 400,
-                    headers: { "Content-Type": "application/json" },
-                });
-            }
-
-            const botField = params.get("bot-field");
-            if (botField) {
-                console.warn("[submit-demande-estimation] Honeypot filled — ignored");
-                return new Response(JSON.stringify({ ok: true }), {
-                    status: 200,
-                    headers: { "Content-Type": "application/json" },
-                });
-            }
-
-            firstName = params.get("firstName")?.trim() || "";
-            lastName = params.get("lastName")?.trim() || "";
-            phone = params.get("phone")?.trim() || "";
-            email = params.get("email")?.trim() || "";
-            address = params.get("address")?.trim() || "";
-            city = params.get("city")?.trim() || "";
-            postalCode = params.get("postalCode")?.trim() || "";
-            deliveryMethod = params.get("deliveryMethod")?.trim() || "";
-            callBackRequested = params.get("callBackRequested")?.trim() || "";
-            source = params.get("source")?.trim() || "";
-            message = params.get("message")?.trim() || "";
-            let customDataRaw = params.get("customData")?.trim() || "";
-
-            let customDataFormatted = customDataRaw;
-            try {
-                if (customDataRaw) {
-                    const parsed = JSON.parse(customDataRaw);
-                    customDataFormatted = JSON.stringify(parsed, null, 2);
-                }
-            } catch {
-                customDataFormatted = customDataRaw;
-            }
-
-            console.log("[submit-demande-estimation] stage=form_ok", {
-                bodyBytes: raw.length,
-                customDataChars: customDataRaw.length,
+        if (parsed.formName !== "demande_estimation") {
+            return new Response(JSON.stringify({ ok: false, error: "Invalid form", requestId }), {
+                status: 400,
+                headers: jsonHeaders(requestId, { "X-Submit-Stage": "invalid_form" }),
             });
+        }
 
-            if (customDataRaw) {
+        if (parsed.botField) {
+            console.warn(`[submit-demande-estimation] requestId=${requestId} honeypot`);
+            return new Response(JSON.stringify({ ok: true, requestId }), {
+                status: 200,
+                headers: jsonHeaders(requestId),
+            });
+        }
+
+        firstName = parsed.firstName?.trim() || "";
+        lastName = parsed.lastName?.trim() || "";
+        phone = parsed.phone?.trim() || "";
+        email = parsed.email?.trim() || "";
+        address = parsed.address?.trim() || "";
+        city = parsed.city?.trim() || "";
+        postalCode = parsed.postalCode?.trim() || "";
+        deliveryMethod = parsed.deliveryMethod?.trim() || "";
+        callBackRequested = parsed.callBackRequested?.trim() || "";
+        source = parsed.source?.trim() || "";
+        message = parsed.message?.trim() || "";
+        lineItems = Array.isArray(parsed.lineItems)
+            ? parsed.lineItems.map((x) => normalizeLineItem(x as Partial<JsonLineItem>))
+            : [];
+        totals = parsed.totals;
+
+        let crmHintsCompact = "";
+        if (parsed.crmHints && typeof parsed.crmHints === "object") {
+            try {
+                crmHintsCompact = JSON.stringify(parsed.crmHints);
                 mailAttachments.push({
-                    filename: "crm-hints-legacy.json.txt",
-                    content: customDataRaw,
+                    filename: "crm-hints.json",
+                    content: crmHintsCompact,
+                    contentType: "application/json; charset=utf-8",
+                });
+            } catch {
+                crmHintsCompact = String(parsed.crmHints);
+                mailAttachments.push({
+                    filename: "crm-hints.txt",
+                    content: crmHintsCompact,
                     contentType: "text/plain; charset=utf-8",
                 });
             }
-            htmlMainContent = customDataRaw
-                ? `
-      <p style="font-size:14px;"><strong>Données estimation (format formulaire historique)</strong> — voir pièce jointe <code>crm-hints-legacy.json.txt</code> (${customDataRaw.length} car.).</p>`
-                : "";
         }
-    } catch (e) {
-        console.error("[submit-demande-estimation] stage=normalize error=", e);
-        return new Response(JSON.stringify({ ok: false, error: "Bad request" }), {
-            status: 400,
-            headers: { "Content-Type": "application/json" },
+
+        const itemCount = lineItems.length;
+        console.log(`[submit-demande-estimation] requestId=${requestId} stage=json_ok`, {
+            payloadJsonBytes: raw.length,
+            lineItemCount: itemCount,
+            firstNameLen: firstName.length,
+            messageLen: message.length,
+            hasTotals: !!totals,
+            crmHintsKeys: parsed.crmHints ? Object.keys(parsed.crmHints).length : 0,
+            crmHintsPayloadBytes: crmHintsCompact.length,
         });
-    }
 
-    const subject =
-        `Demande de réservation (estimateur) — ${firstName} ${lastName}`.trim() ||
-        "Demande de réservation (estimateur)";
+        const useFr = parsed.locale !== "en";
+        emailFr = useFr;
+        htmlMainContent =
+            buildHtmlTableFromLineItems(lineItems, useFr) + buildTotalsBlock(totals, useFr);
 
-    const attachmentListHtml =
-        mailAttachments.length > 0
-            ? mailAttachments
-                  .map((a) => `<code>${escapeHtml(a.filename)}</code>`)
-                  .join(", ")
-            : "";
+        const subject =
+            `Demande de réservation (estimateur) — ${firstName} ${lastName}`.trim() ||
+            "Demande de réservation (estimateur)";
 
-    const crmAttachNote =
-        mailAttachments.length > 0
-            ? emailFr
-                ? `<p style="font-size:13px;color:#333;margin-top:16px;">Indices CRM (pièces jointes, évite les lignes trop longues pour SMTP) : ${attachmentListHtml}</p>`
-                : `<p style="font-size:13px;color:#333;margin-top:16px;">CRM data (attachments; avoids SMTP line-length issues) : ${attachmentListHtml}</p>`
-            : "";
+        const attachmentListHtml =
+            mailAttachments.length > 0
+                ? mailAttachments.map((a) => `<code>${escapeHtml(a.filename)}</code>`).join(", ")
+                : "";
 
-    const html = `
+        const crmAttachNote =
+            mailAttachments.length > 0
+                ? useFr
+                    ? `<p style="font-size:13px;color:#333;margin-top:16px;">Indices CRM (pièces jointes) : ${attachmentListHtml}</p>`
+                    : `<p style="font-size:13px;color:#333;margin-top:16px;">CRM attachments : ${attachmentListHtml}</p>`
+                : "";
+
+        const html = `
       <h2>Nouvelle demande depuis l'estimateur en ligne</h2>
       <table style="border-collapse:collapse;font-family:sans-serif;font-size:14px;">
         <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Prénom</td><td>${escapeHtml(firstName)}</td></tr>
@@ -412,46 +485,276 @@ export default async (req: Request): Promise<Response> => {
       ${crmAttachNote}
     `;
 
-    console.log("[submit-demande-estimation] stage=before_sendMail", {
-        htmlApproxChars: html.length,
-        lineItemsForTable: lineItems.length,
-        attachmentCount: mailAttachments.length,
-        attachmentTotalBytes: mailAttachments.reduce(
+        const textPlain = buildPlainTextEmail(
+            useFr,
+            {
+                firstName,
+                lastName,
+                phone,
+                email,
+                address,
+                city,
+                postalCode,
+                deliveryMethod,
+                callBackRequested,
+                message,
+            },
+            lineItems,
+            totals,
+        );
+
+        const longestHtmlLine = longestLineLength(html);
+        const longestTextLine = longestLineLength(textPlain);
+        const attachmentTotalBytes = mailAttachments.reduce(
             (n, a) => n + (typeof a.content === "string" ? a.content.length : 0),
             0,
-        ),
-    });
+        );
 
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: gmailUser,
-            pass: gmailAppPassword.replace(/\s+/g, ""),
-        },
-    });
-
-    try {
-        await transporter.sendMail({
-            from: fromAddress,
-            to: toAddress,
-            replyTo: email || undefined,
-            subject,
-            html,
-            attachments: mailAttachments.length ? mailAttachments : undefined,
+        console.log(`[submit-demande-estimation] requestId=${requestId} stage=before_sendMail`, {
+            htmlCharCount: html.length,
+            textCharCount: textPlain.length,
+            longestHtmlLine,
+            longestTextLine,
+            subjectCharCount: subject.length,
+            lineItemsForTable: lineItems.length,
+            attachmentCount: mailAttachments.length,
+            attachmentTotalBytes,
         });
-        console.log("[submit-demande-estimation] stage=after_sendMail ok to=", toAddress);
-    } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : String(err);
-        const stack = err instanceof Error ? err.stack : "";
-        console.error("[submit-demande-estimation] stage=sendMail_error message=", msg, "stack=", stack);
-        return new Response(JSON.stringify({ ok: false, error: "Failed to send email" }), {
-            status: 502,
-            headers: { "Content-Type": "application/json" },
+
+        if (longestHtmlLine > 990) {
+            console.warn(`[submit-demande-estimation] requestId=${requestId} WARNING longestHtmlLine>990`, {
+                longestHtmlLine,
+            });
+        }
+
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: gmailUser,
+                pass: gmailAppPassword.replace(/\s+/g, ""),
+            },
+        });
+
+        /** Isolation tests — same POST body; ?diag=a|b|c|d|e + header x-estimation-diag-key */
+        if (diagOk) {
+            if (diagStep === "a") {
+                console.log(`[submit-demande-estimation] requestId=${requestId} stage=diag_a no_sendMail`);
+                return new Response(
+                    JSON.stringify({
+                        ok: true,
+                        diagnostic: "a",
+                        requestId,
+                        stage: "parsed_no_sendMail",
+                        bodyBytes: raw.length,
+                        lineItemCount: lineItems.length,
+                        payloadJsonBytes: raw.length,
+                        htmlCharCount: html.length,
+                        longestHtmlLine,
+                        longestTextLine,
+                        attachmentCount: mailAttachments.length,
+                        attachmentTotalBytes,
+                        crmHintsPayloadBytes: crmHintsCompact.length,
+                    }),
+                    { status: 200, headers: jsonHeaders(requestId, { "X-Submit-Stage": "diag_a" }) },
+                );
+            }
+
+            if (diagStep === "b") {
+                console.log(`[submit-demande-estimation] requestId=${requestId} stage=diag_b minimal_text_only`);
+                try {
+                    await transporter.sendMail({
+                        from: fromAddress,
+                        to: toAddress,
+                        subject: `[diag-b] ${requestId}`,
+                        text: `diag-b OK\nrequestId=${requestId}\nlineItems=${lineItems.length}`,
+                    });
+                    console.log(`[submit-demande-estimation] requestId=${requestId} stage=after_sendMail diag_b`);
+                    return new Response(
+                        JSON.stringify({ ok: true, diagnostic: "b", requestId }),
+                        { status: 200, headers: jsonHeaders(requestId, { "X-Submit-Stage": "diag_b_ok" }) },
+                    );
+                } catch (err: unknown) {
+                    const msg = err instanceof Error ? err.message : String(err);
+                    const stack = err instanceof Error ? err.stack : "";
+                    console.error(`[submit-demande-estimation] requestId=${requestId} stage=sendMail_error diag_b`, msg, stack);
+                    return new Response(
+                        JSON.stringify({
+                            ok: false,
+                            diagnostic: "b",
+                            requestId,
+                            smtpError: exposeMailErr ? msg : undefined,
+                            error: "sendMail failed (diag-b)",
+                        }),
+                        { status: 502, headers: jsonHeaders(requestId, { "X-Submit-Stage": "diag_b_sendMail_error" }) },
+                    );
+                }
+            }
+
+            if (diagStep === "c") {
+                console.log(`[submit-demande-estimation] requestId=${requestId} stage=diag_c minimal_html`);
+                try {
+                    await transporter.sendMail({
+                        from: fromAddress,
+                        to: toAddress,
+                        subject: `[diag-c] ${requestId}`,
+                        text: `diag-c ${requestId}`,
+                        html: `<p>diag-c OK (${requestId})</p>`,
+                    });
+                    return new Response(
+                        JSON.stringify({ ok: true, diagnostic: "c", requestId }),
+                        { status: 200, headers: jsonHeaders(requestId, { "X-Submit-Stage": "diag_c_ok" }) },
+                    );
+                } catch (err: unknown) {
+                    const msg = err instanceof Error ? err.message : String(err);
+                    console.error(`[submit-demande-estimation] requestId=${requestId} stage=sendMail_error diag_c`, msg);
+                    return new Response(
+                        JSON.stringify({
+                            ok: false,
+                            diagnostic: "c",
+                            requestId,
+                            smtpError: exposeMailErr ? msg : undefined,
+                        }),
+                        { status: 502, headers: jsonHeaders(requestId, { "X-Submit-Stage": "diag_c_sendMail_error" }) },
+                    );
+                }
+            }
+
+            if (diagStep === "d") {
+                console.log(`[submit-demande-estimation] requestId=${requestId} stage=diag_d html_no_table_no_attach`);
+                const htmlNoTable = `
+      <h2>diag-d (sans tableau articles)</h2>
+      <p>${escapeHtml(firstName)} ${escapeHtml(lastName)}</p>
+      <p>lineItemCount=${lineItems.length}</p>`;
+                try {
+                    await transporter.sendMail({
+                        from: fromAddress,
+                        to: toAddress,
+                        replyTo: email || undefined,
+                        subject: `[diag-d] ${requestId}`,
+                        text: textPlain.split("\n").slice(0, 30).join("\n"),
+                        html: htmlNoTable,
+                    });
+                    return new Response(
+                        JSON.stringify({ ok: true, diagnostic: "d", requestId }),
+                        { status: 200, headers: jsonHeaders(requestId, { "X-Submit-Stage": "diag_d_ok" }) },
+                    );
+                } catch (err: unknown) {
+                    const msg = err instanceof Error ? err.message : String(err);
+                    console.error(`[submit-demande-estimation] requestId=${requestId} stage=sendMail_error diag_d`, msg);
+                    return new Response(
+                        JSON.stringify({
+                            ok: false,
+                            diagnostic: "d",
+                            requestId,
+                            smtpError: exposeMailErr ? msg : undefined,
+                        }),
+                        { status: 502, headers: jsonHeaders(requestId, { "X-Submit-Stage": "diag_d_sendMail_error" }) },
+                    );
+                }
+            }
+
+            if (diagStep === "e") {
+                console.log(`[submit-demande-estimation] requestId=${requestId} stage=diag_e full_same_as_prod`);
+                try {
+                    await transporter.sendMail({
+                        from: fromAddress,
+                        to: toAddress,
+                        replyTo: email || undefined,
+                        subject: `[diag-e] ${subject}`,
+                        text: textPlain,
+                        html,
+                        attachments: mailAttachments.length ? mailAttachments : undefined,
+                    });
+                    console.log(`[submit-demande-estimation] requestId=${requestId} stage=after_sendMail diag_e`);
+                    return new Response(
+                        JSON.stringify({ ok: true, diagnostic: "e", requestId }),
+                        { status: 200, headers: jsonHeaders(requestId, { "X-Submit-Stage": "diag_e_ok" }) },
+                    );
+                } catch (err: unknown) {
+                    const msg = err instanceof Error ? err.message : String(err);
+                    const stack = err instanceof Error ? err.stack : "";
+                    console.error(`[submit-demande-estimation] requestId=${requestId} stage=sendMail_error diag_e`, msg, stack);
+                    return new Response(
+                        JSON.stringify({
+                            ok: false,
+                            diagnostic: "e",
+                            requestId,
+                            smtpError: exposeMailErr ? msg : undefined,
+                            longestHtmlLine,
+                            attachmentTotalBytes,
+                        }),
+                        { status: 502, headers: jsonHeaders(requestId, { "X-Submit-Stage": "diag_e_sendMail_error" }) },
+                    );
+                }
+            }
+
+            return new Response(
+                JSON.stringify({
+                    ok: false,
+                    error: "Unknown diag step",
+                    requestId,
+                    valid: ["a", "b", "c", "d", "e"],
+                }),
+                { status: 400, headers: jsonHeaders(requestId) },
+            );
+        }
+
+        /** Production path */
+        try {
+            await transporter.sendMail({
+                from: fromAddress,
+                to: toAddress,
+                replyTo: email || undefined,
+                subject,
+                text: textPlain,
+                html,
+                attachments: mailAttachments.length ? mailAttachments : undefined,
+            });
+            console.log(`[submit-demande-estimation] requestId=${requestId} stage=after_sendMail ok to=${toAddress}`);
+        } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : String(err);
+            const stack = err instanceof Error ? err.stack : "";
+            const code =
+                err && typeof err === "object" && "code" in err
+                    ? String((err as { code?: string }).code)
+                    : "";
+            const responseCode =
+                err && typeof err === "object" && "response" in err
+                    ? String((err as { response?: string }).response).slice(0, 500)
+                    : "";
+            console.error(`[submit-demande-estimation] requestId=${requestId} stage=sendMail_error`, {
+                message: msg,
+                code,
+                responseSnippet: responseCode,
+                stack,
+            });
+            return new Response(
+                JSON.stringify({
+                    ok: false,
+                    error: "Failed to send email",
+                    requestId,
+                    stage: "sendMail_error",
+                    ...(exposeMailErr
+                        ? { smtpMessage: msg, smtpCode: code, smtpResponse: responseCode }
+                        : {}),
+                }),
+                {
+                    status: 502,
+                    headers: jsonHeaders(requestId, { "X-Submit-Stage": "sendMail_error" }),
+                },
+            );
+        }
+
+        return new Response(JSON.stringify({ ok: true, requestId }), {
+            status: 200,
+            headers: jsonHeaders(requestId, { "X-Submit-Stage": "after_sendMail" }),
+        });
+    } catch (e) {
+        const msg = e instanceof Error ? e.message : String(e);
+        console.error(`[submit-demande-estimation] requestId=${requestId} stage=normalize error=`, msg);
+        return new Response(JSON.stringify({ ok: false, error: "Bad request", requestId, detail: msg }), {
+            status: 400,
+            headers: jsonHeaders(requestId, { "X-Submit-Stage": "normalize_error" }),
         });
     }
-
-    return new Response(JSON.stringify({ ok: true }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-    });
 };
