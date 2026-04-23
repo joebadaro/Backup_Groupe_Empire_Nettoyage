@@ -279,6 +279,25 @@
                         ? "Un membre de notre équipe vous contactera sous peu pour finaliser le rendez-vous."
                         : "A member of our team will contact you shortly to finalize the appointment.";
 
+                const successTitle = document.getElementById("txt-success-title");
+                if (successTitle) {
+                    successTitle.innerHTML = isFr
+                        ? '<i class="fas fa-check-circle"></i> Demande de rendez-vous envoyée'
+                        : '<i class="fas fa-check-circle"></i> Appointment request sent';
+                }
+                const successMsg = document.getElementById("txt-success-msg");
+                if (successMsg) {
+                    successMsg.textContent = isFr
+                        ? "Votre demande de rendez-vous a été envoyée avec succès. Imprimez l'estimation."
+                        : "Your appointment request was sent successfully. Print your estimate.";
+                }
+                const printBtn = document.getElementById("btn-print-estimate");
+                if (printBtn) {
+                    printBtn.innerHTML = isFr
+                        ? "🖨️ Imprimer l'estimation"
+                        : "🖨️ Print estimate";
+                }
+
                 // Mobile Translations
                 const mobElements = {
                     "mobile-title": { fr: "ESTIMATION", en: "ESTIMATE" },
@@ -3806,10 +3825,13 @@
                         // Build address string
                         const fullAddress = [street, apt ? '#' + apt : '', city, postal].filter(Boolean).join(', ');
 
+                        const submitBtn = els.btnNext as HTMLButtonElement;
+                        const submitBtnOriginalHtml = submitBtn ? submitBtn.innerHTML : "";
+
                         try {
                             // Disable button to prevent double clicks
-                            const btn = els.btnNext as HTMLButtonElement;
-                            const originalText = btn ? btn.innerHTML : "";
+                            const btn = submitBtn;
+                            const originalText = submitBtnOriginalHtml;
                             if (btn) {
                                 btn.disabled = true;
                                 btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${STATE.lang === "fr" ? "Envoi..." : "Sending..."}`;
@@ -3911,25 +3933,34 @@
                             formData.append("source", "estimation-site");
                             formData.append("message", notes || '');
                             formData.append("customData", JSON.stringify(customDataPayload));
+                            formData.append("bot-field", "");
 
                             let isSuccess = false;
 
-                            // Mock Netlify response locally to allow testing the UI
-                            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                                console.log("Localhost detected: Simulating Netlify Form Success.");
-                                await new Promise(resolve => setTimeout(resolve, 1000)); // Fake network delay
+                            // Dev: simulate success (no Netlify Functions). Prod: serverless handler sends mail via Gmail (see netlify/functions/submit-demande-estimation.ts).
+                            const isLocalDev =
+                                window.location.hostname === "localhost" ||
+                                window.location.hostname === "127.0.0.1";
+                            if (isLocalDev) {
+                                console.log("Localhost: simulating successful reservation submit (no email sent).");
+                                await new Promise((resolve) => setTimeout(resolve, 600));
                                 isSuccess = true;
                             } else {
-                                const response = await fetch("/", {
+                                const response = await fetch("/.netlify/functions/submit-demande-estimation", {
                                     method: "POST",
                                     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                                    body: formData.toString()
+                                    body: formData.toString(),
                                 });
                                 isSuccess = response.ok;
                                 if (!isSuccess) {
-                                    const errText = await response.text();
-                                    console.error("API Error:", errText);
-                                    throw new Error("Erreur API: " + errText);
+                                    let detail = "";
+                                    try {
+                                        detail = await response.text();
+                                    } catch {
+                                        /* ignore */
+                                    }
+                                    console.error("Reservation submit failed:", response.status, detail);
+                                    throw new Error("Submit failed: " + response.status);
                                 }
                             }
 
@@ -3985,16 +4016,18 @@
                                     STATE.rugs = { synthetique: [], laine: [] };
                                     STATE.total = 0;
                                 }
-                            } else {
-                                const errText = await response.text();
-                                console.error("API Error:", errText);
-                                throw new Error("Erreur API: " + errText);
                             }
                         } catch (err) {
                             console.error("Submit Error:", err);
-                            alert(STATE.lang === "fr"
-                                ? "Erreur lors de l'envoi. Veuillez réessayer ou appeler le (514) 893-9939."
-                                : "Error sending request. Please try again or call (514) 893-9939.");
+                            if (submitBtn) {
+                                submitBtn.disabled = false;
+                                submitBtn.innerHTML = submitBtnOriginalHtml;
+                            }
+                            alert(
+                                STATE.lang === "fr"
+                                    ? "Impossible d'envoyer votre demande pour le moment. Veuillez réessayer dans quelques instants ou utiliser le formulaire sur la page Contact."
+                                    : "We couldn't send your request right now. Please try again in a moment or use the contact form on our Contact page.",
+                            );
                         }
                     }
 
