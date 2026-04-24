@@ -206,7 +206,7 @@ body { margin: 0; padding: 14mm 12mm; font-family: "Segoe UI", system-ui, -apple
 .eps-inner { max-width: 680px; margin: 0 auto; }
 .eps-brand { margin-bottom: 14px; padding-bottom: 12px; border-bottom: 2px solid #001f3f; }
 .eps-brand-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-.eps-logo { height: 144px; width: auto; max-width: min(100%, 660px); object-fit: contain; object-position: left top; display: block; }
+.eps-logo { height: 216px; width: auto; max-width: min(100%, 990px); object-fit: contain; object-position: left top; display: block; }
 .eps-brand-meta { text-align: right; flex: 1; min-width: 160px; }
 .eps-brand-name { margin: 0 0 4px; font-size: 10pt; font-weight: 700; color: #001f3f; letter-spacing: 0.02em; text-transform: uppercase; }
 .eps-brand-phone { margin: 0; font-size: 11pt; font-weight: 600; }

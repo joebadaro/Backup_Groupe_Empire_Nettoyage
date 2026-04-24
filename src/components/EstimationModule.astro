@@ -161,7 +161,7 @@ import UiIcon from "./icons/UiIcon.astro";
                             <div id="field-email" style="display:none;">
                                 <label
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
-                                    >Adresse courriel *</label
+                                    >Courriel (facultatif)</label
                                 >
                                 <input
                                     type="email"
@@ -175,12 +175,14 @@ import UiIcon from "./icons/UiIcon.astro";
 
                             <div>
                                 <label
+                                    id="label-street-text"
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
-                                    >Adresse (Rue & Numéro)</label
+                                    >Adresse complète (rue et numéro) *</label
                                 >
                                 <input
                                     type="text"
                                     id="input-street"
+                                    required
                                     placeholder="Ex: 1234 Rue Principale"
                                     style="width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px; font-size:0.95rem; transition:all 0.3s;"
                                 />
@@ -269,7 +271,7 @@ import UiIcon from "./icons/UiIcon.astro";
                         class="estimate-print-sheet print-summary-area"
                         style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); background:#fff;"
                     >
-                        <!-- Rempli au succès par estimation-main (feuille client seule à l’impression) -->
+                        <!-- Succès : redirection vers /estimation-print (sessionStorage) — conservé pour compat. éventuelle -->
                     </div>
                 </div>
 
@@ -2256,5 +2258,5 @@ import UiIcon from "./icons/UiIcon.astro";
 </div>
 
 <style is="inline">
-    /* Impression : desktop = fenêtre via window.printEstimateSheet() (estimation-main.ts) ; mobile = page /estimation-print (sessionStorage). */
+    /* Après envoi : /estimation-print (sessionStorage). Impression manuelle : popup si feuille dans le module, sinon même page si session. */
 </style>

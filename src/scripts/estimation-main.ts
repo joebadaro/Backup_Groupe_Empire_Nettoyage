@@ -1,6 +1,5 @@
             import { CONFIG as RawConfig } from "../data/estimationConfig";
             import {
-                buildEstimatePrintSheetHtml,
                 buildPrintWindowDocumentHtml,
                 getEstimationPrintPageUrl,
                 readEstimationPrintPayload,
@@ -279,6 +278,16 @@
                         ? "Ex: Code de porte, chien à la maison..."
                         : "Ex: Entry code, dog at home...";
 
+                const labelStreetText = document.getElementById(
+                    "label-street-text",
+                );
+                if (labelStreetText) {
+                    labelStreetText.textContent = t({
+                        fr: "Adresse complète (rue et numéro) *",
+                        en: "Full address (street and number) *",
+                    });
+                }
+
                 const disclaimer = document.getElementById(
                     "contact-disclaimer-text",
                 );
@@ -363,8 +372,14 @@
                 const mobInputs = {
                     "mobile-input-name": { fr: "Nom complet *", en: "Full Name *" },
                     "mobile-input-phone": { fr: "Téléphone (mobile pour SMS) *", en: "Phone (mobile for SMS) *" },
-                    "mobile-input-email": { fr: "Adresse courriel *", en: "Email Address *" },
-                    "mobile-input-street": { fr: "Adresse (Rue/No)", en: "Address (Street/No)" },
+                    "mobile-input-email": {
+                        fr: "Courriel (facultatif)",
+                        en: "Email (optional)",
+                    },
+                    "mobile-input-street": {
+                        fr: "Adresse complète (rue et numéro) *",
+                        en: "Full address (street and number) *",
+                    },
                     "mobile-input-apt": { fr: "Apt", en: "Apt/Unit" },
                     "mobile-input-city": { fr: "Ville *", en: "City *" },
                     "mobile-input-postal": { fr: "Code Postal", en: "Postal Code" },
@@ -3689,7 +3704,7 @@
                                     
                                     mobFieldEmail.style.display = "block";
                                     if (mobInputPhone) mobInputPhone.placeholder = "Téléphone *";
-                                    mobInputEmail.required = true;
+                                    mobInputEmail.required = false;
                                 }
                             });
                         });
@@ -3758,7 +3773,7 @@
                                     // Show/hide fields
                                     fieldEmail.style.display = "block";
                                     fieldPhone.style.display = "block"; // Always show Phone
-                                    inputEmail.required = true;
+                                    inputEmail.required = false;
                                     inputPhone.required = true; // Always require Phone
 
                                     // Update label text for Email (Remove "mobile pour SMS")
@@ -3768,6 +3783,12 @@
                             });
                         });
                     }
+
+                    if (inputEmail) inputEmail.required = false;
+                    const mobileInputEmailInit = document.getElementById(
+                        "mobile-input-email",
+                    ) as HTMLInputElement | null;
+                    if (mobileInputEmailInit) mobileInputEmailInit.required = false;
 
                     // Reset Logic consolidated at line 2838
                     (window as any).renderCart = function() { /* no-op */ };
@@ -3807,8 +3828,8 @@
                     };
 
                     /**
-                     * Mobile (≤850px) : /estimation-print (sessionStorage, pas de popup).
-                     * Desktop : document minimal + window.print (popup).
+                     * Après envoi : données dans sessionStorage → /estimation-print.
+                     * Impression manuelle : mobile → même page ; bureau → popup si HTML dans le module, sinon /estimation-print si session.
                      */
                     window.printEstimateSheet = function (): void {
                         const isFr = STATE.lang === "fr";
@@ -3841,6 +3862,11 @@
                                       ? "Unable to open the print page. Refresh the page or submit your estimate again."
                                       : "Estimate content is not available to print.",
                             );
+                            return;
+                        }
+
+                        if (readEstimationPrintPayload()) {
+                            window.location.assign(getEstimationPrintPageUrl());
                             return;
                         }
 
@@ -3908,6 +3934,95 @@
                             }, 80);
                         }, 0);
                     };
+
+                    function showEstimationSubmitSuccessOverlay(
+                        lang: "fr" | "en",
+                    ): void {
+                        document
+                            .getElementById("gne-estimation-success-overlay")
+                            ?.remove();
+
+                        const overlay = document.createElement("div");
+                        overlay.id = "gne-estimation-success-overlay";
+                        overlay.setAttribute("role", "status");
+                        overlay.setAttribute("aria-live", "polite");
+                        overlay.style.cssText = [
+                            "position:fixed",
+                            "inset:0",
+                            "z-index:2147483646",
+                            "display:flex",
+                            "align-items:center",
+                            "justify-content:center",
+                            "padding:max(16px,3vw)",
+                            "box-sizing:border-box",
+                            "background:rgba(15,32,58,0.45)",
+                            "backdrop-filter:saturate(1.15) blur(5px)",
+                            "-webkit-backdrop-filter:saturate(1.15) blur(5px)",
+                            'font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif',
+                        ].join(";");
+
+                        const card = document.createElement("div");
+                        card.style.cssText = [
+                            "max-width:min(32rem,100%)",
+                            "background:#fff",
+                            "color:#1a1a1a",
+                            "border-radius:16px",
+                            "padding:clamp(22px,4.5vw,34px)",
+                            "box-sizing:border-box",
+                            "box-shadow:0 20px 70px rgba(0,31,63,0.28)",
+                            "border:1px solid rgba(0,59,122,0.14)",
+                            "text-align:center",
+                        ].join(";");
+
+                        const check = document.createElement("div");
+                        check.setAttribute("aria-hidden", "true");
+                        check.style.cssText =
+                            "width:52px;height:52px;margin:0 auto 18px;border-radius:50%;background:#e8f5e9;color:#2e7d32;display:flex;align-items:center;justify-content:center;font-size:1.55rem;line-height:1;";
+                        check.textContent = "✓";
+
+                        const badge = document.createElement("p");
+                        badge.style.cssText =
+                            "margin:0 0 12px;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#003b7a;";
+                        badge.textContent =
+                            lang === "fr" ? "Demande envoyée" : "Request sent";
+
+                        const msg = document.createElement("p");
+                        msg.style.cssText =
+                            "margin:0;font-size:clamp(1.05rem,2.9vw,1.2rem);font-weight:600;color:#111827;line-height:1.55;";
+                        msg.textContent =
+                            lang === "fr"
+                                ? "Un membre de notre équipe vous contactera pour planifier un rendez-vous avec vous."
+                                : "A member of our team will contact you to schedule an appointment with you.";
+
+                        card.appendChild(check);
+                        card.appendChild(badge);
+                        card.appendChild(msg);
+                        overlay.appendChild(card);
+                        document.body.appendChild(overlay);
+                    }
+
+                    function scheduleEstimationSuccessRedirect(
+                        lang: "fr" | "en",
+                    ): void {
+                        showEstimationSubmitSuccessOverlay(lang);
+                        window.setTimeout(() => {
+                            const printDesktop = document.getElementById(
+                                "estimate-print-root",
+                            );
+                            const printMobile = document.getElementById(
+                                "estimate-print-root-mobile",
+                            );
+                            if (printDesktop) printDesktop.innerHTML = "";
+                            if (printMobile) printMobile.innerHTML = "";
+                            STATE.quantities = {};
+                            STATE.customSectionals = [];
+                            STATE.rugs = { synthetique: [], laine: [] };
+                            STATE.total = 0;
+                            window.location.assign(
+                                getEstimationPrintPageUrl(),
+                            );
+                        }, 2400);
+                    }
 
                     /** Compact line items for API — no duplicate prose, scales with cart size safely. */
                     function buildCompactLineItemsForSubmit(rawItems: any[]) {
@@ -3987,6 +4102,34 @@
                             return;
                         }
 
+                        const phoneTrim = (phone || "").trim();
+                        const streetTrim = (street || "").trim();
+                        const cityTrim = (city || "").trim();
+                        if (!phoneTrim) {
+                            alert(
+                                STATE.lang === "fr"
+                                    ? "Veuillez entrer votre numéro de téléphone."
+                                    : "Please enter your phone number.",
+                            );
+                            return;
+                        }
+                        if (!streetTrim) {
+                            alert(
+                                STATE.lang === "fr"
+                                    ? "Veuillez entrer votre adresse complète (rue et numéro)."
+                                    : "Please enter your full street address.",
+                            );
+                            return;
+                        }
+                        if (!cityTrim) {
+                            alert(
+                                STATE.lang === "fr"
+                                    ? "Veuillez entrer votre ville."
+                                    : "Please enter your city.",
+                            );
+                            return;
+                        }
+
                         const submitBtn = els.btnNext as HTMLButtonElement;
                         const submitBtnOriginalHtml = submitBtn ? submitBtn.innerHTML : "";
 
@@ -4016,10 +4159,10 @@
                                 firstName: name.split(" ")[0] || "",
                                 lastName:
                                     name.split(" ").slice(1).join(" ") || "",
-                                phone: phone || "",
-                                email: email || "",
-                                address: street + (apt ? " #" + apt : ""),
-                                city: city || "",
+                                phone: phoneTrim,
+                                email: (email || "").trim(),
+                                address: streetTrim + (apt ? " #" + apt : ""),
+                                city: cityTrim,
                                 postalCode: postal || "",
                                 deliveryMethod: deliveryMethod || "",
                                 callBackRequested: callBackRequested || "no",
@@ -4134,21 +4277,15 @@
                                     STATE.lang === "en" ? "en" : "fr";
                                 const printClient = {
                                     displayName: finalName,
-                                    email: email || "",
-                                    phone: phone || "",
-                                    city: city || "",
-                                    street: street || "",
+                                    email: (email || "").trim(),
+                                    phone: phoneTrim,
+                                    city: cityTrim,
+                                    street: streetTrim,
                                     apt: apt || "",
                                     postal: postal || "",
                                     notes: notes || "",
                                     deliveryMethod: deliveryMethod || "",
                                 };
-                                const sheetHtml = buildEstimatePrintSheetHtml(
-                                    itemsSnapshot,
-                                    totalSnapshot,
-                                    printClient,
-                                    printLang,
-                                );
                                 saveEstimationPrintPayload({
                                     v: 1,
                                     lang: printLang,
@@ -4157,65 +4294,7 @@
                                     client: printClient,
                                 });
 
-                                const isMobile = window.innerWidth <= 850;
-                                const printDesktop = document.getElementById(
-                                    "estimate-print-root",
-                                );
-                                const printMobile = document.getElementById(
-                                    "estimate-print-root-mobile",
-                                );
-                                /* Mobile : aller directement à la feuille /estimation-print (pas d’écran succès dans le module). */
-                                if (isMobile) {
-                                    if (printDesktop) printDesktop.innerHTML = "";
-                                    if (printMobile) printMobile.innerHTML = "";
-                                    if (window.resetEstimation) {
-                                        STATE.quantities = {};
-                                        STATE.customSectionals = [];
-                                        STATE.rugs = {
-                                            synthetique: [],
-                                            laine: [],
-                                        };
-                                        STATE.total = 0;
-                                    }
-                                    window.location.assign(
-                                        getEstimationPrintPageUrl(),
-                                    );
-                                    return;
-                                }
-
-                                if (printMobile) printMobile.innerHTML = "";
-                                if (printDesktop) printDesktop.innerHTML = sheetHtml;
-
-                                {
-                                    const desktopSteps =
-                                        document.querySelectorAll(".step");
-                                    desktopSteps.forEach((s) =>
-                                        s.classList.remove("active"),
-                                    );
-                                    const successStep =
-                                        document.getElementById("step-success");
-                                    if (successStep)
-                                        successStep.classList.add("active");
-
-                                    const btnBack =
-                                        document.getElementById("btn-back");
-                                    const btnNext =
-                                        document.getElementById("btn-next");
-                                    const btnAddMore = document.getElementById(
-                                        "btn-add-more",
-                                    );
-                                    if (btnBack) btnBack.style.display = "none";
-                                    if (btnNext) btnNext.style.display = "none";
-                                    if (btnAddMore)
-                                        btnAddMore.style.display = "none";
-                                }
-
-                                if (window.resetEstimation) {
-                                    STATE.quantities = {};
-                                    STATE.customSectionals = [];
-                                    STATE.rugs = { synthetique: [], laine: [] };
-                                    STATE.total = 0;
-                                }
+                                scheduleEstimationSuccessRedirect(printLang);
                             }
                         } catch (err) {
                             console.error("Submit Error:", err);
@@ -4273,6 +4352,34 @@
                             const callBackRequested = "yes";
 
                             if (!inputName || !deliveryMethod) return;
+
+                            const phoneVal = (inputPhone?.value || "").trim();
+                            const streetVal = (inputStreet?.value || "").trim();
+                            const cityVal = (inputCity?.value || "").trim();
+                            if (!phoneVal) {
+                                alert(
+                                    STATE.lang === "fr"
+                                        ? "Veuillez entrer votre numéro de téléphone."
+                                        : "Please enter your phone number.",
+                                );
+                                return;
+                            }
+                            if (!streetVal) {
+                                alert(
+                                    STATE.lang === "fr"
+                                        ? "Veuillez entrer votre adresse complète (rue et numéro)."
+                                        : "Please enter your full street address.",
+                                );
+                                return;
+                            }
+                            if (!cityVal) {
+                                alert(
+                                    STATE.lang === "fr"
+                                        ? "Veuillez entrer votre ville."
+                                        : "Please enter your city.",
+                                );
+                                return;
+                            }
 
                             await submitEstimationForm({
                                 name: inputName.value,
@@ -4346,7 +4453,7 @@
                                 return;
                             }
 
-                            if (!nameInput || !nameInput.value) {
+                            if (!nameInput || !nameInput.value.trim()) {
                                 alert(
                                     STATE.lang === "fr"
                                         ? "Veuillez entrer votre nom."
@@ -4356,17 +4463,7 @@
                             }
                             if (!deliveryMethod) return;
 
-                            /* Delivery toggles were removed from the UI but a hidden radio may still be
-                               "email"; the email field stays display:none → do not block submit on email. */
-                            const mobFieldEmailWrap = document.getElementById(
-                                "mobile-field-email",
-                            );
-                            const mobileEmailFieldShown =
-                                !!mobFieldEmailWrap &&
-                                mobFieldEmailWrap.offsetParent !== null &&
-                                window.getComputedStyle(mobFieldEmailWrap).display !== "none";
-
-                            if (!phoneInput?.value) {
+                            if (!phoneInput?.value?.trim()) {
                                 alert(
                                     STATE.lang === "fr"
                                         ? "Veuillez entrer votre numéro de téléphone."
@@ -4374,15 +4471,19 @@
                                 );
                                 return;
                             }
-                            if (
-                                deliveryMethod === "email" &&
-                                mobileEmailFieldShown &&
-                                !emailInput?.value
-                            ) {
+                            if (!streetInput?.value?.trim()) {
                                 alert(
                                     STATE.lang === "fr"
-                                        ? "Veuillez entrer votre courriel."
-                                        : "Please enter your email.",
+                                        ? "Veuillez entrer votre adresse complète (rue et numéro)."
+                                        : "Please enter your full street address.",
+                                );
+                                return;
+                            }
+                            if (!cityInput?.value?.trim()) {
+                                alert(
+                                    STATE.lang === "fr"
+                                        ? "Veuillez entrer votre ville."
+                                        : "Please enter your city.",
                                 );
                                 return;
                             }
