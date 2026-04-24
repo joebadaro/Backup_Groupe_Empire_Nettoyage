@@ -206,11 +206,33 @@ const label = isEn ? "FR" : "EN";
             ><span class="promo-badge">{isEn ? "Our Promotions" : "Nos promotions"}</span></a
             >
           </li>
-          <li class="desktop-nav-only">
-            <a
-              href={isEn ? "/en/realisations" : "/realisations"}
-              class="nav-item">{isEn ? "Our Work" : "Réalisations"}</a
+          <li class="dropdown-wrapper desktop-nav-only">
+            <button
+              type="button"
+              id="realisations-btn"
+              class="nav-item dropbtn"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="realisations-menu"
             >
+              {isEn ? "Our Work" : "Réalisations"} ▾
+            </button>
+            <div
+              id="realisations-menu"
+              class="dropdown-menu dropdown-menu--realisations"
+              role="menu"
+            >
+              <a
+                role="menuitem"
+                href={isEn ? "/en/realisations" : "/realisations"}
+                >{isEn ? "Photo Gallery" : "Galerie photo"}</a
+              >
+              <a
+                role="menuitem"
+                href={isEn ? "/en/video-gallery" : "/realisations-video"}
+                >{isEn ? "Video" : "Vidéo"}</a
+              >
+            </div>
           </li>
           <li class="mobile-nav-only">
             <a
@@ -287,6 +309,37 @@ const label = isEn ? "FR" : "EN";
   // Logic for Persistent Dropdown (Click to Open/Close)
   const servicesBtn = document.getElementById("services-btn");
   const servicesMenu = document.getElementById("services-menu");
+  const realisationsBtn = document.getElementById("realisations-btn");
+  const realisationsMenu = document.getElementById("realisations-menu");
+
+  function toggleMenu(show: boolean) {
+    if (!servicesBtn || !servicesMenu) return;
+
+    servicesBtn.setAttribute("aria-expanded", show.toString());
+    if (show) {
+      servicesMenu.classList.add("visible");
+      closeRealisationsMenu();
+    } else {
+      servicesMenu.classList.remove("visible");
+    }
+  }
+
+  function closeRealisationsMenu() {
+    if (!realisationsBtn || !realisationsMenu) return;
+    realisationsBtn.setAttribute("aria-expanded", "false");
+    realisationsMenu.classList.remove("visible");
+  }
+
+  function toggleRealisationsMenu(show: boolean) {
+    if (!realisationsBtn || !realisationsMenu) return;
+    realisationsBtn.setAttribute("aria-expanded", show.toString());
+    if (show) {
+      realisationsMenu.classList.add("visible");
+      toggleMenu(false);
+    } else {
+      realisationsMenu.classList.remove("visible");
+    }
+  }
 
   if (servicesBtn && servicesMenu) {
     // Toggle menu on click
@@ -317,16 +370,37 @@ const label = isEn ? "FR" : "EN";
     });
   }
 
-  function toggleMenu(show: boolean) {
-    if (!servicesBtn || !servicesMenu) return;
+  if (realisationsBtn && realisationsMenu) {
+    realisationsBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isExpanded =
+        realisationsBtn.getAttribute("aria-expanded") === "true";
+      toggleRealisationsMenu(!isExpanded);
+    });
 
-    servicesBtn.setAttribute("aria-expanded", show.toString());
-    if (show) {
-      servicesMenu.classList.add("visible");
-    } else {
-      servicesMenu.classList.remove("visible");
-    }
+    document.addEventListener("click", (e) => {
+      const target = e.target as Node | null;
+      if (
+        target &&
+        !realisationsMenu.contains(target) &&
+        !realisationsBtn.contains(target)
+      ) {
+        closeRealisationsMenu();
+      }
+    });
+
+    realisationsMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        closeRealisationsMenu();
+      });
+    });
   }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    toggleMenu(false);
+    closeRealisationsMenu();
+  });
 
   // --- MOBILE MENU LOGIC ---
   const mobileToggle = document.querySelector(".mobile-toggle");
@@ -551,6 +625,51 @@ const label = isEn ? "FR" : "EN";
     display: grid;
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
+  }
+
+  /* Réalisations / Our Work — sous-menu compact (desktop uniquement) */
+  .dropdown-menu.dropdown-menu--realisations {
+    min-width: 220px;
+    max-width: 300px;
+    grid-template-columns: 1fr;
+    padding: 0.55rem 0.65rem 0.6rem;
+    gap: 0.2rem;
+  }
+
+  .dropdown-menu.dropdown-menu--realisations.visible {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dropdown-menu--realisations a {
+    display: block;
+    padding: 0.56rem 0.72rem;
+    margin-bottom: 0.08rem;
+    color: #1b2b3f;
+    transition: all 0.2s ease;
+    font-size: 0.89rem;
+    line-height: 1.3;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.45);
+    text-decoration: none;
+  }
+
+  .dropdown-menu--realisations a:hover,
+  .dropdown-menu--realisations a:focus-visible {
+    color: #00264d;
+    outline: none;
+    font-weight: 700;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 87, 184, 0.2) 0%,
+      rgba(0, 87, 184, 0.06) 70%,
+      rgba(194, 24, 27, 0.08) 100%
+    );
+    border-color: rgba(0, 87, 184, 0.22);
+    box-shadow:
+      0 5px 12px rgba(0, 57, 122, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.75);
   }
 
   .dropdown-column {
