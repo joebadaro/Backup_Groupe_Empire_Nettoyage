@@ -737,6 +737,16 @@ import UiIcon from "./icons/UiIcon.astro";
                 display: none !important;
             }
 
+            /* Formulaire commercial (mobile) : le JS peut remettre display:flex sur le pied — on force le masquage. */
+            @media (max-width: 850px) {
+                html.commercial-estimation-commercial-open
+                    #mobile-sticky-footer {
+                    display: none !important;
+                    visibility: hidden !important;
+                    pointer-events: none !important;
+                }
+            }
+
             @keyframes slideUpFooter {
                 from { transform: translateY(100%); }
                 to { transform: translateY(0); }

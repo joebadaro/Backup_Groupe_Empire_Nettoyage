@@ -83,6 +83,27 @@
                 }
             }
 
+            /** Formulaire commercial ouvert — utilisé pour ne pas réafficher le pied mobile par-dessus l’overlay. */
+            let commercialRequestPanelOpen = false;
+            const ESTIMATION_MOBILE_BREAKPOINT_PX = 850;
+
+            function isCommercialMobileFooterSuppressed(): boolean {
+                return (
+                    commercialRequestPanelOpen &&
+                    typeof window !== "undefined" &&
+                    window.innerWidth <= ESTIMATION_MOBILE_BREAKPOINT_PX
+                );
+            }
+
+            function syncCommercialMobileOverlayDom(): void {
+                const html = document.documentElement;
+                if (isCommercialMobileFooterSuppressed()) {
+                    html.classList.add("commercial-estimation-commercial-open");
+                } else {
+                    html.classList.remove("commercial-estimation-commercial-open");
+                }
+            }
+
             /** Replaces removed 💎 in promo banners (inline SVG, currentColor). */
             const PROMO_GEM_ICON_SVG =
                 '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l4 6-10 13L2 9l4-6Z"/><path d="M2 9h20"/></svg>';
@@ -266,6 +287,7 @@
                 renderDetails();
                 requestAnimationFrame(() => {
                     updateUI();
+                    syncCommercialMobileOverlayDom();
                 });
 
                 // Update New localized fields (Address & Disclaimer)
@@ -367,6 +389,12 @@
                 };
 
                 for (const [id, txt] of Object.entries(mobElements)) {
+                    if (
+                        id === "mobile-next-btn" &&
+                        isCommercialMobileFooterSuppressed()
+                    ) {
+                        continue;
+                    }
                     const el = document.getElementById(id);
                     if (el) el.innerText = t(txt); // Use innerText to preserve structure if simple
                 }
@@ -515,6 +543,7 @@
             function openCommercialRequestPanel(): void {
                 refreshCommercialRequestUi();
                 clearCommercialSuccessAutoCloseTimer();
+                commercialRequestPanelOpen = true;
                 document
                     .querySelector(".commercial-request-dialog")
                     ?.classList.remove("commercial-dialog-success-mode");
@@ -531,12 +560,11 @@
                 if (mobFoot) {
                     mobFoot.dataset.commercialPrevZ = mobFoot.style.zIndex || "";
                     mobFoot.style.zIndex = "99990";
-                    /* Mobile: calculateTotal() réaffiche le pied (étape 1 + devis) au-dessus du formulaire commercial. */
-                    if (window.innerWidth <= 850) {
+                    if (isCommercialMobileFooterSuppressed()) {
                         mobFoot.classList.add("mobile-footer-hidden");
-                        mobFoot.dataset.commercialFooterSuppressed = "1";
                     }
                 }
+                syncCommercialMobileOverlayDom();
                 if (ov) {
                     ov.style.display = "flex";
                     ov.setAttribute("aria-hidden", "false");
@@ -545,16 +573,15 @@
 
             function closeCommercialRequestPanel(resetForm: boolean): void {
                 clearCommercialSuccessAutoCloseTimer();
+                commercialRequestPanelOpen = false;
+                syncCommercialMobileOverlayDom();
                 document
                     .querySelector(".commercial-request-dialog")
                     ?.classList.remove("commercial-dialog-success-mode");
                 const ov = document.getElementById("commercial-request-overlay");
                 const mobFoot = document.getElementById("mobile-sticky-footer");
                 if (mobFoot) {
-                    if (mobFoot.dataset.commercialFooterSuppressed === "1") {
-                        mobFoot.classList.remove("mobile-footer-hidden");
-                        delete mobFoot.dataset.commercialFooterSuppressed;
-                    }
+                    mobFoot.classList.remove("mobile-footer-hidden");
                     if (mobFoot.dataset.commercialPrevZ !== undefined) {
                         mobFoot.style.zIndex = mobFoot.dataset.commercialPrevZ || "";
                         delete mobFoot.dataset.commercialPrevZ;
@@ -908,9 +935,14 @@
                         const foot = document.getElementById("mobile-sticky-footer");
                         if(foot) {
                             document.body.appendChild(foot); // MOVE TO BODY prevents transform issues
-                            foot.style.display = "flex";
-                            foot.style.zIndex = "2147483647";
-                            foot.classList.remove('mobile-footer-hidden');
+                            if (!isCommercialMobileFooterSuppressed()) {
+                                foot.style.display = "flex";
+                                foot.style.zIndex = "2147483647";
+                                foot.classList.remove('mobile-footer-hidden');
+                            } else {
+                                foot.classList.add("mobile-footer-hidden");
+                                syncCommercialMobileOverlayDom();
+                            }
                         }
 
                         // FIX: Initialize Mobile Step to 1 to show Footer/Buttons
@@ -3142,25 +3174,53 @@
                                       fr: "Continuer",
                                       en: "Next",
                                   });
-                             if(mobileFooter) mobileFooter.classList.remove('mobile-footer-hidden');
+                             if (
+                                 mobileFooter &&
+                                 !isCommercialMobileFooterSuppressed()
+                             ) {
+                                 mobileFooter.classList.remove(
+                                     "mobile-footer-hidden",
+                                 );
+                             }
                         }
                         else if (STATE.step === 2) {
                             mobileNext.textContent = t({
                                 fr: "Voir les articles sélectionnés",
                                 en: "View Selected Items",
                             });
-                             if(mobileFooter) mobileFooter.classList.remove('mobile-footer-hidden');
+                             if (
+                                 mobileFooter &&
+                                 !isCommercialMobileFooterSuppressed()
+                             ) {
+                                 mobileFooter.classList.remove(
+                                     "mobile-footer-hidden",
+                                 );
+                             }
                         }
                         else if (STATE.step === 3) {
                              // "Finaliser" -> leads to Step 4
                             mobileNext.textContent = t(
                                 CONFIG.text.buttons.finaliser,
                             );
-                             if(mobileFooter) mobileFooter.classList.remove('mobile-footer-hidden');
+                             if (
+                                 mobileFooter &&
+                                 !isCommercialMobileFooterSuppressed()
+                             ) {
+                                 mobileFooter.classList.remove(
+                                     "mobile-footer-hidden",
+                                 );
+                             }
                         } else if (STATE.step === 4) {
                             // Hide sticky footer on Step 4 (Form) to avoid duplicate buttons
                             if(mobileFooter) mobileFooter.classList.add('mobile-footer-hidden');
                         }
+                    }
+                    if (isCommercialMobileFooterSuppressed()) {
+                        const mfBack = document.getElementById(
+                            "mobile-sticky-footer",
+                        );
+                        if (mfBack) mfBack.classList.add("mobile-footer-hidden");
+                        syncCommercialMobileOverlayDom();
                     }
                 }
 
@@ -3758,7 +3818,15 @@
                         // SHOW TOTALS (Standard Mode)
                         if (sidebarTotalBlock) sidebarTotalBlock.style.display = "block";
                         // Mobile footer visibility is handled by step logic, but ensure we don't force hide it unless step 4
-                        if (mobileFooter && STATE.step !== 4) mobileFooter.classList.remove('mobile-footer-hidden');
+                        if (
+                            mobileFooter &&
+                            STATE.step !== 4 &&
+                            !isCommercialMobileFooterSuppressed()
+                        ) {
+                            mobileFooter.classList.remove(
+                                "mobile-footer-hidden",
+                            );
+                        }
 
 
                         // Reset Standard Mode
@@ -3941,10 +4009,19 @@
                         if (STATE.step === 4 && mobileFooter) {
                             mobileFooter.classList.add('mobile-footer-hidden');
                         } else if (mobileFooter) {
-                            mobileFooter.classList.remove('mobile-footer-hidden');
-                            // FORCE DISPLAY
-                            mobileFooter.style.display = 'flex';
-                            mobileFooter.style.zIndex = '2147483647';
+                            if (isCommercialMobileFooterSuppressed()) {
+                                mobileFooter.classList.add(
+                                    "mobile-footer-hidden",
+                                );
+                                syncCommercialMobileOverlayDom();
+                            } else {
+                                mobileFooter.classList.remove(
+                                    "mobile-footer-hidden",
+                                );
+                                // FORCE DISPLAY
+                                mobileFooter.style.display = "flex";
+                                mobileFooter.style.zIndex = "2147483647";
+                            }
                         }
                         
                         const mobScroll = document.getElementById(
