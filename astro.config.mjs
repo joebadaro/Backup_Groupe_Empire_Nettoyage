@@ -20,6 +20,7 @@ const sitemapFilter = (url) => {
     "/en/test-sms/",
     "/en/services/meubles/",
     "/en/tips/",
+    "/estimation-print",
   ];
   return !excludedSubstrings.some((sub) => url.includes(sub));
 };

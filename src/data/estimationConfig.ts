@@ -82,7 +82,9 @@ export const CONFIG = {
     },
     buttons: {
       next: { fr: "Suivant", en: "Next" },
-      finaliser: { fr: "Envoyer ma demande", en: "Send Request" },
+      finaliser: { fr: "Demander un rendez-vous", en: "Request an Appointment" },
+      /** Bouton d’envoi final (formulaire de coordonnées) */
+      confirmRequest: { fr: "Confirmer la demande de rendez-vous", en: "Confirm Appointment Request" },
       back: { fr: "Retour", en: "Back" },
       backFull: { fr: "Retour en arrière", en: "Go Back" },
       print: { fr: "Imprimer cette page", en: "Print this page" },

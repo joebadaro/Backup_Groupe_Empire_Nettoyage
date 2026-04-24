@@ -1,0 +1,71 @@
+---
+/**
+ * Impression / PDF mobile (pas de popup) : données lues dans sessionStorage
+ * (clé gne:estimation-print-v1) écrites au succès de l'envoi du module d'estimation.
+ */
+const pageTitle = "Impression | Groupe Nettoyage Empire";
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <div id="gne-estimation-print-app"></div>
+    <script>
+      import {
+        readEstimationPrintPayload,
+        buildEstimatePrintSheetHtml,
+        ESTIMATE_PRINT_SHEET_CSS,
+        ESTIMATION_PRINT_PAGE_TOOLBAR_CSS,
+      } from "../lib/estimatePrintSheet";
+
+      function run() {
+        const root = document.getElementById("gne-estimation-print-app");
+        if (!root) return;
+        const payload = readEstimationPrintPayload();
+        if (!payload) {
+          document.documentElement.lang = "fr-CA";
+          root.innerHTML = `
+            <style>${ESTIMATION_PRINT_PAGE_TOOLBAR_CSS}</style>
+            <div class="gne-estimation-error" role="alert">
+              <p><strong>Estimation introuvable.</strong> Cette page est vide si vous l’ouvrez directement ou si les données de session ont expiré. Retournez sur le site, ouvrez le module d’estimation et envoyez une demande, puis appuyez sur Imprimer.</p>
+              <p><strong>Estimate not found.</strong> This page is empty if opened directly or if session data was cleared. Return to the site, open the estimation widget, submit a request, then tap Print.</p>
+              <p><a href="/">Accueil</a> — <a href="/en">Home (EN)</a></p>
+            </div>
+          `;
+          return;
+        }
+        const isFr = payload.lang === "fr";
+        document.documentElement.lang = isFr ? "fr-CA" : "en-CA";
+        document.title = isFr
+          ? "Impression — Groupe Nettoyage Empire"
+          : "Print — Groupe Nettoyage Empire";
+        const sheet = buildEstimatePrintSheetHtml(
+          payload.items,
+          payload.total,
+          payload.client,
+          payload.lang,
+        );
+        const btnLabel = isFr
+          ? "Imprimer / Enregistrer en PDF"
+          : "Print / Save as PDF";
+        root.innerHTML = `
+          <style>${ESTIMATE_PRINT_SHEET_CSS}${ESTIMATION_PRINT_PAGE_TOOLBAR_CSS}</style>
+          <div class="gne-estimation-print-bar">
+            <button type="button" class="gne-estimation-print-btn" id="gne-estimation-print-btn">${btnLabel}</button>
+          </div>
+          <div class="gne-estimation-print-body">${sheet}</div>
+        `;
+        const btn = document.getElementById("gne-estimation-print-btn");
+        btn?.addEventListener("click", () => window.print());
+      }
+      run();
+    </script>
+  </body>
+</html>
