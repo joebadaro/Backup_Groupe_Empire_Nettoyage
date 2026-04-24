@@ -531,6 +531,11 @@
                 if (mobFoot) {
                     mobFoot.dataset.commercialPrevZ = mobFoot.style.zIndex || "";
                     mobFoot.style.zIndex = "99990";
+                    /* Mobile: calculateTotal() réaffiche le pied (étape 1 + devis) au-dessus du formulaire commercial. */
+                    if (window.innerWidth <= 850) {
+                        mobFoot.classList.add("mobile-footer-hidden");
+                        mobFoot.dataset.commercialFooterSuppressed = "1";
+                    }
                 }
                 if (ov) {
                     ov.style.display = "flex";
@@ -545,9 +550,15 @@
                     ?.classList.remove("commercial-dialog-success-mode");
                 const ov = document.getElementById("commercial-request-overlay");
                 const mobFoot = document.getElementById("mobile-sticky-footer");
-                if (mobFoot && mobFoot.dataset.commercialPrevZ !== undefined) {
-                    mobFoot.style.zIndex = mobFoot.dataset.commercialPrevZ || "";
-                    delete mobFoot.dataset.commercialPrevZ;
+                if (mobFoot) {
+                    if (mobFoot.dataset.commercialFooterSuppressed === "1") {
+                        mobFoot.classList.remove("mobile-footer-hidden");
+                        delete mobFoot.dataset.commercialFooterSuppressed;
+                    }
+                    if (mobFoot.dataset.commercialPrevZ !== undefined) {
+                        mobFoot.style.zIndex = mobFoot.dataset.commercialPrevZ || "";
+                        delete mobFoot.dataset.commercialPrevZ;
+                    }
                 }
                 if (ov) {
                     ov.style.display = "none";
