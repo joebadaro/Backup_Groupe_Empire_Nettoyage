@@ -92,28 +92,51 @@ const description = Astro.props.description ?? defaultDescription;
       });
       window.addEventListener("load", function () {
         var sessionKey = "visit_tracked_sms";
+        var trackUrl = "/.netlify/functions/track-visit";
+        function markTracked() {
+          sessionStorage.setItem(sessionKey, "true");
+        }
         function run() {
           if (sessionStorage.getItem(sessionKey)) return;
-          fetch("/.netlify/functions/track-visit", { method: "POST" })
+          try {
+            if (
+              typeof navigator.sendBeacon === "function" &&
+              navigator.sendBeacon(
+                trackUrl,
+                new Blob(["{}"], { type: "application/json" }),
+              )
+            ) {
+              markTracked();
+              return;
+            }
+          } catch (e) {}
+          fetch(trackUrl, {
+            method: "POST",
+            keepalive: true,
+            headers: { "Content-Type": "application/json" },
+            body: "{}",
+          })
             .then(function (res) {
               if (!res.ok) console.error("TRACKING FAILED:", res.status);
             })
-            .then(function () {
-              sessionStorage.setItem(sessionKey, "true");
-            })
             .catch(function (err) {
               console.error("Tracking error:", err);
-            });
+            })
+            .then(markTracked);
         }
         function schedule() {
           if (sessionStorage.getItem(sessionKey)) return;
           if ("requestIdleCallback" in window) {
             requestIdleCallback(run, { timeout: 20000 });
           } else {
-            setTimeout(run, 10000);
+            setTimeout(run, 2000);
           }
         }
-        setTimeout(schedule, 4500);
+        if ("requestIdleCallback" in window) {
+          requestIdleCallback(schedule, { timeout: 500 });
+        } else {
+          setTimeout(schedule, 0);
+        }
       });
     </script>
   </head>
