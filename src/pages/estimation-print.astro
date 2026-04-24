@@ -1,7 +1,7 @@
 ---
 /**
- * Impression / PDF mobile (pas de popup) : données lues dans sessionStorage
- * (clé gne:estimation-print-v1) écrites au succès de l'envoi du module d'estimation.
+ * Impression / PDF : sessionStorage (gne:estimation-print-v1).
+ * Bouton d’impression en HTML statique + handler global (compat. mobile / gestuelle).
  */
 const pageTitle = "Impression | Groupe Nettoyage Empire";
 ---
@@ -14,9 +14,44 @@ const pageTitle = "Impression | Groupe Nettoyage Empire";
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{pageTitle}</title>
+    <script is:inline>
+      (function () {
+        var __gneLastPrintMs = 0;
+        window.__gneEstimationPrint = function () {
+          var now = Date.now();
+          if (now - __gneLastPrintMs < 700) return;
+          __gneLastPrintMs = now;
+          if (typeof console !== "undefined" && console.info) {
+            console.info(
+              "[estimation-print] __gneEstimationPrint → window.print()",
+            );
+          }
+          try {
+            if (typeof window.print === "function") {
+              window.print();
+            } else if (typeof console !== "undefined" && console.warn) {
+              console.warn("[estimation-print] window.print is not available");
+            }
+          } catch (err) {
+            if (typeof console !== "undefined" && console.error) {
+              console.error("[estimation-print] window.print error", err);
+            }
+          }
+        };
+      })();
+    </script>
   </head>
   <body>
-    <div id="gne-estimation-print-app"></div>
+    <div id="gne-estimation-print-wrap">
+      <div id="gne-toolbar" class="gne-estimation-print-bar" hidden>
+        <button type="button" id="gne-estimation-print-btn" class="gne-estimation-print-btn">
+          <span id="gne-estimation-print-btn-label">Imprimer / Enregistrer en PDF</span>
+        </button>
+        <p id="gne-print-fallback-hint" class="gne-print-hint" hidden></p>
+      </div>
+      <div id="gne-estimation-print-body"></div>
+    </div>
+
     <script>
       import {
         readEstimationPrintPayload,
@@ -25,13 +60,60 @@ const pageTitle = "Impression | Groupe Nettoyage Empire";
         ESTIMATION_PRINT_PAGE_TOOLBAR_CSS,
       } from "../lib/estimatePrintSheet";
 
+      function injectSheetStylesOnce() {
+        if (document.getElementById("gne-estimation-print-sheet-style")) return;
+        const st = document.createElement("style");
+        st.id = "gne-estimation-print-sheet-style";
+        st.textContent =
+          ESTIMATE_PRINT_SHEET_CSS + ESTIMATION_PRINT_PAGE_TOOLBAR_CSS;
+        document.head.appendChild(st);
+      }
+
+      function wirePrintButtonOnce() {
+        const btn = document.getElementById("gne-estimation-print-btn");
+        if (!btn || btn.dataset.gnePrintWired === "1") return;
+        btn.dataset.gnePrintWired = "1";
+
+        const invoke = () => {
+          const fn = (window as unknown as { __gneEstimationPrint?: () => void })
+            .__gneEstimationPrint;
+          if (typeof fn === "function") fn();
+          else if (typeof console !== "undefined" && console.error) {
+            console.error(
+              "[estimation-print] __gneEstimationPrint missing — script is:inline non chargé ?",
+            );
+          }
+        };
+
+        btn.addEventListener("click", invoke);
+        btn.addEventListener(
+          "touchend",
+          (ev: TouchEvent) => {
+            ev.preventDefault();
+            invoke();
+          },
+          { passive: false },
+        );
+      }
+
       function run() {
-        const root = document.getElementById("gne-estimation-print-app");
-        if (!root) return;
+        const bodyEl = document.getElementById("gne-estimation-print-body");
+        const toolbar = document.getElementById("gne-toolbar");
+        const btnLabel = document.getElementById("gne-estimation-print-btn-label");
+        const hintEl = document.getElementById("gne-print-fallback-hint");
+
+        if (!bodyEl || !toolbar || !btnLabel || !hintEl) {
+          if (typeof console !== "undefined" && console.error) {
+            console.error("[estimation-print] DOM racine manquant");
+          }
+          return;
+        }
+
         const payload = readEstimationPrintPayload();
         if (!payload) {
+          toolbar.hidden = true;
           document.documentElement.lang = "fr-CA";
-          root.innerHTML = `
+          bodyEl.innerHTML = `
             <style>${ESTIMATION_PRINT_PAGE_TOOLBAR_CSS}</style>
             <div class="gne-estimation-error" role="alert">
               <p><strong>Estimation introuvable.</strong> Cette page est vide si vous l’ouvrez directement ou si les données de session ont expiré. Retournez sur le site, ouvrez le module d’estimation et envoyez une demande, puis appuyez sur Imprimer.</p>
@@ -41,41 +123,35 @@ const pageTitle = "Impression | Groupe Nettoyage Empire";
           `;
           return;
         }
+
+        injectSheetStylesOnce();
+
         const isFr = payload.lang === "fr";
         document.documentElement.lang = isFr ? "fr-CA" : "en-CA";
         document.title = isFr
           ? "Impression — Groupe Nettoyage Empire"
           : "Print — Groupe Nettoyage Empire";
-        const sheet = buildEstimatePrintSheetHtml(
+
+        bodyEl.innerHTML = buildEstimatePrintSheetHtml(
           payload.items,
           payload.total,
           payload.client,
           payload.lang,
         );
-        const btnLabel = isFr
+
+        btnLabel.textContent = isFr
           ? "Imprimer / Enregistrer en PDF"
           : "Print / Save as PDF";
-        root.innerHTML = `
-          <style>${ESTIMATE_PRINT_SHEET_CSS}${ESTIMATION_PRINT_PAGE_TOOLBAR_CSS}</style>
-          <div class="gne-estimation-print-bar"></div>
-          <div class="gne-estimation-print-body">${sheet}</div>
-        `;
-        const bar = root.querySelector(".gne-estimation-print-bar");
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.id = "gne-estimation-print-btn";
-        btn.className = "gne-estimation-print-btn";
-        btn.textContent = btnLabel;
-        const doPrint = () => {
-          try {
-            window.print();
-          } catch (err) {
-            console.error("[estimation-print] print", err);
-          }
-        };
-        btn.addEventListener("click", doPrint);
-        bar?.appendChild(btn);
+
+        hintEl.textContent = isFr
+          ? "Sur certains téléphones, le bouton peut ne rien ouvrir : utilisez le menu du navigateur (⋯ ou ☰), puis Partager ou Imprimer, puis Enregistrer en PDF si c’est proposé."
+          : "On some phones the button may not open anything: use your browser menu (⋯ or ☰), then Share or Print, then Save as PDF if offered.";
+        hintEl.hidden = false;
+
+        toolbar.hidden = false;
+        wirePrintButtonOnce();
       }
+
       run();
     </script>
   </body>

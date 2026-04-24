@@ -205,8 +205,8 @@ body { margin: 0; padding: 14mm 12mm; font-family: "Segoe UI", system-ui, -apple
   -webkit-print-color-adjust: exact; print-color-adjust: exact; font-size: 10.5pt; line-height: 1.4; }
 .eps-inner { max-width: 680px; margin: 0 auto; }
 .eps-brand { margin-bottom: 14px; padding-bottom: 12px; border-bottom: 2px solid #001f3f; }
-.eps-brand-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-.eps-logo { height: 48px; width: auto; max-width: 220px; object-fit: contain; object-position: left center; display: block; }
+.eps-brand-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.eps-logo { height: 144px; width: auto; max-width: min(100%, 660px); object-fit: contain; object-position: left top; display: block; }
 .eps-brand-meta { text-align: right; flex: 1; min-width: 160px; }
 .eps-brand-name { margin: 0 0 4px; font-size: 10pt; font-weight: 700; color: #001f3f; letter-spacing: 0.02em; text-transform: uppercase; }
 .eps-brand-phone { margin: 0; font-size: 11pt; font-weight: 600; }
@@ -243,11 +243,15 @@ body { margin: 0; padding: 14mm 12mm; font-family: "Segoe UI", system-ui, -apple
 @media print {
   @page { margin: 10mm 12mm; size: auto; }
   body { padding: 0; margin: 0; }
-  .gne-estimation-print-bar { display: none !important; }
+  .gne-estimation-print-bar,
+  .gne-print-hint { display: none !important; }
   .eps-brand-phone a { color: #001f3f !important; }
 }`;
 
 export const ESTIMATION_PRINT_PAGE_TOOLBAR_CSS = `
+.gne-estimation-print-bar { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.gne-estimation-print-btn { touch-action: manipulation; -webkit-tap-highlight-color: rgba(0, 31, 63, 0.12); cursor: pointer; }
+.gne-print-hint { margin: 12px auto 0; max-width: 34rem; padding: 0 14px; font-size: 0.875rem; line-height: 1.5; color: #555; text-align: center; }
 .gne-estimation-error { max-width: 520px; margin: 32px auto; padding: 20px; font-family: system-ui, sans-serif; line-height: 1.5; }
 `;
 
