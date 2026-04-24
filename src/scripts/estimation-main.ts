@@ -4164,56 +4164,29 @@
                                 const printMobile = document.getElementById(
                                     "estimate-print-root-mobile",
                                 );
+                                /* Mobile : aller directement à la feuille /estimation-print (pas d’écran succès dans le module). */
                                 if (isMobile) {
                                     if (printDesktop) printDesktop.innerHTML = "";
-                                    if (printMobile) printMobile.innerHTML = sheetHtml;
-                                } else {
                                     if (printMobile) printMobile.innerHTML = "";
-                                    if (printDesktop) printDesktop.innerHTML = sheetHtml;
+                                    if (window.resetEstimation) {
+                                        STATE.quantities = {};
+                                        STATE.customSectionals = [];
+                                        STATE.rugs = {
+                                            synthetique: [],
+                                            laine: [],
+                                        };
+                                        STATE.total = 0;
+                                    }
+                                    window.location.assign(
+                                        getEstimationPrintPageUrl(),
+                                    );
+                                    return;
                                 }
 
-                                if (isMobile) {
-                                    const mobileSteps =
-                                        document.querySelectorAll(".mobile-step");
-                                    mobileSteps.forEach((s) =>
-                                        s.classList.remove("active"),
-                                    );
-                                    document
-                                        .getElementById("mobile-step-success")
-                                        ?.classList.add("active");
-                                    const msm = document.getElementById(
-                                        "mobile-success-msg",
-                                    );
-                                    if (msm) {
-                                        msm.textContent =
-                                            STATE.lang === "fr"
-                                                ? "Votre demande de rendez-vous a été envoyée avec succès. Imprimez l'estimation."
-                                                : "Your appointment request was sent successfully. Print your estimate.";
-                                    }
-                                    const mobPrintBtn =
-                                        document.getElementById(
-                                            "mobile-btn-print-estimate",
-                                        );
-                                    if (mobPrintBtn) {
-                                        mobPrintBtn.innerHTML =
-                                            STATE.lang === "fr"
-                                                ? "🖨️ Imprimer l'estimation"
-                                                : "🖨️ Print estimate";
-                                    }
-                                    document
-                                        .getElementById(
-                                            "mobile-scroll-container",
-                                        )
-                                        ?.scrollTo(0, 0);
-                                    const mt = document.getElementById(
-                                        "mobile-title",
-                                    );
-                                    if (mt)
-                                        mt.textContent =
-                                            STATE.lang === "fr"
-                                                ? "Envoyé"
-                                                : "Sent";
-                                } else {
+                                if (printMobile) printMobile.innerHTML = "";
+                                if (printDesktop) printDesktop.innerHTML = sheetHtml;
+
+                                {
                                     const desktopSteps =
                                         document.querySelectorAll(".step");
                                     desktopSteps.forEach((s) =>

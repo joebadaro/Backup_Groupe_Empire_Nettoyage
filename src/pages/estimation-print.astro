@@ -57,13 +57,24 @@ const pageTitle = "Impression | Groupe Nettoyage Empire";
           : "Print / Save as PDF";
         root.innerHTML = `
           <style>${ESTIMATE_PRINT_SHEET_CSS}${ESTIMATION_PRINT_PAGE_TOOLBAR_CSS}</style>
-          <div class="gne-estimation-print-bar">
-            <button type="button" class="gne-estimation-print-btn" id="gne-estimation-print-btn">${btnLabel}</button>
-          </div>
+          <div class="gne-estimation-print-bar"></div>
           <div class="gne-estimation-print-body">${sheet}</div>
         `;
-        const btn = document.getElementById("gne-estimation-print-btn");
-        btn?.addEventListener("click", () => window.print());
+        const bar = root.querySelector(".gne-estimation-print-bar");
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.id = "gne-estimation-print-btn";
+        btn.className = "gne-estimation-print-btn";
+        btn.textContent = btnLabel;
+        const doPrint = () => {
+          try {
+            window.print();
+          } catch (err) {
+            console.error("[estimation-print] print", err);
+          }
+        };
+        btn.addEventListener("click", doPrint);
+        bar?.appendChild(btn);
       }
       run();
     </script>
