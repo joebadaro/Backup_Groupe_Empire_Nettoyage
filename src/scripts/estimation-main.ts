@@ -73,6 +73,16 @@
             // Cast imported config
             const CONFIG = RawConfig as unknown as ConfigRoot;
 
+            let commercialSuccessAutoCloseTimer: ReturnType<
+                typeof setTimeout
+            > | null = null;
+            function clearCommercialSuccessAutoCloseTimer(): void {
+                if (commercialSuccessAutoCloseTimer !== null) {
+                    clearTimeout(commercialSuccessAutoCloseTimer);
+                    commercialSuccessAutoCloseTimer = null;
+                }
+            }
+
             /** Replaces removed 💎 in promo banners (inline SVG, currentColor). */
             const PROMO_GEM_ICON_SVG =
                 '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l4 6-10 13L2 9l4-6Z"/><path d="M2 9h20"/></svg>';
@@ -411,8 +421,8 @@
                 if (!title) return;
 
                 title.textContent = t({
-                    fr: "Demande commerciale — nettoyage de tapis",
-                    en: "Commercial request — carpet cleaning",
+                    fr: "Demande commerciale – nettoyage de tapis et autres services professionnels",
+                    en: "Commercial Request – Carpet Cleaning and Additional Cleaning Services",
                 });
 
                 const intro = document.getElementById("commercial-request-intro");
@@ -437,8 +447,8 @@
                     if (el) el.textContent = t(o);
                 };
                 setLbl("commercial-lbl-full-name", {
-                    fr: "Nom complet *",
-                    en: "Full name *",
+                    fr: "Nom / nom du commerce *",
+                    en: "Name / Business Name *",
                 });
                 setLbl("commercial-lbl-phone", {
                     fr: "Téléphone *",
@@ -447,10 +457,6 @@
                 setLbl("commercial-lbl-email", {
                     fr: "Courriel (facultatif)",
                     en: "Email (optional)",
-                });
-                setLbl("commercial-lbl-business-name", {
-                    fr: "Nom du commerce *",
-                    en: "Business name *",
                 });
                 setLbl("commercial-lbl-business-address", {
                     fr: "Adresse du commerce *",
@@ -492,8 +498,8 @@
                 );
                 if (successText)
                     successText.textContent = t({
-                        fr: "Votre demande commerciale a été envoyée avec succès. Un membre de notre équipe vous contactera sous peu pour confirmer les détails et préparer votre estimation.",
-                        en: "Your commercial request was sent successfully. A member of our team will contact you shortly to confirm the details and prepare your estimate.",
+                        fr: "Votre demande d’estimation pour nettoyage commercial a bien été envoyée. Un membre de notre équipe vous contactera sous peu.",
+                        en: "Your commercial cleaning estimate request has been sent successfully. A member of our team will contact you shortly.",
                     });
 
                 const closeBtn = document.getElementById(
@@ -508,6 +514,10 @@
 
             function openCommercialRequestPanel(): void {
                 refreshCommercialRequestUi();
+                clearCommercialSuccessAutoCloseTimer();
+                document
+                    .querySelector(".commercial-request-dialog")
+                    ?.classList.remove("commercial-dialog-success-mode");
                 const ov = document.getElementById("commercial-request-overlay");
                 const formWrap = document.getElementById(
                     "commercial-request-form-wrap",
@@ -529,6 +539,10 @@
             }
 
             function closeCommercialRequestPanel(resetForm: boolean): void {
+                clearCommercialSuccessAutoCloseTimer();
+                document
+                    .querySelector(".commercial-request-dialog")
+                    ?.classList.remove("commercial-dialog-success-mode");
                 const ov = document.getElementById("commercial-request-overlay");
                 const mobFoot = document.getElementById("mobile-sticky-footer");
                 if (mobFoot && mobFoot.dataset.commercialPrevZ !== undefined) {
@@ -571,11 +585,6 @@
                         "commercial-email",
                     ) as HTMLInputElement
                 )?.value.trim();
-                const businessName = (
-                    document.getElementById(
-                        "commercial-business-name",
-                    ) as HTMLInputElement
-                )?.value.trim();
                 const businessAddress = (
                     document.getElementById(
                         "commercial-business-address",
@@ -600,8 +609,8 @@
                 if (!fullName) {
                     alert(
                         STATE.lang === "fr"
-                            ? "Veuillez entrer votre nom complet."
-                            : "Please enter your full name.",
+                            ? "Veuillez indiquer votre nom ou le nom de votre commerce."
+                            : "Please enter your name or your business name.",
                     );
                     return;
                 }
@@ -610,14 +619,6 @@
                         STATE.lang === "fr"
                             ? "Veuillez entrer votre numéro de téléphone."
                             : "Please enter your phone number.",
-                    );
-                    return;
-                }
-                if (!businessName) {
-                    alert(
-                        STATE.lang === "fr"
-                            ? "Veuillez entrer le nom du commerce."
-                            : "Please enter the business name.",
                     );
                     return;
                 }
@@ -641,9 +642,8 @@
                 const msgFr = [
                     "[Demande commerciale — nettoyage de tapis — analyse / soumission, sans grille tarifaire en ligne]",
                     "",
-                    `Nom complet : ${fullName}`,
+                    `Nom / nom du commerce : ${fullName}`,
                     `Téléphone : ${phone}`,
-                    `Nom du commerce : ${businessName}`,
                     `Adresse du commerce : ${businessAddress}`,
                     `Type de surface : ${surfaceType}`,
                     `Dimensions approximatives : ${dimensions || "non précisé"}`,
@@ -656,9 +656,8 @@
                 const msgEn = [
                     "[Commercial carpet cleaning request — analysis / quote; no online pricing grid]",
                     "",
-                    `Full name: ${fullName}`,
+                    `Name / business name: ${fullName}`,
                     `Phone: ${phone}`,
-                    `Business name: ${businessName}`,
                     `Business address: ${businessAddress}`,
                     `Surface type: ${surfaceType}`,
                     `Approximate dimensions: ${dimensions || "not specified"}`,
@@ -762,6 +761,14 @@
                         refreshCommercialRequestUi();
                         if (formWrap) formWrap.style.display = "none";
                         if (success) success.style.display = "block";
+                        document
+                            .querySelector(".commercial-request-dialog")
+                            ?.classList.add("commercial-dialog-success-mode");
+                        clearCommercialSuccessAutoCloseTimer();
+                        commercialSuccessAutoCloseTimer = setTimeout(() => {
+                            commercialSuccessAutoCloseTimer = null;
+                            closeCommercialRequestPanel(true);
+                        }, 6500);
                     }
                 } catch (err) {
                     console.error("[commercial-submit]", err);
