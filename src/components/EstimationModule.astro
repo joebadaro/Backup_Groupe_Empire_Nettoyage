@@ -596,9 +596,124 @@ import UiIcon from "./icons/UiIcon.astro";
             </div>
         </div>
 
-
-
-
+        <!-- Demande commerciale tapis (au-dessus de la vue mobile et du pied fixe) -->
+        <div
+            id="commercial-request-overlay"
+            class="commercial-request-overlay"
+            style="display:none;"
+            aria-hidden="true"
+        >
+            <div
+                class="commercial-request-dialog"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="commercial-overlay-title"
+            >
+                <button
+                    type="button"
+                    id="commercial-request-close"
+                    class="commercial-request-close"
+                    aria-label="Fermer">&times;</button
+                >
+                <h3 id="commercial-overlay-title" class="commercial-request-title"></h3>
+                <div id="commercial-request-intro" class="commercial-request-intro"></div>
+                <div id="commercial-request-form-wrap">
+                    <form id="commercial-request-form" class="commercial-request-form">
+                        <label class="commercial-request-label" for="commercial-full-name"
+                            ><span id="commercial-lbl-full-name"></span></label
+                        >
+                        <input
+                            type="text"
+                            id="commercial-full-name"
+                            class="commercial-request-input"
+                            autocomplete="name"
+                            required
+                        />
+                        <label class="commercial-request-label" for="commercial-phone"
+                            ><span id="commercial-lbl-phone"></span></label
+                        >
+                        <input
+                            type="tel"
+                            id="commercial-phone"
+                            class="commercial-request-input"
+                            autocomplete="tel"
+                            required
+                        />
+                        <label class="commercial-request-label" for="commercial-email"
+                            ><span id="commercial-lbl-email"></span></label
+                        >
+                        <input
+                            type="email"
+                            id="commercial-email"
+                            class="commercial-request-input"
+                            autocomplete="email"
+                        />
+                        <label class="commercial-request-label" for="commercial-business-name"
+                            ><span id="commercial-lbl-business-name"></span></label
+                        >
+                        <input
+                            type="text"
+                            id="commercial-business-name"
+                            class="commercial-request-input"
+                            autocomplete="organization"
+                            required
+                        />
+                        <label class="commercial-request-label" for="commercial-business-address"
+                            ><span id="commercial-lbl-business-address"></span></label
+                        >
+                        <input
+                            type="text"
+                            id="commercial-business-address"
+                            class="commercial-request-input"
+                            autocomplete="street-address"
+                            required
+                        />
+                        <label class="commercial-request-label" for="commercial-surface-type"
+                            ><span id="commercial-lbl-surface-type"></span></label
+                        >
+                        <input
+                            type="text"
+                            id="commercial-surface-type"
+                            class="commercial-request-input"
+                            required
+                        />
+                        <label class="commercial-request-label" for="commercial-dimensions"
+                            ><span id="commercial-lbl-dimensions"></span></label
+                        >
+                        <input
+                            type="text"
+                            id="commercial-dimensions"
+                            class="commercial-request-input"
+                        />
+                        <label class="commercial-request-label" for="commercial-notes"
+                            ><span id="commercial-lbl-notes"></span></label
+                        >
+                        <textarea
+                            id="commercial-notes"
+                            class="commercial-request-textarea"
+                            rows="4"></textarea>
+                        <button
+                            type="submit"
+                            id="commercial-request-submit"
+                            class="commercial-request-submit"
+                        ></button>
+                    </form>
+                </div>
+                <div
+                    id="commercial-request-success"
+                    class="commercial-request-success"
+                    style="display:none;"
+                    role="status"
+                >
+                    <p id="commercial-request-success-text" class="commercial-request-success-text"></p>
+                    <button
+                        type="button"
+                        id="commercial-request-success-close"
+                        class="commercial-request-submit commercial-request-submit-secondary"
+                    ></button>
+                </div>
+            </div>
+        </div>
 
         <style is:global>
             /* EMPIRE PREMIUM THEME - "ÉLÉGANCE & PUISSANCE" */
@@ -832,6 +947,119 @@ import UiIcon from "./icons/UiIcon.astro";
                 /* Fonts */
                 --font-heading: "Outfit", sans-serif;
                 --font-body: "Inter", sans-serif;
+            }
+
+            .commercial-request-overlay {
+                position: fixed;
+                inset: 0;
+                /* Au-dessus de la vue mobile (99999) et du pied mobile porté sur body (2147483647) */
+                z-index: 2147483646;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                padding: max(12px, 2.5vw);
+                background: rgba(15, 23, 42, 0.48);
+                backdrop-filter: blur(4px);
+                -webkit-backdrop-filter: blur(4px);
+            }
+            .commercial-request-dialog {
+                position: relative;
+                width: min(100%, 540px);
+                max-height: min(92vh, 900px);
+                overflow: auto;
+                background: #fff;
+                border-radius: 16px;
+                padding: clamp(18px, 3vw, 28px) clamp(16px, 3vw, 28px) 22px;
+                box-shadow: 0 24px 80px rgba(0, 31, 63, 0.28);
+                border: 1px solid rgba(0, 59, 122, 0.12);
+                font-family: var(--font-body, "Inter", system-ui, sans-serif);
+            }
+            .commercial-request-close {
+                position: absolute;
+                top: 10px;
+                right: 12px;
+                width: 36px;
+                height: 36px;
+                border: none;
+                border-radius: 50%;
+                background: #f1f5f9;
+                color: #334155;
+                font-size: 1.35rem;
+                line-height: 1;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .commercial-request-close:hover {
+                background: #e2e8f0;
+            }
+            .commercial-request-title {
+                margin: 0 40px 12px 0;
+                font-family: var(--font-heading, "Outfit", sans-serif);
+                font-size: 1.2rem;
+                font-weight: 800;
+                color: #001f3f;
+                line-height: 1.25;
+            }
+            .commercial-request-intro {
+                font-size: 0.92rem;
+                line-height: 1.55;
+                color: #374151;
+                margin-bottom: 18px;
+            }
+            .commercial-request-intro p {
+                margin: 0 0 0.75rem;
+            }
+            .commercial-request-form {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+            .commercial-request-label {
+                font-size: 0.82rem;
+                font-weight: 700;
+                color: #1e293b;
+            }
+            .commercial-request-input,
+            .commercial-request-textarea {
+                width: 100%;
+                padding: 11px 12px;
+                border: 1px solid #cbd5e1;
+                border-radius: 10px;
+                font-size: 16px;
+                font-family: inherit;
+            }
+            .commercial-request-textarea {
+                resize: vertical;
+                min-height: 88px;
+            }
+            .commercial-request-submit {
+                margin-top: 8px;
+                padding: 14px 18px;
+                border: none;
+                border-radius: 12px;
+                font-weight: 800;
+                font-size: 0.95rem;
+                letter-spacing: 0.02em;
+                cursor: pointer;
+                color: #fff;
+                background: linear-gradient(135deg, #001f3f 0%, #0d47a1 100%);
+            }
+            .commercial-request-submit:hover {
+                filter: brightness(1.05);
+            }
+            .commercial-request-submit-secondary {
+                background: #f1f5f9;
+                color: #001f3f;
+                margin-top: 12px;
+            }
+            .commercial-request-success-text {
+                margin: 0 0 16px;
+                font-size: 1rem;
+                line-height: 1.55;
+                color: #166534;
+                font-weight: 600;
             }
 
             .empire-modal *,

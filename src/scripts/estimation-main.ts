@@ -402,6 +402,385 @@
                     mobDisclaimer.textContent = isFr
                         ? "Un membre de notre équipe vous contactera sous peu pour finaliser le rendez-vous."
                         : "A member of our team will contact you shortly to finalize the appointment.";
+
+                refreshCommercialRequestUi();
+            }
+
+            function refreshCommercialRequestUi(): void {
+                const title = document.getElementById("commercial-overlay-title");
+                if (!title) return;
+
+                title.textContent = t({
+                    fr: "Demande commerciale — nettoyage de tapis",
+                    en: "Commercial request — carpet cleaning",
+                });
+
+                const intro = document.getElementById("commercial-request-intro");
+                if (intro) {
+                    const p1 = t({
+                        fr: "Pour les services commerciaux, une estimation précise nécessite plus d’informations sur les surfaces à nettoyer.",
+                        en: "For commercial services, an accurate estimate requires more information about the surfaces to be cleaned.",
+                    });
+                    const p2 = t({
+                        fr: "Veuillez nous indiquer le nom de votre commerce, l’adresse, le type de surface à nettoyer, les dimensions approximatives si vous les connaissez, ainsi que tout détail utile sur l’état des lieux.",
+                        en: "Please tell us your business name, address, type of surface to clean, approximate dimensions if you know them, and any useful details about the condition of the premises.",
+                    });
+                    const p3 = t({
+                        fr: "Si vous n’avez pas toutes les informations, indiquez simplement ce que vous savez. Un membre de notre équipe vous contactera sous peu pour obtenir les détails nécessaires et vous préparer une estimation adaptée.",
+                        en: "If you don’t have all the information yet, simply share what you know. A member of our team will contact you shortly to gather what we need and prepare a tailored estimate.",
+                    });
+                    intro.innerHTML = `<p>${p1}</p><p>${p2}</p><p>${p3}</p>`;
+                }
+
+                const setLbl = (id: string, o: TranslationObj) => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = t(o);
+                };
+                setLbl("commercial-lbl-full-name", {
+                    fr: "Nom complet *",
+                    en: "Full name *",
+                });
+                setLbl("commercial-lbl-phone", {
+                    fr: "Téléphone *",
+                    en: "Phone *",
+                });
+                setLbl("commercial-lbl-email", {
+                    fr: "Courriel (facultatif)",
+                    en: "Email (optional)",
+                });
+                setLbl("commercial-lbl-business-name", {
+                    fr: "Nom du commerce *",
+                    en: "Business name *",
+                });
+                setLbl("commercial-lbl-business-address", {
+                    fr: "Adresse du commerce *",
+                    en: "Business address *",
+                });
+                setLbl("commercial-lbl-surface-type", {
+                    fr: "Type de surface à nettoyer *",
+                    en: "Type of surface to clean *",
+                });
+                setLbl("commercial-lbl-dimensions", {
+                    fr: "Dimensions approximatives (facultatif)",
+                    en: "Approximate dimensions (optional)",
+                });
+                setLbl("commercial-lbl-notes", {
+                    fr: "Notes ou détails supplémentaires",
+                    en: "Additional notes or details",
+                });
+
+                const submitBtn = document.getElementById(
+                    "commercial-request-submit",
+                );
+                if (submitBtn)
+                    submitBtn.textContent = t({
+                        fr: "Envoyer ma demande commerciale",
+                        en: "Send my commercial request",
+                    });
+
+                const successClose = document.getElementById(
+                    "commercial-request-success-close",
+                );
+                if (successClose)
+                    successClose.textContent = t({
+                        fr: "Fermer",
+                        en: "Close",
+                    });
+
+                const successText = document.getElementById(
+                    "commercial-request-success-text",
+                );
+                if (successText)
+                    successText.textContent = t({
+                        fr: "Votre demande commerciale a été envoyée avec succès. Un membre de notre équipe vous contactera sous peu pour confirmer les détails et préparer votre estimation.",
+                        en: "Your commercial request was sent successfully. A member of our team will contact you shortly to confirm the details and prepare your estimate.",
+                    });
+
+                const closeBtn = document.getElementById(
+                    "commercial-request-close",
+                );
+                if (closeBtn)
+                    closeBtn.setAttribute(
+                        "aria-label",
+                        t({ fr: "Fermer", en: "Close" }),
+                    );
+            }
+
+            function openCommercialRequestPanel(): void {
+                refreshCommercialRequestUi();
+                const ov = document.getElementById("commercial-request-overlay");
+                const formWrap = document.getElementById(
+                    "commercial-request-form-wrap",
+                );
+                const success = document.getElementById(
+                    "commercial-request-success",
+                );
+                if (formWrap) formWrap.style.display = "block";
+                if (success) success.style.display = "none";
+                const mobFoot = document.getElementById("mobile-sticky-footer");
+                if (mobFoot) {
+                    mobFoot.dataset.commercialPrevZ = mobFoot.style.zIndex || "";
+                    mobFoot.style.zIndex = "99990";
+                }
+                if (ov) {
+                    ov.style.display = "flex";
+                    ov.setAttribute("aria-hidden", "false");
+                }
+            }
+
+            function closeCommercialRequestPanel(resetForm: boolean): void {
+                const ov = document.getElementById("commercial-request-overlay");
+                const mobFoot = document.getElementById("mobile-sticky-footer");
+                if (mobFoot && mobFoot.dataset.commercialPrevZ !== undefined) {
+                    mobFoot.style.zIndex = mobFoot.dataset.commercialPrevZ || "";
+                    delete mobFoot.dataset.commercialPrevZ;
+                }
+                if (ov) {
+                    ov.style.display = "none";
+                    ov.setAttribute("aria-hidden", "true");
+                }
+                if (resetForm) {
+                    const f = document.getElementById(
+                        "commercial-request-form",
+                    ) as HTMLFormElement | null;
+                    f?.reset();
+                    const formWrap = document.getElementById(
+                        "commercial-request-form-wrap",
+                    );
+                    const success = document.getElementById(
+                        "commercial-request-success",
+                    );
+                    if (formWrap) formWrap.style.display = "block";
+                    if (success) success.style.display = "none";
+                }
+            }
+
+            async function submitCommercialRequestFormImpl(): Promise<void> {
+                const fullName = (
+                    document.getElementById(
+                        "commercial-full-name",
+                    ) as HTMLInputElement
+                )?.value.trim();
+                const phone = (
+                    document.getElementById(
+                        "commercial-phone",
+                    ) as HTMLInputElement
+                )?.value.trim();
+                const email = (
+                    document.getElementById(
+                        "commercial-email",
+                    ) as HTMLInputElement
+                )?.value.trim();
+                const businessName = (
+                    document.getElementById(
+                        "commercial-business-name",
+                    ) as HTMLInputElement
+                )?.value.trim();
+                const businessAddress = (
+                    document.getElementById(
+                        "commercial-business-address",
+                    ) as HTMLInputElement
+                )?.value.trim();
+                const surfaceType = (
+                    document.getElementById(
+                        "commercial-surface-type",
+                    ) as HTMLInputElement
+                )?.value.trim();
+                const dimensions = (
+                    document.getElementById(
+                        "commercial-dimensions",
+                    ) as HTMLInputElement
+                )?.value.trim();
+                const notes = (
+                    document.getElementById(
+                        "commercial-notes",
+                    ) as HTMLTextAreaElement
+                )?.value.trim();
+
+                if (!fullName) {
+                    alert(
+                        STATE.lang === "fr"
+                            ? "Veuillez entrer votre nom complet."
+                            : "Please enter your full name.",
+                    );
+                    return;
+                }
+                if (!phone) {
+                    alert(
+                        STATE.lang === "fr"
+                            ? "Veuillez entrer votre numéro de téléphone."
+                            : "Please enter your phone number.",
+                    );
+                    return;
+                }
+                if (!businessName) {
+                    alert(
+                        STATE.lang === "fr"
+                            ? "Veuillez entrer le nom du commerce."
+                            : "Please enter the business name.",
+                    );
+                    return;
+                }
+                if (!businessAddress) {
+                    alert(
+                        STATE.lang === "fr"
+                            ? "Veuillez entrer l’adresse du commerce."
+                            : "Please enter the business address.",
+                    );
+                    return;
+                }
+                if (!surfaceType) {
+                    alert(
+                        STATE.lang === "fr"
+                            ? "Veuillez indiquer le type de surface à nettoyer."
+                            : "Please specify the type of surface to clean.",
+                    );
+                    return;
+                }
+
+                const msgFr = [
+                    "[Demande commerciale — nettoyage de tapis — analyse / soumission, sans grille tarifaire en ligne]",
+                    "",
+                    `Nom complet : ${fullName}`,
+                    `Téléphone : ${phone}`,
+                    `Nom du commerce : ${businessName}`,
+                    `Adresse du commerce : ${businessAddress}`,
+                    `Type de surface : ${surfaceType}`,
+                    `Dimensions approximatives : ${dimensions || "non précisé"}`,
+                    notes ? `Notes / détails : ${notes}` : "",
+                    email ? `Courriel : ${email}` : "",
+                ]
+                    .filter(Boolean)
+                    .join("\n");
+
+                const msgEn = [
+                    "[Commercial carpet cleaning request — analysis / quote; no online pricing grid]",
+                    "",
+                    `Full name: ${fullName}`,
+                    `Phone: ${phone}`,
+                    `Business name: ${businessName}`,
+                    `Business address: ${businessAddress}`,
+                    `Surface type: ${surfaceType}`,
+                    `Approximate dimensions: ${dimensions || "not specified"}`,
+                    notes ? `Notes / details: ${notes}` : "",
+                    email ? `Email: ${email}` : "",
+                ]
+                    .filter(Boolean)
+                    .join("\n");
+
+                const message = STATE.lang === "en" ? msgEn : msgFr;
+
+                const submitBody = {
+                    formName: "demande_estimation" as const,
+                    botField: "",
+                    firstName: fullName.split(" ")[0] || "",
+                    lastName: fullName.split(" ").slice(1).join(" ") || "",
+                    phone,
+                    email: email || "",
+                    address: businessAddress,
+                    city: "",
+                    postalCode: "",
+                    deliveryMethod: "commercial_carpet_request",
+                    callBackRequested: "yes",
+                    source: "estimation-tapis-commercial",
+                    locale: STATE.lang === "en" ? ("en" as const) : ("fr" as const),
+                    message,
+                    lineItems: [] as {
+                        id: string;
+                        label: string;
+                        qty: number;
+                        regularLine: number;
+                        discount: number;
+                        lineTotal: number;
+                    }[],
+                };
+
+                const submitBtn = document.getElementById(
+                    "commercial-request-submit",
+                ) as HTMLButtonElement | null;
+                const submitBtnLabel = submitBtn
+                    ? submitBtn.textContent || ""
+                    : "";
+                try {
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.textContent =
+                            STATE.lang === "fr" ? "Envoi…" : "Sending…";
+                    }
+
+                    let jsonPayload = "";
+                    try {
+                        jsonPayload = JSON.stringify(submitBody);
+                    } catch (serErr) {
+                        console.error(
+                            "[commercial-submit] JSON.stringify failed",
+                            serErr,
+                        );
+                        throw serErr;
+                    }
+
+                    const isLocalDev =
+                        window.location.hostname === "localhost" ||
+                        window.location.hostname === "127.0.0.1";
+                    let isSuccess = false;
+                    if (isLocalDev) {
+                        await new Promise((r) => setTimeout(r, 500));
+                        isSuccess = true;
+                    } else {
+                        const response = await fetch(
+                            "/.netlify/functions/submit-demande-estimation",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type":
+                                        "application/json; charset=utf-8",
+                                },
+                                body: jsonPayload,
+                            },
+                        );
+                        isSuccess = response.ok;
+                        if (!isSuccess) {
+                            const detail = await response.text().catch(
+                                () => "",
+                            );
+                            console.error(
+                                "[commercial-submit] failed",
+                                response.status,
+                                detail,
+                            );
+                            throw new Error(`Submit failed: ${response.status}`);
+                        }
+                    }
+
+                    if (isSuccess) {
+                        const formWrap = document.getElementById(
+                            "commercial-request-form-wrap",
+                        );
+                        const success = document.getElementById(
+                            "commercial-request-success",
+                        );
+                        refreshCommercialRequestUi();
+                        if (formWrap) formWrap.style.display = "none";
+                        if (success) success.style.display = "block";
+                    }
+                } catch (err) {
+                    console.error("[commercial-submit]", err);
+                    alert(
+                        STATE.lang === "fr"
+                            ? "Impossible d’envoyer votre demande pour le moment. Veuillez réessayer ou nous appeler."
+                            : "We couldn’t send your request right now. Please try again or call us.",
+                    );
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent =
+                            submitBtnLabel ||
+                            t({
+                                fr: "Envoyer ma demande commerciale",
+                                en: "Send my commercial request",
+                            });
+                    }
+                }
             }
 
             // --- GLOBAL EXPORTS FOR HTML ONCLICK HANDLERS ---
@@ -559,6 +938,7 @@
                     STATE.lastCartItems = [];
                     STATE.lastDiscount = 0;
                     STATE.step = 1;
+                    closeCommercialRequestPanel(true);
 
                     console.log("Clearing UI inputs...");
                     // 2. Clear UI Inputs
@@ -1662,6 +2042,14 @@
                 }
 
                 calculateTotal();
+
+                if (id === "tapis_commercial") {
+                    if (STATE.selectedServices.has("tapis_commercial")) {
+                        openCommercialRequestPanel();
+                    } else {
+                        closeCommercialRequestPanel(true);
+                    }
+                }
             }
 
             function renderDetails() {
@@ -2455,20 +2843,18 @@
                     }
                 }
 
-                // 6. Commercial Carpet (Quote Mode)
-                // Check for 'comm_sqft'
-                const commSqftQty =
-                    (STATE.quantities["comm_sqft"] as number) || 0;
-                if (commSqftQty > 0) {
+                // 6. Commercial Carpet (quote / analysis request — no instant pricing)
+                if (STATE.selectedServices.has("tapis_commercial")) {
                     cartItems.push({
                         rawId: "tapis_commercial",
-                        label: `${t({ fr: "Nettoyage Commercial", en: "Commercial Cleaning" })} (${commSqftQty} pi²)`,
+                        label: t({
+                            fr: "Nettoyage de tapis commercial (demande d’analyse / devis)",
+                            en: "Commercial carpet cleaning (analysis / quote request)",
+                        }),
                         price: 0,
                         isQuoteOnly: true,
                         savings: 0,
                     });
-                    // We do NOT add to show subtotal.
-                    // We set a flag or just handle 'isQuoteOnly' in UI
                 }
 
                 // --- CONSOLIDATION LOGIC START ---
@@ -2570,6 +2956,7 @@
                         price: val.price,
                         savings: val.savings, // Ensure savings is passed to renderSidebarCart
                         isPromo: false,
+                        isQuoteOnly: key === "tapis_commercial",
                     });
                 });
                 // Add promos back
@@ -2633,26 +3020,8 @@
                     `;
                              els.minMsgSidebar.style.display = "block";
                         } else if (hasQuoteItem) {
-                             // COMMERCIAL MESSAGE (Desktop) - REVERTED TO IMMEDIATE
-                             els.minMsgSidebar.innerHTML = `
-                            <div style="background: linear-gradient(180deg, #dcedc8 0%, #ffffff 100%); padding:20px; border-radius:12px; margin-top:15px; border:1px solid #c5e1a5; box-shadow:0 4px 10px rgba(0,0,0,0.05); text-align:center;">
-                                <div style="color:#2e7d32; font-weight:700; font-size:1rem; margin-bottom:10px;">${t({
-                                        fr: "Votre demande sera analysée et votre estimation vous sera envoyée sous peu.",
-                                        en: "Your request will be analyzed and your estimate will be sent to you shortly."
-                                    })}
-                                </div>
-                                <div style="font-size:0.9rem; color:#558b2f; line-height:1.5;">
-                                    ${t({
-                                        fr: "Si des précisions sont nécessaires, nous communiquerons avec vous.",
-                                        en: "If clarifications are needed, we will contact you."
-                                    })}
-                                </div>
-                                <div style="margin-top:15px; font-weight:800; color:#1b5e20; font-family:var(--font-heading); text-transform:uppercase;">
-                                    Groupe Nettoyage Empire
-                                </div>
-                            </div>
-                            `;
-                            els.minMsgSidebar.style.display = "block";
+                            els.minMsgSidebar.innerHTML = "";
+                            els.minMsgSidebar.style.display = "none";
                         } else {
                             els.minMsgSidebar.innerHTML = `
                     <div class="min-order-warning">
@@ -2712,33 +3081,11 @@
                         : null;
                         
                     if (hasQuoteItem) {
-                         // COMMERCIAL MODE: Hide price/label in footer
-                         console.log("DEBUG: Commercial Mode Detected. Step:", STATE.step);
                          mobileTotalEl.style.display = 'none';
                          if (labelEl) (labelEl as HTMLElement).style.display = 'none';
-                         
-                         // Show Persistent Message if Step >= 1 (MATCH MOBILE REVERT)
                          if (mobileMsgEl) {
-                             console.log("DEBUG: Checking Mobile Message Step >= 1");
-                             if (STATE.step >= 1) {
-                                 mobileMsgEl.style.display = 'block';
-                                 mobileMsgEl.style.zIndex = '100'; // Ensure visibility
-                                 
-                                 const tTitle = mobileMsgEl.querySelector('.msg-title');
-                                 const tDesc = mobileMsgEl.querySelector('.msg-desc');
-                                 if(tTitle) tTitle.innerHTML = t({
-                                    fr: "Votre demande sera analysée et votre estimation vous sera envoyée sous peu.",
-                                    en: "Your request will be analyzed and your estimate will be sent to you shortly."
-                                 });
-                                 if(tDesc) tDesc.innerHTML = t({
-                                    fr: "Si des précisions sont nécessaires, nous communiquerons avec vous.",
-                                    en: "If clarifications are needed, we will contact you."
-                                 });
-                             } else {
-                                 mobileMsgEl.style.display = 'none';
-                             }
-                         } else {
-                            console.error("DEBUG: mobileMsgEl NOT FOUND");
+                             mobileMsgEl.style.display = 'none';
+                             mobileMsgEl.innerHTML = "";
                          }
                     } else {
                         // RESIDENTIAL MODE: Restore
@@ -2768,10 +3115,15 @@
                         const mobileFooter = document.getElementById('mobile-sticky-footer');
                         
                         if (STATE.step === 1) {
-                            mobileNext.textContent = t({
-                                fr: "Continuer",
-                                en: "Next",
-                            });
+                            mobileNext.textContent = hasQuoteItem
+                                ? t({
+                                      fr: "Formulaire commercial",
+                                      en: "Commercial form",
+                                  })
+                                : t({
+                                      fr: "Continuer",
+                                      en: "Next",
+                                  });
                              if(mobileFooter) mobileFooter.classList.remove('mobile-footer-hidden');
                         }
                         else if (STATE.step === 2) {
@@ -2795,27 +3147,9 @@
                 }
 
                 if (hasQuoteItem) {
-                    // Message requested by user: Green gradient to white background
                     if (els.minMsgSidebar) {
-                        els.minMsgSidebar.innerHTML = `
-                    <div style="background: linear-gradient(180deg, #dcedc8 0%, #ffffff 100%); padding:20px; border-radius:12px; margin-top:15px; border:1px solid #c5e1a5; box-shadow:0 4px 10px rgba(0,0,0,0.05); text-align:center;">
-                        <div style="color:#2e7d32; font-weight:700; font-size:1rem; margin-bottom:10px;">${t({
-                                fr: "Votre demande sera analysée et votre estimation vous sera envoyée sous peu.",
-                                en: "Your request will be analyzed and your estimate will be sent to you shortly."
-                            })}
-                        </div>
-                        <div style="font-size:0.9rem; color:#558b2f; line-height:1.5;">
-                            ${t({
-                                fr: "Si des précisions sont nécessaires, nous communiquerons avec vous.",
-                                en: "If clarifications are needed, we will contact you."
-                            })}
-                        </div>
-                        <div style="margin-top:15px; font-weight:800; color:#1b5e20; font-family:var(--font-heading); text-transform:uppercase;">
-                            Groupe Nettoyage Empire
-                        </div>
-                    </div>
-                 `;
-                        els.minMsgSidebar.style.display = "block";
+                        els.minMsgSidebar.innerHTML = "";
+                        els.minMsgSidebar.style.display = "none";
                     }
                 } else {
                     // Standard Message
@@ -2910,13 +3244,22 @@
                             discountHtml = `<div style="color:#388e3c; font-size:0.85rem; font-weight:700; margin-top:2px;">${lbl}</div>`;
                         }
 
+                        const priceHtml = item.isQuoteOnly
+                            ? `<div class="cart-item-price" style="font-size:0.82rem;font-weight:700;color:#475569;">${t(
+                                  {
+                                      fr: "Devis sur analyse",
+                                      en: "Quote after review",
+                                  },
+                              )}</div>`
+                            : `<div class="cart-item-price">${item.price.toFixed(2)}$</div>`;
+
                         div.innerHTML = `
                 <div class="cart-item-info">
                         <div class="cart-item-name">
                             ${item.label}
                             ${discountHtml}
                         </div>
-                        <div class="cart-item-price">${item.price.toFixed(2)}$</div>
+                        ${priceHtml}
                     </div>
                     <button class="cart-delete-btn" onclick="removeItem('${item.rawId}')" title="${t(CONFIG.text.buttons.remove)}">×</button>
                 `;
@@ -2982,21 +3325,22 @@
             function nextStep() {
                 const isQuote = isQuoteOnlyMode();
 
+                if (
+                    isQuote &&
+                    (STATE.step === 1 ||
+                        STATE.step === 2 ||
+                        STATE.step === 3)
+                ) {
+                    openCommercialRequestPanel();
+                    return;
+                }
+
                 if (STATE.step === 1) {
-                    if (isQuote) {
-                        STATE.step = 4;
-                        // Skip Details render
-                    } else {
-                        STATE.step = 2;
-                        renderDetails();
-                    }
+                    STATE.step = 2;
+                    renderDetails();
                 } else if (STATE.step === 2) {
-                    if (isQuote) {
-                        STATE.step = 4;
-                    } else {
-                        STATE.step = 3;
-                        window.renderSummaryPage();
-                    }
+                    STATE.step = 3;
+                    window.renderSummaryPage();
                 } else if (STATE.step === 3) {
                     STATE.step = 4;
                 } else if (STATE.step === 4) {
@@ -3023,6 +3367,15 @@
                                 ? `<div style="color:green; font-size:0.85rem;">${t({ fr: "Rabais", en: "Discount" })}: -${item.savings.toFixed(2)}$</div>`
                                 : "";
 
+                        const priceCol = item.isQuoteOnly
+                            ? `<div style="font-weight:700; font-size:0.9rem; color:#475569; max-width:140px; text-align:right;">${t(
+                                  {
+                                      fr: "Devis sur analyse",
+                                      en: "Quote after review",
+                                  },
+                              )}</div>`
+                            : `<div style="font-weight:bold;">${item.price.toFixed(2)}$</div>`;
+
                         return `
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding:10px 0;">
                 <div style="flex:1;">
@@ -3030,7 +3383,7 @@
                     ${savingsHtml}
                 </div>
                 <div style="text-align:right; margin-right:15px;">
-                     <div style="font-weight:bold;">${item.price.toFixed(2)}$</div>
+                     ${priceCol}
                 </div>
                 <button onclick="removeItem('${item.rawId}'); window.renderSummaryPage();" 
                     style="color:red; border:1px solid #ffcdd2; background:white; border-radius:4px; padding:4px 8px; cursor:pointer;"
@@ -3135,7 +3488,14 @@
                 // Refresh buttons text based on step & lang
                 if (els.btnNext) {
                     if (STATE.step === 1) {
-                        els.btnNext.textContent = t(CONFIG.text.buttons.next);
+                        if (isQuoteOnlyMode()) {
+                            els.btnNext.textContent = t({
+                                fr: "Ouvrir le formulaire commercial",
+                                en: "Open commercial request form",
+                            });
+                        } else {
+                            els.btnNext.textContent = t(CONFIG.text.buttons.next);
+                        }
                     } else if (STATE.step === 2) {
                         if (isQuoteOnlyMode()) {
                              els.btnNext.textContent = t({
@@ -3518,6 +3878,7 @@
 
                     // --- CLOSE BUTTON LOGIC ---
                     function closeModal() {
+                        closeCommercialRequestPanel(false);
                         const widget = document.getElementById("estimation-widget");
                         if (widget) widget.style.display = "none";
                         const mobView = document.getElementById("mobile-estimation-view");
@@ -3541,11 +3902,15 @@
                     // Expose toggleMobileStep for Mobile Buttons
                     window.toggleMobileStep = function (targetStep: number) {
                         const isQuote = isQuoteOnlyMode();
-                        
-                        // If trying to go to Step 3 (Summary) but in Quote Mode, skip to Step 4
-                        // Also skip Step 2 (Details) if in Quote Mode
-                        if (isQuote) {
-                            if(targetStep === 2 || targetStep === 3) targetStep = 4;
+
+                        if (
+                            isQuote &&
+                            (targetStep === 2 ||
+                                targetStep === 3 ||
+                                targetStep === 4)
+                        ) {
+                            openCommercialRequestPanel();
+                            return;
                         }
 
                         STATE.step = targetStep;
@@ -3600,7 +3965,7 @@
                                      );
                                 }
                             } else if (STATE.step === 3) {
-                                if (isCommercial) {
+                                if (isQuote) {
                                      mobNextBtn.innerHTML = `<i class="fas fa-paper-plane" style="margin-right:8px;"></i> ${t(CONFIG.text.buttons.finaliser)}`;
                                 } else {
                                      mobNextBtn.innerHTML = t(CONFIG.text.buttons.finaliser);
@@ -3795,6 +4160,41 @@
                     (window as any).updateTotals = function() { calculateTotal(); };
 
                     (window as any).removeItem = function (id: string) {
+                        if (id === "tapis_commercial") {
+                            STATE.selectedServices.delete("tapis_commercial");
+                            if (STATE.quantities["comm_sqft"] !== undefined) {
+                                STATE.quantities["comm_sqft"] = 0;
+                            }
+                            closeCommercialRequestPanel(true);
+                            const dCard = document.querySelector(
+                                `.service-card[data-service-id="tapis_commercial"]`,
+                            );
+                            if (dCard) dCard.classList.remove("selected");
+                            const mCard = document.querySelector(
+                                `#mobile-services-list div[data-service-id="tapis_commercial"]`,
+                            ) as HTMLElement | null;
+                            if (mCard) {
+                                mCard.style.border = "1px solid #ddd";
+                                mCard.style.boxShadow =
+                                    "0 4px 10px rgba(0,0,0,0.08)";
+                                const labelDiv = mCard.querySelector(
+                                    'div[style*="position:relative"]',
+                                ) as HTMLElement | null;
+                                if (labelDiv) {
+                                    labelDiv.style.color = "#333";
+                                    labelDiv.style.background =
+                                        "rgba(255, 255, 255, 0.9)";
+                                }
+                            }
+                            calculateTotal();
+                            renderDetails();
+                            renderMobileDetails();
+                            updateUI();
+                            if (STATE.step === 3 && window.renderSummaryPage) {
+                                window.renderSummaryPage();
+                            }
+                            return;
+                        }
                         if (id === "carpet_combined") {
                             STATE.quantities["package_3rooms"] = 0;
                             STATE.quantities["room_individual"] = 0;
@@ -4311,6 +4711,30 @@
                     }
 
                     // Desktop Form Submission
+                    const commercialRequestForm = document.getElementById(
+                        "commercial-request-form",
+                    ) as HTMLFormElement | null;
+                    if (commercialRequestForm) {
+                        commercialRequestForm.onsubmit = async (e) => {
+                            e.preventDefault();
+                            await submitCommercialRequestFormImpl();
+                        };
+                    }
+                    const commercialCloseBtn = document.getElementById(
+                        "commercial-request-close",
+                    );
+                    if (commercialCloseBtn) {
+                        commercialCloseBtn.onclick = () =>
+                            closeCommercialRequestPanel(false);
+                    }
+                    const commercialSuccessClose = document.getElementById(
+                        "commercial-request-success-close",
+                    );
+                    if (commercialSuccessClose) {
+                        commercialSuccessClose.onclick = () =>
+                            closeCommercialRequestPanel(true);
+                    }
+
                     const contactForm = document.getElementById("contact-form");
                     if (contactForm) {
                         // Use onsubmit to overwrite any existing listener (prevents duplicates)
