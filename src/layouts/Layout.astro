@@ -7,6 +7,7 @@ import UiIcon from "../components/icons/UiIcon.astro";
 import { PHONES } from "../config/phones";
 
 import SEO from "../components/SEO.astro";
+import GtmDeferred from "../components/GtmDeferred.astro";
 
 /** Same-origin hashed URLs as @font-face in global CSS — early preload shortens font discovery vs CSS-parse-only */
 import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
@@ -34,26 +35,11 @@ const description = Astro.props.description ?? defaultDescription;
 <!doctype html>
 <html lang={Astro.url.pathname.startsWith("/en") ? "en" : "fr"}>
   <head>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      window.addEventListener("load", function () {
-        if (window.__gtmBootstrapDone) return;
-        window.__gtmBootstrapDone = true;
-        (function (w, d, s, l, i) {
-          w[l] = w[l] || [];
-          w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-          var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != "dataLayer" ? "&l=" + l : "";
-          j.async = true;
-          j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-          f.parentNode.insertBefore(j, f);
-        })(window, document, "script", "dataLayer", "GTM-WWCZZPZ6");
-      });
-    </script>
-    <meta name="version" content="2.0.0-perf-optimized" />
-    <!-- Slot tôt : preloads LCP (ex. hero home) avant polices et GTM -->
+    <meta charset="UTF-8" />
+    <!-- Preloads LCP (pages d’accueil) avant dataLayer / polices -->
     <slot name="head" />
+    <script is:inline>window.dataLayer = window.dataLayer || [];</script>
+    <meta name="version" content="2.0.0-perf-optimized" />
     <link
       rel="preload"
       href={interLatinWoff2}
@@ -143,6 +129,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </main>
     <Footer />
 
+    <GtmDeferred />
     <!-- Global Estimation Module -->
     <EstimationModule />
     <!-- Bootstrap: Astro <script> → bundlé par Vite avec MIME type JS correct (évite data:video/mp2t) -->

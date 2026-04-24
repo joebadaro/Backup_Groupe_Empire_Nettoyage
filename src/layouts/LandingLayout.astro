@@ -5,6 +5,7 @@ import "@fontsource-variable/outfit";
 
 import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 import outfitLatinWoff2 from "@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2?url";
+import GtmDeferred from "../components/GtmDeferred.astro";
 
 interface Props {
   title: string;
@@ -19,29 +20,13 @@ const { title, description, image, service } = Astro.props;
 <!doctype html>
 <html lang="fr">
   <head>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      window.addEventListener("load", function () {
-        if (window.__gtmBootstrapDone) return;
-        window.__gtmBootstrapDone = true;
-        (function (w, d, s, l, i) {
-          w[l] = w[l] || [];
-          w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-          var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != "dataLayer" ? "&l=" + l : "";
-          j.async = true;
-          j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-          f.parentNode.insertBefore(j, f);
-        })(window, document, "script", "dataLayer", "GTM-WWCZZPZ6");
-      });
-    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <script is:inline>window.dataLayer = window.dataLayer || [];</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@800&display=swap" rel="stylesheet">
@@ -82,6 +67,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <slot />
 
+    <GtmDeferred />
     <script is:inline>
       // Scroll reveal for landing pages
       if (window.innerWidth >= 768) {
