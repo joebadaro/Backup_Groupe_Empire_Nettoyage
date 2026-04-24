@@ -14,6 +14,30 @@ const canonicalPath = "/en/video-gallery";
 // Placeholder videos for the gallery. 
 const videos = [
   {
+    id: "9TKQuGP6-GA",
+    title: "Complete Residential Carpet Cleaning at Home",
+    category: "Residential Carpet",
+    posterUrl: "/images/videos/video-thumb-nettoyage-tapis-maison-complet.webp",
+    description:
+      "Professional residential carpet cleaning with specialized equipment, ideal for refreshing fibres and improving the overall cleanliness of the home.",
+  },
+  {
+    id: "-ghWZBk6g3A",
+    title: "Commercial Carpet Cleaning for Restaurants and Bars",
+    category: "Commercial Carpet",
+    posterUrl: "/images/videos/video-thumb-nettoyage-resto-bar.webp",
+    description:
+      "Commercial carpet cleaning service for restaurants, bars and professional spaces, using a method adapted to high-traffic areas.",
+  },
+  {
+    id: "0JmVo463OCA",
+    title: "Mattress Steam Cleaning with Specialized Treatment",
+    category: "Mattress Cleaning",
+    posterUrl: "/images/videos/video-thumb-nettoyage-matelas.webp",
+    description:
+      "Professional mattress steam cleaning with a specialized treatment designed to refresh, deodorize and deep clean the mattress.",
+  },
+  {
     id: "IRxgswcnjpI",
     title: "Persian Rug Cleaning at Home in Westmount | Cat Urine Treatment and UV Light",
     category: "Persian Rugs",
@@ -92,7 +116,10 @@ const videoSchema = {
     "item": {
       "@type": "VideoObject",
       "name": video.title,
-      "description": `Demonstration of ${video.category.toLowerCase()} by Groupe Nettoyage Empire. Before and after results using professional cleaning equipment.`,
+      "description":
+        "description" in video && video.description
+          ? video.description
+          : `Demonstration of ${video.category.toLowerCase()} by Groupe Nettoyage Empire. Before and after results using professional cleaning equipment.`,
       "thumbnailUrl": `https://groupenettoyageempire.com${video.posterUrl}`,
       "uploadDate": "2024-01-01T08:00:00+00:00",
       "embedUrl": `https://www.youtube.com/embed/${video.id}`
@@ -135,6 +162,9 @@ const videoSchema = {
             <div class="video-card-body">
               <span class="video-category-badge">{video.category}</span>
               <h2 id={`video-title-${index}`} class="video-card-title">{video.title}</h2>
+              {"description" in video && video.description ? (
+                <p class="video-card-desc">{video.description}</p>
+              ) : null}
             </div>
           </article>
         ))}
@@ -315,6 +345,13 @@ const videoSchema = {
     color: #001f3f;
     margin: 0;
     line-height: 1.4;
+  }
+
+  .video-card-desc {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: #4b5563;
+    margin: 0.35rem 0 0;
   }
 
   @media (max-width: 600px) {

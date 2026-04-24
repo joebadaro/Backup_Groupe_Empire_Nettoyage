@@ -15,6 +15,30 @@ const canonicalPath = "/realisations-video";
 // When the real YouTube IDs are available, update these objects.
 const videos = [
   {
+    id: "9TKQuGP6-GA",
+    title: "Nettoyage complet de tapis résidentiel à domicile",
+    category: "Tapis résidentiel",
+    posterUrl: "/images/videos/video-thumb-nettoyage-tapis-maison-complet.webp",
+    description:
+      "Nettoyage professionnel de tapis résidentiel avec équipement spécialisé, idéal pour raviver les fibres et améliorer la propreté générale de la maison.",
+  },
+  {
+    id: "-ghWZBk6g3A",
+    title: "Nettoyage commercial de tapis pour restaurant et bar",
+    category: "Nettoyage commercial",
+    posterUrl: "/images/videos/video-thumb-nettoyage-resto-bar.webp",
+    description:
+      "Service de nettoyage commercial pour tapis dans les restaurants, bars et espaces professionnels, avec une méthode adaptée aux zones très achalandées.",
+  },
+  {
+    id: "0JmVo463OCA",
+    title: "Nettoyage de matelas à la vapeur et traitement spécialisé",
+    category: "Matelas",
+    posterUrl: "/images/videos/video-thumb-nettoyage-matelas.webp",
+    description:
+      "Nettoyage professionnel de matelas à la vapeur avec traitement adapté pour aider à rafraîchir, désodoriser et nettoyer en profondeur.",
+  },
+  {
     id: "IRxgswcnjpI",
     title: "Nettoyage de carpettes perses à domicile à Westmount | Traitement urine de chat et lumière UV",
     category: "Carpettes Perses",
@@ -93,7 +117,10 @@ const videoSchema = {
     "item": {
       "@type": "VideoObject",
       "name": video.title,
-      "description": `Démonstration de ${video.category.toLowerCase()} par Groupe Nettoyage Empire. Vidéo avant/après et démonstration de nettoyage professionnel.`,
+      "description":
+        "description" in video && video.description
+          ? video.description
+          : `Démonstration de ${video.category.toLowerCase()} par Groupe Nettoyage Empire. Vidéo avant/après et démonstration de nettoyage professionnel.`,
       "thumbnailUrl": `https://groupenettoyageempire.com${video.posterUrl}`,
       "uploadDate": "2024-01-01T08:00:00+00:00",
       "embedUrl": `https://www.youtube.com/embed/${video.id}`
@@ -136,6 +163,9 @@ const videoSchema = {
             <div class="video-card-body">
               <span class="video-category-badge">{video.category}</span>
               <h2 id={`video-title-${index}`} class="video-card-title">{video.title}</h2>
+              {"description" in video && video.description ? (
+                <p class="video-card-desc">{video.description}</p>
+              ) : null}
             </div>
           </article>
         ))}
@@ -318,6 +348,13 @@ const videoSchema = {
     color: #001f3f;
     margin: 0;
     line-height: 1.4;
+  }
+
+  .video-card-desc {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: #4b5563;
+    margin: 0.35rem 0 0;
   }
 
   @media (max-width: 600px) {
