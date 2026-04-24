@@ -1,4 +1,5 @@
             import { CONFIG as RawConfig } from "../data/estimationConfig";
+            import { PHONES } from "../config/phones";
             // Debug Alert for Config
             if (!RawConfig) {
                 alert("CRITICAL: RawConfig is Undefined!");
@@ -3804,12 +3805,25 @@
                     function buildEstimatePrintSheetHtml(
                         items: { label: string; price: number; savings?: number }[],
                         grandTotal: number,
+                        client?: {
+                            displayName: string;
+                            email: string;
+                            phone: string;
+                            city: string;
+                            street: string;
+                            apt: string;
+                            postal: string;
+                            notes: string;
+                            deliveryMethod: string;
+                        } | null,
                     ): string {
                         const isFr = STATE.lang === "fr";
-                        const title = isFr ? "Estimation client" : "Client estimate";
+                        const title = isFr
+                            ? "Demande d'estimation"
+                            : "Estimate request";
                         const sent = isFr
-                            ? "Votre demande de rendez-vous a bien été envoyée."
-                            : "Your appointment request has been received.";
+                            ? "Votre demande a bien été envoyée."
+                            : "Your request has been sent successfully.";
                         const thArticle = isFr ? "Article" : "Item";
                         const thDiscount = isFr ? "Rabais" : "Discount";
                         const thPrice = isFr ? "Prix" : "Price";
@@ -3842,36 +3856,90 @@
                                         ? `−${svNum.toFixed(2)} $`
                                         : "—";
                                 return `<tr>
-  <td style="padding:6px 8px;border-bottom:1px solid #e0e0e0;vertical-align:top;">${lab}</td>
-  <td style="padding:6px 8px;border-bottom:1px solid #e0e0e0;text-align:right;white-space:nowrap;color:#2e7d32;">${sv}</td>
-  <td style="padding:6px 8px;border-bottom:1px solid #e0e0e0;text-align:right;white-space:nowrap;font-weight:600;">${p} $</td>
+  <td class="eps-td">${lab}</td>
+  <td class="eps-td eps-td-num eps-td-disc">${sv}</td>
+  <td class="eps-td eps-td-num">${p} $</td>
 </tr>`;
                             })
                             .join("");
 
-                        const emptyRow = `<tr><td colspan="3" style="padding:8px;">${isFr ? "Aucun article." : "No items."}</td></tr>`;
+                        const emptyRow = `<tr><td colspan="3" class="eps-td">${isFr ? "Aucun article." : "No items."}</td></tr>`;
+
+                        const phoneDisplay = PHONES.main.display;
+                        const phoneTel = PHONES.main.tel;
+                        const logoSrc = "/images/logo-officiel.svg";
+
+                        let deliveryLine = "";
+                        if (client?.deliveryMethod) {
+                            const dm = client.deliveryMethod.toLowerCase();
+                            let dmLab = client.deliveryMethod;
+                            if (dm === "email")
+                                dmLab = isFr ? "Courriel" : "Email";
+                            else if (dm === "sms") dmLab = "SMS";
+                            deliveryLine = `<div class="eps-client-row"><span class="eps-client-k">${isFr ? "Réception" : "Delivery"}</span><span class="eps-client-v">${escapeHtmlPrint(dmLab)}</span></div>`;
+                        }
+
+                        let clientBlock = "";
+                        if (client && client.displayName) {
+                            const addrParts = [
+                                client.street +
+                                    (client.apt ? " #" + client.apt : ""),
+                                [client.city, client.postal]
+                                    .filter(Boolean)
+                                    .join(", "),
+                            ].filter(Boolean);
+                            const addrLine = addrParts.join(" · ");
+                            clientBlock = `
+  <section class="eps-client" aria-label="${isFr ? "Coordonnées client" : "Client details"}">
+    <h2 class="eps-section-title">${isFr ? "Vos coordonnées" : "Your details"}</h2>
+    <div class="eps-client-grid">
+      <div class="eps-client-row"><span class="eps-client-k">${isFr ? "Nom" : "Name"}</span><span class="eps-client-v">${escapeHtmlPrint(client.displayName)}</span></div>
+      <div class="eps-client-row"><span class="eps-client-k">${isFr ? "Téléphone" : "Phone"}</span><span class="eps-client-v">${escapeHtmlPrint(client.phone)}</span></div>
+      <div class="eps-client-row"><span class="eps-client-k">${isFr ? "Courriel" : "Email"}</span><span class="eps-client-v">${escapeHtmlPrint(client.email)}</span></div>
+      ${addrLine ? `<div class="eps-client-row eps-client-row--block"><span class="eps-client-k">${isFr ? "Adresse" : "Address"}</span><span class="eps-client-v">${escapeHtmlPrint(addrLine)}</span></div>` : ""}
+      ${deliveryLine}
+      ${client.notes ? `<div class="eps-client-row eps-client-row--block"><span class="eps-client-k">${isFr ? "Notes" : "Notes"}</span><span class="eps-client-v">${escapeHtmlPrint(client.notes)}</span></div>` : ""}
+    </div>
+  </section>`;
+                        }
 
                         return `
 <div class="eps-inner">
-  <h1 class="eps-doc-title" style="margin:0 0 8px;font-size:18pt;color:#001f3f;">${escapeHtmlPrint(title)}</h1>
-  <p class="eps-sent" style="margin:0 0 14px;font-size:11pt;color:#444;">${escapeHtmlPrint(sent)}</p>
-  <table class="eps-table" style="width:100%;border-collapse:collapse;margin:12px 0;font-size:10.5pt;">
-    <thead>
-      <tr style="border-bottom:2px solid #001f3f;">
-        <th style="text-align:left;padding:6px 8px;font-weight:700;">${thArticle}</th>
-        <th style="text-align:right;padding:6px 8px;font-weight:700;">${thDiscount}</th>
-        <th style="text-align:right;padding:6px 8px;font-weight:700;">${thPrice}</th>
-      </tr>
-    </thead>
-    <tbody>${rows || emptyRow}</tbody>
-  </table>
-  <div class="eps-totals" style="margin-top:10px;font-size:10.5pt;">
-    <div style="display:flex;justify-content:space-between;padding:3px 0;"><span>${subtotalLbl}</span><span>${subtotalBefore.toFixed(2)} $</span></div>
-    <div style="display:flex;justify-content:space-between;padding:3px 0;color:#2e7d32;"><span>${totalDiscLbl}</span><span>−${totalSavings.toFixed(2)} $</span></div>
-    <div style="display:flex;justify-content:space-between;padding:8px 0;margin-top:6px;border-top:2px solid #001f3f;font-weight:800;font-size:12pt;"><span>${totalLbl}</span><span>${grandTotal.toFixed(2)} $</span></div>
-    <p style="margin:6px 0 0;font-size:9pt;color:#666;">${taxNote}</p>
+  <header class="eps-brand">
+    <div class="eps-brand-row">
+      <img class="eps-logo" src="${logoSrc}" alt="Groupe Nettoyage Empire" />
+      <div class="eps-brand-meta">
+        <p class="eps-brand-name">Groupe Nettoyage Empire</p>
+        <p class="eps-brand-phone"><a href="tel:${escapeHtmlPrint(phoneTel)}">${escapeHtmlPrint(phoneDisplay)}</a></p>
+      </div>
+    </div>
+  </header>
+  <div class="eps-doc-head">
+    <h1 class="eps-doc-title">${escapeHtmlPrint(title)}</h1>
+    <p class="eps-sent"><span class="eps-sent-badge">${isFr ? "Demande envoyée" : "Request sent"}</span></p>
+    <p class="eps-sent-sub">${escapeHtmlPrint(sent)}</p>
   </div>
-  <div class="eps-inspection" style="margin-top:12px;padding-top:10px;border-top:1px solid #ccc;font-size:9.5pt;line-height:1.45;color:#333;">
+  ${clientBlock}
+  <section class="eps-articles" aria-label="${isFr ? "Articles" : "Line items"}">
+    <h2 class="eps-section-title">${isFr ? "Articles et tarifs" : "Items & pricing"}</h2>
+    <table class="eps-table">
+      <thead>
+        <tr>
+          <th scope="col">${thArticle}</th>
+          <th scope="col" class="eps-th-num">${thDiscount}</th>
+          <th scope="col" class="eps-th-num">${thPrice}</th>
+        </tr>
+      </thead>
+      <tbody>${rows || emptyRow}</tbody>
+    </table>
+  </section>
+  <div class="eps-totals">
+    <div class="eps-total-line"><span>${subtotalLbl}</span><span>${subtotalBefore.toFixed(2)} $</span></div>
+    <div class="eps-total-line eps-total-line--disc"><span>${totalDiscLbl}</span><span>−${totalSavings.toFixed(2)} $</span></div>
+    <div class="eps-total-line eps-total-line--grand"><span>${totalLbl}</span><span>${grandTotal.toFixed(2)} $</span></div>
+    <p class="eps-tax-note">${taxNote}</p>
+  </div>
+  <div class="eps-inspection">
     ${escapeHtmlPrint(inspection)}
   </div>
 </div>`;
@@ -3917,16 +3985,46 @@
 
                         const css = `
 * { box-sizing: border-box; }
-body { margin: 0; padding: 14mm 12mm; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #111; background: #fff;
-  -webkit-print-color-adjust: exact; print-color-adjust: exact; font-size: 11pt; line-height: 1.35; }
-h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin: 0 0 8px !important; }
-.eps-sent { margin: 0 0 14px !important; }
-.eps-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10.5pt; }
-.eps-inner { max-width: 720px; margin: 0 auto; }
-.eps-inspection { orphans: 3; widows: 3; }
+body { margin: 0; padding: 14mm 12mm; font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif; color: #1a1a1a; background: #fff;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact; font-size: 10.5pt; line-height: 1.4; }
+.eps-inner { max-width: 680px; margin: 0 auto; }
+.eps-brand { margin-bottom: 14px; padding-bottom: 12px; border-bottom: 2px solid #001f3f; }
+.eps-brand-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.eps-logo { height: 48px; width: auto; max-width: 220px; object-fit: contain; object-position: left center; display: block; }
+.eps-brand-meta { text-align: right; flex: 1; min-width: 160px; }
+.eps-brand-name { margin: 0 0 4px; font-size: 10pt; font-weight: 700; color: #001f3f; letter-spacing: 0.02em; text-transform: uppercase; }
+.eps-brand-phone { margin: 0; font-size: 11pt; font-weight: 600; }
+.eps-brand-phone a { color: #001f3f; text-decoration: none; }
+.eps-doc-head { margin-bottom: 14px; }
+.eps-doc-title { margin: 0 0 8px; font-size: 17pt; font-weight: 800; color: #001f3f; letter-spacing: -0.02em; line-height: 1.2; }
+.eps-sent { margin: 0 0 4px; }
+.eps-sent-badge { display: inline-block; padding: 3px 10px; font-size: 9pt; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #fff; background: #001f3f; border-radius: 3px; }
+.eps-sent-sub { margin: 8px 0 0; font-size: 10pt; color: #444; }
+.eps-section-title { margin: 0 0 8px; font-size: 9.5pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #001f3f; border-bottom: 1px solid #bdbdbd; padding-bottom: 4px; }
+.eps-client { margin-bottom: 14px; }
+.eps-client-grid { font-size: 10pt; }
+.eps-client-row { display: flex; gap: 10px; padding: 4px 0; border-bottom: 1px solid #eee; }
+.eps-client-row--block { flex-wrap: wrap; }
+.eps-client-k { flex: 0 0 110px; color: #555; font-weight: 600; }
+.eps-client-v { flex: 1; color: #111; word-break: break-word; }
+.eps-articles { margin-bottom: 12px; }
+.eps-table { width: 100%; border-collapse: collapse; margin: 8px 0 0; font-size: 10pt; }
+.eps-table thead tr { border-bottom: 2px solid #001f3f; }
+.eps-table th { text-align: left; padding: 8px 10px 6px 8px; font-weight: 700; color: #001f3f; }
+.eps-th-num { text-align: right; white-space: nowrap; }
+.eps-td { padding: 7px 10px 7px 8px; border-bottom: 1px solid #e8e8e8; vertical-align: top; }
+.eps-td-num { text-align: right; white-space: nowrap; }
+.eps-td-disc { color: #2e7d32; font-weight: 600; }
+.eps-totals { margin-top: 12px; padding: 12px 14px; border: 1px solid #ccc; border-radius: 6px; background: #fafafa; font-size: 10pt; }
+.eps-total-line { display: flex; justify-content: space-between; padding: 4px 0; gap: 16px; }
+.eps-total-line--disc { color: #2e7d32; font-weight: 600; }
+.eps-total-line--grand { margin-top: 8px; padding-top: 10px; border-top: 2px solid #001f3f; font-weight: 800; font-size: 12pt; color: #001f3f; }
+.eps-tax-note { margin: 8px 0 0; font-size: 8.5pt; color: #666; }
+.eps-inspection { margin-top: 14px; padding-top: 12px; border-top: 1px solid #bdbdbd; font-size: 9pt; line-height: 1.45; color: #333; orphans: 3; widows: 3; }
 @media print {
-  @page { margin: 12mm; size: auto; }
+  @page { margin: 10mm 12mm; size: auto; }
   body { padding: 0; margin: 0; }
+  .eps-brand-phone a { color: #001f3f !important; }
 }`;
 
                         pw.document.open();
@@ -4191,6 +4289,17 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                                 const sheetHtml = buildEstimatePrintSheetHtml(
                                     itemsSnapshot,
                                     totalSnapshot,
+                                    {
+                                        displayName: finalName,
+                                        email: email || "",
+                                        phone: phone || "",
+                                        city: city || "",
+                                        street: street || "",
+                                        apt: apt || "",
+                                        postal: postal || "",
+                                        notes: notes || "",
+                                        deliveryMethod: deliveryMethod || "",
+                                    },
                                 );
 
                                 const isMobile = window.innerWidth <= 850;
@@ -4419,7 +4528,17 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                             }
                             if (!deliveryMethod) return;
 
-                            if (deliveryMethod === "sms" && !phoneInput.value) {
+                            /* Delivery toggles were removed from the UI but a hidden radio may still be
+                               "email"; the email field stays display:none → do not block submit on email. */
+                            const mobFieldEmailWrap = document.getElementById(
+                                "mobile-field-email",
+                            );
+                            const mobileEmailFieldShown =
+                                !!mobFieldEmailWrap &&
+                                mobFieldEmailWrap.offsetParent !== null &&
+                                window.getComputedStyle(mobFieldEmailWrap).display !== "none";
+
+                            if (!phoneInput?.value) {
                                 alert(
                                     STATE.lang === "fr"
                                         ? "Veuillez entrer votre numéro de téléphone."
@@ -4427,23 +4546,17 @@ h1.eps-doc-title { font-size: 17pt !important; color: #001f3f !important; margin
                                 );
                                 return;
                             }
-                            if (deliveryMethod === "email") {
-                                if (!emailInput.value) {
-                                    alert(
-                                        STATE.lang === "fr"
-                                            ? "Veuillez entrer votre courriel."
-                                            : "Please enter your email.",
-                                    );
-                                    return;
-                                }
-                                if (!phoneInput.value) {
-                                    alert(
-                                        STATE.lang === "fr"
-                                            ? "Veuillez entrer votre numéro de téléphone."
-                                            : "Please enter your phone number.",
-                                    );
-                                    return;
-                                }
+                            if (
+                                deliveryMethod === "email" &&
+                                mobileEmailFieldShown &&
+                                !emailInput?.value
+                            ) {
+                                alert(
+                                    STATE.lang === "fr"
+                                        ? "Veuillez entrer votre courriel."
+                                        : "Please enter your email.",
+                                );
+                                return;
                             }
 
                             // ➤ TRIGGER EXPLOSION ANIMATION (JS INJECTION V4)
