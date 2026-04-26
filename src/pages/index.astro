@@ -1038,8 +1038,12 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
 
     <script is:inline>
       // is:inline = exécuté tel quel sur le client (pas bundlé)
+      // Démarrer le carrousel après l’enregistrement LCP (réduit render delay / reflows sur mobile).
       (function () {
+        var __heroInited = false;
         function initHomeHeroSlideshow() {
+          if (__heroInited) return;
+          __heroInited = true;
           // Simple Cross-Fade Slideshow (Standardized)
           const slides = document.querySelectorAll(".slide");
 
@@ -1144,26 +1148,45 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
           }
         }
 
-        function deferInitHomeHeroSlideshow() {
+        function runHeroInitInIdle() {
           requestAnimationFrame(function () {
-            requestAnimationFrame(function () {
-              function runInit() {
-                initHomeHeroSlideshow();
-              }
-              if ("requestIdleCallback" in window) {
-                requestIdleCallback(runInit, { timeout: 150 });
-              } else {
-                setTimeout(runInit, 0);
-              }
-            });
+            if ("requestIdleCallback" in window) {
+              requestIdleCallback(
+                function () {
+                  initHomeHeroSlideshow();
+                },
+                { timeout: 2000 }
+              );
+            } else {
+              setTimeout(initHomeHeroSlideshow, 0);
+            }
           });
         }
 
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", deferInitHomeHeroSlideshow);
-        } else {
-          deferInitHomeHeroSlideshow();
-        }
+        // Après l’enregistrement LCP (meilleur pour render delay) ; repli load / timeout.
+        (function scheduleHeroInitAfterLCP() {
+          var done = false;
+          function go() {
+            if (done) return;
+            done = true;
+            runHeroInitInIdle();
+          }
+          if (typeof PerformanceObserver !== "undefined") {
+            try {
+              var po = new PerformanceObserver(function (list) {
+                var ents = list.getEntries();
+                if (!ents.length) return;
+                try {
+                  po.disconnect();
+                } catch (e) {}
+                go();
+              });
+              po.observe({ type: "largest-contentful-paint", buffered: true });
+            } catch (e) {}
+          }
+          window.addEventListener("load", go, { once: true });
+          setTimeout(go, 6500);
+        })();
       })();
     </script>
 
