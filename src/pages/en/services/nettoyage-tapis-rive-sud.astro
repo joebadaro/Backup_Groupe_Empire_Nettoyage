@@ -6,8 +6,8 @@ import UiIcon from "../../../components/icons/UiIcon.astro";
 ---
 
 <Layout
-  title="Carpet Cleaning South Shore | Brossard, Longueuil, Boucherville"
-  description="Expert carpet cleaning service on the South Shore of Montreal. Our truck-mount unit covers Longueuil, Brossard, and Boucherville. Fast drying guaranteed."
+  title="Carpet Cleaning South Shore (Montreal) | Coverage & Booking"
+  description="Truck-mount carpet cleaning across the South Shore of Montreal: regional overview, travel included, fast drying. See Longueuil and Brossard for neighborhood-level detail."
 >
   <!-- SPLIT SCREEN HERO -->
   <div class="split-hero-container mobile-hero-stack">
@@ -15,9 +15,9 @@ import UiIcon from "../../../components/icons/UiIcon.astro";
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT (Hook) -->
         <div class="split-content fade-in-section">
-          <span class="service-cat-badge">CARPET & STAIRS • SOUTH SHORE</span>
+          <span class="service-cat-badge">REGIONAL GUIDE • SOUTH SHORE</span>
           <h1 class="split-title fade-in-up text-gradient-empire">
-            Residential Carpet Cleaning on the South Shore
+            Carpet cleaning on the South Shore of Montreal
           </h1>
 
           <div class="mobile-hero-slideshow fade-in-up delay-050">
@@ -58,7 +58,7 @@ import UiIcon from "../../../components/icons/UiIcon.astro";
           </div>
 
           <p class="lead-text fade-in-up delay-200">
-            Protect your comfort on the South Shore of Montreal. Our truck-mount process injects steam at very high temperatures to extract embedded dirt, thereby restoring the brilliance of your carpets with minimal drying time.
+            This page is your <strong>regional entry point</strong>: the same truck-mount crews serve the full South Shore, from Boucherville to La Prairie. For neighborhood detail, see our dedicated <a href="/en/services/nettoyage-tapis-longueuil" class="tapis-inline-a">Longueuil</a> (includes Saint-Hubert) and <a href="/en/services/nettoyage-tapis-brossard" class="tapis-inline-a">Brossard</a> pages. Our high-temperature extraction restores carpet brilliance with minimal drying time.
           </p>
 
           <div class="cta-group fade-in-up delay-300">
@@ -110,6 +110,27 @@ import UiIcon from "../../../components/icons/UiIcon.astro";
       </div>
     </div>
   </div>
+
+  <section class="section hub-rive-cta" style="padding-top: 2.5rem; padding-bottom: 0;">
+    <div class="container" style="max-width: 900px">
+      <h2 class="section-title text-gradient-empire" style="font-size: 1.5rem">
+        Featured city pages: Longueuil & Brossard
+      </h2>
+      <p>
+        Here we explain <strong>how we operate across the South Shore</strong>. When you need block-by-block detail (DIX30, sectors, response times), these two pages go deeper:
+      </p>
+      <ul class="hub-rive-cta__list">
+        <li>
+          <a href="/en/services/nettoyage-tapis-longueuil">Carpet cleaning in Longueuil</a>
+          <span>— Old Longueuil, <strong>Saint-Hubert</strong>, Greenfield Park</span>
+        </li>
+        <li>
+          <a href="/en/services/nettoyage-tapis-brossard">Carpet cleaning in Brossard</a>
+          <span>— DIX30, letter sectors, large homes and condos</span>
+        </li>
+      </ul>
+    </div>
+  </section>
 
   <section class="section">
     <div class="container">
@@ -171,7 +192,9 @@ import UiIcon from "../../../components/icons/UiIcon.astro";
           <!-- ZONES DESSERVIES -->
           <div class="zones-section" style="margin-top: 3rem; margin-bottom: 3rem;">
             <h3 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">We Crisscross the South Shore of Montreal</h3>
-            <p>From Brossard to Boucherville, our technicians get to your home quickly:</p>
+            <p>
+              From Brossard to Boucherville, our technicians get to your home quickly. For <strong>Longueuil and Saint-Hubert</strong> or <strong>Brossard and DIX30</strong> specifics, use the two featured links above.
+            </p>
 
             <div class="city-group">
               <div class="badges-container">
@@ -268,4 +291,9 @@ import UiIcon from "../../../components/icons/UiIcon.astro";
   .benefit-list { margin: 2rem 0; list-style: none; padding: 0; }
   .benefit-list li { margin-bottom: 1rem; padding-left: 0; position: relative; font-size: 1.05rem; }
   .contact-footer { margin-top: 1.5rem; font-style: italic; color: #666; }
+  .hub-rive-cta__list { margin: 1rem 0 0; padding-left: 1.25rem; line-height: 1.7; color: var(--color-text-main); }
+  .hub-rive-cta__list li { margin-bottom: 0.65rem; }
+  .hub-rive-cta__list a { color: var(--color-primary); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+  .hub-rive-cta__list span { color: #555; font-size: 0.95rem; }
+  a.tapis-inline-a { color: var(--color-primary); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 </style>

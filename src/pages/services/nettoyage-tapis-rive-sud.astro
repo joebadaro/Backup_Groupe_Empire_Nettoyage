@@ -6,8 +6,8 @@ import UiIcon from "../../components/icons/UiIcon.astro";
 ---
 
 <Layout
-  title="Nettoyage Tapis Rive-Sud | Brossard, Longueuil, Boucherville"
-  description="Service expert de nettoyage de tapis sur la Rive-Sud de Montréal. Notre camion-usine couvre Longueuil, Brossard et Boucherville. Séchage rapide garanti."
+  title="Nettoyage Tapis Rive-Sud (Montréal) | Couverture & prise de rendez-vous"
+  description="Nettoyage de tapis par camion-usine sur toute la Rive-Sud de Montréal : vue d'ensemble, déplacements inclus, séchage rapide. Visitez les pages Longueuil et Brossard pour le détail par secteur."
 >
   <!-- SPLIT SCREEN HERO -->
   <div class="split-hero-container mobile-hero-stack">
@@ -15,9 +15,9 @@ import UiIcon from "../../components/icons/UiIcon.astro";
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT (Hook) -->
         <div class="split-content fade-in-section">
-          <span class="service-cat-badge">TAPIS & ESCALIERS • RIVE-SUD</span>
+          <span class="service-cat-badge">VUE RÉGIONALE • RIVE-SUD</span>
           <h1 class="split-title fade-in-up text-gradient-empire">
-            Nettoyage de Tapis Résidentiel sur la Rive-Sud
+            Nettoyage de tapis sur la Rive-Sud de Montréal
           </h1>
 
           <div class="mobile-hero-slideshow fade-in-up delay-050">
@@ -58,7 +58,7 @@ import UiIcon from "../../components/icons/UiIcon.astro";
           </div>
 
           <p class="lead-text fade-in-up delay-200">
-            Protégez votre confort sur la Rive-Sud de Montréal. Notre processus par camion-usine injecte de la vapeur à très haute température pour extraire la saleté incrustée, restaurant ainsi l'éclat de vos tapis avec un temps de séchage minime.
+            Cette page est votre <strong>point d’entrée pour la Rive-Sud</strong> : mêmes camions-usines, mêmes techniciens, partout de Boucherville à Candiac. Pour les plans détaillés par secteur, nos pages <a href="/services/nettoyage-tapis-longueuil" class="tapis-inline-a">Longueuil</a> (inclut Saint-Hubert) et <a href="/services/nettoyage-tapis-brossard" class="tapis-inline-a">Brossard</a> complètent ce guide. Notre processus par injection–extraction à la vapeur restaure l’éclat de vos tapis avec un séchage minimal.
           </p>
 
           <div class="cta-group fade-in-up delay-300">
@@ -110,6 +110,27 @@ import UiIcon from "../../components/icons/UiIcon.astro";
       </div>
     </div>
   </div>
+
+  <section class="section hub-rive-cta" style="padding-top: 2.5rem; padding-bottom: 0;">
+    <div class="container" style="max-width: 900px">
+      <h2 class="section-title text-gradient-empire" style="font-size: 1.5rem">
+        Pages phares (Longueuil & Brossard)
+      </h2>
+      <p>
+        Ici, nous expliquons <strong>le fonctionnement de notre service sur l’ensemble de la rive</strong>. Quand cherchez-vous le détail d’un <strong>quartier, d’un secteur (DIX30, condos)</strong> ou d’un délai d’intervention, deux pages vont plus loin :
+      </p>
+      <ul class="hub-rive-cta__list">
+        <li>
+          <a href="/services/nettoyage-tapis-longueuil">Nettoyage de tapis à Longueuil</a>
+          <span>— Vieux-Longueuil, <strong>Saint-Hubert</strong>, Greenfield Park</span>
+        </li>
+        <li>
+          <a href="/services/nettoyage-tapis-brossard">Nettoyage de tapis à Brossard</a>
+          <span>— DIX30, secteurs A à V, grandes résidences</span>
+        </li>
+      </ul>
+    </div>
+  </section>
 
   <section class="section">
     <div class="container">
@@ -171,7 +192,9 @@ import UiIcon from "../../components/icons/UiIcon.astro";
           <!-- ZONES DESSERVIES -->
           <div class="zones-section" style="margin-top: 3rem; margin-bottom: 3rem;">
             <h3 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">Nous sillonnons la Rive-Sud de Montréal</h3>
-            <p>De Brossard à Boucherville, nos techniciens se rendent rapidement à votre domicile :</p>
+            <p>
+              De Brossard à Boucherville, nos techniciens se rendent rapidement à votre domicile. Pour le détail d’<strong>intervention à Longueuil (Saint-Hubert inclus)</strong> ou <strong>à Brossard (DIX30, secteurs)</strong>, suivez les liens vers nos pages dédiées ci-dessus.
+            </p>
 
             <div class="city-group">
               <div class="badges-container">
@@ -268,4 +291,9 @@ import UiIcon from "../../components/icons/UiIcon.astro";
   .benefit-list { margin: 2rem 0; list-style: none; padding: 0; }
   .benefit-list li { margin-bottom: 1rem; padding-left: 0; position: relative; font-size: 1.05rem; }
   .contact-footer { margin-top: 1.5rem; font-style: italic; color: #666; }
+  .hub-rive-cta__list { margin: 1rem 0 0; padding-left: 1.25rem; line-height: 1.7; color: var(--color-text-main); }
+  .hub-rive-cta__list li { margin-bottom: 0.65rem; }
+  .hub-rive-cta__list a { color: var(--color-primary); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+  .hub-rive-cta__list span { color: #555; font-size: 0.95rem; }
+  a.tapis-inline-a { color: var(--color-primary); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 </style>
