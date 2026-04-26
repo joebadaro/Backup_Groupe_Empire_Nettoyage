@@ -1,1 +1,4 @@
 https://www.groupenettoyageempire.com/* https://groupenettoyageempire.com/:splat 301!
+
+# Sous-domaine Netlify de préprod / déploiement : toujours renvoyer vers le domaine officiel
+https://groupe-empire-2026.netlify.app/* https://groupenettoyageempire.com/:splat 301!

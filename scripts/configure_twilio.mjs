@@ -15,7 +15,7 @@ if (!accountSid || !authToken) {
 }
 
 const client = twilio(accountSid, authToken);
-const SITE_URL = 'https://groupe-empire-2026.netlify.app';
+const SITE_URL = 'https://groupenettoyageempire.com';
 
 async function configureTwilio() {
     console.log('🔄 Fetching Twilio Phone Numbers...');
