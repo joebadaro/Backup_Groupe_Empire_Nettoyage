@@ -102,8 +102,8 @@ export const CONFIG = {
         en: 'Get <span class="promo-highlight">30% off</span> the 2nd sofa!',
       },
       sofa2: {
-        fr: 'Obtenez <span class="promo-highlight">15% de rabais</span> sur la 2e causeuse !',
-        en: 'Get <span class="promo-highlight">15% off</span> the 2nd loveseat!',
+        fr: 'Obtenez <span class="promo-highlight">25% de rabais</span> sur la 2e causeuse !',
+        en: 'Get <span class="promo-highlight">25% off</span> the 2nd loveseat!',
       },
       rugs: {
         fr: 'Obtenez <span class="promo-highlight">50% de rabais</span> sur tout nettoyage de tapis additionnel !',

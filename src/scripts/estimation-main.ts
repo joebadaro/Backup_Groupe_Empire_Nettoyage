@@ -1478,8 +1478,8 @@
                             en: "EXCLUSIVE PROMOTION Fabric Furniture",
                         });
                         const promoDesc = t({
-                            fr: '1er article au prix régulier et chaque article ajouté à <span class="perm-highlight">15%</span> de rabais',
-                            en: '1st item at regular price and every additional item at <span class="perm-highlight">15%</span> off',
+                            fr: '1er article au prix régulier et chaque article ajouté à <span class="perm-highlight">25%</span> de rabais',
+                            en: '1st item at regular price and every additional item at <span class="perm-highlight">25%</span> off',
                         });
                         card.innerHTML += `<div class="static-promo-banner mobile-promo"><div class="promo-icon">${PROMO_GEM_ICON_SVG}</div><div class="promo-text"><div class="promo-title">${promoTitle}</div><div class="promo-desc">${promoDesc}</div></div></div>`;
                     } else if (service.id === "matelas") {
@@ -2129,8 +2129,8 @@
                             en: "EXCLUSIVE PROMOTION Fabric Furniture",
                         });
                         const promoDesc = t({
-                            fr: '1er article au prix régulier et chaque article ajouté à <span class="perm-highlight">15%</span> de rabais',
-                            en: '1st item at regular price and every additional item at <span class="perm-highlight">15%</span> off',
+                            fr: '1er article au prix régulier et chaque article ajouté à <span class="perm-highlight">25%</span> de rabais',
+                            en: '1st item at regular price and every additional item at <span class="perm-highlight">25%</span> off',
                         });
 
                         const bannerHtml = `
@@ -2601,7 +2601,7 @@
                     }
                 });
 
-                // 3. Process Fabric Furniture (Apply 15% on additional items)
+                // 3. Process Fabric Furniture (Apply 25% on additional items)
                 if (fabricItemsParams.length > 0) {
                     // Sort Descending Price (First item is most expensive = Full Price)
                     fabricItemsParams.sort((a, b) => b.price - a.price);
@@ -2616,16 +2616,16 @@
                                 price: item.price,
                             });
                         } else {
-                            // Additional items: 15% OFF
+                            // Additional items: 25% OFF
                             const originalPrice = item.price;
-                            const discount = originalPrice * 0.15;
+                            const discount = originalPrice * 0.25;
                             const finalPrice = originalPrice - discount;
                             totalDiscount += discount;
                             subtotal += finalPrice;
 
                             cartItems.push({
                                 rawId: item.rawId,
-                                label: item.label + " (-15%)",
+                                label: item.label + " (-25%)",
                                 price: finalPrice,
                                 savings: discount, // Store savings for consolidation
                             });
@@ -2909,7 +2909,7 @@
 
                 // --- CONSOLIDATION LOGIC START ---
                 // Group items by rawId to "save space" as requested.
-                // E.g. 1 Chair (Full) + 5 Chairs (-15%) -> 6 Chairs (Sum Price)
+                // E.g. 1 Chair (Full) + 5 Chairs (-25%) -> 6 Chairs (Sum Price)
                 const consolidatedMap = new Map<
                     string,
                     {
@@ -2931,17 +2931,17 @@
                         return;
                     }
 
-                    // Clean label (remove qty prefix "1x " or "6x " if existing, and remove " (-15%)")
-                    // My previous logic added " (-15%)".
+                    // Clean label (remove qty prefix "1x " or "6x " if existing, and remove " (-25%)")
+                    // My previous logic added " (-25%)".
                     // Base label is needed.
                     // Using rawId is safest.
                     const key = item.rawId;
                     if (!consolidatedMap.has(key)) {
                         // Determine base label.
-                        // item.label might be "Chaise (-15%)" or "Sofa 3 places (Foo)".
-                        // I'll strip " (-15%)" suffix.
+                        // item.label might be "Chaise (-25%)" or "Sofa 3 places (Foo)".
+                        // I'll strip " (-25%)" suffix.
                         let baseLabel = item.label
-                            .replace(" (-15%)", "")
+                            .replace(" (-25%)", "")
                             .replace(" (-20%)", "")
                             .trim();
                         // Also strip leadng qty if I added it previously (logic Step 325 lines 2115: label: `${qty}x ...`)
