@@ -25,13 +25,16 @@ const siteUrl = "https://groupenettoyageempire.com";
 const { pathname } = Astro.url;
 const isEn = pathname.startsWith("/en");
 const isEnTips = pathname.startsWith("/en/tips");
-const cleanPath = pathname.replace(/\/$/, "") || "/";
+const normalizedPath = pathname === "/" ? "/" : pathname.replace(/\/+$/, "");
+const canonicalPath = normalizedPath === "/" ? "/" : `${normalizedPath}/`;
 
-let frPath = isEn ? cleanPath.replace("/en", "") || "/" : cleanPath;
-let enPath = isEn ? cleanPath : "/en" + (cleanPath === "/" ? "" : cleanPath);
+let frPath = isEn ? normalizedPath.replace("/en", "") || "/" : normalizedPath;
+let enPath = isEn ? normalizedPath : "/en" + (normalizedPath === "/" ? "" : normalizedPath);
 
-// Use cleaned path to avoid canonical mismatches (e.g. trailing slash)
-const canonicalURL = new URL(cleanPath, siteUrl);
+frPath = frPath === "/" ? "/" : `${frPath.replace(/\/+$/, "")}/`;
+enPath = enPath === "/" ? "/" : `${enPath.replace(/\/+$/, "")}/`;
+
+const canonicalURL = new URL(canonicalPath, siteUrl);
 const frURL = new URL(frPath, siteUrl);
 const enURL = new URL(enPath, siteUrl);
 const socialImageURL = new URL(image, siteUrl);
@@ -321,7 +324,7 @@ const webSiteSchema = {
 };
 
 // Generate BreadcrumbList Schema dynamically based on URL path
-const pathSegments = cleanPath.split("/").filter((segment) => segment !== "");
+const pathSegments = canonicalPath.split("/").filter((segment) => segment !== "");
 const isEnPath = pathSegments[0] === "en";
 
 // Remove 'en' from path segments for breadcrumb generation if present
