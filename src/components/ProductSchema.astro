@@ -49,6 +49,13 @@ const offers: Record<string, unknown> = {
     name: "Groupe Nettoyage Empire",
     telephone: PHONES.main.schema,
     url: siteUrl,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Longueuil",
+      addressRegion: "QC",
+      postalCode: "J3Y",
+      addressCountry: "CA",
+    },
   },
   description: offerDescription ?? defaultOfferDesc,
 };
