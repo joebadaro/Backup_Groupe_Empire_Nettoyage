@@ -8,6 +8,24 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 import netlify from '@astrojs/netlify';
 
+/** FR nettoyage-meubles-rembourres-* ↔ EN upholstery-cleaning-* — redirect wrong slug/language combos */
+const UPHOLSTERY_CITIES = [
+  'boucherville',
+  'brossard',
+  'candiac',
+  'chambly',
+  'la-prairie',
+  'longueuil',
+  'saint-bruno',
+  'sainte-julie',
+];
+const upholsteryRedirects = Object.fromEntries(
+  UPHOLSTERY_CITIES.flatMap((city) => [
+    [`/en/services/nettoyage-meubles-rembourres-${city}`, `/en/services/upholstery-cleaning-${city}`],
+    [`/services/upholstery-cleaning-${city}`, `/services/nettoyage-meubles-rembourres-${city}`],
+  ])
+);
+
 const sitemapFilter = (url) => {
   const excludedSubstrings = [
     "/promo/",
@@ -71,6 +89,7 @@ export default defineConfig({
     // Video gallery FR/EN use different slugs — hreflang symmetry produces legacy aliases; redirect to real routes
     '/video-gallery': '/realisations-video',
     '/en/realisations-video': '/en/video-gallery',
+    ...upholsteryRedirects,
   },
   i18n: {
     defaultLocale: "fr",

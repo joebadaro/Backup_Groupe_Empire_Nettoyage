@@ -33,12 +33,22 @@ let enPath = isEn ? normalizedPath : "/en" + (normalizedPath === "/" ? "" : norm
 
 /** Video gallery: FR & EN use different path slugs — naive /en prefix breaks hreflang alternates */
 const pathCore = normalizedPath.replace(/\/+$/, "") || "/";
+const upholsteryFrCity = pathCore.match(/^\/services\/nettoyage-meubles-rembourres-(.+)$/);
+const upholsteryEnCity = pathCore.match(/^\/en\/services\/upholstery-cleaning-(.+)$/);
 if (pathCore === "/realisations-video") {
   frPath = "/realisations-video";
   enPath = "/en/video-gallery";
 } else if (pathCore === "/en/video-gallery") {
   frPath = "/realisations-video";
   enPath = "/en/video-gallery";
+} else if (upholsteryFrCity) {
+  const city = upholsteryFrCity[1];
+  frPath = `/services/nettoyage-meubles-rembourres-${city}`;
+  enPath = `/en/services/upholstery-cleaning-${city}`;
+} else if (upholsteryEnCity) {
+  const city = upholsteryEnCity[1];
+  frPath = `/services/nettoyage-meubles-rembourres-${city}`;
+  enPath = `/en/services/upholstery-cleaning-${city}`;
 }
 
 frPath = frPath === "/" ? "/" : `${frPath.replace(/\/+$/, "")}/`;

@@ -17,9 +17,24 @@ const logoSizes = "(max-width: 768px) 210px, 300px";
 
 const currentPath = Astro.url.pathname;
 const isEn = currentPath.startsWith("/en");
-const targetPath = isEn
+let targetPath = isEn
   ? currentPath.replace(/^\/en/, "") || "/"
   : "/en" + (currentPath === "/" ? "" : currentPath);
+
+/** Local upholstery: FR & EN use different path slugs — must match SEO.astro hreflang pairing */
+const pathCore = currentPath.replace(/\/+$/, "") || "/";
+const upholsteryFrCity = pathCore.match(
+  /^\/services\/nettoyage-meubles-rembourres-(.+)$/,
+);
+const upholsteryEnCity = pathCore.match(
+  /^\/en\/services\/upholstery-cleaning-(.+)$/,
+);
+if (upholsteryFrCity) {
+  targetPath = `/en/services/upholstery-cleaning-${upholsteryFrCity[1]}/`;
+} else if (upholsteryEnCity) {
+  targetPath = `/services/nettoyage-meubles-rembourres-${upholsteryEnCity[1]}/`;
+}
+
 const label = isEn ? "FR" : "EN";
 ---
 
