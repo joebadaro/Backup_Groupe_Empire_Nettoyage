@@ -104,7 +104,7 @@ const services = [
   {
     slug: "tapis-synthetique",
     title: "In-Home Synthetic Carpet Cleaning",
-    seoTitle: "Synthetic Carpet Steam Cleaning At Home | Montreal Laval South Shore",
+    seoTitle: "Synthetic Carpet Cleaning | Montreal and South Shore",
     category: "Carpets",
     icon: "",
     image: "/images/catalog/photo-27.webp",
@@ -358,7 +358,11 @@ if (!service) {
 ---
 
 <Layout
-  title={`${service.seoTitle} | Empire Cleaning Group`}
+  title={
+    service.slug === "tapis-synthetique"
+      ? service.seoTitle
+      : `${service.seoTitle} | Empire Cleaning Group`
+  }
   description={service.intro}
   image={service.image}
 >
