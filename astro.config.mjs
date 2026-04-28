@@ -32,10 +32,12 @@ export default defineConfig({
   integrations: [sitemap({ filter: sitemapFilter })],
   build: {
     /**
-     * `auto` externalizes large per-page CSS so the main thread is not stuck parsing a 90k+ character `<style>` in one task (homepage LCP element render delay in Lighthouse).
-     * Keeps smaller chunks inlined where beneficial.
+     * Homepage CSS delivery (measured FR `/` Lighthouse mobile ×3 each):
+     * - `auto` → two external render-blocking sheets (`/_astro/allergies-*.css` + `index-*.css`).
+     *   The “allergies” filename is Rollup chunk naming — that file is shared global Layout/CSS, not the conseils article.
+     * - `always` → styles inlined in HTML; median LCP ~2.89s vs ~4.14s for `auto` on same machine; render-blocking audit: 0 external CSS rows.
      */
-    inlineStylesheets: 'auto'
+    inlineStylesheets: 'always'
   },
   redirects: {
     '/services/tapis-residentiel': '/services/nettoyage-tapis-residentiel',
