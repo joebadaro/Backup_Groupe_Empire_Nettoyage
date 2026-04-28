@@ -31,7 +31,11 @@ export default defineConfig({
   adapter: netlify(),
   integrations: [sitemap({ filter: sitemapFilter })],
   build: {
-    inlineStylesheets: 'always'
+    /**
+     * `auto` externalizes large per-page CSS so the main thread is not stuck parsing a 90k+ character `<style>` in one task (homepage LCP element render delay in Lighthouse).
+     * Keeps smaller chunks inlined where beneficial.
+     */
+    inlineStylesheets: 'auto'
   },
   redirects: {
     '/services/tapis-residentiel': '/services/nettoyage-tapis-residentiel',
