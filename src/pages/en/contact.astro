@@ -55,6 +55,10 @@ import UiIcon from "../../components/icons/UiIcon.astro";
         </div>
       </div>
 
+      <p class="contact-contextual-links fade-in-section delay-250">
+        You can also visit our <a href="/en/faq">FAQ</a> for common questions and our <a href="/en/confidentialite">privacy policy</a> to understand how your information is protected.
+      </p>
+
       <!-- TRUST SIGNALS BELOW -->
       <div class="trust-container-lower fade-in-section delay-300">
         <div class="trust-item">
@@ -112,6 +116,20 @@ import UiIcon from "../../components/icons/UiIcon.astro";
       background: var(--color-bg-light-blue);
       padding: 3rem 0;
       margin-bottom: 2rem;
+    }
+    .contact-contextual-links {
+      text-align: center;
+      max-width: 42rem;
+      margin: 0 auto 2.5rem;
+      font-size: 1.05rem;
+      color: #666;
+      line-height: 1.6;
+    }
+    .contact-contextual-links a {
+      color: var(--color-primary);
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
     .choice-grid {
       display: grid;
