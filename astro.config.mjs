@@ -40,6 +40,16 @@ export default defineConfig({
     inlineStylesheets: 'always'
   },
   redirects: {
+    '/promo/meubles/': '/services/meubles-tissu',
+    '/promo/tapis/': '/services/nettoyage-tapis-residentiel',
+    '/promo/matelas/': '/services/nettoyage-desinfection-matelas',
+    '/promo/tuiles/': '/services/nettoyage-tuiles-ceramique',
+    '/promo/merci/': '/merci',
+    '/promo/en/furniture/': '/en/services/meubles-tissu',
+    '/promo/en/carpets/': '/en/services/nettoyage-tapis-residentiel',
+    '/promo/en/mattress/': '/en/services/nettoyage-desinfection-matelas',
+    '/promo/en/tiles/': '/en/services/nettoyage-tuiles-ceramique',
+    '/promo/en/thank-you/': '/en/merci',
     '/services/tapis-residentiel': '/services/nettoyage-tapis-residentiel',
     '/services/tapis-commercial': '/services/nettoyage-tapis-commercial',
     '/en/services/tapis-residentiel': '/en/services/nettoyage-tapis-residentiel',
