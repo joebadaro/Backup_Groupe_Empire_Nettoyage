@@ -295,6 +295,23 @@ import UiIcon from "../../components/icons/UiIcon.astro";
           <p class="contact-footer">Besoin d'un rendez-vous rapide ? Appelez-nous au <strong>(514) 893-9939</strong>.</p>
         </div>
 
+        <nav
+          class="local-upholstery-nav fade-in-section"
+          aria-label="Nettoyage de meubles rembourrés par ville"
+        >
+          <h3 class="local-upholstery-heading">Nettoyage de meubles rembourrés par ville</h3>
+          <ul class="local-upholstery-list">
+            <li><a href="/services/nettoyage-meubles-rembourres-boucherville/">Boucherville</a></li>
+            <li><a href="/services/nettoyage-meubles-rembourres-brossard/">Brossard</a></li>
+            <li><a href="/services/nettoyage-meubles-rembourres-candiac/">Candiac</a></li>
+            <li><a href="/services/nettoyage-meubles-rembourres-chambly/">Chambly</a></li>
+            <li><a href="/services/nettoyage-meubles-rembourres-la-prairie/">La Prairie</a></li>
+            <li><a href="/services/nettoyage-meubles-rembourres-longueuil/">Longueuil</a></li>
+            <li><a href="/services/nettoyage-meubles-rembourres-saint-bruno/">Saint-Bruno</a></li>
+            <li><a href="/services/nettoyage-meubles-rembourres-sainte-julie/">Sainte-Julie</a></li>
+          </ul>
+        </nav>
+
         <!-- PROCESSUS -->
         <div class="process-section" style="margin-top: 4rem;">
           <h2 class="text-gradient-empire">Notre Processus en 5 Étapes</h2>
@@ -533,6 +550,33 @@ import UiIcon from "../../components/icons/UiIcon.astro";
   .badge-blue { background: #e8f4fd; border-color: #c5dff0; }
   .badge-green { background: #f0faf0; border-color: #b8ddb8; }
   .contact-footer { margin-top: 1.5rem; font-style: italic; color: #666; }
+
+  .local-upholstery-nav {
+    margin-top: 2rem;
+    padding: 1.25rem 1.5rem;
+    background: #f8fbff;
+    border: 1px solid #dce8f5;
+    border-radius: 8px;
+  }
+  .local-upholstery-heading {
+    font-size: 1.05rem;
+    color: var(--color-primary);
+    margin: 0 0 0.75rem;
+    font-weight: 600;
+  }
+  .local-upholstery-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+  }
+  .local-upholstery-list a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
 
   /* PROCESS */
   .process-steps { margin-top: 2rem; }

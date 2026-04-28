@@ -21,6 +21,12 @@ const sitemapFilter = (url) => {
     "/en/services/meubles/",
     "/en/tips/",
     "/estimation-print",
+    // Phase 1: thank-you + short carpet aliases (301 → nettoyage-tapis-*); canonical URLs stay indexed
+    "/merci/",
+    "/services/tapis-residentiel",
+    "/services/tapis-commercial",
+    "/en/services/tapis-residentiel",
+    "/en/services/tapis-commercial",
   ];
   return !excludedSubstrings.some((sub) => url.includes(sub));
 };
