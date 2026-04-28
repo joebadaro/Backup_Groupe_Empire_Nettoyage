@@ -31,6 +31,16 @@ const canonicalPath = normalizedPath === "/" ? "/" : `${normalizedPath}/`;
 let frPath = isEn ? normalizedPath.replace("/en", "") || "/" : normalizedPath;
 let enPath = isEn ? normalizedPath : "/en" + (normalizedPath === "/" ? "" : normalizedPath);
 
+/** Video gallery: FR & EN use different path slugs — naive /en prefix breaks hreflang alternates */
+const pathCore = normalizedPath.replace(/\/+$/, "") || "/";
+if (pathCore === "/realisations-video") {
+  frPath = "/realisations-video";
+  enPath = "/en/video-gallery";
+} else if (pathCore === "/en/video-gallery") {
+  frPath = "/realisations-video";
+  enPath = "/en/video-gallery";
+}
+
 frPath = frPath === "/" ? "/" : `${frPath.replace(/\/+$/, "")}/`;
 enPath = enPath === "/" ? "/" : `${enPath.replace(/\/+$/, "")}/`;
 

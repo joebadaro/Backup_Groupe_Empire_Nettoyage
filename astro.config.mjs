@@ -62,6 +62,9 @@ export default defineConfig({
     '/en/blog': '/en/conseils',
     '/nettoyage-tapis-résidentiel': '/services/nettoyage-tapis-residentiel',
     '/nettoyage-de-sofa': '/services/meubles-tissu',
+    // Video gallery FR/EN use different slugs — hreflang symmetry produces legacy aliases; redirect to real routes
+    '/video-gallery': '/realisations-video',
+    '/en/realisations-video': '/en/video-gallery',
   },
   i18n: {
     defaultLocale: "fr",
