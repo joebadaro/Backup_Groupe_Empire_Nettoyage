@@ -104,7 +104,8 @@ const services = [
   {
     slug: "tapis-synthetique",
     title: "Nettoyage de tapis synthétique à domicile",
-    seoTitle: "Nettoyage Tapis Synthétique à la Vapeur à Domicile | Montréal Laval Rive-Sud",
+    seoTitle: "Nettoyage de tapis synthétique | Montréal et Rive-Sud",
+    omitBrandSuffix: true,
     category: "Tapis",
     icon: "",
     image: "/images/catalog/photo-27.webp",
@@ -360,7 +361,7 @@ if (!service) {
 ---
 
 <Layout
-  title={`${service.seoTitle} | Groupe Nettoyage Empire`}
+  title={service.omitBrandSuffix ? service.seoTitle : `${service.seoTitle} | Groupe Nettoyage Empire`}
   description={service.intro}
   image={service.image}
 >
