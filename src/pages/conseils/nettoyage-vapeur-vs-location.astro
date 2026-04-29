@@ -11,7 +11,11 @@ const frontmatter = {
 };
 ---
 
-<ArticleLayout title={frontmatter.title} description={frontmatter.description}>
+<ArticleLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  heading="Machine de location ou camion-usine : lequel choisir pour vos tapis ?"
+>
   <div class="article-meta" style="margin-bottom: 2rem; color: #666; font-style: italic;">
     <span>Catégorie : {frontmatter.category}</span> | <span>Mise à jour : {frontmatter.date}</span>
   </div>
