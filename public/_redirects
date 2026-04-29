@@ -2,3 +2,6 @@ https://www.groupenettoyageempire.com/* https://groupenettoyageempire.com/:splat
 
 # Sous-domaine Netlify de préprod / déploiement : toujours renvoyer vers le domaine officiel
 https://groupe-empire-2026.netlify.app/* https://groupenettoyageempire.com/:splat 301!
+
+# Legacy EN leather alias → canonical (301! so Netlify applies even if static index.html exists)
+/en/services/nettoyage-sofa-cuir                          /en/services/meubles-cuir                              301!

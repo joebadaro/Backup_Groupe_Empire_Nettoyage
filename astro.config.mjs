@@ -45,6 +45,8 @@ const sitemapFilter = (url) => {
     "/services/tapis-commercial",
     "/en/services/tapis-residentiel",
     "/en/services/tapis-commercial",
+    // Legacy EN leather alias → 301 to meubles-cuir; do not index duplicate
+    "/en/services/nettoyage-sofa-cuir",
   ];
   return !excludedSubstrings.some((sub) => url.includes(sub));
 };
@@ -89,6 +91,7 @@ export default defineConfig({
     // Video gallery FR/EN use different slugs — hreflang symmetry produces legacy aliases; redirect to real routes
     '/video-gallery': '/realisations-video',
     '/en/realisations-video': '/en/video-gallery',
+    // /en/services/nettoyage-sofa-cuir → meubles-cuir: forced 301! in public/_redirects (overrides static file)
     ...upholsteryRedirects,
   },
   i18n: {
