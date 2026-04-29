@@ -95,6 +95,12 @@ const label = isEn ? "FR" : "EN";
               {isEn ? "Our Services" : "Nos Services"} ▾
             </button>
             <div id="services-menu" class="dropdown-menu">
+              <a
+                href={isEn ? "/en/services/" : "/services/"}
+                class="services-dropdown-all"
+              >
+                {isEn ? "All services" : "Tous les services"}
+              </a>
               <div class="dropdown-column">
                 <span class="column-title"
                   >{isEn ? "Carpets & Rugs" : "Tapis & Carpettes"}</span
@@ -687,6 +693,37 @@ const label = isEn ? "FR" : "EN";
       inset 0 1px 0 rgba(255, 255, 255, 0.75);
   }
 
+  /* Hub link above service columns (full width of dropdown grid) */
+  .services-dropdown-all {
+    grid-column: 1 / -1;
+    display: block;
+    padding: 0.56rem 0.72rem;
+    margin-bottom: 0.35rem;
+    color: #1b2b3f;
+    font-size: 0.89rem;
+    line-height: 1.3;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.55);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .services-dropdown-all:hover {
+    color: #00264d;
+    font-weight: 700;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 87, 184, 0.2) 0%,
+      rgba(0, 87, 184, 0.06) 70%,
+      rgba(194, 24, 27, 0.08) 100%
+    );
+    border-color: rgba(0, 87, 184, 0.22);
+    box-shadow:
+      0 5px 12px rgba(0, 57, 122, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  }
+
   .dropdown-column {
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(0, 57, 122, 0.16);
@@ -1045,6 +1082,15 @@ const label = isEn ? "FR" : "EN";
       transform: none;
       background: rgba(0, 74, 159, 0.08);
       border-color: rgba(0, 74, 159, 0.12);
+      box-shadow: none;
+    }
+
+    .services-dropdown-all {
+      text-align: center;
+      margin-bottom: 0.45rem;
+    }
+
+    .services-dropdown-all:hover {
       box-shadow: none;
     }
 
