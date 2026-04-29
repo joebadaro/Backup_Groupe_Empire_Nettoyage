@@ -1,24 +1,29 @@
 ---
 // src/components/EstimationModule.astro
 import UiIcon from "./icons/UiIcon.astro";
+
+const pathname = Astro.url.pathname || "";
+const isEn = pathname.startsWith("/en");
+const lang = isEn ? "en" : "fr";
+const t = (fr: string, en: string) => (lang === "en" ? en : fr);
 ---
 
 <!-- Main Container (Overlay) -->
 
-<div id="estimation-widget" class="modal-overlay" style="display:none;">
+<div id="estimation-widget" class="modal-overlay" style="display:none;" data-lang={lang}>
     <div class="empire-modal">
         <!-- === LEFT: MAIN PROCESS === -->
         <div class="modal-main">
             <!-- Header -->
             <header class="modal-header">
-                <h2 id="modal-title">Estimation Gratuite</h2>
+                <h2 id="modal-title">{t("Estimation Gratuite", "Free Estimate")}</h2>
                 <div class="header-actions">
                     <button id="lang-toggle" class="lang-btn">EN</button>
                     <button
                         id="close-modal-btn"
                         class="close-btn"
-                        aria-label="Fermer"
-                        title="Fermer">&times;</button
+                        aria-label={t("Fermer", "Close")}
+                        title={t("Fermer", "Close")}>&times;</button
                     >
                 </div>
             </header>
@@ -37,15 +42,20 @@ import UiIcon from "./icons/UiIcon.astro";
             <div class="modal-content">
                 <!-- STEP 1: SERVICES -->
                 <div id="step-services" class="step active">
-                    <h3 id="txt-choose-services" class="text-center mb-2">Choisissez vos services</h3>
+                    <h3 id="txt-choose-services" class="text-center mb-2">
+                        {t("Choisissez vos services", "Choose your services")}
+                    </h3>
                     <div class="welcome-banner">
                         <div class="welcome-banner-icon">&#x1F3F7;&#xFE0F;</div>
                         <div class="welcome-banner-text">
-                            <h3 id="txt-get-immediate">Obtenez votre estimation immédiate</h3>
+                            <h3 id="txt-get-immediate">
+                                {t("Obtenez votre estimation immédiate", "Get your instant estimate")}
+                            </h3>
                             <p id="txt-select-below">
-                                Sélectionnez les services ci-dessous pour voir
-                                les tarifs et obtenir un prix approximatif pour
-                                vos besoins.
+                                {t(
+                                    "Sélectionnez les services ci-dessous pour voir les tarifs et obtenir un prix approximatif pour vos besoins.",
+                                    "Select the services below to view rates and get an approximate price for your needs."
+                                )}
                             </p>
                         </div>
                     </div>
@@ -58,18 +68,26 @@ import UiIcon from "./icons/UiIcon.astro";
                         class="btn-text"
                         id="btn-back-to-services"
                         style="margin-bottom:10px; cursor:pointer;"
-                        title="Retour">← Retour aux services</button
+                        title={t("Retour", "Back")}
                     >
-                    <h3 class="text-center">Détails de sélection</h3>
+                        ← {t("Retour aux services", "Back to services")}
+                    </button>
+                    <h3 class="text-center">
+                        {t("Détails de sélection", "Selection details")}
+                    </h3>
                     <div id="details-container"></div>
                 </div>
 
                 <!-- STEP 3: REVIEW SUMMARY (NEW) -->
                 <div id="step-summary" class="step">
-                    <h3 class="text-center">Vérifiez votre commande</h3>
+                    <h3 class="text-center">
+                        {t("Vérifiez votre commande", "Review your order")}
+                    </h3>
                     <p class="text-center text-muted">
-                        Veuillez revoir les articles sélectionnés avant de
-                        finaliser.
+                        {t(
+                            "Veuillez revoir les articles sélectionnés avant de finaliser.",
+                            "Please review the selected items before finalizing."
+                        )}
                     </p>
                     <div
                         id="summary-container"
@@ -83,15 +101,19 @@ import UiIcon from "./icons/UiIcon.astro";
                 <div id="step-contact" class="step">
                     <div id="desktop-contact-intro">
                         <h3 class="text-center" style="margin-bottom:10px;">
-                            <span id="step4Title">Demande de réservation</span>
+                            <span id="step4Title">
+                                {t("Demande de réservation", "Booking request")}
+                            </span>
                         </h3>
                         <p
                             class="text-center"
                             style="color:#666; font-size:0.95rem; margin-bottom:25px;"
                         >
-                            Choisissez comment recevoir votre <strong
-                                >estimation gratuite</strong
-                            >
+                            {t(
+                                "Choisissez comment recevoir votre",
+                                "Choose how you’d like to receive your"
+                            )}{" "}
+                            <strong>{t("estimation gratuite", "free estimate")}</strong>
                         </p>
                     </div>
 
@@ -114,12 +136,13 @@ import UiIcon from "./icons/UiIcon.astro";
                                 <label
                                     style="display:none; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
                                     id="label-company"
-                                    >Nom de l'entreprise *</label
                                 >
+                                    {t("Nom de l'entreprise *", "Company name *")}
+                                </label>
                                 <input
                                     type="text"
                                     id="input-company"
-                                    placeholder="Nom de votre entreprise"
+                                    placeholder={t("Nom de votre entreprise", "Your company name")}
                                     style="display:none; width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px; font-size:0.95rem; transition:all 0.3s; margin-bottom:15px;"
                                     onfocus="this.style.borderColor='#3949ab'; this.style.boxShadow='0 0 0 3px rgba(57,73,171,0.1)'"
                                     onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'"
@@ -128,13 +151,14 @@ import UiIcon from "./icons/UiIcon.astro";
                                 <label
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
                                     id="label-name-text"
-                                    >Nom complet / Compagnie *</label
                                 >
+                                    {t("Nom complet / Compagnie *", "Full name / Company *")}
+                                </label>
                                 <input
                                     type="text"
                                     id="input-name"
                                     required
-                                    placeholder="Votre nom ou entreprise"
+                                    placeholder={t("Votre nom ou entreprise", "Your name or company")}
                                     style="width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px; font-size:0.95rem; transition:all 0.3s;"
                                     onfocus="this.style.borderColor='#3949ab'; this.style.boxShadow='0 0 0 3px rgba(57,73,171,0.1)'"
                                     onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'"
@@ -145,8 +169,12 @@ import UiIcon from "./icons/UiIcon.astro";
                                 <label
                                     id="label-phone-text"
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
-                                    >Téléphone (mobile pour SMS) *</label
                                 >
+                                    {t(
+                                        "Téléphone (mobile pour SMS) *",
+                                        "Phone (mobile for SMS) *"
+                                    )}
+                                </label>
                                 <input
                                     type="tel"
                                     id="input-phone"
@@ -161,8 +189,9 @@ import UiIcon from "./icons/UiIcon.astro";
                             <div id="field-email" style="display:none;">
                                 <label
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
-                                    >Courriel (facultatif)</label
                                 >
+                                    {t("Courriel (facultatif)", "Email (optional)")}
+                                </label>
                                 <input
                                     type="email"
                                     id="input-email"
@@ -177,21 +206,26 @@ import UiIcon from "./icons/UiIcon.astro";
                                 <label
                                     id="label-street-text"
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
-                                    >Adresse complète (rue et numéro) *</label
                                 >
+                                    {t(
+                                        "Adresse complète (rue et numéro) *",
+                                        "Full address (street and number) *"
+                                    )}
+                                </label>
                                 <input
                                     type="text"
                                     id="input-street"
                                     required
-                                    placeholder="Ex: 1234 Rue Principale"
+                                    placeholder={t("Ex: 1234 Rue Principale", "Ex: 1234 Main Street")}
                                     style="width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px; font-size:0.95rem; transition:all 0.3s;"
                                 />
                             </div>
                             <div>
                                 <label
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
-                                    >Apt / Unité</label
                                 >
+                                    {t("Apt / Unité", "Apt / Unit")}
+                                </label>
                                 <input
                                     type="text"
                                     id="input-apt"
@@ -202,8 +236,9 @@ import UiIcon from "./icons/UiIcon.astro";
                             <div>
                                 <label
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
-                                    >Ville *</label
                                 >
+                                    {t("Ville *", "City *")}
+                                </label>
                                 <input
                                     type="text"
                                     id="input-city"
@@ -217,8 +252,9 @@ import UiIcon from "./icons/UiIcon.astro";
                             <div>
                                 <label
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
-                                    >Code Postal</label
                                 >
+                                    {t("Code Postal", "Postal code")}
+                                </label>
                                 <input
                                     type="text"
                                     id="input-postal"
@@ -230,12 +266,19 @@ import UiIcon from "./icons/UiIcon.astro";
                             <div style="grid-column: 1 / -1;">
                                 <label
                                     style="display:block; font-weight:600; margin-bottom:6px; color:#333; font-size:0.9rem;"
-                                    >Notes (Code de porte, accès, demande spéciale, horaire...)</label
                                 >
+                                    {t(
+                                        "Notes (Code de porte, accès, demande spéciale, horaire...)",
+                                        "Notes (Door code, access, special request, schedule...)"
+                                    )}
+                                </label>
                                 <textarea
                                     id="input-notes"
                                     rows="2"
-                                    placeholder="Précisez ici si vous avez un code de porte, une demande spéciale ou des contraintes d'horaire."
+                                    placeholder={t(
+                                        "Précisez ici si vous avez un code de porte, une demande spéciale ou des contraintes d'horaire.",
+                                        "Specify here if you have a door code, special request, or schedule constraints."
+                                    )}
                                     style="width:100%; padding:10px; border:2px solid #e0e0e0; border-radius:8px; font-size:0.95rem; transition:all 0.3s; resize:vertical; font-family:inherit;"
                                     onfocus="this.style.borderColor='#3949ab'; this.style.boxShadow='0 0 0 3px rgba(57,73,171,0.1)'"
                                     onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none'"
@@ -246,7 +289,10 @@ import UiIcon from "./icons/UiIcon.astro";
                             <div id="desktop-callback-request" style="grid-column: 1 / -1; margin-top:10px; background:#f8f9fa; border-left:4px solid #1a237e; padding:12px 15px; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
                                 <p style="margin:0; font-size:0.95rem; color:#444; line-height:1.5;">
                                     <i class="fas fa-info-circle" style="color:#1a237e; margin-right:8px;"></i>
-                                    Un membre de notre équipe vous contactera sous peu pour vous proposer des plages horaires selon vos disponibilités.
+                                    {t(
+                                        "Un membre de notre équipe vous contactera sous peu pour vous proposer des plages horaires selon vos disponibilités.",
+                                        "A member of our team will contact you shortly to propose time slots based on your availability."
+                                    )}
                                 </p>
                             </div>
                         </div>
@@ -257,13 +303,23 @@ import UiIcon from "./icons/UiIcon.astro";
                 <div id="step-success" class="step">
                     <div class="estimate-no-print" style="text-align:center; padding: 10px 0;">
                         <h3 id="txt-success-title" style="color:#2E7D32; font-size:1.5rem; margin-bottom:10px;">
-                            <i class="fas fa-check-circle"></i> Demande de rendez-vous envoyée
+                            <i class="fas fa-check-circle"></i>
+                            {t(" Demande de rendez-vous envoyée", " Appointment request sent")}
                         </h3>
                         <p id="txt-success-msg" style="color:#666; margin-bottom:20px;">
-                            Votre demande de rendez-vous a été envoyée avec succès. Imprimez l'estimation.
+                            {t(
+                                "Votre demande de rendez-vous a été envoyée avec succès. Imprimez l'estimation.",
+                                "Your appointment request has been sent successfully. Print your estimate."
+                            )}
                         </p>
-                        <button type="button" id="btn-print-estimate" onclick="typeof window.printEstimateSheet==='function'&&window.printEstimateSheet()" class="btn btn-primary btn-print" style="background:#1a237e; border:none; padding:12px 25px; font-size:1.1rem; border-radius:8px; display:inline-flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:15px; width:auto; text-shadow:none;">
-                            🖨️ Imprimer l'estimation
+                        <button
+                            type="button"
+                            id="btn-print-estimate"
+                            onclick="typeof window.printEstimateSheet==='function'&&window.printEstimateSheet()"
+                            class="btn btn-primary btn-print"
+                            style="background:#1a237e; border:none; padding:12px 25px; font-size:1.1rem; border-radius:8px; display:inline-flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:15px; width:auto; text-shadow:none;"
+                        >
+                            {t("🖨️ Imprimer l'estimation", "🖨️ Print estimate")}
                         </button>
                     </div>
                     <div
@@ -279,7 +335,10 @@ import UiIcon from "./icons/UiIcon.astro";
                     class="estimate-no-print"
                     style="text-align:center; font-size:0.85rem; color:#999; margin-top:15px;"
                 >
-                    Vos informations sont confidentielles et sécurisées
+                    {t(
+                        "Vos informations sont confidentielles et sécurisées",
+                        "Your information is confidential and secure"
+                    )}
                 </p>
             </div>
 
@@ -288,19 +347,24 @@ import UiIcon from "./icons/UiIcon.astro";
                 <button
                     id="btn-back"
                     class="btn btn-secondary hidden"
-                    style="border:none; color:#777;">Retour en arrière</button
+                    style="border:none; color:#777;"
                 >
+                    {t("Retour en arrière", "Go back")}
+                </button>
                 <button
                     id="btn-add-more"
                     class="btn hidden"
                     style="background: linear-gradient(90deg, #1a1a1a 0%, #0d47a1 100%); color: white; border: none; box-shadow: 0 4px 15px rgba(13, 71, 161, 0.3);"
-                    >← Retour</button
                 >
+                    {t("← Retour", "← Back")}
+                </button>
                 <button
                     id="btn-next"
                     class="btn btn-primary"
-                    style="width:auto;">Continuer</button
+                    style="width:auto;"
                 >
+                    {t("Continuer", "Continue")}
+                </button>
             </footer>
         </div>
 
@@ -308,14 +372,16 @@ import UiIcon from "./icons/UiIcon.astro";
         <div class="modal-sidebar">
             <div class="cart-title">
                 <div style="display:flex; align-items:center; gap:8px;">
-                    <span id="txt-my-selection">Ma Sélection</span>
+                    <span id="txt-my-selection">
+                        {t("Ma Sélection", "My selection")}
+                    </span>
                     <button
                         onclick="resetEstimation()"
                         id="btn-app-reset"
                         style="background:none; border:1px solid #ddd; border-radius:4px; font-size:0.7rem; cursor:pointer; padding:2px 6px; color:#666;"
-                        title="Tout effacer / Reset all"
+                        title={t("Tout effacer / Reset all", "Clear all / Reset all")}
                     >
-                        Recommencer ↺
+                        {t("Recommencer ↺", "Start over ↺")}
                     </button>
                 </div>
                 <span
@@ -327,7 +393,7 @@ import UiIcon from "./icons/UiIcon.astro";
             <div id="cart-list" class="cart-list">
                 <!-- Items appear here -->
                 <div style="text-align:center; color:#999; margin-top:50px;">
-                    Votre panier est vide.
+                    {t("Votre panier est vide.", "Your cart is empty.")}
                 </div>
             </div>
 
@@ -338,18 +404,20 @@ import UiIcon from "./icons/UiIcon.astro";
             <div class="cart-total-block">
                 <!-- Subtotal Restored for Logic Visibility -->
                 <div style="display:flex; justify-content:center; gap:10px; margin-bottom:5px; font-size:0.9rem; opacity:0.8; display:none;" id="subtotal-row">
-                    <span>Articles:</span>
+                    <span>{t("Articles:", "Items:")}</span>
                     <span id="live-subtotal">0.00$</span>
                 </div>
 
-                <div class="cart-total-label">Total Estimé</div>
+                <div class="cart-total-label">
+                    {t("Total Estimé", "Estimated total")}
+                </div>
                 <div id="live-total" class="cart-live-total">$0.00</div>
                 <button
                     id="btn-toggle-details"
                     type="button"
                     style="display:none; margin-left:10px; font-size:0.9rem; background:none; border:none; text-decoration:underline; cursor:pointer; color:#007bff; font-weight:600;"
                 >
-                    Voir détails &#9650;
+                    {t("Voir détails &#9650;", "View details &#9650;")}
                 </button>
                 <!-- Warning Message (Min Order) inserted here -->
                 <div
@@ -362,14 +430,14 @@ import UiIcon from "./icons/UiIcon.astro";
             <div
                 style="text-align:center; font-size:0.7rem; color:#999; margin-top:10px;"
             >
-                Taxes en sus.
+                {t("Taxes en sus.", "Taxes not included.")}
             </div>
         </div>
 
         <button
             id="close-modal-btn-overlay"
             class="close-btn"
-            aria-label="Fermer"
+            aria-label={t("Fermer", "Close")}
             style="position: absolute; top: -15px; right: -15px; background: white; border-radius: 50%; width: 30px; height: 30px; border: 1px solid #ccc; cursor:pointer;"
             >&times;</button
         >
@@ -382,9 +450,14 @@ import UiIcon from "./icons/UiIcon.astro";
         >
             <header class="mobile-app-header">
                 <div class="mobile-header-left">
-                    <h2 id="mobile-title">Estimation</h2>
+                    <h2 id="mobile-title">
+                        {t("Estimation", "Estimate")}
+                    </h2>
                 </div>
-                <button id="mobile-close-btn" class="mobile-close-btn" aria-label="Fermer"
+                <button
+                    id="mobile-close-btn"
+                    class="mobile-close-btn"
+                    aria-label={t("Fermer", "Close")}
                     >&times;</button
                 >
             </header>
@@ -406,8 +479,15 @@ import UiIcon from "./icons/UiIcon.astro";
                 <!-- Step 1: Mobile Services List -->
                 <div id="mobile-step-services" class="mobile-step active">
                     <div class="mobile-welcome">
-                        <h3 id="mobile-txt-choose">Sélectionnez vos services</h3>
-                        <p id="mobile-txt-touch">Touchez pour ajouter à l'estimation.</p>
+                        <h3 id="mobile-txt-choose">
+                            {t("Sélectionnez vos services", "Select your services")}
+                        </h3>
+                        <p id="mobile-txt-touch">
+                            {t(
+                                "Touchez pour ajouter à l'estimation.",
+                                "Tap to add to your estimate."
+                            )}
+                        </p>
                     </div>
                     <div id="mobile-services-list" class="mobile-list"></div>
                 </div>
@@ -415,10 +495,12 @@ import UiIcon from "./icons/UiIcon.astro";
                 <!-- Step 2: Mobile Details -->
                 <div id="mobile-step-details" class="mobile-step">
                     <div class="mobile-step-header">
-                        <button id="mobile-back-btn" class="mobile-back-link"
-                            >← Retour</button
-                        >
-                        <h3 id="mobile-header-details">Détails</h3>
+                        <button id="mobile-back-btn" class="mobile-back-link">
+                            {t("← Retour", "← Back")}
+                        </button>
+                        <h3 id="mobile-header-details">
+                            {t("Détails", "Details")}
+                        </h3>
                     </div>
                     <div id="mobile-details-container"></div>
                 </div>
@@ -428,9 +510,13 @@ import UiIcon from "./icons/UiIcon.astro";
                     <div class="mobile-step-header">
                         <button
                             id="mobile-back-btn-review"
-                            class="mobile-back-link">← Retour</button
+                            class="mobile-back-link"
                         >
-                        <h3 id="mobile-header-summary">Sommaire</h3>
+                            {t("← Retour", "← Back")}
+                        </button>
+                        <h3 id="mobile-header-summary">
+                            {t("Sommaire", "Summary")}
+                        </h3>
                     </div>
                     <div id="mobile-summary-container" style="padding: 10px;">
                     </div>
@@ -441,13 +527,20 @@ import UiIcon from "./icons/UiIcon.astro";
                     <div class="mobile-step-header">
                         <button
                             id="mobile-back-btn-contact"
-                            class="mobile-back-link">← Retour</button
+                            class="mobile-back-link"
                         >
-                        <h3 id="mobile-header-finalize">Finaliser</h3>
+                            {t("← Retour", "← Back")}
+                        </button>
+                        <h3 id="mobile-header-finalize">
+                            {t("Finaliser", "Finalize")}
+                        </h3>
                     </div>
                     <div style="padding-top:10px;">
                         <p id="mobile-txt-enter-info" style="margin-bottom:20px; color:#666;">
-                            Entrez vos coordonnées pour nous transmettre votre demande.
+                            {t(
+                                "Entrez vos coordonnées pour nous transmettre votre demande.",
+                                "Enter your contact details to send us your request."
+                            )}
                         </p>
                         
                         <!-- Mobile Quote Message -->
@@ -465,8 +558,8 @@ import UiIcon from "./icons/UiIcon.astro";
                                     <input
                                         type="text"
                                         id="mobile-input-company"
-                                        placeholder="Nom de l'entreprise *"
-                                        aria-label="Nom de l'entreprise *"
+                                        placeholder={t("Nom de l'entreprise *", "Company name *")}
+                                        aria-label={t("Nom de l'entreprise *", "Company name *")}
                                         class="mobile-input"
                                         style="display:none; width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem;"
                                     />
@@ -474,8 +567,8 @@ import UiIcon from "./icons/UiIcon.astro";
                                     <input
                                         type="text"
                                         id="mobile-input-name"
-                                        placeholder="Nom complet *"
-                                        aria-label="Nom complet *"
+                                        placeholder={t("Nom complet *", "Full name *")}
+                                        aria-label={t("Nom complet *", "Full name *")}
                                         class="mobile-input"
                                         style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem;"
                                     />
@@ -484,8 +577,14 @@ import UiIcon from "./icons/UiIcon.astro";
                                         <input
                                             type="tel"
                                             id="mobile-input-phone"
-                                            placeholder="Téléphone (mobile pour SMS) *"
-                                            aria-label="Téléphone (mobile pour SMS) *"
+                                            placeholder={t(
+                                                "Téléphone (mobile pour SMS) *",
+                                                "Phone (mobile for SMS) *"
+                                            )}
+                                            aria-label={t(
+                                                "Téléphone (mobile pour SMS) *",
+                                                "Phone (mobile for SMS) *"
+                                            )}
                                             class="mobile-input"
                                             style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem;"
                                         />
@@ -498,8 +597,8 @@ import UiIcon from "./icons/UiIcon.astro";
                                         <input
                                             type="email"
                                             id="mobile-input-email"
-                                            placeholder="Adresse courriel *"
-                                            aria-label="Adresse courriel *"
+                                            placeholder={t("Adresse courriel *", "Email address *")}
+                                            aria-label={t("Adresse courriel *", "Email address *")}
                                             class="mobile-input"
                                             style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem;"
                                         />
@@ -511,8 +610,8 @@ import UiIcon from "./icons/UiIcon.astro";
                                         <input
                                             type="text"
                                             id="mobile-input-street"
-                                            placeholder="Adresse (Rue/No)"
-                                            aria-label="Adresse (Rue/No)"
+                                            placeholder={t("Adresse (Rue/No)", "Address (Street/No.)")}
+                                            aria-label={t("Adresse (Rue/No)", "Address (Street/No.)")}
                                             class="mobile-input"
                                             style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem;"
                                         />
@@ -528,8 +627,8 @@ import UiIcon from "./icons/UiIcon.astro";
                                     <input
                                         type="text"
                                         id="mobile-input-city"
-                                        placeholder="Ville *"
-                                        aria-label="Ville *"
+                                        placeholder={t("Ville *", "City *")}
+                                        aria-label={t("Ville *", "City *")}
                                         class="mobile-input"
                                         style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem; margin-bottom:12px;"
                                     />
@@ -537,8 +636,8 @@ import UiIcon from "./icons/UiIcon.astro";
                                     <input
                                         type="text"
                                         id="mobile-input-postal"
-                                        placeholder="Code Postal"
-                                        aria-label="Code Postal"
+                                        placeholder={t("Code Postal", "Postal code")}
+                                        aria-label={t("Code Postal", "Postal code")}
                                         class="mobile-input"
                                         style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem; margin-bottom:12px;"
                                     />
@@ -546,8 +645,14 @@ import UiIcon from "./icons/UiIcon.astro";
                                     <textarea
                                         id="mobile-input-notes"
                                         rows="3"
-                                        placeholder="Notes (Code de porte, demande spéciale...)"
-                                        aria-label="Notes (Code de porte, demande spéciale...)"
+                                        placeholder={t(
+                                            "Notes (Code de porte, demande spéciale...)",
+                                            "Notes (Door code, special request...)"
+                                        )}
+                                        aria-label={t(
+                                            "Notes (Code de porte, demande spéciale...)",
+                                            "Notes (Door code, special request...)"
+                                        )}
                                         class="mobile-input"
                                         style="width:100%; padding:14px; border:1px solid #ddd; border-radius:10px; font-size:1rem; resize:none; font-family:inherit;"
                                     ></textarea>
@@ -556,7 +661,10 @@ import UiIcon from "./icons/UiIcon.astro";
                                     <div id="mobile-callback-request" style="margin-top:10px; margin-bottom: 20px; background:#f8f9fa; border-left:4px solid #1a237e; padding:12px; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
                                         <p style="margin:0; font-size:0.95rem; color:#444; line-height:1.4;">
                                             <i class="fas fa-info-circle" style="color:#1a237e; margin-right:8px;"></i>
-                                            Un membre de notre équipe vous contactera sous peu pour vous proposer des plages horaires selon vos disponibilités.
+                                            {t(
+                                                "Un membre de notre équipe vous contactera sous peu pour vous proposer des plages horaires selon vos disponibilités.",
+                                                "A member of our team will contact you shortly to propose time slots based on your availability."
+                                            )}
                                         </p>
                                     </div>
                                 </div>
@@ -570,7 +678,7 @@ import UiIcon from "./icons/UiIcon.astro";
                             style="width:100%; margin-top:20px; box-shadow:0 4px 15px rgba(26, 35, 126, 0.3);"
                             onclick="window.handleMobileSubmit(event)"
                         >
-                            Afficher mon estimation
+                            {t("Afficher mon estimation", "Show my estimate")}
                         </button>
                     </div>
                 </div>
@@ -580,11 +688,13 @@ import UiIcon from "./icons/UiIcon.astro";
                     <div class="estimate-no-print" style="text-align:center;padding:16px 12px;">
                         <h3 style="color:#2E7D32;font-size:1.35rem;margin-bottom:8px;">
                             <i class="fas fa-check-circle"></i>
-                            <span id="mobile-success-heading">Demande de rendez-vous envoyée</span>
+                            <span id="mobile-success-heading">
+                                {t("Demande de rendez-vous envoyée", "Appointment request sent")}
+                            </span>
                         </h3>
                         <p id="mobile-success-msg" style="color:#666;margin-bottom:16px;font-size:0.95rem;line-height:1.45;"></p>
                         <button type="button" id="mobile-btn-print-estimate" class="btn-mobile-primary" style="width:100%;max-width:340px;" onclick="typeof window.printEstimateSheet==='function'&&window.printEstimateSheet()">
-                            🖨️ Imprimer l'estimation
+                            {t("🖨️ Imprimer l'estimation", "🖨️ Print estimate")}
                         </button>
                     </div>
                     <div

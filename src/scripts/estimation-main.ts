@@ -190,13 +190,13 @@
                 }
             }
 
-
-
-
-
             // LOGIQUE AVANCÉE
+            const rootEl = document.getElementById("estimation-widget");
+            const initialLangAttr =
+                rootEl?.getAttribute("data-lang") === "en" ? "en" : "fr";
+
             const STATE: AppState = {
-                lang: "fr", // Default
+                lang: initialLangAttr,
                 step: 1,
                 selectedServices: new Set(),
                 quantities: {},
