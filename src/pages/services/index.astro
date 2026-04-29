@@ -20,6 +20,12 @@ const services = [
     desc: "Élimination des acariens et allergènes pour un sommeil sain.",
     img: "/images/catalog/photo-matelas-custom.webp",
   },
+  {
+    slug: "tapis",
+    title: "Tapis",
+    desc: "Expert en nettoyage de tapis résidentiel et commercial. Technologie vapeur industrielle pour des résultats supérieurs.",
+    img: "/images/catalog/photo-tapis-clean.webp",
+  },
 
   {
     slug: "nettoyage-tapis-residentiel",
@@ -51,6 +57,12 @@ const services = [
     title: "Nettoyage de tapis orientaux à domicile",
     desc: "Restauration experte pour tapis persans et orientaux.",
     img: "/images/catalog/photo-oriental-custom.webp",
+  },
+  {
+    slug: "surfaces",
+    title: "Surfaces",
+    desc: "Matelas, céramique et protecteur antitache à domicile dans la grande région de Montréal.",
+    img: "/images/catalog/photo-78.webp",
   },
   {
     slug: "nettoyage-tuiles-ceramique",
@@ -100,7 +112,7 @@ const services = [
         {
           services.map((service) => (
             <a
-              href={`/services/${service.slug}`}
+              href={`/services/${service.slug}/`}
               class="service-card"
               style={`--card-bg: url('${service.img}');`}
             >

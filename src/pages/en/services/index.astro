@@ -20,6 +20,12 @@ const services = [
     desc: "Elimination of dust mites and allergens for healthy sleep.",
     img: "/images/catalog/photo-matelas-custom.webp",
   },
+  {
+    slug: "tapis",
+    title: "Carpets",
+    desc: "Expert in residential and commercial carpet cleaning. Industrial steam technology for superior results.",
+    img: "/images/catalog/photo-tapis-clean.webp",
+  },
 
   {
     slug: "nettoyage-tapis-residentiel",
@@ -51,6 +57,12 @@ const services = [
     title: "Oriental Rug Cleaning (In-Home)",
     desc: "Expert restoration for Persian and Oriental rugs.",
     img: "/images/catalog/photo-oriental-custom.webp",
+  },
+  {
+    slug: "surfaces",
+    title: "Surfaces",
+    desc: "At-home mattress cleaning, tile & grout cleaning, and stain protector application.",
+    img: "/images/catalog/photo-78.webp",
   },
   {
     slug: "nettoyage-tuiles-ceramique",
@@ -100,7 +112,7 @@ const services = [
         {
           services.map((service) => (
             <a
-              href={`/en/services/${service.slug}`}
+              href={`/en/services/${service.slug}/`}
               class="service-card"
               style={`--card-bg: url('${service.img}');`}
             >

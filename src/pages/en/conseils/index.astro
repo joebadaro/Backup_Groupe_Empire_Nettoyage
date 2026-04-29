@@ -55,6 +55,66 @@ const posts = [
     category: 'Comparison',
     icon: '',
     image: '/images/conseils/location-vs-pro-1.webp'
+  },
+  {
+    slug: 'entretien-cuir',
+    title: 'How to Maintain Leather Upholstery',
+    excerpt:
+      'How to clean and condition leather sofas and armchairs without damaging the finish, and when to call a professional leather cleaning service.',
+    date: 'October 15, 2024',
+    category: 'Maintenance',
+    icon: '',
+    image: ''
+  },
+  {
+    slug: 'camion-vs-portatif',
+    title: 'Truck-Mount vs Portable Machines',
+    excerpt:
+      'Side-by-side comparison between grocery-store rental machines and professional truck-mount carpet cleaning units in terms of power, heat and drying time.',
+    date: 'October 15, 2024',
+    category: 'Comparison',
+    icon: '',
+    image: ''
+  },
+  {
+    slug: 'battre-les-taches',
+    title: 'Removing Tough Carpet Stains',
+    excerpt:
+      'How to handle red wine, coffee or blood stains on carpets without damaging the fibers, and when to call a professional cleaner.',
+    date: 'October 15, 2024',
+    category: 'Maintenance',
+    icon: '',
+    image: ''
+  },
+  {
+    slug: 'animaux-compagnie',
+    title: 'Living with Pets',
+    excerpt:
+      'Practical advice for carpets and sofas when you live with pets: odors, embedded hair and accidents, with professional cleaning options in Greater Montreal.',
+    date: 'October 15, 2024',
+    category: 'Pets',
+    icon: '',
+    image: ''
+  },
+  {
+    slug: 'allergies-respiratoires',
+    title: 'Allergies and Indoor Air Quality',
+    excerpt:
+      'Allergies and indoor air quality: see how professional carpet cleaning helps improve the air your family breathes in Greater Montreal.',
+    date: 'October 15, 2024',
+    category: 'Health',
+    icon: '',
+    image: ''
+  },
+  {
+    slug: 'preparation-avant-arrivee',
+    title: 'Preparing for Your Cleaning Visit',
+    excerpt:
+      'Simple checklist to prepare for a professional carpet or upholstery cleaning visit: access, furniture, pets and parking.',
+    date: 'October 15, 2024',
+    category: 'Guide',
+    icon: '',
+    image: ''
   }
 ];
 ---
@@ -75,7 +135,7 @@ const posts = [
       
       <div class="blog-grid fade-in-section delay-100">
         {posts.map(post => (
-          <a href={`/en/conseils/${post.slug}`} class={`blog-card ${post.image ? 'has-image' : ''}`} style={post.image ? `background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.85)), url('${post.image}');` : ''}>
+          <a href={`/en/conseils/${post.slug}/`} class={`blog-card ${post.image ? 'has-image' : ''}`} style={post.image ? `background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.85)), url('${post.image}');` : ''}>
             {/* <div class="card-icon">{post.icon}</div> */}
             <div class="card-content">
               <span class="card-cat">{post.category}</span>

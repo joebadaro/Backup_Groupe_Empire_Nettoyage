@@ -55,6 +55,66 @@ const posts = [
     category: 'Comparatif',
     icon: '',
     image: '/images/conseils/location-vs-pro-1.webp'
+  },
+  {
+    slug: 'entretien-cuir',
+    title: "L'Art d'entretenir le Cuir",
+    excerpt:
+      "Conseils professionnels pour nettoyer et hydrater vos sofas et fauteuils en cuir sans les abîmer, avec les bonnes fréquences d'entretien.",
+    date: '15 Octobre 2024',
+    category: 'Entretien',
+    icon: '',
+    image: ''
+  },
+  {
+    slug: 'camion-vs-portatif',
+    title: 'Pourquoi le Camion-Usine est supérieur ?',
+    excerpt:
+      'Comparatif entre machine de location et camion-usine pour le nettoyage de tapis résidentiels, avec un focus sur la puissance, la chaleur et le séchage rapide.',
+    date: '15 Octobre 2024',
+    category: 'Comparatif',
+    icon: '',
+    image: ''
+  },
+  {
+    slug: 'battre-les-taches',
+    title: 'Comment battre les taches tenaces ?',
+    excerpt:
+      'Guide pratique pour traiter les taches de vin, café ou sang sur un tapis sans l\'abîmer, avec les bons réflexes à adopter à la maison.',
+    date: '15 Octobre 2024',
+    category: 'Entretien',
+    icon: '',
+    image: ''
+  },
+  {
+    slug: 'animaux-compagnie',
+    title: 'Vivre avec des Animaux',
+    excerpt:
+      'Conseils de nettoyage de tapis et divans pour les propriétaires d\'animaux : odeurs, poils incrustés et accidents sur les tissus à Montréal et sur la Rive-Sud.',
+    date: '15 Octobre 2024',
+    category: 'Animaux',
+    icon: '',
+    image: ''
+  },
+  {
+    slug: 'allergies-respiratoires',
+    title: "Allergies et Qualité de l'Air",
+    excerpt:
+      'Allergies et qualité de l\'air intérieur : découvrez comment un nettoyage professionnel des tapis améliore la qualité de l\'air dans votre maison à Montréal et sur la Rive-Sud.',
+    date: '15 Octobre 2024',
+    category: 'Santé',
+    icon: '',
+    image: ''
+  },
+  {
+    slug: 'preparation-avant-arrivee',
+    title: 'Préparer votre Rendez-vous',
+    excerpt:
+      'Check-list simple pour bien préparer la visite de nettoyage de tapis ou de divans : accès, meubles, animaux et stationnement.',
+    date: '15 Octobre 2024',
+    category: 'Guide',
+    icon: '',
+    image: ''
   }
 ];
 ---
@@ -75,7 +135,7 @@ const posts = [
       
       <div class="blog-grid fade-in-section delay-100">
         {posts.map(post => (
-          <a href={`/conseils/${post.slug}`} class={`blog-card ${post.image ? 'has-image' : ''}`} style={post.image ? `background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.85)), url('${post.image}');` : ''}>
+          <a href={`/conseils/${post.slug}/`} class={`blog-card ${post.image ? 'has-image' : ''}`} style={post.image ? `background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.85)), url('${post.image}');` : ''}>
             {/* <div class="card-icon">{post.icon}</div> */}
             <div class="card-content">
               <span class="card-cat">{post.category}</span>
