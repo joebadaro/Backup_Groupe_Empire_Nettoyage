@@ -16,7 +16,16 @@
              out.textContent = "Envoi en cours...";
              
              try {
-                const res = await fetch('/.netlify/functions/track-visit', { method: 'POST' });
+                const res = await fetch('/.netlify/functions/track-visit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        event: 'first_visit',
+                        pageTitle: 'Test diagnostic',
+                        pagePath: '/debug-sms-v2.html',
+                        humanConfirmed: true,
+                    }),
+                });
                 const text = await res.text();
                 
                 try {

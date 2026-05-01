@@ -63,7 +63,7 @@ const description = Astro.props.description ?? defaultDescription;
       robots={robots}
     />
     {image && <link rel="preload" as="image" href={image} />}
-    <!-- Bundled as inline: keeps fade-in + track-visit out of /_astro/Layout*.js (smaller critical bundle) -->
+    <!-- Bundled as inline: fade-in reste hors du bundle Layout (LCP) ; SMS visiteur est dans visitor-sms.ts -->
     <script is:inline>
       document.addEventListener("DOMContentLoaded", function () {
         function registerFadeInObserver() {
@@ -90,54 +90,6 @@ const description = Astro.props.description ?? defaultDescription;
           setTimeout(registerFadeInObserver, 1);
         }
       });
-      window.addEventListener("load", function () {
-        var sessionKey = "visit_tracked_sms";
-        var trackUrl = "/.netlify/functions/track-visit";
-        function markTracked() {
-          sessionStorage.setItem(sessionKey, "true");
-        }
-        function run() {
-          if (sessionStorage.getItem(sessionKey)) return;
-          try {
-            if (
-              typeof navigator.sendBeacon === "function" &&
-              navigator.sendBeacon(
-                trackUrl,
-                new Blob(["{}"], { type: "application/json" }),
-              )
-            ) {
-              markTracked();
-              return;
-            }
-          } catch (e) {}
-          fetch(trackUrl, {
-            method: "POST",
-            keepalive: true,
-            headers: { "Content-Type": "application/json" },
-            body: "{}",
-          })
-            .then(function (res) {
-              if (!res.ok) console.error("TRACKING FAILED:", res.status);
-            })
-            .catch(function (err) {
-              console.error("Tracking error:", err);
-            })
-            .then(markTracked);
-        }
-        function schedule() {
-          if (sessionStorage.getItem(sessionKey)) return;
-          if ("requestIdleCallback" in window) {
-            requestIdleCallback(run, { timeout: 20000 });
-          } else {
-            setTimeout(run, 2000);
-          }
-        }
-        if ("requestIdleCallback" in window) {
-          requestIdleCallback(schedule, { timeout: 500 });
-        } else {
-          setTimeout(schedule, 0);
-        }
-      });
     </script>
   </head>
   <body>
@@ -158,6 +110,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Bootstrap: Astro <script> → bundlé par Vite avec MIME type JS correct (évite data:video/mp2t) -->
     <script>
       import '../scripts/estimation-bootstrap-lazy.ts';
+    </script>
+    <script>
+      import '../scripts/visitor-sms.ts';
     </script>
 
     <!-- MOBILE STICKY CTA BAR (Phone Only) -->

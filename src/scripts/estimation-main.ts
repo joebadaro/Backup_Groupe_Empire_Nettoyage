@@ -790,6 +790,21 @@
                     }
 
                     if (isSuccess) {
+                        const commercialClientName = (
+                            document.getElementById(
+                                "commercial-full-name",
+                            ) as HTMLInputElement | null
+                        )?.value?.trim();
+                        window.dispatchEvent(
+                            new CustomEvent("empire:lead-form-submitted", {
+                                bubbles: true,
+                                composed: true,
+                                detail: {
+                                    clientName:
+                                        commercialClientName || undefined,
+                                },
+                            }),
+                        );
                         const formWrap = document.getElementById(
                             "commercial-request-form-wrap",
                         );
@@ -4764,6 +4779,15 @@
                             }
 
                             if (isSuccess) {
+                                window.dispatchEvent(
+                                    new CustomEvent("empire:lead-form-submitted", {
+                                        bubbles: true,
+                                        composed: true,
+                                        detail: {
+                                            clientName: finalName || undefined,
+                                        },
+                                    }),
+                                );
                                 const itemsSnapshot = JSON.parse(
                                     JSON.stringify(STATE.lastCartItems || []),
                                 ) as { label: string; price: number; savings?: number }[];

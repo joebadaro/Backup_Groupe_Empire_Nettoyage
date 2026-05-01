@@ -4,6 +4,9 @@
  */
 if (typeof window !== "undefined") {
   window.openEstimationWidget = function () {
+    window.dispatchEvent(
+      new CustomEvent("empire:estimator-open", { bubbles: true }),
+    );
     void import("./estimation-bootstrap.ts").then(() => {
       window.openEstimationWidget();
     });
