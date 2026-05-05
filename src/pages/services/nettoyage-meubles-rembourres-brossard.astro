@@ -1,27 +1,39 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import FAQSchema from "../../components/FAQSchema.astro";
+import LocalUpholsteryPremiumLayout from "../../components/local-upholstery/LocalUpholsteryPremiumLayout.astro";
 ---
 
 <Layout
   title="Nettoyage de meubles rembourrés à Brossard | Divan, sofa, sectionnel"
   description="Service professionnel de nettoyage de meubles rembourrés à Brossard. Nettoyage de divan sectionnel, sofa modulaire, fauteuil et banquette en tissu avec vapeur, shampoing pro, produits écologiques et séchage rapide."
 >
-  <section class="section">
-    <div class="container">
-      <h1>Nettoyage de divan, sofa, fauteuil et sectionnel à Brossard</h1>
-      <p>
-        À Brossard, entre les condos récents, les maisons familiales et les espaces de vie ouverts, les meubles rembourrés sont sollicités chaque jour. Notre service
-        professionnel est conçu pour les divans sectionnels, sofas modulaires, fauteuils et banquettes qui demandent un nettoyage en profondeur sans compromis sur la
-        qualité du tissu.
-      </p>
-      <a class="btn btn-primary" href="tel:5148939939">(514) 893-9939</a>
-    </div>
-  </section>
-
-  <section class="section section-light">
-    <div class="container narrow">
-      <h2>Présentation du service à Brossard</h2>
+  <LocalUpholsteryPremiumLayout
+    cityBadge="MEUBLES REMBOURRÉS • BROSSARD"
+    h1="Nettoyage de divan, sofa, fauteuil et sectionnel à Brossard"
+    problemTitle="Des assises sollicitées au quotidien :"
+    problemText="À Brossard, entre les condos récents, les maisons familiales et les espaces de vie ouverts, vos divans sectionnels et sofas modulaires accumulent poussière fine, allergènes et traces d’usage sans que le tissu paraisse encore « sale »."
+    leadText="Notre équipe intervient à domicile avec une méthode professionnelle adaptée à chaque type de textile — injection-extraction à la vapeur, camion-usine lorsque l’accès le permet, et finition soignée pour un séchage généralement entre 2 et 6 heures."
+    trustBadges={[
+      "Plus de 30 ans d’expérience",
+      "Produits écologiques",
+      "Séchage rapide (souvent 2 à 6 h)",
+      "Inspection textile avant traitement",
+    ]}
+    methodSteps={[
+      "Inspection du tissu complète avant intervention.",
+      "Prétraitement ciblé avec shampoing professionnel selon la fibre.",
+      "Nettoyage à la vapeur par injection-extraction avec camion-usine.",
+      "Protection des planchers et zones de circulation.",
+      "Extraction puissante pour un séchage rapide, généralement de 2 à 6 heures.",
+    ]}
+    furnitureSectionTitle="Types de meubles nettoyés"
+    furnitureTypesIntro="Nous nettoyons les divans sectionnels, sofas sectionnels, sofas modulaires, fauteuils inclinables, chaises rembourrées, banquettes et ottomanes. Chaque meuble est traité selon son revêtement, son niveau d'encrassement et son usage résidentiel."
+  >
+    <div slot="presentation">
+      <h2 class="section-title text-gradient-empire">
+        Présentation du service à Brossard
+      </h2>
       <p>
         Nous intervenons à domicile à Brossard avec une approche structurée et soignée. Avant toute opération, nous évaluons la fibre, l'état des coutures et les zones
         de contact afin d'adapter précisément la méthode au mobilier. Cette étape permet d'obtenir un résultat net, uniforme et durable.
@@ -31,41 +43,50 @@ import FAQSchema from "../../components/FAQSchema.astro";
         plus de passages. Retrouvez le portrait global du service sur
         <a href="/services/meubles-tissu/">notre service principal de nettoyage de meubles en tissu</a>.
       </p>
+    </div>
 
-      <h2>Pourquoi nettoyer vos meubles rembourrés</h2>
-      <p>
-        Les assises absorbent poussières fines, allergènes, huiles corporelles et résidus du quotidien. Un entretien professionnel protège l'apparence de vos meubles,
-        améliore le confort d'utilisation et prolonge la durée de vie de votre divan, sofa ou fauteuil.
-      </p>
+    <div slot="extras">
+      <div class="fade-in-section delay-350" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Pourquoi nettoyer vos meubles rembourrés
+        </h2>
+        <p>
+          Les assises absorbent poussières fines, allergènes, huiles corporelles et résidus du quotidien. Un entretien professionnel protège l'apparence de vos meubles,
+          améliore le confort d'utilisation et prolonge la durée de vie de votre divan, sofa ou fauteuil.
+        </p>
+      </div>
 
-      <h2>Notre méthode professionnelle</h2>
-      <ul>
-        <li>Inspection du tissu complète avant intervention.</li>
-        <li>Prétraitement ciblé avec shampoing professionnel selon la fibre.</li>
-        <li>Nettoyage à la vapeur par injection-extraction avec camion-usine.</li>
-        <li>Protection des planchers et zones de circulation.</li>
-        <li>Extraction puissante pour un séchage rapide, généralement de 2 à 6 heures.</li>
-      </ul>
+      <div class="fade-in-section delay-400" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Traitements spécialisés disponibles
+        </h2>
+        <p>
+          Selon l'évaluation initiale, nous pouvons intégrer un détachage ciblé, une neutralisation d'odeurs, un traitement enzymatique ou une protection textile
+          optionnelle. Nos recommandations sont toujours basées sur le besoin réel du meuble.
+        </p>
+      </div>
 
-      <h2>Types de meubles nettoyés</h2>
-      <p>
-        Nous nettoyons les divans sectionnels, sofas sectionnels, sofas modulaires, fauteuils inclinables, chaises rembourrées, banquettes et ottomanes. Chaque meuble
-        est traité selon son revêtement, son niveau d'encrassement et son usage résidentiel.
-      </p>
+      <div class="fade-in-section delay-450" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Pourquoi choisir Groupe Nettoyage Empire à Brossard
+        </h2>
+        <p>
+          Avec plus de 30 ans d'expérience, notre équipe privilégie la précision technique, des produits écologiques et une exécution propre du début à la fin. Nous
+          accompagnons une clientèle résidentielle exigeante qui souhaite un service fiable, professionnel et cohérent avec la valeur de son mobilier.
+        </p>
+      </div>
 
-      <h2>Traitements spécialisés disponibles</h2>
-      <p>
-        Selon l'évaluation initiale, nous pouvons intégrer un détachage ciblé, une neutralisation d'odeurs, un traitement enzymatique ou une protection textile
-        optionnelle. Nos recommandations sont toujours basées sur le besoin réel du meuble.
-      </p>
+      <div class="fade-in-section delay-500" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">Demander une estimation</h2>
+        <p>
+          Pour obtenir une estimation rapide pour le nettoyage de votre divan, sofa, fauteuil, sectionnel ou banquette à Brossard, contactez Groupe Nettoyage Empire au
+          (514) 893-9939.
+        </p>
+      </div>
+    </div>
 
-      <h2>Pourquoi choisir Groupe Nettoyage Empire à Brossard</h2>
-      <p>
-        Avec plus de 30 ans d'expérience, notre équipe privilégie la précision technique, des produits écologiques et une exécution propre du début à la fin. Nous
-        accompagnons une clientèle résidentielle exigeante qui souhaite un service fiable, professionnel et cohérent avec la valeur de son mobilier.
-      </p>
-
-      <h2>FAQ locale Brossard</h2>
+    <div slot="faq">
+      <h2 class="section-title text-gradient-empire">FAQ locale Brossard</h2>
       <FAQSchema
         faqs={[
           {
@@ -85,12 +106,6 @@ import FAQSchema from "../../components/FAQSchema.astro";
           },
         ]}
       />
-
-      <h2>Demander une estimation</h2>
-      <p>
-        Pour obtenir une estimation rapide pour le nettoyage de votre divan, sofa, fauteuil, sectionnel ou banquette à Brossard, contactez Groupe Nettoyage Empire au
-        (514) 893-9939.
-      </p>
     </div>
-  </section>
+  </LocalUpholsteryPremiumLayout>
 </Layout>

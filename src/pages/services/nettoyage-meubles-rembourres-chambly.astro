@@ -1,66 +1,88 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import FAQSchema from "../../components/FAQSchema.astro";
+import LocalUpholsteryPremiumLayout from "../../components/local-upholstery/LocalUpholsteryPremiumLayout.astro";
 ---
 
 <Layout
   title="Nettoyage de meubles rembourrés à Chambly | Divan, sofa, sectionnel"
   description="Service de nettoyage de divan, sofa, fauteuil, sectionnel, modulaire et banquette à Chambly. Entretien régulier pour salons accueillants et maisons familiales avec intervention simple et fiable à domicile."
 >
-  <section class="section">
-    <div class="container">
-      <h1>Nettoyage de divan, sofa, fauteuil et sectionnel à Chambly</h1>
-      <p>
-        À Chambly, le salon est souvent l'espace central de la maison: on y reçoit, on y partage les soirées en famille et on y vit au quotidien. Notre service de nettoyage
-        de meubles rembourrés est conçu pour garder vos sectionnels confortables, sofas modulaires, fauteuils et banquettes propres et soignés, pour que votre espace de vie
-        reste net, accueillant et prêt pour les moments en famille comme pour la réception.
-      </p>
-      <a class="btn btn-primary" href="tel:5148939939">(514) 893-9939</a>
-    </div>
-  </section>
-
-  <section class="section section-light">
-    <div class="container narrow">
-      <h2>Présentation du service à Chambly</h2>
+  <LocalUpholsteryPremiumLayout
+    cityBadge="MEUBLES REMBOURRÉS • CHAMBLY"
+    h1="Nettoyage de divan, sofa, fauteuil et sectionnel à Chambly"
+    problemTitle="Le salon au centre de la maison :"
+    problemText="À Chambly, le salon est souvent l'espace central de la maison: on y reçoit, on y partage les soirées en famille et on y vit au quotidien."
+    leadText="Notre service de nettoyage de meubles rembourrés est conçu pour garder vos sectionnels confortables, sofas modulaires, fauteuils et banquettes propres et soignés, pour que votre espace de vie reste net, accueillant et prêt pour les moments en famille comme pour la réception."
+    trustBadges={[
+      "Plus de 30 ans d’expérience",
+      "Produits écologiques",
+      "Séchage rapide (souvent 2 à 6 h)",
+      "Inspection textile avant traitement",
+    ]}
+    methodSteps={[
+      "Inspection du tissu et validation de la méthode avant le nettoyage.",
+      "Prétraitement ciblé avec shampoing professionnel adapté à chaque fibre.",
+      "Nettoyage à la vapeur par injection-extraction avec camion-usine.",
+      "Protection des planchers et des zones de passage pendant l'intervention.",
+      "Extraction approfondie pour un séchage rapide, généralement entre 2 et 6 heures.",
+    ]}
+    furnitureSectionTitle="Types de meubles nettoyés"
+    furnitureTypesIntro="Nous nettoyons les divans sectionnels, sofas sectionnels, sofas modulaires, fauteuils rembourrés, banquettes, ottomanes et chaises en tissu. Chaque meuble reçoit un traitement ajusté selon son état, son usage et son revêtement."
+  >
+    <div slot="presentation">
+      <h2 class="section-title text-gradient-empire">
+        Présentation du service à Chambly
+      </h2>
       <p>
         Nous offrons un service à domicile simple et fiable, adapté aux réalités des maisons familiales de Chambly. Chaque intervention commence par une inspection du tissu,
         se poursuit avec une méthode de nettoyage ciblée, puis se termine par une finition soignée pour un résultat net et durable.
       </p>
+    </div>
 
-      <h2>Pourquoi entretenir vos meubles rembourrés régulièrement</h2>
-      <p>
-        Quand les meubles servent à la fois à la famille et aux invités, les tissus accumulent rapidement poussières fines, traces de contact, odeurs légères et petites
-        taches. Un entretien professionnel régulier aide à préserver l'apparence des assises, l'hygiène du salon et le confort de la maison.
-      </p>
+    <div slot="extras">
+      <div class="fade-in-section delay-350" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Pourquoi entretenir vos meubles rembourrés régulièrement
+        </h2>
+        <p>
+          Quand les meubles servent à la fois à la famille et aux invités, les tissus accumulent rapidement poussières fines, traces de contact, odeurs légères et petites
+          taches. Un entretien professionnel régulier aide à préserver l'apparence des assises, l'hygiène du salon et le confort de la maison.
+        </p>
+      </div>
 
-      <h2>Notre méthode professionnelle</h2>
-      <ul>
-        <li>Inspection du tissu et validation de la méthode avant le nettoyage.</li>
-        <li>Prétraitement ciblé avec shampoing professionnel adapté à chaque fibre.</li>
-        <li>Nettoyage à la vapeur par injection-extraction avec camion-usine.</li>
-        <li>Protection des planchers et des zones de passage pendant l'intervention.</li>
-        <li>Extraction approfondie pour un séchage rapide, généralement entre 2 et 6 heures.</li>
-      </ul>
+      <div class="fade-in-section delay-400" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Traitements spécialisés disponibles
+        </h2>
+        <p>
+          Selon vos besoins, nous proposons un détachage ciblé, une neutralisation d'odeurs, un traitement enzymatique et une protection textile optionnelle. Les
+          recommandations sont toujours formulées de façon claire et utile selon la condition réelle des assises.
+        </p>
+      </div>
 
-      <h2>Types de meubles nettoyés</h2>
-      <p>
-        Nous nettoyons les divans sectionnels, sofas sectionnels, sofas modulaires, fauteuils rembourrés, banquettes, ottomanes et chaises en tissu. Chaque meuble reçoit un
-        traitement ajusté selon son état, son usage et son revêtement.
-      </p>
+      <div class="fade-in-section delay-450" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Pourquoi choisir Groupe Nettoyage Empire à Chambly
+        </h2>
+        <p>
+          Avec plus de 30 ans d'expérience, notre équipe mise sur la constance, la courtoisie et la qualité d'exécution. Nous utilisons des produits écologiques et une méthode
+          rigoureuse pour préserver le confort et la propreté de votre salon jour après jour.
+        </p>
+      </div>
 
-      <h2>Traitements spécialisés disponibles</h2>
-      <p>
-        Selon vos besoins, nous proposons un détachage ciblé, une neutralisation d'odeurs, un traitement enzymatique et une protection textile optionnelle. Les
-        recommandations sont toujours formulées de façon claire et utile selon la condition réelle des assises.
-      </p>
+      <div class="fade-in-section delay-500" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Obtenir une soumission pour votre salon
+        </h2>
+        <p>
+          Pour planifier le nettoyage de vos assises à Chambly (divan, sofa, sectionnel, fauteuil ou banquette), appelez Groupe Nettoyage Empire au (514) 893-9939.
+        </p>
+      </div>
+    </div>
 
-      <h2>Pourquoi choisir Groupe Nettoyage Empire à Chambly</h2>
-      <p>
-        Avec plus de 30 ans d'expérience, notre équipe mise sur la constance, la courtoisie et la qualité d'exécution. Nous utilisons des produits écologiques et une méthode
-        rigoureuse pour préserver le confort et la propreté de votre salon jour après jour.
-      </p>
-
-      <h2>FAQ locale Chambly</h2>
+    <div slot="faq">
+      <h2 class="section-title text-gradient-empire">FAQ locale Chambly</h2>
       <FAQSchema
         faqs={[
           {
@@ -80,11 +102,6 @@ import FAQSchema from "../../components/FAQSchema.astro";
           },
         ]}
       />
-
-      <h2>Obtenir une soumission pour votre salon</h2>
-      <p>
-        Pour planifier le nettoyage de vos assises à Chambly (divan, sofa, sectionnel, fauteuil ou banquette), appelez Groupe Nettoyage Empire au (514) 893-9939.
-      </p>
     </div>
-  </section>
+  </LocalUpholsteryPremiumLayout>
 </Layout>

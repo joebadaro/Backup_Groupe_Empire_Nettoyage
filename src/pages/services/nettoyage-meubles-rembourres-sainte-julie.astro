@@ -1,65 +1,87 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import FAQSchema from "../../components/FAQSchema.astro";
+import LocalUpholsteryPremiumLayout from "../../components/local-upholstery/LocalUpholsteryPremiumLayout.astro";
 ---
 
 <Layout
   title="Nettoyage de meubles rembourrés à Sainte-Julie | Divan, sofa, sectionnel"
   description="Service fiable de nettoyage de divan, sofa, fauteuil, sectionnel, modulaire et banquette à Sainte-Julie. Approche pratique pour familles actives, entretien régulier et propreté durable à domicile."
 >
-  <section class="section">
-    <div class="container">
-      <h1>Nettoyage de divan, sofa, fauteuil et sectionnel à Sainte-Julie</h1>
-      <p>
-        À Sainte-Julie, les meubles rembourrés sont au cœur du quotidien des familles actives: devoirs, soirées cinéma, visites et vie de tous les jours. Notre service à
-        domicile est conçu pour garder vos assises propres et confortables, avec une méthode fiable qui s'intègre facilement à votre routine.
-      </p>
-      <a class="btn btn-primary" href="tel:5148939939">(514) 893-9939</a>
-    </div>
-  </section>
-
-  <section class="section section-light">
-    <div class="container narrow">
-      <h2>Présentation du service à Sainte-Julie</h2>
+  <LocalUpholsteryPremiumLayout
+    cityBadge="MEUBLES REMBOURRÉS • SAINTE-JULIE"
+    h1="Nettoyage de divan, sofa, fauteuil et sectionnel à Sainte-Julie"
+    problemTitle="Familles actives au quotidien :"
+    problemText="À Sainte-Julie, les meubles rembourrés sont au cœur du quotidien des familles actives: devoirs, soirées cinéma, visites et vie de tous les jours."
+    leadText="Notre service à domicile est conçu pour garder vos assises propres et confortables, avec une méthode fiable qui s'intègre facilement à votre routine."
+    trustBadges={[
+      "Plus de 30 ans d’expérience",
+      "Produits écologiques",
+      "Séchage rapide (souvent 2 à 6 h)",
+      "Inspection textile avant traitement",
+    ]}
+    methodSteps={[
+      "Inspection du tissu et validation de la méthode selon le revêtement.",
+      "Prétraitement ciblé avec shampoing professionnel adapté à la fibre.",
+      "Nettoyage à la vapeur par injection-extraction avec camion-usine.",
+      "Protection des planchers et des zones de passage.",
+      "Extraction soignée pour un séchage rapide, généralement entre 2 et 6 heures.",
+    ]}
+    furnitureSectionTitle="Types de meubles nettoyés"
+    furnitureTypesIntro="Nous nettoyons les divans sectionnels, sofas sectionnels, sofas modulaires, fauteuils rembourrés, banquettes, ottomanes et chaises en tissu. Chaque intervention est ajustée au niveau d'utilisation et au type de textile."
+  >
+    <div slot="presentation">
+      <h2 class="section-title text-gradient-empire">
+        Présentation du service à Sainte-Julie
+      </h2>
       <p>
         Nous intervenons dans les quartiers résidentiels paisibles de Sainte-Julie avec une approche claire: inspection du tissu, nettoyage adapté à l'usage familial et
         finition soignée. L'objectif est de maintenir un environnement propre tout en simplifiant l’entretien de la maison.
       </p>
+    </div>
 
-      <h2>Pourquoi nettoyer vos meubles rembourrés régulièrement</h2>
-      <p>
-        Les divans et fauteuils très utilisés accumulent progressivement poussières, huiles corporelles, odeurs légères et traces d'usage. Un entretien professionnel
-        régulier aide à préserver l'apparence, le confort et la durée de vie du mobilier familial.
-      </p>
+    <div slot="extras">
+      <div class="fade-in-section delay-350" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Pourquoi nettoyer vos meubles rembourrés régulièrement
+        </h2>
+        <p>
+          Les divans et fauteuils très utilisés accumulent progressivement poussières, huiles corporelles, odeurs légères et traces d'usage. Un entretien professionnel
+          régulier aide à préserver l'apparence, le confort et la durée de vie du mobilier familial.
+        </p>
+      </div>
 
-      <h2>Notre méthode professionnelle</h2>
-      <ul>
-        <li>Inspection du tissu et validation de la méthode selon le revêtement.</li>
-        <li>Prétraitement ciblé avec shampoing professionnel adapté à la fibre.</li>
-        <li>Nettoyage à la vapeur par injection-extraction avec camion-usine.</li>
-        <li>Protection des planchers et des zones de passage.</li>
-        <li>Extraction soignée pour un séchage rapide, généralement entre 2 et 6 heures.</li>
-      </ul>
+      <div class="fade-in-section delay-400" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Traitements spécialisés disponibles
+        </h2>
+        <p>
+          Lorsque nécessaire, nous proposons un détachage ciblé, une neutralisation d'odeurs, un traitement enzymatique et une protection textile optionnelle. Les
+          recommandations sont personnalisées selon l'état réel des meubles.
+        </p>
+      </div>
 
-      <h2>Types de meubles nettoyés</h2>
-      <p>
-        Nous nettoyons les divans sectionnels, sofas sectionnels, sofas modulaires, fauteuils rembourrés, banquettes, ottomanes et chaises en tissu. Chaque intervention
-        est ajustée au niveau d'utilisation et au type de textile.
-      </p>
+      <div class="fade-in-section delay-450" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Pourquoi choisir Groupe Nettoyage Empire à Sainte-Julie
+        </h2>
+        <p>
+          Avec plus de 30 ans d'expérience, nous misons sur une exécution rigoureuse, des produits écologiques et un service constant. Nos clients recherchent une solution
+          fiable à domicile, pratique pour les horaires familiaux et durable au quotidien.
+        </p>
+      </div>
 
-      <h2>Traitements spécialisés disponibles</h2>
-      <p>
-        Lorsque nécessaire, nous proposons un détachage ciblé, une neutralisation d'odeurs, un traitement enzymatique et une protection textile optionnelle. Les
-        recommandations sont personnalisées selon l'état réel des meubles.
-      </p>
+      <div class="fade-in-section delay-500" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">Demander une estimation</h2>
+        <p>
+          Pour une estimation rapide du nettoyage de votre divan, sofa, fauteuil, sectionnel, modulaire ou banquette à Sainte-Julie, contactez Groupe Nettoyage Empire au
+          (514) 893-9939.
+        </p>
+      </div>
+    </div>
 
-      <h2>Pourquoi choisir Groupe Nettoyage Empire à Sainte-Julie</h2>
-      <p>
-        Avec plus de 30 ans d'expérience, nous misons sur une exécution rigoureuse, des produits écologiques et un service constant. Nos clients recherchent une solution
-        fiable à domicile, pratique pour les horaires familiaux et durable au quotidien.
-      </p>
-
-      <h2>FAQ locale Sainte-Julie</h2>
+    <div slot="faq">
+      <h2 class="section-title text-gradient-empire">FAQ locale Sainte-Julie</h2>
       <FAQSchema
         faqs={[
           {
@@ -79,12 +101,6 @@ import FAQSchema from "../../components/FAQSchema.astro";
           },
         ]}
       />
-
-      <h2>Demander une estimation</h2>
-      <p>
-        Pour une estimation rapide du nettoyage de votre divan, sofa, fauteuil, sectionnel, modulaire ou banquette à Sainte-Julie, contactez Groupe Nettoyage Empire au
-        (514) 893-9939.
-      </p>
     </div>
-  </section>
+  </LocalUpholsteryPremiumLayout>
 </Layout>

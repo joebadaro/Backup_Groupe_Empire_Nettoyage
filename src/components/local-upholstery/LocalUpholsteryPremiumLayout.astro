@@ -1,0 +1,355 @@
+---
+import UiIcon from "../icons/UiIcon.astro";
+
+export interface Props {
+  cityBadge: string;
+  h1: string;
+  problemTitle: string;
+  problemText: string;
+  leadText: string;
+  trustBadges: readonly string[];
+  methodSteps: readonly string[];
+  furnitureSectionTitle: string;
+  furnitureTypesIntro: string;
+  /** Libellé H2 de la section méthode (ex. Longueuil : « Notre méthode de nettoyage ») */
+  methodSectionTitle?: string;
+}
+
+const {
+  cityBadge,
+  h1,
+  problemTitle,
+  problemText,
+  leadText,
+  trustBadges,
+  methodSteps,
+  furnitureSectionTitle,
+  furnitureTypesIntro,
+  methodSectionTitle = "Notre méthode professionnelle",
+} = Astro.props;
+
+const heroSlides = [
+  {
+    src: "/images/catalog/sofa-slide-hero-1.webp",
+    alt: "Technicien Groupe Nettoyage Empire — nettoyage chaise capitonnée",
+    eager: true,
+  },
+  {
+    src: "/images/catalog/sofa-slide-hero-2.webp",
+    alt: "Nettoyage professionnel de sofa sectionnel en tissu",
+    eager: false,
+  },
+  {
+    src: "/images/catalog/photo-16.webp",
+    alt: "Nettoyage de divan en profondeur à domicile",
+    eager: false,
+  },
+];
+---
+
+<div class="local-upholstery-premium">
+  <div class="split-hero-container mobile-hero-stack">
+    <div class="container full-width-split">
+      <div class="split-layout">
+        <div class="split-content fade-in-section">
+          <span class="service-cat-badge">{cityBadge}</span>
+          <h1 class="split-title fade-in-up text-gradient-empire">{h1}</h1>
+
+          <div class="mobile-hero-slideshow fade-in-up delay-050">
+            <div class="slideshow-container">
+              {
+                heroSlides.map((img, i) => (
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    class:list={["slide", i === 0 && "active"]}
+                    width="1200"
+                    height="800"
+                    loading={img.eager ? "eager" : "lazy"}
+                  />
+                ))
+              }
+            </div>
+            <div class="image-overlay-gradient"></div>
+          </div>
+
+          <div class="problem-statement fade-in-up delay-100">
+            <h2 class="problem-title">{problemTitle}</h2>
+            <p class="problem-text">{problemText}</p>
+          </div>
+
+          <p class="lead-text fade-in-up delay-200" set:html={leadText} />
+
+          <div class="cta-group fade-in-up delay-300">
+            <a href="tel:5148939939" class="btn btn-gradient-green pulse-btn">
+              <span class="icon" aria-hidden="true"
+                ><UiIcon name="phone" size={18} /></span
+              >
+              (514) 893-9939
+            </a>
+            <button
+              type="button"
+              onclick="window.openEstimationWidget()"
+              class="btn btn-gradient-green"
+            >
+              <span class="icon" aria-hidden="true"
+                ><UiIcon name="bolt" size={18} /></span
+              >
+              Estimation Instantanée
+            </button>
+          </div>
+        </div>
+
+        <div class="split-image-wrapper fade-in-section delay-200">
+          <div class="slideshow-container">
+            {
+              heroSlides.map((img, i) => (
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  class:list={["slide", i === 0 && "active"]}
+                  width="1200"
+                  height="800"
+                  {...(i === 0
+                    ? { fetchpriority: "high" as const, loading: "eager" as const }
+                    : { loading: "lazy" as const })}
+                />
+              ))
+            }
+          </div>
+          <div class="image-overlay-gradient"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section section-light">
+    <div class="container narrow">
+      <div class="fade-in-section delay-100">
+        <slot name="presentation" />
+      </div>
+
+      <div class="fade-in-section delay-150" style="margin-top: 2rem;">
+        <div class="badges-container">
+          {trustBadges.map((label) => (
+            <span class="badge badge-green">{label}</span>
+          ))}
+        </div>
+      </div>
+
+      <div class="fade-in-section delay-200" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          {methodSectionTitle}
+        </h2>
+        <ul class="benefit-list">
+          {methodSteps.map((step) => (
+            <li>{step}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="fade-in-section delay-250" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">{furnitureSectionTitle}</h2>
+        <p set:html={furnitureTypesIntro} />
+      </div>
+
+      <div
+        class="fade-in-section delay-300"
+        style="margin-top: 2.5rem; background-color: #f8f9fa; border-left: 4px solid var(--color-accent); padding: 1.75rem; border-radius: 8px;"
+      >
+        <h2 class="section-title text-gradient-empire" style="margin-top: 0;">
+          Méthode complète et types de textiles
+        </h2>
+        <p style="margin-bottom: 0;">
+          Pour le portrait détaillé du protocole, des fibres et des options (détachage,
+          odeurs, protection textile), consultez notre
+          <a href="/services/meubles-tissu/" class="tapis-inline-a"
+            >service principal de nettoyage de meubles en tissu</a
+          >.
+        </p>
+      </div>
+
+      <slot name="extras" />
+
+      <slot name="faq" />
+    </div>
+  </section>
+</div>
+
+<script>
+  document.querySelectorAll(".local-upholstery-premium .slideshow-container").forEach(
+    (container) => {
+      const slides = container.querySelectorAll(".slide");
+      if (slides.length <= 1) return;
+      let currentSlide = 0;
+      setInterval(() => {
+        slides[currentSlide].classList.remove("active");
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add("active");
+      }, 4000);
+    },
+  );
+</script>
+
+<style>
+  /* Reprise ciblée des pages locales tapis / meubles-tissu — pas de nouveau design global */
+  .local-upholstery-premium .split-hero-container {
+    background-color: #fff;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    width: 100vw;
+  }
+  .local-upholstery-premium .full-width-split {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+  .local-upholstery-premium .split-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    align-items: stretch;
+    min-height: 80vh;
+  }
+  .local-upholstery-premium .split-content {
+    background-color: #ffffff;
+    padding: 100px 4rem 4rem 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+  .local-upholstery-premium .service-cat-badge {
+    text-transform: uppercase;
+    color: var(--color-accent);
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .local-upholstery-premium .split-title {
+    font-size: clamp(2.5rem, 3.5vw, 4rem);
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+    line-height: 1.1;
+  }
+  .local-upholstery-premium .badges-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .local-upholstery-premium .badge {
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+  }
+  .local-upholstery-premium .badge-green {
+    background: #f0faf0;
+    border-color: #b8ddb8;
+  }
+  .local-upholstery-premium .problem-statement {
+    background: #ffffff;
+    border-left: 4px solid #ff4444;
+    padding: 1.5rem;
+    border-radius: 0;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(174, 206, 235, 0.3);
+  }
+  .local-upholstery-premium .problem-title {
+    font-size: 1rem;
+    color: #cc0000;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .local-upholstery-premium .problem-text {
+    font-size: 1.05rem;
+    color: var(--color-text-main);
+    font-style: italic;
+  }
+  .local-upholstery-premium .lead-text {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--color-text-main);
+    margin-bottom: 2.5rem;
+    max-width: 650px;
+  }
+  /* CTAs toujours visibles (pas de masquage mobile comme certaines pages tapis) */
+  .local-upholstery-premium .cta-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .local-upholstery-premium .split-image-wrapper {
+    position: relative;
+    height: 100%;
+    min-height: 500px;
+    width: 100%;
+  }
+  .local-upholstery-premium .slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .local-upholstery-premium .slideshow-container img.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+  }
+  .local-upholstery-premium .slideshow-container img.slide.active {
+    opacity: 1;
+  }
+  .local-upholstery-premium .image-overlay-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+    pointer-events: none;
+    z-index: 2;
+  }
+  @media (max-width: 1024px) {
+    .local-upholstery-premium .split-layout {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .local-upholstery-premium .lead-text {
+      max-width: 100%;
+    }
+  }
+  .local-upholstery-premium .section-title {
+    font-size: 1.8rem;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+  }
+  .local-upholstery-premium .benefit-list {
+    margin: 2rem 0;
+    list-style: none;
+    padding: 0;
+  }
+  .local-upholstery-premium .benefit-list li {
+    margin-bottom: 1rem;
+    padding-left: 0;
+    position: relative;
+    font-size: 1.05rem;
+  }
+  .local-upholstery-premium .tapis-inline-a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>
