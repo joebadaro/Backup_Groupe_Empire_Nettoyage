@@ -26,6 +26,73 @@ const upholsteryRedirects = Object.fromEntries(
   ])
 );
 
+/** Legacy Ads / bookmarks: explicit 301 only (no wildcards, no homepage). */
+const withSlashVariants = (path) => [path, path.endsWith('/') ? path : `${path}/`];
+const legacyServiceRedirects = Object.fromEntries(
+  [
+    // FR /nettoyage/* (Google Ads & anciennes campagnes)
+    ['/nettoyage/tapis', '/services/nettoyage-tapis-residentiel'],
+    ['/nettoyage/tapis-residentiel', '/services/nettoyage-tapis-residentiel'],
+    ['/nettoyage/tapis-commercial', '/services/nettoyage-tapis-commercial'],
+    ['/nettoyage/moquette', '/services/nettoyage-tapis-residentiel'],
+    ['/nettoyage/carpettes', '/services/tapis'],
+    ['/nettoyage/divan', '/services/meubles-tissu'],
+    ['/nettoyage/sofa', '/services/meubles-tissu'],
+    ['/nettoyage/chaises', '/services/meubles-tissu'],
+    ['/nettoyage/meubles', '/services/meubles-tissu'],
+    ['/nettoyage/cuir', '/services/meubles-cuir'],
+    ['/nettoyage/matelas', '/services/nettoyage-desinfection-matelas'],
+    ['/nettoyage/tuiles', '/services/nettoyage-tuiles-ceramique'],
+    ['/nettoyage/ceramique', '/services/nettoyage-tuiles-ceramique'],
+    ['/nettoyage/céramique', '/services/nettoyage-tuiles-ceramique'],
+    // EN /en/nettoyage/*
+    ['/en/nettoyage/tapis', '/en/services/nettoyage-tapis-residentiel'],
+    ['/en/nettoyage/tapis-residentiel', '/en/services/nettoyage-tapis-residentiel'],
+    ['/en/nettoyage/tapis-commercial', '/en/services/nettoyage-tapis-commercial'],
+    ['/en/nettoyage/moquette', '/en/services/nettoyage-tapis-residentiel'],
+    ['/en/nettoyage/carpettes', '/en/services/tapis'],
+    ['/en/nettoyage/divan', '/en/services/meubles-tissu'],
+    ['/en/nettoyage/sofa', '/en/services/meubles-tissu'],
+    ['/en/nettoyage/chaises', '/en/services/meubles-tissu'],
+    ['/en/nettoyage/meubles', '/en/services/meubles-tissu'],
+    ['/en/nettoyage/cuir', '/en/services/meubles-cuir'],
+    ['/en/nettoyage/matelas', '/en/services/nettoyage-desinfection-matelas'],
+    ['/en/nettoyage/tuiles', '/en/services/nettoyage-tuiles-ceramique'],
+    ['/en/nettoyage/ceramique', '/en/services/nettoyage-tuiles-ceramique'],
+    ['/en/nettoyage/céramique', '/en/services/nettoyage-tuiles-ceramique'],
+    // Singulier /service/* (vieux CMS)
+    ['/service/tapis', '/services/nettoyage-tapis-residentiel'],
+    ['/service/tapis-residentiel', '/services/nettoyage-tapis-residentiel'],
+    ['/service/tapis-commercial', '/services/nettoyage-tapis-commercial'],
+    ['/service/moquette', '/services/nettoyage-tapis-residentiel'],
+    ['/service/carpettes', '/services/tapis'],
+    ['/service/divan', '/services/meubles-tissu'],
+    ['/service/sofa', '/services/meubles-tissu'],
+    ['/service/chaises', '/services/meubles-tissu'],
+    ['/service/meubles', '/services/meubles-tissu'],
+    ['/service/cuir', '/services/meubles-cuir'],
+    ['/service/matelas', '/services/nettoyage-desinfection-matelas'],
+    ['/service/tuiles', '/services/nettoyage-tuiles-ceramique'],
+    ['/service/ceramique', '/services/nettoyage-tuiles-ceramique'],
+    ['/service/céramique', '/services/nettoyage-tuiles-ceramique'],
+    // Racine (favoris / pubs courtes)
+    ['/tapis', '/services/tapis'],
+    ['/divan', '/services/meubles-tissu'],
+    ['/sofa', '/services/meubles-tissu'],
+    ['/matelas', '/services/nettoyage-desinfection-matelas'],
+    ['/meubles', '/services/meubles-tissu'],
+    ['/cuir', '/services/meubles-cuir'],
+    ['/moquette', '/services/nettoyage-tapis-residentiel'],
+    ['/carpettes', '/services/tapis'],
+    ['/tuiles', '/services/nettoyage-tuiles-ceramique'],
+    ['/ceramique', '/services/nettoyage-tuiles-ceramique'],
+    ['/céramique', '/services/nettoyage-tuiles-ceramique'],
+    ['/chaises', '/services/meubles-tissu'],
+    // Lien menu FR historique (404) → page cuir FR
+    ['/services/nettoyage-sofa-cuir', '/services/meubles-cuir'],
+  ].flatMap(([from, to]) => withSlashVariants(from).map((src) => [src, to]))
+);
+
 const sitemapFilter = (url) => {
   const excludedSubstrings = [
     "/promo/",
@@ -92,6 +159,7 @@ export default defineConfig({
     '/video-gallery': '/realisations-video',
     '/en/realisations-video': '/en/video-gallery',
     // /en/services/nettoyage-sofa-cuir → meubles-cuir: forced 301! in public/_redirects (overrides static file)
+    ...legacyServiceRedirects,
     ...upholsteryRedirects,
   },
   i18n: {
