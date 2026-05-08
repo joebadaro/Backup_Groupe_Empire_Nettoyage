@@ -5,3 +5,13 @@ https://groupe-empire-2026.netlify.app/* https://groupenettoyageempire.com/:spla
 
 # Legacy EN leather alias → canonical (301! so Netlify applies even if static index.html exists)
 /en/services/nettoyage-sofa-cuir                          /en/services/meubles-cuir                              301!
+
+# Legacy "céramique" avec accent : chemins source en %C3%A9 (Netlify ne matche pas toujours l’UTF-8 brut des _redirects générés)
+/nettoyage/c%C3%A9ramique                                 /services/nettoyage-tuiles-ceramique/                  301
+/nettoyage/c%C3%A9ramique/                                /services/nettoyage-tuiles-ceramique/                  301
+/en/nettoyage/c%C3%A9ramique                             /en/services/nettoyage-tuiles-ceramique/               301
+/en/nettoyage/c%C3%A9ramique/                            /en/services/nettoyage-tuiles-ceramique/               301
+/service/c%C3%A9ramique                                 /services/nettoyage-tuiles-ceramique/                  301
+/service/c%C3%A9ramique/                                /services/nettoyage-tuiles-ceramique/                  301
+/c%C3%A9ramique                                           /services/nettoyage-tuiles-ceramique/                  301
+/c%C3%A9ramique/                                         /services/nettoyage-tuiles-ceramique/                  301
