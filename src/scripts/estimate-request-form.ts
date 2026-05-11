@@ -2,6 +2,8 @@
  * Formulaire public demande d'estimation — aucun calcul de prix.
  */
 
+import { preparePhotoFiles } from "./estimate-request-image-compress";
+
 const ENDPOINT = "/.netlify/functions/submit-estimate-request";
 
 /** Ordre d’affichage des exemples (aligné sur le formulaire) */
@@ -80,7 +82,9 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
   const floorRow = form.querySelector<HTMLElement>("[data-erf-floor-row]");
   const otherRow = form.querySelector<HTMLElement>("[data-erf-other-service-row]");
   const errBox = root?.querySelector<HTMLElement>("[data-erf-error]") ?? null;
-  const successBox = root?.querySelector<HTMLElement>("[data-erf-success]") ?? null;
+  const successFull = root?.querySelector<HTMLElement>("[data-erf-success-full]") ?? null;
+  const successPartial = root?.querySelector<HTMLElement>("[data-erf-success-partial]") ?? null;
+  const photoClientMsg = root?.querySelector<HTMLElement>("#erf-photo-client-msg") ?? null;
   const formPanel = root?.querySelector<HTMLElement>("[data-erf-form-panel]") ?? null;
   const submitBtn = form.querySelector<HTMLButtonElement>('[type="submit"]');
   const locale = String(form.querySelector<HTMLInputElement>('input[name="locale"]')?.value ?? "fr");
@@ -163,7 +167,18 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
       errBox.hidden = true;
       errBox.textContent = "";
     }
-    if (successBox) successBox.hidden = true;
+    if (successFull) {
+      successFull.hidden = true;
+      successFull.setAttribute("aria-hidden", "true");
+    }
+    if (successPartial) {
+      successPartial.hidden = true;
+      successPartial.setAttribute("aria-hidden", "true");
+    }
+    if (photoClientMsg) {
+      photoClientMsg.hidden = true;
+      photoClientMsg.textContent = "";
+    }
 
     const serviceBoxes = form.querySelectorAll<HTMLInputElement>(
       'input[name="services"]:checked',
@@ -204,15 +219,53 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
     let submissionSucceeded = false;
 
     try {
+      const photosInput = form.querySelector<HTMLInputElement>("#erf-photos");
+      const { files: preparedPhotos, warnings } = await preparePhotoFiles(
+        photosInput?.files ?? null,
+        isEn,
+      );
+      if (photoClientMsg) {
+        if (warnings.length > 0) {
+          photoClientMsg.textContent = warnings.join("\n");
+          photoClientMsg.hidden = false;
+          scrollElIntoView(photoClientMsg);
+        } else {
+          photoClientMsg.hidden = true;
+          photoClientMsg.textContent = "";
+        }
+      }
+
       const fd = new FormData(form);
+      fd.delete("photos");
+      for (const f of preparedPhotos) {
+        fd.append("photos", f, f.name);
+      }
+
       const res = await fetch(ENDPOINT, {
         method: "POST",
         body: fd,
       });
-      const data = (await res.json()) as { ok?: boolean; error?: string };
+
+      let data: { ok?: boolean; error?: string; photoDelivery?: string } = {};
+      try {
+        data = (await res.json()) as typeof data;
+      } catch {
+        if (errBox) {
+          errBox.textContent = genericError;
+          errBox.hidden = false;
+          scrollElIntoView(errBox);
+        }
+        return;
+      }
 
       if (!res.ok || !data.ok) {
-        throw new Error(data.error || `HTTP ${res.status}`);
+        if (errBox) {
+          const serverMsg = typeof data.error === "string" && data.error.trim() ? data.error.trim() : "";
+          errBox.textContent = serverMsg || genericError;
+          errBox.hidden = false;
+          scrollElIntoView(errBox);
+        }
+        return;
       }
 
       submissionSucceeded = true;
@@ -221,15 +274,30 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
       setOtherServiceVisibility();
       updateDescriptionPlaceholder();
 
+      if (photoClientMsg) {
+        photoClientMsg.hidden = true;
+        photoClientMsg.textContent = "";
+      }
+
       if (formPanel) {
         formPanel.hidden = true;
         formPanel.setAttribute("aria-hidden", "true");
       }
-      if (successBox) {
-        successBox.hidden = false;
-        successBox.removeAttribute("aria-hidden");
-        scrollElIntoView(successBox);
-        successBox.focus();
+
+      const partial = data.photoDelivery === "partial";
+      if (successFull && successPartial) {
+        successFull.hidden = partial;
+        successPartial.hidden = !partial;
+      } else if (successFull) {
+        successFull.hidden = false;
+      }
+
+      const showSuccess = successPartial && partial ? successPartial : successFull;
+      if (showSuccess) {
+        showSuccess.hidden = false;
+        showSuccess.removeAttribute("aria-hidden");
+        scrollElIntoView(showSuccess);
+        showSuccess.focus();
       }
     } catch {
       if (errBox) {

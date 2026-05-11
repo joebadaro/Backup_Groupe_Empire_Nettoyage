@@ -4,7 +4,17 @@ const DEFAULT_TO = "info@groupenettoyageempire.com";
 const DEFAULT_FROM = "Groupe Nettoyage Empire <info@groupenettoyageempire.com>";
 
 const MAX_FILES = 5;
-const MAX_FILE_BYTES = 2 * 1024 * 1024; // 2 MB per file
+const MAX_FILE_BYTES = 2 * 1024 * 1024; // 2 MB per file (aligné client + serveur)
+
+const ALLOWED_IMAGE_MIMES = new Set([
+    "image/jpeg",
+    "image/jpg",
+    "image/pjpeg",
+    "image/png",
+    "image/webp",
+    "image/heic",
+    "image/heif",
+]);
 
 function newRequestId(): string {
     try {
@@ -33,6 +43,42 @@ function jsonHeaders(requestId: string, status = 200, extra?: Record<string, str
     };
 }
 
+function normalizeMime(raw: string): string {
+    return raw.split(";")[0]?.trim().toLowerCase() ?? "";
+}
+
+function extFromFilename(name: string): string {
+    const m = name.match(/\.([a-z0-9]+)$/i);
+    return m ? m[1].toLowerCase() : "";
+}
+
+const EXT_TO_MIME: Record<string, string> = {
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    webp: "image/webp",
+    heic: "image/heic",
+    heif: "image/heif",
+};
+
+function effectiveMime(file: File): string {
+    let m = normalizeMime(file.type || "");
+    if (!m || m === "application/octet-stream") {
+        const ext = extFromFilename(file.name);
+        m = EXT_TO_MIME[ext] || m;
+    }
+    return m;
+}
+
+function isNonEmptyUpload(entry: unknown): entry is File | Blob {
+    return typeof entry === "object" && entry !== null && entry instanceof Blob && entry.size > 0;
+}
+
+function uploadFilename(entry: File | Blob, index: number): string {
+    if (entry instanceof File && entry.name?.trim()) return entry.name.trim();
+    return `photo-${index + 1}.jpg`;
+}
+
 const ALLOWED_DWELLING = new Set(["maison", "condo", "appartement", "commercial"]);
 const ALLOWED_CONTACT = new Set(["telephone", "sms", "courriel"]);
 const ALLOWED_SERVICE = new Set([
@@ -57,6 +103,23 @@ const SERVICE_ORDER = [
     "protecteur",
     "autre",
 ] as const;
+
+function staffPhotoDisclaimer(isEn: boolean): { html: string; text: string } {
+    if (isEn) {
+        const text =
+            "Photos: some photos could not be attached to this email. If needed, ask the client to send them by text message at 514-893-9939.";
+        const html = `<p style="border-left:4px solid #f57c00;padding-left:10px;color:#333;font-size:13px;"><strong>Photos</strong> — ${escapeHtml(
+            "Some photos could not be attached to this email. If needed, ask the client to send them by text message at 514-893-9939.",
+        )}</p>`;
+        return { html, text };
+    }
+    const text =
+        "Photos : certaines photos n'ont pas pu être jointes au courriel. Demander au client de les envoyer par texto au 514-893-9939 si nécessaire.";
+    const html = `<p style="border-left:4px solid #f57c00;padding-left:10px;color:#333;font-size:13px;"><strong>Photos</strong> — ${escapeHtml(
+        "Certaines photos n'ont pas pu être jointes au courriel. Demander au client de les envoyer par texto au 514-893-9939 si nécessaire.",
+    )}</p>`;
+    return { html, text };
+}
 
 export default async (req: Request): Promise<Response> => {
     const requestId = newRequestId();
@@ -103,7 +166,7 @@ export default async (req: Request): Promise<Response> => {
 
     const honeypot = String(formData.get("website") ?? "").trim();
     if (honeypot) {
-        return new Response(JSON.stringify({ ok: true, requestId }), {
+        return new Response(JSON.stringify({ ok: true, requestId, photoDelivery: "full" }), {
             status: 200,
             headers: jsonHeaders(requestId),
         });
@@ -269,38 +332,106 @@ export default async (req: Request): Promise<Response> => {
     const dwellingLabel = isEn ? dwellingLabelsEn[dwellingType] : dwellingLabelsFr[dwellingType];
     const contactLabel = isEn ? contactLabelsEn[contactPreference] : contactLabelsFr[contactPreference];
 
-    const attachments: { filename: string; content: Buffer; contentType?: string }[] = [];
     const photoEntries = formData.getAll("photos");
-    let fileCount = 0;
-    for (const entry of photoEntries) {
-        if (fileCount >= MAX_FILES) break;
-        if (!(entry instanceof File) || entry.size === 0) continue;
-        if (entry.size > MAX_FILE_BYTES) {
-            return new Response(
-                JSON.stringify({
-                    ok: false,
-                    error: isEn ? `Each photo must be under ${MAX_FILE_BYTES / 1024 / 1024} MB` : `Chaque photo doit faire moins de ${MAX_FILE_BYTES / 1024 / 1024} Mo`,
-                    requestId,
-                }),
-                { status: 400, headers: jsonHeaders(requestId) },
+    const attachments: { filename: string; content: Buffer; contentType?: string }[] = [];
+    const skippedPhotos: { name: string; reason: string }[] = [];
+    let nonEmptyUploadCount = 0;
+
+    console.log(
+        `[submit-estimate-request] requestId=${requestId} photo field entries (raw)=${photoEntries.length}`,
+    );
+
+    for (let i = 0; i < photoEntries.length; i++) {
+        const entry = photoEntries[i];
+        if (!isNonEmptyUpload(entry)) continue;
+
+        nonEmptyUploadCount += 1;
+        const displayName = uploadFilename(entry, i);
+        const declaredMime = entry instanceof File ? normalizeMime(entry.type || "") : normalizeMime(entry.type || "");
+        const mime = entry instanceof File ? effectiveMime(entry) : declaredMime;
+        const size = entry.size;
+
+        console.log(
+            `[submit-estimate-request] requestId=${requestId} photo candidate idx=${i} name=${JSON.stringify(displayName)} mimeDeclared=${JSON.stringify(declaredMime)} mimeEffective=${JSON.stringify(mime)} sizeBytes=${size}`,
+        );
+
+        if (attachments.length >= MAX_FILES) {
+            skippedPhotos.push({ name: displayName, reason: "max_files_reached" });
+            console.warn(
+                `[submit-estimate-request] requestId=${requestId} skip photo (max ${MAX_FILES}) name=${JSON.stringify(displayName)}`,
+            );
+            continue;
+        }
+
+        if (!mime.startsWith("image/")) {
+            skippedPhotos.push({ name: displayName, reason: "not_image_mime" });
+            console.warn(
+                `[submit-estimate-request] requestId=${requestId} skip photo (not image/*) name=${JSON.stringify(displayName)}`,
+            );
+            continue;
+        }
+
+        if (!ALLOWED_IMAGE_MIMES.has(mime)) {
+            skippedPhotos.push({ name: displayName, reason: `mime_not_allowed:${mime}` });
+            console.warn(
+                `[submit-estimate-request] requestId=${requestId} skip photo (mime not allowed) name=${JSON.stringify(displayName)} mime=${mime}`,
+            );
+            continue;
+        }
+
+        if (size > MAX_FILE_BYTES) {
+            skippedPhotos.push({ name: displayName, reason: `too_large:${size}` });
+            console.warn(
+                `[submit-estimate-request] requestId=${requestId} skip photo (too large) name=${JSON.stringify(displayName)} sizeBytes=${size} max=${MAX_FILE_BYTES}`,
+            );
+            continue;
+        }
+
+        let buf: Buffer;
+        try {
+            buf = Buffer.from(await entry.arrayBuffer());
+        } catch (readErr) {
+            const rmsg = readErr instanceof Error ? readErr.message : String(readErr);
+            skippedPhotos.push({ name: displayName, reason: `buffer_read_failed:${rmsg}` });
+            console.error(
+                `[submit-estimate-request] requestId=${requestId} skip photo (arrayBuffer failed) name=${JSON.stringify(displayName)} err=${rmsg}`,
+            );
+            continue;
+        }
+
+        const rawName = entry instanceof File ? entry.name || `photo-${attachments.length + 1}.jpg` : `photo-${attachments.length + 1}.jpg`;
+        const safeName = rawName.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 120) || `photo-${attachments.length + 1}.jpg`;
+
+        try {
+            attachments.push({
+                filename: safeName,
+                content: buf,
+                contentType: mime || undefined,
+            });
+            console.log(
+                `[submit-estimate-request] requestId=${requestId} attachment ok filename=${JSON.stringify(safeName)} bytes=${buf.length} contentType=${mime}`,
+            );
+        } catch (attErr) {
+            const amsg = attErr instanceof Error ? attErr.message : String(attErr);
+            skippedPhotos.push({ name: displayName, reason: `attachment_build_failed:${amsg}` });
+            console.error(
+                `[submit-estimate-request] requestId=${requestId} skip photo (attachment build) name=${JSON.stringify(displayName)} err=${amsg}`,
             );
         }
-        const buf = Buffer.from(await entry.arrayBuffer());
-        const rawName = entry.name || `photo-${fileCount + 1}.jpg`;
-        const safeName = rawName.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 120);
-        attachments.push({
-            filename: safeName || `photo-${fileCount + 1}.jpg`,
-            content: buf,
-            contentType: entry.type || undefined,
-        });
-        fileCount++;
     }
+
+    console.log(
+        `[submit-estimate-request] requestId=${requestId} photos summary nonEmptyUploads=${nonEmptyUploadCount} attached=${attachments.length} skipped=${skippedPhotos.length}`,
+    );
 
     const subject = isEn
         ? `[Estimate request] ${fullName} (${services.length} service${services.length > 1 ? "s" : ""})`
         : `[Demande d'estimation] ${fullName} (${services.length} service${services.length > 1 ? "s" : ""})`;
 
-    const html = isEn
+    const photoDisclaimerNeeded = skippedPhotos.length > 0;
+    const disclaimer = photoDisclaimerNeeded ? staffPhotoDisclaimer(isEn) : { html: "", text: "" };
+
+    const baseHtml = isEn
         ? `
       <h2>New estimate request (web form)</h2>
       <table style="border-collapse:collapse;font-family:sans-serif;font-size:14px;">
@@ -378,7 +509,13 @@ export default async (req: Request): Promise<Response> => {
         `Photos: ${attachments.length}`,
     );
 
+    if (disclaimer.text) {
+        enLines.push("", disclaimer.text);
+        frLines.push("", disclaimer.text);
+    }
+
     const textPlain = isEn ? enLines.join("\n") : frLines.join("\n");
+    const html = `${baseHtml}${disclaimer.html}`;
 
     const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -388,27 +525,76 @@ export default async (req: Request): Promise<Response> => {
         },
     });
 
+    let emailFallbackNoAttachments = false;
+    const mailWithAtt = {
+        from: fromAddress,
+        to: toAddress,
+        replyTo: email || undefined,
+        subject,
+        text: textPlain,
+        html,
+        attachments: attachments.length ? attachments : undefined,
+    };
+
     try {
-        await transporter.sendMail({
-            from: fromAddress,
-            to: toAddress,
-            replyTo: email || undefined,
-            subject,
-            text: textPlain,
-            html,
-            attachments: attachments.length ? attachments : undefined,
-        });
-        console.log(`[submit-estimate-request] requestId=${requestId} sent ok`);
+        await transporter.sendMail(mailWithAtt);
+        console.log(`[submit-estimate-request] requestId=${requestId} sendMail ok withAttachments=${Boolean(attachments.length)}`);
     } catch (err: unknown) {
         const msg = err instanceof Error ? err.message : String(err);
-        console.error(`[submit-estimate-request] requestId=${requestId} sendMail error`, msg);
-        return new Response(JSON.stringify({ ok: false, error: "Failed to send email", requestId }), {
-            status: 502,
-            headers: jsonHeaders(requestId),
-        });
+        const stack = err instanceof Error ? err.stack : "";
+        console.error(
+            `[submit-estimate-request] requestId=${requestId} sendMail error (with attachments=${Boolean(attachments.length)})`,
+            msg,
+            stack,
+        );
+
+        if (attachments.length === 0) {
+            return new Response(JSON.stringify({ ok: false, error: "Failed to send email", requestId }), {
+                status: 502,
+                headers: jsonHeaders(requestId),
+            });
+        }
+
+        const fb = staffPhotoDisclaimer(isEn);
+        const photoCountLine = isEn
+            ? `<p style="color:#666;font-size:12px;">Photos attached: 0</p>`
+            : `<p style="color:#666;font-size:12px;">Photos jointes : 0</p>`;
+        const htmlFb = `${baseHtml.replace(
+            /<p style="color:#666;font-size:12px;">Photos[^<]+<\/p>/,
+            photoCountLine,
+        )}${fb.html}`;
+
+        const baseLines = isEn ? enLines : frLines;
+        const textRetryLines = baseLines.filter(
+            (l) => !l.startsWith("Photos:") && (disclaimer.text ? l !== disclaimer.text : true),
+        );
+        textRetryLines.push("Photos: 0", "", fb.text);
+        const textFallback = textRetryLines.join("\n");
+
+        try {
+            await transporter.sendMail({
+                from: fromAddress,
+                to: toAddress,
+                replyTo: email || undefined,
+                subject,
+                text: textFallback,
+                html: htmlFb,
+            });
+            emailFallbackNoAttachments = true;
+            console.log(`[submit-estimate-request] requestId=${requestId} sendMail retry ok without attachments`);
+        } catch (err2: unknown) {
+            const msg2 = err2 instanceof Error ? err2.message : String(err2);
+            console.error(`[submit-estimate-request] requestId=${requestId} sendMail retry error`, msg2);
+            return new Response(JSON.stringify({ ok: false, error: "Failed to send email", requestId }), {
+                status: 502,
+                headers: jsonHeaders(requestId),
+            });
+        }
     }
 
-    return new Response(JSON.stringify({ ok: true, requestId }), {
+    const photoDelivery = skippedPhotos.length > 0 || emailFallbackNoAttachments ? "partial" : "full";
+
+    return new Response(JSON.stringify({ ok: true, requestId, photoDelivery }), {
         status: 200,
         headers: jsonHeaders(requestId),
     });

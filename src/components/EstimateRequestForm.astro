@@ -55,10 +55,10 @@ const t = {
     ? "Which floor are you located on?"
     : "À quel étage êtes vous situé?",
   description: isEn ? "Describe your needs" : "Description du besoin",
-  photos: isEn ? "Photos (recommended)" : "Photos (recommandées)",
+  photos: isEn ? "Photos (optional)" : "Photos (optionnelles)",
   photosHint: isEn
-    ? "Optional — helps us prepare your quote. Max 5 files, 2 MB each."
-    : "Facultatif — nous aide à préparer votre estimation. Max 5 fichiers, 2 Mo chacun.",
+    ? "Photos are optional. You can add up to 5 photos. The form may automatically reduce image size to make sending easier."
+    : "Photos optionnelles. Vous pouvez ajouter jusqu'à 5 photos. Le formulaire peut réduire automatiquement la taille des images pour faciliter l'envoi.",
   contactPref: isEn ? "Preferred contact method" : "Méthode de contact préférée",
   contactHint: isEn
     ? "For a faster response, we recommend a phone call or text message."
@@ -89,7 +89,7 @@ const t = {
 
     <div
       class="erf-success-card"
-      data-erf-success
+      data-erf-success-full
       hidden
       role="status"
       aria-live="polite"
@@ -127,6 +127,36 @@ const t = {
               </a>
               .
             </p>
+          </>
+        )
+      }
+    </div>
+    <div
+      class="erf-success-card"
+      data-erf-success-partial
+      hidden
+      role="status"
+      aria-live="polite"
+      tabindex="-1"
+    >
+      {
+        isEn ? (
+          <>
+            <p class="erf-success-p">Thank you, your estimate request has been sent successfully.</p>
+            <p class="erf-success-p">
+              Some photos could not be attached automatically. If needed, you can send them by text message at
+              514-893-9939.
+            </p>
+            <p class="erf-success-p">You do not need to submit the form again.</p>
+          </>
+        ) : (
+          <>
+            <p class="erf-success-p">Merci, votre demande d'estimation a bien été envoyée.</p>
+            <p class="erf-success-p">
+              Certaines photos n'ont pas pu être jointes automatiquement. Si nécessaire, vous pouvez nous les envoyer
+              par texto au 514-893-9939.
+            </p>
+            <p class="erf-success-p">Vous n'avez pas besoin de renvoyer le formulaire.</p>
           </>
         )
       }
@@ -220,8 +250,15 @@ const t = {
 
       <div class="erf-field">
         <label for="erf-photos">{t.photos}</label>
-        <input id="erf-photos" name="photos" type="file" accept="image/*" multiple />
+        <input
+          id="erf-photos"
+          name="photos"
+          type="file"
+          accept="image/jpeg,image/jpg,image/png,image/webp,image/heic,image/heif,.heic,.heif"
+          multiple
+        />
         <span class="erf-hint">{t.photosHint}</span>
+        <p id="erf-photo-client-msg" class="erf-hint" hidden aria-live="polite"></p>
       </div>
 
       <fieldset class="erf-field erf-fieldset">
