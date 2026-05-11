@@ -6,9 +6,12 @@ const ENDPOINT = "/.netlify/functions/submit-estimate-request";
 
 export function initEstimateRequestForm(form: HTMLFormElement): void {
   const floorRow = form.querySelector<HTMLElement>("[data-erf-floor-row]");
+  const otherRow = form.querySelector<HTMLElement>("[data-erf-other-service-row]");
   const errBox = form.querySelector<HTMLElement>("[data-erf-error]");
   const successBox = form.querySelector<HTMLElement>("[data-erf-success]");
   const submitBtn = form.querySelector<HTMLButtonElement>('[type="submit"]');
+  const locale = String(form.querySelector<HTMLInputElement>('input[name="locale"]')?.value ?? "fr");
+  const isEn = locale === "en";
 
   function setFloorVisibility(): void {
     const checked = form.querySelector<HTMLInputElement>('input[name="dwellingType"]:checked');
@@ -25,10 +28,31 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
     }
   }
 
+  function setOtherServiceVisibility(): void {
+    const autre = form.querySelector<HTMLInputElement>(
+      'input[name="services"][value="autre"]',
+    );
+    const checked = Boolean(autre?.checked);
+    const detail = form.querySelector<HTMLInputElement>("#erf-otherServiceDetail");
+    if (otherRow) {
+      otherRow.hidden = !checked;
+      otherRow.style.display = checked ? "" : "none";
+    }
+    if (detail) {
+      detail.required = checked;
+      if (!checked) detail.value = "";
+    }
+  }
+
   form.querySelectorAll('input[name="dwellingType"]').forEach((el) => {
     el.addEventListener("change", setFloorVisibility);
   });
   setFloorVisibility();
+
+  form.querySelectorAll('input[name="services"]').forEach((el) => {
+    el.addEventListener("change", setOtherServiceVisibility);
+  });
+  setOtherServiceVisibility();
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -38,6 +62,35 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
       errBox.textContent = "";
     }
     if (successBox) successBox.hidden = true;
+
+    const serviceBoxes = form.querySelectorAll<HTMLInputElement>(
+      'input[name="services"]:checked',
+    );
+    if (serviceBoxes.length === 0) {
+      if (errBox) {
+        errBox.textContent = isEn
+          ? "Please select at least one service."
+          : "Veuillez cocher au moins un service.";
+        errBox.hidden = false;
+      }
+      return;
+    }
+
+    const autreChecked = form.querySelector<HTMLInputElement>(
+      'input[name="services"][value="autre"]:checked',
+    );
+    const otherDetail = form
+      .querySelector<HTMLInputElement>("#erf-otherServiceDetail")
+      ?.value.trim();
+    if (autreChecked && !otherDetail) {
+      if (errBox) {
+        errBox.textContent = isEn
+          ? "Please specify the requested service."
+          : "Veuillez préciser le service demandé.";
+        errBox.hidden = false;
+      }
+      return;
+    }
 
     submitBtn.disabled = true;
     const prevLabel = submitBtn.textContent;
@@ -57,6 +110,7 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
 
       form.reset();
       setFloorVisibility();
+      setOtherServiceVisibility();
       if (successBox) successBox.hidden = false;
     } catch (err) {
       const msg =

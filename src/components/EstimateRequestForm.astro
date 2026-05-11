@@ -8,6 +8,34 @@ interface Props {
 const { locale } = Astro.props;
 const isEn = locale === "en";
 
+/** Valeurs `name="services"` — ordre FR / EN aligné avec la demande produit */
+const SERVICE_OPTIONS: { value: string; labelFr: string; labelEn: string }[] = [
+  {
+    value: "sofa_meubles",
+    labelFr: "Nettoyage de sofa, divan, chaises et fauteuils",
+    labelEn: "Sofa, couch, chair and armchair cleaning",
+  },
+  { value: "tapis", labelFr: "Nettoyage de tapis", labelEn: "Carpet cleaning" },
+  { value: "matelas", labelFr: "Nettoyage de matelas", labelEn: "Mattress cleaning" },
+  { value: "cuir", labelFr: "Nettoyage de cuir", labelEn: "Leather cleaning" },
+  {
+    value: "tuiles",
+    labelFr: "Nettoyage de tuiles et céramique",
+    labelEn: "Tile and ceramic cleaning",
+  },
+  {
+    value: "tapis_commercial",
+    labelFr: "Nettoyage de tapis commercial",
+    labelEn: "Commercial carpet cleaning",
+  },
+  {
+    value: "protecteur",
+    labelFr: "Application de protecteur anti tache",
+    labelEn: "Stain protector application",
+  },
+  { value: "autre", labelFr: "Autre service", labelEn: "Other service" },
+];
+
 const t = {
   title: isEn ? "Free estimate request" : "Demande d'estimation gratuite",
   subtitle: isEn
@@ -17,33 +45,34 @@ const t = {
   fullName: isEn ? "Full name" : "Nom complet",
   phone: isEn ? "Phone number" : "Numéro de téléphone",
   email: isEn ? "Email (optional)" : "Courriel (optionnel)",
-  service: isEn ? "Service requested" : "Service demandé",
+  servicesTitle: isEn ? "Requested services" : "Services demandés",
+  otherServiceLabel: isEn
+    ? "Please specify the requested service"
+    : "Précisez le service demandé",
   city: isEn ? "City" : "Ville",
-  dwelling: isEn ? "Dwelling type" : "Type de logement",
-  floor: isEn ? "Floor" : "Étage",
+  dwelling: isEn ? "Property type" : "Type de logement",
+  floor: isEn
+    ? "Which floor are you located on?"
+    : "À quel étage êtes vous situé?",
   description: isEn ? "Describe your needs" : "Description du besoin",
   photos: isEn ? "Photos (recommended)" : "Photos (recommandées)",
   photosHint: isEn
     ? "Optional — helps us prepare your quote. Max 5 files, 2 MB each."
     : "Facultatif — nous aide à préparer votre estimation. Max 5 fichiers, 2 Mo chacun.",
-  contactPref: isEn ? "Contact preference" : "Préférence de contact",
+  contactPref: isEn ? "Preferred contact method" : "Méthode de contact préférée",
+  contactHint: isEn
+    ? "For a faster response, we recommend a phone call or text message."
+    : "Pour une réponse plus rapide, nous recommandons un appel ou un texto.",
   submit: isEn ? "Send my estimate request" : "Envoyer ma demande d’estimation",
   sending: isEn ? "Sending…" : "Envoi…",
   success: isEn
     ? "Thank you — your request has been sent. We will contact you shortly."
     : "Merci — votre demande a été envoyée. Nous vous contacterons sous peu.",
-  optDivan: isEn ? "Upholstery / sofa cleaning" : "Nettoyage de divan",
-  optTapis: isEn ? "Carpet cleaning" : "Nettoyage de tapis",
-  optMatelas: isEn ? "Mattress cleaning" : "Nettoyage de matelas",
-  optCarpettes: isEn ? "Area rugs" : "Nettoyage de carpettes",
-  optChaises: isEn ? "Chairs" : "Nettoyage de chaises",
-  optCuir: isEn ? "Leather cleaning" : "Nettoyage de cuir",
-  optAutre: isEn ? "Other service" : "Autre service",
   dwMaison: isEn ? "House" : "Maison",
   dwCondo: "Condo",
   dwApp: isEn ? "Apartment" : "Appartement",
   dwCom: isEn ? "Commercial" : "Commercial",
-  cpPhone: isEn ? "Phone call" : "Téléphone",
+  cpPhone: isEn ? "Phone" : "Téléphone",
   cpSms: isEn ? "Text message" : "Texto",
   cpEmail: isEn ? "Email" : "Courriel",
   honeypotLabel: isEn ? "Company" : "Entreprise",
@@ -92,18 +121,27 @@ const t = {
         <input id="erf-email" name="email" type="email" maxlength="120" autocomplete="email" />
       </div>
 
-      <div class="erf-field">
-        <label for="erf-service">{t.service} *</label>
-        <select id="erf-service" name="service" required>
-          <option value="">—</option>
-          <option value="divan">{t.optDivan}</option>
-          <option value="tapis">{t.optTapis}</option>
-          <option value="matelas">{t.optMatelas}</option>
-          <option value="carpettes">{t.optCarpettes}</option>
-          <option value="chaises">{t.optChaises}</option>
-          <option value="cuir">{t.optCuir}</option>
-          <option value="autre">{t.optAutre}</option>
-        </select>
+      <fieldset class="erf-field erf-fieldset">
+        <legend>{t.servicesTitle} *</legend>
+        {
+          SERVICE_OPTIONS.map((opt) => (
+            <label class="erf-radio">
+              <input type="checkbox" name="services" value={opt.value} />
+              {isEn ? opt.labelEn : opt.labelFr}
+            </label>
+          ))
+        }
+      </fieldset>
+
+      <div class="erf-field" data-erf-other-service-row hidden style="display: none;">
+        <label for="erf-otherServiceDetail">{t.otherServiceLabel} *</label>
+        <input
+          id="erf-otherServiceDetail"
+          name="otherServiceDetail"
+          type="text"
+          maxlength="500"
+          autocomplete="off"
+        />
       </div>
 
       <div class="erf-field">
@@ -145,6 +183,7 @@ const t = {
 
       <fieldset class="erf-field erf-fieldset">
         <legend>{t.contactPref} *</legend>
+        <p class="erf-hint erf-contact-hint">{t.contactHint}</p>
         <label class="erf-radio"
           ><input type="radio" name="contactPreference" value="telephone" required /> {t.cpPhone}</label
         >
@@ -256,6 +295,10 @@ const t = {
     font-size: 0.85rem;
     color: #666;
     margin-top: 4px;
+  }
+  .erf-contact-hint {
+    margin-bottom: 0.5rem;
+    margin-top: 0;
   }
   .erf-submit {
     margin-top: 0.5rem;

@@ -36,14 +36,27 @@ function jsonHeaders(requestId: string, status = 200, extra?: Record<string, str
 const ALLOWED_DWELLING = new Set(["maison", "condo", "appartement", "commercial"]);
 const ALLOWED_CONTACT = new Set(["telephone", "sms", "courriel"]);
 const ALLOWED_SERVICE = new Set([
-    "divan",
+    "sofa_meubles",
     "tapis",
     "matelas",
-    "carpettes",
-    "chaises",
     "cuir",
+    "tuiles",
+    "tapis_commercial",
+    "protecteur",
     "autre",
 ]);
+
+/** Ordre d’affichage dans les courriels (cohérent avec le formulaire) */
+const SERVICE_ORDER = [
+    "sofa_meubles",
+    "tapis",
+    "matelas",
+    "cuir",
+    "tuiles",
+    "tapis_commercial",
+    "protecteur",
+    "autre",
+] as const;
 
 export default async (req: Request): Promise<Response> => {
     const requestId = newRequestId();
@@ -101,7 +114,7 @@ export default async (req: Request): Promise<Response> => {
     const fullName = String(formData.get("fullName") ?? "").trim();
     const phone = String(formData.get("phone") ?? "").trim();
     const email = String(formData.get("email") ?? "").trim();
-    const service = String(formData.get("service") ?? "").trim();
+    const otherServiceDetail = String(formData.get("otherServiceDetail") ?? "").trim();
     const city = String(formData.get("city") ?? "").trim();
     const dwellingType = String(formData.get("dwellingType") ?? "").trim().toLowerCase();
     const floor = String(formData.get("floor") ?? "").trim();
@@ -126,8 +139,38 @@ export default async (req: Request): Promise<Response> => {
             headers: jsonHeaders(requestId),
         });
     }
-    if (!ALLOWED_SERVICE.has(service)) {
-        return new Response(JSON.stringify({ ok: false, error: isEn ? "Invalid service" : "Service invalide", requestId }), {
+
+    const rawServices = formData.getAll("services").map((v) => String(v ?? "").trim().toLowerCase());
+    const servicesSet = new Set<string>();
+    for (const s of rawServices) {
+        if (!s) continue;
+        if (!ALLOWED_SERVICE.has(s)) {
+            return new Response(
+                JSON.stringify({ ok: false, error: isEn ? "Invalid service selection" : "Sélection de services invalide", requestId }),
+                { status: 400, headers: jsonHeaders(requestId) },
+            );
+        }
+        servicesSet.add(s);
+    }
+    const services = SERVICE_ORDER.filter((k) => servicesSet.has(k));
+    if (services.length === 0) {
+        return new Response(
+            JSON.stringify({ ok: false, error: isEn ? "Select at least one service" : "Cochez au moins un service", requestId }),
+            { status: 400, headers: jsonHeaders(requestId) },
+        );
+    }
+    if (services.includes("autre") && (!otherServiceDetail || otherServiceDetail.length > 500)) {
+        return new Response(
+            JSON.stringify({
+                ok: false,
+                error: isEn ? "Please specify the other service (max 500 characters)" : "Précisez l’autre service (500 caractères max)",
+                requestId,
+            }),
+            { status: 400, headers: jsonHeaders(requestId) },
+        );
+    }
+    if (!services.includes("autre") && otherServiceDetail.length > 500) {
+        return new Response(JSON.stringify({ ok: false, error: isEn ? "Other service text too long" : "Texte trop long", requestId }), {
             status: 400,
             headers: jsonHeaders(requestId),
         });
@@ -164,21 +207,23 @@ export default async (req: Request): Promise<Response> => {
     }
 
     const serviceLabelsFr: Record<string, string> = {
-        divan: "Nettoyage de divan",
+        sofa_meubles: "Nettoyage de sofa, divan, chaises et fauteuils",
         tapis: "Nettoyage de tapis",
         matelas: "Nettoyage de matelas",
-        carpettes: "Nettoyage de carpettes",
-        chaises: "Nettoyage de chaises",
         cuir: "Nettoyage de cuir",
+        tuiles: "Nettoyage de tuiles et céramique",
+        tapis_commercial: "Nettoyage de tapis commercial",
+        protecteur: "Application de protecteur anti tache",
         autre: "Autre service",
     };
     const serviceLabelsEn: Record<string, string> = {
-        divan: "Upholstery / sofa cleaning",
+        sofa_meubles: "Sofa, couch, chair and armchair cleaning",
         tapis: "Carpet cleaning",
         matelas: "Mattress cleaning",
-        carpettes: "Area rug cleaning",
-        chaises: "Chair cleaning",
         cuir: "Leather cleaning",
+        tuiles: "Tile and ceramic cleaning",
+        tapis_commercial: "Commercial carpet cleaning",
+        protecteur: "Stain protector application",
         autre: "Other service",
     };
     const dwellingLabelsFr: Record<string, string> = {
@@ -199,12 +244,28 @@ export default async (req: Request): Promise<Response> => {
         courriel: "Courriel",
     };
     const contactLabelsEn: Record<string, string> = {
-        telephone: "Phone call",
+        telephone: "Phone",
         sms: "Text message",
         courriel: "Email",
     };
 
-    const serviceLabel = isEn ? serviceLabelsEn[service] : serviceLabelsFr[service];
+    const serviceLines = services.map((key) => (isEn ? serviceLabelsEn[key] : serviceLabelsFr[key]));
+    const servicesBlockPlain = serviceLines.join("\n");
+    const servicesBlockHtml = serviceLines.map((line) => `${escapeHtml(line)}`).join("<br>\n");
+
+    const otherDetailBlock =
+        services.includes("autre") && otherServiceDetail
+            ? isEn
+                ? `\nOther service details:\n${otherServiceDetail}`
+                : `\nPrécision (autre service) :\n${otherServiceDetail}`
+            : "";
+    const otherDetailHtml =
+        services.includes("autre") && otherServiceDetail
+            ? isEn
+                ? `<p><strong>Other service details</strong></p><p style="white-space:pre-wrap;">${escapeHtml(otherServiceDetail)}</p>`
+                : `<p><strong>Précision (autre service)</strong></p><p style="white-space:pre-wrap;">${escapeHtml(otherServiceDetail)}</p>`
+            : "";
+
     const dwellingLabel = isEn ? dwellingLabelsEn[dwellingType] : dwellingLabelsFr[dwellingType];
     const contactLabel = isEn ? contactLabelsEn[contactPreference] : contactLabelsFr[contactPreference];
 
@@ -236,8 +297,8 @@ export default async (req: Request): Promise<Response> => {
     }
 
     const subject = isEn
-        ? `[Estimate request] ${fullName} — ${serviceLabel}`
-        : `[Demande d'estimation] ${fullName} — ${serviceLabel}`;
+        ? `[Estimate request] ${fullName} (${services.length} service${services.length > 1 ? "s" : ""})`
+        : `[Demande d'estimation] ${fullName} (${services.length} service${services.length > 1 ? "s" : ""})`;
 
     const html = isEn
         ? `
@@ -246,12 +307,13 @@ export default async (req: Request): Promise<Response> => {
         <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Name</td><td>${escapeHtml(fullName)}</td></tr>
         <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Phone</td><td>${escapeHtml(phone)}</td></tr>
         <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Email</td><td>${escapeHtml(email || "—")}</td></tr>
-        <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Service</td><td>${escapeHtml(serviceLabel)}</td></tr>
+        <tr><td style="padding:6px 12px 6px 0;font-weight:bold;vertical-align:top;">Requested services</td><td>${servicesBlockHtml}</td></tr>
         <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">City</td><td>${escapeHtml(city)}</td></tr>
         <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Dwelling</td><td>${escapeHtml(dwellingLabel)}</td></tr>
         ${dwellingType === "condo" || dwellingType === "appartement" ? `<tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Floor</td><td>${escapeHtml(floor)}</td></tr>` : ""}
-        <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Contact preference</td><td>${escapeHtml(contactLabel)}</td></tr>
+        <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Preferred contact method</td><td>${escapeHtml(contactLabel)}</td></tr>
       </table>
+      ${otherDetailHtml}
       <p><strong>Details</strong></p>
       <p style="white-space:pre-wrap;">${escapeHtml(description)}</p>
       <p style="color:#666;font-size:12px;">Photos attached: ${attachments.length}</p>
@@ -262,48 +324,61 @@ export default async (req: Request): Promise<Response> => {
         <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Nom complet</td><td>${escapeHtml(fullName)}</td></tr>
         <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Téléphone</td><td>${escapeHtml(phone)}</td></tr>
         <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Courriel</td><td>${escapeHtml(email || "—")}</td></tr>
-        <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Service</td><td>${escapeHtml(serviceLabel)}</td></tr>
+        <tr><td style="padding:6px 12px 6px 0;font-weight:bold;vertical-align:top;">Services demandés</td><td>${servicesBlockHtml}</td></tr>
         <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Ville</td><td>${escapeHtml(city)}</td></tr>
         <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Type de logement</td><td>${escapeHtml(dwellingLabel)}</td></tr>
         ${dwellingType === "condo" || dwellingType === "appartement" ? `<tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Étage</td><td>${escapeHtml(floor)}</td></tr>` : ""}
-        <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Préférence de contact</td><td>${escapeHtml(contactLabel)}</td></tr>
+        <tr><td style="padding:6px 12px 6px 0;font-weight:bold;">Méthode de contact préférée</td><td>${escapeHtml(contactLabel)}</td></tr>
       </table>
+      ${otherDetailHtml}
       <p><strong>Description du besoin</strong></p>
       <p style="white-space:pre-wrap;">${escapeHtml(description)}</p>
       <p style="color:#666;font-size:12px;">Photos jointes : ${attachments.length}</p>
     `;
 
-    const textPlain = isEn
-        ? [
-              `Name: ${fullName}`,
-              `Phone: ${phone}`,
-              `Email: ${email || "—"}`,
-              `Service: ${serviceLabel}`,
-              `City: ${city}`,
-              `Dwelling: ${dwellingLabel}`,
-              ...(dwellingType === "condo" || dwellingType === "appartement" ? [`Floor: ${floor}`] : []),
-              `Contact preference: ${contactLabel}`,
-              "",
-              "Details:",
-              description,
-              "",
-              `Photos: ${attachments.length}`,
-          ].join("\n")
-        : [
-              `Nom: ${fullName}`,
-              `Téléphone: ${phone}`,
-              `Courriel: ${email || "—"}`,
-              `Service: ${serviceLabel}`,
-              `Ville: ${city}`,
-              `Logement: ${dwellingLabel}`,
-              ...(dwellingType === "condo" || dwellingType === "appartement" ? [`Étage: ${floor}`] : []),
-              `Contact: ${contactLabel}`,
-              "",
-              "Description:",
-              description,
-              "",
-              `Photos: ${attachments.length}`,
-          ].join("\n");
+    const enLines = [
+        `Name: ${fullName}`,
+        `Phone: ${phone}`,
+        `Email: ${email || "—"}`,
+        "",
+        "Requested services:",
+        servicesBlockPlain,
+    ];
+    if (otherDetailBlock.trim()) enLines.push(otherDetailBlock.trim(), "");
+    enLines.push(
+        `City: ${city}`,
+        `Dwelling: ${dwellingLabel}`,
+        ...(dwellingType === "condo" || dwellingType === "appartement" ? [`Floor: ${floor}`] : []),
+        `Preferred contact method: ${contactLabel}`,
+        "",
+        "Details:",
+        description,
+        "",
+        `Photos: ${attachments.length}`,
+    );
+
+    const frLines = [
+        `Nom: ${fullName}`,
+        `Téléphone: ${phone}`,
+        `Courriel: ${email || "—"}`,
+        "",
+        "Services demandés :",
+        servicesBlockPlain,
+    ];
+    if (otherDetailBlock.trim()) frLines.push(otherDetailBlock.trim(), "");
+    frLines.push(
+        `Ville: ${city}`,
+        `Type de logement: ${dwellingLabel}`,
+        ...(dwellingType === "condo" || dwellingType === "appartement" ? [`Étage: ${floor}`] : []),
+        `Méthode de contact préférée: ${contactLabel}`,
+        "",
+        "Description du besoin:",
+        description,
+        "",
+        `Photos: ${attachments.length}`,
+    );
+
+    const textPlain = isEn ? enLines.join("\n") : frLines.join("\n");
 
     const transporter = nodemailer.createTransport({
         service: "gmail",
