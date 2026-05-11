@@ -4,6 +4,7 @@
  * Non référencé publiquement ; noindex ; hors sitemap.
  */
 import Layout from "../../layouts/Layout.astro";
+import EstimationModule from "../../components/EstimationModule.astro";
 ---
 
 <Layout
@@ -12,6 +13,7 @@ import Layout from "../../layouts/Layout.astro";
   robots="noindex, nofollow"
   includePrivateCalculator={true}
 >
+  <EstimationModule slot="private-calculator" />
   <div class="container" style="padding: 2rem 1rem 4rem; max-width: 720px;">
     <p style="color: #555; font-size: 0.95rem; margin: 0;">
       Outil interne — utilisez le bouton « Estimation gratuite » ou la barre mobile pour ouvrir la

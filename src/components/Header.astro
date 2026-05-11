@@ -453,16 +453,12 @@ const label = isEn ? "FR" : "EN";
   if (openEstBtn) {
     openEstBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      // Check if the global function exists, then call it.
-      // This replaces the inline onclick attribute.
       if (window.openEstimationWidget) {
         window.openEstimationWidget();
       } else {
-        // Fallback to direct widget display if the global function isn't available
-        const widget = document.getElementById("estimation-widget");
-        if (widget) {
-          widget.style.display = "flex";
-        }
+        const path = window.location.pathname || "/";
+        window.location.href =
+          path.indexOf("/en") === 0 ? "/en/estimate-request/" : "/demande-estimation/";
       }
     });
   }
