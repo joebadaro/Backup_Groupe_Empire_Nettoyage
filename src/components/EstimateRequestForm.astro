@@ -1,0 +1,271 @@
+---
+import { PHONES } from "../config/phones";
+
+interface Props {
+  locale: "fr" | "en";
+}
+
+const { locale } = Astro.props;
+const isEn = locale === "en";
+
+const t = {
+  title: isEn ? "Free estimate request" : "Demande d'estimation gratuite",
+  subtitle: isEn
+    ? "Send your request in less than a minute. For a faster response, call us directly at 514-893-9939."
+    : "Envoyez votre demande en moins d’une minute. Pour une réponse plus rapide, appelez-nous directement au 514-893-9939.",
+  callCta: isEn ? `Call ${PHONES.main.display}` : `Appeler le ${PHONES.main.display}`,
+  fullName: isEn ? "Full name" : "Nom complet",
+  phone: isEn ? "Phone number" : "Numéro de téléphone",
+  email: isEn ? "Email (optional)" : "Courriel (optionnel)",
+  service: isEn ? "Service requested" : "Service demandé",
+  city: isEn ? "City" : "Ville",
+  dwelling: isEn ? "Dwelling type" : "Type de logement",
+  floor: isEn ? "Floor" : "Étage",
+  description: isEn ? "Describe your needs" : "Description du besoin",
+  photos: isEn ? "Photos (recommended)" : "Photos (recommandées)",
+  photosHint: isEn
+    ? "Optional — helps us prepare your quote. Max 5 files, 2 MB each."
+    : "Facultatif — nous aide à préparer votre estimation. Max 5 fichiers, 2 Mo chacun.",
+  contactPref: isEn ? "Contact preference" : "Préférence de contact",
+  submit: isEn ? "Send my estimate request" : "Envoyer ma demande d’estimation",
+  sending: isEn ? "Sending…" : "Envoi…",
+  success: isEn
+    ? "Thank you — your request has been sent. We will contact you shortly."
+    : "Merci — votre demande a été envoyée. Nous vous contacterons sous peu.",
+  optDivan: isEn ? "Upholstery / sofa cleaning" : "Nettoyage de divan",
+  optTapis: isEn ? "Carpet cleaning" : "Nettoyage de tapis",
+  optMatelas: isEn ? "Mattress cleaning" : "Nettoyage de matelas",
+  optCarpettes: isEn ? "Area rugs" : "Nettoyage de carpettes",
+  optChaises: isEn ? "Chairs" : "Nettoyage de chaises",
+  optCuir: isEn ? "Leather cleaning" : "Nettoyage de cuir",
+  optAutre: isEn ? "Other service" : "Autre service",
+  dwMaison: isEn ? "House" : "Maison",
+  dwCondo: "Condo",
+  dwApp: isEn ? "Apartment" : "Appartement",
+  dwCom: isEn ? "Commercial" : "Commercial",
+  cpPhone: isEn ? "Phone call" : "Téléphone",
+  cpSms: isEn ? "Text message" : "Texto",
+  cpEmail: isEn ? "Email" : "Courriel",
+  honeypotLabel: isEn ? "Company" : "Entreprise",
+};
+---
+
+<section class="erf">
+  <div class="erf-inner">
+    <h1 class="erf-title text-gradient-empire">{t.title}</h1>
+    <p class="erf-sub">{t.subtitle}</p>
+    <p class="erf-call">
+      <a class="erf-call-link" href={`tel:${PHONES.main.telIntl}`}>{t.callCta}</a>
+    </p>
+
+    <div class="erf-success" data-erf-success hidden role="status">
+      {t.success}
+    </div>
+    <div class="erf-error" data-erf-error hidden role="alert"></div>
+
+    <form
+      class="erf-form"
+      id="estimate-request-form"
+      data-sending-label={t.sending}
+      enctype="multipart/form-data"
+      novalidate
+    >
+      <input type="hidden" name="locale" value={locale} />
+
+      <div class="erf-field hp" aria-hidden="true">
+        <label for="erf-honeypot">{t.honeypotLabel}</label>
+        <input type="text" id="erf-honeypot" name="website" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <div class="erf-field">
+        <label for="erf-fullName">{t.fullName} *</label>
+        <input id="erf-fullName" name="fullName" type="text" required maxlength="200" autocomplete="name" />
+      </div>
+
+      <div class="erf-field">
+        <label for="erf-phone">{t.phone} *</label>
+        <input id="erf-phone" name="phone" type="tel" required maxlength="40" autocomplete="tel" />
+      </div>
+
+      <div class="erf-field">
+        <label for="erf-email">{t.email}</label>
+        <input id="erf-email" name="email" type="email" maxlength="120" autocomplete="email" />
+      </div>
+
+      <div class="erf-field">
+        <label for="erf-service">{t.service} *</label>
+        <select id="erf-service" name="service" required>
+          <option value="">—</option>
+          <option value="divan">{t.optDivan}</option>
+          <option value="tapis">{t.optTapis}</option>
+          <option value="matelas">{t.optMatelas}</option>
+          <option value="carpettes">{t.optCarpettes}</option>
+          <option value="chaises">{t.optChaises}</option>
+          <option value="cuir">{t.optCuir}</option>
+          <option value="autre">{t.optAutre}</option>
+        </select>
+      </div>
+
+      <div class="erf-field">
+        <label for="erf-city">{t.city} *</label>
+        <input id="erf-city" name="city" type="text" required maxlength="120" autocomplete="address-level2" />
+      </div>
+
+      <fieldset class="erf-field erf-fieldset">
+        <legend>{t.dwelling} *</legend>
+        <label class="erf-radio"
+          ><input type="radio" name="dwellingType" value="maison" required /> {t.dwMaison}</label
+        >
+        <label class="erf-radio"
+          ><input type="radio" name="dwellingType" value="condo" /> {t.dwCondo}</label
+        >
+        <label class="erf-radio"
+          ><input type="radio" name="dwellingType" value="appartement" /> {t.dwApp}</label
+        >
+        <label class="erf-radio"
+          ><input type="radio" name="dwellingType" value="commercial" /> {t.dwCom}</label
+        >
+      </fieldset>
+
+      <div class="erf-field" data-erf-floor-row hidden style="display: none;">
+        <label for="erf-floor">{t.floor} *</label>
+        <input id="erf-floor" name="floor" type="text" maxlength="40" autocomplete="off" />
+      </div>
+
+      <div class="erf-field">
+        <label for="erf-description">{t.description} *</label>
+        <textarea id="erf-description" name="description" rows="5" required maxlength="8000"></textarea>
+      </div>
+
+      <div class="erf-field">
+        <label for="erf-photos">{t.photos}</label>
+        <input id="erf-photos" name="photos" type="file" accept="image/*" multiple />
+        <span class="erf-hint">{t.photosHint}</span>
+      </div>
+
+      <fieldset class="erf-field erf-fieldset">
+        <legend>{t.contactPref} *</legend>
+        <label class="erf-radio"
+          ><input type="radio" name="contactPreference" value="telephone" required /> {t.cpPhone}</label
+        >
+        <label class="erf-radio"><input type="radio" name="contactPreference" value="sms" /> {t.cpSms}</label>
+        <label class="erf-radio"
+          ><input type="radio" name="contactPreference" value="courriel" /> {t.cpEmail}</label
+        >
+      </fieldset>
+
+      <button type="submit" class="btn btn-primary pulse-btn erf-submit">{t.submit}</button>
+    </form>
+  </div>
+</section>
+
+<script>
+  import { initEstimateRequestForm } from "../scripts/estimate-request-form.ts";
+
+  const form = document.getElementById("estimate-request-form");
+  if (form instanceof HTMLFormElement) {
+    initEstimateRequestForm(form);
+  }
+</script>
+
+<style>
+  .erf {
+    padding: 2rem 0 4rem;
+  }
+  .erf-inner {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  .erf-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin-bottom: 0.75rem;
+    text-align: center;
+  }
+  .erf-sub {
+    text-align: center;
+    color: #444;
+    line-height: 1.55;
+    margin-bottom: 0.75rem;
+  }
+  .erf-call {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .erf-call-link {
+    font-weight: 700;
+    color: var(--color-primary, #001f3f);
+  }
+  .erf-success {
+    background: #e8f5e9;
+    border: 1px solid #c8e6c9;
+    color: #1b5e20;
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  .erf-error {
+    background: #ffebee;
+    border: 1px solid #ffcdd2;
+    color: #b71c1c;
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  .erf-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .erf-field label,
+  .erf-fieldset legend {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+    font-size: 0.95rem;
+  }
+  .erf-field input[type="text"],
+  .erf-field input[type="tel"],
+  .erf-field input[type="email"],
+  .erf-field input[type="file"],
+  .erf-field select,
+  .erf-field textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #cfd8dc;
+    font: inherit;
+    box-sizing: border-box;
+  }
+  .erf-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+  .erf-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 1rem;
+    margin-bottom: 0.35rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .erf-hint {
+    display: block;
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 4px;
+  }
+  .erf-submit {
+    margin-top: 0.5rem;
+    align-self: flex-start;
+  }
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+</style>

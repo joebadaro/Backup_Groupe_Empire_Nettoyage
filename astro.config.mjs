@@ -106,6 +106,7 @@ const sitemapFilter = (url) => {
     "/en/services/meubles/",
     "/en/tips/",
     "/estimation-print",
+    "/estimation-privee",
     // Phase 1: thank-you + short carpet aliases (301 → nettoyage-tapis-*); canonical URLs stay indexed
     "/merci/",
     "/services/tapis-residentiel",

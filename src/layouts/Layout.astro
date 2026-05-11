@@ -19,9 +19,11 @@ interface Props {
   description?: string;
   image?: string;
   robots?: string;
+  /** Calculatrice interne : uniquement pour /estimation-privee/ */
+  includePrivateCalculator?: boolean;
 }
 
-const { title, image, robots } = Astro.props;
+const { title, image, robots, includePrivateCalculator = false } = Astro.props;
 
 const isEn = Astro.url.pathname.startsWith("/en");
 const defaultDescription = isEn
@@ -62,6 +64,39 @@ const description = Astro.props.description ?? defaultDescription;
       image={image}
       robots={robots}
     />
+    {
+      !includePrivateCalculator && (
+        <script
+          is:inline
+          define:vars={{
+            estimateUrlFr: "/demande-estimation/",
+            estimateUrlEn: "/en/estimate-request/",
+          }}
+        >
+          (function () {
+            window.openEstimationWidget = function () {
+              var path = window.location.pathname || "/";
+              window.location.href =
+                path.indexOf("/en") === 0 ? estimateUrlEn : estimateUrlFr;
+            };
+            /* Bouton Contact EN (#btn-trigger-estimate-page) sans onclick inline */
+            document.addEventListener("DOMContentLoaded", function () {
+              var btn = document.getElementById("btn-trigger-estimate-page");
+              if (!btn) return;
+              btn.addEventListener(
+                "click",
+                function (e) {
+                  e.preventDefault();
+                  e.stopImmediatePropagation();
+                  window.openEstimationWidget();
+                },
+                true,
+              );
+            });
+          })();
+        </script>
+      )
+    }
     {image && <link rel="preload" as="image" href={image} />}
     <!-- Bundled as inline: fade-in reste hors du bundle Layout (LCP) ; SMS visiteur est dans visitor-sms.ts -->
     <script is:inline>
@@ -105,12 +140,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <Footer />
 
     <GtmDeferred />
-    <!-- Global Estimation Module -->
-    <EstimationModule />
-    <!-- Bootstrap: Astro <script> → bundlé par Vite avec MIME type JS correct (évite data:video/mp2t) -->
-    <script>
-      import '../scripts/estimation-bootstrap-lazy.ts';
-    </script>
+    {includePrivateCalculator && <EstimationModule />}
+    <!-- estimation-bootstrap-lazy : importé uniquement sur /estimation-privee/ pour ne pas écraser le stub public (voir page). -->
     <script>
       import '../scripts/visitor-sms.ts';
     </script>
