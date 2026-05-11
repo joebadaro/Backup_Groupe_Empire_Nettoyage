@@ -4,14 +4,26 @@
 
 const ENDPOINT = "/.netlify/functions/submit-estimate-request";
 
+function scrollElIntoView(el: HTMLElement | null): void {
+  if (!el) return;
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 export function initEstimateRequestForm(form: HTMLFormElement): void {
+  const root = form.closest(".erf-inner");
   const floorRow = form.querySelector<HTMLElement>("[data-erf-floor-row]");
   const otherRow = form.querySelector<HTMLElement>("[data-erf-other-service-row]");
-  const errBox = form.querySelector<HTMLElement>("[data-erf-error]");
-  const successBox = form.querySelector<HTMLElement>("[data-erf-success]");
+  const errBox = root?.querySelector<HTMLElement>("[data-erf-error]") ?? null;
+  const successBox = root?.querySelector<HTMLElement>("[data-erf-success]") ?? null;
+  const formPanel = root?.querySelector<HTMLElement>("[data-erf-form-panel]") ?? null;
   const submitBtn = form.querySelector<HTMLButtonElement>('[type="submit"]');
   const locale = String(form.querySelector<HTMLInputElement>('input[name="locale"]')?.value ?? "fr");
   const isEn = locale === "en";
+  const genericError =
+    form.getAttribute("data-erf-error-generic")?.trim() ||
+    (isEn
+      ? "An error occurred. Please try again or call us directly at 514-893-9939."
+      : "Une erreur est survenue. Veuillez réessayer ou nous appeler directement au 514-893-9939.");
 
   function setFloorVisibility(): void {
     const checked = form.querySelector<HTMLInputElement>('input[name="dwellingType"]:checked');
@@ -72,6 +84,7 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
           ? "Please select at least one service."
           : "Veuillez cocher au moins un service.";
         errBox.hidden = false;
+        scrollElIntoView(errBox);
       }
       return;
     }
@@ -88,13 +101,17 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
           ? "Please specify the requested service."
           : "Veuillez préciser le service demandé.";
         errBox.hidden = false;
+        scrollElIntoView(errBox);
       }
       return;
     }
 
-    submitBtn.disabled = true;
     const prevLabel = submitBtn.textContent;
-    submitBtn.textContent = form.getAttribute("data-sending-label") ?? "…";
+    const sendingLabel = form.getAttribute("data-sending-label") ?? "…";
+    submitBtn.disabled = true;
+    submitBtn.textContent = sendingLabel;
+
+    let submissionSucceeded = false;
 
     try {
       const fd = new FormData(form);
@@ -108,20 +125,37 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
         throw new Error(data.error || `HTTP ${res.status}`);
       }
 
+      submissionSucceeded = true;
       form.reset();
       setFloorVisibility();
       setOtherServiceVisibility();
-      if (successBox) successBox.hidden = false;
-    } catch (err) {
-      const msg =
-        err instanceof Error ? err.message : String(err);
+
+      if (formPanel) {
+        formPanel.hidden = true;
+        formPanel.setAttribute("aria-hidden", "true");
+      }
+      if (successBox) {
+        successBox.hidden = false;
+        successBox.removeAttribute("aria-hidden");
+        scrollElIntoView(successBox);
+        successBox.focus();
+      }
+    } catch {
       if (errBox) {
-        errBox.textContent = msg;
+        errBox.textContent = genericError;
         errBox.hidden = false;
+        scrollElIntoView(errBox);
       }
     } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = prevLabel ?? "";
+      if (submissionSucceeded) {
+        submitBtn.disabled = true;
+        submitBtn.setAttribute("aria-disabled", "true");
+        submitBtn.textContent = prevLabel ?? "";
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.removeAttribute("aria-disabled");
+        submitBtn.textContent = prevLabel ?? "";
+      }
     }
   });
 }

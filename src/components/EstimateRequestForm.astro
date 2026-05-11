@@ -64,10 +64,10 @@ const t = {
     ? "For a faster response, we recommend a phone call or text message."
     : "Pour une réponse plus rapide, nous recommandons un appel ou un texto.",
   submit: isEn ? "Send my estimate request" : "Envoyer ma demande d’estimation",
-  sending: isEn ? "Sending…" : "Envoi…",
-  success: isEn
-    ? "Thank you — your request has been sent. We will contact you shortly."
-    : "Merci — votre demande a été envoyée. Nous vous contacterons sous peu.",
+  sending: isEn ? "Sending..." : "Envoi en cours...",
+  errGeneric: isEn
+    ? "An error occurred. Please try again or call us directly at 514-893-9939."
+    : "Une erreur est survenue. Veuillez réessayer ou nous appeler directement au 514-893-9939.",
   dwMaison: isEn ? "House" : "Maison",
   dwCondo: "Condo",
   dwApp: isEn ? "Apartment" : "Appartement",
@@ -87,15 +87,58 @@ const t = {
       <a class="erf-call-link" href={`tel:${PHONES.main.telIntl}`}>{t.callCta}</a>
     </p>
 
-    <div class="erf-success" data-erf-success hidden role="status">
-      {t.success}
+    <div
+      class="erf-success-card"
+      data-erf-success
+      hidden
+      role="status"
+      aria-live="polite"
+      tabindex="-1"
+    >
+      {
+        isEn ? (
+          <>
+            <p class="erf-success-p">
+              Thank you, your estimate request has been sent successfully.
+            </p>
+            <p class="erf-success-p">
+              A member of our team will contact you shortly using your preferred contact method.
+            </p>
+            <p class="erf-success-p">You do not need to submit the form again.</p>
+            <p class="erf-success-p">
+              For a faster response, you can also call us directly at{" "}
+              <a class="erf-success-link" href={`tel:${PHONES.main.telIntl}`}>
+                {PHONES.main.display}
+              </a>
+              .
+            </p>
+          </>
+        ) : (
+          <>
+            <p class="erf-success-p">Merci, votre demande d'estimation a bien été envoyée.</p>
+            <p class="erf-success-p">
+              Un membre de notre équipe vous contactera sous peu selon la méthode de contact choisie.
+            </p>
+            <p class="erf-success-p">Vous n'avez pas besoin de renvoyer le formulaire.</p>
+            <p class="erf-success-p">
+              Pour une réponse plus rapide, vous pouvez aussi nous appeler directement au{" "}
+              <a class="erf-success-link" href={`tel:${PHONES.main.telIntl}`}>
+                {PHONES.main.display}
+              </a>
+              .
+            </p>
+          </>
+        )
+      }
     </div>
     <div class="erf-error" data-erf-error hidden role="alert"></div>
 
+    <div class="erf-form-panel" data-erf-form-panel>
     <form
       class="erf-form"
       id="estimate-request-form"
       data-sending-label={t.sending}
+      data-erf-error-generic={t.errGeneric}
       enctype="multipart/form-data"
       novalidate
     >
@@ -195,6 +238,7 @@ const t = {
 
       <button type="submit" class="btn btn-primary pulse-btn erf-submit">{t.submit}</button>
     </form>
+    </div>
   </div>
 </section>
 
@@ -235,13 +279,31 @@ const t = {
     font-weight: 700;
     color: var(--color-primary, #001f3f);
   }
-  .erf-success {
+  .erf-success-card {
     background: #e8f5e9;
-    border: 1px solid #c8e6c9;
+    border: 2px solid #81c784;
     color: #1b5e20;
-    padding: 12px 14px;
-    border-radius: 8px;
-    margin-bottom: 1rem;
+    padding: 1.25rem 1.35rem;
+    border-radius: 12px;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 4px 18px rgba(27, 94, 32, 0.12);
+    font-size: 1.02rem;
+    line-height: 1.55;
+  }
+  .erf-success-card:not([hidden]) {
+    outline: none;
+  }
+  .erf-success-p {
+    margin: 0 0 0.85rem;
+  }
+  .erf-success-p:last-child {
+    margin-bottom: 0;
+  }
+  .erf-success-link {
+    font-weight: 700;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
   .erf-error {
     background: #ffebee;
@@ -250,6 +312,7 @@ const t = {
     padding: 12px 14px;
     border-radius: 8px;
     margin-bottom: 1rem;
+    white-space: pre-wrap;
   }
   .erf-form {
     display: flex;
