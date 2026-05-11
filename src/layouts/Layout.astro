@@ -160,9 +160,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           }
         </span>
       </a>
-      <button
-        type="button"
-        onclick="window.openEstimationWidget()"
+      <a
+        href={
+          Astro.url.pathname.startsWith("/en")
+            ? "/en/estimate-request/"
+            : "/demande-estimation/"
+        }
         class="sticky-btn btn-quote"
       >
         <span class="sticky-btn-icon" aria-hidden="true"
@@ -171,11 +174,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="sticky-btn-label">
           {
             Astro.url.pathname.startsWith("/en")
-              ? "Instant Estimate"
-              : "Estimation Instantanée"
+              ? "Request estimate"
+              : "Demande d'estimation"
           }
         </span>
-      </button>
+      </a>
     </div>
 
     <style>
