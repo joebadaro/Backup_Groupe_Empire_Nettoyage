@@ -4,13 +4,15 @@ import UiIcon from "../../components/icons/UiIcon.astro";
 ---
 
 <Layout
-  title="Contact Us | Empire Cleaning Group"
+  title="Contact us | Empire Cleaning Group"
   description="Contact Empire Cleaning Group for a free estimate. Professional carpet, sofa and mattress cleaning in Montreal, Laval and the South Shore."
 >
   <div class="page-header">
     <div class="container text-center fade-in-section">
-      <h1 class="text-gradient">Contact Us</h1>
-      <p class="lead-text">Two simple ways to get your price quickly.</p>
+      <h1 class="text-gradient">Contact us</h1>
+      <p class="lead-text">
+        Two simple ways to reach us for your estimate request.
+      </p>
     </div>
   </div>
 
@@ -27,7 +29,7 @@ import UiIcon from "../../components/icons/UiIcon.astro";
           </div>
           <h2>Talk to an Expert</h2>
           <p class="choice-desc">
-            Personalized advice and an immediate estimate with our specialists.
+            Call us for a quick response and an estimate based on your request.
           </p>
           <div class="call-action">
             <a href="tel:5148939939" class="btn-big-call">(514) 893-9939</a>
@@ -42,14 +44,14 @@ import UiIcon from "../../components/icons/UiIcon.astro";
               ><UiIcon name="bolt" size={40} /></span
             >
           </div>
-          <h2>Instant Estimate</h2>
+          <h2>Free estimate request</h2>
           <p class="choice-desc">
-            Get your exact price now with our intelligent calculator.
+            Send your request online and we will reply quickly based on the service, your city and the details provided.
           </p>
           <div class="online-action">
-            <button id="btn-trigger-estimate-page" class="btn-big-online">
-              Instant Estimate
-            </button>
+            <a href="/en/estimate-request/" class="btn-big-online">
+              Request an estimate
+            </a>
             <span class="availability">Fast • Free • No obligation</span>
           </div>
         </div>
@@ -95,21 +97,6 @@ import UiIcon from "../../components/icons/UiIcon.astro";
       </div>
     </div>
   </section>
-
-  <!-- Estimation module (hidden by default, triggered by button) -->
-
-  <script>
-    /* Trigger Estimation Module from Page Button */
-    const pageEstBtn = document.getElementById("btn-trigger-estimate-page");
-    if (pageEstBtn) {
-      pageEstBtn.addEventListener("click", () => {
-        const widget = document.getElementById("estimation-widget");
-        if (widget) {
-          widget.style.display = "flex";
-        }
-      });
-    }
-  </script>
 
   <style>
     .page-header {
