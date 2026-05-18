@@ -1,0 +1,574 @@
+---
+export interface Props {
+  title: string;
+  subtitle: string;
+  description: string;
+  youtubeId: string;
+  youtubeTitle: string;
+  allVideosHref: string;
+  /** Vignette locale optimisée (recommandé). Sinon repli YouTube sddefault. */
+  posterUrl?: string;
+  /** Ex. `"16 / 9"` (défaut) ou `"9 / 16"` pour les Shorts verticaux. */
+  videoAspectRatio?: string;
+  playLabel?: string;
+  allVideosLabel?: string;
+  closeLabel?: string;
+}
+
+const {
+  title,
+  subtitle,
+  description,
+  youtubeId,
+  youtubeTitle,
+  allVideosHref,
+  posterUrl: posterUrlProp,
+  videoAspectRatio = "16 / 9",
+  playLabel = "Voir la vidéo",
+  allVideosLabel = "Voir toutes nos réalisations",
+  closeLabel = "Fermer la vidéo",
+} = Astro.props;
+
+const modalId = `svp-modal-${youtubeId}`;
+/** Même vignette que la galerie vidéo (qualité supérieure à hqdefault YouTube). */
+const LOCAL_POSTERS: Record<string, string> = {
+  auWtvSvqucg: "/images/videos/video-thumb-salon-st-bruno-short.jpg",
+};
+const posterUrl =
+  posterUrlProp ??
+  LOCAL_POSTERS[youtubeId] ??
+  `https://i.ytimg.com/vi/${youtubeId}/sddefault.jpg`;
+const embedSrc = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
+const aspectNormalized = videoAspectRatio.replace(/\s/g, "");
+const isVertical = aspectNormalized === "9/16" || aspectNormalized.startsWith("9/");
+const thumbWidth = isVertical ? 360 : 640;
+const thumbHeight = isVertical ? 640 : 360;
+---
+
+<section
+  class:list={[
+    "service-video-proof",
+    "fade-in-up",
+    "delay-350",
+    isVertical && "service-video-proof--vertical",
+  ]}
+  style={`--svp-aspect-ratio: ${videoAspectRatio};`}
+  data-svp-root
+  data-svp-id={youtubeId}
+  aria-labelledby={`${modalId}-heading`}
+>
+  <div class="svp-card">
+    <div class="svp-content">
+      <p class="svp-eyebrow">{subtitle}</p>
+      <h2 class="svp-title" id={`${modalId}-heading`}>{title}</h2>
+      <p class="svp-desc">{description}</p>
+      <div class="svp-actions">
+        <button
+          type="button"
+          class="btn btn-primary svp-open-btn"
+          data-svp-open={modalId}
+          aria-haspopup="dialog"
+        >
+          {playLabel}
+        </button>
+        <a href={allVideosHref} class="btn btn-gradient-blue-green-outline svp-all-link">
+          {allVideosLabel}
+        </a>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="svp-thumb"
+      data-svp-open={modalId}
+      aria-label={`${playLabel} : ${youtubeTitle}`}
+    >
+      <img
+        src={posterUrl}
+        alt={`Aperçu : ${youtubeTitle}`}
+        class="svp-thumb-img"
+        width={thumbWidth}
+        height={thumbHeight}
+        loading="lazy"
+        decoding="async"
+      />
+      <span class="svp-thumb-overlay" aria-hidden="true"></span>
+      <span class="svp-play" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+          <path d="M8 5v14l11-7z"></path>
+        </svg>
+      </span>
+    </button>
+  </div>
+</section>
+
+<dialog
+  class:list={[
+    "service-video-proof-dialog",
+    isVertical && "service-video-proof-dialog--vertical",
+  ]}
+  id={modalId}
+  aria-label={youtubeTitle}
+  style={`--svp-aspect-ratio: ${videoAspectRatio};`}
+>
+  <div class="service-video-proof-modal">
+    <button type="button" class="service-video-proof-close" data-svp-close aria-label={closeLabel}>
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div class="service-video-proof-embed" data-svp-embed-host></div>
+  </div>
+</dialog>
+
+<style>
+  .service-video-proof {
+    --svp-aspect-ratio: 16 / 9;
+    margin-top: 1.25rem;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .svp-card {
+    display: grid;
+    grid-template-columns: 1.1fr minmax(200px, 40%);
+    gap: 1.25rem;
+    align-items: center;
+    padding: 1.25rem 1.35rem;
+    background: linear-gradient(145deg, #ffffff 0%, #f4f8fc 100%);
+    border: 1px solid rgba(0, 74, 159, 0.1);
+    border-radius: 16px;
+    box-shadow:
+      0 4px 24px rgba(0, 31, 63, 0.06),
+      0 1px 0 rgba(255, 255, 255, 0.9) inset;
+  }
+
+  .svp-eyebrow {
+    margin: 0 0 0.35rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-accent, #c9a227);
+  }
+
+  .svp-title {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+    line-height: 1.2;
+    color: var(--color-primary, #004a9f);
+  }
+
+  .svp-desc {
+    margin: 0 0 1rem;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: #445566;
+    max-width: 36rem;
+  }
+
+  .svp-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .svp-open-btn {
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .svp-all-link {
+    text-decoration: none;
+  }
+
+  .svp-thumb {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: var(--svp-aspect-ratio);
+    background: #0a1628;
+    box-shadow: 0 8px 28px rgba(0, 31, 63, 0.18);
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .svp-thumb:hover,
+    .svp-thumb:focus-visible {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 36px rgba(0, 31, 63, 0.22);
+      outline: 2px solid var(--color-accent, #f0c14b);
+      outline-offset: 3px;
+    }
+  }
+
+  .svp-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.92;
+    transition: transform 0.4s ease, opacity 0.3s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .svp-thumb:hover .svp-thumb-img {
+      transform: scale(1.03);
+      opacity: 0.85;
+    }
+  }
+
+  .svp-thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 20, 50, 0.05) 0%,
+      rgba(0, 20, 50, 0.45) 100%
+    );
+    pointer-events: none;
+  }
+
+  .svp-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .svp-play svg {
+    width: 64px;
+    height: 64px;
+    padding: 16px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    margin-left: 4px;
+    transition:
+      background 0.3s ease,
+      transform 0.3s ease,
+      color 0.3s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .svp-thumb:hover .svp-play svg {
+      background: rgba(240, 193, 75, 0.95);
+      color: #001f3f;
+      transform: scale(1.06);
+    }
+  }
+
+  /* Modal plein écran : dialog transparent, contenu centré au-dessus du backdrop */
+  .service-video-proof-dialog {
+    --svp-aspect-ratio: 16 / 9;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 1rem;
+    border: 0;
+    background: transparent;
+    overflow: visible;
+    z-index: 10050;
+  }
+
+  .service-video-proof-dialog:not([open]) {
+    display: none;
+  }
+
+  .service-video-proof-dialog[open] {
+    display: grid;
+    place-items: center;
+  }
+
+  .service-video-proof-dialog::backdrop {
+    background: rgba(5, 20, 35, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .service-video-proof-modal {
+    position: relative;
+    width: min(960px, 92vw);
+    max-height: 88dvh;
+    aspect-ratio: var(--svp-aspect-ratio);
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    z-index: 10051;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+    margin: 0;
+  }
+
+  .service-video-proof-dialog--vertical .service-video-proof-modal {
+    width: min(420px, 92vw);
+    max-height: 88dvh;
+  }
+
+  .service-video-proof-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10052;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .service-video-proof-close:hover {
+    background: rgba(0, 0, 0, 0.85);
+    transform: scale(1.05);
+  }
+
+  .service-video-proof-embed {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    background: #000;
+  }
+
+  .service-video-proof-embed :global(iframe) {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* Vignette verticale 9:16 — pas de cadre 16:9 */
+  .service-video-proof--vertical .svp-card {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 1.5rem;
+  }
+
+  .service-video-proof--vertical .svp-thumb {
+    width: min(200px, 36vw);
+    max-height: min(360px, 46vh);
+    height: auto;
+    justify-self: end;
+    flex-shrink: 0;
+  }
+
+  .service-video-proof--vertical .svp-thumb-img {
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  @media (max-width: 900px) {
+    .service-video-proof {
+      margin-top: 1rem;
+    }
+
+    .svp-card {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .svp-thumb {
+      order: -1;
+    }
+
+    .service-video-proof:not(.service-video-proof--vertical) .svp-thumb {
+      max-height: 220px;
+    }
+
+    .service-video-proof--vertical .svp-card {
+      grid-template-columns: 1fr;
+    }
+
+    .service-video-proof--vertical .svp-thumb {
+      order: -1;
+      width: min(280px, 72vw);
+      max-height: min(420px, 52vh);
+      margin-inline: auto;
+      justify-self: center;
+    }
+
+    .svp-title {
+      font-size: 1.2rem;
+    }
+
+    .svp-desc {
+      font-size: 0.92rem;
+      margin-bottom: 0.85rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .svp-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .svp-actions .btn,
+    .svp-thumb {
+      min-height: 44px;
+    }
+
+    .svp-actions .btn {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .service-video-proof-close {
+      min-width: 44px;
+      min-height: 44px;
+    }
+  }
+
+  :global(.svp-section-wrap) {
+    padding-top: 0.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .svp-thumb,
+    .svp-thumb-img,
+    .svp-play svg,
+    .service-video-proof-close {
+      transition: none;
+    }
+  }
+</style>
+
+<script define:vars={{ embedSrc }}>
+  const preconnectYouTube = () => {
+    if (document.querySelector("link[data-svp-preconnect]")) return;
+    ["https://www.youtube.com", "https://www.youtube-nocookie.com", "https://i.ytimg.com"].forEach(
+      (origin) => {
+        const dns = document.createElement("link");
+        dns.rel = "dns-prefetch";
+        dns.href = origin;
+        dns.setAttribute("data-svp-preconnect", "");
+        document.head.appendChild(dns);
+        const pre = document.createElement("link");
+        pre.rel = "preconnect";
+        pre.href = origin;
+        pre.crossOrigin = "anonymous";
+        document.head.appendChild(pre);
+      },
+    );
+  };
+
+  const loadIframe = (dialog) => {
+    const host = dialog.querySelector("[data-svp-embed-host]");
+    if (!host || host.querySelector("iframe")) return;
+    const iframe = document.createElement("iframe");
+    iframe.src = embedSrc;
+    iframe.title = dialog.getAttribute("aria-label") || "YouTube video";
+    iframe.setAttribute(
+      "allow",
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+    );
+    iframe.setAttribute("allowfullscreen", "");
+    host.appendChild(iframe);
+  };
+
+  const unloadIframe = (dialog) => {
+    const host = dialog.querySelector("[data-svp-embed-host]");
+    if (host) host.innerHTML = "";
+  };
+
+  let escapeHandler = null;
+
+  const openModal = (dialog) => {
+    if (!dialog) return;
+    preconnectYouTube();
+    loadIframe(dialog);
+    if (typeof dialog.showModal === "function") {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute("open", "");
+    }
+    document.body.style.overflow = "hidden";
+
+    escapeHandler = (e) => {
+      if (e.key === "Escape") closeModal(dialog);
+    };
+    document.addEventListener("keydown", escapeHandler);
+  };
+
+  const closeModal = (dialog) => {
+    if (!dialog) return;
+    if (typeof dialog.close === "function") {
+      dialog.close();
+    } else {
+      dialog.removeAttribute("open");
+    }
+    unloadIframe(dialog);
+    document.body.style.overflow = "";
+    if (escapeHandler) {
+      document.removeEventListener("keydown", escapeHandler);
+      escapeHandler = null;
+    }
+  };
+
+  const initServiceVideoProof = () => {
+    document.querySelectorAll("[data-svp-open]").forEach((trigger) => {
+      const id = trigger.getAttribute("data-svp-open");
+      if (!id) return;
+      const dialog = document.getElementById(id);
+      if (!dialog || trigger.dataset.svpBound) return;
+      trigger.dataset.svpBound = "1";
+      trigger.addEventListener("click", () => openModal(dialog));
+    });
+
+    document.querySelectorAll(".service-video-proof-dialog").forEach((dialog) => {
+      if (dialog.dataset.svpModalBound) return;
+      dialog.dataset.svpModalBound = "1";
+
+      dialog.querySelectorAll("[data-svp-close]").forEach((btn) => {
+        btn.addEventListener("click", () => closeModal(dialog));
+      });
+
+      dialog.addEventListener("click", (e) => {
+        if (e.target === dialog) closeModal(dialog);
+      });
+
+      dialog.addEventListener("close", () => {
+        unloadIframe(dialog);
+        document.body.style.overflow = "";
+      });
+
+      dialog.addEventListener("cancel", (e) => {
+        e.preventDefault();
+        closeModal(dialog);
+      });
+    });
+  };
+
+  document.addEventListener("DOMContentLoaded", initServiceVideoProof);
+  document.addEventListener("astro:page-load", initServiceVideoProof);
+</script>
