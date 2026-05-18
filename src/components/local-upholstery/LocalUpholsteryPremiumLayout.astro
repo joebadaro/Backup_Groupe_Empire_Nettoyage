@@ -85,7 +85,10 @@ const heroSlides = [
               <span class="icon" aria-hidden="true"
                 ><UiIcon name="phone" size={18} /></span
               >
-              (514) 893-9939
+              <span class="cta-btn-stack">
+                <span>Appelez pour un estimé rapide</span>
+                <span class="cta-btn-phone-num">(514) 893-9939</span>
+              </span>
             </a>
             <button
               type="button"
@@ -95,7 +98,7 @@ const heroSlides = [
               <span class="icon" aria-hidden="true"
                 ><UiIcon name="bolt" size={18} /></span
               >
-              Estimation Instantanée
+              Demander un estimé gratuit
             </button>
           </div>
         </div>
@@ -284,6 +287,18 @@ const heroSlides = [
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+  }
+  .local-upholstery-premium .cta-btn-stack {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.25;
+    gap: 0.1rem;
+    text-align: left;
+  }
+  .local-upholstery-premium .cta-btn-phone-num {
+    font-size: 0.92em;
+    font-weight: 800;
   }
   .local-upholstery-premium .split-image-wrapper {
     position: relative;
