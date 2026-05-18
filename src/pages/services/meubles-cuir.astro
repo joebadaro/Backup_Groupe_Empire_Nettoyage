@@ -52,7 +52,10 @@ import UiIcon from "../../components/icons/UiIcon.astro";
               <span class="icon" aria-hidden="true"
                 ><UiIcon name="phone" size={18} /></span
               >
-              (514) 893-9939
+              <span class="cta-btn-stack">
+                <span>Appelez pour un estimé rapide</span>
+                <span class="cta-btn-phone-num">(514) 893-9939</span>
+              </span>
             </a>
             <button
               onclick="window.openEstimationWidget()"
@@ -61,7 +64,7 @@ import UiIcon from "../../components/icons/UiIcon.astro";
               <span class="icon" aria-hidden="true"
                 ><UiIcon name="bolt" size={18} /></span
               >
-              Estimation Instantanée
+              Demander un estimé gratuit
             </button>
           </div>
         </div>
@@ -257,7 +260,7 @@ import UiIcon from "../../components/icons/UiIcon.astro";
         <aside class="service-sidebar">
           <div class="sticky-card fade-in-section">
             <h3 class="card-title text-gradient-gold">
-              Estimation Instantanée
+              Demander un estimé gratuit
             </h3>
             <p class="card-desc">Appelez-nous pour une réponse immédiate.</p>
 
@@ -265,7 +268,10 @@ import UiIcon from "../../components/icons/UiIcon.astro";
               href="tel:5148939939"
               class="btn btn-gradient-green full-width pop-effect pulse-phone"
             >
-              (514) 893-9939
+              <span class="cta-btn-stack">
+                <span>Appelez pour un estimé rapide</span>
+                <span class="cta-btn-phone-num">(514) 893-9939</span>
+              </span>
             </a>
 
             <p class="text-center" style="margin: 1rem 0; font-size: 0.9rem; color: #888;">
@@ -276,7 +282,7 @@ import UiIcon from "../../components/icons/UiIcon.astro";
               onclick="window.openEstimationWidget()"
               class="btn btn-gradient-green full-width"
             >
-              Estimation en Ligne
+              Demander un estimé gratuit
             </button>
 
             <div class="guarantee-badge">
@@ -396,6 +402,20 @@ import UiIcon from "../../components/icons/UiIcon.astro";
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+  }
+
+  .cta-btn-stack {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.25;
+    gap: 0.1rem;
+    text-align: left;
+  }
+
+  .cta-btn-phone-num {
+    font-size: 0.92em;
+    font-weight: 800;
   }
   
   .split-image-wrapper {

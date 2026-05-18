@@ -50,10 +50,13 @@ import UiIcon from "../../components/icons/UiIcon.astro";
 
           <div class="cta-group fade-in-up delay-300">
             <a href="tel:5148939939" class="btn btn-primary pulse-btn">
-              (514) 893-9939
+              <span class="cta-btn-stack">
+                <span>Appelez pour un estimé rapide</span>
+                <span class="cta-btn-phone-num">(514) 893-9939</span>
+              </span>
             </a>
             <button onclick="window.openEstimationWidget()" class="btn btn-primary pulse-btn">
-              Estimation Gratuite
+              Demander un estimé gratuit
             </button>
           </div>
         </div>
@@ -300,13 +303,16 @@ import UiIcon from "../../components/icons/UiIcon.astro";
             <p class="card-desc">À appliquer dès aujourd'hui — avant le prochain accident.</p>
 
             <a href="tel:5148939939" class="btn btn-gradient-green full-width pop-effect pulse-phone">
-              (514) 893-9939
+              <span class="cta-btn-stack">
+                <span>Appelez pour un estimé rapide</span>
+                <span class="cta-btn-phone-num">(514) 893-9939</span>
+              </span>
             </a>
 
             <div style="margin: 1rem 0; text-align: center; color: #888; font-size: 0.9rem;">ou</div>
 
             <button onclick="window.openEstimationWidget()" class="btn btn-gradient-green full-width">
-              Estimation en Ligne
+              Demander un estimé gratuit
             </button>
 
             <div class="protecteur-combo" style="margin-top: 1.5rem; background: #f0f9f0; padding: 1rem; border-radius: 8px; border: 1px solid #c3e6c3;">
@@ -380,6 +386,20 @@ import UiIcon from "../../components/icons/UiIcon.astro";
   .problem-text { font-size: 1.05rem; color: var(--color-text-main); font-style: italic; }
   .lead-text { font-size: 1.1rem; line-height: 1.7; color: var(--color-text-main); margin-bottom: 2.5rem; max-width: 650px; }
   .cta-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .cta-btn-stack {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.25;
+    gap: 0.1rem;
+    text-align: left;
+  }
+
+  .cta-btn-phone-num {
+    font-size: 0.92em;
+    font-weight: 800;
+  }
   .split-image-wrapper { position: relative; height: 100%; min-height: 500px; width: 100%; overflow: hidden; }
   .slideshow-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
   .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out; }

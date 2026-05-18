@@ -80,14 +80,17 @@ import UiIcon from "../../../components/icons/UiIcon.astro";
                             href="tel:5148939939"
                             class="btn btn-gradient-green pulse-btn"
                         >
-                            (514) 893-9939
+                            <span class="cta-btn-stack">
+                                <span>Call for a Fast Estimate</span>
+                                <span class="cta-btn-phone-num">(514) 893-9939</span>
+                            </span>
                         </a>
                         <button
                             onclick="window.openEstimationWidget()"
                             class="btn btn-gradient-green"
                         >
                             <span class="icon" aria-hidden="true"><UiIcon name="bolt" size={18} /></span>
-                            Instant Online Quote
+                            Request a Free Estimate
                         </button>
                     </div>
                 </div>
@@ -468,6 +471,18 @@ import UiIcon from "../../../components/icons/UiIcon.astro";
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
+        }
+        .cta-btn-stack {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.25;
+            gap: 0.1rem;
+            text-align: left;
+        }
+        .cta-btn-phone-num {
+            font-size: 0.92em;
+            font-weight: 800;
         }
         @media (max-width: 900px) {
             .cta-group {
