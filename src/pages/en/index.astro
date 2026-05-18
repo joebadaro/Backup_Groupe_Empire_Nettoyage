@@ -230,13 +230,16 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
           <span class="icon" aria-hidden="true"
             ><UiIcon name="phone" size={20} /></span
           >
-          (514) 893-9939 (Free Estimate)
+          <span class="cta-btn-stack">
+            <span>Call for a Fast Estimate</span>
+            <span class="cta-btn-phone-num">(514) 893-9939</span>
+          </span>
         </a>
         <a href="/en/contact" class="btn btn-glass-outline">
           <span class="icon" aria-hidden="true"
             ><UiIcon name="clipboard" size={20} /></span
           >
-          Online Quote
+          Request a Free Estimate
         </a>
       </div>
 
@@ -1312,6 +1315,19 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
       .hero-subtitle--mobile {
         display: none !important;
       }
+    }
+
+    .cta-btn-stack {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.25;
+      gap: 0.1rem;
+      text-align: left;
+    }
+    .cta-btn-phone-num {
+      font-size: 0.92em;
+      font-weight: 800;
     }
 
     @media (max-width: 768px) {
