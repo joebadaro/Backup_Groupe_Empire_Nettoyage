@@ -10,6 +10,14 @@ import {
 
 const ALERT_URL = "/.netlify/functions/video-intent-alert";
 
+export const VIDEO_PLAY_OPEN_EVENT = "empire:video-play-open";
+
+export interface VideoPlayOpenDetail {
+  youtubeId: string;
+  videoTitle: string;
+  serviceName: string;
+}
+
 const K_UTM = "empire_vit_utm_v1";
 
 type VideoIntentEvent =
@@ -187,10 +195,50 @@ function trackBlockViewed(root: Element): void {
   );
 }
 
-/**
- * Déclenché depuis openModal (fiable) — fire-and-forget, n’interrompt pas la lecture.
- */
-export function trackVideoPlayOpen(
+/** Émis par openModal — écouteur enregistré dès le chargement du module. */
+export function dispatchVideoPlayOpen(detail: VideoPlayOpenDetail): void {
+  if (!detail.youtubeId?.trim()) return;
+  window.dispatchEvent(
+    new CustomEvent<VideoPlayOpenDetail>(VIDEO_PLAY_OPEN_EVENT, {
+      detail: {
+        youtubeId: detail.youtubeId.trim(),
+        videoTitle: (detail.videoTitle || "").trim(),
+        serviceName: (detail.serviceName || "").trim(),
+      },
+    }),
+  );
+}
+
+function trackVideoPlayFromDetail(detail: VideoPlayOpenDetail): void {
+  const youtubeId = detail.youtubeId.trim();
+  if (!youtubeId) return;
+
+  try {
+    if (sessionStorage.getItem(playSessionKey(youtubeId))) return;
+    sessionStorage.setItem(playSessionKey(youtubeId), "1");
+  } catch {
+    return;
+  }
+
+  const serviceName = detail.serviceName.trim() || cleanPageTitle();
+
+  sendPayload(
+    buildBasePayload("service_video_play_clicked", {
+      serviceName,
+      videoTitle: (detail.videoTitle || "").trim().slice(0, 200),
+      youtubeId,
+    }),
+  );
+}
+
+function onVideoPlayOpenEvent(event: Event): void {
+  const detail = (event as CustomEvent<VideoPlayOpenDetail>).detail;
+  if (!detail?.youtubeId) return;
+  trackVideoPlayFromDetail(detail);
+}
+
+/** Construit le détail depuis le modal et émet l’événement (appelé par openModal). */
+export function emitVideoPlayOpenFromModal(
   dialog: HTMLElement | null,
   trigger?: Element | null,
 ): void {
@@ -209,36 +257,24 @@ export function trackVideoPlayOpen(
   }
   if (!youtubeId) return;
 
-  try {
-    if (sessionStorage.getItem(playSessionKey(youtubeId))) return;
-    sessionStorage.setItem(playSessionKey(youtubeId), "1");
-  } catch {
-    return;
-  }
-
   const article = trigger?.closest(".svp-duo-item");
   const root =
-    dialog.closest("[data-vit-track]") ||
     trigger?.closest("[data-vit-track]") ||
     trigger?.closest(".service-video-proof") ||
     trigger?.closest(".service-video-proof-duo");
 
   let videoTitle = dialog.getAttribute("aria-label")?.trim() || "";
+  let serviceName = "";
   if (article) {
     videoTitle =
       article.getAttribute("data-vit-video-title")?.trim() || videoTitle;
   } else if (root) {
     videoTitle =
       root.getAttribute("data-vit-video-title")?.trim() || videoTitle;
+    serviceName = root.getAttribute("data-vit-service-name")?.trim() || "";
   }
 
-  sendPayload(
-    buildBasePayload("service_video_play_clicked", {
-      serviceName: root ? resolveServiceName(root) : cleanPageTitle(),
-      videoTitle: videoTitle.slice(0, 200),
-      youtubeId,
-    }),
-  );
+  dispatchVideoPlayOpen({ youtubeId, videoTitle, serviceName });
 }
 
 const observedBlocks = new WeakSet<Element>();
@@ -269,6 +305,8 @@ function boot(): void {
 }
 
 if (typeof window !== "undefined") {
+  window.addEventListener(VIDEO_PLAY_OPEN_EVENT, onVideoPlayOpenEvent);
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", boot);
   } else {
@@ -279,14 +317,10 @@ if (typeof window !== "undefined") {
 
 /** Exposé pour tests manuels en console */
 if (typeof window !== "undefined") {
-  const w = window as unknown as {
-    __empireVideoIntent?: object;
-    __empireTrackVideoPlay?: typeof trackVideoPlayOpen;
-  };
-  w.__empireVideoIntent = {
+  (window as unknown as { __empireVideoIntent?: object }).__empireVideoIntent = {
     syncVisitCount,
     formatVisitEstimate,
-    trackVideoPlayOpen,
+    emitVideoPlayOpenFromModal,
+    dispatchVideoPlayOpen,
   };
-  w.__empireTrackVideoPlay = trackVideoPlayOpen;
 }

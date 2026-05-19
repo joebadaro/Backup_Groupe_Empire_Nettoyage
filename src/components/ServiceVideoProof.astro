@@ -116,6 +116,7 @@ const thumbHeight = isVertical ? 640 : 360;
   ]}
   id={modalId}
   aria-label={youtubeTitle}
+  data-svp-embed-src={embedSrc}
   style={`--svp-aspect-ratio: ${videoAspectRatio};`}
 >
   <div class="service-video-proof-modal">
@@ -470,7 +471,9 @@ const thumbHeight = isVertical ? 640 : 360;
   }
 </style>
 
-<script define:vars={{ embedSrc }}>
+<script>
+  import { emitVideoPlayOpenFromModal } from "../scripts/video-intent-tracking.ts";
+
   const preconnectYouTube = () => {
     if (document.querySelector("link[data-svp-preconnect]")) return;
     ["https://www.youtube.com", "https://www.youtube-nocookie.com", "https://i.ytimg.com"].forEach(
@@ -492,6 +495,8 @@ const thumbHeight = isVertical ? 640 : 360;
   const loadIframe = (dialog) => {
     const host = dialog.querySelector("[data-svp-embed-host]");
     if (!host || host.querySelector("iframe")) return;
+    const embedSrc = dialog.getAttribute("data-svp-embed-src");
+    if (!embedSrc) return;
     const iframe = document.createElement("iframe");
     iframe.src = embedSrc;
     iframe.title = dialog.getAttribute("aria-label") || "YouTube video";
@@ -513,7 +518,7 @@ const thumbHeight = isVertical ? 640 : 360;
   const openModal = (dialog, trigger) => {
     if (!dialog) return;
     try {
-      window.__empireTrackVideoPlay?.(dialog, trigger ?? null);
+      emitVideoPlayOpenFromModal(dialog, trigger ?? null);
     } catch {
       /* tracking ne doit jamais bloquer la vidéo */
     }
@@ -583,8 +588,4 @@ const thumbHeight = isVertical ? 640 : 360;
 
   document.addEventListener("DOMContentLoaded", initServiceVideoProof);
   document.addEventListener("astro:page-load", initServiceVideoProof);
-</script>
-
-<script>
-  import "../scripts/video-intent-tracking.ts";
 </script>

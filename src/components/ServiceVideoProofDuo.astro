@@ -464,6 +464,8 @@ const videoTitlesJoined = preparedVideos.map((v) => v.youtubeTitle).join(" | ");
 </style>
 
 <script>
+  import { emitVideoPlayOpenFromModal } from "../scripts/video-intent-tracking.ts";
+
   const preconnectYouTube = () => {
     if (document.querySelector("link[data-svp-preconnect]")) return;
     ["https://www.youtube.com", "https://www.youtube-nocookie.com", "https://i.ytimg.com"].forEach(
@@ -527,7 +529,7 @@ const videoTitlesJoined = preparedVideos.map((v) => v.youtubeTitle).join(" | ");
   const openModal = (dialog, trigger) => {
     if (!dialog) return;
     try {
-      window.__empireTrackVideoPlay?.(dialog, trigger ?? null);
+      emitVideoPlayOpenFromModal(dialog, trigger ?? null);
     } catch {
       /* tracking ne doit jamais bloquer la vidéo */
     }
@@ -589,8 +591,4 @@ const videoTitlesJoined = preparedVideos.map((v) => v.youtubeTitle).join(" | ");
 
   document.addEventListener("DOMContentLoaded", initServiceVideoProofDuo);
   document.addEventListener("astro:page-load", initServiceVideoProofDuo);
-</script>
-
-<script>
-  import "../scripts/video-intent-tracking.ts";
 </script>
