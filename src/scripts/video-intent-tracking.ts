@@ -187,29 +187,26 @@ function trackBlockViewed(root: Element): void {
   );
 }
 
-function trackPlayClicked(trigger: Element): void {
-  const article = trigger.closest(".svp-duo-item");
-  const root =
-    trigger.closest("[data-vit-track]") ||
-    trigger.closest(".service-video-proof") ||
-    trigger.closest(".service-video-proof-duo");
+/**
+ * Déclenché depuis openModal (fiable) — fire-and-forget, n’interrompt pas la lecture.
+ */
+export function trackVideoPlayOpen(
+  dialog: HTMLElement | null,
+  trigger?: Element | null,
+): void {
+  if (!dialog) return;
 
+  const modalId = dialog.id || "";
   let youtubeId = "";
-  let videoTitle = "";
-
-  if (article) {
-    youtubeId = article.getAttribute("data-vit-youtube-id")?.trim() || "";
-    videoTitle = article.getAttribute("data-vit-video-title")?.trim() || "";
-  } else if (root) {
-    youtubeId = root.getAttribute("data-vit-youtube-id")?.trim() || "";
-    videoTitle = root.getAttribute("data-vit-video-title")?.trim() || "";
-  }
-
-  const modalId = trigger.getAttribute("data-svp-open");
-  if (!youtubeId && modalId?.startsWith("svp-modal-")) {
+  if (modalId.startsWith("svp-modal-")) {
     youtubeId = modalId.slice("svp-modal-".length);
   }
-
+  if (!youtubeId && trigger) {
+    const openId = trigger.getAttribute("data-svp-open");
+    if (openId?.startsWith("svp-modal-")) {
+      youtubeId = openId.slice("svp-modal-".length);
+    }
+  }
   if (!youtubeId) return;
 
   try {
@@ -217,6 +214,22 @@ function trackPlayClicked(trigger: Element): void {
     sessionStorage.setItem(playSessionKey(youtubeId), "1");
   } catch {
     return;
+  }
+
+  const article = trigger?.closest(".svp-duo-item");
+  const root =
+    dialog.closest("[data-vit-track]") ||
+    trigger?.closest("[data-vit-track]") ||
+    trigger?.closest(".service-video-proof") ||
+    trigger?.closest(".service-video-proof-duo");
+
+  let videoTitle = dialog.getAttribute("aria-label")?.trim() || "";
+  if (article) {
+    videoTitle =
+      article.getAttribute("data-vit-video-title")?.trim() || videoTitle;
+  } else if (root) {
+    videoTitle =
+      root.getAttribute("data-vit-video-title")?.trim() || videoTitle;
   }
 
   sendPayload(
@@ -250,27 +263,9 @@ function observeVideoBlocks(): void {
   });
 }
 
-function initPlayCapture(): void {
-  document.addEventListener(
-    "click",
-    (e) => {
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
-      const trigger = target.closest("[data-svp-open]");
-      if (!trigger) return;
-      if (!trigger.closest("[data-vit-track], .service-video-proof, .service-video-proof-duo")) {
-        return;
-      }
-      trackPlayClicked(trigger);
-    },
-    true,
-  );
-}
-
 function boot(): void {
   captureUtm();
   observeVideoBlocks();
-  initPlayCapture();
 }
 
 if (typeof window !== "undefined") {
@@ -284,8 +279,14 @@ if (typeof window !== "undefined") {
 
 /** Exposé pour tests manuels en console */
 if (typeof window !== "undefined") {
-  (window as unknown as { __empireVideoIntent?: object }).__empireVideoIntent = {
+  const w = window as unknown as {
+    __empireVideoIntent?: object;
+    __empireTrackVideoPlay?: typeof trackVideoPlayOpen;
+  };
+  w.__empireVideoIntent = {
     syncVisitCount,
     formatVisitEstimate,
+    trackVideoPlayOpen,
   };
+  w.__empireTrackVideoPlay = trackVideoPlayOpen;
 }

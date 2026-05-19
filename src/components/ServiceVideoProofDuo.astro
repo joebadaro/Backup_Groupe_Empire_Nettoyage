@@ -524,8 +524,13 @@ const videoTitlesJoined = preparedVideos.map((v) => v.youtubeTitle).join(" | ");
     }
   };
 
-  const openModal = (dialog) => {
+  const openModal = (dialog, trigger) => {
     if (!dialog) return;
+    try {
+      window.__empireTrackVideoPlay?.(dialog, trigger ?? null);
+    } catch {
+      /* tracking ne doit jamais bloquer la vidéo */
+    }
     if (activeDialog && activeDialog !== dialog) {
       closeModal(activeDialog);
     }
@@ -552,7 +557,7 @@ const videoTitlesJoined = preparedVideos.map((v) => v.youtubeTitle).join(" | ");
       const dialog = document.getElementById(id);
       if (!dialog || trigger.dataset.svpBound) return;
       trigger.dataset.svpBound = "1";
-      trigger.addEventListener("click", () => openModal(dialog));
+      trigger.addEventListener("click", () => openModal(dialog, trigger));
     });
 
     document.querySelectorAll(".service-video-proof-dialog").forEach((dialog) => {

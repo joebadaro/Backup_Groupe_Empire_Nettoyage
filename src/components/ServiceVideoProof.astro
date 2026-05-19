@@ -510,8 +510,13 @@ const thumbHeight = isVertical ? 640 : 360;
 
   let escapeHandler = null;
 
-  const openModal = (dialog) => {
+  const openModal = (dialog, trigger) => {
     if (!dialog) return;
+    try {
+      window.__empireTrackVideoPlay?.(dialog, trigger ?? null);
+    } catch {
+      /* tracking ne doit jamais bloquer la vidéo */
+    }
     preconnectYouTube();
     loadIframe(dialog);
     if (typeof dialog.showModal === "function") {
@@ -549,7 +554,7 @@ const thumbHeight = isVertical ? 640 : 360;
       const dialog = document.getElementById(id);
       if (!dialog || trigger.dataset.svpBound) return;
       trigger.dataset.svpBound = "1";
-      trigger.addEventListener("click", () => openModal(dialog));
+      trigger.addEventListener("click", () => openModal(dialog, trigger));
     });
 
     document.querySelectorAll(".service-video-proof-dialog").forEach((dialog) => {
