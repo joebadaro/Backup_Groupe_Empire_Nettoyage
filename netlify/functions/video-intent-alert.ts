@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import twilio from "twilio";
 
 type VideoIntentEvent =
-  | "service_video_block_viewed"
+  | "service_page_viewed"
   | "service_video_play_clicked";
 
 interface VideoIntentPayload {
@@ -20,6 +20,8 @@ interface VideoIntentPayload {
   utmCampaign?: string;
   deviceType?: string;
   referrer?: string;
+  /** Ville déjà connue côté client (session) — jamais inventée */
+  lastKnownCity?: string;
 }
 
 const BOT_NEEDLES = [
@@ -78,6 +80,13 @@ function hashValue(value: string, salt: string): string {
     .slice(0, 16);
 }
 
+function isValidCityName(city: string): boolean {
+  const c = (city || "").trim();
+  if (!c || c.length > 80) return false;
+  if (c.toLowerCase() === "inconnue") return false;
+  return /^[\p{L}\s'.-]+$/u.test(c);
+}
+
 function resolveCityFromNetlifyHeaders(req: Request): string {
   const candidates = [
     req.headers.get("x-nf-geo-city"),
@@ -85,11 +94,16 @@ function resolveCityFromNetlifyHeaders(req: Request): string {
   ];
   for (const raw of candidates) {
     const city = (raw || "").trim();
-    if (!city) continue;
-    if (city.length > 80) continue;
-    if (!/^[\p{L}\s'.-]+$/u.test(city)) continue;
-    return city;
+    if (isValidCityName(city)) return city;
   }
+  return "";
+}
+
+function resolveEffectiveCity(req: Request, lastKnownCity: string): string {
+  const fromHeaders = resolveCityFromNetlifyHeaders(req);
+  if (fromHeaders) return fromHeaders;
+  const known = (lastKnownCity || "").trim();
+  if (isValidCityName(known)) return known;
   return "";
 }
 
@@ -174,13 +188,12 @@ function buildSmsBody(
   const cityLine = city ? city : "inconnue";
   const device = formatDevice(payload.deviceType || "desktop");
 
-  if (event === "service_video_block_viewed") {
+  if (event === "service_page_viewed") {
     return [
       "Nouveau visiteur probable",
       `Ville : ${cityLine}`,
       `Page : ${page}`,
-      "Action : Bloc vidéo vu",
-      `Vidéo : ${video}`,
+      "Action : Page visitée",
       `Appareil : ${device}`,
       `Visite estimée : ${visit}`,
       `Source : ${source}`,
@@ -208,7 +221,7 @@ function strField(value: unknown, max: number): string {
 function parsePayload(body: VideoIntentPayload): VideoIntentPayload | null {
   const eventType = body.eventType;
   if (
-    eventType !== "service_video_block_viewed" &&
+    eventType !== "service_page_viewed" &&
     eventType !== "service_video_play_clicked"
   ) {
     return null;
@@ -234,6 +247,7 @@ function parsePayload(body: VideoIntentPayload): VideoIntentPayload | null {
     utmCampaign: strField(body.utmCampaign, 120),
     deviceType: strField(body.deviceType, 16),
     referrer: strField(body.referrer, 300),
+    lastKnownCity: strField(body.lastKnownCity, 80),
   };
 }
 
@@ -351,7 +365,8 @@ export default async (req: Request): Promise<Response> => {
     });
   }
 
-  const city = resolveCityFromNetlifyHeaders(req);
+  const city = resolveEffectiveCity(req, payload.lastKnownCity || "");
+  const cityLine = city || "inconnue";
   const smsBody = buildSmsBody(
     payload.eventType,
     {
@@ -366,7 +381,7 @@ export default async (req: Request): Promise<Response> => {
       referrer: payload.referrer || "",
       timestamp: payload.timestamp,
     },
-    city,
+    cityLine === "inconnue" ? "" : cityLine,
   );
 
   const cleanPayload = {
@@ -399,10 +414,15 @@ export default async (req: Request): Promise<Response> => {
       referrer: payload.referrer || "",
       payload: cleanPayload,
       smsBody,
-      city: city || "inconnue",
+      city: cityLine,
     });
     return new Response(
-      JSON.stringify({ ok: true, dryRun: true, event: payload.eventType }),
+      JSON.stringify({
+        ok: true,
+        dryRun: true,
+        event: payload.eventType,
+        city: cityLine,
+      }),
       { status: 200, headers: jsonHeaders },
     );
   }
@@ -420,11 +440,16 @@ export default async (req: Request): Promise<Response> => {
       event: payload.eventType,
       visitorHash,
       ipHash,
-      city: city || "inconnue",
+      city: cityLine,
     });
 
     return new Response(
-      JSON.stringify({ ok: true, dryRun: false, event: payload.eventType }),
+      JSON.stringify({
+        ok: true,
+        dryRun: false,
+        event: payload.eventType,
+        city: cityLine,
+      }),
       { status: 200, headers: jsonHeaders },
     );
   } catch (error: unknown) {

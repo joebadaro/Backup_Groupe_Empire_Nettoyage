@@ -19,9 +19,15 @@ export interface VideoPlayOpenDetail {
 }
 
 const K_UTM = "empire_vit_utm_v1";
+const K_LAST_CITY = "empire_vit_last_city_v1";
+
+/** Délai page visitée : envoi rapide sans attendre le scroll vers la vidéo */
+const PAGE_VIEW_DELAY_MS = 5_000;
+/** Interaction précoce (scroll / clic) après ce délai minimum */
+const PAGE_VIEW_EARLY_MS = 3_000;
 
 type VideoIntentEvent =
-  | "service_video_block_viewed"
+  | "service_page_viewed"
   | "service_video_play_clicked";
 
 interface TrackPayload {
@@ -39,6 +45,7 @@ interface TrackPayload {
   utmCampaign: string;
   deviceType: "mobile" | "desktop";
   referrer: string;
+  lastKnownCity?: string;
 }
 
 function cleanPageTitle(): string {
@@ -102,32 +109,48 @@ function pagePath(): string {
   return `${location.pathname}${location.search || ""}`.slice(0, 220);
 }
 
-function blockSessionKey(): string {
-  return `empire_vit_block:${pagePath()}`;
+function pageViewSessionKey(): string {
+  return `empire_vit_page:${pagePath()}`;
 }
 
 function playSessionKey(youtubeId: string): string {
   return `empire_vit_play:${pagePath()}:${youtubeId}`;
 }
 
-function sendPayload(payload: TrackPayload): void {
-  const body = JSON.stringify(payload);
+function getLastKnownCity(): string {
   try {
-    if (
-      typeof navigator.sendBeacon === "function" &&
-      navigator.sendBeacon(ALERT_URL, new Blob([body], { type: "application/json" }))
-    ) {
-      return;
-    }
+    return sessionStorage.getItem(K_LAST_CITY)?.trim() || "";
   } catch {
-    /* fall through */
+    return "";
   }
+}
+
+function setLastKnownCity(city: string): void {
+  const c = (city || "").trim();
+  if (!c || c === "inconnue") return;
+  try {
+    sessionStorage.setItem(K_LAST_CITY, c);
+  } catch {
+    /* ignore */
+  }
+}
+
+function sendPayload(payload: TrackPayload): void {
+  const body = JSON.stringify({
+    ...payload,
+    lastKnownCity: getLastKnownCity(),
+  });
   void fetch(ALERT_URL, {
     method: "POST",
     keepalive: true,
     headers: { "Content-Type": "application/json" },
     body,
-  }).catch(() => {});
+  })
+    .then((res) => res.json())
+    .then((data: { city?: string }) => {
+      if (data?.city) setLastKnownCity(data.city);
+    })
+    .catch(() => {});
 }
 
 function buildBasePayload(
@@ -164,35 +187,74 @@ function resolveServiceName(root: Element): string {
   return cleanPageTitle();
 }
 
-function trackBlockViewed(root: Element): void {
+function trackServicePageViewed(root: Element): void {
+  const pageKey = pageViewSessionKey();
   try {
-    if (sessionStorage.getItem(blockSessionKey())) return;
-    sessionStorage.setItem(blockSessionKey(), "1");
+    if (sessionStorage.getItem(pageKey)) return;
+    sessionStorage.setItem(pageKey, "1");
   } catch {
     return;
   }
 
-  const trackType = root.getAttribute("data-vit-track") || "single";
-  let videoTitle = root.getAttribute("data-vit-video-title")?.trim() || "";
-  let youtubeId = root.getAttribute("data-vit-youtube-id")?.trim() || "";
-
-  if (trackType === "duo") {
-    videoTitle =
-      root.getAttribute("data-vit-video-titles")?.trim() ||
-      Array.from(root.querySelectorAll("[data-vit-video-title]"))
-        .map((el) => el.getAttribute("data-vit-video-title")?.trim())
-        .filter(Boolean)
-        .join(" | ");
-    youtubeId = "";
-  }
-
   sendPayload(
-    buildBasePayload("service_video_block_viewed", {
+    buildBasePayload("service_page_viewed", {
       serviceName: resolveServiceName(root),
-      videoTitle: videoTitle.slice(0, 200),
-      youtubeId: youtubeId.slice(0, 32),
+      videoTitle: "",
+      youtubeId: "",
     }),
   );
+}
+
+let pageViewTimer: ReturnType<typeof setTimeout> | null = null;
+
+function clearPageViewSchedule(): void {
+  if (pageViewTimer !== null) {
+    clearTimeout(pageViewTimer);
+    pageViewTimer = null;
+  }
+}
+
+function initServicePageView(): void {
+  clearPageViewSchedule();
+
+  const pageKey = pageViewSessionKey();
+  try {
+    if (sessionStorage.getItem(pageKey)) return;
+  } catch {
+    return;
+  }
+
+  const roots = document.querySelectorAll("[data-vit-track]");
+  if (roots.length === 0) return;
+  const root = roots[0];
+  if (!(root instanceof Element)) return;
+
+  const loadedAt = performance.now();
+  let sent = false;
+
+  const fire = (): void => {
+    if (sent) return;
+    sent = true;
+    clearPageViewSchedule();
+    trackServicePageViewed(root);
+  };
+
+  pageViewTimer = setTimeout(fire, PAGE_VIEW_DELAY_MS);
+
+  const onEarlySignal = (): void => {
+    if (sent) return;
+    if (performance.now() - loadedAt >= PAGE_VIEW_EARLY_MS) fire();
+  };
+
+  window.addEventListener("scroll", onEarlySignal, { passive: true });
+  document.addEventListener("click", onEarlySignal, true);
+
+  const cleanup = (): void => {
+    window.removeEventListener("scroll", onEarlySignal);
+    document.removeEventListener("click", onEarlySignal, true);
+  };
+
+  window.setTimeout(cleanup, PAGE_VIEW_DELAY_MS + 2_000);
 }
 
 /** Émis par openModal — écouteur enregistré dès le chargement du module. */
@@ -277,31 +339,9 @@ export function emitVideoPlayOpenFromModal(
   dispatchVideoPlayOpen({ youtubeId, videoTitle, serviceName });
 }
 
-const observedBlocks = new WeakSet<Element>();
-
-function observeVideoBlocks(): void {
-  const roots = document.querySelectorAll("[data-vit-track]");
-  roots.forEach((root) => {
-    if (!(root instanceof Element) || observedBlocks.has(root)) return;
-    observedBlocks.add(root);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting || entry.intersectionRatio < 0.35) continue;
-          trackBlockViewed(entry.target);
-          observer.disconnect();
-        }
-      },
-      { threshold: [0.35, 0.5] },
-    );
-    observer.observe(root);
-  });
-}
-
 function boot(): void {
   captureUtm();
-  observeVideoBlocks();
+  initServicePageView();
 }
 
 if (typeof window !== "undefined") {

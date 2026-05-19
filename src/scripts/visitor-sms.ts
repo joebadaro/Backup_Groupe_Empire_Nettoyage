@@ -11,6 +11,8 @@ const K_LEAD = "empire_sms_lead_v2";
 const K_FORM_START = "empire_sms_form_start_v2";
 const K_PAGE_COUNT = "empire_page_count_v2";
 const K_CLIENT_NAME = "empire_client_display_name_v2";
+/** Partagé avec video-intent-tracking.ts — ville connue pour la session */
+const K_LAST_CITY = "empire_vit_last_city_v1";
 
 /** Mettre à true pour activer un SMS séparé au premier focus dans un formulaire (spec optionnelle). */
 const ENABLE_FORM_START_SMS = false;
@@ -29,27 +31,34 @@ function cleanPageTitle(): string {
     return t.trim() || document.location.pathname || "Page";
 }
 
+function setLastKnownCity(city: string): void {
+    const c = (city || "").trim();
+    if (!c || c.toLowerCase() === "inconnue") return;
+    try {
+        sessionStorage.setItem(K_LAST_CITY, c);
+    } catch {
+        /* ignore */
+    }
+}
+
 function sendVisitBeacon(payload: Record<string, unknown>): void {
     const body = JSON.stringify(payload);
-    try {
-        if (
-            typeof navigator.sendBeacon === "function" &&
-            navigator.sendBeacon(
-                TRACK_URL,
-                new Blob([body], { type: "application/json" }),
-            )
-        ) {
-            return;
-        }
-    } catch {
-        /* fall through */
-    }
     void fetch(TRACK_URL, {
         method: "POST",
         keepalive: true,
         headers: { "Content-Type": "application/json" },
         body,
-    }).catch(() => {});
+    })
+        .then((res) => res.json())
+        .then((data: { city?: string }) => {
+            if (data?.city) setLastKnownCity(data.city);
+        })
+        .catch(() => {});
+}
+
+/** Pages avec bloc vidéo : SMS « Page visitée » géré par video-intent-tracking.ts */
+function isVideoIntentServicePage(): boolean {
+    return !!document.querySelector("[data-vit-track]");
 }
 
 function notify(
@@ -115,6 +124,8 @@ function hasHumanSignal(): boolean {
 function trySendFirstVisit(): void {
     if (sessionStorage.getItem(K_FIRST)) return;
     if (!hasHumanSignal()) return;
+    /** Évite 2 SMS « page visitée » sur les pages service avec vidéo */
+    if (isVideoIntentServicePage()) return;
     sessionStorage.setItem(K_FIRST, "1");
     notify("first_visit", { humanConfirmed: true });
 }
@@ -129,7 +140,7 @@ function initHumanSignals(): void {
     window.setTimeout(() => {
         signalDwell = true;
         trySendFirstVisit();
-    }, 13_000);
+    }, 5_000);
 
     window.addEventListener(
         "scroll",
@@ -234,4 +245,5 @@ if (typeof window !== "undefined") {
     } else {
         boot();
     }
+    document.addEventListener("astro:page-load", boot);
 }
