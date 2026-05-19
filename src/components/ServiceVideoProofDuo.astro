@@ -1,0 +1,579 @@
+---
+export interface DuoVideo {
+  title: string;
+  subtitle?: string;
+  youtubeId: string;
+  youtubeTitle: string;
+  posterUrl?: string;
+  videoAspectRatio?: string;
+}
+
+export interface Props {
+  title: string;
+  subtitle: string;
+  description: string;
+  videos: [DuoVideo, DuoVideo];
+  allVideosHref: string;
+  playLabel?: string;
+  allVideosLabel?: string;
+  closeLabel?: string;
+}
+
+const {
+  title,
+  subtitle,
+  description,
+  videos,
+  allVideosHref,
+  playLabel = "Voir la vidéo",
+  allVideosLabel = "Voir toutes nos réalisations",
+  closeLabel = "Fermer la vidéo",
+} = Astro.props;
+
+const sectionId = `svp-duo-${videos.map((v) => v.youtubeId).join("-")}`;
+
+const preparedVideos = videos.map((video) => {
+  const aspect = video.videoAspectRatio ?? "9 / 16";
+  const aspectNormalized = aspect.replace(/\s/g, "");
+  const isVertical = aspectNormalized === "9/16" || aspectNormalized.startsWith("9/");
+  const modalId = `svp-modal-${video.youtubeId}`;
+  const posterUrl =
+    video.posterUrl ?? `https://i.ytimg.com/vi/${video.youtubeId}/sddefault.jpg`;
+  const embedSrc = `https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
+  const thumbWidth = isVertical ? 360 : 640;
+  const thumbHeight = isVertical ? 640 : 360;
+
+  return { ...video, aspect, isVertical, modalId, posterUrl, embedSrc, thumbWidth, thumbHeight };
+});
+---
+
+<section
+  class="service-video-proof-duo fade-in-up delay-350"
+  id={sectionId}
+  aria-labelledby={`${sectionId}-heading`}
+>
+  <div class="svp-duo-card">
+    <div class="svp-duo-header">
+      <p class="svp-duo-eyebrow">{subtitle}</p>
+      <h2 class="svp-duo-title" id={`${sectionId}-heading`}>{title}</h2>
+      <p class="svp-duo-desc">{description}</p>
+    </div>
+
+    <div class="svp-duo-grid">
+      {
+        preparedVideos.map((video) => (
+          <article class="svp-duo-item">
+            {video.subtitle && <p class="svp-duo-item-eyebrow">{video.subtitle}</p>}
+            <h3 class="svp-duo-item-title">{video.title}</h3>
+            <button
+              type="button"
+              class="svp-duo-thumb"
+              data-svp-open={video.modalId}
+              style={`--svp-aspect-ratio: ${video.aspect};`}
+              aria-label={`${playLabel} : ${video.youtubeTitle}`}
+            >
+              <img
+                src={video.posterUrl}
+                alt={`Aperçu : ${video.youtubeTitle}`}
+                class="svp-duo-thumb-img"
+                width={video.thumbWidth}
+                height={video.thumbHeight}
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="svp-duo-thumb-overlay" aria-hidden="true" />
+              <span class="svp-duo-play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </span>
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary svp-duo-open-btn"
+              data-svp-open={video.modalId}
+              aria-haspopup="dialog"
+            >
+              {playLabel}
+            </button>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="svp-duo-footer">
+      <a href={allVideosHref} class="btn btn-gradient-blue-green-outline svp-duo-all-link">
+        {allVideosLabel}
+      </a>
+    </div>
+  </div>
+</section>
+
+{
+  preparedVideos.map((video) => (
+    <dialog
+      class:list={[
+        "service-video-proof-dialog",
+        video.isVertical && "service-video-proof-dialog--vertical",
+      ]}
+      id={video.modalId}
+      aria-label={video.youtubeTitle}
+      data-svp-embed-src={video.embedSrc}
+      style={`--svp-aspect-ratio: ${video.aspect};`}
+    >
+      <div class="service-video-proof-modal">
+        <button
+          type="button"
+          class="service-video-proof-close"
+          data-svp-close
+          aria-label={closeLabel}
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="service-video-proof-embed" data-svp-embed-host></div>
+      </div>
+    </dialog>
+  ))
+}
+
+<style>
+  .service-video-proof-duo {
+    margin-top: 1.25rem;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .svp-duo-card {
+    padding: 1.25rem 1.35rem;
+    background: linear-gradient(145deg, #ffffff 0%, #f4f8fc 100%);
+    border: 1px solid rgba(0, 74, 159, 0.1);
+    border-radius: 16px;
+    box-shadow:
+      0 4px 24px rgba(0, 31, 63, 0.06),
+      0 1px 0 rgba(255, 255, 255, 0.9) inset;
+  }
+
+  .svp-duo-header {
+    margin-bottom: 1.15rem;
+  }
+
+  .svp-duo-eyebrow {
+    margin: 0 0 0.35rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-accent, #c9a227);
+  }
+
+  .svp-duo-title {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+    line-height: 1.2;
+    color: var(--color-primary, #004a9f);
+  }
+
+  .svp-duo-desc {
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: #445566;
+    max-width: 40rem;
+  }
+
+  .svp-duo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .svp-duo-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    min-width: 0;
+  }
+
+  .svp-duo-item-eyebrow {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #6b7c8f;
+  }
+
+  .svp-duo-item-title {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.3;
+    color: var(--color-primary, #004a9f);
+    font-weight: 700;
+  }
+
+  .svp-duo-thumb {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: var(--svp-aspect-ratio, 9 / 16);
+    max-height: min(360px, 48vh);
+    background: #0a1628;
+    box-shadow: 0 8px 28px rgba(0, 31, 63, 0.18);
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .svp-duo-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.92;
+    transition: transform 0.4s ease, opacity 0.3s ease;
+  }
+
+  .svp-duo-thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 20, 50, 0.05) 0%,
+      rgba(0, 20, 50, 0.45) 100%
+    );
+    pointer-events: none;
+  }
+
+  .svp-duo-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .svp-duo-play svg {
+    width: 56px;
+    height: 56px;
+    padding: 14px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    margin-left: 4px;
+    transition:
+      background 0.3s ease,
+      transform 0.3s ease,
+      color 0.3s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .svp-duo-thumb:hover,
+    .svp-duo-thumb:focus-visible {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 36px rgba(0, 31, 63, 0.22);
+      outline: 2px solid var(--color-accent, #f0c14b);
+      outline-offset: 3px;
+    }
+
+    .svp-duo-thumb:hover .svp-duo-thumb-img {
+      transform: scale(1.03);
+      opacity: 0.85;
+    }
+
+    .svp-duo-thumb:hover .svp-duo-play svg {
+      background: rgba(240, 193, 75, 0.95);
+      color: #001f3f;
+      transform: scale(1.06);
+    }
+  }
+
+  .svp-duo-open-btn {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    min-height: 44px;
+  }
+
+  .svp-duo-footer {
+    margin-top: 1.1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .svp-duo-all-link {
+    text-decoration: none;
+  }
+
+  @media (max-width: 768px) {
+    .service-video-proof-duo {
+      margin-top: 1rem;
+    }
+
+    .svp-duo-card {
+      padding: 1rem;
+    }
+
+    .svp-duo-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .svp-duo-thumb {
+      max-height: min(420px, 52vh);
+      margin-inline: auto;
+      max-width: min(280px, 100%);
+    }
+
+    .svp-duo-title {
+      font-size: 1.2rem;
+    }
+
+    .svp-duo-desc {
+      font-size: 0.92rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .svp-duo-thumb,
+    .svp-duo-thumb-img,
+    .svp-duo-play svg {
+      transition: none;
+    }
+  }
+
+  /* Modal (même base que ServiceVideoProof) */
+  :global(.service-video-proof-dialog) {
+    --svp-aspect-ratio: 16 / 9;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 1rem;
+    border: 0;
+    background: transparent;
+    overflow: visible;
+    z-index: 10050;
+  }
+
+  :global(.service-video-proof-dialog:not([open])) {
+    display: none;
+  }
+
+  :global(.service-video-proof-dialog[open]) {
+    display: grid;
+    place-items: center;
+  }
+
+  :global(.service-video-proof-dialog::backdrop) {
+    background: rgba(5, 20, 35, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  :global(.service-video-proof-modal) {
+    position: relative;
+    width: min(960px, 92vw);
+    max-height: 88dvh;
+    aspect-ratio: var(--svp-aspect-ratio);
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    z-index: 10051;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+    margin: 0;
+  }
+
+  :global(.service-video-proof-dialog--vertical .service-video-proof-modal) {
+    width: min(420px, 92vw);
+    max-height: 88dvh;
+  }
+
+  :global(.service-video-proof-close) {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10052;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  :global(.service-video-proof-close:hover) {
+    background: rgba(0, 0, 0, 0.85);
+    transform: scale(1.05);
+  }
+
+  :global(.service-video-proof-embed) {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    background: #000;
+  }
+
+  :global(.service-video-proof-embed iframe) {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  @media (max-width: 600px) {
+    :global(.service-video-proof-close) {
+      min-width: 44px;
+      min-height: 44px;
+    }
+  }
+</style>
+
+<script>
+  const preconnectYouTube = () => {
+    if (document.querySelector("link[data-svp-preconnect]")) return;
+    ["https://www.youtube.com", "https://www.youtube-nocookie.com", "https://i.ytimg.com"].forEach(
+      (origin) => {
+        const dns = document.createElement("link");
+        dns.rel = "dns-prefetch";
+        dns.href = origin;
+        dns.setAttribute("data-svp-preconnect", "");
+        document.head.appendChild(dns);
+        const pre = document.createElement("link");
+        pre.rel = "preconnect";
+        pre.href = origin;
+        pre.crossOrigin = "anonymous";
+        document.head.appendChild(pre);
+      },
+    );
+  };
+
+  const loadIframe = (dialog) => {
+    const host = dialog.querySelector("[data-svp-embed-host]");
+    if (!host || host.querySelector("iframe")) return;
+    const embedSrc = dialog.getAttribute("data-svp-embed-src");
+    if (!embedSrc) return;
+    const iframe = document.createElement("iframe");
+    iframe.src = embedSrc;
+    iframe.title = dialog.getAttribute("aria-label") || "YouTube video";
+    iframe.setAttribute(
+      "allow",
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+    );
+    iframe.setAttribute("allowfullscreen", "");
+    host.appendChild(iframe);
+  };
+
+  const unloadIframe = (dialog) => {
+    const host = dialog.querySelector("[data-svp-embed-host]");
+    if (host) host.innerHTML = "";
+  };
+
+  let escapeHandler = null;
+  let activeDialog = null;
+
+  const closeModal = (dialog) => {
+    if (!dialog) return;
+    if (typeof dialog.close === "function") {
+      dialog.close();
+    } else {
+      dialog.removeAttribute("open");
+    }
+    unloadIframe(dialog);
+    if (activeDialog === dialog) {
+      document.body.style.overflow = "";
+      activeDialog = null;
+    }
+    if (escapeHandler) {
+      document.removeEventListener("keydown", escapeHandler);
+      escapeHandler = null;
+    }
+  };
+
+  const openModal = (dialog) => {
+    if (!dialog) return;
+    if (activeDialog && activeDialog !== dialog) {
+      closeModal(activeDialog);
+    }
+    preconnectYouTube();
+    loadIframe(dialog);
+    if (typeof dialog.showModal === "function") {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute("open", "");
+    }
+    activeDialog = dialog;
+    document.body.style.overflow = "hidden";
+
+    escapeHandler = (e) => {
+      if (e.key === "Escape") closeModal(dialog);
+    };
+    document.addEventListener("keydown", escapeHandler);
+  };
+
+  const initServiceVideoProofDuo = () => {
+    document.querySelectorAll("[data-svp-open]").forEach((trigger) => {
+      const id = trigger.getAttribute("data-svp-open");
+      if (!id) return;
+      const dialog = document.getElementById(id);
+      if (!dialog || trigger.dataset.svpBound) return;
+      trigger.dataset.svpBound = "1";
+      trigger.addEventListener("click", () => openModal(dialog));
+    });
+
+    document.querySelectorAll(".service-video-proof-dialog").forEach((dialog) => {
+      if (dialog.dataset.svpModalBound) return;
+      dialog.dataset.svpModalBound = "1";
+
+      dialog.querySelectorAll("[data-svp-close]").forEach((btn) => {
+        btn.addEventListener("click", () => closeModal(dialog));
+      });
+
+      dialog.addEventListener("click", (e) => {
+        if (e.target === dialog) closeModal(dialog);
+      });
+
+      dialog.addEventListener("close", () => {
+        unloadIframe(dialog);
+        if (activeDialog === dialog) {
+          document.body.style.overflow = "";
+          activeDialog = null;
+        }
+      });
+
+      dialog.addEventListener("cancel", (e) => {
+        e.preventDefault();
+        closeModal(dialog);
+      });
+    });
+  };
+
+  document.addEventListener("DOMContentLoaded", initServiceVideoProofDuo);
+  document.addEventListener("astro:page-load", initServiceVideoProofDuo);
+</script>

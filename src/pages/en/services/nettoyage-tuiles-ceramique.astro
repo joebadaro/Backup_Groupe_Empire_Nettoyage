@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
+import ServiceVideoProofDuo from "../../../components/ServiceVideoProofDuo.astro";
 import UiIcon from "../../../components/icons/UiIcon.astro";
 ---
 
@@ -102,6 +103,31 @@ import UiIcon from "../../../components/icons/UiIcon.astro";
               Request a Free Estimate
             </button>
           </div>
+          <ServiceVideoProofDuo
+            title="See Our Tile Cleaning in Action"
+            subtitle="Two real tile and grout cleaning projects"
+            description="Watch our real service videos and see our professional method for deep cleaning ceramic tiles and grout lines."
+            allVideosHref="/en/video-gallery/"
+            playLabel="Watch the Video"
+            allVideosLabel="See All Our Work"
+            closeLabel="Close video"
+            videos={[
+              {
+                title: "Commercial Ceramic Tile Cleaning",
+                youtubeId: "t4ZxSeA6uFA",
+                youtubeTitle: "Commercial Ceramic Tile Cleaning",
+                posterUrl: "/images/videos/video-thumb-nettoyage-tuile-ceramique-commercial.webp",
+                videoAspectRatio: "9 / 16",
+              },
+              {
+                title: "Tile and Grout Steam Cleaning",
+                youtubeId: "gUCvR2RsdHQ",
+                youtubeTitle: "Tile and Grout Steam Cleaning",
+                posterUrl: "/images/videos/video-thumb-tuile-v2.webp",
+                videoAspectRatio: "9 / 16",
+              },
+            ]}
+          />
         </div>
 
         <!-- RIGHT COLUMN: IMAGE -->

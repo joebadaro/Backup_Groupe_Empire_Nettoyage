@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import FAQSchema from "../../components/FAQSchema.astro";
+import ServiceVideoProofDuo from "../../components/ServiceVideoProofDuo.astro";
 import UiIcon from "../../components/icons/UiIcon.astro";
 ---
 
@@ -102,6 +103,28 @@ import UiIcon from "../../components/icons/UiIcon.astro";
               Demander un estimé gratuit
             </button>
           </div>
+          <ServiceVideoProofDuo
+            title="Voyez notre nettoyage de céramique en action"
+            subtitle="Deux interventions réelles sur tuiles et coulis"
+            description="Regardez nos vidéos de réalisations et voyez notre méthode professionnelle pour nettoyer les tuiles de céramique et les joints de coulis en profondeur."
+            allVideosHref="/realisations-video/"
+            videos={[
+              {
+                title: "Nettoyage commercial de tuile de céramique",
+                youtubeId: "t4ZxSeA6uFA",
+                youtubeTitle: "Nettoyage commercial de tuile de céramique",
+                posterUrl: "/images/videos/video-thumb-nettoyage-tuile-ceramique-commercial.webp",
+                videoAspectRatio: "9 / 16",
+              },
+              {
+                title: "Nettoyage à la vapeur de tuiles et coulis",
+                youtubeId: "gUCvR2RsdHQ",
+                youtubeTitle: "Nettoyage à la vapeur de tuiles et coulis",
+                posterUrl: "/images/videos/video-thumb-tuile-v2.webp",
+                videoAspectRatio: "9 / 16",
+              },
+            ]}
+          />
         </div>
 
         <!-- RIGHT COLUMN: IMAGE -->
