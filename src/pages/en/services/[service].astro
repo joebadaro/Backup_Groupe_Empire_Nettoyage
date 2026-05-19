@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
+import ServiceVideoProof from "../../../components/ServiceVideoProof.astro";
 import UiIcon from "../../../components/icons/UiIcon.astro";
 
 const services = [
@@ -433,6 +434,36 @@ if (!service) {
               Request a Free Estimate
             </button>
           </div>
+          {service.slug === "tapis-laine" && (
+            <ServiceVideoProof
+              title="See Our Rug Cleaning in Action"
+              subtitle="Professional wool rug cleaning at home"
+              description="Watch a real in-home cleaning and see our professional steam cleaning method for delicate and high-quality rugs."
+              youtubeId="6GDp9ff_6EY"
+              youtubeTitle="Oriental Rug Cleaning at Home in Westmount | Steam Cleaning"
+              allVideosHref="/en/video-gallery/"
+              posterUrl="/images/videos/video-thumb-tapis-oriental-new-v2.webp"
+              videoAspectRatio="9 / 16"
+              playLabel="Watch the Video"
+              allVideosLabel="See All Our Work"
+              closeLabel="Close video"
+            />
+          )}
+          {service.slug === "tapis-orientaux" && (
+            <ServiceVideoProof
+              title="See Our Rug Cleaning in Action"
+              subtitle="Oriental rug cleaning at home"
+              description="Watch a real in-home cleaning and see our professional steam cleaning method for delicate and high-quality rugs."
+              youtubeId="6GDp9ff_6EY"
+              youtubeTitle="Oriental Rug Cleaning at Home in Westmount | Steam Cleaning"
+              allVideosHref="/en/video-gallery/"
+              posterUrl="/images/videos/video-thumb-tapis-oriental-new-v2.webp"
+              videoAspectRatio="9 / 16"
+              playLabel="Watch the Video"
+              allVideosLabel="See All Our Work"
+              closeLabel="Close video"
+            />
+          )}
         </div>
 
         <!-- RIGHT COLUMN: IMAGE (Visual) -->

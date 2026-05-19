@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import FAQSchema from "../../components/FAQSchema.astro";
+import ServiceVideoProof from "../../components/ServiceVideoProof.astro";
 import UiIcon from "../../components/icons/UiIcon.astro";
 
 const services = [
@@ -432,6 +433,30 @@ if (!service) {
               Demander un estimé gratuit
             </button>
           </div>
+          {service.slug === "tapis-laine" && (
+            <ServiceVideoProof
+              title="Voyez notre nettoyage en action"
+              subtitle="Nettoyage professionnel de tapis en laine à domicile"
+              description="Regardez une intervention réelle chez un client et voyez notre méthode de nettoyage à la vapeur pour les tapis délicats et haut de gamme."
+              youtubeId="6GDp9ff_6EY"
+              youtubeTitle="Nettoyage de carpette orientale à domicile à Westmount | Nettoyage à la vapeur"
+              allVideosHref="/realisations-video/"
+              posterUrl="/images/videos/video-thumb-tapis-oriental-new-v2.webp"
+              videoAspectRatio="9 / 16"
+            />
+          )}
+          {service.slug === "tapis-orientaux" && (
+            <ServiceVideoProof
+              title="Voyez notre nettoyage en action"
+              subtitle="Nettoyage de carpette orientale à domicile"
+              description="Découvrez une intervention réelle à Westmount et voyez comment nous nettoyons les carpettes orientales avec soin, méthode et équipement professionnel."
+              youtubeId="6GDp9ff_6EY"
+              youtubeTitle="Nettoyage de carpette orientale à domicile à Westmount | Nettoyage à la vapeur"
+              allVideosHref="/realisations-video/"
+              posterUrl="/images/videos/video-thumb-tapis-oriental-new-v2.webp"
+              videoAspectRatio="9 / 16"
+            />
+          )}
         </div>
 
         <!-- RIGHT COLUMN: IMAGE (Visual) -->
