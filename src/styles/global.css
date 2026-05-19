@@ -527,6 +527,42 @@ ul {
   box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
 }
 
+/* Split hero + bloc vidéo : colonne image/carrousel à hauteur contrôlée (desktop) */
+@media (min-width: 1025px) {
+  .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo) {
+    align-items: start !important;
+    min-height: 0 !important;
+  }
+
+  .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo)
+    .split-image-wrapper {
+    position: relative;
+    height: min(1080px, calc(100vh + 5.5rem)) !important;
+    max-height: min(1080px, calc(100vh + 5.5rem)) !important;
+    min-height: 500px !important;
+    align-self: start !important;
+    overflow: hidden;
+  }
+
+  .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo)
+    .slideshow-container {
+    height: 100% !important;
+    min-height: 500px !important;
+    max-height: none !important;
+  }
+
+  .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo) .slide,
+  .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo)
+    .split-image {
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+}
+
+.split-hero-container:has(.service-video-proof, .service-video-proof-duo) {
+  overflow-x: clip;
+}
+
 /* Split hero: mobile — image/diaporama directement sous le titre (pages services avec .mobile-hero-stack) */
 .split-hero-container.mobile-hero-stack .mobile-hero-slideshow {
   display: none;
