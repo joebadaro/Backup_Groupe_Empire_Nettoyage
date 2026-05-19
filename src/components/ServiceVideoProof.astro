@@ -13,6 +13,8 @@ export interface Props {
   playLabel?: string;
   allVideosLabel?: string;
   closeLabel?: string;
+  /** Titre service pour SMS (sinon titre de page côté client). */
+  serviceName?: string;
 }
 
 const {
@@ -27,6 +29,7 @@ const {
   playLabel = "Voir la vidéo",
   allVideosLabel = "Voir toutes nos réalisations",
   closeLabel = "Fermer la vidéo",
+  serviceName,
 } = Astro.props;
 
 const modalId = `svp-modal-${youtubeId}`;
@@ -55,6 +58,10 @@ const thumbHeight = isVertical ? 640 : 360;
   style={`--svp-aspect-ratio: ${videoAspectRatio};`}
   data-svp-root
   data-svp-id={youtubeId}
+  data-vit-track="single"
+  data-vit-youtube-id={youtubeId}
+  data-vit-video-title={youtubeTitle}
+  data-vit-service-name={serviceName}
   aria-labelledby={`${modalId}-heading`}
 >
   <div class="svp-card">
@@ -571,4 +578,8 @@ const thumbHeight = isVertical ? 640 : 360;
 
   document.addEventListener("DOMContentLoaded", initServiceVideoProof);
   document.addEventListener("astro:page-load", initServiceVideoProof);
+</script>
+
+<script>
+  import "../scripts/video-intent-tracking.ts";
 </script>

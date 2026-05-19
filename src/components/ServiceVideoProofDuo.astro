@@ -45,11 +45,15 @@ const preparedVideos = videos.map((video) => {
 
   return { ...video, aspect, isVertical, modalId, posterUrl, embedSrc, thumbWidth, thumbHeight };
 });
+
+const videoTitlesJoined = preparedVideos.map((v) => v.youtubeTitle).join(" | ");
 ---
 
 <section
   class="service-video-proof-duo fade-in-up delay-350"
   id={sectionId}
+  data-vit-track="duo"
+  data-vit-video-titles={videoTitlesJoined}
   aria-labelledby={`${sectionId}-heading`}
 >
   <div class="svp-duo-card">
@@ -62,7 +66,11 @@ const preparedVideos = videos.map((video) => {
     <div class="svp-duo-grid">
       {
         preparedVideos.map((video) => (
-          <article class="svp-duo-item">
+          <article
+            class="svp-duo-item"
+            data-vit-youtube-id={video.youtubeId}
+            data-vit-video-title={video.youtubeTitle}
+          >
             {video.subtitle && <p class="svp-duo-item-eyebrow">{video.subtitle}</p>}
             <h3 class="svp-duo-item-title">{video.title}</h3>
             <button
@@ -576,4 +584,8 @@ const preparedVideos = videos.map((video) => {
 
   document.addEventListener("DOMContentLoaded", initServiceVideoProofDuo);
   document.addEventListener("astro:page-load", initServiceVideoProofDuo);
+</script>
+
+<script>
+  import "../scripts/video-intent-tracking.ts";
 </script>
