@@ -527,28 +527,197 @@ ul {
   box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
 }
 
-/* Split hero + bloc vidéo : colonne image/carrousel à hauteur contrôlée (desktop) */
+/* Pages services (FR/EN) — fond bleu pâle continu sur le hero split */
+.split-hero-container {
+  background-color: #ecf6ff !important;
+}
+
+.split-hero-container .split-layout {
+  background-color: #ecf6ff;
+}
+
+.split-hero-container .split-content {
+  background-color: #ecf6ff !important;
+  justify-content: flex-start !important;
+}
+
+@media (min-width: 1025px) {
+  .split-hero-container .split-content {
+    padding-top: 100px !important;
+  }
+}
+
+.split-hero-container .split-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, #ffffff 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.split-hero-container .split-image-wrapper {
+  background-color: #ecf6ff !important;
+}
+
+.split-hero-container .split-image-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, #ffffff 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.split-hero-container .split-image-wrapper .slideshow-container {
+  position: relative;
+  z-index: 1;
+}
+
+.split-hero-container .mobile-hero-slideshow {
+  background-color: #ecf6ff;
+}
+
+/* Split hero + bloc vidéo : grille 2 lignes (desktop) — texte | carrousel / vidéo | CTA verts */
 @media (min-width: 1025px) {
   .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo) {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "hero-content hero-carousel"
+      "hero-video hero-ctas";
     align-items: start !important;
     min-height: 0 !important;
+    column-gap: 0;
+    row-gap: 1.25rem;
+  }
+
+  .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo) > .split-content {
+    display: contents;
+  }
+
+  .split-hero-container
+    .split-layout:has(.service-video-proof, .service-video-proof-duo)
+    > .split-content::before {
+    display: none;
   }
 
   .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo)
-    .split-image-wrapper {
+    .service-hero-intro {
+    grid-area: hero-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
     position: relative;
-    height: min(1080px, calc(100vh + 5.5rem)) !important;
-    max-height: min(1080px, calc(100vh + 5.5rem)) !important;
-    min-height: 500px !important;
+    padding: 100px 4rem 0 10%;
+    box-sizing: border-box;
+    background-color: #ecf6ff;
+  }
+
+  .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo)
+    .service-hero-intro::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top left, #ffffff 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo)
+    .service-hero-intro
+    > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo)
+    .service-hero-action-band {
+    display: contents;
+  }
+
+  .split-hero-container
+    .split-layout:has(.service-video-proof, .service-video-proof-duo)
+    .service-hero-action-band
+    > .service-video-proof,
+  .split-hero-container
+    .split-layout:has(.service-video-proof, .service-video-proof-duo)
+    .service-hero-action-band
+    > .service-video-proof-duo {
+    grid-area: hero-video;
+    margin-top: 0 !important;
+    align-self: start;
+    width: 100%;
+    max-width: 100%;
+    padding-left: 10%;
+    padding-right: 1.5rem;
+    box-sizing: border-box;
+  }
+
+  .split-hero-container
+    .split-layout:has(.service-video-proof, .service-video-proof-duo)
+    .service-hero-action-band
+    > .cta-group {
+    grid-area: hero-ctas;
+    display: flex !important;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    align-self: start;
+    justify-content: flex-start;
+    gap: 1rem;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0 4rem 0 1.5rem;
+    box-sizing: border-box;
+  }
+
+  .split-hero-container
+    .split-layout:has(.service-video-proof, .service-video-proof-duo)
+    .service-hero-action-band
+    > .cta-group
+    .btn {
+    width: 100%;
+    max-width: 22rem;
+    justify-content: center;
+  }
+
+  .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo)
+    > .split-image-wrapper {
+    grid-area: hero-carousel;
+    position: relative;
+    display: flex;
+    flex-direction: column;
     align-self: start !important;
+    height: min(800px, calc(100vh - 7.5rem)) !important;
+    max-height: min(800px, calc(100vh - 7.5rem)) !important;
+    min-height: 0 !important;
     overflow: hidden;
+    background-color: #ecf6ff !important;
   }
 
   .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo)
     .slideshow-container {
-    height: 100% !important;
-    min-height: 500px !important;
-    max-height: none !important;
+    flex: 0 0 auto;
+    width: 100%;
+    height: min(800px, calc(100vh - 7.5rem)) !important;
+    min-height: 480px !important;
+    max-height: min(800px, calc(100vh - 7.5rem)) !important;
+  }
+
+  /* Overlay limité au carrousel (pas la zone bleue sous la photo) */
+  .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo)
+    .split-image-wrapper > .image-overlay-gradient {
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: auto;
+    width: 100%;
+    height: min(800px, calc(100vh - 7.5rem));
+    max-height: min(800px, calc(100vh - 7.5rem));
   }
 
   .split-hero-container .split-layout:has(.service-video-proof, .service-video-proof-duo) .slide,
@@ -577,6 +746,23 @@ ul {
   .split-hero-container.mobile-hero-stack .split-content {
     padding: 34px 1.5rem 2.5rem;
     order: 1;
+  }
+
+  .split-hero-container .service-hero-intro {
+    display: block;
+    padding: 0;
+    background: transparent;
+  }
+
+  .split-hero-container .service-hero-intro::before {
+    display: none;
+  }
+
+  .split-hero-container .service-hero-action-band {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
   }
 
   .split-hero-container.mobile-hero-stack .split-image-wrapper {

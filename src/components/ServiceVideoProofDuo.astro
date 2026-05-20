@@ -307,11 +307,85 @@ const videoTitlesJoined = preparedVideos.map((v) => v.youtubeTitle).join(" | ");
   }
 
   .svp-duo-open-btn {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
     width: 100%;
     border: none;
     cursor: pointer;
     font-family: inherit;
     min-height: 44px;
+    background: linear-gradient(135deg, #f97316 0%, #c2410c 55%, #7c2d12 100%);
+    color: #ffffff;
+    box-shadow: 0 16px 30px rgba(194, 65, 12, 0.28);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    animation: svp-duo-btn-halo 4s ease-in-out infinite;
+  }
+
+  .svp-duo-open-btn::before {
+    content: "";
+    position: absolute;
+    inset: -20% -60%;
+    background: linear-gradient(
+      105deg,
+      transparent 42%,
+      rgba(255, 255, 255, 0.28) 50%,
+      transparent 58%
+    );
+    transform: translateX(-130%) skewX(-16deg);
+    opacity: 0;
+    pointer-events: none;
+    animation: svp-duo-btn-shine 4.5s ease-in-out infinite;
+  }
+
+  .svp-duo-open-btn::after {
+    content: none;
+    display: none;
+  }
+
+  .svp-duo-open-btn:hover {
+    background: linear-gradient(135deg, #fb923c 0%, #ea580c 55%, #9a3412 100%);
+    color: #ffffff;
+    box-shadow: 0 18px 34px rgba(194, 65, 12, 0.38);
+    transform: translateY(-2px);
+    animation: none;
+  }
+
+  .svp-duo-open-btn:hover::before {
+    opacity: 0.5;
+  }
+
+  @keyframes svp-duo-btn-shine {
+    0%,
+    68% {
+      transform: translateX(-130%) skewX(-16deg);
+      opacity: 0;
+    }
+    78% {
+      opacity: 0.55;
+    }
+    88% {
+      transform: translateX(130%) skewX(-16deg);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(130%) skewX(-16deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes svp-duo-btn-halo {
+    0%,
+    100% {
+      box-shadow:
+        0 16px 30px rgba(194, 65, 12, 0.28),
+        0 0 0 0 rgba(249, 115, 22, 0);
+    }
+    50% {
+      box-shadow:
+        0 16px 30px rgba(194, 65, 12, 0.28),
+        0 0 22px 2px rgba(249, 115, 22, 0.22);
+    }
   }
 
   .svp-duo-footer {
@@ -323,6 +397,44 @@ const videoTitlesJoined = preparedVideos.map((v) => v.youtubeTitle).join(" | ");
 
   .svp-duo-all-link {
     text-decoration: none;
+    border: 3px solid #0b4ea2;
+    color: #0b4ea2;
+    background: rgba(236, 245, 255, 0.92);
+    box-shadow: 0 4px 14px rgba(11, 78, 162, 0.12);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .svp-duo-all-link:hover {
+    border: 3px solid #0b4ea2;
+    color: #0b4ea2;
+    background: rgba(220, 235, 252, 1);
+    box-shadow: 0 7px 18px rgba(11, 78, 162, 0.2);
+    transform: translateY(-1px);
+  }
+
+  .svp-duo-all-link:focus-visible {
+    outline: 3px solid rgba(11, 78, 162, 0.45);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .svp-duo-open-btn {
+      animation: none;
+    }
+
+    .svp-duo-open-btn::before {
+      animation: none;
+      opacity: 0;
+    }
+
+    .svp-duo-all-link,
+    .svp-duo-all-link:hover {
+      transition: none;
+      transform: none;
+    }
   }
 
   @media (max-width: 768px) {
