@@ -84,6 +84,7 @@ const ALLOWED_CONTACT = new Set(["telephone", "sms", "courriel"]);
 const ALLOWED_SERVICE = new Set([
     "sofa_meubles",
     "tapis",
+    "carpette",
     "matelas",
     "cuir",
     "tuiles",
@@ -96,6 +97,7 @@ const ALLOWED_SERVICE = new Set([
 const SERVICE_ORDER = [
     "sofa_meubles",
     "tapis",
+    "carpette",
     "matelas",
     "cuir",
     "tuiles",
@@ -272,6 +274,7 @@ export default async (req: Request): Promise<Response> => {
     const serviceLabelsFr: Record<string, string> = {
         sofa_meubles: "Nettoyage de sofa, divan, chaises et fauteuils",
         tapis: "Nettoyage de tapis",
+        carpette: "Nettoyage de carpette",
         matelas: "Nettoyage de matelas",
         cuir: "Nettoyage de cuir",
         tuiles: "Nettoyage de tuiles et céramique",
@@ -282,6 +285,7 @@ export default async (req: Request): Promise<Response> => {
     const serviceLabelsEn: Record<string, string> = {
         sofa_meubles: "Sofa, couch, chair and armchair cleaning",
         tapis: "Carpet cleaning",
+        carpette: "Area rug cleaning",
         matelas: "Mattress cleaning",
         cuir: "Leather cleaning",
         tuiles: "Tile and ceramic cleaning",

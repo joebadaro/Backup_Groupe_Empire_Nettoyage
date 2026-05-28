@@ -95,6 +95,163 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
       ? "An error occurred. Please try again or call us directly at 514-893-9939."
       : "Une erreur est survenue. Veuillez réessayer ou nous appeler directement au 514-893-9939.");
 
+  // Progressive steps navigation
+  const steps = [...form.querySelectorAll<HTMLElement>("[data-erf-step]")];
+  const progressSteps = [...(root?.querySelectorAll<HTMLElement>(".erf-progress-step") ?? [])];
+  const progressLine = root?.querySelector<HTMLElement>(".erf-progress-line") ?? null;
+
+  function updateProgressBar(stepNum: number): void {
+    progressSteps.forEach((stepEl) => {
+      const stepVal = parseInt(stepEl.getAttribute("data-step") ?? "1", 10);
+      if (stepVal <= stepNum) {
+        stepEl.classList.add("active");
+      } else {
+        stepEl.classList.remove("active");
+      }
+    });
+    if (progressLine) {
+      // Step 1: 0%, Step 2: 50%, Step 3: 100%
+      const percentage = (stepNum - 1) * 50;
+      progressLine.style.width = `${percentage}%`;
+    }
+  }
+
+  function showStep(stepNum: number): void {
+    steps.forEach((stepPanel) => {
+      const panelStep = parseInt(stepPanel.getAttribute("data-erf-step") ?? "1", 10);
+      if (panelStep === stepNum) {
+        stepPanel.hidden = false;
+        stepPanel.style.display = "";
+        stepPanel.classList.add("active");
+      } else {
+        stepPanel.hidden = true;
+        stepPanel.style.display = "none";
+        stepPanel.classList.remove("active");
+      }
+    });
+    updateProgressBar(stepNum);
+    
+    // Scroll to the top of the form panel
+    if (formPanel) {
+      formPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  function validateStep(stepNum: number): boolean {
+    if (stepNum === 1) {
+      const nameEl = form.querySelector<HTMLInputElement>("#erf-fullName");
+      const phoneEl = form.querySelector<HTMLInputElement>("#erf-phone");
+      const emailEl = form.querySelector<HTMLInputElement>("#erf-email");
+      
+      let valid = true;
+      if (nameEl && !nameEl.reportValidity()) valid = false;
+      if (phoneEl && !phoneEl.reportValidity()) valid = false;
+      if (emailEl && !emailEl.reportValidity()) valid = false;
+      return valid;
+    }
+    
+    if (stepNum === 2) {
+      // Validate service cards
+      const serviceBoxes = form.querySelectorAll<HTMLInputElement>('input[name="services"]:checked');
+      if (serviceBoxes.length === 0) {
+        if (errBox) {
+          errBox.textContent = isEn
+            ? "Please select at least one service."
+            : "Veuillez cocher au moins un service.";
+          errBox.hidden = false;
+          errBox.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        return false;
+      }
+      
+      // Validate other service detail if checked
+      const autreChecked = form.querySelector<HTMLInputElement>('input[name="services"][value="autre"]:checked');
+      const otherDetail = form.querySelector<HTMLInputElement>("#erf-otherServiceDetail");
+      if (autreChecked && otherDetail) {
+        if (!otherDetail.reportValidity()) return false;
+      }
+      
+      // Validate address
+      const cityEl = form.querySelector<HTMLInputElement>("#erf-city");
+      if (cityEl && !cityEl.reportValidity()) return false;
+      
+      // Validate dwelling
+      const dwellingChecked = form.querySelector<HTMLInputElement>('input[name="dwellingType"]:checked');
+      if (!dwellingChecked) {
+        const radio = form.querySelector<HTMLInputElement>('input[name="dwellingType"]');
+        if (radio) radio.reportValidity();
+        return false;
+      }
+      
+      // Validate floor
+      const v = dwellingChecked.value;
+      if (v === "condo" || v === "appartement") {
+        const floorEl = form.querySelector<HTMLInputElement>("#erf-floor");
+        if (floorEl && !floorEl.reportValidity()) return false;
+      }
+      
+      if (errBox) {
+        errBox.hidden = true;
+        errBox.textContent = "";
+      }
+      return true;
+    }
+    
+    return true;
+  }
+
+  // Set up next step navigation buttons
+  form.querySelectorAll<HTMLButtonElement>(".erf-next-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const nextStepVal = parseInt(btn.getAttribute("data-next-step") ?? "1", 10);
+      const currentStepVal = nextStepVal - 1;
+      if (validateStep(currentStepVal)) {
+        showStep(nextStepVal);
+      }
+    });
+  });
+
+  // Set up back navigation buttons
+  form.querySelectorAll<HTMLButtonElement>(".erf-back-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const prevStepVal = parseInt(btn.getAttribute("data-prev-step") ?? "1", 10);
+      showStep(prevStepVal);
+    });
+  });
+
+  // Set up service card selection logic
+  const serviceCards = root?.querySelectorAll<HTMLElement>(".erf-service-card") ?? [];
+  serviceCards.forEach((card) => {
+    const checkbox = card.querySelector<HTMLInputElement>('input[type="checkbox"]');
+    if (!checkbox) return;
+    
+    // Sync UI with initial state
+    if (checkbox.checked) {
+      card.classList.add("selected");
+    } else {
+      card.classList.remove("selected");
+    }
+
+    card.addEventListener("click", (e) => {
+      // If user clicked directly on checkbox, let standard behavior handle it, but prevent double toggling
+      if (e.target === checkbox) return;
+      
+      e.preventDefault();
+      checkbox.checked = !checkbox.checked;
+      checkbox.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+
+    checkbox.addEventListener("change", () => {
+      if (checkbox.checked) {
+        card.classList.add("selected");
+      } else {
+        card.classList.remove("selected");
+      }
+      setOtherServiceVisibility();
+      updateDescriptionPlaceholder();
+    });
+  });
+
   function setFloorVisibility(): void {
     const checked = form.querySelector<HTMLInputElement>('input[name="dwellingType"]:checked');
     const v = checked?.value ?? "";
@@ -139,7 +296,18 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
   }
 
   form.querySelectorAll('input[name="dwellingType"]').forEach((el) => {
-    el.addEventListener("change", setFloorVisibility);
+    el.addEventListener("change", () => {
+      setFloorVisibility();
+      // Style active dwelling option
+      form.querySelectorAll<HTMLElement>(".erf-dwelling-option").forEach((opt) => {
+        const radio = opt.querySelector<HTMLInputElement>('input[type="radio"]');
+        if (radio?.checked) {
+          opt.classList.add("selected");
+        } else {
+          opt.classList.remove("selected");
+        }
+      });
+    });
   });
   setFloorVisibility();
 
@@ -211,6 +379,20 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
       return;
     }
 
+    // Auto-fill description if left blank by client to satisfy backend validation
+    const descriptionInput = form.querySelector<HTMLTextAreaElement>("#erf-description");
+    if (descriptionInput && descriptionInput.value.trim() === "") {
+      const selectedServicesText = [...serviceBoxes].map(box => {
+        const card = box.closest(".erf-service-card");
+        const label = card?.querySelector(".erf-card-label")?.textContent?.trim();
+        return label || box.value;
+      }).join(", ");
+      
+      descriptionInput.value = isEn 
+        ? `Quote request for services: ${selectedServicesText}`
+        : `Demande d'estimation pour les services : ${selectedServicesText}`;
+    }
+
     const prevLabel = submitBtn.textContent;
     const sendingLabel = form.getAttribute("data-sending-label") ?? "…";
     submitBtn.disabled = true;
@@ -270,6 +452,15 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
 
       submissionSucceeded = true;
       form.reset();
+      
+      // Reset card visual state
+      root?.querySelectorAll(".erf-service-card.selected").forEach((el) => {
+        el.classList.remove("selected");
+      });
+      root?.querySelectorAll(".erf-dwelling-option.selected").forEach((el) => {
+        el.classList.remove("selected");
+      });
+
       setFloorVisibility();
       setOtherServiceVisibility();
       updateDescriptionPlaceholder();
@@ -299,6 +490,9 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
         scrollElIntoView(showSuccess);
         showSuccess.focus();
       }
+      
+      // Reset back to step 1 panel for future requests
+      showStep(1);
     } catch {
       if (errBox) {
         errBox.textContent = genericError;
