@@ -15,7 +15,7 @@ const canonicalPath = "/en/video-gallery";
 const videos = [
   {
     id: "46rCcc5hGLk",
-    title: "Nettoyage de tapis en laine haut de gamme à Westmount | Escaliers, chambres et divans cuir restaurés",
+    title: "Premium wool carpet cleaning in Westmount, stairs, bedrooms and restored leather sofas",
     category: "Wool Carpets",
     posterUrl: "/images/videos/video-thumb-westmount-short.jpg",
     description:
@@ -23,7 +23,7 @@ const videos = [
   },
   {
     id: "auWtvSvqucg",
-    title: "Nettoyage de sofas tachés à Saint-Bruno-de-Montarville #nettoyageavapeur #nettoyagedivan #cleaning",
+    title: "Stained sofa cleaning in Saint-Bruno-de-Montarville",
     category: "Stained Sofas",
     posterUrl: "/images/videos/video-thumb-salon-st-bruno-short.jpg",
     description:
@@ -186,9 +186,6 @@ const videoSchema = {
             <div class="video-card-body">
               <span class="video-category-badge">{video.category}</span>
               <h2 id={`video-title-${index}`} class="video-card-title">{video.title}</h2>
-              {"description" in video && video.description ? (
-                <p class="video-card-desc">{video.description}</p>
-              ) : null}
             </div>
           </article>
         ))}
@@ -335,11 +332,11 @@ const videoSchema = {
   }
 
   .video-card-body {
-    padding: 1.5rem;
+    padding: 1rem 1.15rem 1.15rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    flex: 1;
+    gap: 0.45rem;
+    flex: 0 0 auto;
     background: #fff;
   }
 
@@ -364,27 +361,20 @@ const videoSchema = {
   }
 
   .video-card-title {
-    font-size: 1.25rem;
+    font-size: 1.05rem;
     font-weight: 800;
     color: #001f3f;
     margin: 0;
-    line-height: 1.4;
-  }
-
-  .video-card-desc {
-    font-size: 0.92rem;
-    line-height: 1.55;
-    color: #4b5563;
-    margin: 0.35rem 0 0;
+    line-height: 1.35;
   }
 
   @media (max-width: 600px) {
     .video-card-title {
-      font-size: 0.95rem;
-      line-height: 1.3;
+      font-size: 0.9rem;
+      line-height: 1.28;
     }
     .video-card-body {
-      padding: 1rem 0.75rem;
+      padding: 0.75rem 0.65rem 0.85rem;
     }
   }
 
