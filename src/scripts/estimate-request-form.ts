@@ -74,11 +74,57 @@ function buildDescriptionPlaceholder(checkedServiceValues: string[], isEn: boole
 
 function scrollElIntoView(el: HTMLElement | null): void {
   if (!el) return;
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  const yOffset = -90; // Safe space for sticky/fixed mobile header
+  const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
+  window.scrollTo({ top: y, behavior: "smooth" });
+}
+
+function isValidEmail(value: string): boolean {
+  const v = value.trim();
+  if (!v) return true;
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+}
+
+function showErrorForField(fieldContainer: HTMLElement, inputEl: HTMLInputElement | HTMLTextAreaElement | null, message: string): void {
+  if (!fieldContainer) return;
+  
+  let errEl = fieldContainer.querySelector<HTMLElement>(".erf-field-error");
+  if (!errEl) {
+    errEl = document.createElement("div");
+    errEl.className = "erf-field-error";
+    errEl.style.color = "#b71c1c";
+    errEl.style.fontSize = "0.85rem";
+    errEl.style.fontWeight = "600";
+    errEl.style.marginTop = "6px";
+    errEl.style.animation = "fadeIn 0.2s ease";
+    fieldContainer.appendChild(errEl);
+  }
+  errEl.textContent = message;
+
+  if (inputEl) {
+    inputEl.style.borderColor = "#b71c1c";
+    inputEl.style.boxShadow = "0 0 0 3px rgba(183, 28, 28, 0.12)";
+  }
+}
+
+function clearErrorsForStep(stepPanel: HTMLElement): void {
+  if (!stepPanel) return;
+  
+  stepPanel.querySelectorAll(".erf-field-error").forEach((el) => el.remove());
+
+  stepPanel.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
+    "input, textarea, select"
+  ).forEach((input) => {
+    input.style.borderColor = "";
+    input.style.boxShadow = "";
+  });
 }
 
 export function initEstimateRequestForm(form: HTMLFormElement): void {
-  const root = form.closest(".erf-inner");
+  if (form.dataset.erfInitialized === "true") return;
+  form.dataset.erfInitialized = "true";
+
+  const root = form.closest(".erf-inner") as HTMLElement | null;
   const floorRow = form.querySelector<HTMLElement>("[data-erf-floor-row]");
   const otherRow = form.querySelector<HTMLElement>("[data-erf-other-service-row]");
   const errBox = root?.querySelector<HTMLElement>("[data-erf-error]") ?? null;
@@ -95,10 +141,15 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
       ? "An error occurred. Please try again or call us directly at 514-893-9939."
       : "Une erreur est survenue. Veuillez réessayer ou nous appeler directement au 514-893-9939.");
 
+  let updateContactPreferenceUI: () => void = () => {};
+
   // Progressive steps navigation
   const steps = [...form.querySelectorAll<HTMLElement>("[data-erf-step]")];
   const progressSteps = [...(root?.querySelectorAll<HTMLElement>(".erf-progress-step") ?? [])];
   const progressLine = root?.querySelector<HTMLElement>(".erf-progress-line") ?? null;
+  let currentStep = 1;
+  const draftStorageKey = `erf-form-draft-${locale}`;
+  let draftSaveTimer: ReturnType<typeof setTimeout> | null = null;
 
   function updateProgressBar(stepNum: number): void {
     progressSteps.forEach((stepEl) => {
@@ -116,7 +167,18 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
     }
   }
 
-  function showStep(stepNum: number): void {
+  /** Désactive toute validation HTML native — seule la validation JS par étape s’applique. */
+  function disableNativeValidation(): void {
+    form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
+      "input, textarea, select",
+    ).forEach((el) => {
+      el.required = false;
+      el.setCustomValidity("");
+    });
+  }
+
+  function setStepVisibility(stepNum: number, options?: { scrollToTop?: boolean }): void {
+    const scrollToTop = options?.scrollToTop ?? false;
     steps.forEach((stepPanel) => {
       const panelStep = parseInt(stepPanel.getAttribute("data-erf-step") ?? "1", 10);
       if (panelStep === stepNum) {
@@ -130,94 +192,269 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
       }
     });
     updateProgressBar(stepNum);
-    
-    // Scroll to the top of the form panel
-    if (formPanel) {
-      formPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    if (scrollToTop) {
+      if (root) {
+        scrollElIntoView(root);
+      } else if (formPanel) {
+        scrollElIntoView(formPanel);
+      }
     }
   }
 
   function validateStep(stepNum: number): boolean {
+    const stepPanel = steps.find((s) => parseInt(s.getAttribute("data-erf-step") ?? "1", 10) === stepNum);
+    if (!stepPanel) return true;
+
+    // Clear previous errors for this step
+    clearErrorsForStep(stepPanel);
+
+    let firstErrorField: HTMLElement | null = null;
+
+    const setError = (fieldContainer: HTMLElement, inputEl: HTMLInputElement | HTMLTextAreaElement | null, msg: string) => {
+      showErrorForField(fieldContainer, inputEl, msg);
+      if (!firstErrorField) {
+        firstErrorField = fieldContainer;
+      }
+    };
+
     if (stepNum === 1) {
       const nameEl = form.querySelector<HTMLInputElement>("#erf-fullName");
-      const phoneEl = form.querySelector<HTMLInputElement>("#erf-phone");
-      const emailEl = form.querySelector<HTMLInputElement>("#erf-email");
-      
-      let valid = true;
-      if (nameEl && !nameEl.reportValidity()) valid = false;
-      if (phoneEl && !phoneEl.reportValidity()) valid = false;
-      if (emailEl && !emailEl.reportValidity()) valid = false;
-      return valid;
-    }
-    
-    if (stepNum === 2) {
-      // Validate service cards
-      const serviceBoxes = form.querySelectorAll<HTMLInputElement>('input[name="services"]:checked');
-      if (serviceBoxes.length === 0) {
-        if (errBox) {
-          errBox.textContent = isEn
-            ? "Please select at least one service."
-            : "Veuillez cocher au moins un service.";
-          errBox.hidden = false;
-          errBox.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-        return false;
+      const nameField = nameEl?.parentElement;
+      if (nameEl && !nameEl.value.trim() && nameField) {
+        setError(nameField, nameEl, isEn ? "Please enter your full name." : "Veuillez entrer votre nom complet.");
       }
-      
+
+      const phoneEl = form.querySelector<HTMLInputElement>("#erf-phone");
+      const phoneField = phoneEl?.parentElement;
+      if (phoneEl && !phoneEl.value.trim() && phoneField) {
+        setError(phoneField, phoneEl, isEn ? "Please enter your phone number." : "Veuillez entrer votre numéro de téléphone.");
+      }
+
+      const emailEl = form.querySelector<HTMLInputElement>("#erf-email");
+      const emailField = emailEl?.parentElement;
+      if (emailEl && emailEl.value.trim() && !isValidEmail(emailEl.value) && emailField) {
+        setError(emailField, emailEl, isEn ? "Please enter a valid email address." : "Veuillez entrer une adresse courriel valide.");
+      }
+    }
+
+    if (stepNum === 2) {
+      // Validate service cards (at least one check box must be checked)
+      const serviceBoxes = form.querySelectorAll<HTMLInputElement>('input[name="services"]:checked');
+      const serviceGrid = form.querySelector<HTMLElement>(".erf-services-grid");
+      const serviceField = serviceGrid?.closest("fieldset");
+      if (serviceBoxes.length === 0 && serviceField) {
+        setError(serviceField, null, isEn ? "Please select at least one service." : "Veuillez sélectionner un service.");
+      }
+
       // Validate other service detail if checked
       const autreChecked = form.querySelector<HTMLInputElement>('input[name="services"][value="autre"]:checked');
       const otherDetail = form.querySelector<HTMLInputElement>("#erf-otherServiceDetail");
-      if (autreChecked && otherDetail) {
-        if (!otherDetail.reportValidity()) return false;
+      const otherField = form.querySelector<HTMLElement>("[data-erf-other-service-row]");
+      if (autreChecked && otherDetail && !otherDetail.value.trim() && otherField) {
+        setError(otherField, otherDetail, isEn ? "Please specify the requested service." : "Veuillez préciser le service demandé.");
       }
-      
+
       // Validate address
       const cityEl = form.querySelector<HTMLInputElement>("#erf-city");
-      if (cityEl && !cityEl.reportValidity()) return false;
-      
-      // Validate dwelling
+      const cityField = cityEl?.parentElement;
+      if (cityEl && !cityEl.value.trim() && cityField) {
+        setError(cityField, cityEl, isEn ? "Please enter your address or city." : "Veuillez entrer votre adresse ou votre ville.");
+      }
+
+      // Validate dwelling type
       const dwellingChecked = form.querySelector<HTMLInputElement>('input[name="dwellingType"]:checked');
-      if (!dwellingChecked) {
-        const radio = form.querySelector<HTMLInputElement>('input[name="dwellingType"]');
-        if (radio) radio.reportValidity();
-        return false;
+      const dwellingGrid = form.querySelector<HTMLElement>(".erf-dwelling-grid");
+      const dwellingField = dwellingGrid?.closest("fieldset");
+      if (!dwellingChecked && dwellingField) {
+        setError(dwellingField, null, isEn ? "Please select a property type." : "Veuillez sélectionner un type de logement.");
       }
-      
-      // Validate floor
-      const v = dwellingChecked.value;
-      if (v === "condo" || v === "appartement") {
-        const floorEl = form.querySelector<HTMLInputElement>("#erf-floor");
-        if (floorEl && !floorEl.reportValidity()) return false;
+
+      // Validate floor if dwelling is condo/apartment
+      if (dwellingChecked) {
+        const v = dwellingChecked.value;
+        if (v === "condo" || v === "appartement") {
+          const floorEl = form.querySelector<HTMLInputElement>("#erf-floor");
+          const floorField = form.querySelector<HTMLElement>("[data-erf-floor-row]");
+          if (floorEl && !floorEl.value.trim() && floorField) {
+            setError(floorField, floorEl, isEn ? "Please indicate the floor." : "Veuillez indiquer l’étage.");
+          }
+        }
       }
-      
-      if (errBox) {
-        errBox.hidden = true;
-        errBox.textContent = "";
-      }
-      return true;
     }
-    
+
+    if (stepNum === 3) {
+      const contactPref = form.querySelector<HTMLInputElement>('input[name="contactPreference"]:checked');
+      if (contactPref && contactPref.value === "courriel") {
+        const inlineEmail = form.querySelector<HTMLInputElement>("#erf-inline-email");
+        const inlineEmailField = form.querySelector<HTMLElement>("#erf-inline-email-container");
+        if (inlineEmail && (!inlineEmail.value.trim() || !isValidEmail(inlineEmail.value)) && inlineEmailField) {
+          setError(
+            inlineEmailField,
+            inlineEmail,
+            isEn
+              ? "Please enter your email address to receive your estimate by email."
+              : "Veuillez entrer votre adresse courriel pour recevoir votre estimation par courriel."
+          );
+        }
+      }
+    }
+
+    if (firstErrorField) {
+      scrollElIntoView(firstErrorField);
+      return false;
+    }
+
     return true;
   }
 
+  function goToStep(stepNum: number, options?: { scrollToTop?: boolean }): void {
+    currentStep = stepNum;
+    disableNativeValidation();
+    setStepVisibility(currentStep, options);
+  }
+
+  function stayOnCurrentStepAfterError(): void {
+    setStepVisibility(currentStep, { scrollToTop: false });
+  }
+
+  function collectDraft(): Record<string, unknown> {
+    return {
+      currentStep,
+      fullName: form.querySelector<HTMLInputElement>("#erf-fullName")?.value ?? "",
+      phone: form.querySelector<HTMLInputElement>("#erf-phone")?.value ?? "",
+      email: form.querySelector<HTMLInputElement>("#erf-email")?.value ?? "",
+      city: form.querySelector<HTMLInputElement>("#erf-city")?.value ?? "",
+      floor: form.querySelector<HTMLInputElement>("#erf-floor")?.value ?? "",
+      description: form.querySelector<HTMLTextAreaElement>("#erf-description")?.value ?? "",
+      otherServiceDetail: form.querySelector<HTMLInputElement>("#erf-otherServiceDetail")?.value ?? "",
+      services: getCheckedServiceValues(),
+      dwellingType:
+        form.querySelector<HTMLInputElement>('input[name="dwellingType"]:checked')?.value ?? "",
+      contactPreference:
+        form.querySelector<HTMLInputElement>('input[name="contactPreference"]:checked')?.value ?? "telephone",
+      inlineEmail: form.querySelector<HTMLInputElement>("#erf-inline-email")?.value ?? "",
+    };
+  }
+
+  function saveDraft(): void {
+    try {
+      sessionStorage.setItem(draftStorageKey, JSON.stringify(collectDraft()));
+    } catch {
+      /* quota / private mode */
+    }
+  }
+
+  function scheduleDraftSave(): void {
+    if (draftSaveTimer) clearTimeout(draftSaveTimer);
+    draftSaveTimer = setTimeout(saveDraft, 200);
+  }
+
+  function clearDraft(): void {
+    try {
+      sessionStorage.removeItem(draftStorageKey);
+    } catch {
+      /* ignore */
+    }
+  }
+
+  function restoreDraft(): void {
+    try {
+      const raw = sessionStorage.getItem(draftStorageKey);
+      if (!raw) return;
+      const draft = JSON.parse(raw) as Record<string, unknown>;
+
+      const setVal = (sel: string, val: unknown) => {
+        const el = form.querySelector<HTMLInputElement | HTMLTextAreaElement>(sel);
+        if (el && typeof val === "string") el.value = val;
+      };
+
+      setVal("#erf-fullName", draft.fullName);
+      setVal("#erf-phone", draft.phone);
+      setVal("#erf-email", draft.email);
+      setVal("#erf-city", draft.city);
+      setVal("#erf-floor", draft.floor);
+      setVal("#erf-description", draft.description);
+      setVal("#erf-otherServiceDetail", draft.otherServiceDetail);
+      setVal("#erf-inline-email", draft.inlineEmail);
+
+      if (Array.isArray(draft.services)) {
+        form.querySelectorAll<HTMLInputElement>('input[name="services"]').forEach((cb) => {
+          cb.checked = draft.services.includes(cb.value);
+          const card = cb.closest(".erf-service-card");
+          if (card) card.classList.toggle("selected", cb.checked);
+        });
+      }
+
+      if (typeof draft.dwellingType === "string" && draft.dwellingType) {
+        const radio = form.querySelector<HTMLInputElement>(
+          `input[name="dwellingType"][value="${draft.dwellingType}"]`,
+        );
+        if (radio) radio.checked = true;
+      }
+
+      if (typeof draft.contactPreference === "string" && draft.contactPreference) {
+        const pref = form.querySelector<HTMLInputElement>(
+          `input[name="contactPreference"][value="${draft.contactPreference}"]`,
+        );
+        if (pref) pref.checked = true;
+      }
+
+      setFloorVisibility();
+      setOtherServiceVisibility();
+      updateDescriptionPlaceholder();
+      updateContactPreferenceUI();
+
+      const step = typeof draft.currentStep === "number" ? draft.currentStep : 1;
+      goToStep(Math.min(3, Math.max(1, step)), { scrollToTop: false });
+    } catch {
+      /* ignore corrupt draft */
+    }
+  }
+
+  form.addEventListener("input", scheduleDraftSave);
+  form.addEventListener("change", scheduleDraftSave);
+
+  form.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" || currentStep >= 3) return;
+    const target = e.target;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.tagName === "TEXTAREA") return;
+    e.preventDefault();
+    const panel = steps.find(
+      (s) => parseInt(s.getAttribute("data-erf-step") ?? "1", 10) === currentStep,
+    );
+    panel?.querySelector<HTMLButtonElement>(".erf-next-btn")?.click();
+  });
+
   // Set up next step navigation buttons
   form.querySelectorAll<HTMLButtonElement>(".erf-next-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       const nextStepVal = parseInt(btn.getAttribute("data-next-step") ?? "1", 10);
-      const currentStepVal = nextStepVal - 1;
-      if (validateStep(currentStepVal)) {
-        showStep(nextStepVal);
+      if (!validateStep(currentStep)) {
+        stayOnCurrentStepAfterError();
+        saveDraft();
+        return;
       }
+      goToStep(nextStepVal, { scrollToTop: true });
+      saveDraft();
     });
   });
 
   // Set up back navigation buttons
   form.querySelectorAll<HTMLButtonElement>(".erf-back-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       const prevStepVal = parseInt(btn.getAttribute("data-prev-step") ?? "1", 10);
-      showStep(prevStepVal);
+      goToStep(prevStepVal, { scrollToTop: true });
     });
   });
+
+  disableNativeValidation();
+  setStepVisibility(currentStep, { scrollToTop: false });
 
   // Set up service card selection logic
   const serviceCards = root?.querySelectorAll<HTMLElement>(".erf-service-card") ?? [];
@@ -261,10 +498,10 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
       floorRow.style.display = needsFloor ? "" : "none";
     }
     const floorInput = form.querySelector<HTMLInputElement>("#erf-floor");
-    if (floorInput) {
-      floorInput.required = needsFloor;
-      if (!needsFloor) floorInput.value = "";
+    if (floorInput && !needsFloor) {
+      floorInput.value = "";
     }
+    disableNativeValidation();
   }
 
   function setOtherServiceVisibility(): void {
@@ -277,10 +514,10 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
       otherRow.hidden = !checked;
       otherRow.style.display = checked ? "" : "none";
     }
-    if (detail) {
-      detail.required = checked;
-      if (!checked) detail.value = "";
+    if (detail && !checked) {
+      detail.value = "";
     }
+    disableNativeValidation();
   }
 
   function getCheckedServiceValues(): string[] {
@@ -330,7 +567,28 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    e.stopPropagation();
     if (!submitBtn) return;
+
+    if (currentStep < 3) {
+      if (!validateStep(currentStep)) {
+        stayOnCurrentStepAfterError();
+      } else {
+        goToStep(currentStep + 1, { scrollToTop: true });
+      }
+      return;
+    }
+
+    for (let step = 1; step <= 3; step++) {
+      if (!validateStep(step)) {
+        if (step !== currentStep) {
+          goToStep(step, { scrollToTop: false });
+        } else {
+          stayOnCurrentStepAfterError();
+        }
+        return;
+      }
+    }
     if (errBox) {
       errBox.hidden = true;
       errBox.textContent = "";
@@ -451,6 +709,7 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
       }
 
       submissionSucceeded = true;
+      clearDraft();
       form.reset();
       
       // Reset card visual state
@@ -460,6 +719,10 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
       root?.querySelectorAll(".erf-dwelling-option.selected").forEach((el) => {
         el.classList.remove("selected");
       });
+
+      if (typeof updateContactPreferenceUI === "function") {
+        updateContactPreferenceUI();
+      }
 
       setFloorVisibility();
       setOtherServiceVisibility();
@@ -492,7 +755,7 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
       }
       
       // Reset back to step 1 panel for future requests
-      showStep(1);
+      goToStep(1, { scrollToTop: false });
     } catch {
       if (errBox) {
         errBox.textContent = genericError;
@@ -511,4 +774,66 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
       }
     }
   });
+
+  // Set up contact preference logic
+  const inlineEmailContainer = form.querySelector<HTMLElement>("#erf-inline-email-container");
+  const mainEmailInput = form.querySelector<HTMLInputElement>("#erf-email");
+  const inlineEmailInput = form.querySelector<HTMLInputElement>("#erf-inline-email");
+
+  updateContactPreferenceUI = function (): void {
+    const checked = form.querySelector<HTMLInputElement>('input[name="contactPreference"]:checked');
+    const value = checked?.value ?? "telephone";
+
+    // Style active option
+    form.querySelectorAll<HTMLElement>(".erf-pref-option").forEach((opt) => {
+      const radio = opt.querySelector<HTMLInputElement>('input[type="radio"]');
+      if (radio?.checked) {
+        opt.classList.add("selected");
+      } else {
+        opt.classList.remove("selected");
+      }
+    });
+
+    if (value === "courriel") {
+      if (inlineEmailContainer) {
+        inlineEmailContainer.style.display = "";
+      }
+      if (inlineEmailInput) {
+        // Sync from main email input if it has content
+        if (mainEmailInput && mainEmailInput.value.trim() && !inlineEmailInput.value.trim()) {
+          inlineEmailInput.value = mainEmailInput.value.trim();
+        }
+      }
+    } else {
+      if (inlineEmailContainer) {
+        inlineEmailContainer.style.display = "none";
+      }
+      if (inlineEmailInput) {
+        inlineEmailInput.setCustomValidity("");
+      }
+    }
+    disableNativeValidation();
+  };
+
+  form.querySelectorAll('input[name="contactPreference"]').forEach((el) => {
+    el.addEventListener("change", () => {
+      updateContactPreferenceUI();
+    });
+  });
+
+  // Bidirectional email sync
+  if (mainEmailInput && inlineEmailInput) {
+    mainEmailInput.addEventListener("input", () => {
+      inlineEmailInput.value = mainEmailInput.value;
+      inlineEmailInput.setCustomValidity("");
+    });
+    inlineEmailInput.addEventListener("input", () => {
+      mainEmailInput.value = inlineEmailInput.value;
+      inlineEmailInput.setCustomValidity("");
+    });
+  }
+
+  // Initial call
+  updateContactPreferenceUI();
+  restoreDraft();
 }

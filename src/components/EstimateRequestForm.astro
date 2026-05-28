@@ -52,6 +52,15 @@ const t = {
   step3Title: isEn ? "Details & Photos" : "Détails",
   next: isEn ? "Next →" : "Suivant →",
   back: isEn ? "← Back" : "← Retour",
+  contactPrefTitle: isEn ? "How would you like to receive your estimate?" : "Comment souhaitez-vous recevoir votre estimation ?",
+  contactPhoneTitle: isEn ? "By phone" : "Par téléphone",
+  contactPhoneDesc: isEn ? "A representative will contact you by phone." : "Un représentant vous contactera par téléphone.",
+  contactSmsTitle: isEn ? "By text" : "Par texto",
+  contactSmsDesc: isEn ? "A representative will send your estimate by text message." : "Un représentant vous enverra votre estimation par message texte.",
+  contactEmailTitle: isEn ? "By email" : "Par courriel",
+  contactEmailDesc: isEn ? "A representative will send your estimate by email." : "Un représentant vous enverra votre estimation par courriel.",
+  contactEmailWarning: isEn ? "Please enter your email to receive the estimate by email." : "Veuillez entrer votre courriel pour recevoir l'estimation par courriel.",
+  contactEmailInlineLabel: isEn ? "Your email address *" : "Votre adresse courriel *",
 };
 ---
 
@@ -183,12 +192,12 @@ const t = {
           
           <div class="erf-field">
             <label for="erf-fullName">{t.fullName} *</label>
-            <input id="erf-fullName" name="fullName" type="text" required maxlength="200" autocomplete="name" placeholder={isEn ? "E.g., John Doe" : "Ex: Jean Tremblay"} />
+            <input id="erf-fullName" name="fullName" type="text" maxlength="200" autocomplete="name" placeholder={isEn ? "E.g., John Doe" : "Ex: Jean Tremblay"} />
           </div>
 
           <div class="erf-field">
             <label for="erf-phone">{t.phone} *</label>
-            <input id="erf-phone" name="phone" type="tel" required maxlength="40" autocomplete="tel" placeholder="514-893-9939" />
+            <input id="erf-phone" name="phone" type="tel" maxlength="40" autocomplete="tel" placeholder="514-893-9939" />
           </div>
 
           <div class="erf-field">
@@ -327,14 +336,14 @@ const t = {
 
           <div class="erf-field">
             <label for="erf-city">{t.city} *</label>
-            <input id="erf-city" name="city" type="text" required maxlength="120" autocomplete="address-level2" placeholder={t.cityPlaceholder} />
+            <input id="erf-city" name="city" type="text" maxlength="120" autocomplete="address-level2" placeholder={t.cityPlaceholder} />
           </div>
 
           <fieldset class="erf-field erf-fieldset">
             <legend class="erf-legend-bold">{t.dwelling} *</legend>
             <div class="erf-dwelling-grid">
               <label class="erf-dwelling-option">
-                <input type="radio" name="dwellingType" value="maison" required /> 
+                <input type="radio" name="dwellingType" value="maison" /> 
                 <span>{t.dwMaison}</span>
               </label>
               <label class="erf-dwelling-option">
@@ -389,8 +398,45 @@ const t = {
             <p id="erf-photo-client-msg" class="erf-hint" hidden aria-live="polite"></p>
           </div>
           
-          <!-- Mode de contact caché, par défaut téléphone -->
-          <input type="hidden" name="contactPreference" value="telephone" />
+          <!-- Préférence de réception de l'estimation -->
+          <fieldset class="erf-field erf-fieldset" style="margin-top: 1.5rem;">
+            <legend class="erf-legend-bold">{t.contactPrefTitle} *</legend>
+            <div class="erf-pref-grid">
+              <!-- Par téléphone -->
+              <label class="erf-pref-option selected">
+                <input type="radio" name="contactPreference" value="telephone" checked />
+                <div class="erf-pref-content">
+                  <span class="erf-pref-label-title">{t.contactPhoneTitle}</span>
+                  <span class="erf-pref-desc">{t.contactPhoneDesc}</span>
+                </div>
+              </label>
+
+              <!-- Par texto -->
+              <label class="erf-pref-option">
+                <input type="radio" name="contactPreference" value="sms" />
+                <div class="erf-pref-content">
+                  <span class="erf-pref-label-title">{t.contactSmsTitle}</span>
+                  <span class="erf-pref-desc">{t.contactSmsDesc}</span>
+                </div>
+              </label>
+
+              <!-- Par courriel -->
+              <label class="erf-pref-option">
+                <input type="radio" name="contactPreference" value="courriel" />
+                <div class="erf-pref-content">
+                  <span class="erf-pref-label-title">{t.contactEmailTitle}</span>
+                  <span class="erf-pref-desc">{t.contactEmailDesc}</span>
+                </div>
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- Saisie directe du courriel s'il est manquant et que "Par courriel" est choisi -->
+          <div class="erf-field" id="erf-inline-email-container" style="display: none; margin-top: 1rem; animation: fadeIn 0.3s ease-out;">
+            <label for="erf-inline-email">{t.contactEmailInlineLabel}</label>
+            <input id="erf-inline-email" type="email" placeholder={isEn ? "name@example.com" : "Ex: nom@courriel.com"} />
+            <span class="erf-hint" style="color: #b71c1c; font-weight: 600;">{t.contactEmailWarning}</span>
+          </div>
 
           <div class="erf-nav-buttons">
             <button type="button" class="btn btn-secondary erf-back-btn" data-prev-step="2">
@@ -790,6 +836,63 @@ const t = {
   .erf-nav-buttons .btn-secondary:hover {
     background-color: #e5e7eb;
     color: #1f2937 !important;
+  }
+
+  /* CONTACT PREFERENCE GRIDS */
+  .erf-pref-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .erf-pref-option {
+    position: relative;
+    background-color: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+  }
+  .erf-pref-option input[type="radio"] {
+    margin-top: 4px;
+    accent-color: #b71c1c;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+  }
+  .erf-pref-option:hover {
+    background-color: #f9fafb;
+    border-color: #cbd5e1;
+  }
+  .erf-pref-option.selected {
+    background-color: rgba(183, 28, 28, 0.04);
+    border-color: #b71c1c;
+    box-shadow: 0 0 0 1px #b71c1c;
+  }
+  .erf-pref-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .erf-pref-label-title {
+    font-weight: 750;
+    font-size: 0.95rem;
+    color: #1f2937;
+    transition: color 0.2s ease;
+  }
+  .erf-pref-desc {
+    font-size: 0.82rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+  .erf-pref-option.selected .erf-pref-label-title {
+    color: #b71c1c;
   }
 
   /* FORMS & LABELS */
