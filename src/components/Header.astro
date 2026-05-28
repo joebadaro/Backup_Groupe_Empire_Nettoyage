@@ -58,6 +58,12 @@ const label = isEn ? "FR" : "EN";
             ><UiIcon name="phone" size={14} /></span
           >{PHONES.main.display}</a
         >
+        <a
+          href={isEn ? "/en/promotions" : "/promotions"}
+          class="header-promo-link"
+        >
+          {isEn ? "Current offers" : "Offres en cours"}
+        </a>
       </div>
     </div>
   </div>
@@ -516,6 +522,21 @@ const label = isEn ? "FR" : "EN";
     display: inline-flex;
     align-items: center;
     gap: 6px;
+  }
+
+  .header-promo-link {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    opacity: 0.95;
+    white-space: nowrap;
+  }
+
+  .header-promo-link:hover {
+    opacity: 1;
+    color: #fff;
   }
 
   .quote-link {
@@ -1097,7 +1118,8 @@ const label = isEn ? "FR" : "EN";
     }
 
     .cta-header,
-    .trust-signal {
+    .trust-signal,
+    .header-promo-link {
       display: none;
     }
 

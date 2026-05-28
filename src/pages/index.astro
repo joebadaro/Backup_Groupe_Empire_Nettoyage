@@ -204,13 +204,13 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         <span class="hero-slogan-wrap">
           <span class="hero-slogan-rotate-stack">
             <span class="hero-slogan-sizer" aria-hidden="true">
-              L'Art du Nettoyage<br />Haut de Gamme
+              L'Art du Nettoyage<br />À la Vapeur
             </span>
-            <span class="hero-slogan-layer hero-slogan--a">
+            <span class="hero-slogan-layer hero-slogan--a active">
               <span class="hero-slogan-white">L'Art du Nettoyage</span><br />
               <span class="text-gradient-tricolor">À la Vapeur</span>
             </span>
-            <span class="hero-slogan-layer hero-slogan--b active">
+            <span class="hero-slogan-layer hero-slogan--b">
               <span class="hero-slogan-white">L'Art du Nettoyage</span><br />
               <span class="text-gradient-tricolor">Haut de Gamme</span>
             </span>
@@ -219,12 +219,12 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
       </h1>
       <div class="hero-subtitle-group">
         <p class="hero-subtitle hero-subtitle--desktop animate-on-load delay-2">
-          Tapis, meubles, matelas et céramique.<br />
-          Une propreté éclatante grâce à notre technologie de camion-usine exclusive.
+          Nettoyage sur place de tapis, meubles et matelas<br />
+          Extraction à la vapeur avec camion-usine · Montréal, Laval et Rive-Sud
         </p>
         <p class="hero-subtitle hero-subtitle--mobile animate-on-load delay-2">
-          Tapis, meubles, matelas et céramique.<br />
-          Une propreté éclatante grâce à notre technologie de camion-usine exclusive.
+          Nettoyage à domicile — tapis, meubles et matelas<br />
+          Extraction à la vapeur · Montréal et Rive-Sud
         </p>
       </div>
       <div class="hero-actions animate-on-load delay-3">
@@ -242,15 +242,6 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
             ><UiIcon name="clipboard" size={20} /></span
           >
           Demander un estimé gratuit
-        </a>
-      </div>
-
-      <!-- Promotions Hero Pill -->
-      <div class="hero-promo-pill-wrapper animate-on-load delay-4">
-        <a href="/promotions" class="hero-promo-pill" aria-label="Offres Exclusives : Jusqu'à 50 % de rabais">
-          <span class="promo-pill-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f0c14b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg></span>
-          <span class="promo-pill-text">Offres Exclusives : <strong class="promo-pill-highlight">Jusqu'à 50 % de rabais</strong></span>
-          <span class="promo-pill-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
         </a>
       </div>
     </div>
@@ -1076,10 +1067,10 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
 
             const syncHeroSloganToSlide = (slideIndex) => {
               if (!sloganA || !sloganB) return;
-              /* Photos 1–3: Haut de Gamme; 4–5: À la Vapeur (A = vapeur si index >= 3) */
-              const showA = slideIndex >= 3;
-              sloganA.classList.toggle("active", showA);
-              sloganB.classList.toggle("active", !showA);
+              /* Photos 1–3: À la Vapeur; 4–5: Haut de Gamme */
+              const showVapeur = slideIndex < 3;
+              sloganA.classList.toggle("active", showVapeur);
+              sloganB.classList.toggle("active", !showVapeur);
             };
 
             const subtitleGroup = document.querySelector(".hero-subtitle-group");

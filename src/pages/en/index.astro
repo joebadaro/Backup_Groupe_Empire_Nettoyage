@@ -202,13 +202,13 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         <span class="hero-slogan-wrap">
           <span class="hero-slogan-rotate-stack">
             <span class="hero-slogan-sizer" aria-hidden="true">
-              The Art of<br />Premium Cleaning
+              The Art of<br />Steam Cleaning
             </span>
-            <span class="hero-slogan-layer hero-slogan--a">
+            <span class="hero-slogan-layer hero-slogan--a active">
               <span class="hero-slogan-white">The Art of</span><br />
               <span class="text-gradient-tricolor">Steam Cleaning</span>
             </span>
-            <span class="hero-slogan-layer hero-slogan--b active">
+            <span class="hero-slogan-layer hero-slogan--b">
               <span class="hero-slogan-white">The Art of</span><br />
               <span class="text-gradient-tricolor">Premium Cleaning</span>
             </span>
@@ -217,12 +217,12 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
       </h1>
       <div class="hero-subtitle-group">
         <p class="hero-subtitle hero-subtitle--desktop animate-on-load delay-2">
-          Carpets, furniture, mattresses and tile.<br />
-          Sparkling cleanliness thanks to our exclusive truck-mount technology.
+          On-site carpet, furniture and mattress cleaning<br />
+          Steam extraction with truck-mount · Montreal, Laval and South Shore
         </p>
         <p class="hero-subtitle hero-subtitle--mobile animate-on-load delay-2">
-          Carpets, furniture, mattresses and tile.<br />
-          Sparkling cleanliness thanks to our exclusive truck-mount technology.
+          In-home cleaning — carpets, furniture and mattresses<br />
+          Steam extraction · Montreal and South Shore
         </p>
       </div>
       <div class="hero-actions animate-on-load delay-3">
@@ -240,15 +240,6 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
             ><UiIcon name="clipboard" size={20} /></span
           >
           Request a Free Estimate
-        </a>
-      </div>
-
-      <!-- Promotions Hero Pill -->
-      <div class="hero-promo-pill-wrapper animate-on-load delay-4">
-        <a href="/en/promotions" class="hero-promo-pill" aria-label="Exclusive Offers: Up to 50% discount">
-          <span class="promo-pill-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f0c14b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg></span>
-          <span class="promo-pill-text">Exclusive Offers: <strong class="promo-pill-highlight">Up to 50% discount</strong></span>
-          <span class="promo-pill-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
         </a>
       </div>
     </div>
@@ -896,10 +887,10 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
 
           const syncHeroSloganToSlide = (slideIndex) => {
             if (!sloganA || !sloganB) return;
-            /* Photos 1–3: Premium Cleaning; 4–5: Steam Cleaning (A = steam if index >= 3) */
-            const showA = slideIndex >= 3;
-            sloganA.classList.toggle("active", showA);
-            sloganB.classList.toggle("active", !showA);
+            /* Slides 1–3: Steam Cleaning; 4–5: Premium Cleaning */
+            const showSteam = slideIndex < 3;
+            sloganA.classList.toggle("active", showSteam);
+            sloganB.classList.toggle("active", !showSteam);
           };
 
           const subtitleGroup = document.querySelector(".hero-subtitle-group");
