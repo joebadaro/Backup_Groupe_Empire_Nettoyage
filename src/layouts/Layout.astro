@@ -7,6 +7,7 @@ import { PHONES } from "../config/phones";
 
 import SEO from "../components/SEO.astro";
 import GtmDeferred from "../components/GtmDeferred.astro";
+import MetaDeferred from "../components/MetaDeferred.astro";
 
 /** Same-origin hashed URLs as @font-face in global CSS — early preload shortens font discovery vs CSS-parse-only */
 import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
@@ -31,6 +32,8 @@ const defaultDescription = isEn
 
 const description = Astro.props.description ?? defaultDescription;
 
+const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID?.trim() || "";
+
 ---
 
 <!doctype html>
@@ -40,6 +43,13 @@ const description = Astro.props.description ?? defaultDescription;
     <!-- Preloads LCP (pages d’accueil) avant dataLayer / polices -->
     <slot name="head" />
     <script is:inline>window.dataLayer = window.dataLayer || [];</script>
+    {
+      metaPixelId ? (
+        <script is:inline define:vars={{ metaPixelId }}>
+          window.__EMPRE_META_PIXEL_ID__ = metaPixelId;
+        </script>
+      ) : null
+    }
     <meta name="version" content="2.0.0-perf-optimized" />
     <link
       rel="preload"
@@ -139,12 +149,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <Footer />
 
     <GtmDeferred />
+    {metaPixelId ? <MetaDeferred pixelId={metaPixelId} /> : null}
     <!-- Calculatrice : uniquement via slot sur /estimation-privee/ (évite d’importer EstimationModule dans ce layout pour tout le site). -->
     <slot name="private-calculator" />
     <!-- estimation-bootstrap-lazy : importé uniquement sur /estimation-privee/ pour ne pas écraser le stub public (voir page). -->
     <script>
       import '../scripts/visitor-sms.ts';
     </script>
+    {
+      metaPixelId ? (
+        <script>
+          import '../scripts/meta-tracking.ts';
+        </script>
+      ) : null
+    }
 
     <!-- MOBILE STICKY CTA BAR (Phone Only) -->
     <div class="mobile-sticky-bar">

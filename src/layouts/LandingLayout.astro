@@ -6,6 +6,9 @@ import "@fontsource-variable/outfit";
 import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 import outfitLatinWoff2 from "@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2?url";
 import GtmDeferred from "../components/GtmDeferred.astro";
+import MetaDeferred from "../components/MetaDeferred.astro";
+
+const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID?.trim() || "";
 
 interface Props {
   title: string;
@@ -27,6 +30,13 @@ const { title, description, image, service } = Astro.props;
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <script is:inline>window.dataLayer = window.dataLayer || [];</script>
+    {
+      metaPixelId ? (
+        <script is:inline define:vars={{ metaPixelId }}>
+          window.__EMPRE_META_PIXEL_ID__ = metaPixelId;
+        </script>
+      ) : null
+    }
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@800&display=swap" rel="stylesheet">
@@ -68,6 +78,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <slot />
 
     <GtmDeferred />
+    {metaPixelId ? <MetaDeferred pixelId={metaPixelId} /> : null}
+    {
+      metaPixelId ? (
+        <script>
+          import '../scripts/meta-tracking.ts';
+        </script>
+      ) : null
+    }
     <script is:inline>
       // Scroll reveal for landing pages
       if (window.innerWidth >= 768) {

@@ -709,6 +709,15 @@ export function initEstimateRequestForm(form: HTMLFormElement): void {
       }
 
       submissionSucceeded = true;
+      const clientName =
+        (form.querySelector("#erf-fullName") as HTMLInputElement | null)?.value?.trim() ||
+        "";
+      window.dispatchEvent(
+        new CustomEvent("empire:lead-form-submitted", {
+          bubbles: true,
+          detail: { clientName },
+        }),
+      );
       clearDraft();
       form.reset();
       

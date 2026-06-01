@@ -1,0 +1,97 @@
+---
+/**
+ * Meta Pixel Lite — charge fbevents.js après LCP (même stratégie que GtmDeferred).
+ * Ne pas ajouter de tag Meta dans GTM en parallèle (doublon Events Manager).
+ */
+interface Props {
+  pixelId: string;
+}
+
+const { pixelId } = Astro.props;
+---
+
+{
+  pixelId ? (
+    <script is:inline define:vars={{ pixelId }}>
+      (function () {
+        var id = pixelId;
+        if (!id) return;
+
+        function stubFbq() {
+          if (window.fbq) return;
+          var n = (window.fbq = function () {
+            n.callMethod
+              ? n.callMethod.apply(n, arguments)
+              : n.queue.push(arguments);
+          });
+          if (!window._fbq) window._fbq = n;
+          n.push = n;
+          n.loaded = false;
+          n.version = "2.0";
+          n.queue = [];
+        }
+
+        function initPixel() {
+          if (window.__empireMetaInitDone) return;
+          window.__empireMetaInitDone = true;
+          try {
+            window.fbq("init", id);
+            window.fbq("set", "autoConfig", false, id);
+          } catch (e) {}
+          window.dispatchEvent(new CustomEvent("empire:meta-pixel-ready"));
+        }
+
+        function injectFbevents() {
+          if (window.__empireMetaScriptInjected) return;
+          window.__empireMetaScriptInjected = true;
+          stubFbq();
+          var s = document.createElement("script");
+          s.async = true;
+          s.src = "https://connect.facebook.net/en_US/fbevents.js";
+          s.onload = function () {
+            if (window.fbq) window.fbq.loaded = true;
+            initPixel();
+          };
+          s.onerror = function () {
+            window.__empireMetaScriptInjected = false;
+          };
+          var first = document.getElementsByTagName("script")[0];
+          if (first && first.parentNode) {
+            first.parentNode.insertBefore(s, first);
+          } else {
+            document.head.appendChild(s);
+          }
+        }
+
+        function scheduleIdle() {
+          if (window.__empireMetaScriptInjected) return;
+          if ("requestIdleCallback" in window) {
+            requestIdleCallback(injectFbevents, { timeout: 2800 });
+          } else {
+            setTimeout(injectFbevents, 2000);
+          }
+        }
+
+        window.addEventListener("load", scheduleIdle, { once: true });
+
+        function scheduleOnEngagement() {
+          if (window.__empireMetaScriptInjected) return;
+          if ("requestIdleCallback" in window) {
+            requestIdleCallback(injectFbevents, { timeout: 1200 });
+          } else {
+            setTimeout(injectFbevents, 500);
+          }
+        }
+
+        window.addEventListener(
+          "pointerdown",
+          function onPtr() {
+            window.removeEventListener("pointerdown", onPtr, true);
+            scheduleOnEngagement();
+          },
+          { passive: true, capture: true },
+        );
+      })();
+    </script>
+  ) : null
+}
