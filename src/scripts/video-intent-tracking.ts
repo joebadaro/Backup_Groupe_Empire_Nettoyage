@@ -20,11 +20,14 @@ export interface VideoPlayOpenDetail {
 
 const K_UTM = "empire_vit_utm_v1";
 const K_LAST_CITY = "empire_vit_last_city_v1";
+/** Une seule alerte « page visitée » par session (évite le spam multi-villes / tests Meta) */
+const K_GLOBAL_PAGE_SMS = "empire_vit_page_sms_sent_v1";
 
-/** Délai page visitée : envoi rapide sans attendre le scroll vers la vidéo */
-const PAGE_VIEW_DELAY_MS = 5_000;
+/** Délai max avant envoi — uniquement si engagement réel (scroll / clic) */
+const PAGE_VIEW_DELAY_MS = 12_000;
 /** Interaction précoce (scroll / clic) après ce délai minimum */
-const PAGE_VIEW_EARLY_MS = 3_000;
+const PAGE_VIEW_EARLY_MS = 8_000;
+const MIN_SCROLL_PX = 80;
 
 type VideoIntentEvent =
   | "service_page_viewed"
@@ -46,6 +49,7 @@ interface TrackPayload {
   deviceType: "mobile" | "desktop";
   referrer: string;
   lastKnownCity?: string;
+  humanConfirmed?: boolean;
 }
 
 function cleanPageTitle(): string {
@@ -190,19 +194,25 @@ function resolveServiceName(root: Element): string {
 function trackServicePageViewed(root: Element): void {
   const pageKey = pageViewSessionKey();
   try {
+    if (sessionStorage.getItem(K_GLOBAL_PAGE_SMS)) return;
     if (sessionStorage.getItem(pageKey)) return;
     sessionStorage.setItem(pageKey, "1");
+    sessionStorage.setItem(K_GLOBAL_PAGE_SMS, "1");
   } catch {
     return;
   }
 
-  sendPayload(
-    buildBasePayload("service_page_viewed", {
+  if (document.visibilityState !== "visible") return;
+  if (navigator.webdriver) return;
+
+  sendPayload({
+    ...buildBasePayload("service_page_viewed", {
       serviceName: resolveServiceName(root),
       videoTitle: "",
       youtubeId: "",
     }),
-  );
+    humanConfirmed: true,
+  });
 }
 
 let pageViewTimer: ReturnType<typeof setTimeout> | null = null;
@@ -217,9 +227,9 @@ function clearPageViewSchedule(): void {
 function initServicePageView(): void {
   clearPageViewSchedule();
 
-  const pageKey = pageViewSessionKey();
   try {
-    if (sessionStorage.getItem(pageKey)) return;
+    if (sessionStorage.getItem(K_GLOBAL_PAGE_SMS)) return;
+    if (sessionStorage.getItem(pageViewSessionKey())) return;
   } catch {
     return;
   }
@@ -231,9 +241,16 @@ function initServicePageView(): void {
 
   const loadedAt = performance.now();
   let sent = false;
+  let engaged = false;
+
+  const markEngaged = (): void => {
+    if (window.scrollY >= MIN_SCROLL_PX) engaged = true;
+  };
 
   const fire = (): void => {
     if (sent) return;
+    if (!engaged) return;
+    if (document.visibilityState !== "visible") return;
     sent = true;
     clearPageViewSchedule();
     trackServicePageViewed(root);
@@ -241,17 +258,24 @@ function initServicePageView(): void {
 
   pageViewTimer = setTimeout(fire, PAGE_VIEW_DELAY_MS);
 
-  const onEarlySignal = (): void => {
+  const onScroll = (): void => {
+    markEngaged();
     if (sent) return;
     if (performance.now() - loadedAt >= PAGE_VIEW_EARLY_MS) fire();
   };
 
-  window.addEventListener("scroll", onEarlySignal, { passive: true });
-  document.addEventListener("click", onEarlySignal, true);
+  const onClick = (): void => {
+    engaged = true;
+    if (sent) return;
+    if (performance.now() - loadedAt >= PAGE_VIEW_EARLY_MS) fire();
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  document.addEventListener("click", onClick, true);
 
   const cleanup = (): void => {
-    window.removeEventListener("scroll", onEarlySignal);
-    document.removeEventListener("click", onEarlySignal, true);
+    window.removeEventListener("scroll", onScroll);
+    document.removeEventListener("click", onClick, true);
   };
 
   window.setTimeout(cleanup, PAGE_VIEW_DELAY_MS + 2_000);

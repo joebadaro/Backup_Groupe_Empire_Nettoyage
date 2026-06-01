@@ -3,6 +3,8 @@
  * calculateur et engagement (appel OU envoi de formulaire). Filtrage bots / hors Québec côté serveur.
  */
 
+import { getOrCreateSessionId } from "./video-visitor-storage";
+
 const TRACK_URL = "/.netlify/functions/track-visit";
 
 const K_FIRST = "empire_sms_first_v2";
@@ -71,6 +73,7 @@ function notify(
         event,
         pageTitle: cleanPageTitle(),
         pagePath: `${location.pathname}${location.search || ""}`.slice(0, 220),
+        visitorId: getOrCreateSessionId(),
     };
     if (clientName) payload.clientName = clientName;
     if (event === "first_visit") {
@@ -140,7 +143,7 @@ function initHumanSignals(): void {
     window.setTimeout(() => {
         signalDwell = true;
         trySendFirstVisit();
-    }, 5_000);
+    }, 8_000);
 
     window.addEventListener(
         "scroll",

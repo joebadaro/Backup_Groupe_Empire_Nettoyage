@@ -1,5 +1,14 @@
-import { createHash } from "node:crypto";
 import twilio from "twilio";
+import {
+  extractClientIp,
+  hashValue,
+  isLikelyBot,
+  isPrefetchRequest,
+  isRateLimited,
+  isSuspiciousCityFlap,
+  shouldThrottleNotify,
+  type NotifyTier,
+} from "./lib/sms-guard.ts";
 
 type VideoIntentEvent =
   | "service_page_viewed"
@@ -22,62 +31,12 @@ interface VideoIntentPayload {
   referrer?: string;
   /** Ville déjà connue côté client (session) — jamais inventée */
   lastKnownCity?: string;
+  /** Page service : true seulement après scroll / clic / délai d’engagement */
+  humanConfirmed?: boolean;
 }
-
-const BOT_NEEDLES = [
-  "googlebot",
-  "adsbot",
-  "bingbot",
-  "semrushbot",
-  "ahrefsbot",
-  "mj12bot",
-  "duckduckbot",
-  "yandexbot",
-  "lighthouse",
-  "chrome-lighthouse",
-  "pagespeed",
-  "gtmetrix",
-  "pingdom",
-  "headlesschrome",
-  "facebookexternalhit",
-  "gptbot",
-  "bytespider",
-];
 
 function logStructured(payload: Record<string, unknown>): void {
   console.log(JSON.stringify(payload));
-}
-
-function isLikelyBot(userAgent: string): boolean {
-  const u = userAgent.toLowerCase();
-  for (const n of BOT_NEEDLES) {
-    if (u.includes(n)) return true;
-  }
-  if (u.includes("curl/") || u.includes("wget") || u.includes("python-requests")) {
-    return true;
-  }
-  if (/\b(bot|crawler|spider)\b/i.test(userAgent)) return true;
-  return false;
-}
-
-function extractClientIp(req: Request): string {
-  const nf = req.headers.get("x-nf-client-connection-ip")?.trim();
-  if (nf) return nf;
-  const localDev = req.headers.get("client-ip")?.trim();
-  if (localDev) return localDev;
-  const xf = req.headers.get("x-forwarded-for");
-  if (xf) {
-    const first = xf.split(",")[0]?.trim();
-    if (first) return first;
-  }
-  return req.headers.get("x-real-ip")?.trim() || "";
-}
-
-function hashValue(value: string, salt: string): string {
-  return createHash("sha256")
-    .update(`${salt}:${value}`)
-    .digest("hex")
-    .slice(0, 16);
 }
 
 function isValidCityName(city: string): boolean {
@@ -248,33 +207,12 @@ function parsePayload(body: VideoIntentPayload): VideoIntentPayload | null {
     deviceType: strField(body.deviceType, 16),
     referrer: strField(body.referrer, 300),
     lastKnownCity: strField(body.lastKnownCity, 80),
+    humanConfirmed: body.humanConfirmed === true,
   };
 }
 
-const recentSends = new Map<string, number>();
-const DEDUP_MS = 120_000;
-
-function shouldDedupe(key: string): boolean {
-  const now = Date.now();
-  const prev = recentSends.get(key);
-  if (prev && now - prev < DEDUP_MS) return true;
-  recentSends.set(key, now);
-  return false;
-}
-
-const rateBucket = new Map<string, { n: number; reset: number }>();
-const RATE_WINDOW_MS = 60 * 60 * 1000;
-const RATE_MAX = 12;
-
-function isRateLimited(ipHash: string): boolean {
-  const now = Date.now();
-  let b = rateBucket.get(ipHash);
-  if (!b || now > b.reset) {
-    b = { n: 0, reset: now + RATE_WINDOW_MS };
-    rateBucket.set(ipHash, b);
-  }
-  b.n += 1;
-  return b.n > RATE_MAX;
+function notifyTier(event: VideoIntentEvent): NotifyTier {
+  return event === "service_page_viewed" ? "page_view" : "high_intent";
 }
 
 function isDryRunMode(): boolean {
@@ -332,6 +270,14 @@ export default async (req: Request): Promise<Response> => {
     });
   }
 
+  if (isPrefetchRequest(req)) {
+    logStructured({ log: "video_intent_blocked_prefetch", event: payload.eventType });
+    return new Response(JSON.stringify({ ok: false, reason: "blocked_prefetch" }), {
+      status: 200,
+      headers: jsonHeaders,
+    });
+  }
+
   const ua = req.headers.get("user-agent") || "";
   if (isLikelyBot(ua)) {
     logStructured({ log: "video_intent_blocked_bot", event: payload.eventType });
@@ -341,6 +287,20 @@ export default async (req: Request): Promise<Response> => {
     });
   }
 
+  if (
+    payload.eventType === "service_page_viewed" &&
+    !payload.humanConfirmed
+  ) {
+    logStructured({
+      log: "video_intent_blocked_no_human_signal",
+      event: payload.eventType,
+    });
+    return new Response(
+      JSON.stringify({ ok: false, reason: "blocked_no_human_signal" }),
+      { status: 200, headers: jsonHeaders },
+    );
+  }
+
   const salt = process.env.VIDEO_INTENT_HASH_SALT || "empire-video-intent-v1";
   const clientIp = extractClientIp(req);
   const ipHash = clientIp ? hashValue(clientIp, salt) : "unknown";
@@ -348,18 +308,22 @@ export default async (req: Request): Promise<Response> => {
     ? hashValue(payload.visitorId, salt)
     : "unknown";
 
-  if (ipHash !== "unknown" && isRateLimited(ipHash)) {
-    logStructured({ log: "video_intent_rate_limited", ipHash, event: payload.eventType });
-    return new Response(JSON.stringify({ ok: false, reason: "rate_limited" }), {
-      status: 429,
-      headers: jsonHeaders,
+  const tier = notifyTier(payload.eventType);
+  const throttle = shouldThrottleNotify({
+    ipHash,
+    visitorHash,
+    tier,
+    eventKey: payload.eventType,
+    pagePath: payload.pagePath,
+  });
+  if (throttle.blocked) {
+    logStructured({
+      log: "video_intent_throttled",
+      reason: throttle.reason,
+      ipHash,
+      event: payload.eventType,
     });
-  }
-
-  const dedupKey = `${ipHash}|${payload.eventType}|${payload.pagePath}|${payload.youtubeId || ""}`;
-  if (shouldDedupe(dedupKey)) {
-    logStructured({ log: "video_intent_duplicate", ipHash, event: payload.eventType });
-    return new Response(JSON.stringify({ ok: false, reason: "duplicate" }), {
+    return new Response(JSON.stringify({ ok: false, reason: throttle.reason }), {
       status: 200,
       headers: jsonHeaders,
     });
@@ -367,6 +331,32 @@ export default async (req: Request): Promise<Response> => {
 
   const city = resolveEffectiveCity(req, payload.lastKnownCity || "");
   const cityLine = city || "inconnue";
+
+  if (
+    payload.eventType === "service_page_viewed" &&
+    isSuspiciousCityFlap(ipHash, cityLine === "inconnue" ? "" : cityLine)
+  ) {
+    logStructured({
+      log: "video_intent_blocked_city_flap",
+      ipHash,
+      event: payload.eventType,
+    });
+    return new Response(JSON.stringify({ ok: false, reason: "blocked_city_flap" }), {
+      status: 200,
+      headers: jsonHeaders,
+    });
+  }
+
+  const rateMax =
+    payload.eventType === "service_page_viewed" ? 5 : 10;
+  if (ipHash !== "unknown" && isRateLimited(ipHash, rateMax)) {
+    logStructured({ log: "video_intent_rate_limited", ipHash, event: payload.eventType });
+    return new Response(JSON.stringify({ ok: false, reason: "rate_limited" }), {
+      status: 429,
+      headers: jsonHeaders,
+    });
+  }
+
   const smsBody = buildSmsBody(
     payload.eventType,
     {

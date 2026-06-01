@@ -1,4 +1,14 @@
 import twilio from "twilio";
+import {
+    extractClientIp,
+    hashValue,
+    isLikelyBot,
+    isPrefetchRequest,
+    isRateLimited,
+    isSuspiciousCityFlap,
+    shouldThrottleNotify,
+    type NotifyTier,
+} from "./lib/sms-guard.ts";
 
 /** Événements supportés — logs alignés sur la spec utilisateur */
 type VisitSmsEvent =
@@ -15,6 +25,8 @@ interface TrackPayload {
     clientName?: string;
     /** Obligatoire pour first_visit : le client ne l’envoie qu’après signal humain */
     humanConfirmed?: boolean;
+    /** ID session navigateur (déduplication côté serveur) */
+    visitorId?: string;
 }
 
 interface GeoResult {
@@ -27,61 +39,6 @@ interface GeoResult {
 
 function logStructured(payload: Record<string, unknown>): void {
     console.log(JSON.stringify(payload));
-}
-
-/** Fragments UA explicites + termes génériques (insensible à la casse) */
-const BOT_NEEDLES = [
-    "googlebot",
-    "adsbot",
-    "bingbot",
-    "semrushbot",
-    "ahrefsbot",
-    "mj12bot",
-    "duckduckbot",
-    "yandexbot",
-    "lighthouse",
-    "chrome-lighthouse",
-    "pagespeed",
-    "gtmetrix",
-    "pingdom",
-    "headlesschrome",
-    "google-inspectiontool",
-    "google-inspection",
-    "facebookexternalhit",
-    "gptbot",
-    "bytespider",
-];
-
-function isLikelyBot(userAgent: string): boolean {
-    const u = userAgent.toLowerCase();
-    for (const n of BOT_NEEDLES) {
-        if (u.includes(n)) return true;
-    }
-    if (u.includes("curl/") || u.includes("wget") || u.includes("python-requests"))
-        return true;
-    if (/\b(bot|crawler|spider)\b/i.test(userAgent)) return true;
-    return false;
-}
-
-/**
- * IP du visiteur (pas celle d’un nœud interne) : Netlify fournit d’abord
- * `x-nf-client-connection-ip` en prod ; `client-ip` est parfois présent en `netlify dev`.
- * `x-forwarded-for` = chaîne de proxys, le client est en général le **premier** hop.
- */
-function extractClientIp(req: Request): string {
-    const nf = req.headers.get("x-nf-client-connection-ip")?.trim();
-    if (nf) return nf;
-
-    const localDev = req.headers.get("client-ip")?.trim();
-    if (localDev) return localDev;
-
-    const xf = req.headers.get("x-forwarded-for");
-    if (xf) {
-        const first = xf.split(",")[0]?.trim();
-        if (first) return first;
-    }
-
-    return req.headers.get("x-real-ip")?.trim() || "";
 }
 
 function isNonPublicIp(ip: string): boolean {
@@ -240,42 +197,9 @@ function smsBodyForEvent(
     }
 }
 
-/** Déduplication courte par IP + événement (filet de sécurité si le client double-envoie) */
-const recentSends = new Map<string, number>();
-const DEDUP_MS = 120_000;
-
-function dedupKey(ip: string, event: VisitSmsEvent): string {
-    return `${ip}|${event}`;
-}
-
-function shouldDedupe(ip: string, event: VisitSmsEvent): boolean {
-    const k = dedupKey(ip, event);
-    const now = Date.now();
-    const prev = recentSends.get(k);
-    if (prev && now - prev < DEDUP_MS) return true;
-    recentSends.set(k, now);
-    if (recentSends.size > 5000) {
-        for (const [key, t] of recentSends) {
-            if (now - t > DEDUP_MS * 2) recentSends.delete(key);
-        }
-    }
-    return false;
-}
-
-/** Limite anti-abus par IP */
-const rateBucket = new Map<string, { n: number; reset: number }>();
-const RATE_WINDOW_MS = 60 * 60 * 1000;
-const RATE_MAX = 8;
-
-function isRateLimited(ip: string): boolean {
-    const now = Date.now();
-    let b = rateBucket.get(ip);
-    if (!b || now > b.reset) {
-        b = { n: 0, reset: now + RATE_WINDOW_MS };
-        rateBucket.set(ip, b);
-    }
-    b.n += 1;
-    return b.n > RATE_MAX;
+function notifyTierForEvent(event: VisitSmsEvent): NotifyTier {
+    if (event === "first_visit") return "page_view";
+    return "high_intent";
 }
 
 export default async (req: Request): Promise<Response> => {
@@ -327,6 +251,14 @@ export default async (req: Request): Promise<Response> => {
         });
     }
 
+    if (isPrefetchRequest(req)) {
+        logStructured({ log: "blocked_prefetch", event });
+        return new Response(JSON.stringify({ ok: false, reason: "blocked_prefetch" }), {
+            status: 200,
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+        });
+    }
+
     const ua = req.headers.get("user-agent") || "";
     if (isLikelyBot(ua)) {
         logStructured({
@@ -341,6 +273,10 @@ export default async (req: Request): Promise<Response> => {
     }
 
     const visitorIP = extractClientIp(req);
+    const salt = process.env.VISIT_SMS_HASH_SALT || "empire-visit-sms-v1";
+    const ipHash = visitorIP ? hashValue(visitorIP, salt) : "unknown";
+    const visitorId = (body.visitorId || "").trim().slice(0, 64);
+    const visitorHash = visitorId ? hashValue(visitorId, salt) : "unknown";
 
     if (event === "first_visit" && !body.humanConfirmed) {
         logStructured({
@@ -389,20 +325,43 @@ export default async (req: Request): Promise<Response> => {
         );
     }
 
-    if (shouldDedupe(visitorIP || "unknown", event)) {
+    const pagePath = (body.pagePath || "").slice(0, 200) || "/";
+    const throttle = shouldThrottleNotify({
+        ipHash,
+        visitorHash,
+        tier: notifyTierForEvent(event),
+        eventKey: event,
+        pagePath,
+    });
+    if (throttle.blocked) {
         logStructured({
-            log: "sms_skipped_duplicate",
+            log: "sms_skipped_throttle",
+            reason: throttle.reason,
             event,
-            ip: visitorIP,
+            ipHash,
+            visitorHash,
         });
-        return new Response(JSON.stringify({ ok: false, reason: "duplicate" }), {
+        return new Response(JSON.stringify({ ok: false, reason: throttle.reason }), {
             status: 200,
             headers: { "Content-Type": "application/json; charset=utf-8" },
         });
     }
 
-    if (visitorIP && isRateLimited(visitorIP)) {
-        logStructured({ log: "blocked_rate_limit", ip: visitorIP, event });
+    if (event === "first_visit" && isSuspiciousCityFlap(ipHash, geo.city)) {
+        logStructured({
+            log: "blocked_city_flap",
+            event,
+            ipHash,
+            city: geo.city,
+        });
+        return new Response(JSON.stringify({ ok: false, reason: "blocked_city_flap" }), {
+            status: 200,
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+        });
+    }
+
+    if (ipHash !== "unknown" && isRateLimited(ipHash, 6)) {
+        logStructured({ log: "blocked_rate_limit", ipHash, event });
         return new Response(JSON.stringify({ ok: false, reason: "rate_limited" }), {
             status: 429,
             headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -410,7 +369,6 @@ export default async (req: Request): Promise<Response> => {
     }
 
     const pageTitle = sanitizeTitle(body.pageTitle || "");
-    const pagePath = (body.pagePath || "").slice(0, 200) || "/";
     const client = (body.clientName || "").trim();
 
     const messageBody = smsBodyForEvent(event, geo, pageTitle, pagePath, client);
