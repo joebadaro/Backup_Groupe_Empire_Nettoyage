@@ -3,12 +3,12 @@ import Layout from "../../layouts/Layout.astro";
 import ProductSchema from "../../components/ProductSchema.astro";
 import ProductPricingBand from "../../components/ProductPricingBand.astro";
 import { productImages } from "../../data/productImages";
-import { productPricing, priceValidUntilDefault } from "../../data/productPricing";
+import { productAdvisory } from "../../data/productPricing";
 
 const title =
   "BioBreak | Détachant enzymatique tapis et tissu | Groupe Nettoyage Empire";
 const description =
-  "BioBreak : détachant enzymatique professionnel pour tapis et tissus d’ameublement. À partir de 26,99 $ ; avec Odor Break, les deux à 49,99 $. Montréal, Laval, Rive-Sud.";
+  "BioBreak : détachant enzymatique professionnel pour tapis et tissus d’ameublement. Recommandations selon votre situation — Montréal, Laval, Rive-Sud.";
 const hero = productImages.enzymatique;
 const hero2 = productImages.enzymatique2;
 const productImage = hero.src;
@@ -21,8 +21,7 @@ const productImage = hero.src;
     image={productImage}
     additionalImages={[hero2.src]}
     path="/produits/detachant-enzymatique-apres-nettoyage"
-    price={productPricing.single.amount}
-    priceValidUntil={priceValidUntilDefault}
+    offerDescription={productAdvisory.fr}
   />
 
   <div class="page-header">

@@ -1,8 +1,8 @@
 ---
 /**
- * Bloc tarifaire discret pour les fiches Odor Break / BioBreak.
+ * Bloc disponibilité / recommandation pour les fiches Odor Break / BioBreak (sans prix).
  */
-import { productPricing } from "../data/productPricing";
+import { productAdvisory } from "../data/productPricing";
 import { PHONES } from "../config/phones";
 
 interface Props {
@@ -12,7 +12,6 @@ interface Props {
 }
 
 const { locale, current } = Astro.props;
-const p = productPricing;
 const otherHref =
   current === "odor-break"
     ? locale === "fr"
@@ -21,7 +20,26 @@ const otherHref =
     : locale === "fr"
       ? "/produits/neutralisant-odeurs-urine-oxygene"
       : "/en/produits/neutralisant-odeurs-urine-oxygene";
-const otherLabel =
+const copy =
+  locale === "fr"
+    ? {
+        title: "Disponibilité et recommandations",
+        advisory: productAdvisory.fr,
+        duoLead:
+          "Approche en deux temps, comme sur le terrain : souvent BioBreak d’abord pour travailler les taches organiques, puis Odor Break pour neutraliser les odeurs à la source et aider à assainir la zone — toujours selon le textile et le mode d’emploi.",
+        foot: "Disponibilité et commande :",
+        contact: "nous contacter",
+      }
+    : {
+        title: "Availability and recommendations",
+        advisory: productAdvisory.en,
+        duoLead:
+          "Two-step workflow, as we often use in the field: BioBreak first to work organic soils, then Odor Break to neutralize odors at the source and help sanitize the area — always per fabric and label directions.",
+        foot: "Availability and orders:",
+        contact: "contact us",
+      };
+
+const otherLabelResolved =
   current === "odor-break"
     ? locale === "fr"
       ? "BioBreak"
@@ -29,33 +47,11 @@ const otherLabel =
     : locale === "fr"
       ? "Odor Break"
       : "Odor Break";
-
-const copy =
-  locale === "fr"
-    ? {
-        title: "Tarification",
-        unit: `Chaque produit : ${p.single.displayFr} (CAD).`,
-        duoLead:
-          "Approche en deux temps, comme sur le terrain : souvent BioBreak d’abord pour travailler les taches organiques, puis Odor Break pour neutraliser les odeurs à la source et aider à assainir la zone — toujours selon le textile et le mode d’emploi.",
-        duoPrice: `Duo BioBreak + Odor Break : ${p.duo.displayFr} (CAD).`,
-        foot: "Taxes en sus si applicables. Disponibilité et commande :",
-        contact: "nous contacter",
-      }
-    : {
-        title: "Pricing",
-        unit: `Each product: ${p.single.displayEn} CAD.`,
-        duoLead:
-          "Two-step workflow, as we often use in the field: BioBreak first to work organic soils, then Odor Break to neutralize odors at the source and help sanitize the area — always per fabric and label directions.",
-        duoPrice: `BioBreak + Odor Break duo: ${p.duo.displayEn} CAD.`,
-        foot: "Taxes extra where applicable. Availability and orders:",
-        contact: "contact us",
-      };
 ---
 
 <div class="price-band">
   <h2 class="price-band-title">{copy.title}</h2>
-  <p class="price-band-line">{copy.unit}</p>
-  <p class="price-band-line price-band-duo">{copy.duoPrice}</p>
+  <p class="price-band-advisory">{copy.advisory}</p>
   <p class="price-band-muted">{copy.duoLead}</p>
   <p class="price-band-foot">
     {copy.foot}
@@ -65,7 +61,7 @@ const copy =
   </p>
   <p class="price-band-link-other">
     <a href={otherHref}
-      >{locale === "fr" ? "Voir la fiche" : "View"} {otherLabel}</a
+      >{locale === "fr" ? "Voir la fiche" : "View"} {otherLabelResolved}</a
     >
     {locale === "fr" ? " · " : " · "}
     <a href={locale === "fr" ? "/produits" : "/en/produits"}
@@ -88,17 +84,15 @@ const copy =
     font-size: 1.15rem;
     color: var(--color-primary);
   }
-  .price-band-line {
-    margin: 0 0 0.5rem;
-    line-height: 1.6;
-    color: var(--color-text-main);
-  }
-  .price-band-duo {
-    font-weight: 700;
-    font-size: 1.02rem;
+  .price-band-advisory {
+    margin: 0 0 0.85rem;
+    line-height: 1.65;
+    color: #444;
+    font-style: italic;
+    font-size: 0.95rem;
   }
   .price-band-muted {
-    margin: 0.75rem 0 0.85rem;
+    margin: 0 0 0.85rem;
     font-size: 0.92rem;
     line-height: 1.65;
     color: #555;

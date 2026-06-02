@@ -3,12 +3,12 @@ import Layout from "../../../layouts/Layout.astro";
 import ProductSchema from "../../../components/ProductSchema.astro";
 import ProductPricingBand from "../../../components/ProductPricingBand.astro";
 import { productImages } from "../../../data/productImages";
-import { productPricing, priceValidUntilDefault } from "../../../data/productPricing";
+import { productAdvisory } from "../../../data/productPricing";
 
 const title =
   "BioBreak | Enzymatic carpet & upholstery spot cleaner | Empire Cleaning";
 const description =
-  "BioBreak: professional enzymatic spot cleaner for carpets and upholstery. From $26.99; with Odor Break, both for $49.99. Montreal, Laval, South Shore.";
+  "BioBreak: professional enzymatic spot cleaner for carpets and upholstery. Recommendations based on your situation — Montreal, Laval, South Shore.";
 const hero = productImages.enzymatique;
 const hero2 = productImages.enzymatique2;
 const productImage = hero.src;
@@ -21,8 +21,7 @@ const productImage = hero.src;
     image={productImage}
     additionalImages={[hero2.src]}
     path="/en/produits/detachant-enzymatique-apres-nettoyage"
-    price={productPricing.single.amount}
-    priceValidUntil={priceValidUntilDefault}
+    offerDescription={productAdvisory.en}
   />
 
   <div class="page-header">

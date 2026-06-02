@@ -1,22 +1,7 @@
 /**
- * Tarification produits (CAD) — source unique pour affichage + schéma Offer.
- * Mettre à jour ici si les prix changent.
+ * Textes professionnels produits (sans prix affichés) — source unique FR/EN.
  */
-export const productPricing = {
-  currency: "CAD" as const,
-  /** Prix unitaire par produit */
-  single: {
-    amount: 26.99,
-    displayFr: "26,99\u00a0$",
-    displayEn: "$26.99",
-  },
-  /** Odor Break + BioBreak */
-  duo: {
-    amount: 49.99,
-    displayFr: "49,99\u00a0$",
-    displayEn: "$49.99",
-  },
+export const productAdvisory = {
+  fr: "Les produits professionnels recommandés peuvent varier selon le type de nettoyage et les besoins du client. Veuillez demander à votre technicien ou représentant les options disponibles lors de votre rendez-vous.",
+  en: "Professional products may vary depending on the type of cleaning and the client's needs. Please ask your technician or representative about the available options during your cleaning appointment.",
 } as const;
-
-/** Fin de validité indicative pour schema.org (optionnel, renouveler annuellement). */
-export const priceValidUntilDefault = "2026-12-31";

@@ -1,17 +1,15 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { productImages } from "../../data/productImages";
-import { productPricing } from "../../data/productPricing";
 
 const duo = productImages.hubDuo;
 const imgNeutral = productImages.neutralisant;
 const imgEnz = productImages.enzymatique;
-const pr = productPricing;
 ---
 
 <Layout
   title="Produits professionnels d'entretien | Groupe Nettoyage Empire"
-  description="Odor Break et BioBreak : produits pros pour odeurs et taches sur tapis et tissus. À partir de 26,99 $ l’unité ; ensemble recommandé 49,99 $. Montréal, Laval, Rive-Sud."
+  description="Odor Break et BioBreak : produits professionnels pour odeurs et taches sur tapis et tissus. Recommandations selon votre situation — Montréal, Laval, Rive-Sud."
   image={duo.src}
 >
   <div class="page-header">
@@ -60,7 +58,9 @@ const pr = productPricing;
           <p>
             Formulation professionnelle à base de peroxyde d’hydrogène (H₂O₂) et d’agents complémentaires — pour les odeurs d’urine et certaines taches biologiques lorsque le textile et le mode d’emploi s’y prêtent.
           </p>
-          <p class="card-price" aria-label="Prix unitaire">{pr.single.displayFr} <span class="card-price-curr">CAD</span></p>
+          <p class="card-advisory">
+            Les produits professionnels recommandés peuvent varier selon le type de nettoyage et les besoins du client. Veuillez demander à votre technicien ou représentant les options disponibles lors de votre rendez-vous.
+          </p>
           <span class="read-more">Voir la fiche produit →</span>
         </a>
 
@@ -82,7 +82,9 @@ const pr = productPricing;
           <p>
             Entretien local ciblé entre deux visites ou sur une zone précise de tapis ou de tissu d’ameublement, lorsque le fabricant autorise ce type de produit.
           </p>
-          <p class="card-price" aria-label="Prix unitaire">{pr.single.displayFr} <span class="card-price-curr">CAD</span></p>
+          <p class="card-advisory">
+            Les produits professionnels recommandés peuvent varier selon le type de nettoyage et les besoins du client. Veuillez demander à votre technicien ou représentant les options disponibles lors de votre rendez-vous.
+          </p>
           <span class="read-more">Voir la fiche produit →</span>
         </a>
       </div>
@@ -95,15 +97,10 @@ const pr = productPricing;
         <p class="duo-method">
           Utilisés ensemble, ces deux produits offrent une <strong>méthode plus complète et plus professionnelle</strong>. C’est l’approche que <strong>Groupe Nettoyage Empire</strong> utilise dans plusieurs situations : d’abord le <strong>travail de détachage avec les enzymes</strong>, puis le <strong>traitement final avec Odor Break</strong> pour cibler les molécules responsables des odeurs et laisser le textile <strong>plus propre et plus frais</strong>.
         </p>
-        <div class="duo-price-block">
-          <p class="duo-price-row">
-            <span class="duo-price-main">{pr.duo.displayFr}</span>
-            <span class="duo-price-label">les deux · CAD</span>
+        <div class="duo-advisory-block">
+          <p class="duo-advisory">
+            Les produits professionnels recommandés peuvent varier selon le type de nettoyage et les besoins du client. Veuillez demander à votre technicien ou représentant les options disponibles lors de votre rendez-vous.
           </p>
-          <p class="duo-meta">
-            Chaque produit est aussi offert séparément à <strong>{pr.single.displayFr}</strong>.
-          </p>
-          <p class="duo-meta">Taxes en sus, si applicables.</p>
           <p class="duo-meta">
             Disponible auprès de nos techniciens ou au bureau au <a href="tel:5148939939">(514) 893-9939</a>.
           </p>
@@ -232,17 +229,13 @@ const pr = productPricing;
     flex: 1;
     margin: 0 0 1rem;
   }
-  .card-price {
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: var(--color-primary);
+  .card-advisory {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #444;
     margin: 0 0 0.75rem !important;
-    letter-spacing: 0.02em;
-  }
-  .card-price-curr {
-    font-size: 0.75rem;
-    font-weight: 600;
-    opacity: 0.85;
+    line-height: 1.55;
+    font-style: italic;
   }
   .duo-panel {
     max-width: 720px;
@@ -271,28 +264,17 @@ const pr = productPricing;
     line-height: 1.68;
     color: var(--color-text-main);
   }
-  .duo-price-block {
+  .duo-advisory-block {
     margin: 0;
     padding-top: 1rem;
     border-top: 1px solid rgba(0, 74, 159, 0.12);
   }
-  .duo-price-row {
-    margin: 0 0 0.5rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.5rem 0.75rem;
-  }
-  .duo-price-main {
-    font-size: 1.65rem;
-    font-weight: 800;
-    color: var(--color-primary);
-    letter-spacing: 0.02em;
-  }
-  .duo-price-label {
-    font-size: 0.88rem;
-    color: #555;
-    font-weight: 600;
+  .duo-advisory {
+    margin: 0 0 0.85rem;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: #444;
+    font-style: italic;
   }
   .duo-meta {
     margin: 0 0 0.4rem;

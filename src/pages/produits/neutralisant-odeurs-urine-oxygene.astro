@@ -3,11 +3,11 @@ import Layout from "../../layouts/Layout.astro";
 import ProductSchema from "../../components/ProductSchema.astro";
 import ProductPricingBand from "../../components/ProductPricingBand.astro";
 import { productImages } from "../../data/productImages";
-import { productPricing, priceValidUntilDefault } from "../../data/productPricing";
+import { productAdvisory } from "../../data/productPricing";
 
 const title = "Odor Break | Neutralisant odeurs urine tapis et divan";
 const description =
-  "Odor Break : solution professionnelle pour les odeurs d'urine et taches organiques sur tapis et tissus d'ameublement. À partir de 26,99 $ ; avec BioBreak, les deux à 49,99 $. Montréal, Laval, Rive-Sud.";
+  "Odor Break : solution professionnelle pour les odeurs d'urine et taches organiques sur tapis et tissus d'ameublement. Recommandations selon votre situation — Montréal, Laval, Rive-Sud.";
 const hero = productImages.neutralisant;
 const hero2 = productImages.neutralisant2;
 const productImage = hero.src;
@@ -20,8 +20,7 @@ const productImage = hero.src;
     image={productImage}
     additionalImages={[hero2.src]}
     path="/produits/neutralisant-odeurs-urine-oxygene"
-    price={productPricing.single.amount}
-    priceValidUntil={priceValidUntilDefault}
+    offerDescription={productAdvisory.fr}
   />
 
   <div class="page-header">

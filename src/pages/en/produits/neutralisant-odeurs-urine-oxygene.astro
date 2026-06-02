@@ -3,11 +3,11 @@ import Layout from "../../../layouts/Layout.astro";
 import ProductSchema from "../../../components/ProductSchema.astro";
 import ProductPricingBand from "../../../components/ProductPricingBand.astro";
 import { productImages } from "../../../data/productImages";
-import { productPricing, priceValidUntilDefault } from "../../../data/productPricing";
+import { productAdvisory } from "../../../data/productPricing";
 
 const title = "Odor Break | Pet Urine Odor Remover";
 const description =
-  "Odor Break: professional odor and organic stain treatment for carpets and upholstery. From $26.99; pair with BioBreak for $49.99. Montreal, Laval, South Shore.";
+  "Odor Break: professional odor and organic stain treatment for carpets and upholstery. Recommendations based on your situation — Montreal, Laval, South Shore.";
 const hero = productImages.neutralisant;
 const hero2 = productImages.neutralisant2;
 const productImage = hero.src;
@@ -20,8 +20,7 @@ const productImage = hero.src;
     image={productImage}
     additionalImages={[hero2.src]}
     path="/en/produits/neutralisant-odeurs-urine-oxygene"
-    price={productPricing.single.amount}
-    priceValidUntil={priceValidUntilDefault}
+    offerDescription={productAdvisory.en}
   />
 
   <div class="page-header">
