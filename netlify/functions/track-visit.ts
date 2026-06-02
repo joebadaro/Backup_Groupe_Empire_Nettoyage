@@ -1,11 +1,13 @@
 import twilio from "twilio";
 import {
+    evaluatePageViewSms,
     extractClientIp,
     hashValue,
     isLikelyBot,
+    isMetaPaidTraffic,
     isPrefetchRequest,
     isRateLimited,
-    isSuspiciousCityFlap,
+    logSmsDecision,
     shouldThrottleNotify,
     type NotifyTier,
 } from "./lib/sms-guard.ts";
@@ -13,6 +15,7 @@ import {
 /** Événements supportés — logs alignés sur la spec utilisateur */
 type VisitSmsEvent =
     | "first_visit"
+    | "engaged_visit"
     | "calculator"
     | "call_click"
     | "form_start"
@@ -23,10 +26,18 @@ interface TrackPayload {
     pageTitle?: string;
     pagePath?: string;
     clientName?: string;
-    /** Obligatoire pour first_visit : le client ne l’envoie qu’après signal humain */
+    /** @deprecated — first_visit SMS désactivé côté serveur */
     humanConfirmed?: boolean;
-    /** ID session navigateur (déduplication côté serveur) */
     visitorId?: string;
+    utmSource?: string;
+    utmMedium?: string;
+    utmCampaign?: string;
+    fbclid?: string;
+    isMetaTraffic?: boolean;
+    dwellSeconds?: number;
+    scrollPx?: number;
+    hasClick?: boolean;
+    strongEngagement?: boolean;
 }
 
 interface GeoResult {
@@ -180,6 +191,11 @@ function smsBodyForEvent(
                 ? `Nouveau visiteur probable${namePart} ${locPhrase}. Page visitée : ${pageTitle}. Heure : ${timeStr}.`
                 : `Nouveau visiteur probable${namePart} au Québec${provinceHint ? ` (${provinceHint})` : ""}. Page visitée : ${pageTitle}. Heure : ${timeStr}.`;
 
+        case "engaged_visit":
+            return cityKnown
+                ? `Visiteur engagé${namePart} ${locPhrase}. Page : ${pageTitle}. Heure : ${timeStr}.`
+                : `Visiteur engagé${namePart} au Québec. Page : ${pageTitle}. Heure : ${timeStr}.`;
+
         case "calculator":
             return `Client actif dans le calculateur${namePart}. Ville estimée : ${cityKnown ? geo.city.trim() : "Québec"}. Page : ${pageTitle}. Heure : ${timeStr}.`;
 
@@ -198,8 +214,17 @@ function smsBodyForEvent(
 }
 
 function notifyTierForEvent(event: VisitSmsEvent): NotifyTier {
-    if (event === "first_visit") return "page_view";
+    if (event === "first_visit" || event === "engaged_visit") return "page_view";
     return "high_intent";
+}
+
+function numField(value: unknown): number | undefined {
+    if (typeof value === "number" && Number.isFinite(value)) return value;
+    return undefined;
+}
+
+function boolField(value: unknown): boolean {
+    return value === true;
 }
 
 export default async (req: Request): Promise<Response> => {
@@ -238,6 +263,7 @@ export default async (req: Request): Promise<Response> => {
     const event = body.event;
     const allowed: VisitSmsEvent[] = [
         "first_visit",
+        "engaged_visit",
         "calculator",
         "call_click",
         "form_start",
@@ -278,22 +304,47 @@ export default async (req: Request): Promise<Response> => {
     const visitorId = (body.visitorId || "").trim().slice(0, 64);
     const visitorHash = visitorId ? hashValue(visitorId, salt) : "unknown";
 
-    if (event === "first_visit" && !body.humanConfirmed) {
-        logStructured({
-            log: "blocked_no_human_signal",
-            event,
-            ip: visitorIP,
-        });
-        return new Response(
-            JSON.stringify({ ok: false, reason: "blocked_no_human_signal" }),
-            {
-                status: 200,
-                headers: { "Content-Type": "application/json; charset=utf-8" },
-            },
-        );
-    }
-
     const geo = await resolveGeo(req, visitorIP);
+
+    const metaTraffic =
+        boolField(body.isMetaTraffic) ||
+        isMetaPaidTraffic({
+            utmSource: body.utmSource,
+            utmMedium: body.utmMedium,
+            fbclid: body.fbclid,
+            userAgent: ua,
+        });
+
+    if (event === "first_visit" || event === "engaged_visit") {
+        const pageDecision = evaluatePageViewSms({
+            kind: event === "first_visit" ? "first_visit" : "engaged_visit",
+            ipHash,
+            visitorHash,
+            city: geo.city,
+            isMetaTraffic: metaTraffic,
+            dwellSeconds: numField(body.dwellSeconds),
+            scrollPx: numField(body.scrollPx),
+            hasClick: boolField(body.hasClick),
+            strongEngagement: boolField(body.strongEngagement),
+        });
+        if (!pageDecision.allowed) {
+            logSmsDecision("sms_blocked_page_view", {
+                event,
+                reason: pageDecision.reason,
+                ipHash,
+                visitorHash,
+                metaTraffic,
+                city: geo.city,
+            });
+            return new Response(
+                JSON.stringify({ ok: false, reason: pageDecision.reason }),
+                {
+                    status: 200,
+                    headers: { "Content-Type": "application/json; charset=utf-8" },
+                },
+            );
+        }
+    }
 
     if (!geo.countryCode || geo.countryCode !== "CA") {
         logStructured({
@@ -334,12 +385,12 @@ export default async (req: Request): Promise<Response> => {
         pagePath,
     });
     if (throttle.blocked) {
-        logStructured({
-            log: "sms_skipped_throttle",
+        logSmsDecision("sms_blocked_throttle", {
             reason: throttle.reason,
             event,
             ipHash,
             visitorHash,
+            tier: notifyTierForEvent(event),
         });
         return new Response(JSON.stringify({ ok: false, reason: throttle.reason }), {
             status: 200,
@@ -347,21 +398,10 @@ export default async (req: Request): Promise<Response> => {
         });
     }
 
-    if (event === "first_visit" && isSuspiciousCityFlap(ipHash, geo.city)) {
-        logStructured({
-            log: "blocked_city_flap",
-            event,
-            ipHash,
-            city: geo.city,
-        });
-        return new Response(JSON.stringify({ ok: false, reason: "blocked_city_flap" }), {
-            status: 200,
-            headers: { "Content-Type": "application/json; charset=utf-8" },
-        });
-    }
-
-    if (ipHash !== "unknown" && isRateLimited(ipHash, 6)) {
-        logStructured({ log: "blocked_rate_limit", ipHash, event });
+    const rateMax =
+        event === "engaged_visit" ? 2 : event === "first_visit" ? 1 : 8;
+    if (ipHash !== "unknown" && isRateLimited(ipHash, rateMax)) {
+        logSmsDecision("sms_blocked_rate_limit", { ipHash, event, rateMax });
         return new Response(JSON.stringify({ ok: false, reason: "rate_limited" }), {
             status: 429,
             headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -378,13 +418,15 @@ export default async (req: Request): Promise<Response> => {
     const logTag =
         event === "first_visit"
             ? "sms_sent_real_visitor"
-            : event === "calculator"
-              ? "sms_sent_calculator"
-              : event === "call_click"
-                ? "sms_sent_call_click"
-                : event === "form_start"
-                  ? "sms_sent_form_start"
-                  : "sms_sent_form_submit";
+            : event === "engaged_visit"
+              ? "sms_sent_engaged_visitor"
+              : event === "calculator"
+                ? "sms_sent_calculator"
+                : event === "call_click"
+                  ? "sms_sent_call_click"
+                  : event === "form_start"
+                    ? "sms_sent_form_start"
+                    : "sms_sent_form_submit";
 
     try {
         await clientTwilio.messages.create({
@@ -396,9 +438,11 @@ export default async (req: Request): Promise<Response> => {
         logStructured({
             log: logTag,
             event,
-            ip: visitorIP,
+            ipHash,
+            visitorHash,
             city: geo.city,
             region: geo.region,
+            metaTraffic,
         });
 
         return new Response(

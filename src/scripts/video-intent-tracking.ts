@@ -1,16 +1,24 @@
 /**
- * SMS d'intention vidéo — client (dry-run via fonction Netlify).
- * Ne bloque jamais l'ouverture des modals vidéo.
+ * SMS d'intention vidéo — client (fonction Netlify).
+ * SMS « page service visitée » : désactivé (spam Meta Ads).
+ * Clic vidéo réel : conservé (haute intention).
  */
 
 import {
   formatVisitEstimate,
   syncVisitCount,
 } from "./video-visitor-storage";
+import {
+  captureSmsTrafficParams,
+  trafficFieldsForPayload,
+} from "./sms-client-context";
 
 const ALERT_URL = "/.netlify/functions/video-intent-alert";
 
 export const VIDEO_PLAY_OPEN_EVENT = "empire:video-play-open";
+
+/** SMS au chargement de page service — désactivé */
+const ENABLE_SERVICE_PAGE_VIEWED_SMS = false;
 
 export interface VideoPlayOpenDetail {
   youtubeId: string;
@@ -20,14 +28,6 @@ export interface VideoPlayOpenDetail {
 
 const K_UTM = "empire_vit_utm_v1";
 const K_LAST_CITY = "empire_vit_last_city_v1";
-/** Une seule alerte « page visitée » par session (évite le spam multi-villes / tests Meta) */
-const K_GLOBAL_PAGE_SMS = "empire_vit_page_sms_sent_v1";
-
-/** Délai max avant envoi — uniquement si engagement réel (scroll / clic) */
-const PAGE_VIEW_DELAY_MS = 12_000;
-/** Interaction précoce (scroll / clic) après ce délai minimum */
-const PAGE_VIEW_EARLY_MS = 8_000;
-const MIN_SCROLL_PX = 80;
 
 type VideoIntentEvent =
   | "service_page_viewed"
@@ -50,6 +50,8 @@ interface TrackPayload {
   referrer: string;
   lastKnownCity?: string;
   humanConfirmed?: boolean;
+  isMetaTraffic?: boolean;
+  fbclid?: string;
 }
 
 function cleanPageTitle(): string {
@@ -71,6 +73,7 @@ function getDeviceType(): "mobile" | "desktop" {
 }
 
 function captureUtm(): void {
+  captureSmsTrafficParams();
   try {
     if (sessionStorage.getItem(K_UTM)) return;
     const params = new URLSearchParams(location.search);
@@ -113,10 +116,6 @@ function pagePath(): string {
   return `${location.pathname}${location.search || ""}`.slice(0, 220);
 }
 
-function pageViewSessionKey(): string {
-  return `empire_vit_page:${pagePath()}`;
-}
-
 function playSessionKey(youtubeId: string): string {
   return `empire_vit_play:${pagePath()}:${youtubeId}`;
 }
@@ -142,6 +141,7 @@ function setLastKnownCity(city: string): void {
 function sendPayload(payload: TrackPayload): void {
   const body = JSON.stringify({
     ...payload,
+    ...trafficFieldsForPayload(),
     lastKnownCity: getLastKnownCity(),
   });
   void fetch(ALERT_URL, {
@@ -167,6 +167,7 @@ function buildBasePayload(
 ): TrackPayload {
   const { visitCount, visitorId } = syncVisitCount();
   const utm = readUtm();
+  const traffic = trafficFieldsForPayload();
   return {
     eventType,
     pagePath: pagePath(),
@@ -182,6 +183,8 @@ function buildBasePayload(
     utmCampaign: utm.utmCampaign,
     deviceType: getDeviceType(),
     referrer: (document.referrer || "").slice(0, 300),
+    isMetaTraffic: Boolean(traffic.isMetaTraffic),
+    fbclid: String(traffic.fbclid || ""),
   };
 }
 
@@ -191,97 +194,11 @@ function resolveServiceName(root: Element): string {
   return cleanPageTitle();
 }
 
-function trackServicePageViewed(root: Element): void {
-  const pageKey = pageViewSessionKey();
-  try {
-    if (sessionStorage.getItem(K_GLOBAL_PAGE_SMS)) return;
-    if (sessionStorage.getItem(pageKey)) return;
-    sessionStorage.setItem(pageKey, "1");
-    sessionStorage.setItem(K_GLOBAL_PAGE_SMS, "1");
-  } catch {
-    return;
-  }
-
-  if (document.visibilityState !== "visible") return;
-  if (navigator.webdriver) return;
-
-  sendPayload({
-    ...buildBasePayload("service_page_viewed", {
-      serviceName: resolveServiceName(root),
-      videoTitle: "",
-      youtubeId: "",
-    }),
-    humanConfirmed: true,
-  });
-}
-
-let pageViewTimer: ReturnType<typeof setTimeout> | null = null;
-
-function clearPageViewSchedule(): void {
-  if (pageViewTimer !== null) {
-    clearTimeout(pageViewTimer);
-    pageViewTimer = null;
-  }
-}
-
+/** Désactivé — ne pas envoyer SMS « Nouveau visiteur probable » sur pages service. */
 function initServicePageView(): void {
-  clearPageViewSchedule();
-
-  try {
-    if (sessionStorage.getItem(K_GLOBAL_PAGE_SMS)) return;
-    if (sessionStorage.getItem(pageViewSessionKey())) return;
-  } catch {
-    return;
-  }
-
-  const roots = document.querySelectorAll("[data-vit-track]");
-  if (roots.length === 0) return;
-  const root = roots[0];
-  if (!(root instanceof Element)) return;
-
-  const loadedAt = performance.now();
-  let sent = false;
-  let engaged = false;
-
-  const markEngaged = (): void => {
-    if (window.scrollY >= MIN_SCROLL_PX) engaged = true;
-  };
-
-  const fire = (): void => {
-    if (sent) return;
-    if (!engaged) return;
-    if (document.visibilityState !== "visible") return;
-    sent = true;
-    clearPageViewSchedule();
-    trackServicePageViewed(root);
-  };
-
-  pageViewTimer = setTimeout(fire, PAGE_VIEW_DELAY_MS);
-
-  const onScroll = (): void => {
-    markEngaged();
-    if (sent) return;
-    if (performance.now() - loadedAt >= PAGE_VIEW_EARLY_MS) fire();
-  };
-
-  const onClick = (): void => {
-    engaged = true;
-    if (sent) return;
-    if (performance.now() - loadedAt >= PAGE_VIEW_EARLY_MS) fire();
-  };
-
-  window.addEventListener("scroll", onScroll, { passive: true });
-  document.addEventListener("click", onClick, true);
-
-  const cleanup = (): void => {
-    window.removeEventListener("scroll", onScroll);
-    document.removeEventListener("click", onClick, true);
-  };
-
-  window.setTimeout(cleanup, PAGE_VIEW_DELAY_MS + 2_000);
+  if (!ENABLE_SERVICE_PAGE_VIEWED_SMS) return;
 }
 
-/** Émis par openModal — écouteur enregistré dès le chargement du module. */
 export function dispatchVideoPlayOpen(detail: VideoPlayOpenDetail): void {
   if (!detail.youtubeId?.trim()) return;
   window.dispatchEvent(
@@ -323,7 +240,6 @@ function onVideoPlayOpenEvent(event: Event): void {
   trackVideoPlayFromDetail(detail);
 }
 
-/** Construit le détail depuis le modal et émet l’événement (appelé par openModal). */
 export function emitVideoPlayOpenFromModal(
   dialog: HTMLElement | null,
   trigger?: Element | null,
@@ -379,7 +295,6 @@ if (typeof window !== "undefined") {
   document.addEventListener("astro:page-load", boot);
 }
 
-/** Exposé pour tests manuels en console */
 if (typeof window !== "undefined") {
   (window as unknown as { __empireVideoIntent?: object }).__empireVideoIntent = {
     syncVisitCount,

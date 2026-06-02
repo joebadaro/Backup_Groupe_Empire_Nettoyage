@@ -1,11 +1,13 @@
 import twilio from "twilio";
 import {
+  evaluatePageViewSms,
   extractClientIp,
   hashValue,
   isLikelyBot,
+  isMetaPaidTraffic,
   isPrefetchRequest,
   isRateLimited,
-  isSuspiciousCityFlap,
+  logSmsDecision,
   shouldThrottleNotify,
   type NotifyTier,
 } from "./lib/sms-guard.ts";
@@ -33,6 +35,8 @@ interface VideoIntentPayload {
   lastKnownCity?: string;
   /** Page service : true seulement après scroll / clic / délai d’engagement */
   humanConfirmed?: boolean;
+  isMetaTraffic?: boolean;
+  fbclid?: string;
 }
 
 function logStructured(payload: Record<string, unknown>): void {
@@ -208,6 +212,8 @@ function parsePayload(body: VideoIntentPayload): VideoIntentPayload | null {
     referrer: strField(body.referrer, 300),
     lastKnownCity: strField(body.lastKnownCity, 80),
     humanConfirmed: body.humanConfirmed === true,
+    isMetaTraffic: body.isMetaTraffic === true,
+    fbclid: strField(body.fbclid, 120),
   };
 }
 
@@ -291,8 +297,7 @@ export default async (req: Request): Promise<Response> => {
     payload.eventType === "service_page_viewed" &&
     !payload.humanConfirmed
   ) {
-    logStructured({
-      log: "video_intent_blocked_no_human_signal",
+    logSmsDecision("video_intent_blocked_no_human_signal", {
       event: payload.eventType,
     });
     return new Response(
@@ -308,6 +313,41 @@ export default async (req: Request): Promise<Response> => {
     ? hashValue(payload.visitorId, salt)
     : "unknown";
 
+  const city = resolveEffectiveCity(req, payload.lastKnownCity || "");
+  const metaTraffic =
+    payload.isMetaTraffic === true ||
+    isMetaPaidTraffic({
+      utmSource: payload.utmSource,
+      utmMedium: payload.utmMedium,
+      referrer: payload.referrer,
+      fbclid: payload.fbclid,
+      userAgent: ua,
+    });
+
+  if (payload.eventType === "service_page_viewed") {
+    const decision = evaluatePageViewSms({
+      kind: "service_page_viewed",
+      ipHash,
+      visitorHash,
+      city,
+      isMetaTraffic: metaTraffic,
+      strongEngagement: payload.humanConfirmed,
+    });
+    if (!decision.allowed) {
+      logSmsDecision("video_intent_blocked_page_view", {
+        reason: decision.reason,
+        ipHash,
+        visitorHash,
+        metaTraffic,
+        city,
+      });
+      return new Response(
+        JSON.stringify({ ok: false, reason: decision.reason }),
+        { status: 200, headers: jsonHeaders },
+      );
+    }
+  }
+
   const tier = notifyTier(payload.eventType);
   const throttle = shouldThrottleNotify({
     ipHash,
@@ -317,8 +357,7 @@ export default async (req: Request): Promise<Response> => {
     pagePath: payload.pagePath,
   });
   if (throttle.blocked) {
-    logStructured({
-      log: "video_intent_throttled",
+    logSmsDecision("video_intent_blocked_throttle", {
       reason: throttle.reason,
       ipHash,
       event: payload.eventType,
@@ -329,28 +368,15 @@ export default async (req: Request): Promise<Response> => {
     });
   }
 
-  const city = resolveEffectiveCity(req, payload.lastKnownCity || "");
   const cityLine = city || "inconnue";
-
-  if (
-    payload.eventType === "service_page_viewed" &&
-    isSuspiciousCityFlap(ipHash, cityLine === "inconnue" ? "" : cityLine)
-  ) {
-    logStructured({
-      log: "video_intent_blocked_city_flap",
+  const rateMax =
+    payload.eventType === "service_page_viewed" ? 1 : 12;
+  if (ipHash !== "unknown" && isRateLimited(ipHash, rateMax)) {
+    logSmsDecision("video_intent_blocked_rate_limit", {
       ipHash,
       event: payload.eventType,
+      rateMax,
     });
-    return new Response(JSON.stringify({ ok: false, reason: "blocked_city_flap" }), {
-      status: 200,
-      headers: jsonHeaders,
-    });
-  }
-
-  const rateMax =
-    payload.eventType === "service_page_viewed" ? 5 : 10;
-  if (ipHash !== "unknown" && isRateLimited(ipHash, rateMax)) {
-    logStructured({ log: "video_intent_rate_limited", ipHash, event: payload.eventType });
     return new Response(JSON.stringify({ ok: false, reason: "rate_limited" }), {
       status: 429,
       headers: jsonHeaders,
