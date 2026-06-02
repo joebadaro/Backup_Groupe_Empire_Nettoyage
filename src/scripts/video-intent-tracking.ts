@@ -1,7 +1,7 @@
 /**
  * SMS d'intention vidéo — client (fonction Netlify).
- * SMS « page service visitée » : désactivé (spam Meta Ads).
- * Clic vidéo réel : conservé (haute intention).
+ * Entrée sur page : gérée par visitor-sms.ts (page_enter).
+ * Clic vidéo réel : conservé ici (haute intention).
  */
 
 import {

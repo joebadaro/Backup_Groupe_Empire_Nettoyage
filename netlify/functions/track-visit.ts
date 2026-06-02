@@ -12,10 +12,8 @@ import {
     type NotifyTier,
 } from "./lib/sms-guard.ts";
 
-/** Événements supportés — logs alignés sur la spec utilisateur */
 type VisitSmsEvent =
-    | "first_visit"
-    | "engaged_visit"
+    | "page_enter"
     | "calculator"
     | "call_click"
     | "form_start"
@@ -24,20 +22,21 @@ type VisitSmsEvent =
 interface TrackPayload {
     event?: VisitSmsEvent;
     pageTitle?: string;
+    pageLabel?: string;
     pagePath?: string;
+    serviceName?: string;
     clientName?: string;
-    /** @deprecated — first_visit SMS désactivé côté serveur */
-    humanConfirmed?: boolean;
     visitorId?: string;
     utmSource?: string;
     utmMedium?: string;
     utmCampaign?: string;
     fbclid?: string;
+    referrer?: string;
+    trafficSource?: string;
     isMetaTraffic?: boolean;
+    isMetaRealVisitor?: boolean;
+    humanPageView?: boolean;
     dwellSeconds?: number;
-    scrollPx?: number;
-    hasClick?: boolean;
-    strongEngagement?: boolean;
 }
 
 interface GeoResult {
@@ -163,58 +162,129 @@ function sanitizeTitle(raw: string): string {
     return t.slice(0, 120) || "Page";
 }
 
+function resolveTrafficSource(
+    body: TrackPayload,
+    metaTraffic: boolean,
+    metaReal: boolean,
+): string {
+    const fromClient = (body.trafficSource || "").trim();
+    if (fromClient) return fromClient.slice(0, 40);
+    if (metaReal || metaTraffic) return "Meta";
+    const src = (body.utmSource || "").toLowerCase();
+    const med = (body.utmMedium || "").toLowerCase();
+    if (src === "google" && (med === "cpc" || med === "ppc" || med === "paid")) {
+        return "Google Ads";
+    }
+    if (src.includes("google")) return "Google";
+    const ref = (body.referrer || "").toLowerCase();
+    if (ref.includes("google.")) return "Google";
+    if (ref.includes("facebook.") || ref.includes("instagram.")) return "Meta";
+    if (ref.includes("bing.")) return "Bing";
+    if (body.utmSource?.trim()) {
+        const raw = body.utmSource.trim();
+        return raw.charAt(0).toUpperCase() + raw.slice(1);
+    }
+    return "Direct";
+}
+
+function formatCityLine(geo: GeoResult): string {
+    return geo.city?.trim() ? geo.city.trim() : "inconnue";
+}
+
 function smsBodyForEvent(
     event: VisitSmsEvent,
     geo: GeoResult,
-    pageTitle: string,
-    pagePath: string,
-    clientName?: string,
+    opts: {
+        pageTitle: string;
+        pageLabel: string;
+        pagePath: string;
+        serviceName: string;
+        clientName?: string;
+        trafficSource: string;
+        metaReal: boolean;
+    },
 ): string {
     const timeStr = formatTimeMontreal(new Date());
-    const cityKnown = !!(geo.city && geo.city.trim());
-    const locPhrase = cityKnown
-        ? `de ${geo.city.trim()}`
-        : "au Québec";
-    const provinceHint =
-        geo.regionName && geo.regionName.toLowerCase().includes("quebec")
-            ? geo.regionName
-            : "";
-
+    const cityLine = formatCityLine(geo);
+    const pageDisplay =
+        opts.serviceName.trim() ||
+        opts.pageLabel.trim() ||
+        opts.pageTitle.trim() ||
+        "Page";
     const namePart =
-        clientName && clientName.trim()
-            ? ` (${clientName.trim()})`
+        opts.clientName && opts.clientName.trim()
+            ? ` (${opts.clientName.trim()})`
             : "";
 
     switch (event) {
-        case "first_visit":
-            return cityKnown
-                ? `Nouveau visiteur probable${namePart} ${locPhrase}. Page visitée : ${pageTitle}. Heure : ${timeStr}.`
-                : `Nouveau visiteur probable${namePart} au Québec${provinceHint ? ` (${provinceHint})` : ""}. Page visitée : ${pageTitle}. Heure : ${timeStr}.`;
-
-        case "engaged_visit":
-            return cityKnown
-                ? `Visiteur engagé${namePart} ${locPhrase}. Page : ${pageTitle}. Heure : ${timeStr}.`
-                : `Visiteur engagé${namePart} au Québec. Page : ${pageTitle}. Heure : ${timeStr}.`;
+        case "page_enter": {
+            if (opts.metaReal || opts.trafficSource === "Meta") {
+                return [
+                    "Un visiteur provenant de Meta est entré sur le site",
+                    `Page : ${pageDisplay}`,
+                    `Chemin : ${opts.pagePath}`,
+                    `Source : Meta`,
+                    `Ville : ${cityLine}`,
+                    `Heure : ${timeStr}`,
+                ].join("\n");
+            }
+            return [
+                "Nouveau visiteur sur le site",
+                `Page : ${pageDisplay}`,
+                `Chemin : ${opts.pagePath}`,
+                `Source : ${opts.trafficSource}`,
+                `Ville : ${cityLine}`,
+                `Heure : ${timeStr}`,
+            ].join("\n");
+        }
 
         case "calculator":
-            return `Client actif dans le calculateur${namePart}. Ville estimée : ${cityKnown ? geo.city.trim() : "Québec"}. Page : ${pageTitle}. Heure : ${timeStr}.`;
+            return [
+                "Action : Ouverture estimateur",
+                `Page : ${pageDisplay}`,
+                `Chemin : ${opts.pagePath}`,
+                `Source : ${opts.trafficSource}`,
+                `Ville : ${cityLine}${namePart}`,
+                `Heure : ${timeStr}`,
+            ].join("\n");
 
         case "call_click":
-            return `Clic pour appeler${namePart}. Ville estimée : ${cityKnown ? geo.city.trim() : "Québec"}. Page : ${pageTitle}. Heure : ${timeStr}.`;
+            return [
+                "Action : Clic pour appeler",
+                `Page : ${pageDisplay}`,
+                `Chemin : ${opts.pagePath}`,
+                `Source : ${opts.trafficSource}`,
+                `Ville : ${cityLine}${namePart}`,
+                `Heure : ${timeStr}`,
+            ].join("\n");
 
         case "form_start":
-            return `Formulaire démarré${namePart}. Ville estimée : ${cityKnown ? geo.city.trim() : "Québec"}. Page : ${pageTitle}. Chemin : ${pagePath}. Heure : ${timeStr}.`;
+            return [
+                "Action : Formulaire démarré",
+                `Page : ${pageDisplay}`,
+                `Chemin : ${opts.pagePath}`,
+                `Source : ${opts.trafficSource}`,
+                `Ville : ${cityLine}${namePart}`,
+                `Heure : ${timeStr}`,
+            ].join("\n");
 
         case "form_submit":
-            return `Demande d'estimation envoyée${namePart}. Ville estimée : ${cityKnown ? geo.city.trim() : "Québec"}. Page : ${pageTitle}. Heure : ${timeStr}.`;
+            return [
+                "Action : Demande d'estimation envoyée",
+                `Page : ${pageDisplay}`,
+                `Chemin : ${opts.pagePath}`,
+                `Source : ${opts.trafficSource}`,
+                `Ville : ${cityLine}${namePart}`,
+                `Heure : ${timeStr}`,
+            ].join("\n");
 
         default:
-            return `Notification ${event}. Page : ${pageTitle}. Heure : ${timeStr}.`;
+            return `Notification ${event}. Page : ${pageDisplay}. Heure : ${timeStr}.`;
     }
 }
 
 function notifyTierForEvent(event: VisitSmsEvent): NotifyTier {
-    if (event === "first_visit" || event === "engaged_visit") return "page_view";
+    if (event === "page_enter") return "page_view";
     return "high_intent";
 }
 
@@ -262,8 +332,7 @@ export default async (req: Request): Promise<Response> => {
 
     const event = body.event;
     const allowed: VisitSmsEvent[] = [
-        "first_visit",
-        "engaged_visit",
+        "page_enter",
         "calculator",
         "call_click",
         "form_start",
@@ -312,28 +381,31 @@ export default async (req: Request): Promise<Response> => {
             utmSource: body.utmSource,
             utmMedium: body.utmMedium,
             fbclid: body.fbclid,
+            referrer: body.referrer,
             userAgent: ua,
         });
+    const metaReal = boolField(body.isMetaRealVisitor);
 
-    if (event === "first_visit" || event === "engaged_visit") {
+    if (event === "page_enter") {
         const pageDecision = evaluatePageViewSms({
-            kind: event === "first_visit" ? "first_visit" : "engaged_visit",
+            kind: "page_enter",
             ipHash,
             visitorHash,
             city: geo.city,
             isMetaTraffic: metaTraffic,
+            isMetaRealVisitor: metaReal,
+            humanPageView: boolField(body.humanPageView),
             dwellSeconds: numField(body.dwellSeconds),
-            scrollPx: numField(body.scrollPx),
-            hasClick: boolField(body.hasClick),
-            strongEngagement: boolField(body.strongEngagement),
+            userAgent: ua,
         });
         if (!pageDecision.allowed) {
-            logSmsDecision("sms_blocked_page_view", {
+            logSmsDecision("sms_blocked_page_enter", {
                 event,
                 reason: pageDecision.reason,
                 ipHash,
                 visitorHash,
                 metaTraffic,
+                metaReal,
                 city: geo.city,
             });
             return new Response(
@@ -398,8 +470,7 @@ export default async (req: Request): Promise<Response> => {
         });
     }
 
-    const rateMax =
-        event === "engaged_visit" ? 2 : event === "first_visit" ? 1 : 8;
+    const rateMax = event === "page_enter" ? 30 : 12;
     if (ipHash !== "unknown" && isRateLimited(ipHash, rateMax)) {
         logSmsDecision("sms_blocked_rate_limit", { ipHash, event, rateMax });
         return new Response(JSON.stringify({ ok: false, reason: "rate_limited" }), {
@@ -409,24 +480,33 @@ export default async (req: Request): Promise<Response> => {
     }
 
     const pageTitle = sanitizeTitle(body.pageTitle || "");
+    const pageLabel = sanitizeTitle(body.pageLabel || pageTitle);
+    const serviceName = sanitizeTitle(body.serviceName || "");
     const client = (body.clientName || "").trim();
+    const trafficSource = resolveTrafficSource(body, metaTraffic, metaReal);
 
-    const messageBody = smsBodyForEvent(event, geo, pageTitle, pagePath, client);
+    const messageBody = smsBodyForEvent(event, geo, {
+        pageTitle,
+        pageLabel,
+        pagePath,
+        serviceName,
+        clientName: client,
+        trafficSource,
+        metaReal: metaReal && metaTraffic,
+    });
 
     const clientTwilio = twilio(accountSid, authToken);
 
     const logTag =
-        event === "first_visit"
-            ? "sms_sent_real_visitor"
-            : event === "engaged_visit"
-              ? "sms_sent_engaged_visitor"
-              : event === "calculator"
-                ? "sms_sent_calculator"
-                : event === "call_click"
-                  ? "sms_sent_call_click"
-                  : event === "form_start"
-                    ? "sms_sent_form_start"
-                    : "sms_sent_form_submit";
+        event === "page_enter"
+            ? "sms_sent_page_enter"
+            : event === "calculator"
+              ? "sms_sent_calculator"
+              : event === "call_click"
+                ? "sms_sent_call_click"
+                : event === "form_start"
+                  ? "sms_sent_form_start"
+                  : "sms_sent_form_submit";
 
     try {
         await clientTwilio.messages.create({
@@ -443,6 +523,8 @@ export default async (req: Request): Promise<Response> => {
             city: geo.city,
             region: geo.region,
             metaTraffic,
+            metaReal,
+            pagePath,
         });
 
         return new Response(

@@ -1,6 +1,5 @@
 import twilio from "twilio";
 import {
-  evaluatePageViewSms,
   extractClientIp,
   hashValue,
   isLikelyBot,
@@ -293,15 +292,13 @@ export default async (req: Request): Promise<Response> => {
     });
   }
 
-  if (
-    payload.eventType === "service_page_viewed" &&
-    !payload.humanConfirmed
-  ) {
-    logSmsDecision("video_intent_blocked_no_human_signal", {
+  if (payload.eventType === "service_page_viewed") {
+    logSmsDecision("video_intent_page_view_disabled", {
       event: payload.eventType,
+      note: "page_enter handled by track-visit",
     });
     return new Response(
-      JSON.stringify({ ok: false, reason: "blocked_no_human_signal" }),
+      JSON.stringify({ ok: false, reason: "service_page_view_disabled" }),
       { status: 200, headers: jsonHeaders },
     );
   }
@@ -323,30 +320,6 @@ export default async (req: Request): Promise<Response> => {
       fbclid: payload.fbclid,
       userAgent: ua,
     });
-
-  if (payload.eventType === "service_page_viewed") {
-    const decision = evaluatePageViewSms({
-      kind: "service_page_viewed",
-      ipHash,
-      visitorHash,
-      city,
-      isMetaTraffic: metaTraffic,
-      strongEngagement: payload.humanConfirmed,
-    });
-    if (!decision.allowed) {
-      logSmsDecision("video_intent_blocked_page_view", {
-        reason: decision.reason,
-        ipHash,
-        visitorHash,
-        metaTraffic,
-        city,
-      });
-      return new Response(
-        JSON.stringify({ ok: false, reason: decision.reason }),
-        { status: 200, headers: jsonHeaders },
-      );
-    }
-  }
 
   const tier = notifyTier(payload.eventType);
   const throttle = shouldThrottleNotify({

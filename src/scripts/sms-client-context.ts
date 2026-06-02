@@ -1,5 +1,5 @@
 /**
- * Contexte trafic / engagement partagé pour les beacons SMS (client uniquement).
+ * Contexte trafic / page partagé pour les beacons SMS (client uniquement).
  * Indépendant du Meta Pixel.
  */
 
@@ -12,13 +12,6 @@ export interface SmsTrafficContext {
   utmCampaign: string;
   fbclid: string;
   isMetaTraffic: boolean;
-}
-
-export interface SmsEngagementSnapshot {
-  dwellSeconds: number;
-  scrollPx: number;
-  hasClick: boolean;
-  strongEngagement: boolean;
 }
 
 export function captureSmsTrafficParams(): void {
@@ -97,34 +90,142 @@ function detectMetaTraffic(
   if (med.includes("facebook") || med.includes("instagram")) return true;
   const ref = (document.referrer || "").toLowerCase();
   if (ref.includes("facebook.com") || ref.includes("instagram.com")) return true;
-  const ua = navigator.userAgent || "";
-  if (/fban\/|fbav\/|fb_iab|fbios|\[fb/i.test(ua)) return true;
-  if (/instagram/i.test(ua) && /iphone|ipad|android/i.test(ua)) return true;
+  if (isMetaInAppBrowser()) return true;
   return false;
 }
 
-/** Seuils engagement pour SMS « visiteur engagé » (rare). */
-export function evaluateStrongEngagement(
-  dwellMs: number,
-  scrollPx: number,
-  hasClick: boolean,
-  isMeta: boolean,
-): SmsEngagementSnapshot {
-  const dwellSeconds = Math.floor(dwellMs / 1000);
-  const minDwell = isMeta ? 45 : 28;
-  const minScroll = isMeta ? 220 : 140;
-  const deepScroll = isMeta ? 380 : 280;
-  const strongEngagement =
-    dwellSeconds >= minDwell &&
-    scrollPx >= minScroll &&
-    (hasClick || scrollPx >= deepScroll);
+export function isMetaInAppBrowser(): boolean {
+  const ua = navigator.userAgent || "";
+  const u = ua.toLowerCase();
+  if (u.includes("fban/") || u.includes("fbav/") || u.includes("fb_iab")) return true;
+  if (u.includes("fbios") || u.includes("[fb")) return true;
+  if (u.includes("instagram") && !u.includes("externalhit")) {
+    if (/iphone|ipad|android/i.test(ua)) return true;
+  }
+  return false;
+}
 
-  return {
-    dwellSeconds,
-    scrollPx: Math.round(scrollPx),
-    hasClick,
-    strongEngagement,
+export function isLikelyAutomatedClient(): boolean {
+  if (navigator.webdriver) return true;
+  if (document.visibilityState === "hidden") return true;
+  const ua = (navigator.userAgent || "").toLowerCase();
+  if (
+    ua.includes("headless") ||
+    ua.includes("lighthouse") ||
+    ua.includes("facebookexternalhit") ||
+    ua.includes("facebot")
+  ) {
+    return true;
+  }
+  return false;
+}
+
+export function isMetaRealVisitor(): boolean {
+  const traffic = readSmsTrafficContext();
+  if (!traffic.isMetaTraffic) return false;
+  if (isMetaInAppBrowser()) return true;
+  if (traffic.fbclid) return true;
+  const src = traffic.utmSource.toLowerCase();
+  const med = traffic.utmMedium.toLowerCase();
+  if (
+    src.includes("facebook") ||
+    src.includes("instagram") ||
+    src === "fb" ||
+    src === "ig" ||
+    med.includes("facebook") ||
+    med.includes("instagram")
+  ) {
+    return true;
+  }
+  const ref = (document.referrer || "").toLowerCase();
+  if (ref.includes("facebook.com") || ref.includes("instagram.com")) return true;
+  return false;
+}
+
+export function isQuickHumanPageView(): boolean {
+  return !isLikelyAutomatedClient();
+}
+
+export function formatTrafficSource(
+  utmSource?: string,
+  utmMedium?: string,
+  referrer?: string,
+): string {
+  const traffic = readSmsTrafficContext();
+  const src = (utmSource ?? traffic.utmSource).toLowerCase();
+  const med = (utmMedium ?? traffic.utmMedium).toLowerCase();
+  const ref = (referrer ?? document.referrer ?? "").toLowerCase();
+
+  if (traffic.isMetaTraffic || traffic.fbclid) return "Meta";
+  if (src === "google" && (med === "cpc" || med === "ppc" || med === "paid")) {
+    return "Google Ads";
+  }
+  if (src.includes("google")) return "Google";
+  if (src.includes("bing")) return "Bing";
+  if (utmSource?.trim() || traffic.utmSource.trim()) {
+    const raw = (utmSource ?? traffic.utmSource).trim();
+    return raw.charAt(0).toUpperCase() + raw.slice(1);
+  }
+  if (ref.includes("google.")) return "Google";
+  if (ref.includes("facebook.") || ref.includes("instagram.")) return "Meta";
+  if (ref.includes("bing.")) return "Bing";
+  return "Direct";
+}
+
+function cleanPageTitle(): string {
+  let t = document.title || "";
+  const pipe = t.indexOf("|");
+  if (pipe > 0) t = t.slice(0, pipe).trim();
+  return t.trim() || location.pathname || "Page";
+}
+
+export function getServiceFromPage(): string {
+  const vit = document.querySelector("[data-vit-service-name]");
+  const fromAttr = vit?.getAttribute("data-vit-service-name")?.trim();
+  if (fromAttr) return fromAttr.slice(0, 120);
+  return "";
+}
+
+export function getPageLabel(): string {
+  const path = location.pathname.replace(/\/$/, "") || "/";
+  const service = getServiceFromPage();
+  if (service) return service;
+
+  const labels: Record<string, string> = {
+    "/": "Accueil",
+    "/services": "Services",
+    "/equipements": "Équipements",
+    "/realisations": "Réalisations",
+    "/equipe": "Équipe",
+    "/a-propos": "À propos",
+    "/conseils": "Conseils",
+    "/produits": "Produits",
+    "/contact": "Contact",
+    "/demande-estimation": "Demande d'estimation gratuite",
+    "/en": "Home",
+    "/en/services": "Services",
+    "/en/equipment": "Equipment",
+    "/en/projects": "Projects",
+    "/en/team": "Team",
+    "/en/about": "About",
+    "/en/tips": "Tips",
+    "/en/products": "Products",
+    "/en/contact": "Contact",
+    "/en/estimate-request": "Free estimate request",
   };
+
+  if (labels[path]) return labels[path];
+  if (path.startsWith("/services/") || path.startsWith("/en/services/")) {
+    return cleanPageTitle();
+  }
+  if (
+    path.includes("-nettoyage-") ||
+    path.includes("-cleaning-") ||
+    /\/(montreal|laval|longueuil|quebec|gatineau|sherbrooke|trois-rivieres)/i.test(path)
+  ) {
+    return cleanPageTitle();
+  }
+  return cleanPageTitle();
 }
 
 export function trafficFieldsForPayload(): Record<string, unknown> {
@@ -135,5 +236,7 @@ export function trafficFieldsForPayload(): Record<string, unknown> {
     utmCampaign: t.utmCampaign,
     fbclid: t.fbclid,
     isMetaTraffic: t.isMetaTraffic,
+    referrer: (document.referrer || "").slice(0, 300),
+    trafficSource: formatTrafficSource(),
   };
 }

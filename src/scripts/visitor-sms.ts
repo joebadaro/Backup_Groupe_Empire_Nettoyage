@@ -1,36 +1,35 @@
 /**
- * Notifications SMS — haute intention prioritaire.
- * SMS « page visitée / visiteur probable » : désactivés sauf visiteur fortement engagé (rare).
- * Filtrage bots / Meta Ads côté client + serveur. Indépendant du Meta Pixel.
+ * Notifications SMS visiteurs — entrée rapide par page + haute intention.
+ * Indépendant du Meta Pixel.
  */
 
 import { getOrCreateSessionId } from "./video-visitor-storage";
 import {
   captureSmsTrafficParams,
-  evaluateStrongEngagement,
-  readSmsTrafficContext,
+  getPageLabel,
+  getServiceFromPage,
+  isMetaRealVisitor,
+  isQuickHumanPageView,
   trafficFieldsForPayload,
 } from "./sms-client-context";
 
 const TRACK_URL = "/.netlify/functions/track-visit";
 
-const K_ENGAGED = "empire_sms_engaged_v1";
+const K_PAGE_ENTER = "empire_sms_page_enter_v1";
 const K_CALC = "empire_sms_calc_v2";
-const K_LEAD = "empire_sms_lead_v2";
+const K_CALL = "empire_sms_call_v2";
+const K_FORM = "empire_sms_form_v2";
 const K_FORM_START = "empire_sms_form_start_v2";
 const K_CLIENT_NAME = "empire_client_display_name_v2";
 const K_LAST_CITY = "empire_vit_last_city_v1";
 
-/** SMS au simple chargement de page — désactivé */
-const ENABLE_LEGACY_FIRST_VISIT_SMS = false;
-/** SMS visiteur engagé (temps + scroll + clic) — activé mais strict */
-const ENABLE_ENGAGED_VISIT_SMS = true;
+const PAGE_ENTER_DELAY_MS = 5_000;
+const PAGE_ENTER_CLIENT_DEDUP_MS = 90_000;
 
 const ENABLE_FORM_START_SMS = false;
 
 type VisitEvent =
-  | "first_visit"
-  | "engaged_visit"
+  | "page_enter"
   | "calculator"
   | "call_click"
   | "form_start"
@@ -71,32 +70,50 @@ function sendVisitBeacon(payload: Record<string, unknown>): void {
     .catch(() => {});
 }
 
-function isVideoIntentServicePage(): boolean {
-  return !!document.querySelector("[data-vit-track]");
+function pagePathKey(): string {
+  return `${location.pathname}${location.search || ""}`.slice(0, 220);
+}
+
+function wasPageEnterSentRecently(path: string): boolean {
+  try {
+    const raw = sessionStorage.getItem(`${K_PAGE_ENTER}:${path}`);
+    if (!raw) return false;
+    const sentAt = Number(raw);
+    if (!Number.isFinite(sentAt)) return false;
+    return Date.now() - sentAt < PAGE_ENTER_CLIENT_DEDUP_MS;
+  } catch {
+    return false;
+  }
+}
+
+function markPageEnterSent(path: string): void {
+  try {
+    sessionStorage.setItem(`${K_PAGE_ENTER}:${path}`, String(Date.now()));
+  } catch {
+    /* ignore */
+  }
 }
 
 function notify(
   event: VisitEvent,
-  options?: {
-    clientName?: string;
-    engagement?: ReturnType<typeof evaluateStrongEngagement>;
-  },
+  options?: { clientName?: string; dwellSeconds?: number },
 ): void {
   const storedName = sessionStorage.getItem(K_CLIENT_NAME)?.trim();
   const clientName = options?.clientName?.trim() || storedName || undefined;
+  const serviceName = getServiceFromPage();
   const payload: Record<string, unknown> = {
     event,
     pageTitle: cleanPageTitle(),
-    pagePath: `${location.pathname}${location.search || ""}`.slice(0, 220),
+    pageLabel: getPageLabel(),
+    pagePath: pagePathKey(),
     visitorId: getOrCreateSessionId(),
+    humanPageView: true,
+    isMetaRealVisitor: isMetaRealVisitor(),
   };
+  if (serviceName) payload.serviceName = serviceName;
   if (clientName) payload.clientName = clientName;
-
-  if (event === "engaged_visit" && options?.engagement) {
-    payload.strongEngagement = options.engagement.strongEngagement;
-    payload.dwellSeconds = options.engagement.dwellSeconds;
-    payload.scrollPx = options.engagement.scrollPx;
-    payload.hasClick = options.engagement.hasClick;
+  if (options?.dwellSeconds !== undefined) {
+    payload.dwellSeconds = options.dwellSeconds;
   }
 
   sendVisitBeacon(payload);
@@ -120,64 +137,60 @@ function rememberClientNameFromInputs(): void {
   );
 }
 
-const pageLoadedAt = performance.now();
-let maxScrollPx = 0;
-let meaningfulClick = false;
-let engagedSmsSent = false;
+let pageEnterTimer: ReturnType<typeof setTimeout> | null = null;
+let pageEnterStartedAt = performance.now();
 
-function updateScroll(): void {
-  maxScrollPx = Math.max(maxScrollPx, window.scrollY);
+function clearPageEnterTimer(): void {
+  if (pageEnterTimer !== null) {
+    clearTimeout(pageEnterTimer);
+    pageEnterTimer = null;
+  }
 }
 
-function trySendEngagedVisit(): void {
-  if (!ENABLE_ENGAGED_VISIT_SMS || engagedSmsSent) return;
-  if (sessionStorage.getItem(K_ENGAGED)) return;
-  if (isVideoIntentServicePage()) return;
+function trySendPageEnter(): void {
   if (document.visibilityState !== "visible") return;
-  if (navigator.webdriver) return;
+  if (!isQuickHumanPageView()) return;
 
-  const traffic = readSmsTrafficContext();
-  const engagement = evaluateStrongEngagement(
-    performance.now() - pageLoadedAt,
-    maxScrollPx,
-    meaningfulClick,
-    traffic.isMetaTraffic,
+  const path = pagePathKey();
+  if (wasPageEnterSentRecently(path)) return;
+
+  const dwellSeconds = Math.max(
+    3,
+    Math.floor((performance.now() - pageEnterStartedAt) / 1000),
   );
 
-  if (!engagement.strongEngagement) return;
-
-  engagedSmsSent = true;
-  sessionStorage.setItem(K_ENGAGED, "1");
-  notify("engaged_visit", { engagement });
+  markPageEnterSent(path);
+  notify("page_enter", { dwellSeconds });
 }
 
-function initEngagementTracking(): void {
+function schedulePageEnter(): void {
+  clearPageEnterTimer();
+  pageEnterStartedAt = performance.now();
+
+  pageEnterTimer = window.setTimeout(() => {
+    pageEnterTimer = null;
+    trySendPageEnter();
+  }, PAGE_ENTER_DELAY_MS);
+}
+
+function initPageEnterTracking(): void {
   captureSmsTrafficParams();
+  schedulePageEnter();
 
-  window.addEventListener("scroll", updateScroll, { passive: true });
-
-  document.addEventListener(
-    "click",
-    (e) => {
-      const el = e.target as HTMLElement | null;
-      if (el?.closest?.("a[href^='tel:']")) return;
-      meaningfulClick = true;
-      trySendEngagedVisit();
-    },
-    true,
-  );
-
-  window.setInterval(() => {
-    updateScroll();
-    trySendEngagedVisit();
-  }, 5_000);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      trySendPageEnter();
+    }
+  });
 }
 
 function initCalculatorOpen(): void {
   window.addEventListener("empire:estimator-open", () => {
     if (sessionStorage.getItem(K_CALC)) return;
     sessionStorage.setItem(K_CALC, "1");
-    notify("calculator");
+    notify("calculator", {
+      dwellSeconds: Math.floor((performance.now() - pageEnterStartedAt) / 1000),
+    });
   });
 }
 
@@ -188,9 +201,11 @@ function initCallClicks(): void {
       const el = e.target as HTMLElement | null;
       const a = el?.closest?.("a[href^='tel:']");
       if (!a) return;
-      if (sessionStorage.getItem(K_LEAD)) return;
-      sessionStorage.setItem(K_LEAD, "call");
-      notify("call_click");
+      if (sessionStorage.getItem(K_CALL)) return;
+      sessionStorage.setItem(K_CALL, "1");
+      notify("call_click", {
+        dwellSeconds: Math.floor((performance.now() - pageEnterStartedAt) / 1000),
+      });
     },
     true,
   );
@@ -200,10 +215,13 @@ function initLeadFormSubmitted(): void {
   window.addEventListener(
     "empire:lead-form-submitted",
     ((e: CustomEvent<{ clientName?: string }>) => {
-      if (sessionStorage.getItem(K_LEAD)) return;
-      sessionStorage.setItem(K_LEAD, "form");
+      if (sessionStorage.getItem(K_FORM)) return;
+      sessionStorage.setItem(K_FORM, "1");
       const name = e.detail?.clientName?.trim();
-      notify("form_submit", { clientName: name });
+      notify("form_submit", {
+        clientName: name,
+        dwellSeconds: Math.floor((performance.now() - pageEnterStartedAt) / 1000),
+      });
     }) as EventListener,
   );
 }
@@ -233,15 +251,17 @@ function initFormStart(): void {
 
 function boot(): void {
   rememberClientNameFromInputs();
-  initEngagementTracking();
+  initPageEnterTracking();
   initCalculatorOpen();
   initCallClicks();
   initLeadFormSubmitted();
   initFormStart();
+}
 
-  if (ENABLE_LEGACY_FIRST_VISIT_SMS) {
-    /* conservé pour tests manuels uniquement — SMS_LEGACY_PAGE_VIEW=true côté serveur */
-  }
+function onAstroPageLoad(): void {
+  captureSmsTrafficParams();
+  pageEnterStartedAt = performance.now();
+  schedulePageEnter();
 }
 
 if (typeof window !== "undefined") {
@@ -250,10 +270,5 @@ if (typeof window !== "undefined") {
   } else {
     boot();
   }
-  document.addEventListener("astro:page-load", () => {
-    maxScrollPx = 0;
-    meaningfulClick = false;
-    engagedSmsSent = false;
-    captureSmsTrafficParams();
-  });
+  document.addEventListener("astro:page-load", onAstroPageLoad);
 }

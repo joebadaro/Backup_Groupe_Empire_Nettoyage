@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 
 /**
- * Filtrage SMS visiteurs — bots, prefetch, cooldown, villes instables, trafic Meta Ads.
+ * Filtrage SMS visiteurs — bots, prefetch, dédup courte par page, rafales Meta auto.
  * Haute intention (appel, formulaire, vidéo, calculateur) reste prioritaire.
  */
 
@@ -55,7 +55,6 @@ export function isMetaInAppBrowser(userAgent: string): boolean {
 export function isLikelyBot(userAgent: string): boolean {
   const ua = userAgent || "";
   if (!ua.trim()) return true;
-  /** Crawlers Meta / prefetch publicitaire — jamais SMS */
   if (isMetaCrawlerUa(ua)) return true;
 
   const u = ua.toLowerCase();
@@ -108,25 +107,27 @@ export function hashValue(value: string, salt: string): string {
 
 export type NotifyTier = "page_view" | "high_intent";
 
-export type PageViewEventKind =
-  | "first_visit"
-  | "service_page_viewed"
-  | "engaged_visit";
+export type PageViewEventKind = "page_enter" | "service_page_viewed";
 
-const BURST_DEDUP_MS = 120_000;
-const COOLDOWN_PAGE_MS =
-  Number(process.env.SMS_COOLDOWN_PAGE_MS) || 45 * 60 * 1000;
+const PAGE_BURST_DEDUP_MS =
+  Number(process.env.SMS_PAGE_BURST_MS) || 90_000;
 const COOLDOWN_HIGH_MS =
   Number(process.env.SMS_COOLDOWN_HIGH_MS) || 4 * 60 * 1000;
-const SESSION_BLOCK_MS = 60 * 60 * 1000;
-const CITY_FLAP_WINDOW_MS = 15 * 60 * 1000;
+const META_BURST_WINDOW_MS = 3 * 60 * 1000;
+const META_BURST_CITY_THRESHOLD = 4;
+const META_BURST_BLOCK_MS = 30 * 60 * 1000;
 
-const burstDedup = new Map<string, number>();
+const pageBurstDedup = new Map<string, number>();
 const notifyCooldown = new Map<string, number>();
-const sessionPageBlock = new Map<string, number>();
 
-const cityFlapByIp = new Map<string, { cities: string[]; windowStart: number }>();
-const cityFlapByVisitor = new Map<string, { cities: string[]; windowStart: number }>();
+type MetaBurstEntry = {
+  cities: string[];
+  windowStart: number;
+  hadRealVisitor: boolean;
+  blockedUntil: number;
+};
+
+const metaBurstByIp = new Map<string, MetaBurstEntry>();
 
 function pruneMap(map: Map<string, number>, maxAgeMs: number, now: number): void {
   if (map.size < 5000) return;
@@ -135,34 +136,7 @@ function pruneMap(map: Map<string, number>, maxAgeMs: number, now: number): void
   }
 }
 
-function sessionBlockKey(ipHash: string, visitorHash: string): string {
-  return `${ipHash}|${visitorHash}`;
-}
-
-export function isSessionBlockedForPageView(
-  ipHash: string,
-  visitorHash: string,
-): boolean {
-  const key = sessionBlockKey(ipHash, visitorHash);
-  const until = sessionPageBlock.get(key);
-  if (!until) return false;
-  if (Date.now() > until) {
-    sessionPageBlock.delete(key);
-    return false;
-  }
-  return true;
-}
-
-function blockPageViewSession(ipHash: string, visitorHash: string, reason: string): void {
-  const key = sessionBlockKey(ipHash, visitorHash);
-  sessionPageBlock.set(key, Date.now() + SESSION_BLOCK_MS);
-  logSmsDecision("session_page_view_blocked", { ipHash, visitorHash, reason });
-}
-
-function logSmsDecision(
-  log: string,
-  fields: Record<string, unknown>,
-): void {
+function logSmsDecision(log: string, fields: Record<string, unknown>): void {
   console.log(JSON.stringify({ log, ...fields }));
 }
 
@@ -192,99 +166,69 @@ export function isMetaPaidTraffic(opts: {
   return false;
 }
 
-function recordCityFlap(
-  store: Map<string, { cities: string[]; windowStart: number }>,
-  key: string,
-  city: string,
-): number {
-  const c = city.trim();
-  if (!c || c.toLowerCase() === "inconnue") return 0;
-  const now = Date.now();
-  let entry = store.get(key);
-  if (!entry || now - entry.windowStart > CITY_FLAP_WINDOW_MS) {
-    entry = { cities: [c], windowStart: now };
-    store.set(key, entry);
-    return entry.cities.length;
-  }
-  if (!entry.cities.includes(c)) entry.cities.push(c);
-  return entry.cities.length;
+/** Trafic Meta sans signal visiteur humain côté client (previews / tests auto). */
+export function isMetaAutomatedTraffic(opts: {
+  isMetaTraffic: boolean;
+  isMetaRealVisitor?: boolean;
+  humanPageView?: boolean;
+  userAgent?: string;
+}): boolean {
+  if (!opts.isMetaTraffic) return false;
+  if (opts.userAgent && isMetaCrawlerUa(opts.userAgent)) return true;
+  if (opts.isMetaRealVisitor === true && opts.humanPageView === true) return false;
+  if (opts.humanPageView !== true) return true;
+  if (opts.isMetaRealVisitor !== true) return true;
+  return false;
 }
 
-/** Ville change souvent → blocage session page-view (tests pub Meta). */
-export function registerCityForPageView(opts: {
+function recordMetaBurst(opts: {
   ipHash: string;
-  visitorHash: string;
   city: string;
-}): { blocked: boolean; reason?: string; distinctCities: number } {
+  isMetaRealVisitor: boolean;
+}): { blocked: boolean; reason?: string } {
+  if (opts.ipHash === "unknown") return { blocked: false };
+
+  const now = Date.now();
+  let entry = metaBurstByIp.get(opts.ipHash);
+
+  if (entry && entry.blockedUntil > now) {
+    return { blocked: true, reason: "meta_automated_burst_blocked" };
+  }
+
   const city = (opts.city || "").trim();
-  if (!city || city.toLowerCase() === "inconnue") {
-    return { blocked: false, distinctCities: 0 };
+  if (!entry || now - entry.windowStart > META_BURST_WINDOW_MS) {
+    entry = {
+      cities: city && city.toLowerCase() !== "inconnue" ? [city] : [],
+      windowStart: now,
+      hadRealVisitor: opts.isMetaRealVisitor,
+      blockedUntil: 0,
+    };
+    metaBurstByIp.set(opts.ipHash, entry);
+    return { blocked: false };
   }
 
-  if (isSessionBlockedForPageView(opts.ipHash, opts.visitorHash)) {
-    return { blocked: true, reason: "session_already_blocked", distinctCities: 0 };
+  if (opts.isMetaRealVisitor) entry.hadRealVisitor = true;
+  if (
+    city &&
+    city.toLowerCase() !== "inconnue" &&
+    !entry.cities.includes(city)
+  ) {
+    entry.cities.push(city);
   }
 
-  const ipCount =
-    opts.ipHash !== "unknown"
-      ? recordCityFlap(cityFlapByIp, opts.ipHash, city)
-      : 0;
-  const visitorCount =
-    opts.visitorHash !== "unknown"
-      ? recordCityFlap(cityFlapByVisitor, opts.visitorHash, city)
-      : 0;
-
-  const distinct = Math.max(ipCount, visitorCount);
-  /** 2 villes distinctes en 15 min → blocage complet page-view pour la session */
-  if (distinct >= 2) {
-    blockPageViewSession(opts.ipHash, opts.visitorHash, "city_flap");
-    return { blocked: true, reason: "city_flap", distinctCities: distinct };
+  if (
+    !entry.hadRealVisitor &&
+    entry.cities.length >= META_BURST_CITY_THRESHOLD
+  ) {
+    entry.blockedUntil = now + META_BURST_BLOCK_MS;
+    logSmsDecision("meta_automated_burst_detected", {
+      ipHash: opts.ipHash,
+      distinctCities: entry.cities.length,
+    });
+    return { blocked: true, reason: "meta_automated_city_burst" };
   }
 
-  return { blocked: false, distinctCities: distinct };
-}
-
-/** @deprecated use registerCityForPageView */
-export function isSuspiciousCityFlap(ipHash: string, city: string): boolean {
-  const r = registerCityForPageView({
-    ipHash,
-    visitorHash: "unknown",
-    city,
-  });
-  return r.blocked;
-}
-
-export function isLegacyPageViewDisabled(): boolean {
-  return process.env.SMS_LEGACY_PAGE_VIEW !== "true";
-}
-
-export function validateEngagedPageViewPayload(opts: {
-  dwellSeconds?: number;
-  scrollPx?: number;
-  hasClick?: boolean;
-  strongEngagement?: boolean;
-  isMetaTraffic?: boolean;
-}): { ok: boolean; reason?: string } {
-  if (opts.strongEngagement !== true) {
-    return { ok: false, reason: "missing_strong_engagement_flag" };
-  }
-  const dwell = opts.dwellSeconds ?? 0;
-  const scroll = opts.scrollPx ?? 0;
-  const meta = opts.isMetaTraffic === true;
-  const minDwell = meta ? 45 : 28;
-  const minScroll = meta ? 220 : 140;
-  const deepScroll = meta ? 380 : 280;
-
-  if (dwell < minDwell) {
-    return { ok: false, reason: "dwell_too_short" };
-  }
-  if (scroll < minScroll) {
-    return { ok: false, reason: "scroll_too_shallow" };
-  }
-  if (!opts.hasClick && scroll < deepScroll) {
-    return { ok: false, reason: "no_click_and_shallow_scroll" };
-  }
-  return { ok: true };
+  return { blocked: false };
 }
 
 export function evaluatePageViewSms(opts: {
@@ -293,49 +237,58 @@ export function evaluatePageViewSms(opts: {
   visitorHash: string;
   city: string;
   isMetaTraffic?: boolean;
+  isMetaRealVisitor?: boolean;
+  humanPageView?: boolean;
   dwellSeconds?: number;
-  scrollPx?: number;
-  hasClick?: boolean;
-  strongEngagement?: boolean;
+  userAgent?: string;
 }): { allowed: boolean; reason?: string } {
-  if (isSessionBlockedForPageView(opts.ipHash, opts.visitorHash)) {
-    return { allowed: false, reason: "session_page_view_blocked" };
+  if (opts.kind === "service_page_viewed") {
+    return { allowed: false, reason: "service_page_view_disabled" };
   }
 
-  const cityCheck = registerCityForPageView({
-    ipHash: opts.ipHash,
-    visitorHash: opts.visitorHash,
-    city: opts.city,
-  });
-  if (cityCheck.blocked) {
-    return { allowed: false, reason: cityCheck.reason || "city_flap" };
+  if (opts.humanPageView !== true) {
+    return { allowed: false, reason: "missing_human_page_view" };
   }
 
-  if (opts.kind === "first_visit" || opts.kind === "service_page_viewed") {
-    if (isLegacyPageViewDisabled()) {
-      return { allowed: false, reason: "legacy_page_view_disabled" };
+  const dwell = opts.dwellSeconds ?? 0;
+  if (dwell < 3) {
+    return { allowed: false, reason: "dwell_too_short" };
+  }
+
+  const metaTraffic = opts.isMetaTraffic === true;
+
+  if (
+    metaTraffic &&
+    isMetaAutomatedTraffic({
+      isMetaTraffic: true,
+      isMetaRealVisitor: opts.isMetaRealVisitor,
+      humanPageView: opts.humanPageView,
+      userAgent: opts.userAgent,
+    })
+  ) {
+    const burst = recordMetaBurst({
+      ipHash: opts.ipHash,
+      city: opts.city,
+      isMetaRealVisitor: false,
+    });
+    if (burst.blocked) {
+      return { allowed: false, reason: burst.reason || "meta_automated" };
     }
-    if (opts.isMetaTraffic) {
-      return { allowed: false, reason: "meta_traffic_no_legacy_page_sms" };
-    }
-    return { allowed: false, reason: "legacy_page_view_disabled" };
+    return { allowed: false, reason: "meta_automated_no_real_visitor" };
   }
 
-  if (opts.kind === "engaged_visit") {
-    if (opts.isMetaTraffic) {
-      const v = validateEngagedPageViewPayload({
-        ...opts,
-        isMetaTraffic: true,
-      });
-      if (!v.ok) return { allowed: false, reason: `meta_engaged_${v.reason}` };
-    } else {
-      const v = validateEngagedPageViewPayload(opts);
-      if (!v.ok) return { allowed: false, reason: `engaged_${v.reason}` };
+  if (metaTraffic) {
+    const burst = recordMetaBurst({
+      ipHash: opts.ipHash,
+      city: opts.city,
+      isMetaRealVisitor: true,
+    });
+    if (burst.blocked) {
+      return { allowed: false, reason: burst.reason || "meta_burst_blocked" };
     }
-    return { allowed: true };
   }
 
-  return { allowed: false, reason: "unknown_page_view_kind" };
+  return { allowed: true };
 }
 
 export function shouldThrottleNotify(opts: {
@@ -351,38 +304,34 @@ export function shouldThrottleNotify(opts: {
       ? opts.visitorHash
       : "no-visitor";
 
+  if (opts.tier === "page_view") {
+    const pageKey = (opts.pagePath || "/").slice(0, 200);
+    const burstKey = `pv:${visitorKey}:${pageKey}`;
+    const prevBurst = pageBurstDedup.get(burstKey);
+    if (prevBurst && now - prevBurst < PAGE_BURST_DEDUP_MS) {
+      return { blocked: true, reason: "duplicate_page_burst" };
+    }
+    pageBurstDedup.set(burstKey, now);
+    pruneMap(pageBurstDedup, PAGE_BURST_DEDUP_MS * 3, now);
+    return { blocked: false };
+  }
+
   const burstKey = `${opts.ipHash}|${visitorKey}|${opts.eventKey}|${opts.pagePath || ""}`;
-  const prevBurst = burstDedup.get(burstKey);
-  if (prevBurst && now - prevBurst < BURST_DEDUP_MS) {
+  const prevBurst = pageBurstDedup.get(burstKey);
+  if (prevBurst && now - prevBurst < PAGE_BURST_DEDUP_MS) {
     return { blocked: true, reason: "duplicate_burst" };
   }
-  burstDedup.set(burstKey, now);
+  pageBurstDedup.set(burstKey, now);
 
-  if (opts.tier === "page_view") {
-    const ipKey = `pv:ip:${opts.ipHash}`;
-    const visitorCooldownKey = `pv:visitor:${visitorKey}`;
-    const ipPrev = notifyCooldown.get(ipKey);
-    if (ipPrev && now - ipPrev < COOLDOWN_PAGE_MS) {
-      return { blocked: true, reason: "cooldown_page_view_ip" };
-    }
-    const visPrev = notifyCooldown.get(visitorCooldownKey);
-    if (visPrev && now - visPrev < COOLDOWN_PAGE_MS) {
-      return { blocked: true, reason: "cooldown_page_view_visitor" };
-    }
-    notifyCooldown.set(ipKey, now);
-    notifyCooldown.set(visitorCooldownKey, now);
-  } else {
-    const cooldownKey = `hi:${opts.ipHash}:${visitorKey}:${opts.eventKey}`;
-    const prev = notifyCooldown.get(cooldownKey);
-    if (prev && now - prev < COOLDOWN_HIGH_MS) {
-      return { blocked: true, reason: "cooldown_high_intent" };
-    }
-    notifyCooldown.set(cooldownKey, now);
+  const cooldownKey = `hi:${opts.ipHash}:${visitorKey}:${opts.eventKey}`;
+  const prev = notifyCooldown.get(cooldownKey);
+  if (prev && now - prev < COOLDOWN_HIGH_MS) {
+    return { blocked: true, reason: "cooldown_high_intent" };
   }
+  notifyCooldown.set(cooldownKey, now);
 
-  pruneMap(burstDedup, BURST_DEDUP_MS * 3, now);
-  pruneMap(notifyCooldown, Math.max(COOLDOWN_PAGE_MS, COOLDOWN_HIGH_MS) * 2, now);
-  pruneMap(sessionPageBlock, SESSION_BLOCK_MS * 2, now);
+  pruneMap(pageBurstDedup, PAGE_BURST_DEDUP_MS * 3, now);
+  pruneMap(notifyCooldown, COOLDOWN_HIGH_MS * 2, now);
   return { blocked: false };
 }
 
