@@ -1,7 +1,9 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import YouTubeFacade from "../../components/YouTubeFacade.astro";
+import PresentationGalleryCard from "../../components/PresentationGalleryCard.astro";
 import UiIcon from "../../components/icons/UiIcon.astro";
+import { getPresentationGalleryEntry } from "../../data/presentationVideos";
 import {
   SALON_SECTIONNEL_POSTER_SIZES_GRID,
   SALON_SECTIONNEL_POSTER_SRCSET,
@@ -13,6 +15,7 @@ const canonicalPath = "/en/video-gallery";
 
 // Placeholder videos for the gallery. 
 const videos = [
+  getPresentationGalleryEntry("en"),
   {
     id: "46rCcc5hGLk",
     title: "Premium wool carpet cleaning in Westmount, stairs, bedrooms and restored leather sofas",
@@ -145,7 +148,9 @@ const videoSchema = {
           ? video.description
           : `Demonstration of ${video.category.toLowerCase()} by Groupe Nettoyage Empire. Before and after results using professional cleaning equipment.`,
       "thumbnailUrl": `https://groupenettoyageempire.com${video.posterUrl}`,
-      "uploadDate": "2024-01-01T08:00:00+00:00",
+      ...("presentationHref" in video && video.presentationHref
+        ? {}
+        : { uploadDate: "2024-01-01T08:00:00+00:00" }),
       "embedUrl": `https://www.youtube.com/embed/${video.id}`
     }
   }))
@@ -174,18 +179,31 @@ const videoSchema = {
         {videos.map((video, index) => (
           <article class={`video-card fade-in-section ${index > 1 ? 'delay-100' : ''}`} aria-labelledby={`video-title-${index}`}>
             <div class="video-facade-container">
-               <YouTubeFacade 
-                  videoId={video.id} 
-                  title={video.title} 
+              {"presentationHref" in video && video.presentationHref ? (
+                <PresentationGalleryCard
+                  href={video.presentationHref}
+                  title={video.title}
+                  posterUrl={video.posterUrl}
+                  linkLabel="presentation page"
+                  badgeText="Watch presentation"
+                />
+              ) : (
+                <YouTubeFacade
+                  videoId={video.id}
+                  title={video.title}
                   posterUrl={video.posterUrl}
                   posterSrcSet={video.posterSrcSet}
                   posterSizes={video.posterSizes}
                   aspectRatio="9/16"
-               />
+                />
+              )}
             </div>
             <div class="video-card-body">
               <span class="video-category-badge">{video.category}</span>
               <h2 id={`video-title-${index}`} class="video-card-title">{video.title}</h2>
+              {"presentationHref" in video && video.presentationHref && (
+                <p class="video-presentation-hint">Full video on our presentation page</p>
+              )}
             </div>
           </article>
         ))}
@@ -324,7 +342,8 @@ const videoSchema = {
     border-bottom-right-radius: 0;
   }
 
-  :global(.video-facade-container .yt-facade) {
+  :global(.video-facade-container .yt-facade),
+  :global(.video-facade-container .presentation-gallery-card) {
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     border: none !important;
@@ -366,6 +385,14 @@ const videoSchema = {
     color: #001f3f;
     margin: 0;
     line-height: 1.35;
+  }
+
+  .video-presentation-hint {
+    margin: 0.2rem 0 0;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: #4b6075;
+    font-weight: 600;
   }
 
   @media (max-width: 600px) {

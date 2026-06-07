@@ -1,0 +1,82 @@
+---
+import ServiceVideoProof from "./ServiceVideoProof.astro";
+import {
+  getPresentationVideo,
+  type PresentationLocale,
+} from "../data/presentationVideos";
+
+export interface Props {
+  locale: PresentationLocale;
+}
+
+const { locale } = Astro.props;
+const video = getPresentationVideo(locale);
+---
+
+<section class="presentation-video-feature" aria-label={video.title}>
+  <ServiceVideoProof
+    title={video.title}
+    subtitle={locale === "fr" ? "Présentation vidéo" : "Video presentation"}
+    description={video.description}
+    youtubeId={video.id}
+    youtubeTitle={video.title}
+    allVideosHref={video.galleryHref}
+    posterUrl={video.posterUrl}
+    videoAspectRatio="9 / 16"
+    playLabel={video.playLabel}
+    allVideosLabel={video.allVideosLabel}
+    closeLabel={video.closeLabel}
+    serviceName={video.serviceName}
+  />
+</section>
+
+<style is:global>
+  .presentation-video-feature {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .presentation-video-feature .service-video-proof {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .presentation-video-feature .service-video-proof--vertical .svp-card {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+    justify-items: center !important;
+    text-align: center !important;
+    padding: 1.5rem 1.25rem !important;
+  }
+
+  .presentation-video-feature .svp-content {
+    order: 2;
+    max-width: 640px;
+  }
+
+  .presentation-video-feature .svp-actions {
+    justify-content: center;
+  }
+
+  .presentation-video-feature .svp-all-link {
+    display: none;
+  }
+
+  .presentation-video-feature .service-video-proof--vertical .svp-thumb {
+    order: 1;
+    width: min(320px, 78vw) !important;
+    max-height: min(560px, 72vh) !important;
+    height: auto !important;
+    margin-inline: auto !important;
+    justify-self: center !important;
+  }
+
+  @media (min-width: 901px) {
+    .presentation-video-feature .service-video-proof--vertical .svp-thumb {
+      width: min(300px, 32vw) !important;
+      max-height: min(520px, 68vh) !important;
+    }
+  }
+</style>

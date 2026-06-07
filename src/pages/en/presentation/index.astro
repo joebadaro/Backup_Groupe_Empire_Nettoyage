@@ -1,0 +1,154 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import PresentationVideoFeature from "../../../components/PresentationVideoFeature.astro";
+import { getPresentationVideo } from "../../../data/presentationVideos";
+
+const video = getPresentationVideo("en");
+const siteUrl = "https://groupenettoyageempire.com";
+
+const videoSchema = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: video.title,
+  description: video.description,
+  thumbnailUrl: `${siteUrl}${video.posterUrl}`,
+  embedUrl: `https://www.youtube.com/embed/${video.id}`,
+  contentUrl: `https://www.youtube.com/watch?v=${video.id}`,
+  inLanguage: video.inLanguage,
+};
+
+const services = [
+  "Residential and commercial carpet cleaning",
+  "Sofa, sectional and armchair cleaning",
+  "Mattress cleaning and disinfection",
+  "Area rug cleaning",
+  "Tile and grout cleaning",
+  "Specialized stain and odor treatments",
+];
+---
+
+<Layout
+  title={video.seoTitle}
+  description={video.seoDescription}
+  image={video.posterUrl}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(videoSchema)} />
+
+  <section class="presentation-hero">
+    <div class="container presentation-hero__inner">
+      <h1 class="presentation-hero__title">{video.pageTitle}</h1>
+      <p class="presentation-hero__intro">{video.pageIntro}</p>
+    </div>
+  </section>
+
+  <PresentationVideoFeature locale="en" />
+
+  <section class="section presentation-services">
+    <div class="container presentation-services__inner">
+      <h2 class="presentation-services__title">Our main services</h2>
+      <ul class="presentation-services__list">
+        {services.map((service) => (
+          <li>{service}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section presentation-cta">
+    <div class="container presentation-cta__inner text-center">
+      <div class="presentation-cta__actions">
+        <a href="tel:5148939939" class="btn btn-primary pulse-btn">
+          Call Us for a Free Estimate
+        </a>
+        <button
+          type="button"
+          onclick="window.openEstimationWidget()"
+          class="btn btn-gradient-green"
+          aria-label="Open the online estimate form"
+        >
+          Request a Free Estimate
+        </button>
+      </div>
+      <p class="presentation-cta__links">
+        Back to <a href="/en/">home</a>, browse our{" "}
+        <a href={video.galleryHref}>video gallery</a>, or{" "}
+        <a href="/en/contact">contact us</a> to schedule your service.
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .presentation-hero {
+    padding: 3rem 0 1.5rem;
+    background: linear-gradient(180deg, #eef4fb 0%, #f8fbff 100%);
+  }
+
+  .presentation-hero__inner {
+    max-width: 820px;
+    text-align: center;
+  }
+
+  .presentation-hero__title {
+    margin: 0 0 1rem;
+    font-size: clamp(1.75rem, 3vw, 2.35rem);
+    line-height: 1.2;
+    color: var(--color-primary, #003b7a);
+  }
+
+  .presentation-hero__intro {
+    margin: 0;
+    font-size: clamp(1.05rem, 1.4vw, 1.15rem);
+    line-height: 1.65;
+    color: #3d4f63;
+  }
+
+  .presentation-services {
+    padding: 2.5rem 0;
+  }
+
+  .presentation-services__inner {
+    max-width: 720px;
+  }
+
+  .presentation-services__title {
+    margin: 0 0 1.25rem;
+    font-size: clamp(1.35rem, 2vw, 1.65rem);
+    color: var(--color-primary, #003b7a);
+  }
+
+  .presentation-services__list {
+    margin: 0;
+    padding-left: 1.25rem;
+    display: grid;
+    gap: 0.65rem;
+    line-height: 1.55;
+    color: var(--color-text-main, #1f2937);
+  }
+
+  .presentation-cta {
+    padding: 2rem 0 3.5rem;
+    background: linear-gradient(180deg, #ffffff 0%, #f3f8fd 100%);
+  }
+
+  .presentation-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .presentation-cta__links {
+    margin: 0;
+    max-width: 42rem;
+    margin-inline: auto;
+    line-height: 1.6;
+    color: #4b5563;
+  }
+
+  .presentation-cta__links a {
+    color: var(--color-primary, #003b7a);
+    font-weight: 600;
+  }
+</style>
