@@ -1,10 +1,16 @@
 export type PresentationLocale = "fr" | "en";
 
+export const PRESENTATION_POSTER_URL =
+  "/images/videos/video-presentation-groupe-nettoyage-empire-team.webp";
+export const PRESENTATION_POSTER_WIDTH = 720;
+export const PRESENTATION_POSTER_HEIGHT = 1279;
+
 export interface PresentationVideoEntry {
   id: string;
   title: string;
   category: string;
   posterUrl: string;
+  posterAlt: string;
   description: string;
   presentationHref: string;
   galleryHref: string;
@@ -30,7 +36,9 @@ const PRESENTATION_VIDEOS: Record<PresentationLocale, PresentationVideoEntry> = 
     id: "qN362y2IN_0",
     title: "Présentation officielle de Groupe Nettoyage Empire",
     category: "Entreprise",
-    posterUrl: "/images/videos/video-presentation-groupe-nettoyage-empire-fr.webp",
+    posterUrl: PRESENTATION_POSTER_URL,
+    posterAlt:
+      "Équipe de Groupe Nettoyage Empire et présentation de nos services professionnels",
     description:
       "Découvrez qui est Groupe Nettoyage Empire, nos principaux services, notre équipement professionnel, nos camions-usines et la qualité de notre travail à Montréal et sur la Rive-Sud.",
     presentationHref: "/presentation/",
@@ -57,7 +65,9 @@ const PRESENTATION_VIDEOS: Record<PresentationLocale, PresentationVideoEntry> = 
     id: "Ayk97N_OxDQ",
     title: "Official Presentation of Groupe Nettoyage Empire",
     category: "Company",
-    posterUrl: "/images/videos/video-presentation-groupe-nettoyage-empire-en.webp",
+    posterUrl: PRESENTATION_POSTER_URL,
+    posterAlt:
+      "Groupe Nettoyage Empire team and professional cleaning services presentation",
     description:
       "Learn more about Groupe Nettoyage Empire, our main services, professional equipment, truck-mount units, experience, and the quality of our work in Montreal and the South Shore.",
     presentationHref: "/en/presentation/",
@@ -93,6 +103,7 @@ export function getPresentationGalleryEntry(locale: PresentationLocale) {
     title: video.title,
     category: video.category,
     posterUrl: video.posterUrl,
+    posterAlt: video.posterAlt,
     description: video.description,
     presentationHref: video.presentationHref,
   };

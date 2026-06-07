@@ -8,6 +8,8 @@ export interface Props {
   allVideosHref: string;
   /** Vignette locale optimisée (recommandé). Sinon repli YouTube sddefault. */
   posterUrl?: string;
+  /** Texte alternatif de la vignette (sinon repli sur le titre YouTube). */
+  posterAlt?: string;
   /** Ex. `"16 / 9"` (défaut) ou `"9 / 16"` pour les Shorts verticaux. */
   videoAspectRatio?: string;
   playLabel?: string;
@@ -25,6 +27,7 @@ const {
   youtubeTitle,
   allVideosHref,
   posterUrl: posterUrlProp,
+  posterAlt: posterAltProp,
   videoAspectRatio = "16 / 9",
   playLabel = "Voir la vidéo",
   allVideosLabel = "Voir toutes nos réalisations",
@@ -41,6 +44,7 @@ const posterUrl =
   posterUrlProp ??
   LOCAL_POSTERS[youtubeId] ??
   `https://i.ytimg.com/vi/${youtubeId}/sddefault.jpg`;
+const posterAlt = posterAltProp ?? `Aperçu : ${youtubeTitle}`;
 const embedSrc = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
 const aspectNormalized = videoAspectRatio.replace(/\s/g, "");
 const isVertical = aspectNormalized === "9/16" || aspectNormalized.startsWith("9/");
@@ -92,7 +96,7 @@ const thumbHeight = isVertical ? 640 : 360;
     >
       <img
         src={posterUrl}
-        alt={`Aperçu : ${youtubeTitle}`}
+        alt={posterAlt}
         class="svp-thumb-img"
         width={thumbWidth}
         height={thumbHeight}

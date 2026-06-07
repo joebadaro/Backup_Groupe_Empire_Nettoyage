@@ -1,6 +1,8 @@
 ---
 import {
   getPresentationVideo,
+  PRESENTATION_POSTER_HEIGHT,
+  PRESENTATION_POSTER_WIDTH,
   type PresentationLocale,
 } from "../data/presentationVideos";
 
@@ -31,10 +33,10 @@ const { homeTeaser } = video;
     >
       <img
         src={video.posterUrl}
-        alt={`Aperçu : ${video.title}`}
+        alt={video.posterAlt}
         class="presentation-home-teaser__thumb"
         width={180}
-        height={320}
+        height={Math.round((180 * PRESENTATION_POSTER_HEIGHT) / PRESENTATION_POSTER_WIDTH)}
         loading="lazy"
         decoding="async"
       />

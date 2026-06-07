@@ -3,6 +3,7 @@ interface Props {
   href: string;
   title: string;
   posterUrl: string;
+  posterAlt?: string;
   aspectRatio?: string;
   linkLabel?: string;
   badgeText?: string;
@@ -12,6 +13,7 @@ const {
   href,
   title,
   posterUrl,
+  posterAlt,
   aspectRatio = "9/16",
   linkLabel = "page de présentation",
   badgeText = "Voir la présentation",
@@ -26,7 +28,7 @@ const {
 >
   <img
     src={posterUrl}
-    alt={`Aperçu : ${title}`}
+    alt={posterAlt ?? `Aperçu : ${title}`}
     loading="lazy"
     class="presentation-gallery-card__poster"
     width={360}
