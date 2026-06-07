@@ -28,6 +28,7 @@ export interface PresentationVideoEntry {
     title: string;
     text: string;
     button: string;
+    duration: string;
   };
 }
 
@@ -56,9 +57,10 @@ const PRESENTATION_VIDEOS: Record<PresentationLocale, PresentationVideoEntry> = 
     serviceName: "Présentation entreprise",
     inLanguage: "fr-CA",
     homeTeaser: {
-      title: "Découvrez qui nous sommes et comment nous travaillons",
-      text: "Voyez nos équipements, nos méthodes de nettoyage et les services offerts par Groupe Nettoyage Empire.",
-      button: "Voir notre présentation",
+      title: "Découvrez Groupe Nettoyage Empire",
+      text: "Voyez notre équipe, nos équipements professionnels et notre façon de travailler en moins de trois minutes.",
+      button: "Voir la vidéo de présentation",
+      duration: "Vidéo de 2 min 15 s",
     },
   },
   en: {
@@ -85,9 +87,10 @@ const PRESENTATION_VIDEOS: Record<PresentationLocale, PresentationVideoEntry> = 
     serviceName: "Company presentation",
     inLanguage: "en-CA",
     homeTeaser: {
-      title: "Discover Who We Are and How We Work",
-      text: "See our equipment, our cleaning methods, and the professional services offered by Groupe Nettoyage Empire.",
-      button: "Watch Our Presentation",
+      title: "Discover Groupe Nettoyage Empire",
+      text: "Meet our team, see our professional equipment, and discover how we work in less than three minutes.",
+      button: "Watch Our Company Video",
+      duration: "2 min 15 sec video",
     },
   },
 };
