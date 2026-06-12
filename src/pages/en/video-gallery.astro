@@ -4,6 +4,7 @@ import YouTubeFacade from "../../components/YouTubeFacade.astro";
 import PresentationGalleryCard from "../../components/PresentationGalleryCard.astro";
 import UiIcon from "../../components/icons/UiIcon.astro";
 import { getPresentationGalleryEntry } from "../../data/presentationVideos";
+import { resolveVideoUploadDate } from "../../lib/videoSchema";
 import {
   SALON_SECTIONNEL_POSTER_SIZES_GRID,
   SALON_SECTIONNEL_POSTER_SRCSET,
@@ -148,9 +149,9 @@ const videoSchema = {
           ? video.description
           : `Demonstration of ${video.category.toLowerCase()} by Groupe Nettoyage Empire. Before and after results using professional cleaning equipment.`,
       "thumbnailUrl": `https://groupenettoyageempire.com${video.posterUrl}`,
-      ...("presentationHref" in video && video.presentationHref
-        ? {}
-        : { uploadDate: "2024-01-01T08:00:00+00:00" }),
+      "uploadDate": resolveVideoUploadDate(
+        "uploadDate" in video ? video.uploadDate : undefined,
+      ),
       "embedUrl": `https://www.youtube.com/embed/${video.id}`
     }
   }))

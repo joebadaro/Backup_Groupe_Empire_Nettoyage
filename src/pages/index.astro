@@ -14,6 +14,7 @@ import {
   SALON_SECTIONNEL_POSTER_SIZES_HOME,
   SALON_SECTIONNEL_POSTER_SRCSET,
 } from "../data/salonSectionnelPoster";
+import { SALON_SECTIONNEL_UPLOAD_DATE } from "../lib/videoSchema";
 
 const _v = SERVICE_IMAGES_ASSET_VERSION;
 /** 3e vignette « La Puissance… » uniquement — bump si bytes de photo-56 changent (évite cache navigateur sur ?v= global). */
@@ -389,7 +390,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         "name": "Nettoyage de salon sectionnel 6 places | Résultat avant-après",
         "description": "Démonstration de nettoyage de salon sectionnel par Groupe Nettoyage Empire. Vidéo avant/après et démonstration de nettoyage professionnel.",
         "thumbnailUrl": "https://groupenettoyageempire.com/images/videos/video-thumb-salon-sectionnel.webp",
-        "uploadDate": "2024-01-01T08:00:00+00:00",
+        "uploadDate": SALON_SECTIONNEL_UPLOAD_DATE,
         "embedUrl": "https://www.youtube.com/embed/em1yhDedcOQ"
       })} />
 

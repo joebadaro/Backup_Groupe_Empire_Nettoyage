@@ -11,6 +11,8 @@ export interface PresentationVideoEntry {
   category: string;
   posterUrl: string;
   posterAlt: string;
+  /** Date ISO 8601 de publication YouTube (uploadDate Schema.org). */
+  uploadDate: string;
   description: string;
   presentationHref: string;
   galleryHref: string;
@@ -37,6 +39,7 @@ const PRESENTATION_VIDEOS: Record<PresentationLocale, PresentationVideoEntry> = 
     id: "qN362y2IN_0",
     title: "Présentation officielle de Groupe Nettoyage Empire",
     category: "Entreprise",
+    uploadDate: "2026-06-06T18:49:25-07:00",
     posterUrl: PRESENTATION_POSTER_URL,
     posterAlt:
       "Équipe de Groupe Nettoyage Empire et présentation de nos services professionnels",
@@ -67,6 +70,7 @@ const PRESENTATION_VIDEOS: Record<PresentationLocale, PresentationVideoEntry> = 
     id: "Ayk97N_OxDQ",
     title: "Official Presentation of Groupe Nettoyage Empire",
     category: "Company",
+    uploadDate: "2026-06-06T18:48:09-07:00",
     posterUrl: PRESENTATION_POSTER_URL,
     posterAlt:
       "Groupe Nettoyage Empire team and professional cleaning services presentation",
@@ -108,6 +112,7 @@ export function getPresentationGalleryEntry(locale: PresentationLocale) {
     posterUrl: video.posterUrl,
     posterAlt: video.posterAlt,
     description: video.description,
+    uploadDate: video.uploadDate,
     presentationHref: video.presentationHref,
   };
 }
