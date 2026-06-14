@@ -2,6 +2,7 @@
 import Layout from "../../../layouts/Layout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
 import ServiceVideoProof from "../../../components/ServiceVideoProof.astro";
+import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorityGroup.astro";
 import UiIcon from "../../../components/icons/UiIcon.astro";
 
 const services = [
@@ -425,20 +426,7 @@ if (!service) {
 
           <div class="service-hero-action-band">
 
-          <div class="cta-group fade-in-up delay-300">
-            <a href="tel:5148939939" class="btn btn-primary pulse-btn">
-              <span class="cta-btn-stack">
-                <span>Call for a Fast Estimate</span>
-                <span class="cta-btn-phone-num">(514) 893-9939</span>
-              </span>
-            </a>
-            <button
-              onclick="window.openEstimationWidget()"
-              class="btn btn-primary pulse-btn"
-            >
-              Request a Free Estimate
-            </button>
-          </div>
+          <ConversionCtaPriorityGroup locale="en" buttonStyle="primary" />
           {service.slug === "tapis-laine" && (
             <ServiceVideoProof
               title="See Our Rug Cleaning in Action"

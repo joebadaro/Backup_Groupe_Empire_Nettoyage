@@ -27,5 +27,8 @@
     "resend": "^6.6.0",
     "sharp": "^0.34.5",
     "twilio": "^5.11.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.60.0"
   }
 }

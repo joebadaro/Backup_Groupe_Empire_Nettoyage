@@ -4,6 +4,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
 import LocalTapisCrossServiceLinks from "../../../components/LocalTapisCrossServiceLinks.astro";
 import LocalCarpetVideoProofSection from "../../../components/local-tapis/LocalCarpetVideoProofSection.astro";
 import UiIcon from "../../../components/icons/UiIcon.astro";
+import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorityGroup.astro";
 ---
 
 <Layout
@@ -60,18 +61,7 @@ import UiIcon from "../../../components/icons/UiIcon.astro";
             Our Saint-Lambert service model is premium-first: deep extraction, discreet execution, and textile-sensitive finishing. Close to Longueuil and the central South Shore, we keep the same truck-mount power while adapting protocols for clients who prioritize consistency, precision, and clean presentation.
           </p>
 
-          <div class="cta-group fade-in-up delay-300">
-            <a href="tel:5148939939" class="btn btn-gradient-green pulse-btn">
-              <span class="icon" aria-hidden="true"><UiIcon name="phone" size={18} /></span>
-              <span class="cta-btn-stack">
-                <span>Call for a Fast Estimate</span>
-                <span class="cta-btn-phone-num">(514) 893-9939</span>
-              </span>
-            </a>
-            <button onclick="window.openEstimationWidget()" class="btn btn-gradient-green">
-              Request a Free Estimate
-            </button>
-          </div>
+          <ConversionCtaPriorityGroup locale="en" buttonStyle="green" phoneIcon />
         </div>
 
         <div class="split-image-wrapper fade-in-section delay-200">

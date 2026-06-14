@@ -10,6 +10,7 @@ import UiIcon from "../components/icons/UiIcon.astro";
 import HomepageServiceCardIcon from "../components/icons/HomepageServiceCardIcon.astro";
 import YouTubeFacade from "../components/YouTubeFacade.astro";
 import PresentationHomeTeaser from "../components/PresentationHomeTeaser.astro";
+import ConversionCtaPriorityGroup from "../components/ConversionCtaPriorityGroup.astro";
 import {
   SALON_SECTIONNEL_POSTER_SIZES_HOME,
   SALON_SECTIONNEL_POSTER_SRCSET,
@@ -229,23 +230,14 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
           Extraction à la vapeur · Montréal et Rive-Sud
         </p>
       </div>
-      <div class="hero-actions animate-on-load delay-3">
-        <a href="tel:5148939939" class="btn btn-glass pulse-btn">
-          <span class="icon" aria-hidden="true"
-            ><UiIcon name="phone" size={20} /></span
-          >
-          <span class="cta-btn-stack">
-            <span>Appelez pour un estimé rapide</span>
-            <span class="cta-btn-phone-num">(514) 893-9939</span>
-          </span>
-        </a>
-        <a href="/contact" class="btn btn-glass-outline">
-          <span class="icon" aria-hidden="true"
-            ><UiIcon name="clipboard" size={20} /></span
-          >
-          Demander un estimé gratuit
-        </a>
-      </div>
+      <ConversionCtaPriorityGroup
+        locale="fr"
+        layout="hero"
+        buttonStyle="glass"
+        phoneIcon
+        estimateIcon
+        estimateIconName="clipboard"
+      />
     </div>
 
     <!-- 2. TRUST (mobile: overlay bas du hero — desktop: inchangé visuellement via CSS) -->
@@ -2337,8 +2329,8 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
           max-width: 100%;
           padding-left: 0.5rem;
           padding-right: 0.5rem;
-          /* Space above fixed .mobile-sticky-bar + iOS safe area — keeps subtitle off buttons */
-          padding-bottom: calc(5.35rem + env(safe-area-inset-bottom, 0px));
+          /* Hero mobile : CTA masqués — marge légère pour le contenu texte */
+          padding-bottom: 1.25rem;
         }
 
         /* Badge « Choix du consommateur » : ~40 % plus compact (surface), mobile seulement */

@@ -818,3 +818,464 @@ ul {
     overflow-anchor: none;
   }
 }
+
+/* --- After-hours phone popup --- */
+.ah-phone-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.ah-phone-popup[hidden] {
+  display: none !important;
+}
+
+.ah-phone-popup__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 35, 66, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.ah-phone-popup__panel {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 28rem);
+  max-height: min(calc(100vh - 2rem), 36rem);
+  overflow-y: auto;
+  background: var(--color-bg-white);
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 24px 60px rgba(0, 31, 63, 0.28);
+  padding: 1.75rem 1.5rem 1.5rem;
+  text-align: center;
+  border: 1px solid rgba(0, 74, 159, 0.12);
+}
+
+.ah-phone-popup__close {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-bg-off-white);
+  color: var(--color-text-main);
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.ah-phone-popup__close:hover,
+.ah-phone-popup__close:focus-visible {
+  background: var(--color-bg-light-blue);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.ah-phone-popup__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  margin: 0 auto 0.75rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e3f2fd 0%, #e8f5e9 100%);
+  color: var(--color-primary);
+}
+
+.ah-phone-popup__title {
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
+  margin-bottom: 0.75rem;
+  color: var(--color-primary);
+}
+
+.ah-phone-popup__body {
+  margin: 0 0 0.65rem;
+  color: var(--color-text-main);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.ah-phone-popup__secondary {
+  margin: 0 0 1.25rem;
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.ah-phone-popup__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ah-phone-popup__call {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  width: 100%;
+  min-height: 3.35rem;
+  padding: 0.65rem 1rem;
+  font-size: 1rem;
+  font-weight: 800;
+  border-radius: 999px;
+  text-decoration: none;
+}
+
+.ah-phone-popup__form-link {
+  background: transparent;
+  border: none;
+  color: var(--color-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+  padding: 0.35rem 0.5rem;
+  line-height: 1.4;
+}
+
+.ah-phone-popup__form-link:hover,
+.ah-phone-popup__form-link:focus-visible {
+  color: var(--color-primary-light);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ah-phone-popup__panel {
+    animation: ahPopupIn 0.35s ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ah-phone-popup__panel {
+    animation: none;
+  }
+}
+
+@keyframes ahPopupIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .ah-phone-popup {
+    padding: 0.75rem;
+    align-items: flex-end;
+  }
+
+  .ah-phone-popup__panel {
+    width: 100%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* --- Conversion CTA hierarchy (phone-first) --- */
+.conversion-cta-priority,
+.conversion-cta-enhanced {
+  align-items: stretch;
+}
+
+.conversion-cta-primary {
+  order: 1;
+  flex: 1 1 100%;
+  min-height: 3.25rem;
+  font-weight: 800 !important;
+  background: linear-gradient(135deg, #001f3f 0%, #004a9f 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 22px rgba(0, 31, 63, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.conversion-cta-primary:hover,
+.conversion-cta-primary:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 74, 159, 0.4);
+}
+
+.conversion-cta-secondary {
+  order: 2;
+  flex: 1 1 100%;
+  min-height: 2.75rem;
+  background: transparent !important;
+  color: var(--color-primary) !important;
+  border: 2px solid rgba(0, 74, 159, 0.35) !important;
+  box-shadow: none !important;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+}
+
+.conversion-cta-secondary:hover,
+.conversion-cta-secondary:focus-visible {
+  background: rgba(227, 242, 253, 0.65) !important;
+  transform: none;
+}
+
+/* Accueil FR/EN — hero sur fond sombre : secondaire lisible sans rivaliser le bouton d'appel */
+.hero-actions.conversion-cta-priority {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+  align-items: stretch;
+}
+
+.hero-actions.conversion-cta-priority .conversion-cta-secondary {
+  background: rgba(255, 255, 255, 0.58) !important;
+  color: #0b2f5b !important;
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  font-weight: 700 !important;
+  font-size: 0.98rem !important;
+  text-shadow: none !important;
+  min-height: 2.65rem;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.hero-actions.conversion-cta-priority .conversion-cta-secondary .icon {
+  color: #0b2f5b;
+  opacity: 0.95;
+}
+
+.hero-actions.conversion-cta-priority .conversion-cta-secondary .conversion-cta-secondary-label {
+  color: #0b2f5b;
+}
+
+.hero-actions.conversion-cta-priority .conversion-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.72) !important;
+  color: #0b2f5b !important;
+  border-color: rgba(255, 255, 255, 0.72) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16) !important;
+}
+
+.hero-actions.conversion-cta-priority .conversion-cta-secondary:focus-visible {
+  background: rgba(255, 255, 255, 0.72) !important;
+  color: #0b2f5b !important;
+  border-color: rgba(255, 255, 255, 0.72) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16) !important;
+  outline: 2px solid rgba(255, 255, 255, 0.95);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .hero-actions {
+    display: none !important;
+  }
+}
+
+/* --- Header choice modal (bouton rouge en-tête) --- */
+body.header-choice-modal-open,
+body.ah-phone-popup-open {
+  overflow: hidden;
+}
+
+.header-choice-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10060;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 5.5rem 1rem 1rem;
+}
+
+.header-choice-modal[hidden] {
+  display: none !important;
+}
+
+.header-choice-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 35, 66, 0.42);
+  backdrop-filter: blur(3px);
+}
+
+.header-choice-modal__panel {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 24rem);
+  background: var(--color-bg-white);
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 20px 48px rgba(0, 31, 63, 0.22);
+  padding: 1.35rem 1.25rem 1.2rem;
+  text-align: center;
+  border: 1px solid rgba(0, 74, 159, 0.1);
+}
+
+.header-choice-modal__close {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-bg-off-white);
+  color: var(--color-text-main);
+  cursor: pointer;
+}
+
+.header-choice-modal__close:hover,
+.header-choice-modal__close:focus-visible {
+  background: var(--color-bg-light-blue);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.header-choice-modal__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: 0 auto 0.65rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e3f2fd 0%, #e8f5e9 100%);
+  color: var(--color-primary);
+}
+
+.header-choice-modal__title {
+  font-size: clamp(1.1rem, 3.5vw, 1.35rem);
+  margin: 0 0 0.55rem;
+  color: var(--color-primary);
+}
+
+.header-choice-modal__body {
+  margin: 0 0 1rem;
+  color: var(--color-text-main);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.header-choice-modal__body[hidden] {
+  display: none !important;
+}
+
+.header-choice-modal__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.header-choice-modal__primary[hidden],
+.header-choice-modal__secondary[hidden] {
+  display: none !important;
+}
+
+.header-choice-modal__primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  width: 100%;
+  min-height: 3.35rem;
+  padding: 0.65rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  border-radius: 999px;
+  text-decoration: none;
+}
+
+/* Bouton d'appel principal — hiérarchie deux lignes (modale + pop-up) */
+.call-btn__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.12rem;
+  min-width: 0;
+  text-align: center;
+  line-height: 1.15;
+}
+
+.call-btn__action {
+  font-size: 0.82em;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.call-btn__phone {
+  font-size: 1.14em;
+  font-weight: 800;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+}
+
+.header-choice-modal__secondary {
+  background: transparent;
+  border: none;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+  padding: 0.35rem 0.5rem;
+  line-height: 1.4;
+}
+
+.header-choice-modal__secondary:hover,
+.header-choice-modal__secondary:focus-visible {
+  color: var(--color-primary-light);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .header-choice-modal__panel {
+    animation: headerChoiceModalIn 0.28s ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-choice-modal__panel {
+    animation: none;
+  }
+}
+
+@keyframes headerChoiceModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-choice-modal {
+    padding-top: 4.5rem;
+    align-items: flex-start;
+  }
+
+  .header-choice-modal__panel {
+    width: 100%;
+  }
+}

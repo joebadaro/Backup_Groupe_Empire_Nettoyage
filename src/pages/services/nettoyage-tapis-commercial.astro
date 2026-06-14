@@ -4,6 +4,7 @@ import FAQSchema from "../../components/FAQSchema.astro";
 import LocalTapisCrossServiceLinks from "../../components/LocalTapisCrossServiceLinks.astro";
 import ServiceVideoProof from "../../components/ServiceVideoProof.astro";
 import UiIcon from "../../components/icons/UiIcon.astro";
+import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGroup.astro";
 ---
 
 <Layout
@@ -87,22 +88,7 @@ import UiIcon from "../../components/icons/UiIcon.astro";
 
           <div class="service-hero-action-band">
 
-          <div class="cta-group fade-in-up delay-300">
-            <a href="tel:5148939939" class="btn btn-gradient-green pulse-btn">
-              <span class="icon" aria-hidden="true"><UiIcon name="phone" size={18} /></span>
-              <span class="cta-btn-stack">
-                <span>Appelez pour un estimé rapide</span>
-                <span class="cta-btn-phone-num">(514) 893-9939</span>
-              </span>
-            </a>
-            <button
-              onclick="window.openEstimationWidget()"
-              class="btn btn-gradient-green"
-            >
-              <span class="icon" aria-hidden="true"><UiIcon name="bolt" size={18} /></span>
-              Demander un estimé gratuit
-            </button>
-          </div>
+          <ConversionCtaPriorityGroup locale="fr" buttonStyle="green" phoneIcon estimateIcon />
           <ServiceVideoProof
             title="Voyez notre nettoyage commercial en action"
             subtitle="Nettoyage de tapis pour restaurants et bars"

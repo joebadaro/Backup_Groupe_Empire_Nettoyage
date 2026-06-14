@@ -1,0 +1,72 @@
+---
+import UiIcon from "./icons/UiIcon.astro";
+import { HEADER_CHOICE_MODAL_COPY } from "../config/headerChoiceModal";
+
+const isEn = Astro.url.pathname.startsWith("/en");
+const closeLabel = isEn
+  ? HEADER_CHOICE_MODAL_COPY.en.closeLabel
+  : HEADER_CHOICE_MODAL_COPY.fr.closeLabel;
+---
+
+<div
+  id="header-choice-modal"
+  class="header-choice-modal"
+  hidden
+  aria-hidden="true"
+>
+  <div class="header-choice-modal__backdrop" data-hcm-close="outside"></div>
+  <div
+    class="header-choice-modal__panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="header-choice-modal-title"
+    tabindex="-1"
+  >
+    <button
+      type="button"
+      class="header-choice-modal__close"
+      data-hcm-close="close_button"
+      aria-label={closeLabel}
+    >
+      <UiIcon name="close" size={20} />
+    </button>
+
+    <div class="header-choice-modal__icon" aria-hidden="true">
+      <UiIcon name="phone" size={24} />
+    </div>
+
+    <h2 id="header-choice-modal-title" class="header-choice-modal__title"></h2>
+    <p id="header-choice-modal-body" class="header-choice-modal__body"></p>
+
+    <div class="header-choice-modal__actions">
+      <a
+        id="header-choice-modal-primary-call"
+        href="#"
+        class="header-choice-modal__primary btn btn-gradient-blue-green"
+        data-hcm-action="call"
+        hidden
+      >
+        <UiIcon name="phone" size={18} />
+        <span class="call-btn__text">
+          <span
+            id="header-choice-modal-primary-call-action"
+            class="call-btn__action"
+          ></span>
+          <span
+            id="header-choice-modal-primary-call-phone"
+            class="call-btn__phone"
+          ></span>
+        </span>
+      </a>
+      <button
+        type="button"
+        id="header-choice-modal-secondary-form"
+        class="header-choice-modal__secondary"
+        data-hcm-action="form"
+        hidden
+      >
+        <span id="header-choice-modal-secondary-form-label"></span>
+      </button>
+    </div>
+  </div>
+</div>

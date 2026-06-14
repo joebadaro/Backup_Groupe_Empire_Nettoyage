@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import FAQSchema from "../../components/FAQSchema.astro";
 import ServiceVideoProofDuo from "../../components/ServiceVideoProofDuo.astro";
 import UiIcon from "../../components/icons/UiIcon.astro";
+import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGroup.astro";
 ---
 
 <Layout
@@ -94,20 +95,7 @@ import UiIcon from "../../components/icons/UiIcon.astro";
 
           <div class="service-hero-action-band">
 
-          <div class="cta-group fade-in-up delay-300">
-            <a href="tel:5148939939" class="btn btn-primary pulse-btn">
-              <span class="cta-btn-stack">
-                <span>Appelez pour un estimé rapide</span>
-                <span class="cta-btn-phone-num">(514) 893-9939</span>
-              </span>
-            </a>
-            <button
-              onclick="window.openEstimationWidget()"
-              class="btn btn-primary pulse-btn"
-            >
-              Demander un estimé gratuit
-            </button>
-          </div>
+          <ConversionCtaPriorityGroup locale="fr" buttonStyle="primary" />
           <ServiceVideoProofDuo
             title="Voyez notre nettoyage de céramique en action"
             subtitle="Deux interventions réelles sur tuiles et coulis"

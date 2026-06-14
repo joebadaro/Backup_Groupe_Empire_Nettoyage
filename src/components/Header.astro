@@ -2,6 +2,7 @@
 import { SERVICE_IMAGES_ASSET_VERSION } from "../data/serviceImagery";
 import UiIcon from "./icons/UiIcon.astro";
 import { PHONES } from "../config/phones";
+import { HEADER_CTA_BUTTON } from "../config/headerChoiceModal";
 
 const _logoV = "finalv4";
 const _logoBase = "/images/logo-last-update-1";
@@ -304,10 +305,11 @@ const label = isEn ? "FR" : "EN";
       <div class="cta-header">
         <button
           id="btn-open-estimation"
-          onclick="if(window.openEstimationWidget) window.openEstimationWidget()"
+          type="button"
           class="btn btn-primary-red btn-sm"
+          data-header-choice-trigger="true"
         >
-          {isEn ? "Request a Free Estimate" : "Demander un estimé gratuit"}
+          {isEn ? HEADER_CTA_BUTTON.en : HEADER_CTA_BUTTON.fr}
         </button>
         <a href={targetPath} class="lang-switch" aria-label="Changer de langue">
           {label}
@@ -454,20 +456,6 @@ const label = isEn ? "FR" : "EN";
     });
   }
 
-  // Open Estimation Modal
-  const openEstBtn = document.getElementById("btn-open-estimation");
-  if (openEstBtn) {
-    openEstBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (window.openEstimationWidget) {
-        window.openEstimationWidget();
-      } else {
-        const path = window.location.pathname || "/";
-        window.location.href =
-          path.indexOf("/en") === 0 ? "/en/estimate-request/" : "/demande-estimation/";
-      }
-    });
-  }
 </script>
 
 <style>

@@ -4,6 +4,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
 import LocalTapisCrossServiceLinks from "../../../components/LocalTapisCrossServiceLinks.astro";
 import LocalCarpetVideoProofSection from "../../../components/local-tapis/LocalCarpetVideoProofSection.astro";
 import UiIcon from "../../../components/icons/UiIcon.astro";
+import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorityGroup.astro";
 ---
 
 <Layout
@@ -60,18 +61,7 @@ import UiIcon from "../../../components/icons/UiIcon.astro";
             Our La Prairie approach reflects this mixed reality: older homes with basement and stair wear, newer condo stock, local offices, and retail spaces. Truck-mount extraction gives deep soil removal with quick drying, useful when surfaces must be operational again the same day.
           </p>
 
-          <div class="cta-group fade-in-up delay-300">
-            <a href="tel:5148939939" class="btn btn-gradient-green pulse-btn">
-              <span class="icon" aria-hidden="true"><UiIcon name="phone" size={18} /></span>
-              <span class="cta-btn-stack">
-                <span>Call for a Fast Estimate</span>
-                <span class="cta-btn-phone-num">(514) 893-9939</span>
-              </span>
-            </a>
-            <button onclick="window.openEstimationWidget()" class="btn btn-gradient-green">
-              Request a Free Estimate
-            </button>
-          </div>
+          <ConversionCtaPriorityGroup locale="en" buttonStyle="green" phoneIcon />
         </div>
 
         <div class="split-image-wrapper fade-in-section delay-200">

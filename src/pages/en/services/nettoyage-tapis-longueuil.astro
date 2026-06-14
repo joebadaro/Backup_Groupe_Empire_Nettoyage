@@ -4,6 +4,7 @@ import FAQSchema from "../../../components/FAQSchema.astro";
 import LocalTapisCrossServiceLinks from "../../../components/LocalTapisCrossServiceLinks.astro";
 import LocalCarpetVideoProofSection from "../../../components/local-tapis/LocalCarpetVideoProofSection.astro";
 import UiIcon from "../../../components/icons/UiIcon.astro";
+import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorityGroup.astro";
 ---
 
 <Layout
@@ -70,22 +71,7 @@ import UiIcon from "../../../components/icons/UiIcon.astro";
             Empire Cleaning Group is the trusted choice for Longueuil residents. Our certified technicians deploy the raw extraction power of our truck-mount units to remove 99% of bacteria, revive the colors of your area rugs, and breathe new life into your fabric or leather sofas.
           </p>
 
-          <div class="cta-group fade-in-up delay-300">
-            <a href="tel:5148939939" class="btn btn-gradient-green pulse-btn">
-              <span class="icon" aria-hidden="true"><UiIcon name="phone" size={18} /></span>
-              <span class="cta-btn-stack">
-                <span>Call for a Fast Estimate</span>
-                <span class="cta-btn-phone-num">(514) 893-9939</span>
-              </span>
-            </a>
-            <button
-              onclick="window.openEstimationWidget()"
-              class="btn btn-gradient-green"
-            >
-              <span class="icon" aria-hidden="true"><UiIcon name="bolt" size={18} /></span>
-              Request a Free Estimate
-            </button>
-          </div>
+          <ConversionCtaPriorityGroup locale="en" buttonStyle="green" phoneIcon estimateIcon />
         </div>
 
         <!-- RIGHT COLUMN: IMAGE (Visual / Slideshow) -->

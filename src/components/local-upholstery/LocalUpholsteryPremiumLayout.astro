@@ -1,5 +1,6 @@
 ---
 import UiIcon from "../icons/UiIcon.astro";
+import ConversionCtaPriorityGroup from "../ConversionCtaPriorityGroup.astro";
 import ServiceVideoProof from "../ServiceVideoProof.astro";
 
 export interface Props {
@@ -81,27 +82,12 @@ const heroSlides = [
 
           <p class="lead-text fade-in-up delay-200" set:html={leadText} />
 
-          <div class="cta-group fade-in-up delay-300">
-            <a href="tel:5148939939" class="btn btn-gradient-green pulse-btn">
-              <span class="icon" aria-hidden="true"
-                ><UiIcon name="phone" size={18} /></span
-              >
-              <span class="cta-btn-stack">
-                <span>Appelez pour un estimé rapide</span>
-                <span class="cta-btn-phone-num">(514) 893-9939</span>
-              </span>
-            </a>
-            <button
-              type="button"
-              onclick="window.openEstimationWidget()"
-              class="btn btn-gradient-green"
-            >
-              <span class="icon" aria-hidden="true"
-                ><UiIcon name="bolt" size={18} /></span
-              >
-              Demander un estimé gratuit
-            </button>
-          </div>
+          <ConversionCtaPriorityGroup
+            locale="fr"
+            buttonStyle="green"
+            phoneIcon
+            estimateIcon
+          />
 
           <ServiceVideoProof
             title="Voyez notre nettoyage de meubles en action"

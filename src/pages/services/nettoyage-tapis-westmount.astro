@@ -4,6 +4,7 @@ import FAQSchema from "../../components/FAQSchema.astro";
 import LocalTapisCrossServiceLinks from "../../components/LocalTapisCrossServiceLinks.astro";
 import LocalCarpetVideoProofSection from "../../components/local-tapis/LocalCarpetVideoProofSection.astro";
 import UiIcon from "../../components/icons/UiIcon.astro";
+import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGroup.astro";
 ---
 
 <Layout
@@ -60,19 +61,7 @@ import UiIcon from "../../components/icons/UiIcon.astro";
             Notre <strong>lavage de tapis à domicile</strong> respecte la disposition des pièces et le type de textile : nous privilégions une extraction maîtrisée et des produits adaptés au <strong>nettoyage de tapis résidentiel</strong> haut de gamme, sans déplacer inutilement mobilier lourd dans les espaces les plus fréquentés.
           </p>
 
-          <div class="cta-group fade-in-up delay-300">
-            <a href="tel:5148939939" class="btn btn-gradient-green pulse-btn">
-              <span class="icon" aria-hidden="true"><UiIcon name="phone" size={18} /></span>
-              <span class="cta-btn-stack">
-                <span>Appelez pour un estimé rapide</span>
-                <span class="cta-btn-phone-num">(514) 893-9939</span>
-              </span>
-            </a>
-            <button onclick="window.openEstimationWidget()" class="btn btn-gradient-green">
-              <span class="icon" aria-hidden="true"><UiIcon name="bolt" size={18} /></span>
-              Demander un estimé gratuit
-            </button>
-          </div>
+          <ConversionCtaPriorityGroup locale="fr" buttonStyle="green" phoneIcon estimateIcon />
         </div>
 
         <div class="split-image-wrapper fade-in-section delay-200">

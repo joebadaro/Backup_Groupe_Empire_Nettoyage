@@ -1,0 +1,71 @@
+---
+import UiIcon from "./icons/UiIcon.astro";
+import { CONVERSION_CTA_COPY } from "../config/afterHoursPhonePopup";
+import { PHONES } from "../config/phones";
+
+interface Props {
+  locale?: "fr" | "en";
+  layout?: "group" | "hero";
+  buttonStyle?: "green" | "primary" | "glass";
+  phoneIcon?: boolean;
+  estimateIcon?: boolean;
+  estimateIconName?: "bolt" | "clipboard";
+}
+
+const {
+  locale = "fr",
+  layout = "group",
+  buttonStyle = "green",
+  phoneIcon = false,
+  estimateIcon = false,
+  estimateIconName = "bolt",
+} = Astro.props;
+
+const copy = CONVERSION_CTA_COPY[locale];
+const location = layout === "hero" ? "hero_actions" : "cta_group";
+const telHref = `tel:${PHONES.main.telIntl}`;
+const iconSize = layout === "hero" ? 20 : 18;
+
+const wrapperClass =
+  layout === "hero"
+    ? "hero-actions conversion-cta-priority animate-on-load delay-3"
+    : "cta-group conversion-cta-priority fade-in-up delay-300";
+
+let primaryBtnClass = "btn btn-gradient-green pulse-btn conversion-cta-primary";
+let secondaryBtnClass = "btn btn-gradient-green conversion-cta-secondary";
+
+if (buttonStyle === "glass") {
+  primaryBtnClass = "btn btn-glass pulse-btn conversion-cta-primary";
+  secondaryBtnClass = "btn btn-glass-outline conversion-cta-secondary";
+} else if (buttonStyle === "primary") {
+  primaryBtnClass = "btn btn-primary pulse-btn conversion-cta-primary";
+  secondaryBtnClass = "btn btn-primary conversion-cta-secondary";
+}
+---
+
+<div class={wrapperClass}>
+  <a href={telHref} class={primaryBtnClass} data-conversion-location={location}>
+    {phoneIcon && (
+      <span class="icon" aria-hidden="true">
+        <UiIcon name="phone" size={iconSize} />
+      </span>
+    )}
+    <span class="cta-btn-stack">
+      <span>{copy.primaryCall}</span>
+      <span class="cta-btn-phone-num">{PHONES.main.display}</span>
+    </span>
+  </a>
+  <button
+    type="button"
+    class={secondaryBtnClass}
+    data-conversion-location={location}
+    data-conversion-estimate-trigger="true"
+  >
+    {estimateIcon && (
+      <span class="icon" aria-hidden="true">
+        <UiIcon name={estimateIconName} size={iconSize} />
+      </span>
+    )}
+    <span class="conversion-cta-secondary-label">{copy.secondaryEstimate}</span>
+  </button>
+</div>

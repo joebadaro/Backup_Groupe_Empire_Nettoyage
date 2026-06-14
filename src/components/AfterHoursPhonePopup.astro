@@ -1,0 +1,167 @@
+---
+
+import UiIcon from "./icons/UiIcon.astro";
+
+import { AUTO_POPUP_COPY } from "../config/headerChoiceModal";
+
+import { AFTER_HOURS_PHONE } from "../config/afterHoursPhonePopup";
+
+
+
+const isEn = Astro.url.pathname.startsWith("/en");
+
+const closeLabel = isEn ? AUTO_POPUP_COPY.en.closeLabel : AUTO_POPUP_COPY.fr.closeLabel;
+
+---
+
+
+
+<div
+
+  id="after-hours-phone-popup"
+
+  class="ah-phone-popup"
+
+  hidden
+
+  aria-hidden="true"
+
+>
+
+  <div class="ah-phone-popup__backdrop" data-ah-close="outside"></div>
+
+  <div
+
+    class="ah-phone-popup__panel"
+
+    role="dialog"
+
+    aria-modal="true"
+
+    aria-labelledby="ah-popup-title"
+
+    tabindex="-1"
+
+  >
+
+    <button
+
+      type="button"
+
+      class="ah-phone-popup__close"
+
+      data-ah-close="close_button"
+
+      aria-label={closeLabel}
+
+    >
+
+      <UiIcon name="close" size={22} />
+
+    </button>
+
+
+
+    <div class="ah-phone-popup__icon" aria-hidden="true">
+
+      <UiIcon name="phone" size={28} />
+
+    </div>
+
+
+
+    <h2 id="ah-popup-title" class="ah-phone-popup__title"></h2>
+
+    <p id="ah-popup-body" class="ah-phone-popup__body"></p>
+
+    <p id="ah-popup-hours-line" class="ah-phone-popup__secondary" hidden></p>
+
+
+
+    <div class="ah-phone-popup__actions">
+
+      <a
+
+        id="ah-popup-primary-call"
+
+        href={`tel:${AFTER_HOURS_PHONE.telHref}`}
+
+        class="ah-phone-popup__call btn btn-gradient-blue-green"
+
+        data-ah-action="call"
+
+        hidden
+
+      >
+
+        <UiIcon name="phone" size={20} />
+
+        <span class="call-btn__text">
+          <span id="ah-popup-primary-call-action" class="call-btn__action"></span>
+          <span id="ah-popup-primary-call-phone" class="call-btn__phone"></span>
+        </span>
+
+      </a>
+
+      <button
+
+        type="button"
+
+        id="ah-popup-primary-form"
+
+        class="ah-phone-popup__call btn btn-gradient-blue-green"
+
+        data-ah-action="form"
+
+        hidden
+
+      >
+
+        <UiIcon name="clipboard" size={20} />
+
+        <span id="ah-popup-primary-form-label"></span>
+
+      </button>
+
+      <button
+
+        type="button"
+
+        id="ah-popup-secondary-form"
+
+        class="ah-phone-popup__form-link"
+
+        data-ah-action="form"
+
+        hidden
+
+      >
+
+        <span id="ah-popup-secondary-form-label"></span>
+
+      </button>
+
+      <a
+
+        id="ah-popup-secondary-phone"
+
+        href={`tel:${AFTER_HOURS_PHONE.telHref}`}
+
+        class="ah-phone-popup__form-link"
+
+        data-ah-action="phone_info"
+
+        hidden
+
+      >
+
+        <span id="ah-popup-secondary-phone-label"></span>
+
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+

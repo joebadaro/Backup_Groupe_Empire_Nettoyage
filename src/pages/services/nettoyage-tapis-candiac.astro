@@ -4,6 +4,7 @@ import FAQSchema from "../../components/FAQSchema.astro";
 import LocalTapisCrossServiceLinks from "../../components/LocalTapisCrossServiceLinks.astro";
 import LocalCarpetVideoProofSection from "../../components/local-tapis/LocalCarpetVideoProofSection.astro";
 import UiIcon from "../../components/icons/UiIcon.astro";
+import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGroup.astro";
 ---
 
 <Layout
@@ -60,18 +61,7 @@ import UiIcon from "../../components/icons/UiIcon.astro";
             Notre approche locale a Candiac est axee sur l'<strong>entretien regulier</strong> : rafraichir les tapis avant qu'ils ne ternissent, traiter les accoudoirs et assises avant que les aureoles s'installent, et maintenir un interieur net pour les familles actives. Meme flotte de camions-usines que sur toute la Rive-Sud, avec une cadence d'intervention pensee pour les residences modernes.
           </p>
 
-          <div class="cta-group fade-in-up delay-300">
-            <a href="tel:5148939939" class="btn btn-gradient-green pulse-btn">
-              <span class="icon" aria-hidden="true"><UiIcon name="phone" size={18} /></span>
-              <span class="cta-btn-stack">
-                <span>Appelez pour un estimé rapide</span>
-                <span class="cta-btn-phone-num">(514) 893-9939</span>
-              </span>
-            </a>
-            <button onclick="window.openEstimationWidget()" class="btn btn-gradient-green">
-              Demander un estimé gratuit
-            </button>
-          </div>
+          <ConversionCtaPriorityGroup locale="fr" buttonStyle="green" phoneIcon />
         </div>
 
         <div class="split-image-wrapper fade-in-section delay-200">
