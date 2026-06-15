@@ -61,6 +61,18 @@ const thumbHeight = Math.round((thumbWidth * PRESENTATION_POSTER_HEIGHT) / PRESE
     background: linear-gradient(180deg, #f4f8fd 0%, #fafcfe 100%);
   }
 
+  /*
+   * Desktop : la bande trust du hero est position:absolute (top:100%, margin-top:-52px)
+   * et déborde sous .hero-section sans réserver d'espace dans le flux.
+   * Marge explicite pour éviter que la carte vidéo remonte sous « Excellence reconnue ».
+   */
+  @media (min-width: 769px) {
+    .presentation-home-teaser {
+      margin-top: 5rem;
+      padding-top: 0.75rem;
+    }
+  }
+
   .presentation-home-teaser__card {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
