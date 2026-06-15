@@ -237,6 +237,11 @@ ul {
   z-index: 1;
 }
 
+.btn::before,
+.btn::after {
+  pointer-events: none;
+}
+
 /* 1. Primary "Empire" Button (Rich Green Gradient matching reference) */
 .btn-primary {
   background: linear-gradient(90deg, #32963b 0%, #050a06 100%);
@@ -291,10 +296,12 @@ ul {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.btn-gradient-blue-green:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 15px 35px rgba(0, 74, 159, 0.4);
-  background: linear-gradient(135deg, #0066cc 0%, #43A047 100%);
+@media (hover: hover) and (pointer: fine) {
+  .btn-gradient-blue-green:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0, 74, 159, 0.4);
+    background: linear-gradient(135deg, #0066cc 0%, #43A047 100%);
+  }
 }
 
 /* Blue to Green Gradient Outline */
@@ -1313,6 +1320,52 @@ body.ah-phone-popup-open {
   font-weight: 800;
   letter-spacing: 0.025em;
   white-space: nowrap;
+}
+
+/* Modale / pop-up — bouton tel : pas de hover géométrique au 1er tap iOS */
+.header-choice-modal__primary,
+.ah-phone-popup__call.btn-gradient-blue-green {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.header-choice-modal__primary .call-btn__text,
+.header-choice-modal__primary .call-btn__action,
+.header-choice-modal__primary .call-btn__phone,
+.ah-phone-popup__call .call-btn__text,
+.ah-phone-popup__call .call-btn__action,
+.ah-phone-popup__call .call-btn__phone,
+.header-choice-modal__primary .icon,
+.ah-phone-popup__call .icon {
+  pointer-events: none;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .header-choice-modal__primary.btn,
+  .header-choice-modal__primary.btn-gradient-blue-green,
+  .ah-phone-popup__call.btn,
+  .ah-phone-popup__call.btn-gradient-blue-green {
+    transform: none !important;
+    transition: opacity 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .header-choice-modal__primary.btn:hover,
+  .header-choice-modal__primary.btn-gradient-blue-green:hover,
+  .header-choice-modal__primary.btn:active,
+  .header-choice-modal__primary.btn-gradient-blue-green:active,
+  .ah-phone-popup__call.btn:hover,
+  .ah-phone-popup__call.btn-gradient-blue-green:hover,
+  .ah-phone-popup__call.btn:active,
+  .ah-phone-popup__call.btn-gradient-blue-green:active {
+    transform: none !important;
+    background: linear-gradient(135deg, #004a9f 0%, #2E7D32 100%);
+    box-shadow: 0 10px 25px rgba(0, 74, 159, 0.3);
+  }
+
+  .header-choice-modal__primary.btn-gradient-blue-green:active,
+  .ah-phone-popup__call.btn-gradient-blue-green:active {
+    opacity: 0.9;
+  }
 }
 
 .header-choice-modal__secondary {

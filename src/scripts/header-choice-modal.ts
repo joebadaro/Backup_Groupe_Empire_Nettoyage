@@ -15,8 +15,8 @@ import {
 } from "../lib/modal-coordination";
 import { pushConversionEvent } from "../lib/conversion-tracking";
 import {
-  focusModalForKeyboard,
-  trackTelClickAndDeferClose,
+  bindTelCallLinkHandoff,
+  focusModalPanel,
 } from "../lib/tel-link-handoff";
 
 const ROOT_ID = "header-choice-modal";
@@ -207,7 +207,7 @@ export function openHeaderChoiceModal(): void {
     button_location: "header_choice_modal",
   });
 
-  focusModalForKeyboard(panel, "header-choice-modal-primary-call");
+  focusModalPanel(panel);
 }
 
 function bindModalEvents(root: HTMLElement): void {
@@ -216,6 +216,16 @@ function bindModalEvents(root: HTMLElement): void {
 
   const panel = getPanel(root);
   if (!panel) return;
+
+  bindTelCallLinkHandoff(
+    document.getElementById("header-choice-modal-primary-call"),
+    () =>
+      pushConversionEvent("header_choice_call_click", {
+        availability_status: getAvailabilityStatusForMode(currentMode),
+        button_location: "header_choice_modal",
+      }),
+    () => closeModal("call_click"),
+  );
 
   panel.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
@@ -246,10 +256,6 @@ function bindModalEvents(root: HTMLElement): void {
     };
 
     if (action === "call") {
-      trackTelClickAndDeferClose(
-        () => pushConversionEvent("header_choice_call_click", trackingBase),
-        () => closeModal("call_click"),
-      );
       return;
     }
 

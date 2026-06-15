@@ -53,6 +53,36 @@ async function testCallLink(page, opts) {
   check(`${label} — no preventDefault`, result.defaultPrevented === false, result);
   check(`${label} — modal not closed synchronously`, result.modalHiddenSync === false, result);
   check(`${label} — link still in DOM`, result.linkInDom === true, result);
+  return result;
+}
+
+async function testTouchStylesAndFocus(page, opts) {
+  const { openModal, callSelector, panelSelector, label } = opts;
+  await openModal(page);
+  await page.waitForSelector(`${callSelector}:not([hidden])`, { timeout: 8000 });
+
+  const styles = await page.evaluate(({ callSelector, panelSelector }) => {
+    const link = document.querySelector(callSelector);
+    const panel = document.querySelector(panelSelector);
+    const text = link?.querySelector(".call-btn__text");
+    const cs = link ? getComputedStyle(link) : null;
+    const textCs = text ? getComputedStyle(text) : null;
+    return {
+      transform: cs?.transform ?? null,
+      touchAction: cs?.touchAction ?? null,
+      tapHighlight: cs?.webkitTapHighlightColor ?? cs?.getPropertyValue("-webkit-tap-highlight-color"),
+      textPointerEvents: textCs?.pointerEvents ?? null,
+      focusedId: document.activeElement?.id || document.activeElement?.className || null,
+      panelFocused: document.activeElement === panel,
+      callFocused: document.activeElement === link,
+    };
+  }, { callSelector, panelSelector });
+
+  check(`${label} — no active transform`, styles.transform === "none", styles);
+  check(`${label} — touch-action manipulation`, styles.touchAction === "manipulation", styles);
+  check(`${label} — child pointer-events none`, styles.textPointerEvents === "none", styles);
+  check(`${label} — focus not on tel link`, styles.callFocused === false, styles);
+  check(`${label} — focus on panel`, styles.panelFocused === true, styles);
 }
 
 const browser = await chromium.launch();
@@ -77,6 +107,10 @@ async function runDesktopSuite() {
 
   await page.goto(`${baseUrl}/?headerModalDebug=weekday_evening&ahPopupDebug=1`, {
     waitUntil: "networkidle",
+  });
+  await page.evaluate(() => {
+    sessionStorage.removeItem("empire_ah_popup_shown");
+    sessionStorage.removeItem("empire_ah_popup_activity");
   });
   await page.waitForTimeout(11000);
   await page.waitForSelector("#after-hours-phone-popup:not([hidden])", {
@@ -106,6 +140,16 @@ async function runMobileSuite(deviceName, path, suffix) {
     label: `header modal ${suffix}`,
     callSelector: "#header-choice-modal-primary-call",
     modalSelector: "#header-choice-modal",
+    openModal: async (p) => {
+      await p.evaluate(() => window.__openMobileRepresentativeModal?.());
+      await p.waitForSelector("#header-choice-modal:not([hidden])");
+    },
+  });
+
+  await testTouchStylesAndFocus(page, {
+    label: `touch styles ${suffix}`,
+    callSelector: "#header-choice-modal-primary-call",
+    panelSelector: ".header-choice-modal__panel",
     openModal: async (p) => {
       await p.evaluate(() => window.__openMobileRepresentativeModal?.());
       await p.waitForSelector("#header-choice-modal:not([hidden])");

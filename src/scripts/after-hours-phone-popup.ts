@@ -20,8 +20,8 @@ import {
 } from "../lib/modal-coordination";
 import { pushConversionEvent } from "../lib/conversion-tracking";
 import {
-  focusModalForKeyboard,
-  trackTelClickAndDeferClose,
+  bindTelCallLinkHandoff,
+  focusModalPanel,
 } from "../lib/tel-link-handoff";
 
 const ROOT_ID = "after-hours-phone-popup";
@@ -270,7 +270,7 @@ function openPopup(): void {
     button_location: "after_hours_popup",
   });
 
-  focusModalForKeyboard(panel, "ah-popup-primary-call");
+  focusModalPanel(panel);
 }
 
 function bindPopupEvents(root: HTMLElement): void {
@@ -279,6 +279,16 @@ function bindPopupEvents(root: HTMLElement): void {
 
   const panel = getPanel(root);
   if (!panel) return;
+
+  bindTelCallLinkHandoff(
+    document.getElementById("ah-popup-primary-call"),
+    () =>
+      pushConversionEvent("phone_popup_call_click", {
+        availability_status: getAvailabilityStatusForAutoPopup(currentPopupMode),
+        button_location: "after_hours_popup",
+      }),
+    () => closePopup("call_click"),
+  );
 
   panel.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
@@ -300,14 +310,6 @@ function bindPopupEvents(root: HTMLElement): void {
 
     const callEl = target.closest<HTMLElement>('[data-ah-action="call"]');
     if (callEl) {
-      trackTelClickAndDeferClose(
-        () =>
-          pushConversionEvent("phone_popup_call_click", {
-            availability_status: getAvailabilityStatusForAutoPopup(currentPopupMode),
-            button_location: "after_hours_popup",
-          }),
-        () => closePopup("call_click"),
-      );
       return;
     }
 

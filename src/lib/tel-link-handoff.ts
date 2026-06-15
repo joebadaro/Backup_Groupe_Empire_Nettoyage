@@ -25,15 +25,23 @@ export function trackTelClickAndDeferClose(
   window.addEventListener("pagehide", safeClose, { once: true });
 }
 
-export function focusModalForKeyboard(panel: HTMLElement, callLinkId: string): void {
-  const isTouchIOS =
-    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+/** Focus the dialog panel — never the tel: link (iOS may require a second tap on a focused link). */
+export function focusModalPanel(panel: HTMLElement): void {
+  panel.focus();
+}
 
-  if (isTouchIOS) {
-    panel.focus();
-    return;
-  }
-
-  document.getElementById(callLinkId)?.focus();
+export function bindTelCallLinkHandoff(
+  link: HTMLElement | null,
+  onTrack: () => void,
+  onClose: () => void,
+): void {
+  if (!link || link.dataset.telHandoffBound === "1") return;
+  link.dataset.telHandoffBound = "1";
+  link.addEventListener(
+    "click",
+    () => {
+      trackTelClickAndDeferClose(onTrack, onClose);
+    },
+    { passive: true },
+  );
 }
