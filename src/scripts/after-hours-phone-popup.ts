@@ -19,6 +19,10 @@ import {
   registerAfterHoursController,
 } from "../lib/modal-coordination";
 import { pushConversionEvent } from "../lib/conversion-tracking";
+import {
+  focusModalForKeyboard,
+  trackTelClickAndDeferClose,
+} from "../lib/tel-link-handoff";
 
 const ROOT_ID = "after-hours-phone-popup";
 const SESSION_SHOWN_KEY = "empire_ah_popup_shown";
@@ -266,7 +270,7 @@ function openPopup(): void {
     button_location: "after_hours_popup",
   });
 
-  document.getElementById("ah-popup-primary-call")?.focus();
+  focusModalForKeyboard(panel, "ah-popup-primary-call");
 }
 
 function bindPopupEvents(root: HTMLElement): void {
@@ -296,11 +300,14 @@ function bindPopupEvents(root: HTMLElement): void {
 
     const callEl = target.closest<HTMLElement>('[data-ah-action="call"]');
     if (callEl) {
-      pushConversionEvent("phone_popup_call_click", {
-        availability_status: getAvailabilityStatusForAutoPopup(currentPopupMode),
-        button_location: "after_hours_popup",
-      });
-      closePopup("call_click");
+      trackTelClickAndDeferClose(
+        () =>
+          pushConversionEvent("phone_popup_call_click", {
+            availability_status: getAvailabilityStatusForAutoPopup(currentPopupMode),
+            button_location: "after_hours_popup",
+          }),
+        () => closePopup("call_click"),
+      );
       return;
     }
 

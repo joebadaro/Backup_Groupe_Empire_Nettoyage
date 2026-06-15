@@ -14,6 +14,10 @@ import {
   notifyHeaderChoiceModalOpening,
 } from "../lib/modal-coordination";
 import { pushConversionEvent } from "../lib/conversion-tracking";
+import {
+  focusModalForKeyboard,
+  trackTelClickAndDeferClose,
+} from "../lib/tel-link-handoff";
 
 const ROOT_ID = "header-choice-modal";
 const TRIGGER_ID = "btn-open-estimation";
@@ -203,7 +207,7 @@ export function openHeaderChoiceModal(): void {
     button_location: "header_choice_modal",
   });
 
-  document.getElementById("header-choice-modal-primary-call")?.focus();
+  focusModalForKeyboard(panel, "header-choice-modal-primary-call");
 }
 
 function bindModalEvents(root: HTMLElement): void {
@@ -242,8 +246,10 @@ function bindModalEvents(root: HTMLElement): void {
     };
 
     if (action === "call") {
-      pushConversionEvent("header_choice_call_click", trackingBase);
-      closeModal("call_click");
+      trackTelClickAndDeferClose(
+        () => pushConversionEvent("header_choice_call_click", trackingBase),
+        () => closeModal("call_click"),
+      );
       return;
     }
 
