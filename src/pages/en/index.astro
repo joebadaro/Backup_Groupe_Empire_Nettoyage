@@ -87,7 +87,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
           class="hero-slide active"
           width={1200}
           height={675}
-          decoding="sync"
+          decoding="async"
           fetchpriority="high"
           loading="eager"
         />
@@ -872,11 +872,11 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         const heroSlides = document.querySelectorAll(".hero-slide");
         if (heroSlides.length > 0) {
           let currentHeroSlide = 0;
-          const firstSwapDelayMs = 4500;
-          const swapIntervalMs = 4500;
           const isMobileHero =
             typeof window.matchMedia === "function" &&
             window.matchMedia("(max-width: 768px)").matches;
+          const firstSwapDelayMs = isMobileHero ? 6000 : 4500;
+          const swapIntervalMs = isMobileHero ? 5500 : 4500;
 
           const sloganA = document.querySelector(".hero-slogan--a");
           const sloganB = document.querySelector(".hero-slogan--b");
@@ -940,6 +940,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
             heroSlides[currentHeroSlide].classList.add("active");
             syncHeroSloganToSlide(currentHeroSlide);
             syncHeroSubtitleGroup(currentHeroSlide);
+            if (isMobileHero && currentHeroSlide < 1) return;
             const nextIdx = (currentHeroSlide + 1) % heroSlides.length;
             const nextImg = heroSlides[nextIdx];
             if (nextImg && !nextImg.dataset.heroPrefetched) {
@@ -2081,17 +2082,18 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
     .premium-announcement-pill::before {
       content: '';
       position: absolute;
-      top: 0; left: -100%;
+      top: 0; left: 0;
       width: 50%; height: 100%;
       background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
       animation: shimmerSweep 8s infinite cubic-bezier(0.2, 0, 0.2, 1);
       z-index: 0;
       pointer-events: none;
+      will-change: transform;
     }
 
     @keyframes shimmerSweep {
-      0% { left: -100%; }
-      35%, 100% { left: 200%; }
+      0% { transform: translateX(-100%); }
+      35%, 100% { transform: translateX(300%); }
     }
 
     @media (prefers-reduced-motion: reduce) {

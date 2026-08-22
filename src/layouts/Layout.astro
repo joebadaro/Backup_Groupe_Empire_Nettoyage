@@ -8,7 +8,6 @@ import UiIcon from "../components/icons/UiIcon.astro";
 import { MOBILE_STICKY_CTA_BUTTON } from "../config/headerChoiceModal";
 
 import SEO from "../components/SEO.astro";
-import MetaDeferred from "../components/MetaDeferred.astro";
 
 /** Same-origin hashed URLs as @font-face in global CSS — early preload shortens font discovery vs CSS-parse-only */
 import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
@@ -32,8 +31,6 @@ const defaultDescription = isEn
   : "Groupe Nettoyage Empire — nettoyage sur place de tapis, meubles et matelas à Montréal, Laval et sur la Rive-Sud. Pas de ramassage des tapis pour nettoyage en atelier.";
 
 const description = Astro.props.description ?? defaultDescription;
-
-const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID?.trim() || "";
 
 ---
 
@@ -60,13 +57,6 @@ const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID?.trim() || "";
       })(window,document,'script','dataLayer','GTM-TPKDH7S2');
     </script>
     <!-- End Google Tag Manager -->
-    {
-      metaPixelId ? (
-        <script is:inline define:vars={{ metaPixelId }}>
-          window.__EMPRE_META_PIXEL_ID__ = metaPixelId;
-        </script>
-      ) : null
-    }
     <meta name="version" content="2.0.0-perf-optimized" />
     <link
       rel="preload"
@@ -184,7 +174,7 @@ const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID?.trim() || "";
       });
     </script>
   </head>
-  <body>
+  <body data-empire-site-mode={includePrivateCalculator ? "private" : "public"}>
     <!-- Google Tag Manager (noscript) -->
     <noscript>
       <iframe
@@ -205,30 +195,17 @@ const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID?.trim() || "";
     {!includePrivateCalculator && <AfterHoursPhonePopup />}
     {!includePrivateCalculator && <HeaderChoiceModal />}
 
-    {metaPixelId ? <MetaDeferred pixelId={metaPixelId} /> : null}
     <!-- Calculatrice : uniquement via slot sur /estimation-privee/ (évite d’importer EstimationModule dans ce layout pour tout le site). -->
     <slot name="private-calculator" />
-    <!-- estimation-bootstrap-lazy : importé uniquement sur /estimation-privee/ pour ne pas écraser le stub public (voir page). -->
+    <!-- Scripts non critiques : différés après load/idle (ou 1er geste) pour libérer le main thread avant le LCP mobile. GTM reste inchangé. -->
     <script>
-      import '../scripts/visitor-sms.ts';
+      import { bootDeferredSiteScripts } from "../scripts/boot-deferred-site-scripts.ts";
+      const mode =
+        document.body?.dataset?.empireSiteMode === "private"
+          ? "private"
+          : "public";
+      bootDeferredSiteScripts(mode);
     </script>
-    {
-      metaPixelId ? (
-        <script>
-          import '../scripts/meta-tracking.ts';
-        </script>
-      ) : null
-    }
-
-    {
-      !includePrivateCalculator && (
-        <script>
-          import "../scripts/header-choice-modal.ts";
-          import "../scripts/after-hours-phone-popup.ts";
-          import "../scripts/conversion-cta-priority.ts";
-        </script>
-      )
-    }
 
     {
       !includePrivateCalculator && (

@@ -1,5 +1,5 @@
 /// <reference types="astro/client" />
 
 interface ImportMetaEnv {
-  readonly PUBLIC_META_PIXEL_ID?: string;
+  /* PUBLIC_META_PIXEL_ID retiré — Meta Pixel désactivé / supprimé du code */
 }
