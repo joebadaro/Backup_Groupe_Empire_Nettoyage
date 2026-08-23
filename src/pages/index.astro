@@ -315,7 +315,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
   <PresentationHomeTeaser locale="fr" />
 
   <!-- 3. SERVICES (Fond Bleu Pâle - Contraste Doux) -->
-  <section class="section section-services">
+  <section class="section section-services lcp-cv-auto lcp-cv-auto--tall">
     <div class="container">
       <div class="section-header text-center">
         <span class="tag-blue">Expertise Complète</span>
@@ -370,7 +370,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
   </section>
 
   <!-- 3.8 FEATURED VIDEO SECTION (Conversion Hook) -->
-  <section class="section-featured-video fade-in-section">
+  <section class="section-featured-video fade-in-section lcp-cv-auto lcp-cv-auto--video">
     <div class="container text-center">
       <div class="section-header-video">
         <span class="tag-gold-outline">Résultats Époustouflants</span>
@@ -602,7 +602,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
   </style>
 
   <!-- 3.5 QUALITY DETAILS STRIP (Refined) -->
-  <section class="section-quality-strip-refined">
+  <section class="section-quality-strip-refined lcp-cv-auto">
     <div class="quality-image-wrapper">
       <img
         src={`/images/catalog/team-facebook-optimized.webp?v=${_v}`}
@@ -634,7 +634,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
   </section>
 
   <!-- 4. SECTION ÉCOLOGIQUE (Vert - Nature - Confiance) -->
-  <section class="section section-eco">
+  <section class="section section-eco lcp-cv-auto">
     <div class="brand-watermark watermark-eco"></div>
     <div class="container split-eco">
       <div class="eco-content fade-in-section">
@@ -701,7 +701,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
   </section>
 
   <!-- 5. LA PUISSANCE (Fond Bleu Foncé - Tech - Sérieux) -->
-  <section class="section section-dark-blue text-white">
+  <section class="section section-dark-blue text-white lcp-cv-auto lcp-cv-auto--tall">
     <div class="container">
       <div class="split-layout reverse-mobile">
         <div class="tech-image-wrapper">
@@ -800,7 +800,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
   <GoogleReviewsSection locale="fr" />
 
   <!-- 5.8 PROMOTIONS TEASER (Entre les avis et le CTA final) -->
-  <section class="section-promos-teaser">
+  <section class="section-promos-teaser lcp-cv-auto">
     <div class="container promos-teaser-inner">
       <div class="promos-teaser-label">
         <span class="promos-tag">Offres exclusives</span>
@@ -1011,7 +1011,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
   </style>
 
   <!-- 6. CONCLUSION CTA (Rouge/Action) -->
-  <section class="cta-final">
+  <section class="cta-final lcp-cv-auto">
     <div class="container text-center">
       <h2 class="cta-title text-gradient-empire">
         Ne laissez pas la saleté s'incruster
@@ -2684,6 +2684,23 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         }
       }
       /* --- END PROMO PILL --- */
+
+      /*
+        Mobile LCP: defer layout/paint of below-fold homepage sections.
+        Do NOT apply to header, hero, trust-in-hero, or sticky CTA.
+      */
+      @media (max-width: 768px) {
+        .lcp-cv-auto {
+          content-visibility: auto;
+          contain-intrinsic-size: auto 900px;
+        }
+        .lcp-cv-auto--tall {
+          contain-intrinsic-size: auto 1600px;
+        }
+        .lcp-cv-auto--video {
+          contain-intrinsic-size: auto 1100px;
+        }
+      }
     </style>
   </section>
 </Layout>
