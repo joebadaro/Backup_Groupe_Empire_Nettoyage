@@ -12,6 +12,9 @@ import SEO from "../components/SEO.astro";
 /** Same-origin hashed URLs as @font-face in global CSS — early preload shortens font discovery vs CSS-parse-only */
 import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 import outfitLatinWoff2 from "@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2?url";
+/** Placeholders remplacés post-build par les URLs /_astro/boot-deferred-*.js */
+const bootDeferredSiteScriptsUrl = "__EMPIRE_BOOT_PUBLIC_URL__";
+const bootDeferredPrivateScriptsUrl = "__EMPIRE_BOOT_PRIVATE_URL__";
 /** estimation-bootstrap-lazy.ts est bundlé par Vite en ESM — définit window.openEstimationWidget au chargement */
 
 interface Props {
@@ -40,6 +43,11 @@ const description = Astro.props.description ?? defaultDescription;
     <meta charset="UTF-8" />
     <!-- Preloads LCP (pages d’accueil) avant polices -->
     <slot name="head" />
+    <!-- Google origins: warm DNS/TCP/TLS before GTM/gtag (GTM reste inchangé ci-dessous) -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
     <!-- Google Tag Manager -->
     <script is:inline>
       (function(w,d,s,l,i){
@@ -198,93 +206,62 @@ const description = Astro.props.description ?? defaultDescription;
     <!-- Calculatrice : uniquement via slot sur /estimation-privee/ (évite d’importer EstimationModule dans ce layout pour tout le site). -->
     <slot name="private-calculator" />
     <!--
-      Scripts non critiques : import() APRÈS paint du hero LCP (ou timeout / 1er geste).
-      Ne pas utiliser PerformanceObserver(LCP) : le 1er LCP est souvent le texte, trop tôt.
-      modulePreload désactivé dans astro.config — pas de préchargement concurrent au hero.
+      Scripts non critiques : AUCUN module Astro/Vite dans le HTML initial.
+      Mini scheduler inline → après window.load + idle (ou 1er pointerdown) charge boot via <script type=module>.
       GTM reste inchangé dans le <head>.
     -->
-    <script>
-      const siteScriptMode =
-        document.body?.dataset?.empireSiteMode === "private"
-          ? "private"
-          : "public";
-
-      let injected = false;
-      function injectBootModule() {
-        if (injected) return;
-        injected = true;
-        (window as Window & { __empireSiteScriptMode?: string }).__empireSiteScriptMode =
-          siteScriptMode;
-        void import("../scripts/boot-deferred-site-scripts.ts");
-      }
-
-      function scheduleIdleInject() {
-        if ("requestIdleCallback" in window) {
-          requestIdleCallback(injectBootModule, { timeout: 3500 });
-        } else {
-          setTimeout(injectBootModule, 1);
-        }
-      }
-
-      /** Public : attendre l’image hero active (vrai LCP mobile), pas le 1er LCP texte. */
-      function afterHeroPaintThenIdle() {
-        let done = false;
-        function go() {
-          if (done) return;
-          done = true;
-          scheduleIdleInject();
+    <script
+      is:inline
+      define:vars={{
+        bootModuleUrl: includePrivateCalculator
+          ? bootDeferredPrivateScriptsUrl
+          : bootDeferredSiteScriptsUrl,
+      }}
+    >
+      (function () {
+        var injected = false;
+        function injectBootModule() {
+          if (injected) return;
+          injected = true;
+          var s = document.createElement("script");
+          s.type = "module";
+          s.src = bootModuleUrl;
+          s.async = true;
+          document.body.appendChild(s);
         }
 
-        const hero = document.querySelector(
-          ".hero-section .hero-slide.active",
-        ) as HTMLImageElement | null;
-
-        function whenHeroReady(): Promise<void> {
-          return new Promise((resolve) => {
-            if (!hero) {
-              resolve();
-              return;
-            }
-            if (hero.complete && hero.naturalWidth > 0) {
-              resolve();
-              return;
-            }
-            hero.addEventListener("load", () => resolve(), { once: true });
-            hero.addEventListener("error", () => resolve(), { once: true });
-          });
+        function scheduleIdleInject() {
+          if ("requestIdleCallback" in window) {
+            requestIdleCallback(injectBootModule, { timeout: 3500 });
+          } else {
+            setTimeout(injectBootModule, 1);
+          }
         }
 
-        whenHeroReady().then(() => {
-          /*
-            Sur connexion rapide / cache, load peut arriver avant le paint LCP lab.
-            Attendre au moins ~2.5s depuis navigation, puis 400ms + 2 rAF après le hero.
-          */
-          const minFromNavMs = 2500;
-          const waitMore = Math.max(0, minFromNavMs - performance.now());
-          setTimeout(() => {
-            requestAnimationFrame(() => {
-              requestAnimationFrame(go);
-            });
-          }, waitMore + 400);
-        });
+        function afterWindowLoadThenIdle() {
+          if (document.readyState === "complete") {
+            scheduleIdleInject();
+            return;
+          }
+          window.addEventListener(
+            "load",
+            function () {
+              scheduleIdleInject();
+            },
+            { once: true },
+          );
+        }
 
-        /* Repli : ne pas bloquer indéfiniment si pas de hero / image bloquée */
-        setTimeout(go, 6000);
-      }
+        afterWindowLoadThenIdle();
 
-      if (siteScriptMode === "private") {
-        scheduleIdleInject();
-      } else {
-        afterHeroPaintThenIdle();
-      }
-
-      window.addEventListener(
-        "pointerdown",
-        () => {
-          injectBootModule();
-        },
-        { passive: true, capture: true, once: true },
-      );
+        window.addEventListener(
+          "pointerdown",
+          function () {
+            injectBootModule();
+          },
+          { passive: true, capture: true, once: true },
+        );
+      })();
     </script>
 
     {

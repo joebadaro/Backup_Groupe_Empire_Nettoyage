@@ -1,33 +1,10 @@
 /**
- * Charge les scripts site hors chemin critique LCP mobile.
- * Injecté dynamiquement (Layout) — s’exécute au chargement du module.
- * Mode via window.__empireSiteScriptMode (currentScript est null pour type=module).
+ * Scripts site publics — hors chemin critique LCP mobile.
+ * Chargé UNIQUEMENT via scheduler inline (Layout) après window.load + idle
+ * (ou immédiat au 1er pointerdown).
+ * Imports statiques : pas de __vitePreload / preload-helper pour ce graphe.
  */
-declare global {
-  interface Window {
-    __empireSiteScriptMode?: "public" | "private";
-  }
-}
-
-function loadPublicSiteScripts(): void {
-  void import("./visitor-sms.ts");
-  void import("./header-choice-modal.ts");
-  void import("./after-hours-phone-popup.ts");
-  void import("./conversion-cta-priority.ts");
-}
-
-function loadPrivateCalculatorScripts(): void {
-  void import("./visitor-sms.ts");
-}
-
-const mode =
-  window.__empireSiteScriptMode === "private" ||
-  document.body?.dataset?.empireSiteMode === "private"
-    ? "private"
-    : "public";
-
-if (mode === "private") {
-  loadPrivateCalculatorScripts();
-} else {
-  loadPublicSiteScripts();
-}
+import "./visitor-sms.ts";
+import "./header-choice-modal.ts";
+import "./after-hours-phone-popup.ts";
+import "./conversion-cta-priority.ts";

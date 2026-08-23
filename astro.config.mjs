@@ -7,6 +7,8 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 // https://astro.build/config
 import netlify from '@astrojs/netlify';
+import { empireDeferredBootUrlsPlugin } from './empire-deferred-boot-urls-plugin.mjs';
+import { empireBootUrlReplaceIntegration } from './empire-boot-url-replace-integration.mjs';
 
 /** FR nettoyage-meubles-rembourres-* ↔ EN upholstery-cleaning-* — redirect wrong slug/language combos */
 const UPHOLSTERY_CITIES = [
@@ -123,7 +125,7 @@ export default defineConfig({
   site: 'https://groupenettoyageempire.com',
   output: 'static',
   adapter: netlify(),
-  integrations: [sitemap({ filter: sitemapFilter })],
+  integrations: [sitemap({ filter: sitemapFilter }), empireBootUrlReplaceIntegration()],
   build: {
     /**
      * Homepage CSS delivery (measured FR `/` Lighthouse mobile ×3 each):
@@ -172,5 +174,11 @@ export default defineConfig({
   },
   security: {
     checkOrigin: false
-  }
+  },
+  vite: {
+    plugins: [empireDeferredBootUrlsPlugin()],
+    build: {
+      modulePreload: false,
+    },
+  },
 });

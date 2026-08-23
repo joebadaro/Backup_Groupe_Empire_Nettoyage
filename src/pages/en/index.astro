@@ -84,7 +84,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
           srcset="/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-480.webp 480w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-640.webp 640w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp 800w"
           sizes="100vw"
           alt="Bright living room and professional carpet cleaning in Montreal - Empire Group"
-          class="hero-slide active"
+          class="hero-slide hero-slide--initial active"
           width={800}
           height={1000}
           decoding="async"
@@ -1183,6 +1183,18 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
       z-index: 0; /* Behind content (which is z-index 10) */
     }
 
+    /* Picture wrappers fill the slideshow; first paint does not need JS */
+    .hero-bg-picture {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      pointer-events: none;
+    }
+
     .hero-slide {
       position: absolute;
       top: 0;
@@ -1197,13 +1209,32 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
       z-index: 1;
     }
 
+    /*
+      First hero: autonomous HTML/CSS state (no data-hero-ready, no script).
+      .hero-slide--initial + :first-child guarantee paint even if .active is missing.
+    */
+    .hero-slide.hero-slide--initial,
+    .hero-slideshow > .hero-bg-picture:first-child > .hero-slide {
+      opacity: 1;
+      z-index: 2;
+    }
+
     .hero-slide.active {
       opacity: 1;
       z-index: 2;
     }
 
+    /* After slideshow init: only .active controls visibility */
     .hero-slideshow[data-hero-ready] .hero-slide {
       transition: opacity 5.2s ease-in-out; /* 5.2s — same as .hero-slogan-layer */
+    }
+
+    .hero-slideshow[data-hero-ready] .hero-slide.hero-slide--initial:not(.active),
+    .hero-slideshow[data-hero-ready]
+      > .hero-bg-picture:first-child
+      > .hero-slide:not(.active) {
+      opacity: 0;
+      z-index: 1;
     }
 
     .hero-overlay {
