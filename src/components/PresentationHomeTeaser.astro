@@ -2,6 +2,8 @@
 import {
   getPresentationVideo,
   PRESENTATION_POSTER_HEIGHT,
+  PRESENTATION_POSTER_SIZES_HOME,
+  PRESENTATION_POSTER_SRCSET,
   PRESENTATION_POSTER_WIDTH,
   type PresentationLocale,
 } from "../data/presentationVideos";
@@ -29,7 +31,9 @@ const thumbHeight = Math.round((thumbWidth * PRESENTATION_POSTER_HEIGHT) / PRESE
     >
       <div class="presentation-home-teaser__media">
         <img
-          src={video.posterUrl}
+          src="/images/videos/video-presentation-groupe-nettoyage-empire-team-280.webp"
+          srcset={PRESENTATION_POSTER_SRCSET}
+          sizes={PRESENTATION_POSTER_SIZES_HOME}
           alt={video.posterAlt}
           class="presentation-home-teaser__thumb"
           width={thumbWidth}

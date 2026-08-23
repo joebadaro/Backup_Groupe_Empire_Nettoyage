@@ -5,6 +5,14 @@ export const PRESENTATION_POSTER_URL =
 export const PRESENTATION_POSTER_WIDTH = 720;
 export const PRESENTATION_POSTER_HEIGHT = 1279;
 
+/** Home teaser thumb (~200px CSS / ~34vw) — avoid downloading full 720w poster on mobile. */
+export const PRESENTATION_POSTER_SRCSET =
+  "/images/videos/video-presentation-groupe-nettoyage-empire-team-200.webp 200w, /images/videos/video-presentation-groupe-nettoyage-empire-team-280.webp 280w, /images/videos/video-presentation-groupe-nettoyage-empire-team-360.webp 360w, /images/videos/video-presentation-groupe-nettoyage-empire-team-400.webp 400w, /images/videos/video-presentation-groupe-nettoyage-empire-team.webp 720w";
+
+export const PRESENTATION_POSTER_SIZES_HOME =
+  "(max-width: 768px) min(34vw, 200px), 200px";
+
+
 export interface PresentationVideoEntry {
   id: string;
   title: string;

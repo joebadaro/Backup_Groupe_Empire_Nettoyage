@@ -31,7 +31,7 @@ export interface ServiceImageEntry {
 
 /** `sizes` for service card images: mobile horizontal strip vs grid. */
 export const HOMEPAGE_CARD_IMAGE_SIZES =
-  "(max-width: 768px) min(85vw, 360px), min(400px, 33vw)";
+  "(max-width: 768px) min(72vw, 320px), min(400px, 33vw)";
 
 export const SERVICE_IMAGES = {
   meubles_tissu: {

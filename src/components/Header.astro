@@ -14,7 +14,7 @@ const logoSrcset = [
   `${_logoBase}.webp?v=${_logoV} 600w`,
 ].join(", ");
 /* ~207px CSS wide on desktop (height 85px); mobile ~146px at height 60px */
-const logoSizes = "(max-width: 768px) 210px, 300px";
+const logoSizes = "(max-width: 768px) 150px, 220px";
 
 const currentPath = Astro.url.pathname;
 const isEn = currentPath.startsWith("/en");

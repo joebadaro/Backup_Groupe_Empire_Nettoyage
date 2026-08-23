@@ -197,14 +197,94 @@ const description = Astro.props.description ?? defaultDescription;
 
     <!-- Calculatrice : uniquement via slot sur /estimation-privee/ (évite d’importer EstimationModule dans ce layout pour tout le site). -->
     <slot name="private-calculator" />
-    <!-- Scripts non critiques : différés après load/idle (ou 1er geste) pour libérer le main thread avant le LCP mobile. GTM reste inchangé. -->
+    <!--
+      Scripts non critiques : import() APRÈS paint du hero LCP (ou timeout / 1er geste).
+      Ne pas utiliser PerformanceObserver(LCP) : le 1er LCP est souvent le texte, trop tôt.
+      modulePreload désactivé dans astro.config — pas de préchargement concurrent au hero.
+      GTM reste inchangé dans le <head>.
+    -->
     <script>
-      import { bootDeferredSiteScripts } from "../scripts/boot-deferred-site-scripts.ts";
-      const mode =
+      const siteScriptMode =
         document.body?.dataset?.empireSiteMode === "private"
           ? "private"
           : "public";
-      bootDeferredSiteScripts(mode);
+
+      let injected = false;
+      function injectBootModule() {
+        if (injected) return;
+        injected = true;
+        (window as Window & { __empireSiteScriptMode?: string }).__empireSiteScriptMode =
+          siteScriptMode;
+        void import("../scripts/boot-deferred-site-scripts.ts");
+      }
+
+      function scheduleIdleInject() {
+        if ("requestIdleCallback" in window) {
+          requestIdleCallback(injectBootModule, { timeout: 3500 });
+        } else {
+          setTimeout(injectBootModule, 1);
+        }
+      }
+
+      /** Public : attendre l’image hero active (vrai LCP mobile), pas le 1er LCP texte. */
+      function afterHeroPaintThenIdle() {
+        let done = false;
+        function go() {
+          if (done) return;
+          done = true;
+          scheduleIdleInject();
+        }
+
+        const hero = document.querySelector(
+          ".hero-section .hero-slide.active",
+        ) as HTMLImageElement | null;
+
+        function whenHeroReady(): Promise<void> {
+          return new Promise((resolve) => {
+            if (!hero) {
+              resolve();
+              return;
+            }
+            if (hero.complete && hero.naturalWidth > 0) {
+              resolve();
+              return;
+            }
+            hero.addEventListener("load", () => resolve(), { once: true });
+            hero.addEventListener("error", () => resolve(), { once: true });
+          });
+        }
+
+        whenHeroReady().then(() => {
+          /*
+            Sur connexion rapide / cache, load peut arriver avant le paint LCP lab.
+            Attendre au moins ~2.5s depuis navigation, puis 400ms + 2 rAF après le hero.
+          */
+          const minFromNavMs = 2500;
+          const waitMore = Math.max(0, minFromNavMs - performance.now());
+          setTimeout(() => {
+            requestAnimationFrame(() => {
+              requestAnimationFrame(go);
+            });
+          }, waitMore + 400);
+        });
+
+        /* Repli : ne pas bloquer indéfiniment si pas de hero / image bloquée */
+        setTimeout(go, 6000);
+      }
+
+      if (siteScriptMode === "private") {
+        scheduleIdleInject();
+      } else {
+        afterHeroPaintThenIdle();
+      }
+
+      window.addEventListener(
+        "pointerdown",
+        () => {
+          injectBootModule();
+        },
+        { passive: true, capture: true, once: true },
+      );
     </script>
 
     {

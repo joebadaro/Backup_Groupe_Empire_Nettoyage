@@ -1,7 +1,14 @@
 /**
  * Charge les scripts site hors chemin critique LCP mobile.
- * Un seul point d’entrée Layout évite qu’Astro bundlise visitor-sms en script statique séparé.
+ * Injecté dynamiquement (Layout) — s’exécute au chargement du module.
+ * Mode via window.__empireSiteScriptMode (currentScript est null pour type=module).
  */
+declare global {
+  interface Window {
+    __empireSiteScriptMode?: "public" | "private";
+  }
+}
+
 function loadPublicSiteScripts(): void {
   void import("./visitor-sms.ts");
   void import("./header-choice-modal.ts");
@@ -13,38 +20,14 @@ function loadPrivateCalculatorScripts(): void {
   void import("./visitor-sms.ts");
 }
 
-export function bootDeferredSiteScripts(mode: "public" | "private"): void {
-  if (mode === "private") {
-    loadPrivateCalculatorScripts();
-    return;
-  }
+const mode =
+  window.__empireSiteScriptMode === "private" ||
+  document.body?.dataset?.empireSiteMode === "private"
+    ? "private"
+    : "public";
 
-  let loaded = false;
-  const load = () => {
-    if (loaded) return;
-    loaded = true;
-    loadPublicSiteScripts();
-  };
-
-  const scheduleIdle = () => {
-    if ("requestIdleCallback" in window) {
-      requestIdleCallback(load, { timeout: 2500 });
-    } else {
-      setTimeout(load, 1);
-    }
-  };
-
-  if (document.readyState === "complete") {
-    scheduleIdle();
-  } else {
-    window.addEventListener("load", scheduleIdle, { once: true });
-  }
-
-  window.addEventListener(
-    "pointerdown",
-    () => {
-      load();
-    },
-    { passive: true, capture: true, once: true },
-  );
+if (mode === "private") {
+  loadPrivateCalculatorScripts();
+} else {
+  loadPublicSiteScripts();
 }
