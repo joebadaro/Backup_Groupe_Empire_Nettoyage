@@ -1,36 +1,44 @@
-# Groupe Nettoyage Empire (Empire Cleaning Group)
-Site: https://groupenettoyageempire.com
+# Groupe Nettoyage Empire
 
-## Nom de marque (cohérence FR / EN)
-- **Groupe Nettoyage Empire** : nom utilisé sur le site français.
-- **Empire Cleaning Group** : nom utilisé sur la version anglaise du site (même entreprise).
-- **Nettoyage Empire** : nom abrégé / alternatif déjà présent dans les métadonnées du site.
+> Nettoyage professionnel sur place de tapis, meubles rembourrés et matelas à Montréal, Laval et sur la Rive-Sud. Interventions résidentielles et commerciales uniquement au domicile ou sur les lieux — aucun ramassage pour nettoyage en atelier. Also known in English as Empire Cleaning Group.
 
-## Faits utiles (ne pas inventer de détails non présents sur le site)
-- Entreprise de nettoyage spécialisé (tapis, meubles rembourrés, matelas, surfaces connexes) desservant la grande région de Montréal, Laval et la Rive-Sud.
-- **Toutes les interventions sont faites sur place**, au domicile du client ou sur les lieux (résidentiel ou commercial).
-- **Il n’y a pas de service de ramassage des tapis pour nettoyage en atelier ou en usine.** Réponse courante à une question fréquente des clients.
-- Téléphone (tel qu’affiché sur le site) : (514) 893-9939
-- Courriel (tel qu’affiché sur le site) : info@groupenettoyageempire.com
+## Pages principales
 
-## English (summary)
-- On-site carpet, upholstery, and mattress cleaning in Greater Montreal, Laval, and the South Shore.
-- **No rug pickup for off-site or workshop cleaning** — services are performed at the customer’s home or business.
-- Phone: (514) 893-9939
-- Email: info@groupenettoyageempire.com
+- [Accueil](https://groupenettoyageempire.com/) : page d’accueil et présentation des services
+- [Services](https://groupenettoyageempire.com/services) : liste complète des services de nettoyage
+- [À propos](https://groupenettoyageempire.com/a-propos) : présentation de l’entreprise
+- [FAQ](https://groupenettoyageempire.com/faq) : questions fréquentes
+- [Contact](https://groupenettoyageempire.com/contact) : téléphone, courriel et demande d’estimation
+- [Promotions](https://groupenettoyageempire.com/promotions) : offres en cours
+- [Home (EN)](https://groupenettoyageempire.com/en/) : English homepage
+- [Services (EN)](https://groupenettoyageempire.com/en/services) : English services overview
+- [About (EN)](https://groupenettoyageempire.com/en/a-propos) : About the company
+- [Contact (EN)](https://groupenettoyageempire.com/en/contact) : Contact and estimate request
 
-## Pages utiles
-- Services (FR): https://groupenettoyageempire.com/services
-- Services (EN): https://groupenettoyageempire.com/en/services
-- FAQ (FR): https://groupenettoyageempire.com/faq
-- FAQ (EN): https://groupenettoyageempire.com/en/faq
-- À propos (FR): https://groupenettoyageempire.com/a-propos
-- About (EN): https://groupenettoyageempire.com/en/a-propos
+## Services
 
-## Profils publics listés sur le site (schéma `sameAs`)
-Ces URL sont les profils référencés par le site ; le nom affiché et les coordonnées sur chaque profil doivent rester alignés avec Google Business Profile et ce fichier.
-- Facebook : https://www.facebook.com/NettoyageEmpire/
-- YouTube : https://www.youtube.com/@NettoyageEmpire
-- Instagram : https://instagram.com/groupenettoyageempire
+- [Nettoyage de tapis résidentiel](https://groupenettoyageempire.com/services/nettoyage-tapis-residentiel) : nettoyage de tapis mur à mur et carpettes à domicile
+- [Nettoyage de meubles en tissu](https://groupenettoyageempire.com/services/meubles-tissu) : divans, sofas, sectionnels et fauteuils
+- [Nettoyage et désinfection de matelas](https://groupenettoyageempire.com/services/nettoyage-desinfection-matelas) : nettoyage en profondeur des matelas
+- [Nettoyage de meubles en cuir](https://groupenettoyageempire.com/services/meubles-cuir) : entretien professionnel du cuir
+- [Nettoyage de tuiles et céramique](https://groupenettoyageempire.com/services/nettoyage-tuiles-ceramique) : sols et surfaces dures
+- [Protecteur de tissu](https://groupenettoyageempire.com/services/protecteur) : protection antitache après nettoyage
+- [Nettoyage de tapis commercial](https://groupenettoyageempire.com/services/nettoyage-tapis-commercial) : bureaux et espaces commerciaux
 
-For ratings, review counts, or pricing, use the live Google Business Profile or the business directly — do not infer from this file alone.
+## Zones desservies
+
+- [Nettoyage de tapis à Montréal](https://groupenettoyageempire.com/services/nettoyage-tapis-montreal) : île de Montréal
+- [Nettoyage de tapis à Laval](https://groupenettoyageempire.com/services/nettoyage-tapis-laval) : Laval et environs
+- [Nettoyage de tapis — Rive-Sud](https://groupenettoyageempire.com/services/nettoyage-tapis-rive-sud) : Longueuil, Brossard, Boucherville et villes voisines
+- [Nettoyage de tapis à Westmount](https://groupenettoyageempire.com/services/nettoyage-tapis-westmount) : Westmount
+
+## Contact
+
+- Téléphone : [(514) 893-9939](tel:+15148939939)
+- Courriel : [info@groupenettoyageempire.com](mailto:info@groupenettoyageempire.com)
+- [Page Contact](https://groupenettoyageempire.com/contact) : formulaire et demande d’estimation
+- [Facebook](https://www.facebook.com/NettoyageEmpire/) : page officielle
+- [YouTube](https://www.youtube.com/@NettoyageEmpire) : vidéos et réalisations
+- [Instagram](https://instagram.com/groupenettoyageempire) : actualités
+
+For current ratings, reviews, or pricing, please check Google Business Profile or contact the business directly.
