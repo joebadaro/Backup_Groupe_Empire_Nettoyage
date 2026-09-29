@@ -1,0 +1,264 @@
+{
+  "snippets": {
+    "phone_call": "ag_id\":3},{\"function\":\"__gaawe\",\"metadata\":[\"map\"],\"once_per_event\":true,\"vtp_sendEcommerceData\":false,\"vtp_eventName\":\"phone_call\",\"vtp_measurementIdOverride\":\"G-2YKLBMPG8B\",\"vtp_enableUserProperties\":true,\"vtp_enableEuid\":true,\"vtp_migratedToV2\":true,\"vtp_demoV2\":false,\"tag_id\":5},{\"function\":\"__gaawe\",\"metadata\":[\"map\"],\"once",
+    "generate_lead": "meterValue\",\"demande_estimation\"],[\"map\",\"parameter\",\"lead_type\",\"parameterValue\",\"estimate_request\"]],\"vtp_eventName\":\"generate_lead\",\"vtp_measurementIdOverride\":\"G-2YKLBMPG8B\",\"vtp_enableUserProperties\":true,\"vtp_enableEuid\":true,\"vtp_migratedToV2\":true,\"vtp_demoV2\":false,\"tag_id\":7},{\"function\":\"__gaawe\",\"metadata\":[\"map\"],\"once",
+    "phone_call_mobile": "ag_id\":7},{\"function\":\"__gaawe\",\"metadata\":[\"map\"],\"once_per_event\":true,\"vtp_sendEcommerceData\":false,\"vtp_eventName\":\"phone_call_mobile\",\"vtp_measurementIdOverride\":\"G-2YKLBMPG8B\",\"vtp_enableUserProperties\":true,\"vtp_enableEuid\":true,\"vtp_migratedToV2\":true,\"vtp_demoV2\":false,\"tag_id\":10},{\"function\":\"__cl\",\"tag_id\":11},{\"function\":\"",
+    "main_call_button_click": null,
+    "secondary_estimate_form_click": null,
+    "header_choice": null,
+    "phone_popup": null,
+    "conversion": "_store_subscription_cancel\"],[52,\"i\",\"app_store_subscription_convert\"],[52,\"j\",\"app_store_subscription_renew\"],[52,\"k\",\"conversion\"],[52,\"l\",\"purchase\"],[52,\"m\",\"first_open\"],[52,\"n\",\"first_visit\"],[52,\"o\",\"gtag.config\"],[52,\"p\",\"in_app_purchase\"],[52,\"q\",\"page_view\"],[52,\"r\",\"session_start\"],[52,\"s\",\"user_engagement\"],[52,\"t\",\"",
+    "AW-": null,
+    "send_to": ",mq:\"sample_rate\",\nKi:\"screen_name\",kd:\"screen_resolution\",Ql:\"_script_source\",nq:\"search_term\",Td:\"send_page_view\",bc:\"send_to\",Li:\"server_container_3p_enrichment\",ld:\"server_container_url\",oq:\"session_attributes_encoded\",wh:\"session_duration\",xh:\"session_engaged\",Mi:\"session_engaged_time\",zc:\"session_id\",yh:\"session_number\"",
+    "gtag": "ame\":\"gtm.elementUrl\",\"vtp_dataLayerVersion\":1},{\"function\":\"__aev\",\"vtp_varType\":\"TEXT\"}],\n  \"tags\":[{\"function\":\"__googtag\",\"metadata\":[\"map\"],\"once_per_event\":true,\"vtp_tagId\":\"G-2YKLBMPG8B\",\"tag_id\":3},{\"function\":\"__gaawe\",\"metadata\":[\"map\"],\"once_per_event\":true,\"vtp_sendEcommerceData\":false,\"vtp_eventName\":\"phone_ca",
+    "G-": "\"__aev\",\"vtp_varType\":\"TEXT\"}],\n  \"tags\":[{\"function\":\"__googtag\",\"metadata\":[\"map\"],\"once_per_event\":true,\"vtp_tagId\":\"G-2YKLBMPG8B\",\"tag_id\":3},{\"function\":\"__gaawe\",\"metadata\":[\"map\"],\"once_per_event\":true,\"vtp_sendEcommerceData\":false,\"vtp_eventName\":\"phone_call\",\"vtp_measurementIdOverride\":\"G-2YKLBMPG8B\",\"vtp_enable"
+  },
+  "interestingStrings": [
+    "&&(h|=2);eu()&&(h|=4);var k;var m=bu();k=m.enableAdvertiserConsentMode!==\nvoid 0?m.enableAdvertiserConsentMode?",
+    ").call(Object,{},Rw);b&&(g.body=b,g.method=",
+    ").call(Object,{},p,{labels:C}))}g.length&&Ls(",
+    ").call(Object,{},r,{labels:z}))}k.length&&\nLs(",
+    ");(Fk()?xk.platform===",
+    ");e.push.apply(e,Array.prototype.slice.call(arguments,0))},this.U,\nvh(zG(this).Tb())?2:1)}UI.publicName=",
+    ");k.push.call(k,\narguments)};f[g]=h;var m=b.split(",
+    ");},da:a}})}();\n\n\n\n\nZ.securityGroups.detect_click_events=[",
+    "+a.K[d]);var e=[],f;for(f in a.H)Object.prototype.hasOwnProperty.call(a.H,f)&&e.push(f+",
+    "+p+P;q.ub=T;q.Ut=C;var ca;d==null||(ca=d.Ht)==null||ca.call(d,a,pa(Object,",
+    "/as/d/ccm/conversion",
+    "/ccm/conversion",
+    "/ccm/form-data",
+    "/d/ccm/form-data",
+    "/g/d/ccm/conversion",
+    "/gs/ccm/conversion",
+    "/measurement/conversion",
+    "/pagead/1p-conversion",
+    "/pagead/conversion",
+    "/pagead/form-data",
+    "/pagead/uconversion",
+    "/pagead/viewthroughconversion",
+    "/travel/flights/click/conversion",
+    ";b[I.D.dg]=a.model;b[I.D.eg]=a.platform;b[I.D.fg]=a.platformVersion;b[I.D.gg]=a.wow64?",
+    "ADS_CONVERSION_HIT",
+    "EM_FORM",
+    "Error: Malformed switch instruction.",
+    "Error: No function name given for function call.",
+    "FORM_INTERACTION_PERMISSION_DENIED",
+    "FORM_SUBMIT_PERMISSION_DENIED",
+    "G-2YKLBMPG8B",
+    "GA4_CONVERSION_HIT",
+    "GA_ADS_LINK_BEFORE_CONVERSION_MARKING",
+    "LEGACY_ENHANCED_CONVERSION_JS_VARIABLE",
+    "TAG_CALLBACK_ERROR",
+    "TAG_CALLBACK_FAILURE",
+    "TAG_CALLBACK_SUCCESS",
+    "]=(a.attributes&&a.attributes.formaction?a.formAction:",
+    "a.sticky-btn.btn-call, a.sticky-btn.btn-call *, #header-choice-modal-primary-call, #header-choice-modal-primary-call *",
+    "ad.doubleclick.net",
+    "addEventCallback",
+    "allow_enhanced_conversions",
+    "aw_remarketing",
+    "aw_remarketing_only",
+    "callInWindow",
+    "callLater",
+    "callOnDomReady",
+    "callOnWindowLoad",
+    "callee",
+    "click",
+    "conversion",
+    "conversionCount",
+    "conversion_api",
+    "conversion_cookie_prefix",
+    "conversion_id",
+    "conversion_label",
+    "conversion_linker",
+    "conversion_linker_disabled",
+    "conversion_linker_enabled",
+    "conversion_marking_called",
+    "detect_click_events",
+    "detect_form_submit_events",
+    "detect_link_click_events",
+    "enhanced_conversions",
+    "enhanced_conversions_automatic_settings",
+    "enhanced_match_form_metadata",
+    "enhanced_match_form_metadata_latency",
+    "estimate_request",
+    "estimated_delivery_date",
+    "event_callback",
+    "form",
+    "form_event_canceled",
+    "form_name",
+    "form_submit",
+    "generate_lead",
+    "googleads.g.doubleclick.net",
+    "gtm.click",
+    "gtm.click-v2",
+    "gtm.formSubmit",
+    "has_ga_conversion_consents",
+    "hitCallback",
+    "https://ad.doubleclick.net/activity;",
+    "https://www.googleadservices.com",
+    "internal.addAdsClickIds",
+    "internal.addFormAbandonmentListener",
+    "internal.addFormData",
+    "internal.compileFormMetadata",
+    "internal.enableAutoEventOnClick",
+    "internal.enableAutoEventOnFormInteraction",
+    "internal.enableAutoEventOnFormSubmit",
+    "internal.enableAutoEventOnLinkClick",
+    "internal.getLinkerValueFromLocation",
+    "internal.setCorePlatformServices",
+    "internal.setFormAction",
+    "is_conversion",
+    "is_first_visit_conversion",
+    "is_session_start_conversion",
+    "is_sgtm_ga_ads_conversion_study_control_group",
+    "is_split_conversion",
+    "lead_type",
+    "measurement/conversion",
+    "optimize.callback",
+    "page_view",
+    "phone_call",
+    "phone_call_mobile",
+    "platform platformVersion architecture model uaFullVersion bitness fullVersionList wow64",
+    "promoClick",
+    "redact_click_ids",
+    "requestIdleCallback",
+    "send_page_view",
+    "www.googleadservices.com"
+  ],
+  "vtpKeys": [
+    "vtp_component",
+    "vtp_dataLayerVersion",
+    "vtp_defaultValue",
+    "vtp_demoV2",
+    "vtp_elementSelector",
+    "vtp_enableEuid",
+    "vtp_enableIgnoreEmptyQueryParam",
+    "vtp_enableMultiQueryKeys",
+    "vtp_enableUserProperties",
+    "vtp_eventName",
+    "vtp_eventSettingsTable",
+    "vtp_firingFrequency",
+    "vtp_gtmGeneratedTaggingMetadata",
+    "vtp_measurementIdOverride",
+    "vtp_migratedToV2",
+    "vtp_name",
+    "vtp_onScreenRatio",
+    "vtp_selectorType",
+    "vtp_sendEcommerceData",
+    "vtp_setDefaultValue",
+    "vtp_tagId",
+    "vtp_uniqueTriggerId",
+    "vtp_useDomChangeListener",
+    "vtp_useOnScreenDuration",
+    "vtp_varType"
+  ],
+  "vtpSamples": {
+    "vtp_component": [
+      "URL",
+      "HOST",
+      "PATH"
+    ],
+    "vtp_dataLayerVersion": [
+      "1",
+      "2"
+    ],
+    "vtp_defaultValue": [
+      ""
+    ],
+    "vtp_demoV2": [
+      "false"
+    ],
+    "vtp_elementSelector": [
+      ".erf-success-card"
+    ],
+    "vtp_enableEuid": [
+      "true"
+    ],
+    "vtp_enableIgnoreEmptyQueryParam": [
+      "false"
+    ],
+    "vtp_enableMultiQueryKeys": [
+      "false"
+    ],
+    "vtp_enableUserProperties": [
+      "true"
+    ],
+    "vtp_eventName": [
+      "phone_call",
+      "generate_lead",
+      "phone_call_mobile"
+    ],
+    "vtp_firingFrequency": [
+      "ONCE"
+    ],
+    "vtp_measurementIdOverride": [
+      "G-2YKLBMPG8B"
+    ],
+    "vtp_migratedToV2": [
+      "true"
+    ],
+    "vtp_name": [
+      "gtm.element",
+      "gtm.triggers",
+      "gtm.elementClasses",
+      "gtm.elementUrl"
+    ],
+    "vtp_onScreenRatio": [
+      "1"
+    ],
+    "vtp_selectorType": [
+      "CSS"
+    ],
+    "vtp_sendEcommerceData": [
+      "false"
+    ],
+    "vtp_setDefaultValue": [
+      "true"
+    ],
+    "vtp_tagId": [
+      "G-2YKLBMPG8B"
+    ],
+    "vtp_uniqueTriggerId": [
+      "254672074_6"
+    ],
+    "vtp_useDomChangeListener": [
+      "true"
+    ],
+    "vtp_useOnScreenDuration": [
+      "false"
+    ],
+    "vtp_varType": [
+      "TEXT"
+    ]
+  },
+  "typeHits": {
+    "googtag": 0,
+    "gaawe": 0,
+    "awct": 0,
+    "gclidw": 0,
+    "sp": 0,
+    "html": 0,
+    "img": 0,
+    "lcl": 0,
+    "flc": 0,
+    "fls": 0,
+    "ym": 0,
+    "bzi": 0,
+    "pntr": 0,
+    "hjtc": 0,
+    "baut": 0,
+    "paused": 0
+  },
+  "jsonishSample": [
+    "{\"function\":\"__v\",\"vtp_name\":\"gtm.element\",\"vtp_dataLayerVersion\":1}",
+    "{\"function\":\"__u\",\"vtp_component\":\"URL\",\"vtp_enableMultiQueryKeys\":false,\"vtp_enableIgnoreEmptyQueryParam\":false}",
+    "{\"function\":\"__v\",\"vtp_name\":\"gtm.triggers\",\"vtp_dataLayerVersion\":2,\"vtp_setDefaultValue\":true,\"vtp_defaultValue\":\"\"}",
+    "{\"function\":\"__u\",\"vtp_component\":\"HOST\",\"vtp_enableMultiQueryKeys\":false,\"vtp_enableIgnoreEmptyQueryParam\":false}",
+    "{\"function\":\"__u\",\"vtp_component\":\"PATH\",\"vtp_enableMultiQueryKeys\":false,\"vtp_enableIgnoreEmptyQueryParam\":false}",
+    "{\"function\":\"__f\",\"vtp_component\":\"URL\"}",
+    "{\"function\":\"__v\",\"vtp_name\":\"gtm.elementClasses\",\"vtp_dataLayerVersion\":1}",
+    "{\"function\":\"__v\",\"vtp_name\":\"gtm.elementUrl\",\"vtp_dataLayerVersion\":1}",
+    "{\"function\":\"__aev\",\"vtp_varType\":\"TEXT\"}"
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "label": "mpl-normal",
+  "url": "http://127.0.0.1:4330/",
+  "runs": 3,
+  "results": [
+    {
+      "perf": 82,
+      "fcpMs": 1019.3542,
+      "lcpMs": 4960.486900000001,
+      "siMs": 1046.7296281485749,
+      "tbtMs": 52.5,
+      "cls": 0,
+      "fcp": "1.0 s",
+      "lcp": "5.0 s",
+      "si": "1.0 s",
+      "tbt": "50 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 12.694999933242798,
+        "end": 19.924999713897705,
+        "size": 35598,
+        "transfer": 35918
+      },
+      "deferredScripts": [],
+      "phases": {
+        "Time to first byte": 5.619,
+        "Resource load delay": 7.122,
+        "Resource load duration": 7.761,
+        "Element render delay": 306.263
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    },
+    {
+      "perf": 81,
+      "fcpMs": 1015.5283,
+      "lcpMs": 5080.346175,
+      "siMs": 1020.4013500857164,
+      "tbtMs": 53.5,
+      "cls": 0,
+      "fcp": "1.0 s",
+      "lcp": "5.1 s",
+      "si": "1.0 s",
+      "tbt": "50 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 12.21500015258789,
+        "end": 18.78700017929077,
+        "size": 35598,
+        "transfer": 35918
+      },
+      "deferredScripts": [
+        {
+          "url": "a?id=G-2YKLBMPG8B&v=3&t=t&pid=2054188373&gtm=45je68j0v9231146895za20gzb9254672074zd9254672074&cv=1&rv=68j0&tc=17&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385423&es=1&e=gtag.config&eid=2&u=AAAAAAAI&h=Ag&tr=1ogtautoevents.1ogt1pdatav2.1ccdgafirst.1setproductsettings.1ccdgaregscope.1ccdemdownload.1ccdemform.1ccdemoutboundclick.1ccdempageview.1ccdemscroll.1ccdemsitesearch.1ccdemvideo.1ccdconversionmarking.1ccdautoredact.1ccdgaadslink.1ccdgalast&ti=2ogtautoevents.2ogt1pdatav2.2ccdgafirst.2setproductsettings.2ccdgaregscope.2ccdemdownload.2ccdemform.2ccdemoutboundclick.2ccdempageview.2ccdemscroll.2ccdemsitesearch.2ccdemvideo.2ccdconversionmarking.2ccdautoredact.2ccdgaadslink.2ccdgalast&z=0",
+          "start": 400.5700001716614,
+          "end": 450.85900020599365
+        },
+        {
+          "url": "a?id=G-2YKLBMPG8B&v=3&t=t&pid=2054188373&gtm=45je68j0v9231146895za20gzb9254672074zd9254672074&cv=1&rv=68j0&tc=17&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385423&e=gtag.config&eid=2&u=AAAAAAAIAAAAACA&ut=Ag&h=Ag&tr=5ogtautoevents.5ogt1pdatav2.5ccdgafirst.5setproductsettings.5ccdgaregscope.5ccdemdownload.5ccdemform.5ccdemoutboundclick.5ccdempageview.5ccdemscroll.5ccdemsitesearch.5ccdemvideo.5ccdconversionmarking.5ccdautoredact.5ccdgaadslink.5ccdgalast&ti=2ogtautoevents.2ogt1pdatav2.2ccdgafirst.2setproductsettings.2ccdgaregscope.2ccdemdownload.2ccdemform.2ccdemoutboundclick.2ccdempageview.2ccdemscroll.2ccdemsitesearch.2ccdemvideo.2ccdconversionmarking.2ccdautoredact.2ccdgaadslink.2ccdgalast&z=0",
+          "start": 404.24500012397766,
+          "end": 452.28900027275085
+        }
+      ],
+      "phases": {
+        "Time to first byte": 4.872000244140625,
+        "Resource load delay": 6.862999755859375,
+        "Resource load duration": 7.633,
+        "Element render delay": 293.541
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    },
+    {
+      "perf": 83,
+      "fcpMs": 1049.9928,
+      "lcpMs": 4658.7963,
+      "siMs": 1143.5351579305461,
+      "tbtMs": 92,
+      "cls": 0,
+      "fcp": "1.0 s",
+      "lcp": "4.7 s",
+      "si": "1.1 s",
+      "tbt": "90 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 18.29700016975403,
+        "end": 23.700999975204468,
+        "size": 35598,
+        "transfer": 35918
+      },
+      "deferredScripts": [
+        {
+          "url": "boot-deferred-site-scripts.QXXDrwBX.js",
+          "start": 2911.7599999904633
+        }
+      ],
+      "phases": {
+        "Time to first byte": 8.156,
+        "Resource load delay": 10.101,
+        "Resource load duration": 6.186,
+        "Element render delay": 356.388
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    }
+  ],
+  "median": {
+    "perf": 82,
+    "fcpMs": 1019.3542,
+    "lcpMs": 4960.486900000001,
+    "siMs": 1046.7296281485749,
+    "tbtMs": 53.5,
+    "cls": 0
+  }
+}

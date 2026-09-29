@@ -1,0 +1,173 @@
+---
+/** Saisie du texte collé — logique dans admin-estimation.ts */
+---
+
+<section class="ae-form-section admin-estimation-ui" id="ae-form-section" aria-labelledby="ae-form-title">
+  <header class="ae-form-header">
+    <h1 id="ae-form-title" class="ae-form-title">Estimation interne</h1>
+    <p class="ae-form-sub">
+      Collez votre texte rédigé, puis affichez-le sur le letterhead.
+    </p>
+  </header>
+
+  <form id="ae-form" class="ae-form" novalidate>
+    <div id="ae-form-fields" class="ae-form-fields">
+      <label class="ae-label" for="ae-estimation-text">
+        Texte de l'estimation
+        <textarea
+          id="ae-estimation-text"
+          name="estimationText"
+          class="ae-textarea ae-textarea--main"
+          rows="14"
+          placeholder="Collez ici le texte complet de votre estimation (plusieurs paragraphes, puces, etc.)"
+        ></textarea>
+      </label>
+
+      <p id="ae-form-errors" class="ae-form-errors" role="alert" hidden></p>
+    </div>
+  </form>
+
+  <div class="ae-actions admin-estimation-ui" id="ae-actions-bar">
+    <button type="submit" form="ae-form" class="ae-btn ae-btn--primary" id="ae-btn-preview">
+      Aperçu
+    </button>
+    <button type="button" class="ae-btn ae-btn--secondary" id="ae-btn-edit" hidden>
+      Modifier
+    </button>
+    <button type="button" class="ae-btn ae-btn--ghost" id="ae-btn-reset">
+      Réinitialiser
+    </button>
+    <button type="button" class="ae-btn ae-btn--accent" id="ae-btn-print" disabled hidden>
+      Imprimer ou enregistrer
+    </button>
+  </div>
+</section>
+
+<style>
+  .ae-form-section {
+    padding: 1rem 1rem 1.25rem;
+    background: #fff;
+    border-bottom: 1px solid #d5dbe3;
+  }
+
+  .ae-form-header {
+    margin-bottom: 1rem;
+  }
+
+  .ae-form-title {
+    margin: 0 0 0.25rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #001f3f;
+    line-height: 1.2;
+  }
+
+  .ae-form-sub {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #5a6570;
+    line-height: 1.45;
+  }
+
+  .ae-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .ae-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  .ae-textarea {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #111;
+    border: 1px solid #c5cdd6;
+    border-radius: 8px;
+    background: #fff;
+    -webkit-tap-highlight-color: transparent;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .ae-textarea--main {
+    min-height: 16rem;
+  }
+
+  .ae-textarea:focus {
+    outline: 2px solid #001f3f;
+    outline-offset: 1px;
+    border-color: #001f3f;
+  }
+
+  .ae-form-errors {
+    margin: 0;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #9a1b1b;
+    background: #fdecec;
+    border: 1px solid #f5c2c2;
+    border-radius: 8px;
+  }
+
+  .ae-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .ae-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+    padding: 0.7rem 1rem;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 31, 63, 0.12);
+  }
+
+  .ae-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .ae-btn--primary {
+    color: #fff;
+    background: #001f3f;
+  }
+
+  .ae-btn--secondary {
+    color: #001f3f;
+    background: #e8eef5;
+    border: 1px solid #b8c5d4;
+  }
+
+  .ae-btn--ghost {
+    color: #334155;
+    background: transparent;
+    border: 1px solid #c5cdd6;
+  }
+
+  .ae-btn--accent {
+    color: #fff;
+    background: #0d6e4f;
+  }
+</style>

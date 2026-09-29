@@ -1,0 +1,61 @@
+{
+  "totalChars": 88687,
+  "totalKb": 86.6,
+  "commentSections": [],
+  "counts": {
+    "approxRulesOrBlocks": 685,
+    "mediaQueries": 54,
+    "keyframes": [
+      "fadeInUp",
+      "pulse-wave",
+      "ahPopupIn",
+      "headerChoiceModalIn",
+      "slideUp",
+      "play-pulse",
+      "float",
+      "shimmerSweep"
+    ],
+    "important": 135,
+    "transitions": 56,
+    "animationsProp": 15,
+    "filterOrBackdrop": 30,
+    "shadows": 98,
+    "gridMentions": 39,
+    "flexMentions": 65,
+    "calc": 11,
+    "deepSelectorApprox": 0,
+    "attrSelectors": 535,
+    "pseudoMentions": 112,
+    "astroCidOccurrences": 525,
+    "uniqueAstroCids": [
+      "data-astro-cid-3ef6ksr2",
+      "data-astro-cid-sz7xmlte",
+      "data-astro-cid-sckkx6r4",
+      "data-astro-cid-f6szazxe",
+      "data-astro-cid-yzjjf6xn",
+      "data-astro-cid-qtly7il3",
+      "data-astro-cid-j7pv25f6"
+    ]
+  },
+  "lineWeightHints": {
+    "criticalishLinesChars": 85726,
+    "belowishLinesChars": 85726,
+    "note": "Heuristic by line containing class tokens; overlaps possible; not exclusive."
+  },
+  "markerPresence": {
+    "NEW HERO / slideshow": true,
+    "TRUST": true,
+    "SERVICES": true,
+    "ECO": true,
+    "DARK / TECH": true,
+    "QUALITY STRIP": true,
+    "CTA FINAL": true,
+    "PROMO / PILL": true,
+    "FEATURED VIDEO": true,
+    "ANIMATIONS": true,
+    "WATERMARK": true,
+    "MOBILE sticky / layout-ish": true,
+    "FOOTER-ish": true,
+    "HEADER-ish": true
+  }
+}

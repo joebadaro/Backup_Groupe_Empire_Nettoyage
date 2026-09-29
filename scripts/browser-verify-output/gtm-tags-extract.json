@@ -1,0 +1,84 @@
+{
+  "funcs": [
+    "__e",
+    "__v",
+    "__u",
+    "__f",
+    "__aev",
+    "__googtag",
+    "__gaawe",
+    "__cl",
+    "__evl"
+  ],
+  "funcCounts": {
+    "__e": 2,
+    "__v": 4,
+    "__u": 3,
+    "__f": 1,
+    "__aev": 1,
+    "__googtag": 1,
+    "__gaawe": 3,
+    "__cl": 2,
+    "__evl": 1
+  },
+  "tagBlocks": [
+    {
+      "fn": "__e",
+      "tag_id": "3",
+      "preview": "{\"function\":\"__e\"},{\"function\":\"__v\",\"vtp_name\":\"gtm.element\",\"vtp_dataLayerVersion\":1},{\"function\":\"__u\",\"vtp_component\":\"URL\",\"vtp_enableMultiQueryKeys\":false,\"vtp_enableIgnoreEmptyQueryParam\":false},{\"function\":\"__v\",\"vtp_name\":\"gtm.triggers\",\"vtp_dataLayerVersion\":2,\"vtp_setDefaultValue\":true,\"vtp_defaultValue\":\"\"},{\"function\":\"__u\",\"vtp_component\":\"HOST\",\"vtp_enableMultiQueryKeys\":false,\"vtp_enableIgnoreEmptyQueryParam\":false},{\"function\":\"__u\",\"vtp_component\":\"PATH\",\"vtp_enableMultiQueryKeys\":false,\"vtp_enableIgnoreEmptyQueryParam\":false},{\"function\":\"__f\",\"vtp_component\":\"URL\"},{\"function\":\"__e\"},{\"function\":\"__v\",\"vtp_name\":\"gtm.elementClasses\",\"vtp_dataLayerVersion\":1},{\"function\":\"__v\",\"vtp_name\":\"gtm.elementUrl\",\"vtp_dataLayerVersion\":1},{\"function\":\"__aev\",\"vtp_varType\":\"TEXT\"}",
+      "len": 916
+    },
+    {
+      "fn": "__gaawe",
+      "tag_id": "5",
+      "preview": "{\"function\":\"__gaawe\",\"metadata\":[\"map\"],\"once_per_event\":true,\"vtp_sendEcommerceData\":false,\"vtp_eventName\":\"phone_call\",\"vtp_measurementIdOverride\":\"G-2YKLBMPG8B\",\"vtp_enableUserProperties\":true,\"vtp_enableEuid\":true,\"vtp_migratedToV2\":true,\"vtp_demoV2\":false,\"tag_id\":5}",
+      "len": 273
+    },
+    {
+      "fn": "__gaawe",
+      "tag_id": "7",
+      "preview": "{\"function\":\"__gaawe\",\"metadata\":[\"map\"],\"once_per_event\":true,\"vtp_sendEcommerceData\":false,\"vtp_eventSettingsTable\":[\"list\",[\"map\",\"parameter\",\"form_name\",\"parameterValue\",\"demande_estimation\"],[\"map\",\"parameter\",\"lead_type\",\"parameterValue\",\"estimate_request\"]],\"vtp_eventName\":\"generate_lead\",\"vtp_measurementIdOverride\":\"G-2YKLBMPG8B\",\"vtp_enableUserProperties\":true,\"vtp_enableEuid\":true,\"vtp_migratedToV2\":true,\"vtp_demoV2\":false,\"tag_id\":7}",
+      "len": 448
+    },
+    {
+      "fn": "__gaawe",
+      "tag_id": "10",
+      "preview": "{\"function\":\"__gaawe\",\"metadata\":[\"map\"],\"once_per_event\":true,\"vtp_sendEcommerceData\":false,\"vtp_eventName\":\"phone_call_mobile\",\"vtp_measurementIdOverride\":\"G-2YKLBMPG8B\",\"vtp_enableUserProperties\":true,\"vtp_enableEuid\":true,\"vtp_migratedToV2\":true,\"vtp_demoV2\":false,\"tag_id\":10}",
+      "len": 281
+    },
+    {
+      "fn": "__cl",
+      "tag_id": "11",
+      "preview": "{\"function\":\"__cl\",\"tag_id\":11}",
+      "len": 31
+    },
+    {
+      "fn": "__evl",
+      "tag_id": "12",
+      "preview": "{\"function\":\"__evl\",\"vtp_useOnScreenDuration\":false,\"vtp_useDomChangeListener\":true,\"vtp_elementSelector\":\".erf-success-card\",\"vtp_firingFrequency\":\"ONCE\",\"vtp_selectorType\":\"CSS\",\"vtp_onScreenRatio\":\"1\",\"vtp_uniqueTriggerId\":\"254672074_6\",\"tag_id\":12}",
+      "len": 252
+    },
+    {
+      "fn": "__cl",
+      "tag_id": "13",
+      "preview": "{\"function\":\"__cl\",\"tag_id\":13}",
+      "len": 31
+    }
+  ],
+  "adsBits": [
+    "conversion_id\"]",
+    "conversion_id\"",
+    "conversion_ids\"",
+    "conversion_label\"]",
+    "conversion_label\"",
+    "aw_remarketing_only\"]",
+    "aw_remarketing\"",
+    "aw_remarketing_only\"",
+    "send_to\"",
+    "send_to_destinations\"",
+    "send_to_targets\""
+  ],
+  "hasAwLiteral": false,
+  "hasUaLiteral": false,
+  "hasDcLiteral": false
+}

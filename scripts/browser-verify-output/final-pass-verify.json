@@ -1,0 +1,188 @@
+{
+  "frMobile": {
+    "label": "FR mobile",
+    "immediate": {
+      "hasInitialClass": true,
+      "opacity": "1",
+      "fetchPriority": "high",
+      "loading": "eager",
+      "heroReady": false,
+      "bootInDom": false,
+      "preloadHelperInDom": false,
+      "gtmSnippet": true,
+      "dnsGtm": true,
+      "preconnectGtm": true,
+      "dnsGa": true,
+      "preconnectGa": true,
+      "fbq": "undefined",
+      "metaStub": false
+    },
+    "afterSwap": {
+      "activeIdx": 1,
+      "heroReady": true,
+      "slideCount": 5
+    },
+    "bootState": {
+      "bootScriptInjected": true,
+      "openHeaderFn": "function",
+      "openMobileFn": "function"
+    },
+    "modalOk": true,
+    "telHref": "tel:+15148939939",
+    "pageErrors": [],
+    "consoleErrors": [],
+    "networkTimeline": {
+      "preloadHelper": null,
+      "bootDeferred": {
+        "ms": 3304,
+        "url": "/_astro/boot-deferred-site-scripts.BE1YIuGX.js"
+      },
+      "visitorSmsOrPrivate": {
+        "ms": 3308,
+        "url": "/_astro/boot-deferred-private-scripts.C9BA-XVq.js"
+      },
+      "smsClientContext": {
+        "ms": 3308,
+        "url": "/_astro/sms-client-context.C6RyiInA.js"
+      },
+      "phones": {
+        "ms": 3308,
+        "url": "/_astro/phones.BaanPqAS.js"
+      },
+      "headerOrBoot": {
+        "ms": 3304,
+        "url": "/_astro/boot-deferred-site-scripts.BE1YIuGX.js"
+      },
+      "conversion": null,
+      "afterHours": null,
+      "gtm": {
+        "ms": 43,
+        "url": "https://www.googletagmanager.com/gtm.js"
+      },
+      "meta": null,
+      "earlyAstroModules": [],
+      "allDeferredRelated": [
+        {
+          "ms": 3304,
+          "url": "/_astro/boot-deferred-site-scripts.BE1YIuGX.js",
+          "type": "script"
+        },
+        {
+          "ms": 3308,
+          "url": "/_astro/boot-deferred-private-scripts.C9BA-XVq.js",
+          "type": "script"
+        },
+        {
+          "ms": 3308,
+          "url": "/_astro/phones.BaanPqAS.js",
+          "type": "script"
+        },
+        {
+          "ms": 3308,
+          "url": "/_astro/sms-client-context.C6RyiInA.js",
+          "type": "script"
+        }
+      ]
+    }
+  },
+  "enMobile": {
+    "en": {
+      "hasInitial": true,
+      "opacity": "1",
+      "gtm": true,
+      "lang": "fr"
+    },
+    "enSwap": {
+      "activeIdx": 1,
+      "heroReady": true
+    },
+    "enTel": "tel:+15148939939",
+    "modalOk": true
+  },
+  "desktop": {
+    "label": "Desktop",
+    "immediate": {
+      "hasInitialClass": true,
+      "opacity": "1",
+      "fetchPriority": "high",
+      "loading": "eager",
+      "heroReady": false,
+      "bootInDom": false,
+      "preloadHelperInDom": false,
+      "gtmSnippet": true,
+      "dnsGtm": true,
+      "preconnectGtm": true,
+      "dnsGa": true,
+      "preconnectGa": true,
+      "fbq": "undefined",
+      "metaStub": false
+    },
+    "afterSwap": {
+      "activeIdx": 1,
+      "heroReady": true,
+      "slideCount": 5
+    },
+    "bootState": {
+      "bootScriptInjected": true,
+      "openHeaderFn": "function",
+      "openMobileFn": "function"
+    },
+    "modalOk": true,
+    "telHref": "tel:+15148939939",
+    "pageErrors": [],
+    "consoleErrors": [],
+    "networkTimeline": {
+      "preloadHelper": null,
+      "bootDeferred": {
+        "ms": 529,
+        "url": "/_astro/boot-deferred-site-scripts.BE1YIuGX.js"
+      },
+      "visitorSmsOrPrivate": {
+        "ms": 534,
+        "url": "/_astro/boot-deferred-private-scripts.C9BA-XVq.js"
+      },
+      "smsClientContext": {
+        "ms": 534,
+        "url": "/_astro/sms-client-context.C6RyiInA.js"
+      },
+      "phones": {
+        "ms": 534,
+        "url": "/_astro/phones.BaanPqAS.js"
+      },
+      "headerOrBoot": {
+        "ms": 529,
+        "url": "/_astro/boot-deferred-site-scripts.BE1YIuGX.js"
+      },
+      "conversion": null,
+      "afterHours": null,
+      "gtm": {
+        "ms": 22,
+        "url": "https://www.googletagmanager.com/gtm.js"
+      },
+      "meta": null,
+      "earlyAstroModules": [],
+      "allDeferredRelated": [
+        {
+          "ms": 529,
+          "url": "/_astro/boot-deferred-site-scripts.BE1YIuGX.js",
+          "type": "script"
+        },
+        {
+          "ms": 534,
+          "url": "/_astro/boot-deferred-private-scripts.C9BA-XVq.js",
+          "type": "script"
+        },
+        {
+          "ms": 534,
+          "url": "/_astro/phones.BaanPqAS.js",
+          "type": "script"
+        },
+        {
+          "ms": 534,
+          "url": "/_astro/sms-client-context.C6RyiInA.js",
+          "type": "script"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,197 @@
+[
+  {
+    "label": "mobile-fr",
+    "path": "/",
+    "early": {
+      "heroOpacity": "1",
+      "heroVisible": true,
+      "heroSrc": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+      "cvCount": 8,
+      "cvSample": [
+        {
+          "cls": "presentation-home-teaser fade-in-section lcp-cv-auto",
+          "cv": "auto",
+          "top": 698
+        },
+        {
+          "cls": "section section-services lcp-cv-auto lcp-cv-auto--tall",
+          "cv": "auto",
+          "top": 1269
+        },
+        {
+          "cls": "section-featured-video fade-in-section lcp-cv-auto lcp-cv-auto--video",
+          "cv": "auto",
+          "top": 2396
+        },
+        {
+          "cls": "section-quality-strip-refined lcp-cv-auto",
+          "cv": "auto",
+          "top": 3628
+        },
+        {
+          "cls": "section section-eco lcp-cv-auto",
+          "cv": "auto",
+          "top": 4530
+        },
+        {
+          "cls": "section section-dark-blue text-white lcp-cv-auto lcp-cv-auto--tall",
+          "cv": "auto",
+          "top": 5686
+        },
+        {
+          "cls": "section-promos-teaser lcp-cv-auto",
+          "cv": "auto",
+          "top": 9714
+        },
+        {
+          "cls": "cta-final lcp-cv-auto",
+          "cv": "auto",
+          "top": 10724
+        }
+      ],
+      "hasStartGTM": false,
+      "hasGTM": true,
+      "hasMeta": false,
+      "sticky": true
+    },
+    "afterScroll": {
+      "sectionCount": 8,
+      "zeroHeightSuspicious": 0,
+      "clsShift": 0
+    },
+    "cta": 6,
+    "formLink": 1,
+    "errors": [],
+    "pass": true
+  },
+  {
+    "label": "mobile-en",
+    "path": "/en/",
+    "early": {
+      "heroOpacity": "1",
+      "heroVisible": true,
+      "heroSrc": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+      "cvCount": 8,
+      "cvSample": [
+        {
+          "cls": "presentation-home-teaser fade-in-section lcp-cv-auto",
+          "cv": "auto",
+          "top": 698
+        },
+        {
+          "cls": "section section-services lcp-cv-auto lcp-cv-auto--tall",
+          "cv": "auto",
+          "top": 1242
+        },
+        {
+          "cls": "section-featured-video fade-in-section lcp-cv-auto lcp-cv-auto--video",
+          "cv": "auto",
+          "top": 2369
+        },
+        {
+          "cls": "section-quality-strip-refined lcp-cv-auto",
+          "cv": "auto",
+          "top": 3601
+        },
+        {
+          "cls": "section section-eco lcp-cv-auto",
+          "cv": "auto",
+          "top": 4503
+        },
+        {
+          "cls": "section section-dark-blue text-white lcp-cv-auto lcp-cv-auto--tall",
+          "cv": "auto",
+          "top": 5659
+        },
+        {
+          "cls": "section-promos-teaser lcp-cv-auto",
+          "cv": "auto",
+          "top": 9641
+        },
+        {
+          "cls": "cta-final lcp-cv-auto",
+          "cv": "auto",
+          "top": 10651
+        }
+      ],
+      "hasStartGTM": false,
+      "hasGTM": true,
+      "hasMeta": false,
+      "sticky": true
+    },
+    "afterScroll": {
+      "sectionCount": 8,
+      "zeroHeightSuspicious": 0,
+      "clsShift": 0
+    },
+    "cta": 6,
+    "formLink": 1,
+    "errors": [],
+    "pass": true
+  },
+  {
+    "label": "desktop-fr",
+    "path": "/",
+    "early": {
+      "heroOpacity": "1",
+      "heroVisible": true,
+      "heroSrc": "hero-slide-2-1600.webp",
+      "cvCount": 8,
+      "cvSample": [
+        {
+          "cls": "presentation-home-teaser fade-in-section lcp-cv-auto",
+          "cv": "visible",
+          "top": 920
+        },
+        {
+          "cls": "section section-services lcp-cv-auto lcp-cv-auto--tall",
+          "cv": "visible",
+          "top": 1324
+        },
+        {
+          "cls": "section-featured-video fade-in-section lcp-cv-auto lcp-cv-auto--video",
+          "cv": "visible",
+          "top": 4034
+        },
+        {
+          "cls": "section-quality-strip-refined lcp-cv-auto",
+          "cv": "visible",
+          "top": 5195
+        },
+        {
+          "cls": "section section-eco lcp-cv-auto",
+          "cv": "visible",
+          "top": 5596
+        },
+        {
+          "cls": "section section-dark-blue text-white lcp-cv-auto lcp-cv-auto--tall",
+          "cv": "visible",
+          "top": 6373
+        },
+        {
+          "cls": "section-promos-teaser lcp-cv-auto",
+          "cv": "visible",
+          "top": 8374
+        },
+        {
+          "cls": "cta-final lcp-cv-auto",
+          "cv": "visible",
+          "top": 8879
+        }
+      ],
+      "hasStartGTM": false,
+      "hasGTM": true,
+      "hasMeta": false,
+      "sticky": true
+    },
+    "afterScroll": {
+      "sectionCount": 8,
+      "zeroHeightSuspicious": 0,
+      "clsShift": 0
+    },
+    "cta": 6,
+    "formLink": 1,
+    "errors": [],
+    "pass": true
+  }
+]

@@ -1,0 +1,937 @@
+[
+  {
+    "viewport": {
+      "w": 1366,
+      "h": 768
+    },
+    "headerTotal": {
+      "top": 0,
+      "bottom": 119,
+      "height": 119,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "topBar": {
+      "top": 0,
+      "bottom": 38,
+      "height": 38,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "mainNav": {
+      "top": 38,
+      "bottom": 119,
+      "height": 81,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "hero": {
+      "top": 119,
+      "bottom": 751,
+      "height": 632,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "heroPadding": {
+      "top": "72px",
+      "bottom": "60px",
+      "minHeight": "0px"
+    },
+    "badge": {
+      "top": 191,
+      "bottom": 295,
+      "height": 104,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "title": {
+      "top": 335,
+      "bottom": 453,
+      "height": 118,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "subtitle": {
+      "top": 477,
+      "bottom": 543,
+      "height": 67,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "actions": {
+      "top": 554,
+      "bottom": 691,
+      "height": 137,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "primaryBtn": {
+      "top": 554,
+      "bottom": 615,
+      "height": 62,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "secondaryBtn": {
+      "top": 637,
+      "bottom": 691,
+      "height": 54,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "scrollToSeePrimary": 0,
+    "scrollToSeeSecondary": 0,
+    "titleFontSize": "56px",
+    "screenshot": "hero-1366x768.png"
+  },
+  {
+    "viewport": {
+      "w": 1440,
+      "h": 800
+    },
+    "headerTotal": {
+      "top": 0,
+      "bottom": 119,
+      "height": 119,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "topBar": {
+      "top": 0,
+      "bottom": 38,
+      "height": 38,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "mainNav": {
+      "top": 38,
+      "bottom": 119,
+      "height": 81,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "hero": {
+      "top": 119,
+      "bottom": 810,
+      "height": 691,
+      "visible": false,
+      "partiallyVisible": true
+    },
+    "heroPadding": {
+      "top": "84px",
+      "bottom": "72px",
+      "minHeight": "0px"
+    },
+    "badge": {
+      "top": 203,
+      "bottom": 307,
+      "height": 104,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "title": {
+      "top": 347,
+      "bottom": 490,
+      "height": 143,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "subtitle": {
+      "top": 518,
+      "bottom": 584,
+      "height": 67,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "actions": {
+      "top": 600,
+      "bottom": 738,
+      "height": 137,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "primaryBtn": {
+      "top": 600,
+      "bottom": 662,
+      "height": 62,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "secondaryBtn": {
+      "top": 684,
+      "bottom": 738,
+      "height": 54,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "scrollToSeePrimary": 0,
+    "scrollToSeeSecondary": 0,
+    "titleFontSize": "68px",
+    "screenshot": "hero-1440x800.png"
+  },
+  {
+    "viewport": {
+      "w": 1536,
+      "h": 864
+    },
+    "headerTotal": {
+      "top": 0,
+      "bottom": 119,
+      "height": 119,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "topBar": {
+      "top": 0,
+      "bottom": 38,
+      "height": 38,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "mainNav": {
+      "top": 38,
+      "bottom": 119,
+      "height": 81,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "hero": {
+      "top": 119,
+      "bottom": 810,
+      "height": 691,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "heroPadding": {
+      "top": "84px",
+      "bottom": "72px",
+      "minHeight": "0px"
+    },
+    "badge": {
+      "top": 203,
+      "bottom": 307,
+      "height": 104,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "title": {
+      "top": 347,
+      "bottom": 490,
+      "height": 143,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "subtitle": {
+      "top": 518,
+      "bottom": 584,
+      "height": 67,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "actions": {
+      "top": 600,
+      "bottom": 738,
+      "height": 137,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "primaryBtn": {
+      "top": 600,
+      "bottom": 662,
+      "height": 62,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "secondaryBtn": {
+      "top": 684,
+      "bottom": 738,
+      "height": 54,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "scrollToSeePrimary": 0,
+    "scrollToSeeSecondary": 0,
+    "titleFontSize": "68px",
+    "screenshot": "hero-1536x864.png"
+  },
+  {
+    "viewport": {
+      "w": 1600,
+      "h": 900
+    },
+    "headerTotal": {
+      "top": 0,
+      "bottom": 119,
+      "height": 119,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "topBar": {
+      "top": 0,
+      "bottom": 38,
+      "height": 38,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "mainNav": {
+      "top": 38,
+      "bottom": 119,
+      "height": 81,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "hero": {
+      "top": 119,
+      "bottom": 810,
+      "height": 691,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "heroPadding": {
+      "top": "84px",
+      "bottom": "72px",
+      "minHeight": "0px"
+    },
+    "badge": {
+      "top": 203,
+      "bottom": 307,
+      "height": 104,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "title": {
+      "top": 347,
+      "bottom": 490,
+      "height": 143,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "subtitle": {
+      "top": 518,
+      "bottom": 584,
+      "height": 67,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "actions": {
+      "top": 600,
+      "bottom": 738,
+      "height": 137,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "primaryBtn": {
+      "top": 600,
+      "bottom": 662,
+      "height": 62,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "secondaryBtn": {
+      "top": 684,
+      "bottom": 738,
+      "height": 54,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "scrollToSeePrimary": 0,
+    "scrollToSeeSecondary": 0,
+    "titleFontSize": "68px",
+    "screenshot": "hero-1600x900.png"
+  },
+  {
+    "viewport": {
+      "w": 1920,
+      "h": 1080
+    },
+    "headerTotal": {
+      "top": 0,
+      "bottom": 119,
+      "height": 119,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "topBar": {
+      "top": 0,
+      "bottom": 38,
+      "height": 38,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "mainNav": {
+      "top": 38,
+      "bottom": 119,
+      "height": 81,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "hero": {
+      "top": 119,
+      "bottom": 1155,
+      "height": 1036,
+      "visible": false,
+      "partiallyVisible": true
+    },
+    "heroPadding": {
+      "top": "192px",
+      "bottom": "224px",
+      "minHeight": "0px"
+    },
+    "badge": {
+      "top": 311,
+      "bottom": 415,
+      "height": 104,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "title": {
+      "top": 455,
+      "bottom": 647,
+      "height": 192,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "subtitle": {
+      "top": 687,
+      "bottom": 754,
+      "height": 67,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "actions": {
+      "top": 794,
+      "bottom": 931,
+      "height": 137,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "primaryBtn": {
+      "top": 794,
+      "bottom": 855,
+      "height": 62,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "secondaryBtn": {
+      "top": 877,
+      "bottom": 931,
+      "height": 54,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "scrollToSeePrimary": 0,
+    "scrollToSeeSecondary": 0,
+    "titleFontSize": "96px",
+    "screenshot": "hero-1920x1080.png"
+  },
+  {
+    "viewport": {
+      "w": 1280,
+      "h": 720
+    },
+    "headerTotal": {
+      "top": 0,
+      "bottom": 119,
+      "height": 119,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "topBar": {
+      "top": 0,
+      "bottom": 38,
+      "height": 38,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "mainNav": {
+      "top": 38,
+      "bottom": 119,
+      "height": 81,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "hero": {
+      "top": 119,
+      "bottom": 751,
+      "height": 632,
+      "visible": false,
+      "partiallyVisible": true
+    },
+    "heroPadding": {
+      "top": "72px",
+      "bottom": "60px",
+      "minHeight": "0px"
+    },
+    "badge": {
+      "top": 191,
+      "bottom": 295,
+      "height": 104,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "title": {
+      "top": 335,
+      "bottom": 453,
+      "height": 118,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "subtitle": {
+      "top": 477,
+      "bottom": 543,
+      "height": 67,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "actions": {
+      "top": 554,
+      "bottom": 691,
+      "height": 137,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "primaryBtn": {
+      "top": 554,
+      "bottom": 615,
+      "height": 62,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "secondaryBtn": {
+      "top": 637,
+      "bottom": 691,
+      "height": 54,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "scrollToSeePrimary": 0,
+    "scrollToSeeSecondary": 0,
+    "titleFontSize": "56px",
+    "screenshot": "hero-1280x720.png"
+  },
+  {
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    },
+    "headerTotal": {
+      "top": 0,
+      "bottom": 119,
+      "height": 119,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "topBar": {
+      "top": 0,
+      "bottom": 38,
+      "height": 38,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "mainNav": {
+      "top": 38,
+      "bottom": 119,
+      "height": 81,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "hero": {
+      "top": 119,
+      "bottom": 807,
+      "height": 688,
+      "visible": false,
+      "partiallyVisible": true
+    },
+    "heroPadding": {
+      "top": "84px",
+      "bottom": "72px",
+      "minHeight": "0px"
+    },
+    "badge": {
+      "top": 203,
+      "bottom": 307,
+      "height": 104,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "title": {
+      "top": 347,
+      "bottom": 487,
+      "height": 140,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "subtitle": {
+      "top": 515,
+      "bottom": 581,
+      "height": 67,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "actions": {
+      "top": 597,
+      "bottom": 735,
+      "height": 137,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "primaryBtn": {
+      "top": 597,
+      "bottom": 659,
+      "height": 62,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "secondaryBtn": {
+      "top": 681,
+      "bottom": 735,
+      "height": 54,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "scrollToSeePrimary": 0,
+    "scrollToSeeSecondary": 0,
+    "titleFontSize": "66.56px",
+    "screenshot": "hero-1280x800.png"
+  },
+  {
+    "viewport": {
+      "w": 1440,
+      "h": 900
+    },
+    "headerTotal": {
+      "top": 0,
+      "bottom": 119,
+      "height": 119,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "topBar": {
+      "top": 0,
+      "bottom": 38,
+      "height": 38,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "mainNav": {
+      "top": 38,
+      "bottom": 119,
+      "height": 81,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "hero": {
+      "top": 119,
+      "bottom": 810,
+      "height": 691,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "heroPadding": {
+      "top": "84px",
+      "bottom": "72px",
+      "minHeight": "0px"
+    },
+    "badge": {
+      "top": 203,
+      "bottom": 307,
+      "height": 104,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "title": {
+      "top": 347,
+      "bottom": 490,
+      "height": 143,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "subtitle": {
+      "top": 518,
+      "bottom": 584,
+      "height": 67,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "actions": {
+      "top": 600,
+      "bottom": 738,
+      "height": 137,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "primaryBtn": {
+      "top": 600,
+      "bottom": 662,
+      "height": 62,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "secondaryBtn": {
+      "top": 684,
+      "bottom": 738,
+      "height": 54,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "scrollToSeePrimary": 0,
+    "scrollToSeeSecondary": 0,
+    "titleFontSize": "68px",
+    "screenshot": "hero-1440x900.png"
+  },
+  {
+    "viewport": {
+      "w": 768,
+      "h": 1024
+    },
+    "headerTotal": {
+      "top": 0,
+      "bottom": 98,
+      "height": 98,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "topBar": {
+      "top": 0,
+      "bottom": 34,
+      "height": 34,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "mainNav": {
+      "top": 34,
+      "bottom": 98,
+      "height": 64,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "hero": {
+      "top": 98,
+      "bottom": 698,
+      "height": 600,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "heroPadding": {
+      "top": "76px",
+      "bottom": "80px",
+      "minHeight": "600px"
+    },
+    "badge": {
+      "top": 174,
+      "bottom": 234,
+      "height": 60,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "title": {
+      "top": 246,
+      "bottom": 335,
+      "height": 89,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "subtitle": {
+      "top": 360,
+      "bottom": 411,
+      "height": 51,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "actions": {
+      "top": 0,
+      "bottom": 0,
+      "height": 0,
+      "visible": true,
+      "partiallyVisible": false
+    },
+    "primaryBtn": {
+      "top": 0,
+      "bottom": 0,
+      "height": 0,
+      "visible": true,
+      "partiallyVisible": false
+    },
+    "secondaryBtn": {
+      "top": 0,
+      "bottom": 0,
+      "height": 0,
+      "visible": true,
+      "partiallyVisible": false
+    },
+    "scrollToSeePrimary": 0,
+    "scrollToSeeSecondary": 0,
+    "titleFontSize": "42.4px",
+    "screenshot": "hero-tablet-768.png"
+  },
+  {
+    "viewport": {
+      "w": 390,
+      "h": 844
+    },
+    "headerTotal": {
+      "top": 0,
+      "bottom": 98,
+      "height": 98,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "topBar": {
+      "top": 0,
+      "bottom": 34,
+      "height": 34,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "mainNav": {
+      "top": 34,
+      "bottom": 98,
+      "height": 64,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "hero": {
+      "top": 98,
+      "bottom": 698,
+      "height": 600,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "heroPadding": {
+      "top": "76px",
+      "bottom": "80px",
+      "minHeight": "600px"
+    },
+    "badge": {
+      "top": 174,
+      "bottom": 234,
+      "height": 60,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "title": {
+      "top": 246,
+      "bottom": 379,
+      "height": 134,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "subtitle": {
+      "top": 405,
+      "bottom": 507,
+      "height": 102,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "actions": {
+      "top": 0,
+      "bottom": 0,
+      "height": 0,
+      "visible": true,
+      "partiallyVisible": false
+    },
+    "primaryBtn": {
+      "top": 0,
+      "bottom": 0,
+      "height": 0,
+      "visible": true,
+      "partiallyVisible": false
+    },
+    "secondaryBtn": {
+      "top": 0,
+      "bottom": 0,
+      "height": 0,
+      "visible": true,
+      "partiallyVisible": false
+    },
+    "scrollToSeePrimary": 0,
+    "scrollToSeeSecondary": 0,
+    "titleFontSize": "42.4px",
+    "screenshot": "hero-mobile-390.png"
+  },
+  {
+    "viewport": {
+      "w": 1920,
+      "h": 1200
+    },
+    "headerTotal": {
+      "top": 0,
+      "bottom": 119,
+      "height": 119,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "topBar": {
+      "top": 0,
+      "bottom": 38,
+      "height": 38,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "mainNav": {
+      "top": 38,
+      "bottom": 119,
+      "height": 81,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "hero": {
+      "top": 119,
+      "bottom": 1155,
+      "height": 1036,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "heroPadding": {
+      "top": "192px",
+      "bottom": "224px",
+      "minHeight": "0px"
+    },
+    "badge": {
+      "top": 311,
+      "bottom": 415,
+      "height": 104,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "title": {
+      "top": 455,
+      "bottom": 647,
+      "height": 192,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "subtitle": {
+      "top": 687,
+      "bottom": 754,
+      "height": 67,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "actions": {
+      "top": 794,
+      "bottom": 931,
+      "height": 137,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "primaryBtn": {
+      "top": 794,
+      "bottom": 855,
+      "height": 62,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "secondaryBtn": {
+      "top": 877,
+      "bottom": 931,
+      "height": 54,
+      "visible": true,
+      "partiallyVisible": true
+    },
+    "scrollToSeePrimary": 0,
+    "scrollToSeeSecondary": 0,
+    "titleFontSize": "96px",
+    "screenshot": "hero-desktop-1920x1200.png"
+  }
+]

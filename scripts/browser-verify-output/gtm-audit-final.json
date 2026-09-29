@@ -1,0 +1,58 @@
+{
+  "gtm": "GTM-TPKDH7S2",
+  "ga4": "G-2YKLBMPG8B",
+  "googleTagLinked": "GT-5TGHXC52",
+  "awIdsDetected": [],
+  "conversionLabelsDetected": [],
+  "gtmTags": [
+    {
+      "fn": "__googtag",
+      "id": "G-2YKLBMPG8B",
+      "trigger": "gtm.init"
+    },
+    {
+      "fn": "__gaawe",
+      "event": "phone_call",
+      "trigger": "gtm.click + a[href^=tel:]"
+    },
+    {
+      "fn": "__gaawe",
+      "event": "phone_call_mobile",
+      "trigger": "gtm.click + sticky/header-choice primary call"
+    },
+    {
+      "fn": "__gaawe",
+      "event": "generate_lead",
+      "params": {
+        "form_name": "demande_estimation",
+        "lead_type": "estimate_request"
+      },
+      "trigger": "elementVisibility .erf-success-card on /demande-estimation/"
+    },
+    {
+      "fn": "__cl",
+      "note": "click listeners"
+    },
+    {
+      "fn": "__evl",
+      "selector": ".erf-success-card"
+    }
+  ],
+  "siteDataLayerEvents": [
+    "main_call_button_click",
+    "secondary_estimate_form_click",
+    "header_call_cta_click",
+    "mobile_representative_cta_click",
+    "header_choice_modal_view",
+    "header_choice_modal_close",
+    "header_choice_call_click",
+    "header_choice_form_click",
+    "phone_popup_view",
+    "phone_popup_close",
+    "phone_popup_call_click",
+    "phone_popup_form_click"
+  ],
+  "note": "Site dataLayer custom events are pushed but GTM tags do not reference them; GTM uses CSS click + element visibility instead.",
+  "thirdPartyInGtm": false,
+  "decision": "DO NOT REMOVE GTM / UNSAFE for step 3 Ads send_to — no AW conversion IDs/labels found in published container or network; Ads linkage appears via GA4 key events + GT-5TGHXC52 but AW send_to cannot be verified without guessing."
+}

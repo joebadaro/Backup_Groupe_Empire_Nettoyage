@@ -1,0 +1,142 @@
+{
+  "label": "gtm-on",
+  "url": "http://127.0.0.1:4330/",
+  "runs": 3,
+  "results": [
+    {
+      "perf": 81,
+      "fcpMs": 1048.5523000000003,
+      "lcpMs": 5040.835599999999,
+      "siMs": 1141.4922641147423,
+      "tbtMs": 79,
+      "cls": 0,
+      "fcp": "1.0 s",
+      "lcp": "5.0 s",
+      "si": "1.1 s",
+      "tbt": "80 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 18.138000011444092,
+        "end": 27.157999992370605,
+        "size": 35598,
+        "transfer": 35918
+      },
+      "deferredScripts": [
+        {
+          "url": "boot-deferred-site-scripts.DRMNF0bd.js",
+          "start": 2910.3499999046326,
+          "end": 2913.8639998435974
+        },
+        {
+          "url": "visitor-sms.C9BA-XVq.js",
+          "start": 2914.9370000362396
+        },
+        {
+          "url": "header-choice-modal.CaC03Rku.js",
+          "start": 2915.0609998703003
+        },
+        {
+          "url": "after-hours-phone-popup.CdpjLQ0e.js",
+          "start": 2915.1240000724792
+        },
+        {
+          "url": "conversion-cta-priority.D1fz_nx4.js",
+          "start": 2915.1969997882843
+        }
+      ],
+      "phases": {
+        "Time to first byte": 8.166,
+        "Resource load delay": 10.075,
+        "Resource load duration": 9.715,
+        "Element render delay": 356.261
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    },
+    {
+      "perf": 77,
+      "fcpMs": 1051.7174,
+      "lcpMs": 6276.2376,
+      "siMs": 1148.1302558078194,
+      "tbtMs": 67.5,
+      "cls": 0,
+      "fcp": "1.1 s",
+      "lcp": "6.3 s",
+      "si": "1.1 s",
+      "tbt": "70 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 18.569000005722046,
+        "end": 31.42900013923645,
+        "size": 35598,
+        "transfer": 35918
+      },
+      "deferredScripts": [],
+      "phases": {
+        "Time to first byte": 7.259,
+        "Resource load delay": 11.403,
+        "Resource load duration": 13.669,
+        "Element render delay": 357.316
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    },
+    {
+      "perf": 83,
+      "fcpMs": 1042.2597,
+      "lcpMs": 4695.0707,
+      "siMs": 1157.5884618480873,
+      "tbtMs": 69,
+      "cls": 0,
+      "fcp": "1.0 s",
+      "lcp": "4.7 s",
+      "si": "1.2 s",
+      "tbt": "70 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 17.598999738693237,
+        "end": 28.17799973487854,
+        "size": 35598,
+        "transfer": 35918
+      },
+      "deferredScripts": [],
+      "phases": {
+        "Time to first byte": 7.202,
+        "Resource load delay": 10.446,
+        "Resource load duration": 11.419,
+        "Element render delay": 362.989
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    }
+  ],
+  "median": {
+    "perf": 81,
+    "fcpMs": 1048.5523000000003,
+    "lcpMs": 5040.835599999999,
+    "siMs": 1148.1302558078194,
+    "tbtMs": 69,
+    "cls": 0
+  }
+}

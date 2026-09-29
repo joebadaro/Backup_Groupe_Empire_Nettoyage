@@ -1,0 +1,193 @@
+{
+  "label": "mpl-false",
+  "url": "http://127.0.0.1:4330/",
+  "runs": 3,
+  "results": [
+    {
+      "perf": 83,
+      "fcpMs": 1034.8218,
+      "lcpMs": 4744.061299999999,
+      "siMs": 1098.0429298811716,
+      "tbtMs": 70,
+      "cls": 0,
+      "fcp": "1.0 s",
+      "lcp": "4.7 s",
+      "si": "1.1 s",
+      "tbt": "70 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 16.618000030517578,
+        "end": 21.704999923706055,
+        "size": 35598,
+        "transfer": 35918
+      },
+      "deferredScripts": [
+        {
+          "url": "boot-deferred-site-scripts.DRMNF0bd.js",
+          "start": 2907.2750000953674
+        }
+      ],
+      "phases": {
+        "Time to first byte": 7.11,
+        "Resource load delay": 9.618,
+        "Resource load duration": 5.769,
+        "Element render delay": 326.12
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    },
+    {
+      "perf": 76,
+      "fcpMs": 1095.7525500000002,
+      "lcpMs": 6716.000050000001,
+      "siMs": 2562.142221984407,
+      "tbtMs": 74.5,
+      "cls": 0,
+      "fcp": "1.1 s",
+      "lcp": "6.7 s",
+      "si": "2.6 s",
+      "tbt": "70 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 19.079999923706055,
+        "end": 29.12399983406067,
+        "size": 35598,
+        "transfer": 35918
+      },
+      "deferredScripts": [
+        {
+          "url": "boot-deferred-site-scripts.DRMNF0bd.js",
+          "start": 2910.010999917984,
+          "end": 2912.047999858856
+        },
+        {
+          "url": "visitor-sms.C9BA-XVq.js",
+          "start": 2914.4560000896454,
+          "end": 2928.34099984169
+        },
+        {
+          "url": "header-choice-modal.CaC03Rku.js",
+          "start": 2914.580999851227,
+          "end": 2928.1710000038147
+        },
+        {
+          "url": "after-hours-phone-popup.CdpjLQ0e.js",
+          "start": 2914.65700006485,
+          "end": 2927.159999847412
+        },
+        {
+          "url": "conversion-cta-priority.D1fz_nx4.js",
+          "start": 2914.821000099182,
+          "end": 2926.99599981308
+        },
+        {
+          "url": "conversion-tracking.bVvz5hi6.js",
+          "start": 2929.183000087738,
+          "end": 2932.8979997634888
+        },
+        {
+          "url": "tel-link-handoff.HmQMXPV9.js",
+          "start": 2929.433000087738,
+          "end": 2933.1319999694824
+        },
+        {
+          "url": "phones.BaanPqAS.js",
+          "start": 2929.5179998874664,
+          "end": 2932.236999988556
+        },
+        {
+          "url": "sms-client-context.C6RyiInA.js",
+          "start": 2931.040999889374,
+          "end": 2933.5859999656677
+        }
+      ],
+      "phases": {
+        "Time to first byte": 7.65,
+        "Resource load delay": 11.458,
+        "Resource load duration": 10.812,
+        "Element render delay": 1374.647
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    },
+    {
+      "perf": 77,
+      "fcpMs": 1055.1887,
+      "lcpMs": 6320.1044999999995,
+      "siMs": 1173.1014300114828,
+      "tbtMs": 90,
+      "cls": 0,
+      "fcp": "1.1 s",
+      "lcp": "6.3 s",
+      "si": "1.2 s",
+      "tbt": "90 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 18.587000131607056,
+        "end": 27.69600009918213,
+        "size": 35598,
+        "transfer": 35918
+      },
+      "deferredScripts": [
+        {
+          "url": "boot-deferred-site-scripts.DRMNF0bd.js",
+          "start": 2912.039999961853,
+          "end": 2915.164999961853
+        },
+        {
+          "url": "visitor-sms.C9BA-XVq.js",
+          "start": 2916.6610000133514
+        },
+        {
+          "url": "header-choice-modal.CaC03Rku.js",
+          "start": 2916.809000015259
+        },
+        {
+          "url": "after-hours-phone-popup.CdpjLQ0e.js",
+          "start": 2916.891000032425
+        },
+        {
+          "url": "conversion-cta-priority.D1fz_nx4.js",
+          "start": 2916.976000070572
+        }
+      ],
+      "phases": {
+        "Time to first byte": 8.393,
+        "Resource load delay": 10.436,
+        "Resource load duration": 9.926,
+        "Element render delay": 378.472
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    }
+  ],
+  "median": {
+    "perf": 77,
+    "fcpMs": 1055.1887,
+    "lcpMs": 6320.1044999999995,
+    "siMs": 1173.1014300114828,
+    "tbtMs": 74.5,
+    "cls": 0
+  }
+}

@@ -1,0 +1,740 @@
+[
+  {
+    "label": "prod-cpu1",
+    "cpu": 1,
+    "wallMs": 3856,
+    "net": [
+      {
+        "type": "req",
+        "t": 1787454440222,
+        "url": "https://groupenettoyageempire.com/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "res": null
+      },
+      {
+        "type": "req",
+        "t": 1787454440222,
+        "url": "https://groupenettoyageempire.com/_astro/inter-latin-wght-normal.Dx4kXJAl.woff2",
+        "res": null
+      },
+      {
+        "type": "req",
+        "t": 1787454440222,
+        "url": "https://groupenettoyageempire.com/_astro/outfit-latin-wght-normal.Bc-8i84L.woff2",
+        "res": null
+      },
+      {
+        "type": "req",
+        "t": 1787454440223,
+        "url": "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2",
+        "res": null
+      },
+      {
+        "type": "res",
+        "t": 1787454440257,
+        "url": "https://groupenettoyageempire.com/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "res",
+        "t": 1787454440294,
+        "url": "https://groupenettoyageempire.com/_astro/inter-latin-wght-normal.Dx4kXJAl.woff2",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "res",
+        "t": 1787454440296,
+        "url": "https://groupenettoyageempire.com/_astro/outfit-latin-wght-normal.Bc-8i84L.woff2",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "res",
+        "t": 1787454440447,
+        "url": "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "req",
+        "t": 1787454440478,
+        "url": "https://www.googletagmanager.com/gtag/js?id=G-2YKLBMPG8B&cx=c&gtm=4e68j0",
+        "res": null
+      },
+      {
+        "type": "res",
+        "t": 1787454440618,
+        "url": "https://www.googletagmanager.com/gtag/js?id=G-2YKLBMPG8B&cx=c&gtm=4e68j0",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "req",
+        "t": 1787454440795,
+        "url": "https://groupenettoyageempire.com/_astro/boot-deferred-site-scripts.BE1YIuGX.js",
+        "res": null
+      },
+      {
+        "type": "res",
+        "t": 1787454440825,
+        "url": "https://groupenettoyageempire.com/_astro/boot-deferred-site-scripts.BE1YIuGX.js",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "req",
+        "t": 1787454440825,
+        "url": "https://groupenettoyageempire.com/_astro/boot-deferred-private-scripts.C9BA-XVq.js",
+        "res": null
+      },
+      {
+        "type": "req",
+        "t": 1787454440825,
+        "url": "https://groupenettoyageempire.com/_astro/phones.BaanPqAS.js",
+        "res": null
+      },
+      {
+        "type": "req",
+        "t": 1787454440825,
+        "url": "https://groupenettoyageempire.com/_astro/sms-client-context.C6RyiInA.js",
+        "res": null
+      },
+      {
+        "type": "res",
+        "t": 1787454440853,
+        "url": "https://groupenettoyageempire.com/_astro/phones.BaanPqAS.js",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "res",
+        "t": 1787454440853,
+        "url": "https://groupenettoyageempire.com/_astro/boot-deferred-private-scripts.C9BA-XVq.js",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "res",
+        "t": 1787454440853,
+        "url": "https://groupenettoyageempire.com/_astro/sms-client-context.C6RyiInA.js",
+        "status": 200,
+        "fromCache": false
+      }
+    ],
+    "paintProbe": {
+      "top": 97.9375,
+      "h": 600,
+      "w": 390,
+      "opacity": "1"
+    },
+    "trace": {
+      "lcp": [
+        {
+          "t": 296,
+          "size": 220740,
+          "url": "https://groupenettoyageempire.com/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+          "tag": "IMG",
+          "cls": "hero-slide hero-slide--initial active",
+          "fp": "high",
+          "loading": "eager",
+          "natW": 390,
+          "natH": 487,
+          "complete": true
+        }
+      ],
+      "longTasks": [
+        {
+          "t": 205,
+          "d": 73,
+          "name": "unknown"
+        }
+      ],
+      "resources": [],
+      "marks": {}
+    },
+    "hero": {
+      "src": "https://groupenettoyageempire.com/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+      "complete": true,
+      "natW": 390,
+      "natH": 487,
+      "fw": 390,
+      "fh": 600,
+      "rect": {
+        "x": 0,
+        "y": 97.9375,
+        "width": 390,
+        "height": 600,
+        "top": 97.9375,
+        "right": 390,
+        "bottom": 697.9375,
+        "left": 0
+      },
+      "fetchpriority": "high",
+      "loading": "eager",
+      "decoding": "async",
+      "className": "hero-slide hero-slide--initial active",
+      "style": {
+        "opacity": "1",
+        "visibility": "visible",
+        "display": "block",
+        "transform": "none",
+        "filter": "none",
+        "contentVisibility": "visible",
+        "contain": "none",
+        "zIndex": "2",
+        "objectFit": "cover",
+        "position": "absolute",
+        "animation": "none",
+        "transition": "none",
+        "willChange": "auto"
+      }
+    },
+    "sectionStyle": {
+      "opacity": "1",
+      "visibility": "visible",
+      "filter": "none",
+      "backdropFilter": "none",
+      "transform": "none",
+      "contentVisibility": "visible",
+      "contain": "none",
+      "animation": "none"
+    },
+    "resources": [
+      {
+        "name": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "url": "https://groupenettoyageempire.com/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 130.79999995231628,
+        "dur": 46.200000047683716,
+        "transfer": 35898,
+        "encoded": 35598,
+        "decoded": 35598,
+        "initiator": "link",
+        "priority": "non-blocking",
+        "responseEnd": 177,
+        "requestStart": 131.69999980926514,
+        "fetchStart": 130.79999995231628
+      },
+      {
+        "name": "inter-latin-wght-normal.Dx4kXJAl.woff2",
+        "url": "https://groupenettoyageempire.com/_astro/inter-latin-wght-normal.Dx4kXJAl.woff2",
+        "start": 131,
+        "dur": 64.59999990463257,
+        "transfer": 48556,
+        "encoded": 48256,
+        "decoded": 48256,
+        "initiator": "link",
+        "priority": "non-blocking",
+        "responseEnd": 195.59999990463257,
+        "requestStart": 131.79999995231628,
+        "fetchStart": 131
+      },
+      {
+        "name": "outfit-latin-wght-normal.Bc-8i84L.woff2",
+        "url": "https://groupenettoyageempire.com/_astro/outfit-latin-wght-normal.Bc-8i84L.woff2",
+        "start": 131.09999990463257,
+        "dur": 68.90000009536743,
+        "transfer": 32592,
+        "encoded": 32292,
+        "decoded": 32292,
+        "initiator": "link",
+        "priority": "non-blocking",
+        "responseEnd": 200,
+        "requestStart": 163.59999990463257,
+        "fetchStart": 131.09999990463257
+      },
+      {
+        "name": "gtm.js",
+        "url": "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2",
+        "start": 132,
+        "dur": 219.19999980926514,
+        "transfer": 0,
+        "encoded": 0,
+        "decoded": 0,
+        "initiator": "script",
+        "priority": "non-blocking",
+        "responseEnd": 351.19999980926514,
+        "requestStart": 0,
+        "fetchStart": 132
+      },
+      {
+        "name": "js",
+        "url": "https://www.googletagmanager.com/gtag/js?id=G-2YKLBMPG8B&cx=c&gtm=4e68j0",
+        "start": 383.89999985694885,
+        "dur": 136.70000004768372,
+        "transfer": 0,
+        "encoded": 0,
+        "decoded": 0,
+        "initiator": "script",
+        "priority": "non-blocking",
+        "responseEnd": 520.5999999046326,
+        "requestStart": 0,
+        "fetchStart": 383.89999985694885
+      },
+      {
+        "name": "boot-deferred-site-scripts.BE1YIuGX.js",
+        "url": "https://groupenettoyageempire.com/_astro/boot-deferred-site-scripts.BE1YIuGX.js",
+        "start": 704.0999999046326,
+        "dur": 28.700000047683716,
+        "transfer": 5069,
+        "encoded": 4769,
+        "decoded": 18105,
+        "initiator": "script",
+        "priority": "non-blocking",
+        "responseEnd": 732.7999999523163,
+        "requestStart": 704.7999999523163,
+        "fetchStart": 704.0999999046326
+      },
+      {
+        "name": "boot-deferred-private-scripts.C9BA-XVq.js",
+        "url": "https://groupenettoyageempire.com/_astro/boot-deferred-private-scripts.C9BA-XVq.js",
+        "start": 733.7999999523163,
+        "dur": 27.299999952316284,
+        "transfer": 1530,
+        "encoded": 1230,
+        "decoded": 3065,
+        "initiator": "script",
+        "priority": "non-blocking",
+        "responseEnd": 761.0999999046326,
+        "requestStart": 734.3999998569489,
+        "fetchStart": 733.7999999523163
+      }
+    ],
+    "nav": {
+      "ttfb": 122,
+      "domContentLoaded": 168.39999985694885,
+      "load": 693.2999999523163,
+      "transferSize": 35199
+    },
+    "fonts": [
+      {
+        "family": "Inter Variable",
+        "status": "unloaded",
+        "weight": "100 900"
+      },
+      {
+        "family": "Inter Variable",
+        "status": "loaded",
+        "weight": "100 900"
+      },
+      {
+        "family": "Outfit Variable",
+        "status": "unloaded",
+        "weight": "100 900"
+      },
+      {
+        "family": "Outfit Variable",
+        "status": "loaded",
+        "weight": "100 900"
+      }
+    ]
+  },
+  {
+    "label": "prod-cpu4",
+    "cpu": 4,
+    "wallMs": 10707,
+    "net": [
+      {
+        "type": "req",
+        "t": 1787454444342,
+        "url": "https://groupenettoyageempire.com/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "res": null
+      },
+      {
+        "type": "req",
+        "t": 1787454444342,
+        "url": "https://groupenettoyageempire.com/_astro/inter-latin-wght-normal.Dx4kXJAl.woff2",
+        "res": null
+      },
+      {
+        "type": "req",
+        "t": 1787454444342,
+        "url": "https://groupenettoyageempire.com/_astro/outfit-latin-wght-normal.Bc-8i84L.woff2",
+        "res": null
+      },
+      {
+        "type": "req",
+        "t": 1787454444354,
+        "url": "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2",
+        "res": null
+      },
+      {
+        "type": "res",
+        "t": 1787454444503,
+        "url": "https://groupenettoyageempire.com/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "res",
+        "t": 1787454445873,
+        "url": "https://groupenettoyageempire.com/_astro/outfit-latin-wght-normal.Bc-8i84L.woff2",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "res",
+        "t": 1787454446322,
+        "url": "https://groupenettoyageempire.com/_astro/inter-latin-wght-normal.Dx4kXJAl.woff2",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "res",
+        "t": 1787454447803,
+        "url": "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "req",
+        "t": 1787454448068,
+        "url": "https://www.googletagmanager.com/gtag/js?id=G-2YKLBMPG8B&cx=c&gtm=4e68j0",
+        "res": null
+      },
+      {
+        "type": "res",
+        "t": 1787454449476,
+        "url": "https://www.googletagmanager.com/gtag/js?id=G-2YKLBMPG8B&cx=c&gtm=4e68j0",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "req",
+        "t": 1787454449805,
+        "url": "https://groupenettoyageempire.com/images/catalog/hero-salon-prestige-tapis-residentiel-quebec-portrait-800.webp",
+        "res": null
+      },
+      {
+        "type": "res",
+        "t": 1787454449985,
+        "url": "https://groupenettoyageempire.com/images/catalog/hero-salon-prestige-tapis-residentiel-quebec-portrait-800.webp",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "req",
+        "t": 1787454450391,
+        "url": "https://groupenettoyageempire.com/_astro/boot-deferred-site-scripts.BE1YIuGX.js",
+        "res": null
+      },
+      {
+        "type": "res",
+        "t": 1787454450579,
+        "url": "https://groupenettoyageempire.com/_astro/boot-deferred-site-scripts.BE1YIuGX.js",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "req",
+        "t": 1787454450586,
+        "url": "https://groupenettoyageempire.com/_astro/boot-deferred-private-scripts.C9BA-XVq.js",
+        "res": null
+      },
+      {
+        "type": "req",
+        "t": 1787454450586,
+        "url": "https://groupenettoyageempire.com/_astro/phones.BaanPqAS.js",
+        "res": null
+      },
+      {
+        "type": "req",
+        "t": 1787454450586,
+        "url": "https://groupenettoyageempire.com/_astro/sms-client-context.C6RyiInA.js",
+        "res": null
+      },
+      {
+        "type": "res",
+        "t": 1787454450768,
+        "url": "https://groupenettoyageempire.com/_astro/phones.BaanPqAS.js",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "res",
+        "t": 1787454450769,
+        "url": "https://groupenettoyageempire.com/_astro/boot-deferred-private-scripts.C9BA-XVq.js",
+        "status": 200,
+        "fromCache": false
+      },
+      {
+        "type": "res",
+        "t": 1787454450777,
+        "url": "https://groupenettoyageempire.com/_astro/sms-client-context.C6RyiInA.js",
+        "status": 200,
+        "fromCache": false
+      }
+    ],
+    "paintProbe": {
+      "top": 97.9375,
+      "h": 600,
+      "w": 390,
+      "opacity": "1"
+    },
+    "trace": {
+      "lcp": [
+        {
+          "t": 1072,
+          "size": 1782,
+          "url": "",
+          "tag": "A",
+          "cls": "phone-link",
+          "fp": null,
+          "loading": null
+        },
+        {
+          "t": 1236,
+          "size": 10200,
+          "url": "https://groupenettoyageempire.com/images/logo-last-update-1-480.webp?v=finalv4",
+          "tag": "IMG",
+          "cls": "logo-img",
+          "fp": "low",
+          "loading": "eager",
+          "natW": 150,
+          "natH": 52,
+          "complete": true
+        },
+        {
+          "t": 1636,
+          "size": 220740,
+          "url": "https://groupenettoyageempire.com/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+          "tag": "IMG",
+          "cls": "hero-slide hero-slide--initial active",
+          "fp": "high",
+          "loading": "eager",
+          "natW": 390,
+          "natH": 487,
+          "complete": true
+        }
+      ],
+      "longTasks": [
+        {
+          "t": 480.89999985694885,
+          "d": 581,
+          "name": "unknown"
+        },
+        {
+          "t": 1814.5999999046326,
+          "d": 93,
+          "name": "unknown"
+        },
+        {
+          "t": 2260.899999856949,
+          "d": 341,
+          "name": "unknown"
+        },
+        {
+          "t": 3741.5,
+          "d": 181,
+          "name": "self"
+        },
+        {
+          "t": 3933.0999999046326,
+          "d": 72,
+          "name": "self"
+        },
+        {
+          "t": 5413.899999856949,
+          "d": 315,
+          "name": "self"
+        },
+        {
+          "t": 6720.200000047684,
+          "d": 50,
+          "name": "self"
+        }
+      ],
+      "resources": [],
+      "marks": {}
+    },
+    "hero": {
+      "src": "https://groupenettoyageempire.com/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+      "complete": true,
+      "natW": 390,
+      "natH": 487,
+      "fw": 390,
+      "fh": 600,
+      "rect": {
+        "x": 0,
+        "y": 97.9375,
+        "width": 390,
+        "height": 600,
+        "top": 97.9375,
+        "right": 390,
+        "bottom": 697.9375,
+        "left": 0
+      },
+      "fetchpriority": "high",
+      "loading": "eager",
+      "decoding": "async",
+      "className": "hero-slide hero-slide--initial",
+      "style": {
+        "opacity": "1",
+        "visibility": "visible",
+        "display": "block",
+        "transform": "none",
+        "filter": "none",
+        "contentVisibility": "visible",
+        "contain": "none",
+        "zIndex": "1",
+        "objectFit": "cover",
+        "position": "absolute",
+        "animation": "none",
+        "transition": "opacity 1.2s ease-in-out",
+        "willChange": "auto"
+      }
+    },
+    "sectionStyle": {
+      "opacity": "1",
+      "visibility": "visible",
+      "filter": "none",
+      "backdropFilter": "none",
+      "transform": "none",
+      "contentVisibility": "visible",
+      "contain": "none",
+      "animation": "none"
+    },
+    "resources": [
+      {
+        "name": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "url": "https://groupenettoyageempire.com/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 276.59999990463257,
+        "dur": 1307.9000000953674,
+        "transfer": 35898,
+        "encoded": 35598,
+        "decoded": 35598,
+        "initiator": "link",
+        "priority": "non-blocking",
+        "responseEnd": 1584.5,
+        "requestStart": 278.09999990463257,
+        "fetchStart": 276.59999990463257
+      },
+      {
+        "name": "inter-latin-wght-normal.Dx4kXJAl.woff2",
+        "url": "https://groupenettoyageempire.com/_astro/inter-latin-wght-normal.Dx4kXJAl.woff2",
+        "start": 277.7999999523163,
+        "dur": 1976,
+        "transfer": 48556,
+        "encoded": 48256,
+        "decoded": 48256,
+        "initiator": "link",
+        "priority": "non-blocking",
+        "responseEnd": 2253.7999999523163,
+        "requestStart": 278.2999999523163,
+        "fetchStart": 277.7999999523163
+      },
+      {
+        "name": "outfit-latin-wght-normal.Bc-8i84L.woff2",
+        "url": "https://groupenettoyageempire.com/_astro/outfit-latin-wght-normal.Bc-8i84L.woff2",
+        "start": 278.39999985694885,
+        "dur": 1524,
+        "transfer": 32592,
+        "encoded": 32292,
+        "decoded": 32292,
+        "initiator": "link",
+        "priority": "non-blocking",
+        "responseEnd": 1802.3999998569489,
+        "requestStart": 355.59999990463257,
+        "fetchStart": 278.39999985694885
+      },
+      {
+        "name": "gtm.js",
+        "url": "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2",
+        "start": 287.59999990463257,
+        "dur": 3440.7000000476837,
+        "transfer": 0,
+        "encoded": 0,
+        "decoded": 0,
+        "initiator": "script",
+        "priority": "non-blocking",
+        "responseEnd": 3728.2999999523163,
+        "requestStart": 0,
+        "fetchStart": 287.59999990463257
+      },
+      {
+        "name": "js",
+        "url": "https://www.googletagmanager.com/gtag/js?id=G-2YKLBMPG8B&cx=c&gtm=4e68j0",
+        "start": 3985.399999856949,
+        "dur": 1421.9000000953674,
+        "transfer": 0,
+        "encoded": 0,
+        "decoded": 0,
+        "initiator": "script",
+        "priority": "non-blocking",
+        "responseEnd": 5407.299999952316,
+        "requestStart": 0,
+        "fetchStart": 3985.399999856949
+      },
+      {
+        "name": "hero-salon-prestige-tapis-residentiel-quebec-portrait-800.webp",
+        "url": "https://groupenettoyageempire.com/images/catalog/hero-salon-prestige-tapis-residentiel-quebec-portrait-800.webp",
+        "start": 5742.5,
+        "dur": 568.3999998569489,
+        "transfer": 69340,
+        "encoded": 69040,
+        "decoded": 69040,
+        "initiator": "img",
+        "priority": "non-blocking",
+        "responseEnd": 6310.899999856949,
+        "requestStart": 5743.5,
+        "fetchStart": 5742.5
+      },
+      {
+        "name": "boot-deferred-site-scripts.BE1YIuGX.js",
+        "url": "https://groupenettoyageempire.com/_astro/boot-deferred-site-scripts.BE1YIuGX.js",
+        "start": 6328,
+        "dur": 186.5,
+        "transfer": 5069,
+        "encoded": 4769,
+        "decoded": 18105,
+        "initiator": "script",
+        "priority": "non-blocking",
+        "responseEnd": 6514.5,
+        "requestStart": 6328.799999952316,
+        "fetchStart": 6328
+      },
+      {
+        "name": "boot-deferred-private-scripts.C9BA-XVq.js",
+        "url": "https://groupenettoyageempire.com/_astro/boot-deferred-private-scripts.C9BA-XVq.js",
+        "start": 6522.700000047684,
+        "dur": 175.89999985694885,
+        "transfer": 1530,
+        "encoded": 1230,
+        "decoded": 3065,
+        "initiator": "script",
+        "priority": "non-blocking",
+        "responseEnd": 6698.599999904633,
+        "requestStart": 6523.599999904633,
+        "fetchStart": 6522.700000047684
+      }
+    ],
+    "nav": {
+      "ttfb": 118.89999985694885,
+      "domContentLoaded": 447.09999990463257,
+      "load": 6314.200000047684,
+      "transferSize": 35199
+    },
+    "fonts": [
+      {
+        "family": "Inter Variable",
+        "status": "unloaded",
+        "weight": "100 900"
+      },
+      {
+        "family": "Inter Variable",
+        "status": "loaded",
+        "weight": "100 900"
+      },
+      {
+        "family": "Outfit Variable",
+        "status": "unloaded",
+        "weight": "100 900"
+      },
+      {
+        "family": "Outfit Variable",
+        "status": "loaded",
+        "weight": "100 900"
+      }
+    ]
+  }
+]

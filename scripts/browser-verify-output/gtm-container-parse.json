@@ -1,0 +1,57 @@
+{
+  "gtmBytes": 375829,
+  "gtagBytes": 565628,
+  "aw": [],
+  "sendTo": [],
+  "gids": [
+    "G-2YKLBMPG8B"
+  ],
+  "vtpMeasurementId": [],
+  "vtpTrackingId": [],
+  "vtpConvId": [],
+  "vtpConvLabel": [],
+  "labelPairs": [],
+  "types": [],
+  "tagIds": [],
+  "eventNames": [],
+  "vtpEvent": [
+    "phone_call",
+    "generate_lead",
+    "phone_call_mobile"
+  ],
+  "arg0": [],
+  "names": [],
+  "hosts": [
+    "adservice.google.com",
+    "cct.google",
+    "www.google.com",
+    "www.googleadservices.com",
+    "pagead2.googlesyndication.com",
+    "www.googletagmanager.com",
+    "ad.doubleclick.net",
+    "ade.googlesyndication.com",
+    "www.youtube.com",
+    "m.youtube.com"
+  ],
+  "hits": {
+    "facebook": false,
+    "fbevents": false,
+    "linkedin": false,
+    "tiktok": false,
+    "hotjar": false,
+    "clarity": false,
+    "segment": false,
+    "floodlight": true,
+    "flc": false,
+    "customScripts": true,
+    "html": true,
+    "remarketing": true,
+    "conversion_linker": true,
+    "awct": true,
+    "googtag": true,
+    "gaawe": true,
+    "sp": true,
+    "hjid": false,
+    "gtag": true
+  }
+}

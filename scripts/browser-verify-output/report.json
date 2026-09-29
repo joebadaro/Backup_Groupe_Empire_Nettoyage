@@ -1,0 +1,491 @@
+{
+  "pagesOpened": [
+    "http://127.0.0.1:4321/presentation/",
+    "http://127.0.0.1:4321/en/presentation/",
+    "http://127.0.0.1:4321/",
+    "http://127.0.0.1:4321/en/",
+    "http://127.0.0.1:4321/realisations-video/",
+    "http://127.0.0.1:4321/en/video-gallery/"
+  ],
+  "widthsTested": [
+    375,
+    768,
+    1440
+  ],
+  "layout": [
+    {
+      "page": "FR presentation",
+      "width": 375,
+      "screenshot": "scripts\\browser-verify-output\\fr-presentation-375.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-fr.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": {
+        "width": 293,
+        "centered": true,
+        "tooWide": false
+      },
+      "homeTeaserMetrics": null,
+      "pass": true
+    },
+    {
+      "page": "FR presentation",
+      "width": 768,
+      "screenshot": "scripts\\browser-verify-output\\fr-presentation-768.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-fr.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": {
+        "width": 320,
+        "centered": true,
+        "tooWide": false
+      },
+      "homeTeaserMetrics": null,
+      "pass": true
+    },
+    {
+      "page": "FR presentation",
+      "width": 1440,
+      "screenshot": "scripts\\browser-verify-output\\fr-presentation-1440.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-fr.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": {
+        "width": 300,
+        "centered": true,
+        "tooWide": false
+      },
+      "homeTeaserMetrics": null,
+      "pass": true
+    },
+    {
+      "page": "EN presentation",
+      "width": 375,
+      "screenshot": "scripts\\browser-verify-output\\en-presentation-375.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-en.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": {
+        "width": 293,
+        "centered": true,
+        "tooWide": false
+      },
+      "homeTeaserMetrics": null,
+      "pass": true
+    },
+    {
+      "page": "EN presentation",
+      "width": 768,
+      "screenshot": "scripts\\browser-verify-output\\en-presentation-768.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-en.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": {
+        "width": 320,
+        "centered": true,
+        "tooWide": false
+      },
+      "homeTeaserMetrics": null,
+      "pass": true
+    },
+    {
+      "page": "EN presentation",
+      "width": 1440,
+      "screenshot": "scripts\\browser-verify-output\\en-presentation-1440.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-en.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": {
+        "width": 300,
+        "centered": true,
+        "tooWide": false
+      },
+      "homeTeaserMetrics": null,
+      "pass": true
+    },
+    {
+      "page": "FR home",
+      "width": 375,
+      "screenshot": "scripts\\browser-verify-output\\fr-home-375.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-fr.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": null,
+      "homeTeaserMetrics": {
+        "height": 620,
+        "congested": true
+      },
+      "pass": true
+    },
+    {
+      "page": "FR home",
+      "width": 768,
+      "screenshot": "scripts\\browser-verify-output\\fr-home-768.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-fr.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": null,
+      "homeTeaserMetrics": {
+        "height": 567,
+        "congested": true
+      },
+      "pass": true
+    },
+    {
+      "page": "FR home",
+      "width": 1440,
+      "screenshot": "scripts\\browser-verify-output\\fr-home-1440.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-fr.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": null,
+      "homeTeaserMetrics": {
+        "height": 406,
+        "congested": false
+      },
+      "pass": true
+    },
+    {
+      "page": "EN home",
+      "width": 375,
+      "screenshot": "scripts\\browser-verify-output\\en-home-375.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-en.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": null,
+      "homeTeaserMetrics": {
+        "height": 620,
+        "congested": true
+      },
+      "pass": true
+    },
+    {
+      "page": "EN home",
+      "width": 768,
+      "screenshot": "scripts\\browser-verify-output\\en-home-768.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-en.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": null,
+      "homeTeaserMetrics": {
+        "height": 567,
+        "congested": true
+      },
+      "pass": true
+    },
+    {
+      "page": "EN home",
+      "width": 1440,
+      "screenshot": "scripts\\browser-verify-output\\en-home-1440.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-en.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": null,
+      "homeTeaserMetrics": {
+        "height": 406,
+        "congested": false
+      },
+      "pass": true
+    },
+    {
+      "page": "FR gallery",
+      "width": 375,
+      "screenshot": "scripts\\browser-verify-output\\fr-gallery-375.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-fr.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": null,
+      "homeTeaserMetrics": null,
+      "pass": true
+    },
+    {
+      "page": "FR gallery",
+      "width": 768,
+      "screenshot": "scripts\\browser-verify-output\\fr-gallery-768.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-fr.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": null,
+      "homeTeaserMetrics": null,
+      "pass": true
+    },
+    {
+      "page": "FR gallery",
+      "width": 1440,
+      "screenshot": "scripts\\browser-verify-output\\fr-gallery-1440.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-fr.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": null,
+      "homeTeaserMetrics": null,
+      "pass": true
+    },
+    {
+      "page": "EN gallery",
+      "width": 375,
+      "screenshot": "scripts\\browser-verify-output\\en-gallery-375.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-en.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": null,
+      "homeTeaserMetrics": null,
+      "pass": true
+    },
+    {
+      "page": "EN gallery",
+      "width": 768,
+      "screenshot": "scripts\\browser-verify-output\\en-gallery-768.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-en.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": null,
+      "homeTeaserMetrics": null,
+      "pass": true
+    },
+    {
+      "page": "EN gallery",
+      "width": 1440,
+      "screenshot": "scripts\\browser-verify-output\\en-gallery-1440.png",
+      "horizontalOverflow": false,
+      "offscreenButtonCount": 0,
+      "imgIssues": [
+        {
+          "src": "/images/videos/video-presentation-groupe-nettoyage-empire-en.webp",
+          "hasWidthHeight": true,
+          "distorted": false
+        }
+      ],
+      "verticalPlayer": null,
+      "homeTeaserMetrics": null,
+      "pass": true
+    }
+  ],
+  "videos": {
+    "fr": {
+      "path": "/presentation/",
+      "youtubeId": "qN362y2IN_0",
+      "ytIframesBefore": 0,
+      "ytIframesAfterClick": 1,
+      "embedOk": true,
+      "iframeSrc": "https://www.youtube.com/embed/qN362y2IN_0?autoplay=1&playsinline=1&rel=0&modestbranding=1",
+      "verticalModalOk": true,
+      "closeX": true,
+      "closeEscape": true,
+      "closeBackdrop": true,
+      "iframeRemovedAfterClose": true,
+      "played": true
+    },
+    "en": {
+      "path": "/en/presentation/",
+      "youtubeId": "Ayk97N_OxDQ",
+      "ytIframesBefore": 0,
+      "ytIframesAfterClick": 1,
+      "embedOk": true,
+      "iframeSrc": "https://www.youtube.com/embed/Ayk97N_OxDQ?autoplay=1&playsinline=1&rel=0&modestbranding=1",
+      "verticalModalOk": true,
+      "closeX": true,
+      "closeEscape": true,
+      "closeBackdrop": true,
+      "iframeRemovedAfterClose": true,
+      "played": true
+    }
+  },
+  "ctas": {
+    "fr": {
+      "telHref": "tel:5148939939",
+      "telText": "Appelez-nous pour un estimé gratuit",
+      "telOk": true,
+      "estimateOpened": false,
+      "newFormCreated": false
+    },
+    "en": {
+      "telHref": "tel:5148939939",
+      "telText": "Call Us for a Free Estimate",
+      "telOk": true,
+      "estimateOpened": false,
+      "newFormCreated": false
+    }
+  },
+  "seo": [
+    {
+      "file": "dist/presentation/index.html",
+      "canonicalOk": true,
+      "hreflangFrOk": true,
+      "hreflangEnOk": true,
+      "thumbAbsoluteOk": true,
+      "embedOk": true,
+      "contentUrlOk": true,
+      "inLanguageOk": true,
+      "noUploadDate": true
+    },
+    {
+      "file": "dist/en/presentation/index.html",
+      "canonicalOk": true,
+      "hreflangFrOk": true,
+      "hreflangEnOk": true,
+      "thumbAbsoluteOk": true,
+      "embedOk": true,
+      "contentUrlOk": true,
+      "inLanguageOk": true,
+      "noUploadDate": true
+    }
+  ],
+  "performance": [
+    {
+      "path": "/presentation/",
+      "youtubeRequestsBeforeClick": 0,
+      "youtubeIframes": 0,
+      "localThumbImages": 1
+    },
+    {
+      "path": "/en/presentation/",
+      "youtubeRequestsBeforeClick": 0,
+      "youtubeIframes": 0,
+      "localThumbImages": 1
+    },
+    {
+      "path": "/",
+      "youtubeRequestsBeforeClick": 0,
+      "youtubeIframes": 0,
+      "localThumbImages": 1
+    },
+    {
+      "path": "/en/",
+      "youtubeRequestsBeforeClick": 0,
+      "youtubeIframes": 0,
+      "localThumbImages": 1
+    }
+  ],
+  "gallery": {
+    "fr": {
+      "path": "/realisations-video/",
+      "totalCards": 18,
+      "firstHref": "/presentation/",
+      "firstTitle": "Présentation officielle de Groupe Nettoyage Empire",
+      "presentationLinkCount": 1,
+      "youtubeFacadeCount": 17,
+      "hrefOk": true,
+      "duplicatePresentation": false
+    },
+    "en": {
+      "path": "/en/video-gallery/",
+      "totalCards": 18,
+      "firstHref": "/en/presentation/",
+      "firstTitle": "Official Presentation of Groupe Nettoyage Empire",
+      "presentationLinkCount": 1,
+      "youtubeFacadeCount": 17,
+      "hrefOk": true,
+      "duplicatePresentation": false
+    }
+  },
+  "issues": [
+    "FR CTA estimation n'a pas appelé openEstimationWidget",
+    "EN CTA estimation n'a pas appelé openEstimationWidget"
+  ],
+  "fixes": [],
+  "filesModifiedInVerification": [],
+  "buildNote": "Exécuter npm run build séparément",
+  "committed": false
+}

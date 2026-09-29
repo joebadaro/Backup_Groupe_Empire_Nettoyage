@@ -5,6 +5,8 @@ import "@fontsource-variable/outfit";
 
 import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 import outfitLatinWoff2 from "@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2?url";
+import WeekendAnnouncementPill from "../components/WeekendAnnouncementPill.astro";
+
 interface Props {
   title: string;
   description: string;
@@ -13,6 +15,7 @@ interface Props {
 }
 
 const { title, description, image, service } = Astro.props;
+const isEn = Astro.url.pathname.startsWith("/en");
 ---
 
 <!doctype html>
@@ -24,23 +27,126 @@ const { title, description, image, service } = Astro.props;
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <!-- Google Tag Manager -->
+    <!-- Google tag (gtag.js) — GA4 G-2YKLBMPG8B direct, no GTM (local A/B only) -->
     <script is:inline>
-      (function(w,d,s,l,i){
-        w[l]=w[l]||[];
-        w[l].push({
-          'gtm.start': new Date().getTime(),
-          event:'gtm.js'
-        });
-        var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),
-        dl=l!='dataLayer'?'&l='+l:'';
-        j.async=true;
-        j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-        f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-TPKDH7S2');
+      (function () {
+        var MEASUREMENT_ID = "G-2YKLBMPG8B";
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          window.dataLayer.push(arguments);
+        }
+        window.gtag = gtag;
+        gtag("js", new Date());
+        gtag("config", MEASUREMENT_ID);
+
+        var s = document.createElement("script");
+        s.async = true;
+        s.src =
+          "https://www.googletagmanager.com/gtag/js?id=" + MEASUREMENT_ID;
+        var first = document.getElementsByTagName("script")[0];
+        first.parentNode.insertBefore(s, first);
+
+        function closestMatch(el, selector) {
+          if (!el || !el.closest) return null;
+          try {
+            return el.closest(selector);
+          } catch (e) {
+            return null;
+          }
+        }
+
+        function fire(name, params) {
+          if (typeof window.gtag !== "function") return;
+          window.gtag("event", name, params || {});
+        }
+
+        document.addEventListener(
+          "click",
+          function (e) {
+            var t = e.target;
+            if (!t) return;
+            var telHit = closestMatch(t, 'a[href^="tel:"]');
+            var mobileHit = closestMatch(
+              t,
+              "a.sticky-btn.btn-call, #header-choice-modal-primary-call",
+            );
+            if (telHit) fire("phone_call");
+            if (mobileHit) fire("phone_call_mobile");
+          },
+          true,
+        );
+
+        var leadSent = false;
+        function pathAllowsLead() {
+          var p = location.pathname || "";
+          return (
+            p.indexOf("/demande-estimation/") !== -1 ||
+            p === "/demande-estimation"
+          );
+        }
+        function cardIsVisible(el) {
+          if (!el || el.hasAttribute("hidden")) return false;
+          if (el.getAttribute("aria-hidden") === "true") return false;
+          var st = window.getComputedStyle(el);
+          if (
+            st.display === "none" ||
+            st.visibility === "hidden" ||
+            Number(st.opacity) === 0
+          ) {
+            return false;
+          }
+          var r = el.getBoundingClientRect();
+          if (r.width < 1 || r.height < 1) return false;
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          var visibleH = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+          return visibleH / r.height >= 0.99;
+        }
+        function tryGenerateLead() {
+          if (leadSent || !pathAllowsLead()) return;
+          var cards = document.querySelectorAll(".erf-success-card");
+          for (var i = 0; i < cards.length; i++) {
+            if (cardIsVisible(cards[i])) {
+              leadSent = true;
+              fire("generate_lead", {
+                form_name: "demande_estimation",
+                lead_type: "estimate_request",
+              });
+              return;
+            }
+          }
+        }
+        function watchLead() {
+          if (!pathAllowsLead()) return;
+          tryGenerateLead();
+          if ("IntersectionObserver" in window) {
+            var io = new IntersectionObserver(
+              function () {
+                tryGenerateLead();
+              },
+              { threshold: [0, 1] },
+            );
+            document.querySelectorAll(".erf-success-card").forEach(function (el) {
+              io.observe(el);
+            });
+          }
+          var mo = new MutationObserver(function () {
+            tryGenerateLead();
+          });
+          mo.observe(document.documentElement, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ["hidden", "class", "style", "aria-hidden"],
+          });
+        }
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", watchLead);
+        } else {
+          watchLead();
+        }
+      })();
     </script>
-    <!-- End Google Tag Manager -->
+    <!-- End Google tag (gtag.js) direct -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@800&display=swap" rel="stylesheet">
@@ -74,16 +180,7 @@ const { title, description, image, service } = Astro.props;
 
   </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-      <iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-TPKDH7S2"
-        height="0"
-        width="0"
-        style="display:none;visibility:hidden"
-      ></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    <!-- GTM noscript removed (experimental direct GA4 — local A/B only) -->
 
     <slot />
 
@@ -96,5 +193,6 @@ const { title, description, image, service } = Astro.props;
         document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
       }
     </script>
+    <WeekendAnnouncementPill locale={isEn ? "en" : "fr"} />
   </body>
 </html>

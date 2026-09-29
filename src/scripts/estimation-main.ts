@@ -3246,9 +3246,9 @@
                     }
                 } else {
                     // Standard Message
-                    // ONLY show if realTotal < 179 (and > 0)
+                    // ONLY show if realTotal < 169 (and > 0)
                     if (els.minMsgSidebar) {
-                        if (realTotal > 0 && realTotal < 179) {
+                        if (realTotal > 0 && realTotal < 169) {
                             els.minMsgSidebar.innerHTML = `
                             <div style="background:#e8f5e9; color:#1b5e20; padding:10px; border-radius:8px; margin-top:10px; font-size:0.85rem; line-height:1.4;">${t({
                                     fr: "Comme vous payez déjà l’achat minimal, vous pouvez ajouter d’autres articles au besoin, souvent à prix réduit, puisque nous sommes déjà sur place.",

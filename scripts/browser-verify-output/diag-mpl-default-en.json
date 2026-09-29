@@ -1,0 +1,50 @@
+{
+  "label": "mpl-default-en",
+  "url": "http://127.0.0.1:4330/en/",
+  "runs": 1,
+  "results": [
+    {
+      "perf": 80,
+      "fcpMs": 1012.3308999999999,
+      "lcpMs": 5348.821925,
+      "siMs": 1012.3308999999999,
+      "tbtMs": 45.5,
+      "cls": 0,
+      "fcp": "1.0 s",
+      "lcp": "5.3 s",
+      "si": "1.0 s",
+      "tbt": "50 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 12.41100001335144,
+        "end": 18.95299983024597,
+        "size": 35598,
+        "transfer": 35918
+      },
+      "deferredScripts": [],
+      "phases": {
+        "Time to first byte": 5.16,
+        "Resource load delay": 7.393,
+        "Resource load duration": 7.143,
+        "Element render delay": 288.715
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    }
+  ],
+  "median": {
+    "perf": 80,
+    "fcpMs": 1012.3308999999999,
+    "lcpMs": 5348.821925,
+    "siMs": 1012.3308999999999,
+    "tbtMs": 45.5,
+    "cls": 0
+  }
+}

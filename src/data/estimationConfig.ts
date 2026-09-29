@@ -7,7 +7,7 @@ import { getEstimationIconHtml } from "./serviceImagery";
 
 export const CONFIG = {
   pricing: {
-    minimumOrder: 179.0,
+    minimumOrder: 169.0,
     currency: "CAD",
     taxRate: 0.14975,
     mattressDiscount: 0.3, // 30% off additional mattresses
@@ -40,8 +40,8 @@ export const CONFIG = {
     },
     currencySymbol: "$",
     minOrderLabel: {
-      fr: "Achat minimum de 179$ (incluant déplacement)",
-      en: "Minimum order of $179 (includes travel)",
+      fr: "Commande minimale : 169 $ — déplacement inclus. (Certaines zones peuvent être assujetties à un minimum différent.)",
+      en: "Minimum service order: $169 — travel included. (Some service areas may be subject to a different minimum.)",
     },
     minOrderPrompt: {
       fr: "Voulez-vous ajouter quelque chose ?",
@@ -52,8 +52,8 @@ export const CONFIG = {
       en: "Discount applied!",
     },
     minOrderExplanation: {
-      fr: "L’achat minimal pour un nettoyage à domicile est de 179 $.",
-      en: "The minimum order for home cleaning is $179.",
+      fr: "Commande minimale : 169 $ — déplacement inclus. (Certaines zones peuvent être assujetties à un minimum différent.)",
+      en: "Minimum service order: $169 — travel included. (Some service areas may be subject to a different minimum.)",
     },
     upsellMessage: {
       fr: "Comme vous payez déjà l’achat minimal, vous pouvez ajouter d’autres articles au besoin, souvent à prix réduit, puisque nous sommes déjà sur place.",

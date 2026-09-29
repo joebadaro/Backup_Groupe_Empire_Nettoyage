@@ -1,0 +1,61 @@
+{
+  "frStyleChars": 49714,
+  "enStyleChars": 46733,
+  "frRegions": [
+    {
+      "region": "PREMIUM VIDEO",
+      "chars": 2323
+    },
+    {
+      "region": "PROMO",
+      "chars": 4949
+    },
+    {
+      "region": "ANIMATIONS",
+      "chars": 3070
+    },
+    {
+      "region": "NEW HERO",
+      "chars": 635
+    },
+    {
+      "region": "SLIDESHOW",
+      "chars": 5361
+    },
+    {
+      "region": "TRUST",
+      "chars": 5726
+    },
+    {
+      "region": "SERVICES",
+      "chars": 4998
+    },
+    {
+      "region": "ECO",
+      "chars": 2288
+    },
+    {
+      "region": "DARK TECH",
+      "chars": 2365
+    },
+    {
+      "region": "CTA FINAL",
+      "chars": 893
+    },
+    {
+      "region": "WATERMARK",
+      "chars": 940
+    },
+    {
+      "region": "QUALITY",
+      "chars": 7979
+    },
+    {
+      "region": "Mobile trust",
+      "chars": 5024
+    }
+  ],
+  "approxCriticalChars": 19816,
+  "approxNonCriticalChars": 26735,
+  "unclassifiedChars": 3163
+}

@@ -1,0 +1,17 @@
+---
+/**
+ * Outil interne — estimation manuelle sur letterhead.
+ * Route : /admin/estimation
+ * noindex ; hors sitemap ; ne pas déployer en prod sans protection.
+ */
+import AdminEstimationLayout from "../../layouts/AdminEstimationLayout.astro";
+import AdminEstimationApp from "../../components/admin/AdminEstimationApp.astro";
+---
+
+<AdminEstimationLayout title="Estimation interne | GNE">
+  <AdminEstimationApp />
+</AdminEstimationLayout>
+
+<script>
+  import "../../scripts/admin-estimation.ts";
+</script>

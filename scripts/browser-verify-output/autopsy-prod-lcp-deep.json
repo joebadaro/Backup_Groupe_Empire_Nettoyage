@@ -1,0 +1,507 @@
+{
+  "rows": [
+    {
+      "i": 1,
+      "perf": 78,
+      "fcp": 1772.4244999999999,
+      "lcpSim": 5640.479000000001,
+      "si": 3014.019642082405,
+      "tbt": 45,
+      "cls": 0,
+      "lcpObs": 1371,
+      "fcpObs": 1371,
+      "phases": {
+        "timeToFirstByte": 126.884,
+        "resourceLoadDelay": 9.003,
+        "resourceLoadDuration": 36.36,
+        "elementRenderDelay": 1199.125
+      },
+      "phaseSum": 1371.372,
+      "sim": {
+        "ttfb": 610,
+        "lcpLoadDelay": 610,
+        "lcpLoadDuration": 708
+      },
+      "hero": {
+        "start": 135.86999988555908,
+        "end": 171.7020001411438,
+        "transfer": 35781,
+        "prio": "High",
+        "size": 35598
+      },
+      "gapObs": 1199.2979998588562,
+      "selector": "section.hero-section > div.hero-slideshow > picture.hero-bg-picture > img.hero-slide",
+      "snippet": "<img src=\"/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp\" srcset=\"/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-480.webp 480…\" sizes=\"100vw\" alt=\"Nettoyage professionnel de tapis et divans à Montréal - Groupe Empire\" class=\"hero-slide hero-slide--initial active\" width=\"800\" height=\"1000\" decoding=\"async\" fetchpriority=\"high\" loading=\"eager\" data-astro-cid-j7pv25f6=\"\">",
+      "longBeforeLcp": [
+        {
+          "url": "https://groupenettoyageempire.com/",
+          "start": 962.9,
+          "dur": 166
+        }
+      ],
+      "longAfterLcp": [
+        {
+          "url": "js",
+          "start": 5007.8,
+          "dur": 138
+        },
+        {
+          "url": "gtm.js",
+          "start": 3029.6,
+          "dur": 51
+        }
+      ],
+      "mainThread": [
+        {
+          "g": "other",
+          "d": 682
+        },
+        {
+          "g": "styleLayout",
+          "d": 585
+        },
+        {
+          "g": "paintCompositeRender",
+          "d": 385
+        },
+        {
+          "g": "scriptEvaluation",
+          "d": 219
+        },
+        {
+          "g": "scriptParseCompile",
+          "d": 42
+        },
+        {
+          "g": "parseHTML",
+          "d": 25
+        }
+      ],
+      "bootup": [
+        {
+          "u": "",
+          "total": 1561,
+          "scripting": 15
+        },
+        {
+          "u": "js?id=G-2YKLBMPG8B&cx=c&gtm=4e68j0",
+          "total": 145,
+          "scripting": 119
+        },
+        {
+          "u": "Unattributable",
+          "total": 140,
+          "scripting": 16
+        },
+        {
+          "u": "gtm.js?id=GTM-TPKDH7S2",
+          "total": 82,
+          "scripting": 65
+        }
+      ]
+    },
+    {
+      "i": 2,
+      "perf": 80,
+      "fcp": 1173.6019999999999,
+      "lcpSim": 5219.825000000001,
+      "si": 2611.1162378919607,
+      "tbt": 62.5,
+      "cls": 0,
+      "lcpObs": 1427,
+      "fcpObs": 1427,
+      "phases": {
+        "timeToFirstByte": 119.376,
+        "resourceLoadDelay": 6.886,
+        "resourceLoadDuration": 66.941,
+        "elementRenderDelay": 1234.007
+      },
+      "phaseSum": 1427.21,
+      "sim": {
+        "ttfb": 604,
+        "lcpLoadDelay": 604,
+        "lcpLoadDuration": 707
+      },
+      "hero": {
+        "start": 126.57499980926514,
+        "end": 192.635999917984,
+        "transfer": 35757,
+        "prio": "High",
+        "size": 35598
+      },
+      "gapObs": 1234.364000082016,
+      "selector": "section.hero-section > div.hero-slideshow > picture.hero-bg-picture > img.hero-slide",
+      "snippet": "<img src=\"/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp\" srcset=\"/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-480.webp 480…\" sizes=\"100vw\" alt=\"Nettoyage professionnel de tapis et divans à Montréal - Groupe Empire\" class=\"hero-slide hero-slide--initial active\" width=\"800\" height=\"1000\" decoding=\"async\" fetchpriority=\"high\" loading=\"eager\" data-astro-cid-j7pv25f6=\"\">",
+      "longBeforeLcp": [
+        {
+          "url": "https://groupenettoyageempire.com/",
+          "start": 984.6,
+          "dur": 179
+        }
+      ],
+      "longAfterLcp": [
+        {
+          "url": "js",
+          "start": 4985.3,
+          "dur": 145
+        },
+        {
+          "url": "gtm.js",
+          "start": 3028,
+          "dur": 65
+        }
+      ],
+      "mainThread": [
+        {
+          "g": "other",
+          "d": 739
+        },
+        {
+          "g": "styleLayout",
+          "d": 640
+        },
+        {
+          "g": "paintCompositeRender",
+          "d": 449
+        },
+        {
+          "g": "scriptEvaluation",
+          "d": 232
+        },
+        {
+          "g": "scriptParseCompile",
+          "d": 55
+        },
+        {
+          "g": "parseHTML",
+          "d": 20
+        }
+      ],
+      "bootup": [
+        {
+          "u": "",
+          "total": 1739,
+          "scripting": 15
+        },
+        {
+          "u": "js?id=G-2YKLBMPG8B&cx=c&gtm=4e68j0",
+          "total": 152,
+          "scripting": 123
+        },
+        {
+          "u": "Unattributable",
+          "total": 137,
+          "scripting": 17
+        },
+        {
+          "u": "gtm.js?id=GTM-TPKDH7S2",
+          "total": 98,
+          "scripting": 72
+        }
+      ]
+    },
+    {
+      "i": 3,
+      "perf": 78,
+      "fcp": 1769.5705,
+      "lcpSim": 5643.521500000001,
+      "si": 3043.1761059084906,
+      "tbt": 44,
+      "cls": 0,
+      "lcpObs": 1394,
+      "fcpObs": 1394,
+      "phases": {
+        "timeToFirstByte": 135.775,
+        "resourceLoadDelay": 8.142,
+        "resourceLoadDuration": 63.557,
+        "elementRenderDelay": 1186.753
+      },
+      "phaseSum": 1394.2269999999999,
+      "sim": {
+        "ttfb": 601,
+        "lcpLoadDelay": 601,
+        "lcpLoadDuration": 840
+      },
+      "hero": {
+        "start": 143.81299996376038,
+        "end": 206.88399982452393,
+        "transfer": 35782,
+        "prio": "High",
+        "size": 35598
+      },
+      "gapObs": 1187.116000175476,
+      "selector": "section.hero-section > div.hero-slideshow > picture.hero-bg-picture > img.hero-slide",
+      "snippet": "<img src=\"/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp\" srcset=\"/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-480.webp 480…\" sizes=\"100vw\" alt=\"Nettoyage professionnel de tapis et divans à Montréal - Groupe Empire\" class=\"hero-slide hero-slide--initial active\" width=\"800\" height=\"1000\" decoding=\"async\" fetchpriority=\"high\" loading=\"eager\" data-astro-cid-j7pv25f6=\"\">",
+      "longBeforeLcp": [
+        {
+          "url": "https://groupenettoyageempire.com/",
+          "start": 980.8,
+          "dur": 169
+        }
+      ],
+      "longAfterLcp": [
+        {
+          "url": "js",
+          "start": 5038.6,
+          "dur": 138
+        }
+      ],
+      "mainThread": [
+        {
+          "g": "other",
+          "d": 669
+        },
+        {
+          "g": "styleLayout",
+          "d": 597
+        },
+        {
+          "g": "paintCompositeRender",
+          "d": 379
+        },
+        {
+          "g": "scriptEvaluation",
+          "d": 224
+        },
+        {
+          "g": "scriptParseCompile",
+          "d": 41
+        },
+        {
+          "g": "parseHTML",
+          "d": 23
+        }
+      ],
+      "bootup": [
+        {
+          "u": "",
+          "total": 1562,
+          "scripting": 17
+        },
+        {
+          "u": "js?id=G-2YKLBMPG8B&cx=c&gtm=4e68j0",
+          "total": 145,
+          "scripting": 119
+        },
+        {
+          "u": "Unattributable",
+          "total": 136,
+          "scripting": 17
+        },
+        {
+          "u": "gtm.js?id=GTM-TPKDH7S2",
+          "total": 81,
+          "scripting": 66
+        }
+      ]
+    },
+    {
+      "i": 4,
+      "perf": 78,
+      "fcp": 1756.4612499999994,
+      "lcpSim": 5702.87875,
+      "si": 3038.91089803562,
+      "tbt": 51.5,
+      "cls": 0,
+      "lcpObs": 1395,
+      "fcpObs": 1395,
+      "phases": {
+        "timeToFirstByte": 123.611,
+        "resourceLoadDelay": 6.118,
+        "resourceLoadDuration": 50.17,
+        "elementRenderDelay": 1214.968
+      },
+      "phaseSum": 1394.8670000000002,
+      "sim": {
+        "ttfb": 600,
+        "lcpLoadDelay": 600,
+        "lcpLoadDuration": 736
+      },
+      "hero": {
+        "start": 129.59300017356873,
+        "end": 179.25800013542175,
+        "transfer": 35781,
+        "prio": "High",
+        "size": 35598
+      },
+      "gapObs": 1215.7419998645782,
+      "selector": "section.hero-section > div.hero-slideshow > picture.hero-bg-picture > img.hero-slide",
+      "snippet": "<img src=\"/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp\" srcset=\"/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-480.webp 480…\" sizes=\"100vw\" alt=\"Nettoyage professionnel de tapis et divans à Montréal - Groupe Empire\" class=\"hero-slide hero-slide--initial active\" width=\"800\" height=\"1000\" decoding=\"async\" fetchpriority=\"high\" loading=\"eager\" data-astro-cid-j7pv25f6=\"\">",
+      "longBeforeLcp": [
+        {
+          "url": "https://groupenettoyageempire.com/",
+          "start": 959.1,
+          "dur": 176
+        }
+      ],
+      "longAfterLcp": [
+        {
+          "url": "js",
+          "start": 5028.1,
+          "dur": 143
+        },
+        {
+          "url": "gtm.js",
+          "start": 2966.1,
+          "dur": 55
+        }
+      ],
+      "mainThread": [
+        {
+          "g": "other",
+          "d": 746
+        },
+        {
+          "g": "styleLayout",
+          "d": 642
+        },
+        {
+          "g": "paintCompositeRender",
+          "d": 459
+        },
+        {
+          "g": "scriptEvaluation",
+          "d": 230
+        },
+        {
+          "g": "scriptParseCompile",
+          "d": 49
+        },
+        {
+          "g": "parseHTML",
+          "d": 21
+        }
+      ],
+      "bootup": [
+        {
+          "u": "",
+          "total": 1758,
+          "scripting": 15
+        },
+        {
+          "u": "js?id=G-2YKLBMPG8B&cx=c&gtm=4e68j0",
+          "total": 150,
+          "scripting": 122
+        },
+        {
+          "u": "Unattributable",
+          "total": 138,
+          "scripting": 18
+        },
+        {
+          "u": "gtm.js?id=GTM-TPKDH7S2",
+          "total": 91,
+          "scripting": 69
+        }
+      ]
+    },
+    {
+      "i": 5,
+      "perf": 75,
+      "fcp": 1808.5000000000002,
+      "lcpSim": 5701.353000000001,
+      "si": 4466.029138006117,
+      "tbt": 40,
+      "cls": 0,
+      "lcpObs": 2385,
+      "fcpObs": 2385,
+      "phases": {
+        "timeToFirstByte": 177.366,
+        "resourceLoadDelay": 6.317,
+        "resourceLoadDuration": 46.212,
+        "elementRenderDelay": 2154.642
+      },
+      "phaseSum": 2384.537,
+      "sim": {
+        "ttfb": 603,
+        "lcpLoadDelay": 603,
+        "lcpLoadDuration": 603
+      },
+      "hero": {
+        "start": 183.64800000190735,
+        "end": 229.27900004386902,
+        "transfer": 35782,
+        "prio": "High",
+        "size": 35598
+      },
+      "gapObs": 2155.720999956131,
+      "selector": "section.hero-section > div.hero-slideshow > picture.hero-bg-picture > img.hero-slide",
+      "snippet": "<img src=\"/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp\" srcset=\"/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-480.webp 480…\" sizes=\"100vw\" alt=\"Nettoyage professionnel de tapis et divans à Montréal - Groupe Empire\" class=\"hero-slide hero-slide--initial active\" width=\"800\" height=\"1000\" decoding=\"async\" fetchpriority=\"high\" loading=\"eager\" data-astro-cid-j7pv25f6=\"\">",
+      "longBeforeLcp": [
+        {
+          "url": "https://groupenettoyageempire.com/",
+          "start": 997.6,
+          "dur": 154.0000000000001
+        }
+      ],
+      "longAfterLcp": [
+        {
+          "url": "js",
+          "start": 5103.1,
+          "dur": 130
+        }
+      ],
+      "mainThread": [
+        {
+          "g": "other",
+          "d": 684
+        },
+        {
+          "g": "styleLayout",
+          "d": 569
+        },
+        {
+          "g": "paintCompositeRender",
+          "d": 395
+        },
+        {
+          "g": "scriptEvaluation",
+          "d": 209
+        },
+        {
+          "g": "scriptParseCompile",
+          "d": 40
+        },
+        {
+          "g": "parseHTML",
+          "d": 22
+        }
+      ],
+      "bootup": [
+        {
+          "u": "",
+          "total": 1551,
+          "scripting": 14
+        },
+        {
+          "u": "Unattributable",
+          "total": 145,
+          "scripting": 16
+        },
+        {
+          "u": "js?id=G-2YKLBMPG8B&cx=c&gtm=4e68j0",
+          "total": 136,
+          "scripting": 112
+        },
+        {
+          "u": "gtm.js?id=GTM-TPKDH7S2",
+          "total": 78,
+          "scripting": 63
+        }
+      ]
+    }
+  ],
+  "median": {
+    "perf": 78,
+    "fcp": 1769.5705,
+    "lcpSim": 5643.521500000001,
+    "si": 3038.91089803562,
+    "tbt": 45,
+    "cls": 0,
+    "ttfb": 126.884,
+    "rld": 6.886,
+    "rldur": 50.17,
+    "erd": 1214.968,
+    "lcpObs": 1395
+  }
+}

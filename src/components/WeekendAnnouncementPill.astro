@@ -1,0 +1,183 @@
+---
+interface Props {
+  locale: "fr" | "en";
+}
+
+const { locale } = Astro.props;
+
+const isEn = locale === "en";
+
+const smallTitle = isEn ? "NEW" : "NOUVEAU";
+const mainTitle = isEn 
+  ? "Saturday and Sunday appointments now available" 
+  : "Rendez-vous disponibles le samedi et le dimanche";
+const subText = isEn 
+  ? "Our professional cleaning services are now available 7 days a week by appointment." 
+  : "Nos services de nettoyage professionnel sont maintenant disponibles 7 jours sur 7, sur rendez-vous.";
+---
+
+<div id="weekend-announcement-wrapper" class="premium-pill-wrapper">
+  <div id="weekend-announcement-pill" class="premium-announcement-pill">
+    <div class="pill-text-wrapper">
+      <span class="pill-highlight">{smallTitle}</span>
+      <span class="pill-main-title">{mainTitle}</span>
+      <span class="pill-subtext">{subText}</span>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", function () {
+    var wrapper = document.getElementById("weekend-announcement-wrapper");
+    var pill = document.getElementById("weekend-announcement-pill");
+    
+    if (wrapper && pill) {
+      // Identify target container to determine background variant
+      var darkTarget = document.querySelector('.hero-content'); // Accueil (fond sombre)
+      var lightTarget = document.querySelector('.split-content, .service-hero-intro'); // Services/Villes (fond clair)
+      var target = darkTarget || lightTarget;
+      
+      if (target && target !== wrapper.parentElement) {
+        // Apply appropriate contrast variant
+        if (target === darkTarget) {
+          pill.classList.add('variant-dark-bg');
+        } else {
+          pill.classList.add('variant-light-bg');
+        }
+        target.insertBefore(wrapper, target.firstChild);
+      }
+    }
+  });
+</script>
+
+<style is:global>
+  /* Base Component - Strict Isolation & Unified Rendering */
+  .premium-announcement-pill {
+    position: relative;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px !important;
+    border-radius: 50px !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      inset 0 1px 2px rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    align-self: center !important;
+    margin: 0 auto 2rem auto !important;
+    max-width: 750px !important;
+    width: fit-content;
+    transform: translate3d(0, 0, 0);
+    animation: calmFloatPill 9s ease-in-out infinite !important;
+    will-change: transform;
+  }
+
+  /* 1. Animation d'entrée douce et élégante sur le wrapper */
+  .premium-pill-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    opacity: 0;
+    animation: pillEntry 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  @keyframes pillEntry {
+    0% {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* 2. Animation de flottement très calme et subtile sur le popup interne */
+  @keyframes calmFloatPill {
+    0%, 100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      /* Mouvement principal vers le haut (5px) avec très légère dérive (2px) */
+      transform: translate3d(2px, -5px, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .premium-pill-wrapper {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .premium-announcement-pill {
+      animation: none !important;
+      transform: translate3d(0, 0, 0) !important;
+    }
+  }
+
+  /* Variante 1 : Pour fond sombre (Accueil) - très transparent avec léger gradient */
+  .premium-announcement-pill.variant-dark-bg {
+    background: linear-gradient(135deg, rgba(20, 45, 80, 0.35) 0%, rgba(10, 25, 55, 0.25) 100%) !important;
+  }
+
+  /* Variante 2 : Pour fond clair (Villes/Services) - environ 75% d'opacité avec dégradé subtil */
+  .premium-announcement-pill.variant-light-bg {
+    background: linear-gradient(135deg, rgba(25, 50, 90, 0.75) 0%, rgba(12, 28, 60, 0.65) 100%) !important;
+  }
+
+  /* Fallback si aucune classe n'est appliquée */
+  .premium-announcement-pill:not(.variant-dark-bg):not(.variant-light-bg) {
+    background: linear-gradient(135deg, rgba(25, 50, 90, 0.75) 0%, rgba(12, 28, 60, 0.65) 100%) !important;
+  }
+
+  .premium-announcement-pill .pill-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center !important;
+    gap: 4px !important;
+    color: #ffffff !important;
+  }
+
+  .premium-announcement-pill .pill-highlight {
+    color: #ebd082 !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 1.5px !important;
+    opacity: 0.9 !important;
+  }
+
+  .premium-announcement-pill .pill-main-title {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    font-size: 1.05rem !important;
+    letter-spacing: 0.3px !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+  }
+
+  .premium-announcement-pill .pill-subtext {
+    display: block !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 0.85rem !important;
+    font-weight: 300 !important;
+    line-height: 1.4 !important;
+  }
+
+  @media (max-width: 768px) {
+    .premium-announcement-pill { 
+      padding: 12px 20px !important;
+      border-radius: 20px !important;
+      max-width: 90vw !important;
+      margin-top: 0.5rem !important;
+    }
+    .premium-announcement-pill .pill-main-title {
+      font-size: 0.95rem !important;
+    }
+    .premium-announcement-pill .pill-subtext { 
+      font-size: 0.8rem !important;
+    }
+  }
+</style>

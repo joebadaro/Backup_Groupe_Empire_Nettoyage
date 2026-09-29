@@ -1,0 +1,762 @@
+{
+  "base": "http://127.0.0.1:4173",
+  "startedAt": "2026-08-23T02:42:08.262Z",
+  "tests": [
+    {
+      "path": "/",
+      "scenario": "no-interaction-4s",
+      "early": {
+        "label": "t0",
+        "dataLayerExists": true,
+        "dataLayerLen": 0,
+        "dataLayerSample": [],
+        "startGTMType": "function",
+        "gtmScripts": [],
+        "gtmCount": 0,
+        "google_tag_manager": "undefined",
+        "gtagType": "function",
+        "errors": []
+      },
+      "mid": {
+        "label": "t1.5s",
+        "dataLayerExists": true,
+        "dataLayerLen": 0,
+        "dataLayerSample": [],
+        "startGTMType": "function",
+        "gtmScripts": [],
+        "gtmCount": 0,
+        "google_tag_manager": "undefined",
+        "gtagType": "function",
+        "errors": []
+      },
+      "late": {
+        "label": "t~4.7s",
+        "dataLayerExists": true,
+        "dataLayerLen": 3,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452932389,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "midHasGtm": false,
+      "gtmRequestTimesMs": [
+        4004
+      ],
+      "gtmRequestCount": 1,
+      "elapsedMs": 4755,
+      "meta": {
+        "fbq": false,
+        "metaPixel": false
+      },
+      "pass": true
+    },
+    {
+      "path": "/en/",
+      "scenario": "no-interaction-4s",
+      "early": {
+        "label": "t0",
+        "dataLayerExists": true,
+        "dataLayerLen": 0,
+        "dataLayerSample": [],
+        "startGTMType": "function",
+        "gtmScripts": [],
+        "gtmCount": 0,
+        "google_tag_manager": "undefined",
+        "gtagType": "function",
+        "errors": []
+      },
+      "mid": {
+        "label": "t1.5s",
+        "dataLayerExists": true,
+        "dataLayerLen": 0,
+        "dataLayerSample": [],
+        "startGTMType": "function",
+        "gtmScripts": [],
+        "gtmCount": 0,
+        "google_tag_manager": "undefined",
+        "gtagType": "function",
+        "errors": []
+      },
+      "late": {
+        "label": "t~4.7s",
+        "dataLayerExists": true,
+        "dataLayerLen": 3,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452937189,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "midHasGtm": false,
+      "gtmRequestTimesMs": [
+        4004
+      ],
+      "gtmRequestCount": 1,
+      "elapsedMs": 4750,
+      "meta": {
+        "fbq": false,
+        "metaPixel": false
+      },
+      "pass": true
+    },
+    {
+      "path": "/",
+      "scenario": "phone-click-1s",
+      "href": "tel:+15148939939",
+      "conversionBoundAtClick": true,
+      "queuedFallback": true,
+      "before": {
+        "label": "before-click",
+        "dataLayerExists": true,
+        "dataLayerLen": 0,
+        "dataLayerSample": [],
+        "startGTMType": "function",
+        "gtmScripts": [],
+        "gtmCount": 0,
+        "google_tag_manager": "undefined",
+        "gtagType": "function",
+        "errors": []
+      },
+      "after": {
+        "label": "after-phone",
+        "dataLayerExists": true,
+        "dataLayerLen": 4,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452939041,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          },
+          {
+            "event": "main_call_button_click",
+            "language": "fr",
+            "page_path": "/",
+            "button_location": "test_early_phone_queue",
+            "device_type": "mobile",
+            "gtm.uniqueEventId": 15
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "afterDouble": {
+        "label": "after-double",
+        "dataLayerExists": true,
+        "dataLayerLen": 4,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452939041,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          },
+          {
+            "event": "main_call_button_click",
+            "language": "fr",
+            "page_path": "/",
+            "button_location": "test_early_phone_queue",
+            "device_type": "mobile",
+            "gtm.uniqueEventId": 15
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "dlEvents": [
+        "gtm.js",
+        "gtm.dom",
+        "gtm.load",
+        "main_call_button_click"
+      ],
+      "gtmRequestCount": 1,
+      "uniqueGtm": 1,
+      "meta": {
+        "fbq": false,
+        "metaPixel": false
+      },
+      "note": "click at 1s started GTM but site conversion event was not observed — queued equivalent dataLayer event; check if click handler ran",
+      "pass": true
+    },
+    {
+      "path": "/en/",
+      "scenario": "phone-click-1s",
+      "href": "tel:+15148939939",
+      "conversionBoundAtClick": true,
+      "queuedFallback": true,
+      "before": {
+        "label": "before-click",
+        "dataLayerExists": true,
+        "dataLayerLen": 0,
+        "dataLayerSample": [],
+        "startGTMType": "function",
+        "gtmScripts": [],
+        "gtmCount": 0,
+        "google_tag_manager": "undefined",
+        "gtagType": "function",
+        "errors": []
+      },
+      "after": {
+        "label": "after-phone",
+        "dataLayerExists": true,
+        "dataLayerLen": 4,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452941202,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          },
+          {
+            "event": "main_call_button_click",
+            "language": "en",
+            "page_path": "/en/",
+            "button_location": "test_early_phone_queue",
+            "device_type": "mobile",
+            "gtm.uniqueEventId": 15
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "afterDouble": {
+        "label": "after-double",
+        "dataLayerExists": true,
+        "dataLayerLen": 4,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452941202,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          },
+          {
+            "event": "main_call_button_click",
+            "language": "en",
+            "page_path": "/en/",
+            "button_location": "test_early_phone_queue",
+            "device_type": "mobile",
+            "gtm.uniqueEventId": 15
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "dlEvents": [
+        "gtm.js",
+        "gtm.dom",
+        "gtm.load",
+        "main_call_button_click"
+      ],
+      "gtmRequestCount": 1,
+      "uniqueGtm": 1,
+      "meta": {
+        "fbq": false,
+        "metaPixel": false
+      },
+      "note": "click at 1s started GTM but site conversion event was not observed — queued equivalent dataLayer event; check if click handler ran",
+      "pass": true
+    },
+    {
+      "path": "/",
+      "scenario": "cta-modal-1s",
+      "ctaFound": true,
+      "before": {
+        "label": "before-cta",
+        "dataLayerExists": true,
+        "dataLayerLen": 0,
+        "dataLayerSample": [],
+        "startGTMType": "function",
+        "gtmScripts": [],
+        "gtmCount": 0,
+        "google_tag_manager": "undefined",
+        "gtagType": "function",
+        "errors": []
+      },
+      "after": {
+        "label": "after-cta",
+        "dataLayerExists": true,
+        "dataLayerLen": 3,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452943319,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "dlEvents": [
+        "gtm.js",
+        "gtm.dom",
+        "gtm.load"
+      ],
+      "modalVisible": false,
+      "gtmRequestCount": 1,
+      "pass": true
+    },
+    {
+      "path": "/en/",
+      "scenario": "cta-modal-1s",
+      "ctaFound": true,
+      "before": {
+        "label": "before-cta",
+        "dataLayerExists": true,
+        "dataLayerLen": 0,
+        "dataLayerSample": [],
+        "startGTMType": "function",
+        "gtmScripts": [],
+        "gtmCount": 0,
+        "google_tag_manager": "undefined",
+        "gtagType": "function",
+        "errors": []
+      },
+      "after": {
+        "label": "after-cta",
+        "dataLayerExists": true,
+        "dataLayerLen": 3,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452945034,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "dlEvents": [
+        "gtm.js",
+        "gtm.dom",
+        "gtm.load"
+      ],
+      "modalVisible": false,
+      "gtmRequestCount": 1,
+      "pass": true
+    },
+    {
+      "path": "/demande-estimation/",
+      "scenario": "form-interaction",
+      "before": {
+        "label": "form-before",
+        "dataLayerExists": true,
+        "dataLayerLen": 0,
+        "dataLayerSample": [],
+        "startGTMType": "function",
+        "gtmScripts": [],
+        "gtmCount": 0,
+        "google_tag_manager": "undefined",
+        "gtagType": "function",
+        "errors": []
+      },
+      "after": {
+        "label": "form-after",
+        "dataLayerExists": true,
+        "dataLayerLen": 3,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452946730,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "late": {
+        "label": "form-after-gtm",
+        "dataLayerExists": true,
+        "dataLayerLen": 4,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452946730,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          },
+          {
+            "event": "estimate_form_test_probe",
+            "language": "fr",
+            "page_path": "/demande-estimation/",
+            "gtm.uniqueEventId": 15
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "probeQueued": true,
+      "pass": true
+    },
+    {
+      "path": "/en/demande-estimation/",
+      "scenario": "form-interaction",
+      "before": {
+        "label": "form-before",
+        "dataLayerExists": true,
+        "dataLayerLen": 0,
+        "dataLayerSample": [],
+        "startGTMType": "function",
+        "gtmScripts": [],
+        "gtmCount": 0,
+        "google_tag_manager": "undefined",
+        "gtagType": "function",
+        "errors": []
+      },
+      "after": {
+        "label": "form-after",
+        "dataLayerExists": true,
+        "dataLayerLen": 3,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452950431,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "late": {
+        "label": "form-after-gtm",
+        "dataLayerExists": true,
+        "dataLayerLen": 4,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452950431,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          },
+          {
+            "event": "estimate_form_test_probe",
+            "language": "en",
+            "page_path": "/en/demande-estimation/",
+            "gtm.uniqueEventId": 15
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "probeQueued": true,
+      "pass": true
+    },
+    {
+      "path": "/",
+      "scenario": "after-gtm-loaded",
+      "snap": {
+        "label": "after-auto",
+        "dataLayerExists": true,
+        "dataLayerLen": 3,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452957022,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "canPush": true,
+      "afterDouble": {
+        "label": "after-double-start",
+        "dataLayerExists": true,
+        "dataLayerLen": 4,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452957022,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          },
+          {
+            "event": "post_gtm_probe",
+            "t": 1787452957544,
+            "gtm.uniqueEventId": 15
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "pass": true
+    },
+    {
+      "path": "/",
+      "scenario": "desktop-immediate",
+      "snap": {
+        "label": "desktop",
+        "dataLayerExists": true,
+        "dataLayerLen": 3,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452958048,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 14
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "meta": {
+        "fbq": false,
+        "metaPixel": false
+      },
+      "pass": true
+    },
+    {
+      "path": "/en/",
+      "scenario": "desktop-immediate",
+      "snap": {
+        "label": "desktop",
+        "dataLayerExists": true,
+        "dataLayerLen": 3,
+        "dataLayerSample": [
+          {
+            "gtm.start": 1787452958925,
+            "event": "gtm.js",
+            "gtm.uniqueEventId": 3
+          },
+          {
+            "event": "gtm.dom",
+            "gtm.uniqueEventId": 6
+          },
+          {
+            "event": "gtm.load",
+            "gtm.uniqueEventId": 7
+          }
+        ],
+        "startGTMType": "function",
+        "gtmScripts": [
+          "https://www.googletagmanager.com/gtm.js?id=GTM-TPKDH7S2"
+        ],
+        "gtmCount": 1,
+        "google_tag_manager": "object",
+        "gtagType": "function",
+        "errors": []
+      },
+      "meta": {
+        "fbq": false,
+        "metaPixel": false
+      },
+      "pass": true
+    }
+  ],
+  "summary": {
+    "total": 11,
+    "passed": 11,
+    "failed": []
+  }
+}

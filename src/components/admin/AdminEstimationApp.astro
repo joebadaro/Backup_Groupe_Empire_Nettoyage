@@ -1,0 +1,25 @@
+---
+import AdminEstimationForm from "./AdminEstimationForm.astro";
+import AdminEstimationPreview from "./AdminEstimationPreview.astro";
+---
+
+<main class="ae-app" id="ae-app">
+  <AdminEstimationForm />
+  <AdminEstimationPreview />
+</main>
+
+<style>
+  .ae-app {
+    max-width: 520px;
+    margin: 0 auto;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-width: 600px) {
+    .ae-app {
+      max-width: 640px;
+    }
+  }
+</style>

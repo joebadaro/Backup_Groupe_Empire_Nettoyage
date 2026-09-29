@@ -1,0 +1,226 @@
+---
+import { LETTER_TEMPLATE_IMAGE } from "../../lib/adminEstimation/template";
+---
+
+<section
+  class="ae-preview-section admin-estimation-ui"
+  id="ae-preview-section"
+  aria-labelledby="ae-preview-title"
+  hidden
+>
+  <h2 id="ae-preview-title" class="ae-preview-heading">Aperçu — format lettre 8,5 × 11</h2>
+
+  <p id="ae-template-warning" class="ae-template-warning admin-estimation-ui" role="alert" hidden></p>
+
+  <p id="ae-overflow-warning" class="ae-overflow-warning admin-estimation-ui" role="alert" hidden>
+    Le texte est trop long pour la feuille. Veuillez raccourcir la description ou les notes.
+  </p>
+
+  <div class="ae-preview-scaler" id="ae-preview-scaler">
+    <div class="ae-letter-sheet" id="ae-letter-sheet">
+      <div
+        class="ae-letter-bg"
+        id="ae-letter-bg"
+        style={`background-image: url('${LETTER_TEMPLATE_IMAGE}')`}
+        aria-hidden="true"
+      ></div>
+      <div class="ae-content-zone" id="ae-content-zone">
+        <div class="ae-content-inner" id="ae-content-inner"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Zone imprimable isolée (clone à l'impression via CSS) -->
+<div class="ae-print-root" id="ae-print-root" hidden aria-hidden="true">
+  <div class="ae-letter-sheet ae-letter-sheet--print">
+    <div
+      class="ae-letter-bg"
+      id="ae-print-bg"
+      style={`background-image: url('${LETTER_TEMPLATE_IMAGE}')`}
+      aria-hidden="true"
+    ></div>
+    <div class="ae-content-zone" id="ae-print-content-zone">
+      <div class="ae-content-inner" id="ae-print-content-inner"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .ae-preview-section {
+    padding: 1rem;
+  }
+
+  .ae-preview-heading {
+    margin: 0 0 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #334155;
+    text-align: center;
+  }
+
+  .ae-template-warning,
+  .ae-overflow-warning {
+    margin: 0 0 0.75rem;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #9a1b1b;
+    background: #fdecec;
+    border: 1px solid #f5c2c2;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .ae-template-warning {
+    color: #7a4b00;
+    background: #fff8e6;
+    border-color: #f0d48a;
+  }
+
+  .ae-preview-scaler {
+    width: 100%;
+    max-width: 8.5in;
+    margin: 0 auto;
+  }
+
+  .ae-letter-sheet {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 8.5 / 11;
+    background: #fff;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.14);
+    overflow: hidden;
+  }
+
+  .ae-letter-bg {
+    position: absolute;
+    inset: 0;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    user-select: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .ae-letter-bg--ratio-invalid {
+    background-size: contain;
+  }
+
+  .ae-content-zone {
+    position: absolute;
+    top: 35%;
+    right: 8.8%;
+    bottom: 44.2%;
+    left: 7.9%;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .ae-content-inner {
+    padding: 0.1em 0.06em 0.04em 0.08em;
+    line-height: 1.42;
+    color: #1a1a1a;
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .ae-content-inner p {
+    margin: 0 0 0.55em;
+  }
+
+  .ae-content-inner p:last-child {
+    margin-bottom: 0;
+  }
+
+  .ae-content-inner .ae-list {
+    margin: 0.1em 0 0.55em 1.15em;
+    padding: 0;
+    list-style-type: disc;
+  }
+
+  .ae-content-inner .ae-list li {
+    margin: 0.2em 0;
+    padding-left: 0.1em;
+  }
+
+  .ae-content-inner strong {
+    font-weight: 600;
+  }
+
+  .ae-content-inner--spacious {
+    line-height: 1.5;
+  }
+
+  .ae-content-inner--spacious p {
+    margin-bottom: 0.68em;
+  }
+
+  .ae-content-inner--spacious .ae-list {
+    margin-bottom: 0.68em;
+  }
+
+  .ae-content-inner--spacious .ae-list li {
+    margin: 0.28em 0;
+  }
+
+  @media print {
+    .ae-content-inner--spacious {
+      line-height: 1.5;
+    }
+  }
+
+  .ae-print-root {
+    display: none;
+  }
+
+  @media print {
+    @page {
+      size: letter;
+      margin: 0;
+    }
+
+    :global(.admin-estimation-body) {
+      background: #fff !important;
+    }
+
+    :global(.admin-estimation-ui),
+    .ae-preview-section,
+    .ae-preview-heading,
+    .ae-template-warning,
+    .ae-overflow-warning {
+      display: none !important;
+    }
+
+    .ae-print-root {
+      display: block !important;
+      position: fixed;
+      inset: 0;
+      width: 8.5in;
+      height: 11in;
+      margin: 0;
+      padding: 0;
+      visibility: visible !important;
+    }
+
+    .ae-print-root[hidden] {
+      display: block !important;
+    }
+
+    .ae-letter-sheet--print {
+      width: 8.5in;
+      height: 11in;
+      aspect-ratio: auto;
+      box-shadow: none;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .ae-content-zone {
+      overflow: hidden !important;
+    }
+  }
+</style>

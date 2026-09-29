@@ -1,0 +1,183 @@
+{
+  "label": "gtm-deferred",
+  "url": "http://127.0.0.1:4173/",
+  "runs": 3,
+  "results": [
+    {
+      "perf": 92,
+      "fcpMs": 1520.0581916876836,
+      "lcpMs": 3081.116383375367,
+      "siMs": 1520.0581916876836,
+      "tbtMs": 127,
+      "cls": 0,
+      "fcp": "1.5 s",
+      "lcp": "3.1 s",
+      "si": "1.5 s",
+      "tbt": "130 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 16.656999826431274,
+        "end": 20.796000003814697,
+        "size": 35598,
+        "transfer": 35930
+      },
+      "deferredScripts": [
+        {
+          "url": "boot-deferred-site-scripts.BE1YIuGX.js",
+          "start": 371.33700013160706,
+          "end": 372.84600019454956
+        },
+        {
+          "url": "boot-deferred-private-scripts.C9BA-XVq.js",
+          "start": 375.54299998283386,
+          "end": 377.9979999065399
+        },
+        {
+          "url": "phones.BaanPqAS.js",
+          "start": 375.7330000400543,
+          "end": 378.3159999847412
+        },
+        {
+          "url": "sms-client-context.C6RyiInA.js",
+          "start": 375.9249999523163,
+          "end": 378.8670001029968
+        }
+      ],
+      "phases": {
+        "Time to first byte": 8.729,
+        "Resource load delay": 7.191,
+        "Resource load duration": 5.432,
+        "Element render delay": 331.938
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    },
+    {
+      "perf": 93,
+      "fcpMs": 1538.5267100924243,
+      "lcpMs": 3080.0534201848486,
+      "siMs": 1538.5267100924243,
+      "tbtMs": 92,
+      "cls": 0,
+      "fcp": "1.5 s",
+      "lcp": "3.1 s",
+      "si": "1.5 s",
+      "tbt": "90 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 11.02999997138977,
+        "end": 14.994999885559082,
+        "size": 35598,
+        "transfer": 35930
+      },
+      "deferredScripts": [
+        {
+          "url": "boot-deferred-site-scripts.BE1YIuGX.js",
+          "start": 309.74500012397766,
+          "end": 311.6640000343323
+        },
+        {
+          "url": "boot-deferred-private-scripts.C9BA-XVq.js",
+          "start": 313.0699999332428,
+          "end": 314.45700001716614
+        },
+        {
+          "url": "phones.BaanPqAS.js",
+          "start": 313.1579999923706,
+          "end": 314.739000082016
+        },
+        {
+          "url": "sms-client-context.C6RyiInA.js",
+          "start": 313.2090001106262,
+          "end": 315.11299991607666
+        }
+      ],
+      "phases": {
+        "Time to first byte": 3.556999755859375,
+        "Resource load delay": 7.160000244140625,
+        "Resource load duration": 4.836,
+        "Element render delay": 289.903
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    },
+    {
+      "perf": 93,
+      "fcpMs": 1540.914612839877,
+      "lcpMs": 3078.829225679754,
+      "siMs": 1540.914612839877,
+      "tbtMs": 105,
+      "cls": 0,
+      "fcp": "1.5 s",
+      "lcp": "3.1 s",
+      "si": "1.5 s",
+      "tbt": "110 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 10.447999954223633,
+        "end": 13.04800009727478,
+        "size": 35598,
+        "transfer": 35930
+      },
+      "deferredScripts": [
+        {
+          "url": "boot-deferred-site-scripts.BE1YIuGX.js",
+          "start": 337.0329999923706,
+          "end": 338.89800000190735
+        },
+        {
+          "url": "boot-deferred-private-scripts.C9BA-XVq.js",
+          "start": 340.27999997138977,
+          "end": 341.86299991607666
+        },
+        {
+          "url": "phones.BaanPqAS.js",
+          "start": 340.38499999046326,
+          "end": 342.2630000114441
+        },
+        {
+          "url": "sms-client-context.C6RyiInA.js",
+          "start": 340.4379999637604,
+          "end": 342.71999979019165
+        }
+      ],
+      "phases": {
+        "Time to first byte": 2.941,
+        "Resource load delay": 7.071,
+        "Resource load duration": 3.553,
+        "Element render delay": 302.864
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    }
+  ],
+  "median": {
+    "perf": 93,
+    "fcpMs": 1538.5267100924243,
+    "lcpMs": 3080.0534201848486,
+    "siMs": 1538.5267100924243,
+    "tbtMs": 105,
+    "cls": 0
+  }
+}

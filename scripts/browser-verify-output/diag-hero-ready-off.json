@@ -1,0 +1,166 @@
+{
+  "label": "hero-ready-off",
+  "url": "http://127.0.0.1:4330/",
+  "runs": 3,
+  "results": [
+    {
+      "perf": 76,
+      "fcpMs": 1056.1624000000002,
+      "lcpMs": 6679.5203,
+      "siMs": 2550.7800560655014,
+      "tbtMs": 67,
+      "cls": 0,
+      "fcp": "1.1 s",
+      "lcp": "6.7 s",
+      "si": "2.6 s",
+      "tbt": "70 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 19.045000076293945,
+        "end": 29.825000286102295,
+        "size": 35598,
+        "transfer": 35918
+      },
+      "deferredScripts": [
+        {
+          "url": "boot-deferred-site-scripts.DRMNF0bd.js",
+          "start": 2909.103000164032,
+          "end": 2910.940000295639
+        },
+        {
+          "url": "visitor-sms.C9BA-XVq.js",
+          "start": 2911.851000070572,
+          "end": 2915.661999940872
+        },
+        {
+          "url": "header-choice-modal.CaC03Rku.js",
+          "start": 2912.16100025177,
+          "end": 2917.0250000953674
+        },
+        {
+          "url": "after-hours-phone-popup.CdpjLQ0e.js",
+          "start": 2912.2380001544952,
+          "end": 2916.891000032425
+        },
+        {
+          "url": "conversion-cta-priority.D1fz_nx4.js",
+          "start": 2912.2880001068115,
+          "end": 2915.799000263214
+        },
+        {
+          "url": "sms-client-context.C6RyiInA.js",
+          "start": 2917.823000192642,
+          "end": 2921.802999973297
+        },
+        {
+          "url": "conversion-tracking.bVvz5hi6.js",
+          "start": 2917.9509999752045,
+          "end": 2921.4820001125336
+        },
+        {
+          "url": "tel-link-handoff.HmQMXPV9.js",
+          "start": 2918.3810000419617,
+          "end": 2921.6189999580383
+        },
+        {
+          "url": "phones.BaanPqAS.js",
+          "start": 2918.4610002040863,
+          "end": 2920.66100025177
+        }
+      ],
+      "phases": {
+        "Time to first byte": 8.918,
+        "Resource load delay": 10.225,
+        "Resource load duration": 11.409,
+        "Element render delay": 1374.15
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    },
+    {
+      "perf": 78,
+      "fcpMs": 1049.7390999999998,
+      "lcpMs": 5906.670400000001,
+      "siMs": 1171.9370800122829,
+      "tbtMs": 90,
+      "cls": 0,
+      "fcp": "1.0 s",
+      "lcp": "5.9 s",
+      "si": "1.2 s",
+      "tbt": "90 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 18.519999742507935,
+        "end": 24.884999752044678,
+        "size": 35598,
+        "transfer": 35918
+      },
+      "deferredScripts": [],
+      "phases": {
+        "Time to first byte": 8.398,
+        "Resource load delay": 10.243,
+        "Resource load duration": 6.991,
+        "Element render delay": 366.942
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    },
+    {
+      "perf": 81,
+      "fcpMs": 1058.0065999999997,
+      "lcpMs": 5064.2996,
+      "siMs": 1163.8995002054785,
+      "tbtMs": 75.5,
+      "cls": 0,
+      "fcp": "1.1 s",
+      "lcp": "5.1 s",
+      "si": "1.2 s",
+      "tbt": "80 ms",
+      "clsDisplay": "0",
+      "hero": {
+        "url": "hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+        "start": 16.027999877929688,
+        "end": 24.895999670028687,
+        "size": 35598,
+        "transfer": 35918
+      },
+      "deferredScripts": [],
+      "phases": {
+        "Time to first byte": 6.542,
+        "Resource load delay": 9.772,
+        "Resource load duration": 9.67,
+        "Element render delay": 372.391
+      },
+      "breakdownKeys": [
+        "type",
+        "items"
+      ],
+      "auditIdsWithLcp": [
+        "lcp-breakdown-insight",
+        "lcp-discovery-insight"
+      ]
+    }
+  ],
+  "median": {
+    "perf": 78,
+    "fcpMs": 1056.1624000000002,
+    "lcpMs": 5906.670400000001,
+    "siMs": 1171.9370800122829,
+    "tbtMs": 75.5,
+    "cls": 0
+  }
+}

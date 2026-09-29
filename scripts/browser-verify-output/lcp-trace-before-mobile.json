@@ -1,0 +1,194 @@
+{
+  "lcpTrace": [
+    {
+      "t": 1024,
+      "size": 1782,
+      "slideIndex": -1,
+      "url": "",
+      "natW": 0,
+      "natH": 0,
+      "cssW": 0,
+      "cssH": 0,
+      "classes": "A",
+      "mqMobile": true,
+      "vw": 390
+    },
+    {
+      "t": 1172,
+      "size": 10200,
+      "slideIndex": -1,
+      "url": "https://groupenettoyageempire.com/images/logo-last-update-1-480.webp?v=finalv4",
+      "natW": 150,
+      "natH": 52,
+      "cssW": 170,
+      "cssH": 60,
+      "classes": "logo-img",
+      "fp": "low",
+      "mqMobile": true,
+      "vw": 390
+    },
+    {
+      "t": 1888,
+      "size": 220740,
+      "slideIndex": 0,
+      "url": "https://groupenettoyageempire.com/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+      "natW": 390,
+      "natH": 487,
+      "cssW": 390,
+      "cssH": 600,
+      "classes": "hero-slide hero-slide--initial active",
+      "fp": "high",
+      "mqMobile": true,
+      "vw": 390
+    }
+  ],
+  "events": [
+    {
+      "type": "hero-state",
+      "t": 350.2000000476837,
+      "active": -1,
+      "ready": false,
+      "vw": 390
+    },
+    {
+      "type": "hero-state",
+      "t": 392.09999990463257,
+      "active": 0,
+      "ready": false,
+      "vw": 390
+    },
+    {
+      "type": "hero-state",
+      "t": 7139.799999952316,
+      "active": 1,
+      "ready": true,
+      "vw": 390
+    },
+    {
+      "type": "hero-state",
+      "t": 12656.099999904633,
+      "active": 2,
+      "ready": true,
+      "vw": 390
+    },
+    {
+      "type": "hero-state",
+      "t": 18153.700000047684,
+      "active": 3,
+      "ready": true,
+      "vw": 390
+    }
+  ],
+  "slides": [
+    {
+      "i": 0,
+      "active": false,
+      "currentSrc": "/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp",
+      "srcset": "/images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-480.webp 480w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-640.webp 640w, /images/catalog/hero-salon-nettoyage-vapeur-montreal-portrait-800.webp 800w",
+      "sizes": "100vw",
+      "sources": [
+        {
+          "media": "(min-width: 769px)",
+          "srcset": "/images/catalog/hero-slide-2-mobile.webp 800w, /images/catalog/hero-slide-2-1280.webp 1280w, /images/catalog/hero-slide-2-1600.webp 1600w, /images/catalog/hero-slide-2.webp 1920w"
+        }
+      ],
+      "fp": "high",
+      "loading": "eager",
+      "widthAttr": "800",
+      "heightAttr": "1000",
+      "natW": 390,
+      "natH": 487,
+      "ratio": 0.8008,
+      "cssW": 390,
+      "cssH": 600
+    },
+    {
+      "i": 1,
+      "active": false,
+      "currentSrc": "/images/catalog/hero-salon-prestige-tapis-residentiel-quebec-portrait.webp",
+      "srcset": "/images/catalog/hero-salon-prestige-tapis-residentiel-quebec-mobile.webp 800w, /images/catalog/hero-salon-prestige-tapis-residentiel-quebec.webp 1600w",
+      "sizes": "100vw",
+      "sources": [
+        {
+          "media": "(max-width: 768px)",
+          "srcset": "/images/catalog/hero-salon-prestige-tapis-residentiel-quebec-portrait-800.webp 800w, /images/catalog/hero-salon-prestige-tapis-residentiel-quebec-portrait.webp 1600w"
+        }
+      ],
+      "fp": null,
+      "loading": "lazy",
+      "widthAttr": "1600",
+      "heightAttr": "2000",
+      "natW": 390,
+      "natH": 487,
+      "ratio": 0.8008,
+      "cssW": 390,
+      "cssH": 600
+    },
+    {
+      "i": 2,
+      "active": false,
+      "currentSrc": "/images/catalog/hero-tapis-laine-wool-quebec-tall-portrait-1600.webp",
+      "srcset": "/images/catalog/hero-tapis-laine-wool-quebec-wide-800.webp 800w, /images/catalog/hero-tapis-laine-wool-quebec-wide.webp 1536w",
+      "sizes": "100vw",
+      "sources": [
+        {
+          "media": "(max-width: 768px)",
+          "srcset": "/images/catalog/hero-tapis-laine-wool-quebec-tall-portrait-800.webp 800w, /images/catalog/hero-tapis-laine-wool-quebec-tall-portrait-1600.webp 1600w"
+        }
+      ],
+      "fp": null,
+      "loading": "lazy",
+      "widthAttr": "1536",
+      "heightAttr": "1024",
+      "natW": 390,
+      "natH": 717,
+      "ratio": 0.5439,
+      "cssW": 390,
+      "cssH": 600
+    },
+    {
+      "i": 3,
+      "active": true,
+      "currentSrc": "/images/catalog/hero-commercial-bureau-espace2-quebec-portrait.webp",
+      "srcset": "/images/catalog/hero-commercial-bureau-espace2-quebec-mobile.webp 800w, /images/catalog/hero-commercial-bureau-espace2-quebec.webp 1600w",
+      "sizes": "100vw",
+      "sources": [
+        {
+          "media": "(max-width: 768px)",
+          "srcset": "/images/catalog/hero-commercial-bureau-espace2-quebec-portrait-800.webp 800w, /images/catalog/hero-commercial-bureau-espace2-quebec-portrait.webp 1600w"
+        }
+      ],
+      "fp": null,
+      "loading": "lazy",
+      "widthAttr": "1600",
+      "heightAttr": "2000",
+      "natW": 390,
+      "natH": 487,
+      "ratio": 0.8008,
+      "cssW": 390,
+      "cssH": 600
+    },
+    {
+      "i": 4,
+      "active": false,
+      "currentSrc": "/images/catalog/hero-matelas-professionnel-quebec-portrait.webp",
+      "srcset": "/images/catalog/hero-matelas-professionnel-quebec-mobile.webp 800w, /images/catalog/hero-matelas-professionnel-quebec.webp 1600w",
+      "sizes": "100vw",
+      "sources": [
+        {
+          "media": "(max-width: 768px)",
+          "srcset": "/images/catalog/hero-matelas-professionnel-quebec-portrait-800.webp 800w, /images/catalog/hero-matelas-professionnel-quebec-portrait.webp 1600w"
+        }
+      ],
+      "fp": null,
+      "loading": "lazy",
+      "widthAttr": "1600",
+      "heightAttr": "2000",
+      "natW": 390,
+      "natH": 487,
+      "ratio": 0.8008,
+      "cssW": 390,
+      "cssH": 600
+    }
+  ]
+}

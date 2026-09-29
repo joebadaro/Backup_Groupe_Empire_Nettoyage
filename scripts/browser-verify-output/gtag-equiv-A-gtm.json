@@ -1,0 +1,822 @@
+{
+  "label": "A-gtm",
+  "base": "http://127.0.0.1:4177",
+  "results": [
+    {
+      "name": "page_view_home",
+      "path": "/",
+      "hasGtm": true,
+      "hasDirect": false,
+      "pageViewLoad": {
+        "events": [
+          "page_view"
+        ],
+        "tids": [
+          "G-2YKLBMPG8B"
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491196080&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACAC&are=1&cid=1557641032.1787491197&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=12&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=1&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120",
+            "en": [
+              "page_view"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://stats.g.doubleclick.net/g/collect?v=2&ngs=1&ibt=1&tid=G-2YKLBMPG8B&cid=1557641032.1787491197&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&rcb=12&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315470~120385422",
+            "en": [],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      },
+      "action": {
+        "byEn": {},
+        "events": [],
+        "hitCount": 0,
+        "sample": []
+      }
+    },
+    {
+      "name": "phone_call_primary_tel",
+      "path": "/",
+      "hasGtm": true,
+      "hasDirect": false,
+      "pageViewLoad": {
+        "events": [
+          "page_view"
+        ],
+        "tids": [
+          "G-2YKLBMPG8B"
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491201355&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACAC&are=1&cid=1243665036.1787491202&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=15&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=1&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120",
+            "en": [
+              "page_view"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://stats.g.doubleclick.net/g/collect?v=2&ngs=1&ibt=1&tid=G-2YKLBMPG8B&cid=1243665036.1787491202&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&rcb=15&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385423",
+            "en": [],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      },
+      "action": {
+        "byEn": {
+          "phone_call": 2
+        },
+        "events": [
+          {
+            "en": "phone_call",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://www.google.com/measurement/conversion?random=1787491203929&cv=11&tid=G-2YKLBMPG8B&fst=1787491203929&fmt=8&en=phone_call&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385423&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1243665036.1787491202&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa=0&pscd"
+          },
+          {
+            "en": "phone_call",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491201355&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1243665036.1787491202&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=15&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~12"
+          }
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://www.google.com/measurement/conversion?random=1787491203929&cv=11&tid=G-2YKLBMPG8B&fst=1787491203929&fmt=8&en=phone_call&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385423&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1243665036.1787491202&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa=0&pscd",
+            "en": [
+              "phone_call"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491201355&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1243665036.1787491202&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=15&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~12",
+            "en": [
+              "phone_call"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      }
+    },
+    {
+      "name": "sticky_then_modal_call",
+      "path": "/",
+      "hasGtm": true,
+      "hasDirect": false,
+      "pageViewLoad": {
+        "events": [
+          "page_view"
+        ],
+        "tids": [
+          "G-2YKLBMPG8B"
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491206636&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACAC&are=1&cid=1290662257.1787491207&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=10&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=1&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120",
+            "en": [
+              "page_view"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://stats.g.doubleclick.net/g/collect?v=2&ngs=1&ibt=1&tid=G-2YKLBMPG8B&cid=1290662257.1787491207&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&rcb=10&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385422",
+            "en": [],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      },
+      "action": {
+        "byEn": {
+          "phone_call": 2,
+          "phone_call_mobile": 2
+        },
+        "events": [
+          {
+            "en": "phone_call",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://www.google.com/measurement/conversion?random=1787491210059&cv=11&tid=G-2YKLBMPG8B&fst=1787491210059&fmt=8&en=phone_call&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1290662257.1787491207&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa=0&pscd"
+          },
+          {
+            "en": "phone_call",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491206636&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1290662257.1787491207&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=10&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~12"
+          },
+          {
+            "en": "phone_call_mobile",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://www.google.com/measurement/conversion?random=1787491210068&cv=11&tid=G-2YKLBMPG8B&fst=1787491210068&fmt=8&en=phone_call_mobile&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1290662257.1787491207&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa"
+          },
+          {
+            "en": "phone_call_mobile",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491206636&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1290662257.1787491207&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=10&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=3&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~12"
+          }
+        ],
+        "hitCount": 4,
+        "sample": [
+          {
+            "url": "https://www.google.com/measurement/conversion?random=1787491210059&cv=11&tid=G-2YKLBMPG8B&fst=1787491210059&fmt=8&en=phone_call&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1290662257.1787491207&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa=0&pscd",
+            "en": [
+              "phone_call"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491206636&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1290662257.1787491207&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=10&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~12",
+            "en": [
+              "phone_call"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://www.google.com/measurement/conversion?random=1787491210068&cv=11&tid=G-2YKLBMPG8B&fst=1787491210068&fmt=8&en=phone_call_mobile&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1290662257.1787491207&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa",
+            "en": [
+              "phone_call_mobile"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491206636&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1290662257.1787491207&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=10&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=3&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~12",
+            "en": [
+              "phone_call_mobile"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      }
+    },
+    {
+      "name": "modal_call_via_header",
+      "path": "/",
+      "hasGtm": true,
+      "hasDirect": false,
+      "pageViewLoad": {
+        "events": [
+          "page_view"
+        ],
+        "tids": [
+          "G-2YKLBMPG8B"
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491212777&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACAC&are=1&cid=1589222262.1787491213&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=14&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=1&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120",
+            "en": [
+              "page_view"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://stats.g.doubleclick.net/g/collect?v=2&ngs=1&ibt=1&tid=G-2YKLBMPG8B&cid=1589222262.1787491213&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&rcb=14&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422",
+            "en": [],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      },
+      "action": {
+        "byEn": {
+          "phone_call": 2,
+          "phone_call_mobile": 2
+        },
+        "events": [
+          {
+            "en": "phone_call",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://www.google.com/measurement/conversion?random=1787491216168&cv=11&tid=G-2YKLBMPG8B&fst=1787491216168&fmt=8&en=phone_call&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1589222262.1787491213&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa=0&pscd"
+          },
+          {
+            "en": "phone_call",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491212777&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1589222262.1787491213&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=14&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~12"
+          },
+          {
+            "en": "phone_call_mobile",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://www.google.com/measurement/conversion?random=1787491216177&cv=11&tid=G-2YKLBMPG8B&fst=1787491216177&fmt=8&en=phone_call_mobile&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1589222262.1787491213&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa"
+          },
+          {
+            "en": "phone_call_mobile",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491212777&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1589222262.1787491213&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=14&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=3&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~12"
+          }
+        ],
+        "hitCount": 4,
+        "sample": [
+          {
+            "url": "https://www.google.com/measurement/conversion?random=1787491216168&cv=11&tid=G-2YKLBMPG8B&fst=1787491216168&fmt=8&en=phone_call&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1589222262.1787491213&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa=0&pscd",
+            "en": [
+              "phone_call"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491212777&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1589222262.1787491213&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=14&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~12",
+            "en": [
+              "phone_call"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://www.google.com/measurement/conversion?random=1787491216177&cv=11&tid=G-2YKLBMPG8B&fst=1787491216177&fmt=8&en=phone_call_mobile&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1589222262.1787491213&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa",
+            "en": [
+              "phone_call_mobile"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491212777&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1589222262.1787491213&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=14&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=3&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~12",
+            "en": [
+              "phone_call_mobile"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      }
+    },
+    {
+      "name": "generate_lead_fr_success_ui",
+      "path": "/demande-estimation/",
+      "hasGtm": true,
+      "hasDirect": false,
+      "pageViewLoad": {
+        "events": [
+          "page_view"
+        ],
+        "tids": [
+          "G-2YKLBMPG8B"
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j1h2v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491218891&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACAC&are=1&cid=905052641.1787491219&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=1&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=1&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120",
+            "en": [
+              "page_view"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://stats.g.doubleclick.net/g/collect?v=2&ngs=1&ibt=1&tid=G-2YKLBMPG8B&cid=905052641.1787491219&gtm=45je68j1h2v9231146895z89254672074za20gzb9254672074zd9254672074&rcb=1&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422",
+            "en": [],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      },
+      "action": {
+        "byEn": {
+          "generate_lead": 2
+        },
+        "events": [
+          {
+            "en": "generate_lead",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://www.google.com/measurement/conversion?random=1787491221439&cv=11&tid=G-2YKLBMPG8B&fst=1787491221439&fmt=8&en=generate_lead&gtm=45je68j1h2v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2Fdemande-estimation%2F&gacid=905052641.1787491219&ibt=1&frm=0&tiba=Demande%20d%E2%80%99estimation%20gratuite%20%7C%20Groupe%20Nettoyage%2"
+          },
+          {
+            "en": "generate_lead",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j1h2v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491218891&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=905052641.1787491219&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=1&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~12"
+          }
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://www.google.com/measurement/conversion?random=1787491221439&cv=11&tid=G-2YKLBMPG8B&fst=1787491221439&fmt=8&en=generate_lead&gtm=45je68j1h2v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2Fdemande-estimation%2F&gacid=905052641.1787491219&ibt=1&frm=0&tiba=Demande%20d%E2%80%99estimation%20gratuite%20%7C%20Groupe%20Nettoyage%2",
+            "en": [
+              "generate_lead"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j1h2v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491218891&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=905052641.1787491219&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=1&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~12",
+            "en": [
+              "generate_lead"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      }
+    },
+    {
+      "name": "generate_lead_en_success_ui",
+      "path": "/en/estimate-request/",
+      "hasGtm": true,
+      "hasDirect": false,
+      "pageViewLoad": {
+        "events": [
+          "page_view"
+        ],
+        "tids": [
+          "G-2YKLBMPG8B"
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491225135&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACAC&are=1&cid=1719268499.1787491226&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=12&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=1&tag_exp=115616986~115938465~115938469~118897920~118897930~119367802~119",
+            "en": [
+              "page_view"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://stats.g.doubleclick.net/g/collect?v=2&ngs=1&ibt=1&tid=G-2YKLBMPG8B&cid=1719268499.1787491226&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&rcb=12&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115616986~115938465~115938469~118897920~118897930~119367802~119367810~120315471~120385423",
+            "en": [],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      },
+      "action": {
+        "byEn": {},
+        "events": [],
+        "hitCount": 0,
+        "sample": []
+      }
+    },
+    {
+      "name": "generate_lead_fr_failed_submit_no_fire",
+      "path": "/demande-estimation/",
+      "hasGtm": true,
+      "hasDirect": false,
+      "pageViewLoad": {
+        "events": [
+          "page_view"
+        ],
+        "tids": [
+          "G-2YKLBMPG8B"
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0h1v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491231360&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACAC&are=1&cid=673938513.1787491232&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=18&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=1&tag_exp=115938466~115938468~118897920~118897930~119367802~119367810~12",
+            "en": [
+              "page_view"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://stats.g.doubleclick.net/g/collect?v=2&ngs=1&ibt=1&tid=G-2YKLBMPG8B&cid=673938513.1787491232&gtm=45je68j0h1v9231146895z89254672074za20gzb9254672074zd9254672074&rcb=18&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115938466~115938468~118897920~118897930~119367802~119367810~120315471~120385422",
+            "en": [],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      },
+      "action": {
+        "byEn": {},
+        "events": [],
+        "hitCount": 0,
+        "sample": []
+      }
+    }
+  ],
+  "checks": {
+    "page_view": {
+      "name": "page_view_home",
+      "path": "/",
+      "hasGtm": true,
+      "hasDirect": false,
+      "pageViewLoad": {
+        "events": [
+          "page_view"
+        ],
+        "tids": [
+          "G-2YKLBMPG8B"
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491196080&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACAC&are=1&cid=1557641032.1787491197&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=12&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=1&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120",
+            "en": [
+              "page_view"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://stats.g.doubleclick.net/g/collect?v=2&ngs=1&ibt=1&tid=G-2YKLBMPG8B&cid=1557641032.1787491197&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&rcb=12&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315470~120385422",
+            "en": [],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      },
+      "action": {
+        "byEn": {},
+        "events": [],
+        "hitCount": 0,
+        "sample": []
+      }
+    },
+    "phone_call": {
+      "name": "phone_call_primary_tel",
+      "path": "/",
+      "hasGtm": true,
+      "hasDirect": false,
+      "pageViewLoad": {
+        "events": [
+          "page_view"
+        ],
+        "tids": [
+          "G-2YKLBMPG8B"
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491201355&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACAC&are=1&cid=1243665036.1787491202&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=15&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=1&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120",
+            "en": [
+              "page_view"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://stats.g.doubleclick.net/g/collect?v=2&ngs=1&ibt=1&tid=G-2YKLBMPG8B&cid=1243665036.1787491202&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&rcb=15&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385423",
+            "en": [],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      },
+      "action": {
+        "byEn": {
+          "phone_call": 2
+        },
+        "events": [
+          {
+            "en": "phone_call",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://www.google.com/measurement/conversion?random=1787491203929&cv=11&tid=G-2YKLBMPG8B&fst=1787491203929&fmt=8&en=phone_call&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385423&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1243665036.1787491202&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa=0&pscd"
+          },
+          {
+            "en": "phone_call",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491201355&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1243665036.1787491202&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=15&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~12"
+          }
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://www.google.com/measurement/conversion?random=1787491203929&cv=11&tid=G-2YKLBMPG8B&fst=1787491203929&fmt=8&en=phone_call&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385423&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1243665036.1787491202&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa=0&pscd",
+            "en": [
+              "phone_call"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491201355&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1243665036.1787491202&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=15&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~12",
+            "en": [
+              "phone_call"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      }
+    },
+    "sticky_modal": {
+      "name": "sticky_then_modal_call",
+      "path": "/",
+      "hasGtm": true,
+      "hasDirect": false,
+      "pageViewLoad": {
+        "events": [
+          "page_view"
+        ],
+        "tids": [
+          "G-2YKLBMPG8B"
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491206636&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACAC&are=1&cid=1290662257.1787491207&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=10&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=1&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120",
+            "en": [
+              "page_view"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://stats.g.doubleclick.net/g/collect?v=2&ngs=1&ibt=1&tid=G-2YKLBMPG8B&cid=1290662257.1787491207&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&rcb=10&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385422",
+            "en": [],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      },
+      "action": {
+        "byEn": {
+          "phone_call": 2,
+          "phone_call_mobile": 2
+        },
+        "events": [
+          {
+            "en": "phone_call",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://www.google.com/measurement/conversion?random=1787491210059&cv=11&tid=G-2YKLBMPG8B&fst=1787491210059&fmt=8&en=phone_call&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1290662257.1787491207&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa=0&pscd"
+          },
+          {
+            "en": "phone_call",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491206636&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1290662257.1787491207&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=10&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~12"
+          },
+          {
+            "en": "phone_call_mobile",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://www.google.com/measurement/conversion?random=1787491210068&cv=11&tid=G-2YKLBMPG8B&fst=1787491210068&fmt=8&en=phone_call_mobile&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1290662257.1787491207&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa"
+          },
+          {
+            "en": "phone_call_mobile",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491206636&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1290662257.1787491207&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=10&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=3&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~12"
+          }
+        ],
+        "hitCount": 4,
+        "sample": [
+          {
+            "url": "https://www.google.com/measurement/conversion?random=1787491210059&cv=11&tid=G-2YKLBMPG8B&fst=1787491210059&fmt=8&en=phone_call&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1290662257.1787491207&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa=0&pscd",
+            "en": [
+              "phone_call"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491206636&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1290662257.1787491207&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=10&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~12",
+            "en": [
+              "phone_call"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://www.google.com/measurement/conversion?random=1787491210068&cv=11&tid=G-2YKLBMPG8B&fst=1787491210068&fmt=8&en=phone_call_mobile&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1290662257.1787491207&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa",
+            "en": [
+              "phone_call_mobile"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491206636&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1290662257.1787491207&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=10&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=3&tag_exp=115938466~115938469~118897920~118897930~119367802~119367810~12",
+            "en": [
+              "phone_call_mobile"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      }
+    },
+    "header_modal": {
+      "name": "modal_call_via_header",
+      "path": "/",
+      "hasGtm": true,
+      "hasDirect": false,
+      "pageViewLoad": {
+        "events": [
+          "page_view"
+        ],
+        "tids": [
+          "G-2YKLBMPG8B"
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491212777&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACAC&are=1&cid=1589222262.1787491213&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=14&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=1&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120",
+            "en": [
+              "page_view"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://stats.g.doubleclick.net/g/collect?v=2&ngs=1&ibt=1&tid=G-2YKLBMPG8B&cid=1589222262.1787491213&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&rcb=14&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422",
+            "en": [],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      },
+      "action": {
+        "byEn": {
+          "phone_call": 2,
+          "phone_call_mobile": 2
+        },
+        "events": [
+          {
+            "en": "phone_call",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://www.google.com/measurement/conversion?random=1787491216168&cv=11&tid=G-2YKLBMPG8B&fst=1787491216168&fmt=8&en=phone_call&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1589222262.1787491213&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa=0&pscd"
+          },
+          {
+            "en": "phone_call",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491212777&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1589222262.1787491213&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=14&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~12"
+          },
+          {
+            "en": "phone_call_mobile",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://www.google.com/measurement/conversion?random=1787491216177&cv=11&tid=G-2YKLBMPG8B&fst=1787491216177&fmt=8&en=phone_call_mobile&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1589222262.1787491213&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa"
+          },
+          {
+            "en": "phone_call_mobile",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491212777&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1589222262.1787491213&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=14&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=3&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~12"
+          }
+        ],
+        "hitCount": 4,
+        "sample": [
+          {
+            "url": "https://www.google.com/measurement/conversion?random=1787491216168&cv=11&tid=G-2YKLBMPG8B&fst=1787491216168&fmt=8&en=phone_call&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1589222262.1787491213&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa=0&pscd",
+            "en": [
+              "phone_call"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491212777&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1589222262.1787491213&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=14&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~12",
+            "en": [
+              "phone_call"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://www.google.com/measurement/conversion?random=1787491216177&cv=11&tid=G-2YKLBMPG8B&fst=1787491216177&fmt=8&en=phone_call_mobile&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2F&gacid=1589222262.1787491213&ibt=1&frm=0&tiba=Groupe%20Nettoyage%20Empire%20-%20L%27Excellence%20du%20Nettoyage%20au%20Qu%C3%A9bec&npa",
+            "en": [
+              "phone_call_mobile"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491212777&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=1589222262.1787491213&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=14&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=3&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~12",
+            "en": [
+              "phone_call_mobile"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      }
+    },
+    "lead_fr": {
+      "name": "generate_lead_fr_success_ui",
+      "path": "/demande-estimation/",
+      "hasGtm": true,
+      "hasDirect": false,
+      "pageViewLoad": {
+        "events": [
+          "page_view"
+        ],
+        "tids": [
+          "G-2YKLBMPG8B"
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j1h2v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491218891&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACAC&are=1&cid=905052641.1787491219&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=1&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=1&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120",
+            "en": [
+              "page_view"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://stats.g.doubleclick.net/g/collect?v=2&ngs=1&ibt=1&tid=G-2YKLBMPG8B&cid=905052641.1787491219&gtm=45je68j1h2v9231146895z89254672074za20gzb9254672074zd9254672074&rcb=1&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422",
+            "en": [],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      },
+      "action": {
+        "byEn": {
+          "generate_lead": 2
+        },
+        "events": [
+          {
+            "en": "generate_lead",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://www.google.com/measurement/conversion?random=1787491221439&cv=11&tid=G-2YKLBMPG8B&fst=1787491221439&fmt=8&en=generate_lead&gtm=45je68j1h2v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2Fdemande-estimation%2F&gacid=905052641.1787491219&ibt=1&frm=0&tiba=Demande%20d%E2%80%99estimation%20gratuite%20%7C%20Groupe%20Nettoyage%2"
+          },
+          {
+            "en": "generate_lead",
+            "tid": "G-2YKLBMPG8B",
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j1h2v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491218891&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=905052641.1787491219&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=1&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~12"
+          }
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://www.google.com/measurement/conversion?random=1787491221439&cv=11&tid=G-2YKLBMPG8B&fst=1787491221439&fmt=8&en=generate_lead&gtm=45je68j1h2v9231146895z89254672074za20gzb9254672074zd9254672074xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~120315471~120385422&u_w=390&u_h=844&url=http%3A%2F%2F127.0.0.1%3A4177%2Fdemande-estimation%2F&gacid=905052641.1787491219&ibt=1&frm=0&tiba=Demande%20d%E2%80%99estimation%20gratuite%20%7C%20Groupe%20Nettoyage%2",
+            "en": [
+              "generate_lead"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j1h2v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491218891&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACQC&_prs=ok&are=1&cid=905052641.1787491219&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=1&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=2&tag_exp=115938465~115938468~118897920~118897930~119367802~119367810~12",
+            "en": [
+              "generate_lead"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      }
+    },
+    "lead_en": {
+      "name": "generate_lead_en_success_ui",
+      "path": "/en/estimate-request/",
+      "hasGtm": true,
+      "hasDirect": false,
+      "pageViewLoad": {
+        "events": [
+          "page_view"
+        ],
+        "tids": [
+          "G-2YKLBMPG8B"
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491225135&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACAC&are=1&cid=1719268499.1787491226&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=12&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=1&tag_exp=115616986~115938465~115938469~118897920~118897930~119367802~119",
+            "en": [
+              "page_view"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://stats.g.doubleclick.net/g/collect?v=2&ngs=1&ibt=1&tid=G-2YKLBMPG8B&cid=1719268499.1787491226&gtm=45je68j0v9231146895z89254672074za20gzb9254672074zd9254672074&rcb=12&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115616986~115938465~115938469~118897920~118897930~119367802~119367810~120315471~120385423",
+            "en": [],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      },
+      "action": {
+        "byEn": {},
+        "events": [],
+        "hitCount": 0,
+        "sample": []
+      }
+    },
+    "lead_fail": {
+      "name": "generate_lead_fr_failed_submit_no_fire",
+      "path": "/demande-estimation/",
+      "hasGtm": true,
+      "hasDirect": false,
+      "pageViewLoad": {
+        "events": [
+          "page_view"
+        ],
+        "tids": [
+          "G-2YKLBMPG8B"
+        ],
+        "hitCount": 2,
+        "sample": [
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-2YKLBMPG8B&gtm=45je68j0h1v9231146895z89254672074za20gzb9254672074zd9254672074&_p=1787491231360&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAACAC&are=1&cid=673938513.1787491232&frm=0&ibt=1&ngs=1&pscdl=noapi&rcb=18&sr=390x844&uaa=arm&uab=64&uafvl=Chromium%3B148.0.7778.96%7CHeadlessChrome%3B148.0.7778.96%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=1&uap=iOS&uapv=14_4&uaw=0&ul=fr-ca&_s=1&tag_exp=115938466~115938468~118897920~118897930~119367802~119367810~12",
+            "en": [
+              "page_view"
+            ],
+            "tid": "G-2YKLBMPG8B"
+          },
+          {
+            "url": "https://stats.g.doubleclick.net/g/collect?v=2&ngs=1&ibt=1&tid=G-2YKLBMPG8B&cid=673938513.1787491232&gtm=45je68j0h1v9231146895z89254672074za20gzb9254672074zd9254672074&rcb=18&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=115938466~115938468~118897920~118897930~119367802~119367810~120315471~120385422",
+            "en": [],
+            "tid": "G-2YKLBMPG8B"
+          }
+        ]
+      },
+      "action": {
+        "byEn": {},
+        "events": [],
+        "hitCount": 0,
+        "sample": []
+      }
+    }
+  }
+}
