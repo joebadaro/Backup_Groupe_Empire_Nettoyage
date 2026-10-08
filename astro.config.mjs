@@ -150,12 +150,18 @@ export default defineConfig({
       status: 301,
       destination: '/services/nettoyage-tapis-residentiel/',
     },
-    '/services/tapis-commercial': '/services/nettoyage-tapis-commercial',
+    '/services/tapis-commercial': {
+      status: 301,
+      destination: '/services/nettoyage-tapis-commercial/',
+    },
     '/en/services/tapis-residentiel': {
       status: 301,
       destination: '/en/services/nettoyage-tapis-residentiel/',
     },
-    '/en/services/tapis-commercial': '/en/services/nettoyage-tapis-commercial',
+    '/en/services/tapis-commercial': {
+      status: 301,
+      destination: '/en/services/nettoyage-tapis-commercial/',
+    },
     '/en/tips/erreurs-taches-tapis': '/en/conseils/erreurs-taches-tapis',
     '/en/tips/urine-animaux-tapis': '/en/conseils/urine-animaux-tapis',
     '/en/tips/nettoyage-vapeur-vs-location': '/en/conseils/nettoyage-vapeur-vs-location',

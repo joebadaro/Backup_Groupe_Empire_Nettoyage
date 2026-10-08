@@ -12,6 +12,12 @@ https://groupe-empire-2026.netlify.app/* https://groupenettoyageempire.com/:spla
 /en/services/tapis-residentiel                            /en/services/nettoyage-tapis-residentiel/              301!
 /en/services/tapis-residentiel/                           /en/services/nettoyage-tapis-residentiel/              301!
 
+# Anciennes pages tapis commercial → pages SEO canoniques (301! : HTTP permanent, même si un index.html existe)
+/services/tapis-commercial                                /services/nettoyage-tapis-commercial/                  301!
+/services/tapis-commercial/                               /services/nettoyage-tapis-commercial/                  301!
+/en/services/tapis-commercial                             /en/services/nettoyage-tapis-commercial/               301!
+/en/services/tapis-commercial/                            /en/services/nettoyage-tapis-commercial/               301!
+
 # Fix 404 for old English estimate request URL
 /estimate-request                                         /en/estimate-request/                                  301
 /estimate-request/                                        /en/estimate-request/                                  301

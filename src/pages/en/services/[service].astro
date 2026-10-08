@@ -347,8 +347,8 @@ const services = [
 ];
 
 export function getStaticPaths() {
-  // tapis-residentiel is no longer published: 301 to /en/services/nettoyage-tapis-residentiel/
-  const slugs = ["tapis-commercial", "tapis-synthetique", "tapis-laine", "tapis-orientaux"];
+  // tapis-residentiel and tapis-commercial are no longer published: 301 to the SEO pages
+  const slugs = ["tapis-synthetique", "tapis-laine", "tapis-orientaux"];
   return slugs.map((slug) => ({ params: { service: slug } }));
 }
 
