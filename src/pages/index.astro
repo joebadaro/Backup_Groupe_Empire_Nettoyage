@@ -322,25 +322,18 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
 
   <PresentationHomeTeaser locale="fr" />
 
-  <!-- SECTION FIN DE SEMAINE -->
-  <section class="section section-weekend fade-in-section" style="background-color: #f8fbff; padding: 4rem 0;">
-    <div class="container text-center">
-      <span class="tag-blue">Nouveau</span>
-      <h2 class="title-dark-blue text-gradient-empire" style="margin-top: 1rem; margin-bottom: 1.5rem;">
-        Votre nettoyage, même la fin de semaine.
-      </h2>
-      <p class="lead-text" style="max-width: 800px; margin: 0 auto 2.5rem;">
-        Votre horaire est chargé pendant la semaine? Groupe Nettoyage Empire offre maintenant des rendez-vous de nettoyage le samedi et le dimanche. Profitez de notre service professionnel 7 jours sur 7 et choisissez une plage horaire qui vous convient davantage.<br/><br/>
-        <small style="opacity: 0.8; font-size: 0.9em;">* Rendez-vous disponibles du lundi au dimanche, selon les disponibilités dans votre secteur.</small>
-      </p>
-      <a href="tel:+15148939939" class="btn btn-primary pulse-btn" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
-        <span class="icon" aria-hidden="true">
-          <UiIcon name="phone" size={18} />
-        </span>
-        Appeler pour un estimé rapide
-      </a>
+  <!-- BANDEAU FIN DE SEMAINE -->
+  <div class="elegant-weekend-banner">
+    <div class="container elegant-weekend-inner">
+      <div class="weekend-banner-icon" aria-hidden="true">
+        <UiIcon name="calendar" size={24} />
+      </div>
+      <div class="weekend-banner-text">
+        <span class="weekend-banner-title">NOUVEAU — Nettoyage disponible même la fin de semaine !</span>
+        <span class="weekend-banner-subtitle">Prenez rendez-vous le samedi ou le dimanche, selon nos disponibilités.</span>
+      </div>
     </div>
-  </section>
+  </div>
 
   <!-- 3. SERVICES (Fond Bleu Pâle - Contraste Doux) -->
   <section class="section section-services">
@@ -2359,6 +2352,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         .hero-section .hero-content {
           width: 100%;
           max-width: 100%;
+          padding-top: 3.5rem; /* Ajustement vertical mobile (~56px plus bas) */
           padding-left: 0.5rem;
           padding-right: 0.5rem;
           padding-bottom: 5rem; /* Forces minimum space between hero content and trust badges */
@@ -2647,6 +2641,67 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         }
       }
       /* --- END PROMO PILL --- */
+      /* --- ELEGANT WEEKEND BANNER --- */
+      .elegant-weekend-banner {
+        background: linear-gradient(135deg, #003b7a 0%, #080d14 100%);
+        color: #ffffff;
+        padding: 1.25rem 0;
+        margin: 3rem auto;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px -10px rgba(0, 59, 122, 0.4);
+        max-width: 980px;
+        width: 92%;
+      }
+      .elegant-weekend-inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        text-align: left;
+      }
+      .weekend-banner-icon {
+        color: #f0c14b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 12px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .weekend-banner-text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .weekend-banner-title {
+        font-family: var(--font-heading);
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: 0.02em;
+        color: #f0c14b;
+      }
+      .weekend-banner-subtitle {
+        font-size: 0.95rem;
+        opacity: 0.9;
+        line-height: 1.4;
+      }
+      @media (max-width: 768px) {
+        .elegant-weekend-banner {
+          margin: 2rem auto;
+        }
+        .elegant-weekend-inner {
+          flex-direction: column;
+          text-align: center;
+          gap: 1rem;
+        }
+        .weekend-banner-title {
+          font-size: 1rem;
+        }
+        .weekend-banner-subtitle {
+          font-size: 0.85rem;
+        }
+      }
     </style>
   </section>
 </Layout>

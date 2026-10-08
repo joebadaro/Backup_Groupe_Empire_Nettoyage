@@ -322,25 +322,18 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
 
   <PresentationHomeTeaser locale="en" />
 
-  <!-- SECTION FIN DE SEMAINE -->
-  <section class="section section-weekend fade-in-section" style="background-color: #f8fbff; padding: 4rem 0;">
-    <div class="container text-center">
-      <span class="tag-blue">New</span>
-      <h2 class="title-dark-blue text-gradient-empire" style="margin-top: 1rem; margin-bottom: 1.5rem;">
-        Your cleaning, even on the weekend.
-      </h2>
-      <p class="lead-text" style="max-width: 800px; margin: 0 auto 2.5rem;">
-        Is your weekday schedule packed? Groupe Nettoyage Empire now offers Saturday and Sunday cleaning appointments. Enjoy our professional service 7 days a week and pick a time that works better for you.<br/><br/>
-        <small style="opacity: 0.8; font-size: 0.9em;">* Appointments available Monday through Sunday, subject to availability in your area.</small>
-      </p>
-      <a href="tel:+15148939939" class="btn btn-primary pulse-btn" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
-        <span class="icon" aria-hidden="true">
-          <UiIcon name="phone" size={18} />
-        </span>
-        Call for a quick estimate
-      </a>
+  <!-- WEEKEND BANNER -->
+  <div class="elegant-weekend-banner">
+    <div class="container elegant-weekend-inner">
+      <div class="weekend-banner-icon" aria-hidden="true">
+        <UiIcon name="calendar" size={24} />
+      </div>
+      <div class="weekend-banner-text">
+        <span class="weekend-banner-title">NEW — Weekend Cleaning Appointments Available!</span>
+        <span class="weekend-banner-subtitle">Book your cleaning appointment on Saturday or Sunday, subject to availability.</span>
+      </div>
     </div>
-  </section>
+  </div>
 
   <!-- 3. SERVICES (Fond Bleu Pâle - Contraste Doux) -->
   <section class="section section-services">
@@ -2398,6 +2391,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
       .hero-section .hero-content {
         width: 100%;
         max-width: 100%;
+        padding-top: 3.5rem; /* Ajustement vertical mobile (~56px plus bas) */
         padding-left: 0.5rem;
         padding-right: 0.5rem;
         padding-bottom: 5rem; /* Forces minimum space between hero content and trust badges */
@@ -2685,6 +2679,67 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
       }
       .hero-promo-pill-wrapper {
         margin-top: 1.5rem;
+      }
+    }
+    /* --- ELEGANT WEEKEND BANNER --- */
+    .elegant-weekend-banner {
+      background: linear-gradient(135deg, #003b7a 0%, #080d14 100%);
+      color: #ffffff;
+      padding: 1.25rem 0;
+      margin: 3rem auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px -10px rgba(0, 59, 122, 0.4);
+      max-width: 980px;
+      width: 92%;
+    }
+    .elegant-weekend-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      text-align: left;
+    }
+    .weekend-banner-icon {
+      color: #f0c14b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .weekend-banner-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .weekend-banner-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.02em;
+      color: #f0c14b;
+    }
+    .weekend-banner-subtitle {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      line-height: 1.4;
+    }
+    @media (max-width: 768px) {
+      .elegant-weekend-banner {
+        margin: 2rem auto;
+      }
+      .elegant-weekend-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+      .weekend-banner-title {
+        font-size: 1rem;
+      }
+      .weekend-banner-subtitle {
+        font-size: 0.85rem;
       }
     }
   </style>

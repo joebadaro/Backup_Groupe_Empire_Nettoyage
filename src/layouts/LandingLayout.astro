@@ -5,7 +5,6 @@ import "@fontsource-variable/outfit";
 
 import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 import outfitLatinWoff2 from "@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2?url";
-import WeekendAnnouncementPill from "../components/WeekendAnnouncementPill.astro";
 
 interface Props {
   title: string;
@@ -193,6 +192,5 @@ const isEn = Astro.url.pathname.startsWith("/en");
         document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
       }
     </script>
-    <WeekendAnnouncementPill locale={isEn ? "en" : "fr"} />
   </body>
 </html>
