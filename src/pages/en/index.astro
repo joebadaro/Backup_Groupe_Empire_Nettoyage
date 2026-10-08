@@ -46,8 +46,8 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
 ---
 
 <Layout
-  title="Empire Cleaning Group - Cleaning Excellence in Quebec"
-  description="Premier cleaning services for carpets, upholstery, and mattresses in Montreal and Quebec. Certified technicians, premium eco-friendly products and truck-mount technology."
+  title="Carpet & Upholstery Cleaning Montreal & South Shore | Empire Cleaning Group"
+  description="Professional carpet, sofa, upholstery and mattress cleaning in Montreal, Laval and the South Shore. Powerful truck-mounted steam extraction."
 >
   <!-- Mobile LCP only.
        No shared desktop preload: Chromium still fetches image preloads (media / head inject)
@@ -204,7 +204,7 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
         <span class="badge-sub">of consumers in Quebec</span>
       </div>
 
-      <h1 class="hero-title animate-on-load delay-1">
+      <div class="hero-title animate-on-load delay-1" style="margin-top: 0; font-weight: 800; letter-spacing: -0.02em;">
         <span class="hero-slogan-wrap">
           <span class="hero-slogan-rotate-stack">
             <span class="hero-slogan-sizer" aria-hidden="true">
@@ -220,15 +220,11 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
             </span>
           </span>
         </span>
-      </h1>
+      </div>
       <div class="hero-subtitle-group">
-        <p class="hero-subtitle hero-subtitle--desktop animate-on-load delay-2">
-          On-site carpet, furniture and mattress cleaning<br />
-          Steam extraction with truck-mount · Montreal, Laval and South Shore
-        </p>
-        <p class="hero-subtitle hero-subtitle--mobile animate-on-load delay-2" style="font-size: 1.15rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">
-          Carpets &bull; Furniture &bull; Mattresses
-        </p>
+        <h1 class="hero-subtitle hero-subtitle-h1 animate-on-load delay-2">
+          Professional Carpet & Upholstery Cleaning<br class="hero-subtitle-br" /> in Montreal & South Shore
+        </h1>
       </div>
       <ConversionCtaPriorityGroup
         locale="en"
@@ -1417,8 +1413,9 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
     }
 
     @media (min-width: 769px) {
-      .hero-subtitle--mobile {
-        display: none !important;
+      .hero-subtitle-h1 {
+        font-weight: 500;
+        line-height: 1.4;
       }
     }
 
@@ -2463,11 +2460,11 @@ const CHOIX_SIZES = "(max-width: 768px) 30px, 40px";
 
       /* (Moved hero-title and hero-subtitle-group up to .hero-content block) */
       
-      .hero-subtitle--desktop {
-        display: none !important;
+      .hero-subtitle-br {
+        display: none;
       }
 
-      .hero-subtitle--mobile {
+      .hero-subtitle-h1 {
         color: #e8edf4;
         font-weight: 500;
         line-height: 1.45;
