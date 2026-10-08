@@ -192,8 +192,10 @@ const services = [
   },
   {
     slug: "tapis-laine",
-    title: "In-Home Wool Carpet Cleaning",
-    seoTitle: "Expert Wool Carpet Cleaning At Home",
+    title: "In-Home Wool Rug Cleaning",
+    seoTitle: "Wool Rug Cleaning | Montreal & South Shore",
+    description:
+      "In-home wool area rug cleaning using fibre-appropriate products and methods. Montreal, Laval and the South Shore.",
     category: "Carpets",
     icon: "",
     image: "/images/catalog/photo-39.webp",
@@ -206,7 +208,7 @@ const services = [
     heroFit: "contain",
     heroHeight: "70vh",
     intro:
-      "Natural fiber requires precise expertise. We clean your wool rugs directly on-site with certified pH-neutral products (Wool-Safe), without any danger to your hardwood floors.",
+      "Wool area rug cleaning calls for precise expertise. We perform wool rug cleaning at your home with fibre-appropriate products, and we adapt the precautions to the floor type and the conditions of the visit.",
     problem:
       "A wool rug is a giant filter for your home. It traps an impressive amount of dust, abrasive sand, and allergens. Improper cleaning with overly alkaline products or water that is too hot risks 'cooking' the animal fiber (browning) or causing irreversible shrinkage.",
     process: [
@@ -224,28 +226,28 @@ const services = [
       },
       {
         title: "Controlled Extraction (Low Temperature)",
-        desc: "We use our high-performance extractor with controlled lukewarm water. Cleaning is done without thermal shock to avoid any risk of shrinkage or color bleeding.",
+        desc: "We use our high-performance extractor with controlled lukewarm water. Cleaning is done without thermal shock in order to limit the risk of shrinkage or color bleeding.",
       },
       {
         title: "Neutralization and Safe Drying",
-        desc: "A final rinse brings the fiber's pH back to its natural state, restoring softness and colors. Powerful extraction ensures moisture does not penetrate the backing, thus protecting your wood floors.",
+        desc: "A final rinse brings the fiber's pH back toward its natural state. Extraction aims to limit moisture in the backing, depending on the floor type and the conditions in the room.",
       },
     ],
     benefits: [
-      "Wool-Safe certified products (neutral pH) for animal fibers",
-      "No risk of shrinkage or discoloration",
-      "Safe drying: no danger to hardwood floors",
-      "Elimination of abrasive sand that prematurely wears the rug",
+      "Wool-Safe products at a pH suited to animal fibers",
+      "A method intended to limit shrinkage and discoloration",
+      "Drying precautions based on the floor and the conditions of the visit",
+      "Removal of abrasive sand that wears the rug prematurely",
       "Convenient at-home service (no heavy transport required)",
     ],
     faq: [
       {
         q: "Will my wool rug smell like wet sheep after cleaning?",
-        a: "Yes, this is completely normal. Pure wool naturally gives off an animal odor when damp — it's proof that it's a real natural fiber and not synthetic. This smell completely and quickly disappears as soon as the rug is dry (usually in a few hours).",
+        a: "Yes, this is completely normal. Pure wool naturally gives off an animal odor when damp — a sign of real natural fiber rather than synthetic. This smell usually fades once the rug dries, often within a few hours.",
       },
       {
         q: "Is it safe to clean my wool rug directly on my hardwood floor?",
-        a: "Absolutely. Our technicians use a controlled-moisture extraction method. We clean the wool fibers deeply, but we never soak the backing of the rug. Moisture does not bleed through, guaranteeing complete safety for your hardwood or floating floor underneath.",
+        a: "We use controlled-moisture extraction and we avoid soaking the backing. Depending on the floor — hardwood, floating or another type — and the conditions in the room, these precautions aim to limit moisture reaching the floor. They do not guarantee the floor in every situation.",
       },
       {
         q: "What is the difference between cleaning a wool rug and a synthetic rug?",
@@ -267,7 +269,7 @@ const services = [
     details: `
       <h2 style="color: var(--color-primary); margin-bottom: 1rem;">Wool-Safe Expertise for your natural fibers in Montreal and Laval</h2>
       <p>Wool is arguably the most luxurious and durable fiber for a residential rug, but it is also the least forgiving during cleaning. Typical mistakes by non-specialized companies or rental machines (overly alkaline products, boiling water, over-oxygenation) often result in fiber browning (chemical cooking phenomenon), color loss (bleeding), or disastrous shrinkage.</p>
-      <p style="margin-top: 1rem;">At <strong>Empire Cleaning Group</strong>, our technicians understand the biochemistry of wool. We only use certified <strong>"Wool-Safe"</strong> formulas that respect the natural pH of animal fiber. Our extraction equipment provides powerful cleaning to dislodge allergens and dust mites without ever leaving the carpet backing damp. Whether you live in <strong>Montreal</strong>, <strong>Laval</strong>, or the <strong>South Shore</strong>, we offer the peace of mind of a safe service, performed directly at your home, without having to lift and transport your heavy wool rugs.</p>
+      <p style="margin-top: 1rem;">At <strong>Empire Cleaning Group</strong>, our technicians match the protocol to the wool. We use <strong>Wool-Safe</strong> formulas at a pH suited to animal fiber. Extraction is meant to lift soil while limiting moisture in the backing. In <strong>Montreal</strong>, <strong>Laval</strong>, and on the <strong>South Shore</strong>, this wool area rug cleaning is done in your home.</p>
     `,
   },
   {
@@ -369,7 +371,7 @@ if (!service) {
 
 <Layout
   title={
-    service.slug === "tapis-synthetique"
+    service.slug === "tapis-synthetique" || service.slug === "tapis-laine"
       ? service.seoTitle
       : `${service.seoTitle} | Empire Cleaning Group`
   }
@@ -560,6 +562,18 @@ if (!service) {
                       {" "}and{" "}
                       <a href="/en/services/tapis-orientaux/" style="color: var(--color-primary); font-weight: 600;">oriental rugs</a>.
                       If an odor remains, a specialized treatment may be recommended after inspection, and only with your authorization.
+                    </p>
+                  </div>
+                ) : service.slug === "tapis-laine" ? (
+                  <div class="info-box">
+                    <h3 style="color: var(--color-primary); margin-bottom: 10px;">
+                      Wool area rug or oriental rug
+                    </h3>
+                    <p>
+                      A conventional wool area rug is cleaned on site with a fibre-appropriate protocol. A delicate oriental or hand-knotted rug, especially one with unstable dyes or silk, needs a different approach:{" "}
+                      <a href="/en/services/tapis-orientaux/" style="color: var(--color-primary); font-weight: 600;">oriental rug cleaning</a>.
+                      Synthetic fiber is covered by{" "}
+                      <a href="/en/services/tapis-synthetique/" style="color: var(--color-primary); font-weight: 600;">synthetic carpet and rug cleaning</a>.
                     </p>
                   </div>
                 ) : (
