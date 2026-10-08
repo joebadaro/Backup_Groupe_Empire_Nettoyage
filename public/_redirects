@@ -6,6 +6,12 @@ https://groupe-empire-2026.netlify.app/* https://groupenettoyageempire.com/:spla
 # Legacy EN leather alias → canonical (301! so Netlify applies even if static index.html exists)
 /en/services/nettoyage-sofa-cuir                          /en/services/meubles-cuir                              301!
 
+# Anciennes pages tapis résidentiel → pages SEO canoniques (301! : HTTP permanent, même si un index.html existe)
+/services/tapis-residentiel                               /services/nettoyage-tapis-residentiel/                 301!
+/services/tapis-residentiel/                              /services/nettoyage-tapis-residentiel/                 301!
+/en/services/tapis-residentiel                            /en/services/nettoyage-tapis-residentiel/              301!
+/en/services/tapis-residentiel/                           /en/services/nettoyage-tapis-residentiel/              301!
+
 # Fix 404 for old English estimate request URL
 /estimate-request                                         /en/estimate-request/                                  301
 /estimate-request/                                        /en/estimate-request/                                  301

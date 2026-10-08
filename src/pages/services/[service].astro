@@ -350,7 +350,8 @@ const services = [
 ];
 
 export function getStaticPaths() {
-  const slugs = ["tapis-residentiel", "tapis-commercial", "tapis-synthetique", "tapis-laine", "tapis-orientaux"];
+  // tapis-residentiel n'est plus publié : 301 vers /services/nettoyage-tapis-residentiel/
+  const slugs = ["tapis-commercial", "tapis-synthetique", "tapis-laine", "tapis-orientaux"];
   return slugs.map((slug) => ({ params: { service: slug } }));
 }
 

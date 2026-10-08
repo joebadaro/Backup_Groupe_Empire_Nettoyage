@@ -146,9 +146,15 @@ export default defineConfig({
     '/promo/en/mattress/': '/en/services/nettoyage-desinfection-matelas',
     '/promo/en/tiles/': '/en/services/nettoyage-tuiles-ceramique',
     '/promo/en/thank-you/': '/en/merci',
-    '/services/tapis-residentiel': '/services/nettoyage-tapis-residentiel',
+    '/services/tapis-residentiel': {
+      status: 301,
+      destination: '/services/nettoyage-tapis-residentiel/',
+    },
     '/services/tapis-commercial': '/services/nettoyage-tapis-commercial',
-    '/en/services/tapis-residentiel': '/en/services/nettoyage-tapis-residentiel',
+    '/en/services/tapis-residentiel': {
+      status: 301,
+      destination: '/en/services/nettoyage-tapis-residentiel/',
+    },
     '/en/services/tapis-commercial': '/en/services/nettoyage-tapis-commercial',
     '/en/tips/erreurs-taches-tapis': '/en/conseils/erreurs-taches-tapis',
     '/en/tips/urine-animaux-tapis': '/en/conseils/urine-animaux-tapis',
