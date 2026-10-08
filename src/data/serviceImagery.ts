@@ -285,8 +285,8 @@ export const HOMEPAGE_SERVICE_CARDS: HomepageServiceCard[] = [
     titleFr: "Sofa, Divan, Fauteuil & Meubles",
     titleEn: "Sofa, Couch, Armchair & Upholstery",
     descriptionFr:
-      "Nettoyage en profondeur des tissus. Stop aux taches et odeurs.",
-    descriptionEn: "Deep cleaning of upholstery fabrics. Stop stains and odors.",
+      "Nettoyage en profondeur des taches de gras, huiles corporelles et odeurs tenaces. Traitements spécialisés adaptés aux tissus.",
+    descriptionEn: "Deep cleaning for grease stains, body oils and stubborn odors. Specialized treatments suited to each fabric.",
   },
   {
     href: "/services/nettoyage-desinfection-matelas",
@@ -298,9 +298,9 @@ export const HOMEPAGE_SERVICE_CARDS: HomepageServiceCard[] = [
     titleFr: "Nettoyage & Désinfection Matelas",
     titleEn: "Mattress Cleaning & Disinfection",
     descriptionFr:
-      "Élimination certifiée des acariens et bactéries pour un sommeil sain.",
+      "Nettoyage en profondeur et traitements ciblant les acariens et bactéries, pour une literie plus propre.",
     descriptionEn:
-      "Certified elimination of dust mites and bacteria for healthy sleep.",
+      "Deep mattress cleaning with treatments targeting dust mites and bacteria for cleaner bedding.",
   },
   {
     href: "/services/meubles-cuir",
@@ -326,9 +326,9 @@ export const HOMEPAGE_SERVICE_CARDS: HomepageServiceCard[] = [
     titleFr: "Tapis Résidentiel",
     titleEn: "Residential Carpet",
     descriptionFr:
-      "Redonnez couleur et hygiène à vos tapis en laine, synthétique ou orientaux.",
+      "Nettoyage en profondeur des tapis, taches incrustées et résidus d'urine d'animaux.",
     descriptionEn:
-      "Restore color and hygiene to your wool, synthetic, or oriental carpets.",
+      "Deep carpet cleaning for embedded stains and pet urine residues.",
   },
   {
     href: "/services/tapis-synthetique",
