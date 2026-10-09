@@ -1,141 +1,104 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
-import ServiceVideoProof from "../../../components/ServiceVideoProof.astro";
+import LocalUpholsteryPremiumLayout from "../../../components/local-upholstery/LocalUpholsteryPremiumLayout.astro";
 ---
 
 <Layout
   title="Upholstery Cleaning in La Prairie | Sofa, Sectional, Modular Seating"
   description="In-home upholstery cleaning in La Prairie for sofas, sectionals, modular seating, armchairs and banquettes. Practical regular care for family homes and quiet residential neighborhoods."
 >
-  <section class="section">
-    <div class="container">
-      <h1>Sofa, Sectional and Upholstery Cleaning in La Prairie</h1>
+  <LocalUpholsteryPremiumLayout
+    locale="en"
+    cityBadge="UPHOLSTERED FURNITURE • LA PRAIRIE"
+    h1="Sofa, Sectional and Armchair Cleaning in La Prairie"
+    problemTitle="Family living rooms in daily use:"
+    problemText="In La Prairie, family living rooms are often the center of daily life: sectionals used every evening, modular sofas, reading armchairs and banquettes around the kitchen."
+    leadText="Our in-home service helps keep this furniture clean, comfortable and welcoming week after week."
+    trustBadges={[
+      "Over 30 years of experience",
+      "Eco-friendly products",
+      "Fast drying (often 2 to 6 h)",
+      "Fabric inspection before treatment",
+    ]}
+    methodSectionTitle="Our professional method"
+    methodSteps={[
+      "Fabric inspection and method check before the visit.",
+      "Targeted pre-treatment with professional shampoo matched to the fiber.",
+      "Steam cleaning by hot-water extraction with a truck-mount unit.",
+      "Protection of floors and walkways during the service.",
+      "Careful extraction for fast drying, often within 2 to 6 hours.",
+    ]}
+    furnitureSectionTitle="Types of furniture we clean"
+    furnitureTypesIntro="We clean sectional sofas, sectionals, modular sofas, upholstered armchairs, banquettes, ottomans and fabric chairs. The method is adjusted to how each piece is actually used every day and to the type of covering."
+  >
+    <div slot="presentation">
+      <h2 class="section-title text-gradient-empire">
+        The service in La Prairie
+      </h2>
       <p>
-        In La Prairie, family living rooms see daily use: sectionals for evening routines, modular sofas, reading armchairs and banquettes around shared spaces. Our in-home
-        service helps keep these seating areas clean, comfortable and ready for everyday life.
+        We offer upholstery cleaning designed for family homes and quiet residential neighborhoods in La Prairie. Each visit follows a simple sequence: fabric inspection, a method matched to the fabric and careful work for a clean result, while respecting how your home is organized.
       </p>
-      <div class="upholstery-local-hero-cta">
-        <a class="btn btn-primary pulse-btn" href="tel:5148939939">
-          <span class="cta-btn-stack">
-            <span>Call for a Fast Estimate</span>
-            <span class="cta-btn-phone-num">(514) 893-9939</span>
-          </span>
-        </a>
-        <button
-          type="button"
-          class="btn btn-gradient-green"
-          onclick="window.openEstimationWidget()"
-        >
-          Request a Free Estimate
-        </button>
+    </div>
+
+    <div slot="extras">
+      <div class="fade-in-section delay-350" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Why maintain your upholstered furniture regularly
+        </h2>
+        <p>
+          When seating is used every day, it naturally collects fine dust, skin oils, light odours and small stains. Regular professional care helps preserve the look of the fabrics, the comfort of the living room and the life of your furniture.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-400" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Specialized treatments available
+        </h2>
+        <p>
+          Depending on the condition of the seating, we can recommend targeted stain treatment, odor neutralization, an enzymatic treatment or optional fabric protection. Recommendations stay practical, clear and matched to your needs.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-450" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Why choose Empire Cleaning Group in La Prairie
+        </h2>
+        <p>
+          With over 30 years of experience, our team offers reliable, on-time and reassuring in-home service. We use eco-friendly products and a careful method to keep the living room regularly clean and comfortable day to day.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-500" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">Request an estimate</h2>
+        <p>
+          For a quick estimate on cleaning your sofa, couch, armchair, sectional, modular seating or banquette in La Prairie, contact Empire Cleaning Group at
+          (514) 893-9939.
+        </p>
       </div>
     </div>
-  </section>
-  <section class="section svp-section-wrap">
-    <div class="container">
-      <ServiceVideoProof
-        title="See our upholstery cleaning in action"
-        subtitle="Real example of in-home sofa cleaning"
-        description="Watch a real job and see our professional method for cleaning upholstered furniture right in the client's home."
-        youtubeId="auWtvSvqucg"
-        youtubeTitle="Stained sofa cleaning in Saint-Bruno-de-Montarville"
-        allVideosHref="/en/video-gallery/"
-        videoAspectRatio="9 / 16"
-        playLabel="Watch the video"
-        allVideosLabel="See all our projects"
-        closeLabel="Close video"
-      />
-    </div>
-  </section>
 
-  <section class="section section-light">
-    <div class="container narrow">
-      <h2>Local Upholstery Service in La Prairie</h2>
-      <p>
-        We provide upholstery cleaning built for family homes in La Prairie. Each visit follows a clear process: fabric inspection, appropriate method selection and careful
-        execution for a reliable result that fits your routine.
-      </p>
-
-      <h2>Why Regular Upholstery Care Matters</h2>
-      <p>
-        Daily use naturally brings fine dust, body oils, light odors and small stains into fabric seating. Regular professional cleaning helps preserve comfort, appearance and
-        long-term furniture condition.
-      </p>
-
-      <h2>Our Professional Cleaning Method</h2>
-      <ul>
-        <li>Fabric inspection and method confirmation before cleaning.</li>
-        <li>Targeted pre-treatment with professional fiber-appropriate shampoo.</li>
-        <li>Steam cleaning through hot water extraction with truck-mount power.</li>
-        <li>Protection of floors and circulation zones during service.</li>
-        <li>Careful extraction for faster drying, typically between 2 and 6 hours.</li>
-      </ul>
-
-      <h2>Furniture We Clean</h2>
-      <p>
-        We clean sectional sofas, modular sofas, loveseats, upholstered armchairs, banquettes, ottomans and fabric chairs. Each item is treated according to upholstery type
-        and real daily usage.
-      </p>
-
-      <h2>Specialized Treatments Available</h2>
-      <p>
-        When needed, we can add targeted stain removal, odor neutralization, enzymatic treatment and optional fabric protection. Recommendations are always practical and based
-        on actual furniture condition.
-      </p>
-
-      <h2>Why Families in La Prairie Choose Empire</h2>
-      <p>
-        With over 30 years of experience, we deliver dependable in-home service with eco-friendly products and consistent execution. Families choose us for straightforward,
-        reliable care that supports everyday comfort.
-      </p>
-
-      <h2>La Prairie FAQ</h2>
+    <div slot="faq">
+      <h2 class="section-title text-gradient-empire">Local La Prairie FAQ</h2>
       <FAQSchema
         faqs={[
           {
-            question: "Can you clean a large sectional and a banquette in one appointment?",
+            question: "Can you clean a large sectional and a banquette in the same appointment?",
             answer:
-              "Yes. We can plan one visit to cover your main seating pieces with a consistent cleaning approach and balanced final result.",
+              "Yes. We plan the visit so the main seating is treated in one appointment, with one consistent method and an even result.",
           },
           {
-            question: "Is this service suitable for furniture used heavily by families?",
+            question: "Does the service suit furniture used every day by a family?",
             answer:
-              "Absolutely. Our process is designed for high-use household seating and supports ongoing comfort, hygiene and fabric appearance.",
+              "Yes. The approach is built for frequently used furniture, so comfort, cleanliness and appearance can be maintained on a regular basis.",
           },
           {
-            question: "How long before we can use the furniture again?",
+            question: "When can furniture be used again after cleaning?",
             answer:
-              "Drying time depends on fabric and ventilation, but most upholstery is ready within about 2 to 6 hours.",
+              "It depends on the fabric and the ventilation, but drying is usually between 2 and 6 hours.",
           },
         ]}
       />
-
-      <h2>Request an Estimate</h2>
-      <p>
-        For a quick quote on sofa, sectional, modular seating, armchair or banquette cleaning in La Prairie, contact Empire Cleaning Group at (514) 893-9939.
-      </p>
     </div>
-  </section>
+  </LocalUpholsteryPremiumLayout>
 </Layout>
-
-<style>
-  .upholstery-local-hero-cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-  }
-  .upholstery-local-hero-cta .cta-btn-stack {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    line-height: 1.25;
-    gap: 0.1rem;
-    text-align: left;
-  }
-  .upholstery-local-hero-cta .cta-btn-phone-num {
-    font-size: 0.92em;
-    font-weight: 800;
-  }
-</style>
