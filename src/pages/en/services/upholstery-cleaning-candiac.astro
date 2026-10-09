@@ -1,141 +1,108 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
-import ServiceVideoProof from "../../../components/ServiceVideoProof.astro";
+import LocalUpholsteryPremiumLayout from "../../../components/local-upholstery/LocalUpholsteryPremiumLayout.astro";
 ---
 
 <Layout
   title="Upholstery Cleaning in Candiac | Sofa, Sectional, Modular Seating"
   description="In-home upholstery cleaning in Candiac for sectionals, modular sofas, armchairs and banquettes. Practical care for modern family homes, light fabrics and pet-friendly living spaces."
 >
-  <section class="section">
-    <div class="container">
-      <h1>Sofa, Sectional and Upholstery Cleaning in Candiac</h1>
+  <LocalUpholsteryPremiumLayout
+    locale="en"
+    cityBadge="UPHOLSTERED FURNITURE • CANDIAC"
+    h1="Sofa, Sectional and Armchair Cleaning in Candiac"
+    problemTitle="Large living rooms used heavily:"
+    problemText="In Candiac, large living rooms and family spaces mean upholstered furniture gets heavy daily use: well-used sectionals, modular sofas used every day, lounge chairs and banquettes around the common areas."
+    leadText="Our in-home service is designed to keep this seating clean, comfortable and ready for everyday life."
+    trustBadges={[
+      "Over 30 years of experience",
+      "Eco-friendly products",
+      "Fast drying (often 2 to 6 h)",
+      "Fabric inspection before treatment",
+    ]}
+    methodSectionTitle="Our professional method"
+    methodSteps={[
+      "Fabric inspection and method check before the job.",
+      "Targeted pre-treatment with professional shampoo matched to each fabric.",
+      "Steam cleaning by hot-water extraction with a truck-mount unit.",
+      "Protection of floors and walkways during the service.",
+      "Careful extraction for fast drying, usually within 2 to 6 hours.",
+    ]}
+    furnitureSectionTitle="Furniture we clean"
+    furnitureTypesIntro="We clean sectional sofas, modular sofas, upholstered armchairs, banquettes, ottomans and fabric chairs. Each visit is adapted to how much the furniture is used, whether there are pets, and the type of fabric."
+  >
+    <div slot="presentation">
+      <h2 class="section-title text-gradient-empire">
+        The service in Candiac
+      </h2>
       <p>
-        In Candiac, modern family homes often include large living rooms with heavily used sectionals and modular sofas. Our in-home upholstery service is designed for
-        that lifestyle: practical scheduling, careful execution and deep cleaning that keeps seating fresh and comfortable every day.
+        We come to modern homes in Candiac with a simple, effective method: fabric inspection, products chosen for the fiber, deep cleaning and a careful finish. The aim is a clean result without making household upkeep heavier.
       </p>
-      <div class="upholstery-local-hero-cta">
-        <a class="btn btn-primary pulse-btn" href="tel:5148939939">
-          <span class="cta-btn-stack">
-            <span>Call for a Fast Estimate</span>
-            <span class="cta-btn-phone-num">(514) 893-9939</span>
-          </span>
-        </a>
-        <button
-          type="button"
-          class="btn btn-gradient-green"
-          onclick="window.openEstimationWidget()"
-        >
-          Request a Free Estimate
-        </button>
+      <p>
+        When large family rooms bring together sofas, loveseats and banquettes, sofa cleaning in Candiac aims for an even result across all the seating, at home. The full page on fabrics and the process is
+        <a href="/en/services/meubles-tissu/">our main fabric furniture cleaning service</a>.
+      </p>
+    </div>
+
+    <div slot="extras">
+      <div class="fade-in-section delay-350" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Why clean your upholstered furniture regularly
+        </h2>
+        <p>
+          When furniture is used heavily, fabric holds fine dust, light odours, pet hair and signs of use more quickly. Regular professional cleaning helps protect the look of light-colored furniture and keep a lasting sense of cleanliness in the home.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-400" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Specialized treatments available
+        </h2>
+        <p>
+          Depending on the initial condition of the seating, we can offer targeted stain treatment, odor neutralization, an enzymatic treatment and optional fabric protection. Recommendations stay practical, clear and matched to how you actually use the furniture.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-450" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Why choose Empire Cleaning Group in Candiac
+        </h2>
+        <p>
+          With over 30 years of experience, our team offers reliable in-home service, eco-friendly products and careful work. We help families keep their furniture well maintained, without compromising the comfort of the home.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-500" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">Request an estimate</h2>
+        <p>
+          For a quick estimate on cleaning your sofa, sectional, modular seating, armchair or banquette in Candiac, contact Empire Cleaning Group at
+          (514) 893-9939.
+        </p>
       </div>
     </div>
-  </section>
-  <section class="section svp-section-wrap">
-    <div class="container">
-      <ServiceVideoProof
-        title="See our upholstery cleaning in action"
-        subtitle="Real example of in-home sofa cleaning"
-        description="Watch a real job and see our professional method for cleaning upholstered furniture right in the client's home."
-        youtubeId="auWtvSvqucg"
-        youtubeTitle="Stained sofa cleaning in Saint-Bruno-de-Montarville"
-        allVideosHref="/en/video-gallery/"
-        videoAspectRatio="9 / 16"
-        playLabel="Watch the video"
-        allVideosLabel="See all our projects"
-        closeLabel="Close video"
-      />
-    </div>
-  </section>
 
-  <section class="section section-light">
-    <div class="container narrow">
-      <h2>Local Service in Candiac</h2>
-      <p>
-        We serve Candiac homes with a straightforward process: fabric inspection, fiber-specific product selection, deep extraction cleaning and clean finishing. The
-        result is durable cleanliness without adding complexity to your household routine.
-      </p>
-
-      <h2>Why Regular Upholstery Cleaning Matters</h2>
-      <p>
-        With high daily use, upholstery captures fine dust, light odors, pet hair and body oils faster than expected. Regular professional cleaning helps preserve comfort,
-        appearance and long-term condition, especially on light-colored fabrics.
-      </p>
-
-      <h2>Our Professional Method</h2>
-      <ul>
-        <li>Fabric inspection and method validation before service.</li>
-        <li>Targeted pre-treatment with professional fiber-appropriate shampoo.</li>
-        <li>Steam cleaning through hot water extraction with truck-mount power.</li>
-        <li>Protection of floors and circulation zones during cleaning.</li>
-        <li>Careful extraction for fast drying, typically between 2 and 6 hours.</li>
-      </ul>
-
-      <h2>Furniture We Clean</h2>
-      <p>
-        We clean sectional sofas, modular sofas, loveseats, upholstered armchairs, banquettes, ottomans and fabric chairs. Each item is treated according to usage level,
-        upholstery type and household conditions.
-      </p>
-
-      <h2>Specialized Treatments Available</h2>
-      <p>
-        When needed, we can add targeted stain treatment, odor neutralization, enzymatic treatment and optional fabric protection. Recommendations are always practical and
-        based on real furniture condition.
-      </p>
-
-      <h2>Why Families in Candiac Choose Empire</h2>
-      <p>
-        With over 30 years of experience, we deliver dependable in-home service, eco-friendly products and consistent quality. Families choose us for practical care that
-        supports everyday comfort and clean living spaces.
-      </p>
-
-      <h2>Candiac FAQ</h2>
+    <div slot="faq">
+      <h2 class="section-title text-gradient-empire">Local Candiac FAQ</h2>
       <FAQSchema
         faqs={[
           {
-            question: "Is this service suitable for homes with pets in Candiac?",
+            question: "Is the service suited to homes with pets in Candiac?",
             answer:
-              "Yes. We adapt treatment based on pet presence, including light odor management, embedded hair and high-contact upholstery zones.",
+              "Yes. We adjust the treatment when pets are present, especially for light odours, embedded hair and heavily used areas.",
           },
           {
-            question: "Can you clean a large sectional and matching armchairs in one visit?",
+            question: "Can you clean a large sectional and armchairs in the same visit?",
             answer:
-              "Yes. We can plan a combined appointment for all main seating areas to ensure a consistent overall result.",
+              "Yes. We plan the visit to cover the main seating with one consistent method and an even result.",
           },
           {
-            question: "Does cleaning work well on light fabrics and modular sofas?",
+            question: "Does cleaning suit light-colored furniture and modular sofas?",
             answer:
-              "Yes. We adjust products and technique to each upholstery type so we can clean deeply while protecting lighter finishes.",
+              "Yes. We match the products and the technique to each fabric so we can clean deeply while protecting the look of light upholstery.",
           },
         ]}
       />
-
-      <h2>Request an Estimate</h2>
-      <p>
-        For a quick quote on sofa, sectional, modular seating, armchair or banquette cleaning in Candiac, contact Empire Cleaning Group at (514) 893-9939.
-      </p>
     </div>
-  </section>
+  </LocalUpholsteryPremiumLayout>
 </Layout>
-
-<style>
-  .upholstery-local-hero-cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-  }
-  .upholstery-local-hero-cta .cta-btn-stack {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    line-height: 1.25;
-    gap: 0.1rem;
-    text-align: left;
-  }
-  .upholstery-local-hero-cta .cta-btn-phone-num {
-    font-size: 0.92em;
-    font-weight: 800;
-  }
-</style>
