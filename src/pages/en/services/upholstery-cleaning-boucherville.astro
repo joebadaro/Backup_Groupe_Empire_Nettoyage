@@ -1,141 +1,108 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
-import ServiceVideoProof from "../../../components/ServiceVideoProof.astro";
+import LocalUpholsteryPremiumLayout from "../../../components/local-upholstery/LocalUpholsteryPremiumLayout.astro";
 ---
 
 <Layout
   title="Upholstery Cleaning in Boucherville | Sofa, Sectional, Fabric Furniture"
   description="Professional sofa, sectional, modular sofa, armchair and banquette cleaning in Boucherville. Preventive care for family homes, long-term upholstery preservation and lasting cleanliness."
 >
-  <section class="section">
-    <div class="container">
-      <h1>Sofa, Sectional and Upholstery Cleaning in Boucherville</h1>
+  <LocalUpholsteryPremiumLayout
+    locale="en"
+    cityBadge="UPHOLSTERED FURNITURE • BOUCHERVILLE"
+    h1="Sofa, Sectional and Armchair Cleaning in Boucherville"
+    problemTitle="Furniture that anchors the living room:"
+    problemText="In Boucherville, many families invest in durable upholstered furniture that shapes everyday living-room life."
+    leadText="Our service is designed to preserve that quality over time, with professional cleaning that respects the fabrics, improves comfort at home and supports effective preventive care."
+    trustBadges={[
+      "Over 30 years of experience",
+      "Eco-friendly products",
+      "Fast drying (often 2 to 6 h)",
+      "Fabric inspection before treatment",
+    ]}
+    methodSectionTitle="Our professional method"
+    methodSteps={[
+      "Fabric inspection and method check based on the covering.",
+      "Pre-treatment with professional shampoo matched to the fiber.",
+      "Steam cleaning by hot-water extraction with a truck-mount unit.",
+      "Protection of work areas and floors.",
+      "Careful extraction for fast drying, usually within 2 to 6 hours.",
+    ]}
+    furnitureSectionTitle="Types of furniture we clean"
+    furnitureTypesIntro="We clean sectional sofas, sectionals, modular sofas, upholstered armchairs, banquettes, ottomans and fabric chairs. Each visit is calibrated to how much the family uses the furniture and to the type of fabric."
+  >
+    <div slot="presentation">
+      <h2 class="section-title text-gradient-empire">
+        Cleaning adapted to your sofas and sectionals
+      </h2>
       <p>
-        In Boucherville, many families choose quality upholstered furniture built for daily comfort. Our service focuses on preserving that investment through preventive,
-        fabric-safe cleaning that keeps seating fresh, comfortable and consistent over time.
+        We come to established residential neighborhoods in Boucherville with a clear method: fabric inspection, a precise choice of products, deep cleaning and a careful finish. The aim is seating that stays clean, comfortable and visually even, without making household upkeep heavier.
       </p>
-      <div class="upholstery-local-hero-cta">
-        <a class="btn btn-primary pulse-btn" href="tel:5148939939">
-          <span class="cta-btn-stack">
-            <span>Call for a Fast Estimate</span>
-            <span class="cta-btn-phone-num">(514) 893-9939</span>
-          </span>
-        </a>
-        <button
-          type="button"
-          class="btn btn-gradient-green"
-          onclick="window.openEstimationWidget()"
-        >
-          Request a Free Estimate
-        </button>
+      <p>
+        In family homes in Boucherville, sofa cleaning often features loveseats, matching armchairs and large sectionals that anchor the living room: we treat each piece according to how it is used. More detail is on
+        <a href="/en/services/meubles-tissu/">our main fabric furniture cleaning service</a>.
+      </p>
+    </div>
+
+    <div slot="extras">
+      <div class="fade-in-section delay-350" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Why clean your upholstered furniture as preventive care
+        </h2>
+        <p>
+          Preventive care avoids the gradual buildup of unseen soil that dulls fabrics and shortens the life of the furniture. By acting before wear becomes obvious, you protect the look of your sofas, armchairs and banquettes and keep a healthier indoor environment.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-400" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Specialized treatments available
+        </h2>
+        <p>
+          Depending on the initial assessment, we can include targeted stain treatment, odor neutralization, an enzymatic treatment or optional fabric protection. Recommendations are tailored to preserve furniture quality over the long term.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-450" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Why choose Empire Cleaning Group in Boucherville
+        </h2>
+        <p>
+          With over 30 years of experience, we focus on careful work, eco-friendly products and clear guidance. Our approach helps families keep lasting cleanliness without compromising the look or the comfort of quality furniture.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-500" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">Request your free estimate</h2>
+        <p>
+          For a quick estimate on cleaning your sofa, couch, armchair, sectional, modular seating or banquette in Boucherville, contact Empire Cleaning Group at
+          (514) 893-9939.
+        </p>
       </div>
     </div>
-  </section>
-  <section class="section svp-section-wrap">
-    <div class="container">
-      <ServiceVideoProof
-        title="See our upholstery cleaning in action"
-        subtitle="Real example of in-home sofa cleaning"
-        description="Watch a real job and see our professional method for cleaning upholstered furniture right in the client's home."
-        youtubeId="auWtvSvqucg"
-        youtubeTitle="Stained sofa cleaning in Saint-Bruno-de-Montarville"
-        allVideosHref="/en/video-gallery/"
-        videoAspectRatio="9 / 16"
-        playLabel="Watch the video"
-        allVideosLabel="See all our projects"
-        closeLabel="Close video"
-      />
-    </div>
-  </section>
 
-  <section class="section section-light">
-    <div class="container narrow">
-      <h2>Local Service in Boucherville</h2>
-      <p>
-        We serve established residential areas in Boucherville with a structured process: fabric inspection, precise product selection, deep extraction cleaning and
-        careful finishing. The goal is durable cleanliness without adding complexity to your home maintenance routine.
-      </p>
-
-      <h2>Why Preventive Upholstery Cleaning Matters</h2>
-      <p>
-        Preventive care helps stop gradual buildup before it affects texture, color and comfort. Regular professional cleaning preserves appearance, supports healthier
-        indoor living and extends the lifespan of sectionals, armchairs and fabric seating used every day.
-      </p>
-
-      <h2>Our Professional Method</h2>
-      <ul>
-        <li>Fabric inspection and method validation before cleaning.</li>
-        <li>Fiber-appropriate pre-treatment with professional shampoo.</li>
-        <li>Steam cleaning via hot water extraction with truck-mount power.</li>
-        <li>Floor and work-area protection throughout the service.</li>
-        <li>Careful extraction for fast drying, typically between 2 and 6 hours.</li>
-      </ul>
-
-      <h2>Furniture We Clean</h2>
-      <p>
-        We clean sectional sofas, modular sofas, loveseats, upholstered armchairs, banquette seating, ottomans and fabric dining chairs. Every piece is handled according
-        to upholstery type and household usage.
-      </p>
-
-      <h2>Specialized Treatments Available</h2>
-      <p>
-        When needed, we can add targeted stain treatment, odor neutralization, enzymatic treatment and optional fabric protection. Recommendations are tailored to your
-        upholstery condition and long-term maintenance goals.
-      </p>
-
-      <h2>Why Homeowners in Boucherville Choose Empire</h2>
-      <p>
-        With over 30 years of experience, we combine technical precision, eco-friendly products and consistent quality standards. Our approach is designed for homeowners
-        who value durable cleanliness and the preservation of high-quality furniture.
-      </p>
-
-      <h2>Boucherville FAQ</h2>
+    <div slot="faq">
+      <h2 class="section-title text-gradient-empire">Local Boucherville FAQ</h2>
       <FAQSchema
         faqs={[
           {
-            question: "How often should a family sofa be professionally cleaned in Boucherville?",
+            question: "How often do you recommend cleaning a family sofa in Boucherville?",
             answer:
-              "For regular family use, every 12 to 18 months is a practical baseline. Homes with children or pets often benefit from more frequent service.",
+              "For regular family use, professional cleaning every 12 to 18 months is a solid baseline. With children or pets, a shorter interval is often preferable.",
           },
           {
-            question: "Can you clean a modular sofa without disrupting the entire room?",
+            question: "Can you clean a modular sofa without moving the whole room?",
             answer:
-              "Yes. We work section by section to keep the process efficient and minimize disruption to your living space layout.",
+              "Yes. We organize the visit by sections so we can work efficiently, limit handling and keep the living-room layout in place.",
           },
           {
-            question: "Is the service appropriate for premium light-colored fabrics?",
+            question: "Does the service suit quality furniture in light-colored fabric?",
             answer:
-              "Yes. We adjust products and technique based on fiber type to clean deeply while protecting delicate or light upholstery finishes.",
+              "Yes. We match the products and the technique to the fiber so we can clean deeply while protecting the look of delicate or light-colored coverings.",
           },
         ]}
       />
-
-      <h2>Request an Estimate</h2>
-      <p>
-        For a quick quote on sofa, sectional, modular sofa, armchair or banquette cleaning in Boucherville, contact Empire Cleaning Group at (514) 893-9939.
-      </p>
     </div>
-  </section>
+  </LocalUpholsteryPremiumLayout>
 </Layout>
-
-<style>
-  .upholstery-local-hero-cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-  }
-  .upholstery-local-hero-cta .cta-btn-stack {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    line-height: 1.25;
-    gap: 0.1rem;
-    text-align: left;
-  }
-  .upholstery-local-hero-cta .cta-btn-phone-num {
-    font-size: 0.92em;
-    font-weight: 800;
-  }
-</style>
