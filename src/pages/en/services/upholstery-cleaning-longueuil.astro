@@ -1,141 +1,108 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
-import ServiceVideoProof from "../../../components/ServiceVideoProof.astro";
+import LocalUpholsteryPremiumLayout from "../../../components/local-upholstery/LocalUpholsteryPremiumLayout.astro";
 ---
 
 <Layout
   title="Upholstery Cleaning in Longueuil and Saint-Hubert | Empire Cleaning Group"
   description="Local upholstery cleaning for sofas, couches, armchairs and fabric furniture in Longueuil and Saint-Hubert. Steam cleaning, professional shampoo, truck-mount extraction, eco-friendly products and fast 2 to 6-hour drying."
 >
-  <section class="section">
-    <div class="container">
-      <h1>Sofa, Couch and Armchair Cleaning in Longueuil</h1>
+  <LocalUpholsteryPremiumLayout
+    locale="en"
+    cityBadge="UPHOLSTERED FURNITURE • LONGUEUIL"
+    h1="Sofa, Sectional and Armchair Cleaning in Longueuil"
+    problemTitle="Longueuil, Saint-Hubert and residential areas:"
+    problemText="Looking for a professional service for your upholstered furniture in Longueuil, including Saint-Hubert and the residential areas of Old Longueuil and Greenfield Park?"
+    leadText="Our team comes to your home with a professional method adapted to each type of fabric, from sectionals to modular sofas."
+    trustBadges={[
+      "Over 30 years of experience",
+      "Eco-friendly products",
+      "Fast drying (often 2 to 6 h)",
+      "Fabric inspection before treatment",
+    ]}
+    methodSectionTitle="Our cleaning method"
+    methodSteps={[
+      "Fabric inspection and stability test before treatment.",
+      "Pre-treatment with professional shampoo matched to the fiber.",
+      "Steam cleaning (hot-water extraction) with a truck-mount unit.",
+      "Protection of floors and walkways during the service.",
+      "Rinse and extraction for fast drying in 2 to 6 hours.",
+    ]}
+    furnitureSectionTitle="Types of furniture we clean"
+    furnitureTypesIntro="We clean sectionals, sectional sofas, modular sectional sofas, 2- and 3-seat sofas, recliners, upholstered chairs, ottomans and fabric banquettes. Each piece is treated according to its condition and type of covering."
+  >
+    <div slot="presentation">
+      <h2 class="section-title text-gradient-empire">
+        Professional sofa and armchair cleaning in Longueuil
+      </h2>
       <p>
-        Need reliable upholstery cleaning in Longueuil? We provide in-home service across Longueuil and Saint-Hubert, including established residential areas and
-        newer family neighborhoods. Every visit starts with a fabric inspection so the treatment matches your furniture.
+        Our fabric furniture cleaning service in Longueuil is designed for family homes, condos and townhouses. Before each visit, we inspect the fabric, the seams and the worn areas so we can choose the right combination of products and pressure.
       </p>
-      <div class="upholstery-local-hero-cta">
-        <a class="btn btn-primary pulse-btn" href="tel:5148939939">
-          <span class="cta-btn-stack">
-            <span>Call for a Fast Estimate</span>
-            <span class="cta-btn-phone-num">(514) 893-9939</span>
-          </span>
-        </a>
-        <button
-          type="button"
-          class="btn btn-gradient-green"
-          onclick="window.openEstimationWidget()"
-        >
-          Request a Free Estimate
-        </button>
+      <p>
+        From Old Longueuil to Greenfield Park and Saint-Hubert, sofa cleaning in Longueuil follows the same standard for apartments and houses: compact sofas, three-seat sofas and sectionals come back to an even fabric without leaving the room. For the full method and fabric types, see
+        <a href="/en/services/meubles-tissu/">our main fabric furniture cleaning service</a>.
+      </p>
+    </div>
+
+    <div slot="extras">
+      <div class="fade-in-section delay-350" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Why clean your upholstered furniture
+        </h2>
+        <p>
+          Seating collects fine dust, allergens, body oils and everyday stains. Professional care helps keep a tidy appearance, reduce odours and extend the life of your sofas, couches and armchairs.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-400" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Specialized treatments available
+        </h2>
+        <p>
+          When needed or on request, we offer additional treatments: targeted stain removal, odor neutralization, enzymatic treatment and fabric protection. We recommend only the options that fit the initial inspection.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-450" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Why choose Empire Cleaning Group
+        </h2>
+        <p>
+          With over 30 years of experience, our team relies on eco-friendly products, careful work and clear communication before, during and after the service. Our goal is simple: a clean, reassuring and lasting result for homes in Longueuil and Saint-Hubert.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-500" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">Get your free estimate</h2>
+        <p>
+          For a quick estimate on cleaning your sofa, couch, armchair, sectional or banquette in Longueuil, contact Empire Cleaning Group at
+          (514) 893-9939.
+        </p>
       </div>
     </div>
-  </section>
-  <section class="section svp-section-wrap">
-    <div class="container">
-      <ServiceVideoProof
-        title="See our upholstery cleaning in action"
-        subtitle="Real example of in-home sofa cleaning"
-        description="Watch a real job and see our professional method for cleaning upholstered furniture right in the client's home."
-        youtubeId="auWtvSvqucg"
-        youtubeTitle="Stained sofa cleaning in Saint-Bruno-de-Montarville"
-        allVideosHref="/en/video-gallery/"
-        videoAspectRatio="9 / 16"
-        playLabel="Watch the video"
-        allVideosLabel="See all our projects"
-        closeLabel="Close video"
-      />
-    </div>
-  </section>
 
-  <section class="section section-light">
-    <div class="container narrow">
-      <h2>Local Service in Longueuil</h2>
-      <p>
-        We clean upholstered furniture for houses, condos and townhomes throughout Longueuil and Saint-Hubert. Our process is designed to remove daily soil while
-        protecting delicate fabrics and maintaining comfort.
-      </p>
-
-      <h2>Why Clean Upholstered Furniture</h2>
-      <p>
-        Sofas and armchairs collect dust, allergens, body oils and stains over time. Professional cleaning helps restore appearance, reduce odors and extend the life of
-        fabric furniture.
-      </p>
-
-      <h2>Our Cleaning Method</h2>
-      <ul>
-        <li>Pre-service fabric inspection and fiber safety check.</li>
-        <li>Professional shampoo selected for each upholstery type.</li>
-        <li>Steam cleaning with truck-mount hot water extraction.</li>
-        <li>Floor and work-area protection during setup and cleaning.</li>
-        <li>Fast 2 to 6-hour drying in normal home conditions.</li>
-      </ul>
-
-      <h2>Furniture We Clean</h2>
-      <p>
-        We clean sectionals, loveseats, three-seat couches, recliner chairs, dining chairs with upholstery, ottomans and other fabric-covered furniture pieces.
-      </p>
-
-      <h2>Specialized Treatments Available</h2>
-      <p>
-        When needed or requested, we can add targeted stain treatment, odor neutralization, enzymatic treatment and optional fabric protection. Recommendations are
-        based on the pre-cleaning inspection.
-      </p>
-
-      <h2>Why Choose Empire Cleaning Group</h2>
-      <p>
-        With more than 30 years of experience, our team focuses on practical results, clear communication and eco-friendly products. Homeowners in Longueuil and
-        Saint-Hubert choose us for consistent service and professional standards.
-      </p>
-
-      <h2>Longueuil FAQ</h2>
+    <div slot="faq">
+      <h2 class="section-title text-gradient-empire">Local Longueuil FAQ</h2>
       <FAQSchema
         faqs={[
           {
             question: "How long does a sofa cleaning appointment take in Longueuil?",
             answer:
-              "For one standard sofa and one armchair, most appointments take around 1.5 to 2.5 hours, depending on fabric type and soil level.",
+              "It depends on the number of pieces and how soiled they are. For a standard sofa and an armchair, the visit often takes between 1.5 and 2.5 hours on site.",
           },
           {
-            question: "Do you also cover Saint-Hubert?",
+            question: "Does the service cover Saint-Hubert?",
             answer:
-              "Yes. Saint-Hubert is fully covered, along with other residential sectors of Longueuil.",
+              "Yes. We cover Saint-Hubert as well as the residential areas of Longueuil. You can book an appointment according to your availability.",
           },
           {
-            question: "When can we use furniture again after cleaning?",
+            question: "When can furniture be used again after cleaning?",
             answer:
-              "In most cases, upholstery is dry within 2 to 6 hours based on airflow, humidity and fabric composition.",
+              "In most cases, drying takes between 2 and 6 hours depending on the fabric, ventilation and indoor humidity.",
           },
         ]}
       />
-
-      <h2>Request an Estimate</h2>
-      <p>
-        Get a quick estimate for upholstery cleaning in Longueuil and Saint-Hubert. Call
-        <a href="tel:5148939939">(514) 893-9939</a>.
-      </p>
     </div>
-  </section>
+  </LocalUpholsteryPremiumLayout>
 </Layout>
-
-<style>
-  .upholstery-local-hero-cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-  }
-  .upholstery-local-hero-cta .cta-btn-stack {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    line-height: 1.25;
-    gap: 0.1rem;
-    text-align: left;
-  }
-  .upholstery-local-hero-cta .cta-btn-phone-num {
-    font-size: 0.92em;
-    font-weight: 800;
-  }
-</style>
