@@ -1,141 +1,104 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
-import ServiceVideoProof from "../../../components/ServiceVideoProof.astro";
+import LocalUpholsteryPremiumLayout from "../../../components/local-upholstery/LocalUpholsteryPremiumLayout.astro";
 ---
 
 <Layout
   title="Upholstery Cleaning in Chambly | Sofa, Sectional, Modular Seating"
   description="In-home upholstery cleaning in Chambly for sofas, sectionals, modular seating, armchairs and banquettes. Regular care for welcoming family living rooms and guest-ready homes."
 >
-  <section class="section">
-    <div class="container">
-      <h1>Sofa, Sectional and Upholstery Cleaning in Chambly</h1>
+  <LocalUpholsteryPremiumLayout
+    locale="en"
+    cityBadge="UPHOLSTERED FURNITURE • CHAMBLY"
+    h1="Sofa, Sectional and Armchair Cleaning in Chambly"
+    problemTitle="The living room at the center of the home:"
+    problemText="In Chambly, the living room is often the center of the home: it is where you welcome guests, share family evenings and live day to day."
+    leadText="Our upholstery cleaning service is designed to keep your sectionals, modular sofas, armchairs and banquettes clean and well cared for, so the living space stays neat, welcoming and ready for family time as well as for guests."
+    trustBadges={[
+      "Over 30 years of experience",
+      "Eco-friendly products",
+      "Fast drying (often 2 to 6 h)",
+      "Fabric inspection before treatment",
+    ]}
+    methodSectionTitle="Our professional method"
+    methodSteps={[
+      "Fabric inspection and method check before cleaning.",
+      "Targeted pre-treatment with professional shampoo matched to each fiber.",
+      "Steam cleaning by hot-water extraction with a truck-mount unit.",
+      "Protection of floors and walkways during the visit.",
+      "Thorough extraction for fast drying, usually within 2 to 6 hours.",
+    ]}
+    furnitureSectionTitle="Types of furniture we clean"
+    furnitureTypesIntro="We clean sectional sofas, sectionals, modular sofas, upholstered armchairs, banquettes, ottomans and fabric chairs. Each piece is treated according to its condition, how it is used and its covering."
+  >
+    <div slot="presentation">
+      <h2 class="section-title text-gradient-empire">
+        The service in Chambly
+      </h2>
       <p>
-        In Chambly, the living room is often where family life and social moments meet. Our upholstery cleaning service is built for that reality, helping keep sectionals,
-        modular sofas, armchairs and banquettes fresh, comfortable and ready for daily use and guests.
+        We offer simple, reliable in-home service suited to family homes in Chambly. Each visit starts with a fabric inspection, continues with a targeted cleaning method, and ends with a careful finish for a clean, lasting result.
       </p>
-      <div class="upholstery-local-hero-cta">
-        <a class="btn btn-primary pulse-btn" href="tel:5148939939">
-          <span class="cta-btn-stack">
-            <span>Call for a Fast Estimate</span>
-            <span class="cta-btn-phone-num">(514) 893-9939</span>
-          </span>
-        </a>
-        <button
-          type="button"
-          class="btn btn-gradient-green"
-          onclick="window.openEstimationWidget()"
-        >
-          Request a Free Estimate
-        </button>
+    </div>
+
+    <div slot="extras">
+      <div class="fade-in-section delay-350" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Why maintain your upholstered furniture regularly
+        </h2>
+        <p>
+          When furniture is used by both the family and guests, fabrics quickly collect fine dust, marks from contact, light odours and small stains. Regular professional care helps preserve the look of the seating, the cleanliness of the living room and the comfort of the home.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-400" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Specialized treatments available
+        </h2>
+        <p>
+          Depending on your needs, we offer targeted stain treatment, odor neutralization, an enzymatic treatment and optional fabric protection. Recommendations are always clear and useful, based on the actual condition of the seating.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-450" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Why choose Empire Cleaning Group in Chambly
+        </h2>
+        <p>
+          With over 30 years of experience, our team focuses on consistency, courtesy and careful work. We use eco-friendly products and a rigorous method to keep your living room comfortable and clean day after day.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-500" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">Get a quote for your living room</h2>
+        <p>
+          To schedule cleaning for your seating in Chambly (sofa, couch, sectional, armchair or banquette), call Empire Cleaning Group at
+          (514) 893-9939.
+        </p>
       </div>
     </div>
-  </section>
-  <section class="section svp-section-wrap">
-    <div class="container">
-      <ServiceVideoProof
-        title="See our upholstery cleaning in action"
-        subtitle="Real example of in-home sofa cleaning"
-        description="Watch a real job and see our professional method for cleaning upholstered furniture right in the client's home."
-        youtubeId="auWtvSvqucg"
-        youtubeTitle="Stained sofa cleaning in Saint-Bruno-de-Montarville"
-        allVideosHref="/en/video-gallery/"
-        videoAspectRatio="9 / 16"
-        playLabel="Watch the video"
-        allVideosLabel="See all our projects"
-        closeLabel="Close video"
-      />
-    </div>
-  </section>
 
-  <section class="section section-light">
-    <div class="container narrow">
-      <h2>Local Upholstery Service in Chambly</h2>
-      <p>
-        We provide straightforward and dependable in-home service tailored to Chambly family homes. Every visit starts with fabric inspection, followed by an appropriate
-        cleaning protocol and a careful finish for durable, practical results.
-      </p>
-
-      <h2>Why Regular Upholstery Care Matters</h2>
-      <p>
-        When seating is shared by family members and guests, fabric quickly retains fine dust, contact marks, light odors and small stains. Regular professional cleaning
-        helps preserve appearance, comfort and everyday hygiene.
-      </p>
-
-      <h2>Our Professional Method</h2>
-      <ul>
-        <li>Fabric inspection and cleaning method validation before service.</li>
-        <li>Targeted pre-treatment with professional fiber-appropriate shampoo.</li>
-        <li>Steam cleaning through hot water extraction with truck-mount power.</li>
-        <li>Protection of floors and circulation zones during cleaning.</li>
-        <li>Thorough extraction for fast drying, typically between 2 and 6 hours.</li>
-      </ul>
-
-      <h2>Furniture We Clean</h2>
-      <p>
-        We clean sectional sofas, modular sofas, loveseats, upholstered armchairs, banquettes, ottomans and fabric chairs. Each item is treated according to condition,
-        upholstery type and actual household use.
-      </p>
-
-      <h2>Specialized Treatments Available</h2>
-      <p>
-        When required, we offer targeted stain treatment, odor neutralization, enzymatic treatment and optional fabric protection. Recommendations are practical and based on
-        real furniture condition.
-      </p>
-
-      <h2>Why Families in Chambly Choose Empire</h2>
-      <p>
-        With over 30 years of experience, we focus on consistency, service quality and clear communication. Our eco-friendly products and careful method help preserve living
-        room comfort throughout the year.
-      </p>
-
-      <h2>Chambly FAQ</h2>
+    <div slot="faq">
+      <h2 class="section-title text-gradient-empire">Local Chambly FAQ</h2>
       <FAQSchema
         faqs={[
           {
-            question: "Can you clean a sectional, armchairs and a banquette in one visit?",
+            question: "Can the whole living room be cleaned in one visit?",
             answer:
-              "Yes. We can plan one appointment to clean your main seating pieces with a consistent process and an even overall result.",
+              "Yes. We can treat all the main seating in one continuous visit, with a structured plan piece by piece so the finish stays even.",
           },
           {
-            question: "Is this service suitable for furniture used heavily by families?",
+            question: "Does your service suit furniture used every day?",
             answer:
-              "Absolutely. Our approach is designed for high-use seating and supports long-term comfort, cleanliness and appearance.",
+              "Yes. The process is built for active homes: it removes everyday soil and helps keep a lasting sense of cleanliness in the living spaces.",
           },
           {
-            question: "How long before we can use furniture after cleaning?",
+            question: "When can the living room be used again after your visit?",
             answer:
-              "Drying time depends on fabric and ventilation, but most furniture is ready in about 2 to 6 hours.",
+              "The room can usually be used again the same day. The exact timing depends on the fabric, airflow and indoor humidity.",
           },
         ]}
       />
-
-      <h2>Request an Estimate</h2>
-      <p>
-        For a quick quote on sofa, sectional, modular seating, armchair or banquette cleaning in Chambly, contact Empire Cleaning Group at (514) 893-9939.
-      </p>
     </div>
-  </section>
+  </LocalUpholsteryPremiumLayout>
 </Layout>
-
-<style>
-  .upholstery-local-hero-cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-  }
-  .upholstery-local-hero-cta .cta-btn-stack {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    line-height: 1.25;
-    gap: 0.1rem;
-    text-align: left;
-  }
-  .upholstery-local-hero-cta .cta-btn-phone-num {
-    font-size: 0.92em;
-    font-weight: 800;
-  }
-</style>
