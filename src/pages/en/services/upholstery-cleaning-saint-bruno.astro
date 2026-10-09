@@ -1,141 +1,104 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
-import ServiceVideoProof from "../../../components/ServiceVideoProof.astro";
+import LocalUpholsteryPremiumLayout from "../../../components/local-upholstery/LocalUpholsteryPremiumLayout.astro";
 ---
 
 <Layout
   title="Upholstery Cleaning in Saint-Bruno | Sofa, Sectional, Fabric Furniture"
   description="Premium residential upholstery cleaning in Saint-Bruno for sofas, sectionals, modular seating, armchairs and banquettes. Meticulous care for quality furniture and light fabrics."
 >
-  <section class="section">
-    <div class="container">
-      <h1>Sofa, Sectional and Upholstery Cleaning in Saint-Bruno</h1>
+  <LocalUpholsteryPremiumLayout
+    locale="en"
+    cityBadge="UPHOLSTERED FURNITURE • SAINT-BRUNO"
+    h1="Sofa, Sectional and Armchair Cleaning in Saint-Bruno"
+    problemTitle="Demanding family interiors:"
+    problemText="In Saint-Bruno, well-kept homes and family interiors call for precise care of upholstered furniture."
+    leadText="Our service is designed to preserve quality seating, keep the look of light fabrics and maintain impeccable everyday comfort in the home."
+    trustBadges={[
+      "Over 30 years of experience",
+      "Eco-friendly products",
+      "Fast drying (often 2 to 6 h)",
+      "Fabric inspection before treatment",
+    ]}
+    methodSectionTitle="Our professional method"
+    methodSteps={[
+      "Fabric inspection and method check before the visit.",
+      "Targeted pre-treatment with professional shampoo matched to the fiber.",
+      "Steam cleaning by hot-water extraction with a truck-mount unit.",
+      "Protection of floors and walkways.",
+      "Precise extraction for fast drying, usually within 2 to 6 hours.",
+    ]}
+    furnitureSectionTitle="Types of furniture we clean"
+    furnitureTypesIntro="We clean sectional sofas, sectionals, modular sofas, upholstered armchairs, banquettes, ottomans and fabric chairs. Each visit is adjusted to the fabric, how much the furniture is used and the finish required."
+  >
+    <div slot="presentation">
+      <h2 class="section-title text-gradient-empire">
+        The service in Saint-Bruno
+      </h2>
       <p>
-        In Saint-Bruno, well-kept homes and established family households often feature quality upholstered furniture that deserves careful maintenance. Our service is
-        designed to preserve comfort, protect light fabrics and deliver durable cleanliness with a refined residential finish.
+        We work in the residential areas of Saint-Bruno with a structured approach: a detailed fabric inspection, a technical choice of products, deep cleaning and a careful finish. This method keeps a clean, even and lasting appearance.
       </p>
-      <div class="upholstery-local-hero-cta">
-        <a class="btn btn-primary pulse-btn" href="tel:5148939939">
-          <span class="cta-btn-stack">
-            <span>Call for a Fast Estimate</span>
-            <span class="cta-btn-phone-num">(514) 893-9939</span>
-          </span>
-        </a>
-        <button
-          type="button"
-          class="btn btn-gradient-green"
-          onclick="window.openEstimationWidget()"
-        >
-          Request a Free Estimate
-        </button>
+    </div>
+
+    <div slot="extras">
+      <div class="fade-in-section delay-350" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Why clean your upholstered furniture regularly
+        </h2>
+        <p>
+          Even in a well-kept home, fabrics gradually collect fine dust, body oils and signs of use. Periodic professional cleaning helps preserve the furniture and extend the life of sofas, armchairs and banquettes.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-400" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Specialized treatments available
+        </h2>
+        <p>
+          Depending on the initial assessment, we can include targeted stain treatment, odor neutralization, an enzymatic treatment and optional fabric protection. Recommendations are made to preserve the look and quality of the furniture over the long term.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-450" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Why choose Empire Cleaning Group in Saint-Bruno
+        </h2>
+        <p>
+          With over 30 years of experience, our team focuses on precise work, eco-friendly products and a careful residential finish. Our goal is simple: lasting cleanliness and a result suited to the well-kept interiors of Saint-Bruno.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-500" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">Request an estimate</h2>
+        <p>
+          For a quick estimate on cleaning your sofa, couch, armchair, sectional, modular seating or banquette in Saint-Bruno, contact Empire Cleaning Group at
+          (514) 893-9939.
+        </p>
       </div>
     </div>
-  </section>
-  <section class="section svp-section-wrap">
-    <div class="container">
-      <ServiceVideoProof
-        title="See our upholstery cleaning in action"
-        subtitle="Real example of in-home sofa cleaning"
-        description="Watch a real job and see our professional method for cleaning upholstered furniture right in the client's home."
-        youtubeId="auWtvSvqucg"
-        youtubeTitle="Stained sofa cleaning in Saint-Bruno-de-Montarville"
-        allVideosHref="/en/video-gallery/"
-        videoAspectRatio="9 / 16"
-        playLabel="Watch the video"
-        allVideosLabel="See all our projects"
-        closeLabel="Close video"
-      />
-    </div>
-  </section>
 
-  <section class="section section-light">
-    <div class="container narrow">
-      <h2>Local Service in Saint-Bruno</h2>
-      <p>
-        We provide in-home upholstery cleaning across Saint-Bruno with a precise workflow: detailed fabric inspection, method-specific product selection, deep extraction
-        cleaning and careful finishing. The result is consistent appearance and long-term furniture preservation.
-      </p>
-
-      <h2>Why Routine Upholstery Cleaning Matters</h2>
-      <p>
-        Even in well-maintained interiors, upholstery gradually collects fine dust, body oils and daily-use residue. Professional cleaning on a regular basis helps
-        maintain appearance, comfort and structural longevity of sofas, armchairs and banquette seating.
-      </p>
-
-      <h2>Our Professional Method</h2>
-      <ul>
-        <li>Fabric inspection and method validation before cleaning.</li>
-        <li>Targeted pre-treatment with fiber-appropriate professional shampoo.</li>
-        <li>Steam cleaning via hot water extraction with truck-mount power.</li>
-        <li>Protection of floors and circulation areas.</li>
-        <li>Precise extraction for fast drying, typically between 2 and 6 hours.</li>
-      </ul>
-
-      <h2>Furniture We Clean</h2>
-      <p>
-        We clean sectional sofas, modular sofas, loveseats, upholstered armchairs, banquettes, ottomans and fabric chairs. Each item is treated according to upholstery
-        type, usage pattern and finish expectations.
-      </p>
-
-      <h2>Specialized Treatments Available</h2>
-      <p>
-        When needed, we can add targeted stain treatment, odor neutralization, enzymatic treatment and optional fabric protection. Recommendations are based on condition,
-        with long-term furniture quality in mind.
-      </p>
-
-      <h2>Why Homeowners in Saint-Bruno Choose Empire</h2>
-      <p>
-        With over 30 years of experience, our team combines technical rigor, eco-friendly products and premium residential standards. We focus on durable cleanliness and
-        meticulous execution for homes where details matter.
-      </p>
-
-      <h2>Saint-Bruno FAQ</h2>
+    <div slot="faq">
+      <h2 class="section-title text-gradient-empire">Local Saint-Bruno FAQ</h2>
       <FAQSchema
         faqs={[
           {
-            question: "Is this service safe for light-colored upholstery in family homes?",
+            question: "Does the service suit light-colored fabrics in a family home?",
             answer:
-              "Yes. We adapt every step to fiber type so we can clean deeply while protecting delicate or light upholstery finishes.",
+              "Yes. We adapt each step to the fiber so we can clean deeply while protecting the look of light and delicate fabrics.",
           },
           {
-            question: "Can you clean a large sectional and matching armchairs in one visit?",
+            question: "Can you clean a large sectional sofa and matching armchairs on the same day?",
             answer:
-              "Yes. We organize the appointment to cover your primary seating set in a single service window with a consistent cleaning approach.",
+              "Yes. We plan the visit to cover the main furniture in one appointment, with one consistent method across all the seating.",
           },
           {
-            question: "How long before the furniture is fully dry?",
+            question: "How long until the furniture is dry after cleaning?",
             answer:
-              "Most upholstery dries within 2 to 6 hours, depending on fabric, ventilation and indoor humidity.",
+              "Most upholstered furniture dries within 2 to 6 hours, depending on the fabric, the home's ventilation and indoor humidity.",
           },
         ]}
       />
-
-      <h2>Request an Estimate</h2>
-      <p>
-        For a quick quote on sofa, sectional, modular seating, armchair or banquette cleaning in Saint-Bruno, contact Empire Cleaning Group at (514) 893-9939.
-      </p>
     </div>
-  </section>
+  </LocalUpholsteryPremiumLayout>
 </Layout>
-
-<style>
-  .upholstery-local-hero-cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-  }
-  .upholstery-local-hero-cta .cta-btn-stack {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    line-height: 1.25;
-    gap: 0.1rem;
-    text-align: left;
-  }
-  .upholstery-local-hero-cta .cta-btn-phone-num {
-    font-size: 0.92em;
-    font-weight: 800;
-  }
-</style>
