@@ -1,141 +1,108 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
-import ServiceVideoProof from "../../../components/ServiceVideoProof.astro";
+import LocalUpholsteryPremiumLayout from "../../../components/local-upholstery/LocalUpholsteryPremiumLayout.astro";
 ---
 
 <Layout
   title="Upholstery Cleaning in Brossard | Sofa, Sectional, Fabric Furniture"
   description="Professional upholstery cleaning in Brossard for sectionals, modular sofas, armchairs and fabric furniture. Steam cleaning, professional shampoo, eco-friendly products and fast drying."
 >
-  <section class="section">
-    <div class="container">
-      <h1>Sofa, Sectional and Upholstery Cleaning in Brossard</h1>
+  <LocalUpholsteryPremiumLayout
+    locale="en"
+    cityBadge="UPHOLSTERED FURNITURE • BROSSARD"
+    h1="Sofa, Sectional and Armchair Cleaning in Brossard"
+    problemTitle="Seating used every day:"
+    problemText="In Brossard, between newer condos, family homes and open living spaces, sectional sofas and modular sofas collect fine dust, allergens and signs of everyday use before the fabric even looks “dirty.”"
+    leadText="Our team comes to your home with a professional method matched to each fabric — hot-water extraction, a truck-mount unit when access allows, and a careful finish for drying that is usually between 2 and 6 hours."
+    trustBadges={[
+      "Over 30 years of experience",
+      "Eco-friendly products",
+      "Fast drying (often 2 to 6 h)",
+      "Fabric inspection before treatment",
+    ]}
+    methodSectionTitle="Our professional method"
+    methodSteps={[
+      "Full fabric inspection before the job.",
+      "Targeted pre-treatment with professional shampoo, matched to the fiber.",
+      "Steam cleaning by hot-water extraction with a truck-mount unit.",
+      "Protection of floors and walkways.",
+      "Powerful extraction for fast drying, usually within 2 to 6 hours.",
+    ]}
+    furnitureSectionTitle="Furniture we clean"
+    furnitureTypesIntro="We clean sectional sofas, modular sofas, recliners, upholstered chairs, banquettes and ottomans. Each piece is treated according to its fabric, how soiled it is, and how it is used at home."
+  >
+    <div slot="presentation">
+      <h2 class="section-title text-gradient-empire">
+        The service in Brossard
+      </h2>
       <p>
-        In Brossard, modern condos and family homes often rely on large sectionals and modular sofas as the center of everyday living. Our professional upholstery
-        cleaning service is built for that reality: deep, fabric-safe cleaning that restores freshness while respecting premium furniture finishes.
+        We come to your home in Brossard with a careful, structured approach. Before any work, we assess the fiber, the seams and the contact areas so the method matches the furniture. This step is what produces a clean, even and lasting result.
       </p>
-      <div class="upholstery-local-hero-cta">
-        <a class="btn btn-primary pulse-btn" href="tel:5148939939">
-          <span class="cta-btn-stack">
-            <span>Call for a Fast Estimate</span>
-            <span class="cta-btn-phone-num">(514) 893-9939</span>
-          </span>
-        </a>
-        <button
-          type="button"
-          class="btn btn-gradient-green"
-          onclick="window.openEstimationWidget()"
-        >
-          Request a Free Estimate
-        </button>
+      <p>
+        Open-plan condos or modern houses: in Brossard, an effective sofa cleaning brings back the look of the sofas and sectionals that take the most daily use. See the full picture of the service on
+        <a href="/en/services/meubles-tissu/">our main fabric furniture cleaning service</a>.
+      </p>
+    </div>
+
+    <div slot="extras">
+      <div class="fade-in-section delay-350" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Why clean your upholstered furniture
+        </h2>
+        <p>
+          Seating absorbs fine dust, allergens, body oils and everyday residue. Professional cleaning protects the look of your furniture, improves comfort and extends the life of your sofa, sectional or armchair.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-400" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Specialized treatments available
+        </h2>
+        <p>
+          Depending on the initial assessment, we can add targeted stain treatment, odor neutralization, an enzymatic treatment or optional fabric protection. Our recommendations are always based on what the piece actually needs.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-450" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">
+          Why choose Empire Cleaning Group in Brossard
+        </h2>
+        <p>
+          With over 30 years of experience, our team focuses on technical precision, eco-friendly products and clean work from start to finish. We serve homeowners who want a reliable, professional service that matches the value of their furniture.
+        </p>
+      </div>
+
+      <div class="fade-in-section delay-500" style="margin-top: 2.5rem;">
+        <h2 class="section-title text-gradient-empire">Request an estimate</h2>
+        <p>
+          For a quick estimate on cleaning your sofa, sectional, armchair or banquette in Brossard, contact Empire Cleaning Group at
+          (514) 893-9939.
+        </p>
       </div>
     </div>
-  </section>
-  <section class="section svp-section-wrap">
-    <div class="container">
-      <ServiceVideoProof
-        title="See our upholstery cleaning in action"
-        subtitle="Real example of in-home sofa cleaning"
-        description="Watch a real job and see our professional method for cleaning upholstered furniture right in the client's home."
-        youtubeId="auWtvSvqucg"
-        youtubeTitle="Stained sofa cleaning in Saint-Bruno-de-Montarville"
-        allVideosHref="/en/video-gallery/"
-        videoAspectRatio="9 / 16"
-        playLabel="Watch the video"
-        allVideosLabel="See all our projects"
-        closeLabel="Close video"
-      />
-    </div>
-  </section>
 
-  <section class="section section-light">
-    <div class="container narrow">
-      <h2>Local Service in Brossard</h2>
-      <p>
-        We provide in-home upholstery cleaning across Brossard with a method designed for residential spaces. Before starting, we inspect fabric type, seam condition
-        and high-contact zones to define the safest and most effective treatment plan.
-      </p>
-
-      <h2>Why Professional Upholstery Cleaning Matters</h2>
-      <p>
-        Upholstered seating traps fine dust, allergens, body oils and everyday residues. Professional cleaning helps maintain appearance, improve comfort and extend the
-        lifespan of your sofa, sectional and armchairs.
-      </p>
-
-      <h2>Our Professional Method</h2>
-      <ul>
-        <li>Full pre-cleaning fabric inspection.</li>
-        <li>Fiber-specific pre-treatment with professional shampoo.</li>
-        <li>Steam cleaning with hot water extraction.</li>
-        <li>Floor and pathway protection during setup and cleaning.</li>
-        <li>Powerful extraction for fast drying, typically between 2 and 6 hours.</li>
-      </ul>
-
-      <h2>Furniture We Clean</h2>
-      <p>
-        We clean sectional sofas, modular sofas, loveseats, armchairs, upholstered dining chairs, banquette seating and ottomans. Every piece is treated according to
-        fabric composition, soil level and usage pattern.
-      </p>
-
-      <h2>Specialized Treatments Available</h2>
-      <p>
-        Based on the initial assessment, we can add targeted stain treatment, odor neutralization, enzymatic treatment and optional fabric protection. We recommend only
-        what is relevant for your specific upholstery condition.
-      </p>
-
-      <h2>Why Homeowners in Brossard Choose Empire</h2>
-      <p>
-        With over 30 years of experience, our team combines technical precision, eco-friendly products and consistent service quality. We focus on clean execution and
-        reliable results for homeowners who expect professional standards.
-      </p>
-
-      <h2>Brossard FAQ</h2>
+    <div slot="faq">
+      <h2 class="section-title text-gradient-empire">Local Brossard FAQ</h2>
       <FAQSchema
         faqs={[
           {
             question: "Do you clean large sectionals in Brossard condos?",
             answer:
-              "Yes. We frequently clean large sectionals and modular sofas in condo settings, with a process adapted to access constraints and fabric requirements.",
+              "Yes. We regularly clean sectional sofas and modular sofas in condos, with a method adapted to access, materials and worn areas.",
           },
           {
-            question: "Can you clean light-colored upholstery safely?",
+            question: "Is the service suited to light-colored fabrics?",
             answer:
-              "Yes. We select products and techniques based on fiber type and soiling level to clean effectively while protecting delicate or light fabrics.",
+              "Yes. We adjust the products and the technique to the type of fabric so we can clean effectively while protecting the look of light upholstery.",
           },
           {
-            question: "How long before we can use the furniture again?",
+            question: "How long before the furniture can be used again?",
             answer:
-              "Most upholstery dries within 2 to 6 hours, depending on fabric, airflow and indoor humidity.",
+              "Most upholstered furniture dries within 2 to 6 hours, depending on ventilation, fiber type and indoor humidity.",
           },
         ]}
       />
-
-      <h2>Request an Estimate</h2>
-      <p>
-        For a quick quote on sofa, sectional, armchair or fabric furniture cleaning in Brossard, contact Empire Cleaning Group at (514) 893-9939.
-      </p>
     </div>
-  </section>
+  </LocalUpholsteryPremiumLayout>
 </Layout>
-
-<style>
-  .upholstery-local-hero-cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-  }
-  .upholstery-local-hero-cta .cta-btn-stack {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    line-height: 1.25;
-    gap: 0.1rem;
-    text-align: left;
-  }
-  .upholstery-local-hero-cta .cta-btn-phone-num {
-    font-size: 0.92em;
-    font-weight: 800;
-  }
-</style>

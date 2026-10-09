@@ -15,6 +15,8 @@ export interface Props {
   furnitureTypesIntro: string;
   /** Libellé H2 de la section méthode (ex. Longueuil : « Notre méthode de nettoyage ») */
   methodSectionTitle?: string;
+  /** fr par défaut : les pages françaises restent inchangées */
+  locale?: "fr" | "en";
 }
 
 const {
@@ -28,25 +30,74 @@ const {
   furnitureSectionTitle,
   furnitureTypesIntro,
   methodSectionTitle = "Notre méthode professionnelle",
+  locale = "fr",
 } = Astro.props;
+
+const isEn = locale === "en";
 
 const heroSlides = [
   {
     src: "/images/catalog/sofa-slide-hero-1.webp",
-    alt: "Technicien Groupe Nettoyage Empire — nettoyage chaise capitonnée",
+    alt: isEn
+      ? "Empire Cleaning technician cleaning a tufted upholstered chair"
+      : "Technicien Groupe Nettoyage Empire — nettoyage chaise capitonnée",
     eager: true,
   },
   {
     src: "/images/catalog/sofa-slide-hero-2.webp",
-    alt: "Nettoyage professionnel de sofa sectionnel en tissu",
+    alt: isEn
+      ? "Professional cleaning of a fabric sectional sofa"
+      : "Nettoyage professionnel de sofa sectionnel en tissu",
     eager: false,
   },
   {
     src: "/images/catalog/photo-16.webp",
-    alt: "Nettoyage de divan en profondeur à domicile",
+    alt: isEn
+      ? "Deep in-home cleaning of a fabric sofa"
+      : "Nettoyage de divan en profondeur à domicile",
     eager: false,
   },
 ];
+
+const videoCopy = isEn
+  ? {
+      title: "See our upholstery cleaning in action",
+      subtitle: "A real example of in-home sofa cleaning",
+      description:
+        "Watch a real job and see our professional method for cleaning upholstered furniture right in the client's home.",
+      youtubeTitle: "Stained sofa cleaning in Saint-Bruno-de-Montarville",
+      allVideosHref: "/en/video-gallery/",
+      posterAlt: "Preview: stained sofa cleaning in Saint-Bruno-de-Montarville",
+      playLabel: "Watch the video",
+      allVideosLabel: "See all our projects",
+      closeLabel: "Close video",
+    }
+  : {
+      title: "Voyez notre nettoyage de meubles en action",
+      subtitle: "Exemple réel de nettoyage de sofa à domicile",
+      description:
+        "Regardez une intervention réelle et voyez notre méthode professionnelle pour nettoyer les meubles rembourrés directement chez le client.",
+      youtubeTitle: "Nettoyage de sofas tachés à Saint-Bruno-de-Montarville",
+      allVideosHref: "/realisations-video/",
+      posterAlt: undefined,
+      playLabel: undefined,
+      allVideosLabel: undefined,
+      closeLabel: undefined,
+    };
+
+const textileBox = isEn
+  ? {
+      title: "Full method and fabric types",
+      lead: "For a detailed look at the process, fibers and options (stain treatment, odours, fabric protection), see our",
+      link: "main fabric furniture cleaning service",
+      href: "/en/services/meubles-tissu/",
+    }
+  : {
+      title: "Méthode complète et types de textiles",
+      lead: "Pour le portrait détaillé du protocole, des fibres et des options (détachage, odeurs, protection textile), consultez notre",
+      link: "service principal de nettoyage de meubles en tissu",
+      href: "/services/meubles-tissu/",
+    };
 ---
 
 <div class="local-upholstery-premium">
@@ -83,20 +134,24 @@ const heroSlides = [
           <p class="lead-text fade-in-up delay-200" set:html={leadText} />
 
           <ConversionCtaPriorityGroup
-            locale="fr"
+            locale={locale}
             buttonStyle="green"
             phoneIcon
             estimateIcon
           />
 
           <ServiceVideoProof
-            title="Voyez notre nettoyage de meubles en action"
-            subtitle="Exemple réel de nettoyage de sofa à domicile"
-            description="Regardez une intervention réelle et voyez notre méthode professionnelle pour nettoyer les meubles rembourrés directement chez le client."
+            title={videoCopy.title}
+            subtitle={videoCopy.subtitle}
+            description={videoCopy.description}
             youtubeId="auWtvSvqucg"
-            youtubeTitle="Nettoyage de sofas tachés à Saint-Bruno-de-Montarville"
-            allVideosHref="/realisations-video/"
+            youtubeTitle={videoCopy.youtubeTitle}
+            allVideosHref={videoCopy.allVideosHref}
             videoAspectRatio="9 / 16"
+            posterAlt={videoCopy.posterAlt}
+            playLabel={videoCopy.playLabel}
+            allVideosLabel={videoCopy.allVideosLabel}
+            closeLabel={videoCopy.closeLabel}
           />
         </div>
 
@@ -158,14 +213,11 @@ const heroSlides = [
         style="margin-top: 2.5rem; background-color: #f8f9fa; border-left: 4px solid var(--color-accent); padding: 1.75rem; border-radius: 8px;"
       >
         <h2 class="section-title text-gradient-empire" style="margin-top: 0;">
-          Méthode complète et types de textiles
+          {textileBox.title}
         </h2>
         <p style="margin-bottom: 0;">
-          Pour le portrait détaillé du protocole, des fibres et des options (détachage,
-          odeurs, protection textile), consultez notre
-          <a href="/services/meubles-tissu/" class="tapis-inline-a"
-            >service principal de nettoyage de meubles en tissu</a
-          >.
+          {textileBox.lead}{" "}
+          <a href={textileBox.href} class="tapis-inline-a">{textileBox.link}</a>.
         </p>
       </div>
 
