@@ -315,6 +315,30 @@ const jsonLD = {
                         : "Montréal, Laval, Rive-Sud",
                 },
             },
+            {
+                "@type": "Offer",
+                itemOffered: {
+                    "@type": "Service",
+                    serviceType: isEn
+                        ? "Ceramic Tile & Grout Cleaning"
+                        : "Nettoyage de tuiles, céramique et joints",
+                    name: isEn
+                        ? "Ceramic Tile & Grout Cleaning"
+                        : "Nettoyage de Tuiles, Céramique et Joints",
+                    url: isEn
+                        ? `${siteUrl}/en/services/nettoyage-tuiles-ceramique/`
+                        : `${siteUrl}/services/nettoyage-tuiles-ceramique/`,
+                    description: isEn
+                        ? "Professional steam cleaning of ceramic tile, flooring and grout for homes, condos and apartments in Montreal, Laval and the South Shore."
+                        : "Nettoyage professionnel à la vapeur de tuiles, céramique et joints de coulis pour maisons, condos et appartements à Montréal, Laval et sur la Rive-Sud.",
+                    provider: {
+                        "@id": `${siteUrl}/#organization`,
+                    },
+                    areaServed: isEn
+                        ? "Montreal, Laval, South Shore"
+                        : "Montréal, Laval, Rive-Sud",
+                },
+            },
         ],
     },
 };

@@ -21,12 +21,23 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  /**
+   * When false, `image` is still passed to SEO (og/twitter) but not preloaded.
+   * Default true — preserves LCP preload on pages that pass a visible hero image.
+   */
+  preloadImage?: boolean;
   robots?: string;
   /** Calculatrice interne : uniquement pour /estimation-privee/ */
   includePrivateCalculator?: boolean;
 }
 
-const { title, image, robots, includePrivateCalculator = false } = Astro.props;
+const {
+  title,
+  image,
+  preloadImage = true,
+  robots,
+  includePrivateCalculator = false,
+} = Astro.props;
 
 const isEn = Astro.url.pathname.startsWith("/en");
 const defaultDescription = isEn
@@ -257,7 +268,7 @@ const description = Astro.props.description ?? defaultDescription;
         </script>
       )
     }
-    {image && <link rel="preload" as="image" href={image} />}
+    {image && preloadImage && <link rel="preload" as="image" href={image} />}
     <!-- Bundled as inline: fade-in reste hors du bundle Layout (LCP) ; SMS visiteur est dans visitor-sms.ts -->
     <script is:inline>
       document.addEventListener("DOMContentLoaded", function () {
