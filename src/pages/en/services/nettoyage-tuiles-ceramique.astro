@@ -1,17 +1,32 @@
 ---
+import fs from "node:fs";
+import path from "node:path";
 import Layout from "../../../layouts/Layout.astro";
 import FAQSchema from "../../../components/FAQSchema.astro";
 import ServiceVideoProofDuo from "../../../components/ServiceVideoProofDuo.astro";
 import UiIcon from "../../../components/icons/UiIcon.astro";
 import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorityGroup.astro";
+import CeramiqueSlideshowSlides from "../../../components/CeramiqueSlideshowSlides.astro";
+
+/** Technician section photos: rendered only when the file exists (no empty frames). */
+function publicImageIfExists(relPath: string): string | null {
+  const abs = path.join(process.cwd(), "public", relPath.replace(/^\//, ""));
+  return fs.existsSync(abs) ? relPath : null;
+}
+
+const servicePhotos = {
+  floor: publicImageIfExists("/images/catalog/tuile-plancher-technicien.webp"),
+  shower: publicImageIfExists("/images/catalog/tuile-douche-technicien.webp"),
+  backsplash: publicImageIfExists("/images/catalog/tuile-backsplash-technicien.webp"),
+};
 ---
 
 <Layout
-  title="Tile & Grout Cleaning | Montreal, Laval & South Shore"
-  description="Expert in high-pressure ceramic and grout cleaning. Removal of grease, mold, and application of protective sealant. Residential & commercial service."
+  title="Ceramic Tile & Grout Cleaning | Montreal & South Shore"
+  description="Steam cleaning of ceramic tile, flooring and grout in Montreal and on the South Shore. Floors, shower walls, kitchen backsplashes."
 >
   <!-- SPLIT SCREEN HERO: BLOCK 1 -->
-  <div class="split-hero-container mobile-hero-stack">
+  <div class="split-hero-container mobile-hero-stack ceramique-slideshow-fit">
     <div class="container full-width-split">
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT -->
@@ -19,59 +34,12 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
           <div class="service-hero-intro">
           <span class="service-cat-badge">FLOORS & SURFACES</span>
           <h1 class="split-title fade-in-up text-gradient-empire">
-            Tile & Grout Cleaning
+            Ceramic, Tile & Grout Cleaning
           </h1>
 
           <div class="mobile-hero-slideshow fade-in-up delay-050">
             <div class="slideshow-container">
-              <img
-                src="/images/catalog/tuile-optimized.webp"
-                alt="Professional tile and grout cleaning - Impeccable result"
-                class="slide active"
-                width="1200"
-                height="800"
-                loading="eager"
-              />
-              <img
-                src="/images/catalog/tuile-slide-new-2.webp"
-                alt="Professional ceramic floor cleaning Laval - Empire Group"
-                class="slide"
-                width="1200"
-                height="800"
-                loading="lazy"
-              />
-              <img
-                src="/images/catalog/tuile-slide-new-3.webp"
-                alt="Impeccable ceramic kitchen South Shore - Deep grout cleaning"
-                class="slide"
-                width="1200"
-                height="800"
-                loading="lazy"
-              />
-              <img
-                src="/images/catalog/tuile2-optimized.webp"
-                alt="Ceramic floor cleaned and restored by professionals - Montreal"
-                class="slide"
-                width="1200"
-                height="800"
-                loading="lazy"
-              />
-              <img
-                src="/images/catalog/tuile3-v3.webp"
-                alt="High pressure tile and grout cleaning - Impeccable result"
-                class="slide"
-                width="1200"
-                height="800"
-                loading="lazy"
-              />
-              <img
-                src="/images/catalog/tuile-before-after-v3.webp"
-                alt="Before and after cleaning very dirty ceramic joints"
-                class="slide"
-                width="1200"
-                height="800"
-                loading="lazy"
-              />
+              <CeramiqueSlideshowSlides locale="en" />
             </div>
             <div class="image-overlay-gradient"></div>
           </div>
@@ -80,16 +48,26 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
             <h2 class="problem-title">The Problem:</h2>
             <p class="problem-text">
               Have your grout lines turned black or gray? Mopping only moves dirt 
-              into the pores of the grout. Without high-pressure cleaning, bacteria 
-              and grease accumulate, making your floors look dull and unsanitary.
+              into the pores of the grout. Without high-pressure cleaning, bacteria, 
+              limescale and grease accumulate, making your floors look dull and unsanitary.
             </p>
           </div>
 
           <p class="lead-text fade-in-up delay-200">
-            Restore the original look of your floors. Our <strong>controlled high-pressure</strong> 
-            turbo technology deep cleans joints and restores the shine to your ceramic, 
-            without splashing and with almost immediate drying.
+            Restore the original look of your floors with
+            <strong>professional steam cleaning under controlled high pressure</strong>,
+            combined with a <strong>powerful extraction system</strong>.
+            The alliance of <strong>30&nbsp;years of experience</strong>,
+            <strong>advanced cleaning technologies</strong> and
+            <strong>premium eco-friendly products</strong> restores shine to your ceramic
+            tile and grout — without splashing, with almost immediate drying.
           </p>
+
+          <ul class="empire-trust-list fade-in-up delay-200" aria-label="Our advantages">
+            <li>Over 30&nbsp;years of experience in Quebec</li>
+            <li>Controlled high-pressure steam + powerful extraction</li>
+            <li>Premium eco-friendly products, family- and pet-friendly</li>
+          </ul>
 
           </div>
 
@@ -128,55 +106,7 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
         <!-- RIGHT COLUMN: IMAGE -->
         <div class="split-image-wrapper fade-in-section delay-200">
           <div class="slideshow-container">
-            <img
-              src="/images/catalog/tuile-optimized.webp"
-              alt="Professional tile and grout cleaning - Impeccable result"
-              class="slide active"
-              width="1200"
-              height="800"
-              fetchpriority="high"
-              loading="eager"
-            />
-            <img
-              src="/images/catalog/tuile-slide-new-2.webp"
-              alt="Professional ceramic floor cleaning Laval - Empire Group"
-              class="slide"
-              width="1200"
-              height="800"
-              loading="lazy"
-            />
-            <img
-              src="/images/catalog/tuile-slide-new-3.webp"
-              alt="Impeccable ceramic kitchen South Shore - Deep grout cleaning"
-              class="slide"
-              width="1200"
-              height="800"
-              loading="lazy"
-            />
-            <img
-              src="/images/catalog/tuile2-optimized.webp"
-              alt="Ceramic floor cleaned and restored by professionals - Montreal"
-              class="slide"
-              width="1200"
-              height="800"
-              loading="lazy"
-            />
-            <img
-              src="/images/catalog/tuile3-v3.webp"
-              alt="High pressure tile and grout cleaning - Impeccable result"
-              class="slide"
-              width="1200"
-              height="800"
-              loading="lazy"
-            />
-            <img
-              src="/images/catalog/tuile-before-after-v3.webp"
-              alt="Before and after cleaning very dirty ceramic joints"
-              class="slide"
-              width="1200"
-              height="800"
-              loading="lazy"
-            />
+            <CeramiqueSlideshowSlides locale="en" priority />
           </div>
           <div class="image-overlay-gradient"></div>
         </div>
@@ -189,44 +119,151 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
       <div class="service-layout">
         <!-- MAIN CONTENT -->
         <div class="service-main">
+
+          <nav class="ceramique-service-nav fade-in-section" aria-label="Ceramic cleaning service types">
+            <p class="ceramique-service-nav__label">Our ceramic cleaning services</p>
+            <ul class="ceramique-service-nav__list">
+              <li><a href="#tile-floor-cleaning">Tile &amp; ceramic floors</a></li>
+              <li><a href="#shower-wall-cleaning">Shower walls &amp; bathrooms</a></li>
+              <li><a href="#kitchen-backsplash-cleaning">Kitchen backsplash</a></li>
+            </ul>
+          </nav>
+
+          <div id="tile-floor-cleaning" class="ceramique-service-block fade-in-section delay-100">
+            <h2 class="section-title text-gradient-empire">
+              Ceramic tile and flooring cleaning
+            </h2>
+            {servicePhotos.floor && (
+              <figure class="ceramique-service-photo">
+                <img
+                  src={servicePhotos.floor}
+                  alt="Empire technician cleaning a ceramic tile floor in Montreal"
+                  width="1200"
+                  height="800"
+                  loading="lazy"
+                />
+              </figure>
+            )}
+            <p>
+              On <strong>tile floors</strong> and <strong>ceramic flooring</strong>, grease,
+              limescale, mop residue and soiled <strong>grout lines</strong> embed in the pores.
+              Regular household cleaning moves the dirt without truly extracting it.
+            </p>
+            <p>
+              We use <strong>pre-treatment</strong>, <strong>specialized grout brushing</strong>,
+              then <strong>steam cleaning under controlled high pressure</strong> with
+              <strong>simultaneous extraction</strong> — for a cleaner ceramic floor,
+              deep-cleaned joints and fast drying, without splashing furniture or baseboards.
+            </p>
+          </div>
+
+          <div id="shower-wall-cleaning" class="ceramique-service-block fade-in-section delay-100">
+            <h2 class="section-title text-gradient-empire">
+              Shower wall and bathroom tile cleaning
+            </h2>
+            {servicePhotos.shower && (
+              <figure class="ceramique-service-photo">
+                <img
+                  src={servicePhotos.shower}
+                  alt="Empire technician cleaning shower walls and bathroom tile grout"
+                  width="1200"
+                  height="800"
+                  loading="lazy"
+                />
+              </figure>
+            )}
+            <p>
+              In bathrooms, humidity, soap and limescale darken <strong>wall tiling</strong>
+              and <strong>shower grout</strong>. <strong>Shower wall cleaning</strong> treats
+              these vertical surfaces differently from a floor: adapted tools, controlled water,
+              protected finishes.
+            </p>
+            <p>
+              We remove soap scum and visible deposits on ceramic tile, clean soiled shower
+              joints and restore a fresh look to the stall and tiled walls — without soaking
+              silicone, niches or shelves.
+            </p>
+          </div>
+
+          <div id="kitchen-backsplash-cleaning" class="ceramique-service-block fade-in-section delay-100">
+            <h2 class="section-title text-gradient-empire">
+              Kitchen backsplash cleaning
+            </h2>
+            {servicePhotos.backsplash && (
+              <figure class="ceramique-service-photo">
+                <img
+                  src={servicePhotos.backsplash}
+                  alt="Empire technician cleaning a kitchen backsplash and grout lines"
+                  width="1200"
+                  height="800"
+                  loading="lazy"
+                />
+              </figure>
+            )}
+            <p>
+              <strong>Kitchen backsplash cleaning</strong> targets cooking splashes and
+              <strong>greasy residue</strong> that build up behind the countertop and cooktop —
+              a different challenge than bathroom humidity.
+            </p>
+            <p>
+              Precise hand tools clean ceramic backsplash tiles and grout without projecting
+              water onto cabinets. Ideal alongside a kitchen floor cleaning, without redoing
+              the full method on the walls.
+            </p>
+          </div>
+
+          <div class="ceramique-mid-cta fade-in-section delay-100">
+            <p class="ceramique-mid-cta__text">
+              Ready to clean your ceramic tile, flooring or grout lines?
+            </p>
+            <ConversionCtaPriorityGroup locale="en" buttonStyle="primary" />
+          </div>
           
           <div class="fade-in-section delay-100" style="margin-top: 0;">
             <h2 class="section-title text-gradient-empire">
-              Our Turbo Process (High Pressure)
+              Our professional process (steam, high pressure and extraction)
             </h2>
+            <p style="margin: 0 0 1.5rem; line-height: 1.65; max-width: 720px;">
+              The alliance of <strong>30&nbsp;years of experience</strong>,
+              <strong>advanced cleaning technologies</strong> and
+              <strong>premium eco-friendly products</strong> guides every visit.
+              We restore ceramic tile, flooring and grout — in homes, condos or apartments —
+              with professional steam cleaning under controlled high pressure, combined with
+              a powerful extraction system.
+            </p>
             <div class="process-timeline" style="margin-bottom: 3rem;">
               <div class="process-step">
                 <div class="step-marker">1</div>
                 <div class="step-content">
-                  <h3>Inspection and Pre-treatment</h3>
+                  <h3>Inspection and pre-treatment</h3>
                   <p>Identification of the tile type (ceramic, porcelain, natural stone) and application of an alkaline cleaning agent specifically designed to break down grease and soap residue.</p>
                 </div>
               </div>
               <div class="process-step">
                 <div class="step-marker">2</div>
                 <div class="step-content">
-                  <h3>Mechanical Agitation of Joints</h3>
+                  <h3>Specialized grout brushing</h3>
                   <p>We use specialized brushes to vigorously scrub each grout line. This mechanical action is essential to release embedded black dirt before extraction.</p>
                 </div>
               </div>
               <div class="process-step">
                 <div class="step-marker">3</div>
                 <div class="step-content">
-                  <h3>High Pressure Turbo Wash (200°F)</h3>
+                  <h3>Controlled high-pressure steam and extraction (200°F)</h3>
                   <p>Our machine projects pressurized hot water inside a closed rotating head. It cleans and vacuums simultaneously, guaranteeing zero splashing on your walls or cabinets.</p>
                 </div>
               </div>
               <div class="process-step">
                 <div class="step-marker">4</div>
                 <div class="step-content">
-                  <h3>Neutralization and Drying</h3>
+                  <h3>Neutralization and drying</h3>
                   <p>A final pH-balanced rinse removes any sticky residue. We then use high-power fans to ensure fast drying, ready for the final step.</p>
                 </div>
               </div>
               <div class="process-step">
                 <div class="step-marker">5</div>
                 <div class="step-content">
-                  <h3>Protection (Grout Sealant)</h3>
+                  <h3>Protection (grout sealant)</h3>
                   <p>Optional but vital: we apply a professional protective sealant that penetrates the grout pores to make it waterproof, preventing dirt from embedding again.</p>
                 </div>
               </div>
@@ -238,7 +275,7 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
               </h3>
               <p>
                 Grout is like a sponge: it is extremely porous. When you mop your floor, dirty water ends up accumulating in the "hollows" of the joints. Once the water evaporates, only the dirt remains at the bottom.
-                Only a high-pressure extraction cleaning can "empty" these pores. Applying a **protective sealant** after cleaning is the best investment to keep your joints white for years.
+                Only professional steam cleaning under controlled high pressure, combined with extraction, can “empty” these pores. Applying a <strong>protective sealant</strong> after cleaning is the best investment to keep your joints white for years.
               </p>
             </div>
           </div>
@@ -251,7 +288,7 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
             <div class="benefits-grid">
               <div class="benefit-item">
                 <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
-                <span><strong>Total Hygiene:</strong> Eliminates bacteria, mold, and allergens lodged in porous joints.</span>
+                <span><strong>Total Hygiene:</strong> Eliminates bacteria, mold, limescale and allergens lodged in porous joints.</span>
               </div>
               <div class="benefit-item">
                 <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
@@ -259,7 +296,11 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
               </div>
               <div class="benefit-item">
                 <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
-                <span><strong>Zero Splashing:</strong> Our rotating equipment contains all water and suction inside the cleaning head.</span>
+                <span><strong>Zero Splashing:</strong> Our rotating equipment contains all water and suction inside the cleaning head — ideal for condos and apartments.</span>
+              </div>
+              <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
+                <span><strong>Premium Eco Products:</strong> Professional formulas that are effective and designed for family and pet households.</span>
               </div>
               <div class="benefit-item">
                 <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
@@ -270,6 +311,29 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
                 <span><strong>Fast Service:</strong> A standard kitchen is cleaned and protected in just 2 to 3 hours.</span>
               </div>
             </div>
+          </div>
+
+          <!-- WHO / ROOMS -->
+          <div class="fade-in-section delay-200" style="margin-top: 4rem;">
+            <h2 class="section-title text-gradient-empire">
+              Ceramic cleaning for homes, condos and apartments
+            </h2>
+            <p style="line-height: 1.65; max-width: 720px; margin-bottom: 1.25rem;">
+              Whether you live in a family home, a high-rise condo or an apartment,
+              we adapt our equipment and method to your access and surface condition.
+              The closed turbo head limits splashing — a real advantage in tighter spaces
+              and open kitchens.
+            </p>
+            <p style="line-height: 1.65; max-width: 720px; margin-bottom: 1.25rem;">
+              We serve residential and commercial clients on the areas where ceramic
+              and grout get dirty the fastest:
+            </p>
+            <ul class="ceramique-rooms-list">
+              <li><a href="#kitchen-backsplash-cleaning">Kitchens and backsplashes</a> (grease, greasy residue, limescale)</li>
+              <li><a href="#shower-wall-cleaning">Bathrooms and shower walls</a> (humidity, darkened shower grout)</li>
+              <li><a href="#tile-floor-cleaning">Tile floors and ceramic flooring</a> (entries, hallways, heavy traffic)</li>
+              <li>Basements and tiled living areas</li>
+            </ul>
           </div>
 
           <!-- ZONES DESSERVIES -->
@@ -331,8 +395,8 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
                           answer: "Yes, we can remove surface mold and soap scum. However, if the mold has penetrated *behind* the grout or if the silicone is deeply blackened, cleaning will not be enough; a replacement of the silicone joint (caulking) might be necessary.",
                       },
                       {
-                          question: "What is the difference between steam cleaning and your method?",
-                          answer: "Steam alone often lacks the impact force to dislodge hardened grease. Our system combines heat (200°F), controlled pressure (800-1200 PSI), and industrial suction. It is the combination of these three forces that allows the extraction of dirt from the bottom of the grout.",
+                          question: "What does your steam cleaning involve?",
+                          answer: "We perform professional steam cleaning under controlled high pressure, combined with a powerful extraction system. Heat (200°F), controlled pressure (800-1200 PSI) and industrial suction work together to extract dirt from the bottom of the grout — far beyond a household steam cleaner.",
                       },
                       {
                           question: "Does the sealant change the color of my grout?",
@@ -342,8 +406,30 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
                           question: "Do you also clean kitchen backsplashes?",
                           answer: "Yes! We use smaller hand tools, specifically designed for vertical surfaces, to clean your backsplashes and shower walls with the same efficiency as your floors.",
                       },
+                      {
+                          question: "How often should ceramic tile and grout be cleaned?",
+                          answer: "We recommend a professional cleaning every 12 to 18 months depending on usage, pets and traffic level. Regular maintenance helps prevent grout darkening and extends the life of your joints.",
+                      },
+                      {
+                          question: "Are your products safe for children and pets?",
+                          answer: "Yes. We use premium eco-friendly professional products suited to family environments. They clean deeply without compromising your ceramic finish.",
+                      },
+                      {
+                          question: "Do you clean condos and apartments in Montreal?",
+                          answer: "Yes. We regularly clean tile and grout in condos and apartments across Montreal, Laval and the South Shore. Our closed turbo head limits splashing and works well in more compact spaces.",
+                      },
                   ]}
               />
+          </div>
+
+          <div class="fade-in-section delay-200" style="margin-top: 2.5rem; max-width: 720px;">
+            <p style="margin: 0; line-height: 1.65; color: var(--color-text-main);">
+              While we are there, many clients also book
+              <a href="/en/services/nettoyage-tapis-residentiel/">carpet cleaning</a>
+              or
+              <a href="/en/services/meubles-tissu/">upholstered furniture cleaning</a>
+              for a complete home refresh.
+            </p>
           </div>
 
         </div>
@@ -352,7 +438,7 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
         <aside class="service-sidebar">
           <div class="sticky-card fade-in-section">
             <h3 class="card-title text-gradient-gold">Request a Free Estimate</h3>
-            <p class="card-desc">Restore the shine to your floors today.</p>
+            <p class="card-desc">Floors, shower walls or backsplash: get your ceramic cleaning estimate today.</p>
             <a href="tel:5148939939" class="btn btn-gradient-green full-width pop-effect pulse-phone">
               <span class="cta-btn-stack">
                 <span>Call for a Fast Estimate</span>
@@ -364,11 +450,11 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
               Request a Free Estimate
             </button>
             <div class="guarantee-badge">
-              <span>Joints Protected & Waterproof</span>
+              <span>30+ years experience · Premium eco products</span>
               <div style="margin-top: 5px; color: #ffbf00; font-weight: bold;">
                 ★★★★★
               </div>
-              <span style="font-size: 0.8rem; color: #666;">Pro & Clean Service</span>
+              <span style="font-size: 0.8rem; color: #666;">Joints protected &amp; waterproof</span>
             </div>
           </div>
         </aside>
@@ -379,13 +465,27 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
 
 <script is:inline>
   (function () {
+    function warmSlide(img) {
+      if (!img || img.complete) return;
+      try {
+        img.loading = "eager";
+      } catch (_) {}
+      if (typeof img.decode === "function") {
+        img.decode().catch(function () {});
+      }
+    }
+
     document.querySelectorAll(".slideshow-container").forEach((container) => {
       const slides = container.querySelectorAll(".slide");
       if (slides.length <= 1) return;
       let currentSlide = 0;
+      warmSlide(slides[1]);
+
       setInterval(() => {
         slides[currentSlide].classList.remove("active");
         currentSlide = (currentSlide + 1) % slides.length;
+        warmSlide(slides[currentSlide]);
+        warmSlide(slides[(currentSlide + 1) % slides.length]);
         slides[currentSlide].classList.add("active");
       }, 4000);
     });
@@ -460,8 +560,137 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
       font-size: 1.15rem;
       line-height: 1.7;
       color: var(--color-text-main); /* Dark grey text */
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.25rem;
       max-width: 650px;
+    }
+    .empire-trust-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 2rem;
+      max-width: 650px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .empire-trust-list li {
+      position: relative;
+      padding-left: 1.35rem;
+      font-size: 1.02rem;
+      line-height: 1.45;
+      color: var(--color-text-main);
+      font-weight: 600;
+    }
+    .empire-trust-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+      background: var(--color-accent);
+    }
+    .ceramique-rooms-list {
+      margin: 0 0 1rem;
+      padding-left: 1.25rem;
+      max-width: 720px;
+      line-height: 1.7;
+    }
+    .ceramique-rooms-list li {
+      margin-bottom: 0.4rem;
+    }
+    .ceramique-service-nav {
+      margin: 0 0 2.5rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid #eee;
+      max-width: 720px;
+    }
+    .ceramique-service-nav__label {
+      margin: 0 0 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+    }
+    .ceramique-service-nav__list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem 1.25rem;
+    }
+    .ceramique-service-nav__list a {
+      color: var(--color-primary);
+      font-weight: 650;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+    .ceramique-service-nav__list a:hover {
+      border-bottom-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+    .ceramique-service-block {
+      margin-bottom: 3.25rem;
+      max-width: 720px;
+      scroll-margin-top: 6rem;
+      padding-bottom: 0.25rem;
+    }
+    .ceramique-service-block + .ceramique-service-block {
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      padding-top: 2.5rem;
+    }
+    .ceramique-service-block p {
+      line-height: 1.7;
+      margin: 0 0 1rem;
+      font-size: 1.02rem;
+    }
+    .ceramique-service-photo {
+      margin: 0 0 1.35rem;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+    .ceramique-service-photo img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+    }
+    @media (max-width: 900px) {
+      .ceramique-service-block {
+        margin-bottom: 2.5rem;
+        scroll-margin-top: 5rem;
+      }
+      .ceramique-service-block + .ceramique-service-block {
+        padding-top: 2rem;
+      }
+      .ceramique-service-nav__list {
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .ceramique-mid-cta {
+        margin-bottom: 2.75rem;
+      }
+    }
+    .ceramique-mid-cta {
+      margin: 0 0 3.5rem;
+      padding: 1.5rem 0;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      max-width: 720px;
+    }
+    .ceramique-mid-cta__text {
+      margin: 0 0 1rem;
+      font-size: 1.05rem;
+      font-weight: 650;
+      color: var(--color-primary);
+      line-height: 1.45;
+    }
+    .ceramique-mid-cta .cta-group {
+      display: flex !important;
     }
     .cta-group {
       display: flex;
@@ -508,7 +737,7 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover; /* RESTORED TO COVER AS REQUESTED */
+      object-fit: contain; /* ceramic: full photos — real override in CeramiqueSlideshowSlides */
       opacity: 0;
       transition: opacity 1.5s ease-in-out;
       z-index: 1;
@@ -660,4 +889,3 @@ import ConversionCtaPriorityGroup from "../../../components/ConversionCtaPriorit
       background-color: transparent !important;
     }
   </style>
-</Layout>

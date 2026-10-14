@@ -1,0 +1,409 @@
+{
+  "quality": 82,
+  "filePrefix": "ceramique-slide-v4",
+  "generatedAt": "2026-10-14T17:02:31.316Z",
+  "slides": [
+    {
+      "id": "01",
+      "sourceFile": "1c.jpeg",
+      "sourceBytes": 179745,
+      "sourceWidth": 1006,
+      "sourceHeight": 1563,
+      "sourceFingerprint": "a984bbe283cebea2",
+      "primary": "/images/catalog/ceramique-slide-v4-01.webp",
+      "width": 1006,
+      "height": 1563,
+      "primaryBytes": 133326,
+      "variants": [
+        {
+          "path": "/images/catalog/ceramique-slide-v4-01-640.webp",
+          "width": 640,
+          "height": 994,
+          "bytes": 79496
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-01-960.webp",
+          "width": 960,
+          "height": 1492,
+          "bytes": 127866
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-01.webp",
+          "width": 1006,
+          "height": 1563,
+          "bytes": 133326
+        }
+      ],
+      "savingsPct": 26,
+      "sourceCorrelation": 0.9995
+    },
+    {
+      "id": "02",
+      "sourceFile": "1b.jpeg",
+      "sourceBytes": 405899,
+      "sourceWidth": 1200,
+      "sourceHeight": 1600,
+      "sourceFingerprint": "b26a250703803109",
+      "primary": "/images/catalog/ceramique-slide-v4-02.webp",
+      "width": 1200,
+      "height": 1600,
+      "primaryBytes": 356608,
+      "variants": [
+        {
+          "path": "/images/catalog/ceramique-slide-v4-02-640.webp",
+          "width": 640,
+          "height": 853,
+          "bytes": 137382
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-02-960.webp",
+          "width": 960,
+          "height": 1280,
+          "bytes": 265772
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-02.webp",
+          "width": 1200,
+          "height": 1600,
+          "bytes": 356608
+        }
+      ],
+      "savingsPct": 12,
+      "sourceCorrelation": 0.9999
+    },
+    {
+      "id": "03",
+      "sourceFile": "2.jpeg",
+      "sourceBytes": 352420,
+      "sourceWidth": 1200,
+      "sourceHeight": 1600,
+      "sourceFingerprint": "c818b99bad78d205",
+      "primary": "/images/catalog/ceramique-slide-v4-03.webp",
+      "width": 1200,
+      "height": 1600,
+      "primaryBytes": 293222,
+      "variants": [
+        {
+          "path": "/images/catalog/ceramique-slide-v4-03-640.webp",
+          "width": 640,
+          "height": 853,
+          "bytes": 111062
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-03-960.webp",
+          "width": 960,
+          "height": 1280,
+          "bytes": 216172
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-03.webp",
+          "width": 1200,
+          "height": 1600,
+          "bytes": 293222
+        }
+      ],
+      "savingsPct": 17,
+      "sourceCorrelation": 0.9999
+    },
+    {
+      "id": "04",
+      "sourceFile": "3.jpeg",
+      "sourceBytes": 324552,
+      "sourceWidth": 1200,
+      "sourceHeight": 1600,
+      "sourceFingerprint": "f8a37ad669b27412",
+      "primary": "/images/catalog/ceramique-slide-v4-04.webp",
+      "width": 1200,
+      "height": 1600,
+      "primaryBytes": 255926,
+      "variants": [
+        {
+          "path": "/images/catalog/ceramique-slide-v4-04-640.webp",
+          "width": 640,
+          "height": 853,
+          "bytes": 95456
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-04-960.webp",
+          "width": 960,
+          "height": 1280,
+          "bytes": 186648
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-04.webp",
+          "width": 1200,
+          "height": 1600,
+          "bytes": 255926
+        }
+      ],
+      "savingsPct": 21,
+      "sourceCorrelation": 1
+    },
+    {
+      "id": "05",
+      "sourceFile": "7.png",
+      "sourceBytes": 3945533,
+      "sourceWidth": 1135,
+      "sourceHeight": 1386,
+      "sourceFingerprint": "06ae1b4b1e89b120",
+      "primary": "/images/catalog/ceramique-slide-v4-05.webp",
+      "width": 1135,
+      "height": 1386,
+      "primaryBytes": 206354,
+      "variants": [
+        {
+          "path": "/images/catalog/ceramique-slide-v4-05-640.webp",
+          "width": 640,
+          "height": 782,
+          "bytes": 81856
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-05-960.webp",
+          "width": 960,
+          "height": 1172,
+          "bytes": 162730
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-05.webp",
+          "width": 1135,
+          "height": 1386,
+          "bytes": 206354
+        }
+      ],
+      "savingsPct": 95,
+      "sourceCorrelation": 0.9993
+    },
+    {
+      "id": "06",
+      "sourceFile": "5.png",
+      "sourceBytes": 3001288,
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "sourceFingerprint": "bd8f6239a32a66b7",
+      "primary": "/images/catalog/ceramique-slide-v4-06.webp",
+      "width": 1254,
+      "height": 1254,
+      "primaryBytes": 104186,
+      "variants": [
+        {
+          "path": "/images/catalog/ceramique-slide-v4-06-640.webp",
+          "width": 640,
+          "height": 640,
+          "bytes": 41942
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-06-960.webp",
+          "width": 960,
+          "height": 960,
+          "bytes": 72802
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-06.webp",
+          "width": 1254,
+          "height": 1254,
+          "bytes": 104186
+        }
+      ],
+      "savingsPct": 97,
+      "sourceCorrelation": 0.9996
+    },
+    {
+      "id": "07",
+      "sourceFile": "WhatsApp Image 2026-10-14 at 11.51.09 AM.jpeg",
+      "sourceBytes": 196104,
+      "sourceWidth": 1312,
+      "sourceHeight": 1199,
+      "sourceFingerprint": "f32233e05d227ce6",
+      "primary": "/images/catalog/ceramique-slide-v4-07.webp",
+      "width": 1312,
+      "height": 1199,
+      "primaryBytes": 146850,
+      "variants": [
+        {
+          "path": "/images/catalog/ceramique-slide-v4-07-640.webp",
+          "width": 640,
+          "height": 585,
+          "bytes": 55458
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-07-960.webp",
+          "width": 960,
+          "height": 877,
+          "bytes": 97948
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-07.webp",
+          "width": 1312,
+          "height": 1199,
+          "bytes": 146850
+        }
+      ],
+      "savingsPct": 25,
+      "sourceCorrelation": 0.9985
+    },
+    {
+      "id": "08",
+      "sourceFile": "20.jpeg",
+      "sourceBytes": 195592,
+      "sourceWidth": 1000,
+      "sourceHeight": 1200,
+      "sourceFingerprint": "f0319fd1a9f4655e",
+      "primary": "/images/catalog/ceramique-slide-v4-08.webp",
+      "width": 1000,
+      "height": 1200,
+      "primaryBytes": 154544,
+      "variants": [
+        {
+          "path": "/images/catalog/ceramique-slide-v4-08-640.webp",
+          "width": 640,
+          "height": 768,
+          "bytes": 71912
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-08-960.webp",
+          "width": 960,
+          "height": 1152,
+          "bytes": 139662
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-08.webp",
+          "width": 1000,
+          "height": 1200,
+          "bytes": 154544
+        }
+      ],
+      "savingsPct": 21,
+      "sourceCorrelation": 0.9997
+    },
+    {
+      "id": "09",
+      "sourceFile": "6.png",
+      "sourceBytes": 3648040,
+      "sourceWidth": 1254,
+      "sourceHeight": 1254,
+      "sourceFingerprint": "41550e0048354776",
+      "primary": "/images/catalog/ceramique-slide-v4-09.webp",
+      "width": 1254,
+      "height": 1254,
+      "primaryBytes": 184644,
+      "variants": [
+        {
+          "path": "/images/catalog/ceramique-slide-v4-09-640.webp",
+          "width": 640,
+          "height": 640,
+          "bytes": 71644
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-09-960.webp",
+          "width": 960,
+          "height": 960,
+          "bytes": 132838
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-09.webp",
+          "width": 1254,
+          "height": 1254,
+          "bytes": 184644
+        }
+      ],
+      "savingsPct": 95,
+      "sourceCorrelation": 0.9993
+    },
+    {
+      "id": "10",
+      "sourceFile": "10.jpeg",
+      "sourceBytes": 340543,
+      "sourceWidth": 1200,
+      "sourceHeight": 1600,
+      "sourceFingerprint": "456c07a873dcbcfa",
+      "primary": "/images/catalog/ceramique-slide-v4-10.webp",
+      "width": 1200,
+      "height": 1600,
+      "primaryBytes": 284082,
+      "variants": [
+        {
+          "path": "/images/catalog/ceramique-slide-v4-10-640.webp",
+          "width": 640,
+          "height": 853,
+          "bytes": 110056
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-10-960.webp",
+          "width": 960,
+          "height": 1280,
+          "bytes": 208060
+        },
+        {
+          "path": "/images/catalog/ceramique-slide-v4-10.webp",
+          "width": 1200,
+          "height": 1600,
+          "bytes": 284082
+        }
+      ],
+      "savingsPct": 17,
+      "sourceCorrelation": 0.9998
+    }
+  ],
+  "verify": [
+    {
+      "id": "01",
+      "sourceFile": "1c.jpeg",
+      "sourceFingerprint": "a984bbe283cebea2",
+      "correlation": 0.9995
+    },
+    {
+      "id": "02",
+      "sourceFile": "1b.jpeg",
+      "sourceFingerprint": "b26a250703803109",
+      "correlation": 0.9999
+    },
+    {
+      "id": "03",
+      "sourceFile": "2.jpeg",
+      "sourceFingerprint": "c818b99bad78d205",
+      "correlation": 0.9999
+    },
+    {
+      "id": "04",
+      "sourceFile": "3.jpeg",
+      "sourceFingerprint": "f8a37ad669b27412",
+      "correlation": 1
+    },
+    {
+      "id": "05",
+      "sourceFile": "7.png",
+      "sourceFingerprint": "06ae1b4b1e89b120",
+      "correlation": 0.9993
+    },
+    {
+      "id": "06",
+      "sourceFile": "5.png",
+      "sourceFingerprint": "bd8f6239a32a66b7",
+      "correlation": 0.9996
+    },
+    {
+      "id": "07",
+      "sourceFile": "WhatsApp Image 2026-10-14 at 11.51.09 AM.jpeg",
+      "sourceFingerprint": "f32233e05d227ce6",
+      "correlation": 0.9985
+    },
+    {
+      "id": "08",
+      "sourceFile": "20.jpeg",
+      "sourceFingerprint": "f0319fd1a9f4655e",
+      "correlation": 0.9997
+    },
+    {
+      "id": "09",
+      "sourceFile": "6.png",
+      "sourceFingerprint": "41550e0048354776",
+      "correlation": 0.9993
+    },
+    {
+      "id": "10",
+      "sourceFile": "10.jpeg",
+      "sourceFingerprint": "456c07a873dcbcfa",
+      "correlation": 0.9998
+    }
+  ]
+}

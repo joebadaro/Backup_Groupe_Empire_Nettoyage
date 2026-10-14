@@ -1,17 +1,32 @@
 ---
+import fs from "node:fs";
+import path from "node:path";
 import Layout from "../../layouts/Layout.astro";
 import FAQSchema from "../../components/FAQSchema.astro";
 import ServiceVideoProofDuo from "../../components/ServiceVideoProofDuo.astro";
 import UiIcon from "../../components/icons/UiIcon.astro";
 import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGroup.astro";
+import CeramiqueSlideshowSlides from "../../components/CeramiqueSlideshowSlides.astro";
+
+/** Photos techniciens (sections) : s'affichent seulement si le fichier existe (pas de cadre vide). */
+function publicImageIfExists(relPath: string): string | null {
+  const abs = path.join(process.cwd(), "public", relPath.replace(/^\//, ""));
+  return fs.existsSync(abs) ? relPath : null;
+}
+
+const servicePhotos = {
+  floor: publicImageIfExists("/images/catalog/tuile-plancher-technicien.webp"),
+  shower: publicImageIfExists("/images/catalog/tuile-douche-technicien.webp"),
+  backsplash: publicImageIfExists("/images/catalog/tuile-backsplash-technicien.webp"),
+};
 ---
 
 <Layout
-  title="Nettoyage de Tuiles et Coulis | Montréal, Laval & Rive-Sud"
-  description="Expert en nettoyage de céramique et joints à haute pression. Élimination du gras, moisissure et application de scellant protecteur. Service résidentiel & commercial."
+  title="Nettoyage de céramique, tuiles et coulis | Montréal & Rive-Sud"
+  description="Nettoyage vapeur de tuiles, carrelage et coulis à Montréal et sur la Rive-Sud. Planchers, murs de douche, dosserets de cuisine (backsplash)."
 >
   <!-- SPLIT SCREEN HERO: BLOCK 1 -->
-  <div class="split-hero-container mobile-hero-stack">
+  <div class="split-hero-container mobile-hero-stack ceramique-slideshow-fit">
     <div class="container full-width-split">
       <div class="split-layout">
         <!-- LEFT COLUMN: CONTENT -->
@@ -19,59 +34,12 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
           <div class="service-hero-intro">
           <span class="service-cat-badge">PLANCHERS & SURFACES</span>
           <h1 class="split-title fade-in-up text-gradient-empire">
-            Nettoyage de Tuiles & joints (Coulis)
+            Nettoyage de céramique, tuiles et joints de coulis
           </h1>
 
           <div class="mobile-hero-slideshow fade-in-up delay-050">
             <div class="slideshow-container">
-              <img
-                src="/images/catalog/tuile-optimized.webp"
-                alt="Nettoyage professionnel de tuiles et joints de céramique - Résultat impeccable"
-                class="slide active"
-                width="1200"
-                height="800"
-                loading="eager"
-              />
-              <img
-                src="/images/catalog/tuile-slide-new-2.webp"
-                alt="Nettoyage professionnel plancher céramique Laval - Groupe Empire"
-                class="slide"
-                width="1200"
-                height="800"
-                loading="lazy"
-              />
-              <img
-                src="/images/catalog/tuile-slide-new-3.webp"
-                alt="Cuisine céramique impeccable Rive-Sud - Nettoyage joints profond"
-                class="slide"
-                width="1200"
-                height="800"
-                loading="lazy"
-              />
-              <img
-                src="/images/catalog/tuile2-optimized.webp"
-                alt="Plancher de céramique nettoyé et restauré par des professionnels - Montréal"
-                class="slide"
-                width="1200"
-                height="800"
-                loading="lazy"
-              />
-              <img
-                src="/images/catalog/tuile3-v3.webp"
-                alt="Nettoyage haute pression de tuiles et joints - Résultat impeccable"
-                class="slide"
-                width="1200"
-                height="800"
-                loading="lazy"
-              />
-              <img
-                src="/images/catalog/tuile-before-after-v3.webp"
-                alt="Avant et après nettoyage de joints de céramique très encrassés"
-                class="slide"
-                width="1200"
-                height="800"
-                loading="lazy"
-              />
+              <CeramiqueSlideshowSlides locale="fr" />
             </div>
             <div class="image-overlay-gradient"></div>
           </div>
@@ -80,16 +48,26 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
             <h2 class="problem-title">Le Problème :</h2>
             <p class="problem-text">
               Vos joints sont devenus noirs ou gris ? La moppe ne fait que déplacer la saleté 
-              dans les pores du coulis. Sans un nettoyage à haute pression, les bactéries et 
-              le gras s'accumulent, rendant vos planchers ternes et insalubres.
+              dans les pores du coulis. Sans un nettoyage à haute pression, les bactéries, 
+              le calcaire et le gras s'accumulent, rendant vos planchers ternes et insalubres.
             </p>
           </div>
 
           <p class="lead-text fade-in-up delay-200">
-            Retrouvez l'aspect original de vos sols. Notre technologie turbo à <strong>haute pression 
-            contrôlée</strong> désincruste les joints en profondeur et redonne tout son éclat à votre 
-            céramique, sans éclaboussures et avec un séchage quasi immédiat.
+            Retrouvez l'aspect original de vos sols grâce à un
+            <strong>nettoyage professionnel à la vapeur sous haute pression contrôlée</strong>,
+            combiné à un <strong>puissant système d'extraction</strong>.
+            L'alliance de <strong>30&nbsp;ans d'expérience</strong>, de
+            <strong>technologies de nettoyage de pointe</strong> et de
+            <strong>produits écologiques haut de gamme</strong> redonne tout son éclat
+            à votre céramique et à vos joints de coulis — sans éclaboussures, avec un séchage quasi immédiat.
           </p>
+
+          <ul class="empire-trust-list fade-in-up delay-200" aria-label="Nos avantages">
+            <li>Plus de 30&nbsp;ans d'expérience au Québec</li>
+            <li>Vapeur sous haute pression contrôlée + extraction puissante</li>
+            <li>Produits écologiques haut de gamme, adaptés aux familles et aux animaux</li>
+          </ul>
 
           </div>
 
@@ -98,8 +76,8 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
           <ConversionCtaPriorityGroup locale="fr" buttonStyle="primary" />
           <ServiceVideoProofDuo
             title="Voyez notre nettoyage de céramique en action"
-            subtitle="Deux interventions réelles sur tuiles et coulis"
-            description="Regardez nos vidéos de réalisations et voyez notre méthode professionnelle pour nettoyer les tuiles de céramique et les joints de coulis en profondeur."
+            subtitle="Deux interventions réelles sur tuiles, carrelage et coulis"
+            description="Regardez nos vidéos de réalisations et voyez notre méthode professionnelle pour le nettoyage de tuiles de céramique et le nettoyage de joints de coulis en profondeur."
             allVideosHref="/realisations-video/"
             videos={[
               {
@@ -125,55 +103,7 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
         <!-- RIGHT COLUMN: IMAGE -->
         <div class="split-image-wrapper fade-in-section delay-200">
           <div class="slideshow-container">
-            <img
-              src="/images/catalog/tuile-optimized.webp"
-              alt="Nettoyage professionnel de tuiles et joints de céramique - Résultat impeccable"
-              class="slide active"
-              width="1200"
-              height="800"
-              fetchpriority="high"
-              loading="eager"
-            />
-            <img
-              src="/images/catalog/tuile-slide-new-2.webp"
-              alt="Nettoyage professionnel plancher céramique Laval - Groupe Empire"
-              class="slide"
-              width="1200"
-              height="800"
-              loading="lazy"
-            />
-            <img
-              src="/images/catalog/tuile-slide-new-3.webp"
-              alt="Cuisine céramique impeccable Rive-Sud - Nettoyage joints profond"
-              class="slide"
-              width="1200"
-              height="800"
-              loading="lazy"
-            />
-            <img
-              src="/images/catalog/tuile2-optimized.webp"
-              alt="Plancher de céramique nettoyé et restauré par des professionnels - Montréal"
-              class="slide"
-              width="1200"
-              height="800"
-              loading="lazy"
-            />
-            <img
-              src="/images/catalog/tuile3-v3.webp"
-              alt="Nettoyage haute pression de tuiles et joints - Résultat impeccable"
-              class="slide"
-              width="1200"
-              height="800"
-              loading="lazy"
-            />
-            <img
-              src="/images/catalog/tuile-before-after-v3.webp"
-              alt="Avant et après nettoyage de joints de céramique très encrassés"
-              class="slide"
-              width="1200"
-              height="800"
-              loading="lazy"
-            />
+            <CeramiqueSlideshowSlides locale="fr" priority />
           </div>
           <div class="image-overlay-gradient"></div>
         </div>
@@ -186,44 +116,157 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
       <div class="service-layout">
         <!-- MAIN CONTENT -->
         <div class="service-main">
+
+          <nav class="ceramique-service-nav fade-in-section" aria-label="Types de nettoyage de céramique">
+            <p class="ceramique-service-nav__label">Nos services de nettoyage de céramique</p>
+            <ul class="ceramique-service-nav__list">
+              <li><a href="#nettoyage-plancher-tuiles">Planchers de tuiles &amp; carrelage</a></li>
+              <li><a href="#nettoyage-murs-douche">Murs de douche &amp; salle de bain</a></li>
+              <li><a href="#nettoyage-dosseret-cuisine">Dosseret de cuisine (backsplash)</a></li>
+            </ul>
+          </nav>
+
+          <!-- A. PLANCHERS -->
+          <div id="nettoyage-plancher-tuiles" class="ceramique-service-block fade-in-section delay-100">
+            <h2 class="section-title text-gradient-empire">
+              Nettoyage de planchers de tuiles de céramique et de carrelage
+            </h2>
+            {servicePhotos.floor && (
+              <figure class="ceramique-service-photo">
+                <img
+                  src={servicePhotos.floor}
+                  alt="Technicien Empire en nettoyage de plancher de tuiles de céramique à Montréal"
+                  width="1200"
+                  height="800"
+                  loading="lazy"
+                />
+              </figure>
+            )}
+            <p>
+              Sur les <strong>planchers de tuiles</strong> et le <strong>carrelage</strong>,
+              gras, calcaire, résidus de moppe et <strong>joints de coulis</strong> encrassés
+              s'incrustent dans les pores. Un entretien ménager classique déplace la saleté
+              sans vraiment la sortir.
+            </p>
+            <p>
+              Nous procédons par <strong>prétraitement</strong>,
+              <strong>brossage spécialisé des joints</strong>, puis
+              <strong>nettoyage à la vapeur sous haute pression contrôlée</strong> avec
+              <strong>extraction</strong> simultanée — pour un plancher de céramique plus propre,
+              des joints désincrustés et un séchage rapide, sans éclaboussures sur meubles ou plinthes.
+            </p>
+          </div>
+
+          <!-- B. DOUCHE / SDB -->
+          <div id="nettoyage-murs-douche" class="ceramique-service-block fade-in-section delay-100">
+            <h2 class="section-title text-gradient-empire">
+              Nettoyage de murs de douche et de salle de bain
+            </h2>
+            {servicePhotos.shower && (
+              <figure class="ceramique-service-photo">
+                <img
+                  src={servicePhotos.shower}
+                  alt="Technicien Empire en nettoyage de murs de douche et joints de carrelage"
+                  width="1200"
+                  height="800"
+                  loading="lazy"
+                />
+              </figure>
+            )}
+            <p>
+              En salle de bain, l'humidité, le savon et le calcaire noircissent le
+              <strong>carrelage mural</strong> et les <strong>joints de douche</strong>.
+              Le <strong>nettoyage de murs de douche</strong> traite ces surfaces verticales
+              autrement qu'un plancher&nbsp;: outils adaptés, contrôle de l'eau, finitions protégées.
+            </p>
+            <p>
+              Nous retirons les résidus de savon et les dépôts visibles sur les tuiles de céramique,
+              assainissons les joints de douche encrassés et redonnons une apparence nette
+              à la cabine et aux murs carrelés — sans détremper silicone, niches ou tablettes.
+            </p>
+          </div>
+
+          <!-- C. DOSSERET / BACKSPLASH -->
+          <div id="nettoyage-dosseret-cuisine" class="ceramique-service-block fade-in-section delay-100">
+            <h2 class="section-title text-gradient-empire">
+              Nettoyage de dosseret de cuisine (backsplash)
+            </h2>
+            {servicePhotos.backsplash && (
+              <figure class="ceramique-service-photo">
+                <img
+                  src={servicePhotos.backsplash}
+                  alt="Technicien Empire en nettoyage de dosseret de cuisine et backsplash"
+                  width="1200"
+                  height="800"
+                  loading="lazy"
+                />
+              </figure>
+            )}
+            <p>
+              Le <strong>nettoyage de dosseret de cuisine</strong> (backsplash) cible les
+              éclaboussures de cuisson et les <strong>résidus graisseux</strong> qui
+              s'accumulent derrière le comptoir et la cuisinière — un enjeu différent
+              de l'humidité de la douche.
+            </p>
+            <p>
+              Des outils à main précis nettoyent les tuiles de céramique du dosseret et
+              les joints de coulis sans projeter d'eau sur les armoires. Idéal en complément
+              d'un plancher de cuisine, sans reprendre toute la méthode sur les murs.
+            </p>
+          </div>
+
+          <div class="ceramique-mid-cta fade-in-section delay-100">
+            <p class="ceramique-mid-cta__text">
+              Prêt à faire nettoyer votre céramique, votre carrelage ou vos joints de coulis&nbsp;?
+            </p>
+            <ConversionCtaPriorityGroup locale="fr" buttonStyle="primary" />
+          </div>
           
           <div class="fade-in-section delay-100" style="margin-top: 0;">
             <h2 class="section-title text-gradient-empire">
-              Notre Processus Turbo (Haute Pression)
+              Notre processus professionnel (vapeur, haute pression et extraction)
             </h2>
+            <p style="margin: 0 0 1.5rem; line-height: 1.65; max-width: 720px;">
+              L'alliance de <strong>30&nbsp;ans d'expérience</strong>, de
+              <strong>technologies de nettoyage de pointe</strong> et de
+              <strong>produits écologiques haut de gamme</strong> guide chaque intervention.
+              Nous restaurons tuiles de céramique, carrelage et joints de coulis — en maison,
+              condo ou appartement — par un nettoyage professionnel à la vapeur sous haute
+              pression contrôlée, combiné à un puissant système d'extraction.
+            </p>
             <div class="process-timeline" style="margin-bottom: 3rem;">
               <div class="process-step">
                 <div class="step-marker">1</div>
                 <div class="step-content">
-                  <h3>Inspection et Prétraitement</h3>
+                  <h3>Inspection et prétraitement</h3>
                   <p>Identification du type de tuile (céramique, porcelaine, pierre naturelle) et application d'un agent nettoyant alcalin spécifiquement conçu pour désagréger les graisses et les résidus de savon.</p>
                 </div>
               </div>
               <div class="process-step">
                 <div class="step-marker">2</div>
                 <div class="step-content">
-                  <h3>Agitation Mécanique des Joints</h3>
-                  <p>Nous utilisons des brosses spécialisées pour frotter vigoureusement chaque ligne de coulis. Cette action mécanique est essentielle pour libérer la saleté noire incrustée avant l'aspiration.</p>
+                  <h3>Brossage spécialisé des joints de coulis</h3>
+                  <p>Nous utilisons des brosses spécialisées pour frotter vigoureusement chaque ligne de coulis. Cette action mécanique est essentielle pour libérer la saleté noire incrustée avant l'extraction.</p>
                 </div>
               </div>
               <div class="process-step">
                 <div class="step-marker">3</div>
                 <div class="step-content">
-                  <h3>Lavage Turbo Haute Pression (200°F)</h3>
+                  <h3>Vapeur sous haute pression contrôlée et extraction (200°F)</h3>
                   <p>Notre machine projette de l'eau chaude pressurisée à l'intérieur d'une tête rotative fermée. Elle nettoie et aspire simultanément, garantissant zéro éclaboussure sur vos murs ou vos armoires.</p>
                 </div>
               </div>
               <div class="process-step">
                 <div class="step-marker">4</div>
                 <div class="step-content">
-                  <h3>Neutralisation et Séchage</h3>
+                  <h3>Neutralisation et séchage</h3>
                   <p>Un rinçage final au pH équilibré élimine tout résidu collant. Nous utilisons ensuite des ventilateurs haute puissance pour assurer un séchage rapide, prêt pour l'étape finale.</p>
                 </div>
               </div>
               <div class="process-step">
                 <div class="step-marker">5</div>
                 <div class="step-content">
-                  <h3>Protection (Scellant de Coulis)</h3>
+                  <h3>Protection (scellant de coulis)</h3>
                   <p>Optionnel mais vital : nous appliquons un scellant protecteur professionnel qui pénètre les pores du coulis pour le rendre imperméable, empêchant ainsi la saleté de s'incruster à nouveau.</p>
                 </div>
               </div>
@@ -235,7 +278,7 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
               </h3>
               <p>
                 Le coulis est comme une éponge : il est extrêmement poreux. Lorsque vous lavez votre plancher à la moppe, l'eau sale finit par s'accumuler dans les « creux » des joints. Une fois l'eau évaporée, seule la saleté reste au fond. 
-                Seul un nettoyage par extraction à haute pression peut "vider" ces pores. L'application d'un **scellant protecteur** après le nettoyage est le meilleur investissement pour garder vos joints blancs pendant des années.
+                Seul un nettoyage professionnel à la vapeur sous haute pression contrôlée, combiné à l'extraction, peut « vider » ces pores. L'application d'un <strong>scellant protecteur</strong> après le nettoyage est le meilleur investissement pour garder vos joints blancs pendant des années.
               </p>
             </div>
           </div>
@@ -248,7 +291,7 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
             <div class="benefits-grid">
               <div class="benefit-item">
                 <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
-                <span><strong>Hygiène Totale :</strong> Élimine les bactéries, les moisissures et les allergènes logés dans les joints poreux.</span>
+                <span><strong>Hygiène totale :</strong> Élimine les bactéries, les moisissures, le calcaire et les allergènes logés dans les joints poreux.</span>
               </div>
               <div class="benefit-item">
                 <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
@@ -256,7 +299,11 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
               </div>
               <div class="benefit-item">
                 <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
-                <span><strong>Zéro éclaboussure :</strong> Notre équipement rotatif contient toute l'eau et l'aspiration à l'intérieur de la tête de nettoyage.</span>
+                <span><strong>Zéro éclaboussure :</strong> Notre équipement rotatif contient toute l'eau et l'aspiration à l'intérieur de la tête de nettoyage — idéal en condo et en appartement.</span>
+              </div>
+              <div class="benefit-item">
+                <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
+                <span><strong>Produits écologiques premium :</strong> Formules professionnelles efficaces, conçues pour les familles et les animaux domestiques.</span>
               </div>
               <div class="benefit-item">
                 <div class="check-circle" aria-hidden="true"><UiIcon name="check" size={14} /></div>
@@ -269,9 +316,32 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
             </div>
           </div>
 
+          <!-- POUR QUI / PIÈCES -->
+          <div class="fade-in-section delay-200" style="margin-top: 4rem;">
+            <h2 class="section-title text-gradient-empire">
+              Nettoyage de céramique pour maisons, condos et appartements
+            </h2>
+            <p style="line-height: 1.65; max-width: 720px; margin-bottom: 1.25rem;">
+              Que vous habitiez une maison familiale, un condo en hauteur ou un appartement,
+              nous adaptons l'équipement et la méthode à votre accès et à l'état de vos surfaces.
+              La tête turbo fermée limite les éclaboussures — un atout dans les espaces plus étroits
+              et les cuisines ouvertes.
+            </p>
+            <p style="line-height: 1.65; max-width: 720px; margin-bottom: 1.25rem;">
+              Nous intervenons en résidentiel comme en commercial sur les zones où la céramique
+              et le coulis s'encrassent le plus vite&nbsp;:
+            </p>
+            <ul class="ceramique-rooms-list">
+              <li><a href="#nettoyage-dosseret-cuisine">Cuisines et dosserets / backsplash</a> (gras, résidus graisseux, calcaire)</li>
+              <li><a href="#nettoyage-murs-douche">Salles de bain et murs de douche</a> (humidité, joints de douche noircis)</li>
+              <li><a href="#nettoyage-plancher-tuiles">Planchers de tuiles et carrelage</a> (entrées, corridors, circulation intense)</li>
+              <li>Sous-sols et aires de vie carrelées</li>
+            </ul>
+          </div>
+
           <!-- ZONES DESSERVIES -->
           <div class="zones-section" style="margin-top: 4rem; margin-bottom: 3rem;">
-            <h3 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">Zones desservies — Tuiles et Céramique</h3>
+            <h3 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">Zones desservies — Tuiles et céramique</h3>
             <p>Nous desservons tout le Grand Montréal avec nos unités mobiles haute performance.</p>
 
             <div class="city-group">
@@ -316,7 +386,7 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
                             Nettoyage de céramique à Longueuil et sur la Rive-Sud
                         </h3>
                         <p style="margin: 0; line-height: 1.65; color: var(--color-text-main);">
-                            Nous offrons le nettoyage de céramique à Longueuil et sur la Rive-Sud pour les planchers, les tuiles et les joints de coulis dans les cuisines, salles de bain, entrées et espaces très utilisés. Le technicien inspecte la surface avant de commencer afin d'adapter le nettoyage selon l'état des tuiles, l'accumulation dans les joints et le niveau de saleté.
+                            Nous offrons le nettoyage de céramique à Longueuil, Brossard, Saint-Hubert, Boucherville, Saint-Lambert et sur toute la Rive-Sud pour les planchers, tuiles et joints de coulis — en maison, condo ou appartement. Cuisines, salles de bain, entrées et espaces très utilisés sont traités avec nos produits écologiques premium. Le technicien inspecte la surface avant de commencer afin d'adapter le nettoyage selon l'état des tuiles, l'accumulation dans les joints et le niveau de saleté.
                         </p>
                     </div>
 
@@ -340,8 +410,8 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
                           answer: "Oui, nous pouvons éliminer la moisissure de surface et les résidus de savon. Cependant, si la moisissure a pénétré *derrière* le coulis ou si le silicone est noirci en profondeur, le nettoyage ne suffira pas; un remplacement du joint de silicone (calfeutrant) pourrait être nécessaire.",
                       },
                       {
-                          question: "Quelle est la différence entre un nettoyage vapeur et votre méthode ?",
-                          answer: "La vapeur seule manque souvent de force d'impact pour déloger le gras durci. Notre système combine la chaleur (200°F), une pression contrôlée (800-1200 PSI) et une aspiration industrielle. C'est la combinaison de ces trois forces qui permet d'extraire la saleté du fond du coulis.",
+                          question: "En quoi consiste votre nettoyage à la vapeur ?",
+                          answer: "Nous réalisons un nettoyage professionnel à la vapeur sous haute pression contrôlée, combiné à un puissant système d'extraction. La chaleur (200°F), la pression contrôlée (800-1200 PSI) et l'aspiration industrielle travaillent ensemble pour extraire la saleté du fond des joints de coulis — bien au-delà d'un appareil vapeur domestique.",
                       },
                       {
                           question: "Est-ce que le scellant change la couleur de mes joints ?",
@@ -351,8 +421,30 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
                           question: "Nettoyez-vous aussi les dosserets de cuisine (backsplashes) ?",
                           answer: "Oui ! Nous utilisons des outils à main plus petits, spécialement conçus pour les surfaces verticales, afin de nettoyer vos dosserets et vos murs de douche avec la même efficacité que vos planchers.",
                       },
+                      {
+                          question: "À quelle fréquence faut-il faire nettoyer la céramique et les joints ?",
+                          answer: "Nous recommandons un nettoyage professionnel tous les 12 à 18 mois selon l'usage, la présence d'animaux et le niveau de circulation. Un entretien régulier prévient le noircissement des joints et prolonge la durée de vie du coulis.",
+                      },
+                      {
+                          question: "Vos produits sont-ils sécuritaires pour les enfants et les animaux ?",
+                          answer: "Oui. Nous utilisons des produits écologiques premium, professionnels et adaptés aux environnements familiaux. Ils nettoient en profondeur sans compromettre la finition de votre céramique.",
+                      },
+                      {
+                          question: "Intervenez-vous en condo et en appartement à Montréal ?",
+                          answer: "Oui. Nous nettoyons régulièrement les tuiles et joints de coulis en condo et en appartement à Montréal, Laval et sur la Rive-Sud. Notre tête turbo fermée limite les éclaboussures et convient bien aux espaces plus compacts.",
+                      },
                   ]}
               />
+          </div>
+
+          <div class="fade-in-section delay-200" style="margin-top: 2.5rem; max-width: 720px;">
+            <p style="margin: 0; line-height: 1.65; color: var(--color-text-main);">
+              Pendant que nous y sommes, plusieurs clients combinent aussi le
+              <a href="/services/nettoyage-tapis-residentiel/">nettoyage de tapis</a>
+              ou le
+              <a href="/services/meubles-tissu/">nettoyage de meubles en tissu</a>
+              pour un entretien complet de la résidence.
+            </p>
           </div>
 
         </div>
@@ -361,7 +453,7 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
         <aside class="service-sidebar">
           <div class="sticky-card fade-in-section">
             <h3 class="card-title text-gradient-gold">Demander un estimé gratuit</h3>
-            <p class="card-desc">Redonnez l'éclat à vos planchers dès aujourd'hui.</p>
+            <p class="card-desc">Planchers, murs de douche ou dosseret&nbsp;: estimez votre nettoyage de céramique dès aujourd'hui.</p>
             <a href="tel:5148939939" class="btn btn-gradient-green full-width pop-effect pulse-phone">
               <span class="cta-btn-stack">
                 <span>Appelez pour un estimé rapide</span>
@@ -373,11 +465,11 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
               Demander un estimé gratuit
             </button>
             <div class="guarantee-badge">
-              <span>Joints Protégés & Imperméables</span>
+              <span>30+ ans d'expérience · Produits éco premium</span>
               <div style="margin-top: 5px; color: #ffbf00; font-weight: bold;">
                 ★★★★★
               </div>
-              <span style="font-size: 0.8rem; color: #666;">Service Pro & Propre</span>
+              <span style="font-size: 0.8rem; color: #666;">Joints protégés &amp; imperméables</span>
             </div>
           </div>
         </aside>
@@ -388,13 +480,27 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
 
 <script is:inline>
   (function () {
+    function warmSlide(img) {
+      if (!img || img.complete) return;
+      try {
+        img.loading = "eager";
+      } catch (_) {}
+      if (typeof img.decode === "function") {
+        img.decode().catch(function () {});
+      }
+    }
+
     document.querySelectorAll(".slideshow-container").forEach((container) => {
       const slides = container.querySelectorAll(".slide");
       if (slides.length <= 1) return;
       let currentSlide = 0;
+      warmSlide(slides[1]);
+
       setInterval(() => {
         slides[currentSlide].classList.remove("active");
         currentSlide = (currentSlide + 1) % slides.length;
+        warmSlide(slides[currentSlide]);
+        warmSlide(slides[(currentSlide + 1) % slides.length]);
         slides[currentSlide].classList.add("active");
       }, 4000);
     });
@@ -469,8 +575,137 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
       font-size: 1.15rem;
       line-height: 1.7;
       color: var(--color-text-main); /* Dark grey text */
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.25rem;
       max-width: 650px;
+    }
+    .empire-trust-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 2rem;
+      max-width: 650px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .empire-trust-list li {
+      position: relative;
+      padding-left: 1.35rem;
+      font-size: 1.02rem;
+      line-height: 1.45;
+      color: var(--color-text-main);
+      font-weight: 600;
+    }
+    .empire-trust-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+      background: var(--color-accent);
+    }
+    .ceramique-rooms-list {
+      margin: 0 0 1rem;
+      padding-left: 1.25rem;
+      max-width: 720px;
+      line-height: 1.7;
+    }
+    .ceramique-rooms-list li {
+      margin-bottom: 0.4rem;
+    }
+    .ceramique-service-nav {
+      margin: 0 0 2.5rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid #eee;
+      max-width: 720px;
+    }
+    .ceramique-service-nav__label {
+      margin: 0 0 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+    }
+    .ceramique-service-nav__list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem 1.25rem;
+    }
+    .ceramique-service-nav__list a {
+      color: var(--color-primary);
+      font-weight: 650;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+    .ceramique-service-nav__list a:hover {
+      border-bottom-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+    .ceramique-service-block {
+      margin-bottom: 3.25rem;
+      max-width: 720px;
+      scroll-margin-top: 6rem;
+      padding-bottom: 0.25rem;
+    }
+    .ceramique-service-block + .ceramique-service-block {
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      padding-top: 2.5rem;
+    }
+    .ceramique-service-block p {
+      line-height: 1.7;
+      margin: 0 0 1rem;
+      font-size: 1.02rem;
+    }
+    .ceramique-service-photo {
+      margin: 0 0 1.35rem;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+    .ceramique-service-photo img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+    }
+    @media (max-width: 900px) {
+      .ceramique-service-block {
+        margin-bottom: 2.5rem;
+        scroll-margin-top: 5rem;
+      }
+      .ceramique-service-block + .ceramique-service-block {
+        padding-top: 2rem;
+      }
+      .ceramique-service-nav__list {
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .ceramique-mid-cta {
+        margin-bottom: 2.75rem;
+      }
+    }
+    .ceramique-mid-cta {
+      margin: 0 0 3.5rem;
+      padding: 1.5rem 0;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      max-width: 720px;
+    }
+    .ceramique-mid-cta__text {
+      margin: 0 0 1rem;
+      font-size: 1.05rem;
+      font-weight: 650;
+      color: var(--color-primary);
+      line-height: 1.45;
+    }
+    .ceramique-mid-cta .cta-group {
+      display: flex !important;
     }
     .cta-group {
       display: flex;
@@ -517,7 +752,7 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover; /* RESTORED TO COVER AS REQUESTED */
+      object-fit: contain; /* céramique: photos complètes — override réel dans CeramiqueSlideshowSlides */
       opacity: 0;
       transition: opacity 1.5s ease-in-out;
       z-index: 1;
@@ -669,4 +904,3 @@ import ConversionCtaPriorityGroup from "../../components/ConversionCtaPriorityGr
       background-color: transparent !important;
     }
   </style>
-</Layout>

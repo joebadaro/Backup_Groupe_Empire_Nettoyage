@@ -4,7 +4,7 @@
  */
 
 /** Bump when any SERVICE_IMAGES `src` changes so browsers/CDNs don’t keep stale /images/* bytes. */
-export const SERVICE_IMAGES_ASSET_VERSION = "10";
+export const SERVICE_IMAGES_ASSET_VERSION = "13";
 
 export function resolveServiceImageSrc(src: string): string {
   return `${src}?v=${SERVICE_IMAGES_ASSET_VERSION}`;
@@ -147,13 +147,20 @@ export const SERVICE_IMAGES = {
     height: 240,
   },
   ceramique: {
-    src: "/images/catalog/tuile-card-optimized.webp",
-    srcHomeCard: "/images/catalog/tuile-card-optimized-home.webp",
+    src: "/images/services/tuiles-ceramique.webp",
+    srcHomeCard: "/images/services/tuiles-ceramique.webp",
+    srcHomeCardSrcset: {
+      w400: "/images/services/tuiles-ceramique-400.webp",
+      w480: "/images/services/tuiles-ceramique-480.webp",
+      w640: "/images/services/tuiles-ceramique-640.webp",
+      w800: "/images/services/tuiles-ceramique.webp",
+    },
     altFr:
       "Nettoyage professionnel de tuiles et joints de céramique - Montréal Laval Rive-Sud",
     altEn: "Tile and grout cleaning",
-    width: 400,
-    height: 240,
+    width: 800,
+    height: 480,
+    objectPosition: "center center",
   },
   protecteur: {
     src: "/images/catalog/photo-20.webp",

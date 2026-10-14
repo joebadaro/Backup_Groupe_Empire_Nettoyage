@@ -1,0 +1,108 @@
+---
+import { getCeramiqueSlideshowSlides } from "../data/ceramiqueSlideshow";
+
+interface Props {
+  locale?: "fr" | "en";
+  /** Première image critique (hero desktop) */
+  priority?: boolean;
+}
+
+const { locale = "fr", priority = false } = Astro.props;
+const slides = getCeramiqueSlideshowSlides(locale);
+---
+
+{
+  slides.map((slide, i) => (
+    <img
+      src={slide.src}
+      srcset={slide.srcset}
+      sizes={slide.sizes}
+      alt={slide.alt}
+      class:list={["slide", { active: i === 0 }]}
+      width={slide.width}
+      height={slide.height}
+      loading={i === 0 ? "eager" : "lazy"}
+      {...(i === 0 && priority ? { fetchpriority: "high" as const } : {})}
+      decoding={i === 0 ? "sync" : "async"}
+    />
+  ))
+}
+
+{/*
+  Styles must live here: Astro scopes page <style> to the page DOM only.
+  object-fit: contain — photos portrait/carrées intégralement visibles
+  (global.css force cover !important sur les heroes vidéo ; on surcharge ici).
+*/}
+<style is:global>
+  .slideshow-container > img.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    z-index: 1;
+  }
+  .slideshow-container > img.slide.active {
+    opacity: 1;
+    z-index: 2;
+  }
+
+  /* Fond discret (bleu site) — page céramique uniquement */
+  .split-hero-container.ceramique-slideshow-fit .split-image-wrapper,
+  .split-hero-container.ceramique-slideshow-fit .mobile-hero-slideshow,
+  .split-hero-container.ceramique-slideshow-fit .slideshow-container {
+    background-color: #ecf6ff;
+  }
+
+  .split-hero-container.ceramique-slideshow-fit .slideshow-container > img.slide,
+  .split-hero-container.ceramique-slideshow-fit
+    .split-layout:has(.service-video-proof, .service-video-proof-duo)
+    .slide {
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+
+  /* Desktop : conserver la hauteur hero existante ; contain évite le crop des têtes/machines */
+  @media (min-width: 1025px) {
+    .split-hero-container.ceramique-slideshow-fit
+      .split-layout:has(.service-video-proof, .service-video-proof-duo)
+      .split-image-wrapper
+      > .image-overlay-gradient {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+  }
+
+  /* Mobile : cadre 3:4 aligné aux portraits — moins de bandes, zéro crop */
+  @media (max-width: 1024px) {
+    .split-hero-container.ceramique-slideshow-fit.mobile-hero-stack .mobile-hero-slideshow {
+      height: auto;
+      aspect-ratio: 3 / 4;
+      max-height: min(560px, 78vh);
+      background-color: #ecf6ff;
+    }
+
+    .split-hero-container.ceramique-slideshow-fit.mobile-hero-stack
+      .mobile-hero-slideshow
+      .slideshow-container {
+      height: 100%;
+    }
+
+    .split-hero-container.ceramique-slideshow-fit.mobile-hero-stack
+      .mobile-hero-slideshow
+      .slide {
+      object-fit: contain !important;
+      object-position: center center !important;
+    }
+
+    .split-hero-container.ceramique-slideshow-fit.mobile-hero-stack
+      .mobile-hero-slideshow
+      .image-overlay-gradient {
+      opacity: 0.3;
+    }
+  }
+</style>
