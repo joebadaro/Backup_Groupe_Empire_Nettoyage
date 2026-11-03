@@ -109,13 +109,15 @@ const description = Astro.props.description ?? defaultDescription;
           true,
         );
 
-        /* GTM parity: generate_lead on .erf-success-card visibility (/demande-estimation/ only) */
+        /* GTM parity: generate_lead on .erf-success-card visibility (FR + EN estimate pages) */
         var leadSent = false;
         function pathAllowsLead() {
           var p = location.pathname || "";
           return (
             p.indexOf("/demande-estimation/") !== -1 ||
-            p === "/demande-estimation"
+            p === "/demande-estimation" ||
+            p.indexOf("/en/estimate-request/") !== -1 ||
+            p === "/en/estimate-request"
           );
         }
         function cardIsVisible(el) {

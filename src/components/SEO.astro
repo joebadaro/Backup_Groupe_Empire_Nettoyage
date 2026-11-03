@@ -31,7 +31,7 @@ const canonicalPath = normalizedPath === "/" ? "/" : `${normalizedPath}/`;
 let frPath = isEn ? normalizedPath.replace("/en", "") || "/" : normalizedPath;
 let enPath = isEn ? normalizedPath : "/en" + (normalizedPath === "/" ? "" : normalizedPath);
 
-/** Video gallery: FR & EN use different path slugs — naive /en prefix breaks hreflang alternates */
+/** FR/EN pairs with different path slugs — naive /en prefix breaks hreflang alternates */
 const pathCore = normalizedPath.replace(/\/+$/, "") || "/";
 const upholsteryFrCity = pathCore.match(/^\/services\/nettoyage-meubles-rembourres-(.+)$/);
 const upholsteryEnCity = pathCore.match(/^\/en\/services\/upholstery-cleaning-(.+)$/);
@@ -41,6 +41,12 @@ if (pathCore === "/realisations-video") {
 } else if (pathCore === "/en/video-gallery") {
   frPath = "/realisations-video";
   enPath = "/en/video-gallery";
+} else if (pathCore === "/demande-estimation") {
+  frPath = "/demande-estimation";
+  enPath = "/en/estimate-request";
+} else if (pathCore === "/en/estimate-request") {
+  frPath = "/demande-estimation";
+  enPath = "/en/estimate-request";
 } else if (upholsteryFrCity) {
   const city = upholsteryFrCity[1];
   frPath = `/services/nettoyage-meubles-rembourres-${city}`;

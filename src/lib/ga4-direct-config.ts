@@ -11,9 +11,10 @@ export const PHONE_CALL_SELECTOR = 'a[href^="tel:"], a[href^="tel:"] *';
 export const PHONE_CALL_MOBILE_SELECTOR =
   "a.sticky-btn.btn-call, a.sticky-btn.btn-call *, #header-choice-modal-primary-call, #header-choice-modal-primary-call *";
 
-/** GTM generate_lead: element visibility on .erf-success-card when URL contains /demande-estimation/ */
+/** GTM generate_lead: element visibility on .erf-success-card on FR/EN estimate pages */
 export const GENERATE_LEAD_SUCCESS_SELECTOR = ".erf-success-card";
 export const GENERATE_LEAD_PATH_INCLUDES = "/demande-estimation/";
+export const GENERATE_LEAD_PATH_INCLUDES_EN = "/en/estimate-request/";
 
 export const GENERATE_LEAD_PARAMS = {
   form_name: "demande_estimation",

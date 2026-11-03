@@ -5,7 +5,8 @@
  * GTM parity:
  * - phone_call on tel: clicks
  * - phone_call_mobile on sticky-btn.btn-call / #header-choice-modal-primary-call
- * - generate_lead once when .erf-success-card becomes visible on /demande-estimation/
+ * - generate_lead once when .erf-success-card becomes visible on
+ *   /demande-estimation/ or /en/estimate-request/
  */
 export const GA4_DIRECT_INLINE = `
 (function () {
@@ -49,11 +50,16 @@ export const GA4_DIRECT_INLINE = `
     true
   );
 
-  // --- generate_lead (GTM element visibility on .erf-success-card, path /demande-estimation/) ---
+  // --- generate_lead (GTM element visibility on .erf-success-card, FR + EN estimate paths) ---
   var leadSent = false;
   function pathAllowsLead() {
     var p = (location.pathname || '');
-    return p.indexOf('/demande-estimation/') !== -1 || p === '/demande-estimation';
+    return (
+      p.indexOf('/demande-estimation/') !== -1 ||
+      p === '/demande-estimation' ||
+      p.indexOf('/en/estimate-request/') !== -1 ||
+      p === '/en/estimate-request'
+    );
   }
 
   function cardIsVisible(el) {
