@@ -137,16 +137,26 @@ const description = Astro.props.description ?? defaultDescription;
           var visibleH = Math.min(r.bottom, vh) - Math.max(r.top, 0);
           return visibleH / r.height >= 0.99;
         }
+        function emitLeadOnce() {
+          if (leadSent) return;
+          leadSent = true;
+          fire("generate_lead", {
+            form_name: "demande_estimation",
+            lead_type: "estimate_request",
+          });
+        }
+        // Source of truth: the form itself reports a successful submission.
+        // The existing visible-success-card observer remains as a fallback.
+        // Both routes share leadSent to prevent duplicate GA4 events.
+        window.addEventListener("empire:lead-form-submitted", function () {
+          emitLeadOnce();
+        });
         function tryGenerateLead() {
           if (leadSent || !pathAllowsLead()) return;
           var cards = document.querySelectorAll(".erf-success-card");
           for (var i = 0; i < cards.length; i++) {
             if (cardIsVisible(cards[i])) {
-              leadSent = true;
-              fire("generate_lead", {
-                form_name: "demande_estimation",
-                lead_type: "estimate_request",
-              });
+              emitLeadOnce();
               return;
             }
           }
